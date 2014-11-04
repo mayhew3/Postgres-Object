@@ -53,7 +53,7 @@ public class SteamGameUpdater extends DatabaseUtility {
 
       for (int i = 0; i < jsonArray.length(); i++) {
         JSONObject game = jsonArray.getJSONObject(i);
-        SteamGame steamGame = new SteamGame(game);
+        SteamGame steamGame = new SteamGame(game, _db);
 
         // if changed (match on appid, not name):
         // - update playtime
@@ -68,11 +68,11 @@ public class SteamGameUpdater extends DatabaseUtility {
         DBCursor cursor = _collection.find(query);
 
         if (cursor.count() == 1) {
-          steamGame.updateDatabase(_collection, cursor.next());
+          steamGame.updateDatabase(cursor.next());
         } else if (cursor.count() > 1) {
           duplicateGames.add(steamGame.getName() + "(" + steamGame.getID() + ")");
         } else {
-          steamGame.addToDatabase(_collection);
+          steamGame.addToDatabase();
           unfoundGames.put(steamGame.getID(), steamGame.getName());
         }
       }

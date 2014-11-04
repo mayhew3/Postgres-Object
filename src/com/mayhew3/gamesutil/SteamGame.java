@@ -12,12 +12,15 @@ public class SteamGame {
   private String icon;
   private String logo;
 
-  public SteamGame(JSONObject game) {
+  private DB db;
+
+  public SteamGame(JSONObject game, DB db) {
     name = game.getString("name");
     steamID = game.getInt("appid");
     playtime = game.getInt("playtime_forever");
     icon = game.getString("img_icon_url");
     logo = game.getString("img_logo_url");
+    this.db = db;
   }
 
   public String getName() {
@@ -28,22 +31,20 @@ public class SteamGame {
     return steamID;
   }
 
-  public void updateDatabase(DBCollection collection, DBObject gameDocument) {
+  public void updateDatabase(DBObject gameDocument) {
     Integer previousPlaytime = (Integer)(gameDocument.get("Playtime"));
     if (!playtime.equals(previousPlaytime)) {
       if (previousPlaytime != null) {
-        DB db = collection.getDB();
-        DBCollection gamelogs = db.getCollection("gamelogs");
-        logUpdateToPlaytime(gamelogs, previousPlaytime);
+        logUpdateToPlaytime(previousPlaytime);
       }
-      updatePlaytime(collection);
+      updatePlaytime();
     }
   }
 
 
-  public void logUpdateToPlaytime(DBCollection collection, Integer previousPlaytime) {
+  public void logUpdateToPlaytime(Integer previousPlaytime) {
     try {
-
+      DBCollection collection = db.getCollection("gamelogs");
       // todo: figure out FK (Object ref) from log table to game  (not a thing, i think)
       debug("Played game '" + name + "' for " + (playtime - previousPlaytime) + " minutes.");
       BasicDBObject gameObject = new BasicDBObject("Game", name)
@@ -63,7 +64,9 @@ public class SteamGame {
   }
 
 
-  private void updatePlaytime(DBCollection collection) {
+  private void updatePlaytime() {
+    DBCollection collection = db.getCollection("games");
+
     BasicDBObject query = new BasicDBObject("SteamID", steamID);
     BasicDBObject updateObject = new BasicDBObject();
     updateObject.append("$set", new BasicDBObject().append("Playtime", playtime));
@@ -72,15 +75,17 @@ public class SteamGame {
   }
 
 
-  public void addToDatabase(DBCollection collection) {
-    insertGameToCollection(collection);
+  public void addToDatabase() {
+    insertGameToCollection();
     if (playtime > 0) {
-      logUpdateToPlaytime(collection, 0);
+      logUpdateToPlaytime(0);
     }
   }
 
-  private void insertGameToCollection(DBCollection collection) {
+  private void insertGameToCollection() {
     try {
+      DBCollection collection = db.getCollection("games");
+
       debug("Adding new game: '" + name + "'");
       BasicDBObject gameObject = new BasicDBObject("Game", name)
           .append("SteamID", steamID)
