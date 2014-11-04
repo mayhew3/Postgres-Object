@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact build-on-make="true" name="GamesDBUtil:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/GamesDBUtil_jar</output-path>
+    <root id="root">
+      <element id="archive" name="GamesDBUtil.jar">
+        <element id="module-output" name="GamesDBUtil" />
+      </element>
+      <element id="library" level="project" name="org.mongodb:mongo-java-driver:2.12.3" />
+      <element id="library" level="project" name="org.json:json:20140107" />
+    </root>
+  </artifact>
+</component>

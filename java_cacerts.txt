@@ -1,0 +1,58 @@
+
+Keystore type: JKS
+Keystore provider: SUN
+
+Your keystore contains 2 entries
+
+Alias name: tivo
+Creation date: Nov 3, 2014
+Entry type: trustedCertEntry
+
+Owner: EMAILADDRESS=support@tivo.com, C=US, ST=CA, L=Alviso, OU=IT, O=TiVo Inc., CN=758200190367309
+Issuer: EMAILADDRESS=support@tivo.com, C=US, ST=CA, L=Alviso, OU=IT, O=TiVo Inc., CN=758200190367309
+Serial number: 5bcfd8c4
+Valid from: Mon Mar 17 05:24:14 PDT 2014 until: Thu Mar 14 05:24:14 PDT 2024
+Certificate fingerprints:
+	 MD5:  6F:E1:10:B7:6F:66:AB:63:8E:24:88:23:CD:C4:93:47
+	 SHA1: F8:C8:A3:DC:71:70:4B:C7:15:03:48:1C:5F:87:DB:77:EC:28:FB:B1
+	 SHA256: 82:36:37:35:67:F1:10:34:05:5B:84:0F:D0:7C:7D:F4:30:DE:F2:AA:0F:33:3C:94:94:2D:67:45:20:E3:83:60
+	 Signature algorithm name: SHA1withRSA
+	 Version: 1
+
+
+*******************************************
+*******************************************
+
+
+Alias name: mykey
+Creation date: Nov 3, 2014
+Entry type: PrivateKeyEntry
+Certificate chain length: 1
+Certificate[1]:
+Owner: CN=Mayhew Seavey, OU=Mayhew3, O=Mayhew3, L=San Mateo, ST=CA, C=US
+Issuer: CN=Mayhew Seavey, OU=Mayhew3, O=Mayhew3, L=San Mateo, ST=CA, C=US
+Serial number: 627b818a
+Valid from: Mon Nov 03 20:41:16 PST 2014 until: Sun Feb 01 20:41:16 PST 2015
+Certificate fingerprints:
+	 MD5:  49:EC:32:AE:2C:95:53:05:78:CC:8A:51:14:47:8A:45
+	 SHA1: 9D:B0:3B:EF:57:15:9A:8D:8E:4D:11:07:A0:D9:75:A5:CC:C1:13:21
+	 SHA256: 20:90:B6:47:F5:5A:0B:FC:55:EF:6F:A6:94:85:A3:6C:6A:18:52:32:32:0D:AC:9C:A1:88:D4:A1:2D:44:59:FB
+	 Signature algorithm name: SHA256withRSA
+	 Version: 3
+
+Extensions: 
+
+#1: ObjectId: 2.5.29.14 Criticality=false
+SubjectKeyIdentifier [
+KeyIdentifier [
+0000: A8 F6 6E D1 7A 40 EE 3E   6A D6 05 5C E3 EF BC B8  ..n.z@.>j..\....
+0010: D2 B7 68 99                                        ..h.
+]
+]
+
+
+
+*******************************************
+*******************************************
+
+
