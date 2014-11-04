@@ -62,7 +62,6 @@ public class TiVoLibraryUpdater extends DatabaseUtility {
         keepGoing = parseShowsFromDocument(document);
         offset += 50;
       }
-
     } catch (IOException e) {
       debug("Error reading from URL: " + fullURL);
       e.printStackTrace();
@@ -70,11 +69,9 @@ public class TiVoLibraryUpdater extends DatabaseUtility {
   }
 
   private static boolean parseShowsFromDocument(Document document) {
-
     NodeList nodeList = document.getChildNodes();
 
     Node tivoContainer = getNodeWithTag(nodeList, "TiVoContainer");
-
     NodeList childNodes = tivoContainer.getChildNodes();
 
     Integer showNumber = 0;
