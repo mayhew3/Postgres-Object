@@ -1,7 +1,10 @@
 package com.mayhew3.gamesutil;
 
 import com.google.common.collect.Lists;
-import com.mongodb.*;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.MongoException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -13,7 +16,14 @@ import java.util.List;
 
 public class TiVoLibraryUpdater extends DatabaseUtility {
 
+  private static Boolean lookAtAllShows = false;
+
   public static void main(String[] args) {
+    List<String> argList = Lists.newArrayList(args);
+    if (argList.contains("FullMode")) {
+      lookAtAllShows = true;
+    }
+
     try {
       SSLTool.disableCertificateValidation();
 
