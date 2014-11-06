@@ -143,4 +143,18 @@ public class DatabaseUtility {
   protected static void closeDatabase() {
     _mongoClient.close();
   }
+
+  protected static DBCursor findSingleMatch(DBCollection episodes, String fieldName, String programId) {
+    BasicDBObject query = new BasicDBObject(fieldName, programId);
+
+    DBCursor cursor = episodes.find(query);
+
+    if (cursor.count() == 1) {
+      return cursor;
+    } else if (cursor.count() == 0) {
+      return null;
+    } else {
+      throw new IllegalStateException("Multiple matches found with " + fieldName + " field with value '" + programId + "'");
+    }
+  }
 }

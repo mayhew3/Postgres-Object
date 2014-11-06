@@ -1,8 +1,7 @@
 package com.mayhew3.gamesutil;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBCollection;
-import com.mongodb.MongoException;
+import com.google.common.collect.Lists;
+import com.mongodb.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -10,6 +9,7 @@ import org.w3c.dom.NodeList;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.Date;
+import java.util.List;
 
 public class TiVoLibraryUpdater extends DatabaseUtility {
 
@@ -28,9 +28,9 @@ public class TiVoLibraryUpdater extends DatabaseUtility {
        */
 
       connect("tv");
-//      logActivity("StartUpdate");
+      logActivity("StartUpdate");
       updateFields();
-//      logActivity("EndUpdate");
+      logActivity("EndUpdate");
       closeDatabase();
     } catch (UnknownHostException e) {
       e.printStackTrace();
@@ -57,18 +57,24 @@ public class TiVoLibraryUpdater extends DatabaseUtility {
       Integer offset = 0;
 
       while (keepGoing) {
+        debug("Downloading entries " + offset + " to " + (offset + 50) + "...");
         Document document = readXMLFromUrl(fullURL + "&AnchorOffset=" + offset);
 
+        debug("Checking against DB...");
         keepGoing = parseShowsFromDocument(document);
         offset += 50;
       }
     } catch (IOException e) {
       debug("Error reading from URL: " + fullURL);
       e.printStackTrace();
+    } catch (EpisodeAlreadyFoundException e) {
+      debug(e.getLocalizedMessage());
+      debug("Execution found episode already in database. Stopping.");
     }
+    debug("Finished.");
   }
 
-  private static boolean parseShowsFromDocument(Document document) {
+  private static boolean parseShowsFromDocument(Document document) throws EpisodeAlreadyFoundException {
     NodeList nodeList = document.getChildNodes();
 
     Node tivoContainer = getNodeWithTag(nodeList, "TiVoContainer");
@@ -79,7 +85,7 @@ public class TiVoLibraryUpdater extends DatabaseUtility {
       Node item = childNodes.item(i);
       if (item.getNodeName().equals("Item")) {
         NodeList showAttributes = item.getChildNodes();
-        parseSingleShow(showAttributes);
+        parseAndUpdateSingleShow(showAttributes);
         showNumber++;
       }
     }
@@ -87,23 +93,47 @@ public class TiVoLibraryUpdater extends DatabaseUtility {
     return showNumber == 50;
   }
 
-  private static void parseSingleShow(NodeList showAttributes) {
-    String[] attributesToSave = {"Title", "Duration", "CaptureDate", "ShowingDuration", "ShowingStartTime", "EpisodeTitle",
+  private static void parseAndUpdateSingleShow(NodeList showAttributes) throws EpisodeAlreadyFoundException {
+    List<String> attributesToSave = Lists.newArrayList("Title", "Duration", "CaptureDate", "ShowingDuration", "ShowingStartTime", "EpisodeTitle",
         "Description", "SourceChannel", "SourceStation", "HighDefinition", "ProgramId", "SeriesId", "EpisodeNumber",
-        "StreamingPermission"};
+        "StreamingPermission");
+    List<String> dateAttributes = Lists.newArrayList("CaptureDate", "ShowingStartTime");
 
-    Node details = getNodeWithTag(showAttributes, "Details");
-    String showTitle = getValueOfSimpleStringNode(details.getChildNodes(), "Title");
-    String episodeNumber = getValueOfSimpleStringNode(details.getChildNodes(), "EpisodeNumber");
+    NodeList showDetails = getNodeWithTag(showAttributes, "Details").getChildNodes();
+    String programId = getValueOfSimpleStringNode(showDetails, "ProgramId");
 
-    if (episodeNumber == null) {
-      episodeNumber = "?x?";
+    DBCollection episodes = _db.getCollection("episodes");
+
+    try {
+      DBCursor existingProgram = findSingleMatch(episodes, "ProgramId", programId);
+
+      if (existingProgram == null) {
+        BasicDBObject episodeObject = new BasicDBObject();
+        for (String fieldName : attributesToSave) {
+          String fieldValue = getValueOfSimpleStringNode(showDetails, fieldName);
+          if (fieldValue != null) {
+            if (dateAttributes.contains(fieldName)) {
+              long numberOfSeconds = Long.decode(fieldValue);
+              Date date = new Date(numberOfSeconds * 1000);
+              episodeObject.append(fieldName, date);
+            } else {
+              episodeObject.append(fieldName, fieldValue);
+            }
+          }
+        }
+        episodeObject.append("AddedDate", new Date());
+        debug(episodeObject.toString());
+        episodes.insert(episodeObject);
+      } else {
+        debug("Found existing recording with id '" + programId + "'. Ending session.");
+        throw new EpisodeAlreadyFoundException("Episode found with ID " + programId);
+      }
+    } catch (IllegalStateException e) {
+      debug("Error updating program with id '" + programId + "'. Multiple matches found.");
+      e.printStackTrace();
+      throw new EpisodeAlreadyFoundException("Multiple episodes found with ID " + programId);
     }
-    String episodeTitle = getValueOfSimpleStringNode(details.getChildNodes(), "EpisodeTitle");
-    if (episodeTitle == null) {
-      episodeTitle = "(??)";
-    }
-    debug(showTitle + ": " + episodeNumber + " - '" + episodeTitle + "'");
+
   }
 
 
@@ -134,4 +164,10 @@ public class TiVoLibraryUpdater extends DatabaseUtility {
   }
 
 
+  private static class EpisodeAlreadyFoundException extends Exception {
+    public EpisodeAlreadyFoundException(String message) {
+      super(message);
+    }
+  }
 }
+
