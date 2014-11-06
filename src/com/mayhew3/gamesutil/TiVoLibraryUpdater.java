@@ -41,6 +41,9 @@ public class TiVoLibraryUpdater extends DatabaseUtility {
        */
 
       connect("tv");
+
+      // todo: Use a unique ConnectionID so I can easily show the connections that have been made and how long it took.
+      // todo: Maybe a single row? Insert on start, update on end?
       logActivity("StartUpdate");
       updateFields();
       logActivity("EndUpdate");
