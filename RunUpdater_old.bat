@@ -1,1 +1,0 @@
-java -classpath "C:\mean_projects\GamesDBUtil\out\artifacts\GamesDBUtil_jar\GamesDBUtil.jar" com.mayhew3.gamesutil.SteamGameUpdater

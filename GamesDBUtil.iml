@@ -7,11 +7,11 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="org.mongodb:mongo-java-driver:2.12.3" level="project" />
-    <orderEntry type="library" name="org.json:json:20140107" level="project" />
-    <orderEntry type="library" name="net.sf.cotta.core:cotta:3.0" level="project" />
-    <orderEntry type="library" name="apache-codec:commons-codec:1.2" level="project" />
-    <orderEntry type="library" name="com.google.collections:google-collections:1.0" level="project" />
+    <orderEntry type="library" exported="" name="org.mongodb:mongo-java-driver:2.12.3" level="project" />
+    <orderEntry type="library" exported="" name="org.json:json:20140107" level="project" />
+    <orderEntry type="library" exported="" name="net.sf.cotta.core:cotta:3.0" level="project" />
+    <orderEntry type="library" exported="" name="apache-codec:commons-codec:1.2" level="project" />
+    <orderEntry type="library" exported="" name="com.google.collections:google-collections:1.0" level="project" />
   </component>
 </module>
 
