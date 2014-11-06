@@ -1,24 +1,27 @@
 package com.mayhew3.gamesutil;
 
 import com.google.common.collect.Lists;
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import com.mongodb.MongoException;
+import com.mongodb.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 public class TiVoLibraryUpdater extends DatabaseUtility {
 
   private static Boolean lookAtAllShows = false;
+  private static List<String> episodesOnTiVo;
 
   public static void main(String[] args) {
+    episodesOnTiVo = new ArrayList<>();
+
     List<String> argList = Lists.newArrayList(args);
     if (argList.contains("FullMode")) {
       lookAtAllShows = true;
@@ -81,7 +84,46 @@ public class TiVoLibraryUpdater extends DatabaseUtility {
       debug(e.getLocalizedMessage());
       debug("Execution found episode already in database. Stopping.");
     }
+
+    if (lookAtAllShows) {
+      checkForDeletedShows();
+      // todo: delete TiVo suggestions from DB completely if they're deleted. Don't need that noise.
+    }
+
     debug("Finished.");
+  }
+
+  private static void checkForDeletedShows() {
+    DBCollection episodes = _db.getCollection("episodes");
+
+    BasicDBObject deletedDate = new BasicDBObject("DeletedDate", null);
+    DBCursor dbObjects = episodes.find(deletedDate);
+
+    while (dbObjects.hasNext()) {
+      DBObject episode = dbObjects.next();
+      String programId = (String) episode.get("ProgramId");
+
+
+      if (!episodesOnTiVo.contains(programId)) {
+        Date captureDate = (Date) episode.get("CaptureDate");
+        String formattedDate = new SimpleDateFormat("yyyy-MM-dd").format(captureDate);
+        debug("Found episode in DB that is no longer on Tivo: '" + episode.get("Title") + "' on " + formattedDate + ". Updating deletion date.");
+        updateDeletedDate(programId);
+      }
+    }
+  }
+
+  private static void updateDeletedDate(String programId) {
+    Date now = Calendar.getInstance().getTime();
+
+    DBCollection collection = _db.getCollection("episodes");
+
+    BasicDBObject query = new BasicDBObject("ProgramId", programId);
+
+    BasicDBObject updateObject = new BasicDBObject();
+    updateObject.append("$set", new BasicDBObject().append("DeletedDate", now));
+
+    collection.update(query, updateObject);
   }
 
   private static boolean parseShowsFromDocument(Document document) throws EpisodeAlreadyFoundException {
@@ -112,6 +154,14 @@ public class TiVoLibraryUpdater extends DatabaseUtility {
     NodeList showDetails = getNodeWithTag(showAttributes, "Details").getChildNodes();
     String programId = getValueOfSimpleStringNode(showDetails, "ProgramId");
 
+    if (programId == null) {
+      throw new RuntimeException("Episode found on TiVo with no ProgramId field!");
+    }
+
+    if (lookAtAllShows) {
+      episodesOnTiVo.add(programId);
+    }
+
     DBCollection episodes = _db.getCollection("episodes");
 
     try {
@@ -135,8 +185,10 @@ public class TiVoLibraryUpdater extends DatabaseUtility {
         debug(episodeObject.toString());
         episodes.insert(episodeObject);
       } else {
-        debug("Found existing recording with id '" + programId + "'. Ending session.");
-        throw new EpisodeAlreadyFoundException("Episode found with ID " + programId);
+        if (!lookAtAllShows) {
+          debug("Found existing recording with id '" + programId + "'. Ending session.");
+          throw new EpisodeAlreadyFoundException("Episode found with ID " + programId);
+        }
       }
     } catch (IllegalStateException e) {
       debug("Error updating program with id '" + programId + "'. Multiple matches found.");
