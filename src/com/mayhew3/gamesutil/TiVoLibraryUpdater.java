@@ -57,8 +57,6 @@ public class TiVoLibraryUpdater extends DatabaseUtility {
 
       connectionID = findMaximumConnectionId() + 1;
 
-      // todo: Use a unique ConnectionID so I can easily show the connections that have been made and how long it took.
-      // todo: Maybe a single row? Insert on start, update on end?
       logConnectionStart();
       updateFields();
     } catch (UnknownHostException | RuntimeException e) {
