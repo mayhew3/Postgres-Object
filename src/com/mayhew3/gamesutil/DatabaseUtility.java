@@ -144,17 +144,17 @@ public class DatabaseUtility {
     _mongoClient.close();
   }
 
-  protected static DBCursor findSingleMatch(DBCollection episodes, String fieldName, String programId) {
-    BasicDBObject query = new BasicDBObject(fieldName, programId);
+  protected static DBCursor findSingleMatch(DBCollection collection, String key, Object value) {
+    BasicDBObject query = new BasicDBObject(key, value);
 
-    DBCursor cursor = episodes.find(query);
+    DBCursor cursor = collection.find(query);
 
     if (cursor.count() == 1) {
       return cursor;
     } else if (cursor.count() == 0) {
       return null;
     } else {
-      throw new IllegalStateException("Multiple matches found with " + fieldName + " field with value '" + programId + "'");
+      throw new IllegalStateException("Multiple matches found with " + key + " field with value '" + value + "'");
     }
   }
 }

@@ -16,11 +16,24 @@ import java.util.List;
 
 public class TiVoLibraryUpdater extends DatabaseUtility {
 
+  private static Integer connectionID;
+
   private static Boolean lookAtAllShows = false;
   private static List<String> episodesOnTiVo;
 
+  private static Integer addedShows = 0;
+  private static Integer deletedShows = 0;
+  private static Integer updatedShows = 0;
+
+  private static Boolean updateAllFieldsMode = false;
+
   public static void main(String[] args) {
+
+
     episodesOnTiVo = new ArrayList<>();
+
+    // Only enable when adding fields! Will slow shit down!
+    updateAllFieldsMode = false;
 
     List<String> argList = Lists.newArrayList(args);
     if (argList.contains("FullMode")) {
@@ -42,11 +55,13 @@ public class TiVoLibraryUpdater extends DatabaseUtility {
 
       connect("tv");
 
+      connectionID = findMaximumConnectionId() + 1;
+
       // todo: Use a unique ConnectionID so I can easily show the connections that have been made and how long it took.
       // todo: Maybe a single row? Insert on start, update on end?
-      logActivity("StartUpdate");
+      logConnectionStart();
       updateFields();
-      logActivity("EndUpdate");
+      logConnectionEnd();
       closeDatabase();
     } catch (UnknownHostException e) {
       e.printStackTrace();
@@ -54,15 +69,57 @@ public class TiVoLibraryUpdater extends DatabaseUtility {
 
   }
 
-  private static void logActivity(String startUpdate) {
+  private static Integer findMaximumConnectionId() {
+    DBCollection connectlogs = _db.getCollection("connectlogs");
+    DBCursor orderedCursor = connectlogs.find().sort(new BasicDBObject("ConnectionID", -1));
+    if (orderedCursor.hasNext()) {
+      DBObject maxRow = orderedCursor.next();
+      return (Integer) maxRow.get("ConnectionID");
+    } else {
+      return 0;
+    }
+  }
+
+  private static void logConnectionStart() {
     DBCollection collection = _db.getCollection("connectlogs");
-    BasicDBObject basicDBObject = new BasicDBObject("Type", startUpdate)
-        .append("LogTime", new Date());
+    BasicDBObject basicDBObject = new BasicDBObject()
+        .append("StartTime", new Date())
+        .append("ConnectionID", connectionID)
+        .append("FastUpdate", !lookAtAllShows);
+
     try {
       collection.insert(basicDBObject);
     } catch (MongoException e) {
       throw new RuntimeException("Error inserting log into database.\r\n" + e.getLocalizedMessage());
     }
+  }
+
+  private static void logConnectionEnd() {
+    DBCollection collection = _db.getCollection("connectlogs");
+
+    DBCursor connectionLog = findSingleMatch(collection, "ConnectionID", connectionID);
+
+    if (!connectionLog.hasNext()) {
+      throw new RuntimeException("Unable to find connect log with ID " + connectionID);
+    }
+
+    DBObject existing = connectionLog.next();
+
+    Date startTime = (Date) existing.get("StartTime");
+    Date endTime = new Date();
+
+    long diffInMillis = endTime.getTime() - startTime.getTime();
+
+    long diffInSeconds = diffInMillis/1000;
+
+    BasicDBObject updateObject = new BasicDBObject()
+        .append("EndTime", endTime)
+        .append("AddedShows", addedShows)
+        .append("DeletedShows", deletedShows)
+        .append("UpdatedShows", updatedShows)
+        .append("TimeConnected", diffInSeconds);
+
+    collection.update(new BasicDBObject("ConnectionID", connectionID), new BasicDBObject("$set", updateObject));
   }
 
   public static void updateFields() {
@@ -112,6 +169,7 @@ public class TiVoLibraryUpdater extends DatabaseUtility {
         String formattedDate = new SimpleDateFormat("yyyy-MM-dd").format(captureDate);
         debug("Found episode in DB that is no longer on Tivo: '" + episode.get("Title") + "' on " + formattedDate + ". Updating deletion date.");
         updateDeletedDate(programId);
+        deletedShows++;
       }
     }
   }
@@ -149,10 +207,13 @@ public class TiVoLibraryUpdater extends DatabaseUtility {
   }
 
   private static void parseAndUpdateSingleShow(NodeList showAttributes) throws EpisodeAlreadyFoundException {
-    List<String> attributesToSave = Lists.newArrayList("Title", "Duration", "CaptureDate", "ShowingDuration", "ShowingStartTime", "EpisodeTitle",
+    List<String> attributesToSave = Lists.newArrayList("Title", "SourceSize", "Duration", "CaptureDate", "ShowingDuration", "StartPadding",
+        "EndPadding", "ShowingStartTime", "EpisodeTitle",
         "Description", "SourceChannel", "SourceStation", "HighDefinition", "ProgramId", "SeriesId", "EpisodeNumber",
-        "StreamingPermission");
+        "StreamingPermission", "TvRating", "ShowingBits", "IdGuideSource", "SourceType");
     List<String> dateAttributes = Lists.newArrayList("CaptureDate", "ShowingStartTime");
+
+    String url = getUrl(showAttributes);
 
     NodeList showDetails = getNodeWithTag(showAttributes, "Details").getChildNodes();
     String programId = getValueOfSimpleStringNode(showDetails, "ProgramId");
@@ -185,9 +246,38 @@ public class TiVoLibraryUpdater extends DatabaseUtility {
           }
         }
         episodeObject.append("AddedDate", new Date());
-        debug(episodeObject.toString());
+        if (url != null) {
+          episodeObject.append("Url", url);
+        }
         episodes.insert(episodeObject);
+        addedShows++;
       } else {
+        if (updateAllFieldsMode) {
+          BasicDBObject episodeObject = new BasicDBObject();
+          DBObject existingObject = existingProgram.next();
+          for (String fieldName : attributesToSave) {
+            Object existingValue = existingObject.get(fieldName);
+            if (existingValue == null) {
+              String fieldValue = getValueOfSimpleStringNode(showDetails, fieldName);
+
+              if (fieldValue != null) {
+                if (dateAttributes.contains(fieldName)) {
+                  long numberOfSeconds = Long.decode(fieldValue);
+                  Date date = new Date(numberOfSeconds * 1000);
+                  episodeObject.append(fieldName, date);
+                } else {
+                  episodeObject.append(fieldName, fieldValue);
+                }
+              }
+            }
+          }
+          if (url != null && episodeObject.get("Url") == null) {
+            episodeObject.append("Url", url);
+          }
+          debug(episodeObject.toString());
+          episodes.update(new BasicDBObject("ProgramId", programId), new BasicDBObject("$set", episodeObject));
+          updatedShows++;
+        }
         if (!lookAtAllShows) {
           debug("Found existing recording with id '" + programId + "'. Ending session.");
           throw new EpisodeAlreadyFoundException("Episode found with ID " + programId);
@@ -199,6 +289,12 @@ public class TiVoLibraryUpdater extends DatabaseUtility {
       throw new EpisodeAlreadyFoundException("Multiple episodes found with ID " + programId);
     }
 
+  }
+
+  private static String getUrl(NodeList showAttributes) {
+    NodeList links = getNodeWithTag(showAttributes, "Links").getChildNodes();
+    NodeList content = getNodeWithTag(links, "Content").getChildNodes();
+    return getValueOfSimpleStringNode(content, "Url");
   }
 
 
