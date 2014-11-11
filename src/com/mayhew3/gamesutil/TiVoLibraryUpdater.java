@@ -61,10 +61,11 @@ public class TiVoLibraryUpdater extends DatabaseUtility {
       // todo: Maybe a single row? Insert on start, update on end?
       logConnectionStart();
       updateFields();
+    } catch (UnknownHostException | RuntimeException e) {
+      e.printStackTrace();
+    } finally {
       logConnectionEnd();
       closeDatabase();
-    } catch (UnknownHostException e) {
-      e.printStackTrace();
     }
 
   }
@@ -213,82 +214,131 @@ public class TiVoLibraryUpdater extends DatabaseUtility {
         "StreamingPermission", "TvRating", "ShowingBits", "IdGuideSource", "SourceType");
     List<String> dateAttributes = Lists.newArrayList("CaptureDate", "ShowingStartTime");
 
-    String url = getUrl(showAttributes);
+    Boolean recordingNow = isRecordingNow(showAttributes);
 
-    NodeList showDetails = getNodeWithTag(showAttributes, "Details").getChildNodes();
-    String programId = getValueOfSimpleStringNode(showDetails, "ProgramId");
+    if (recordingNow) {
+      debug("Skipping episode that is currently recording.");
+    } else {
 
-    if (programId == null) {
-      throw new RuntimeException("Episode found on TiVo with no ProgramId field!");
+      String url = getUrl(showAttributes);
+      Boolean isSuggestion = isSuggestion(showAttributes);
+
+      NodeList showDetails = getNodeWithTag(showAttributes, "Details").getChildNodes();
+      String programId = getValueOfSimpleStringNode(showDetails, "ProgramId");
+
+      if (programId == null) {
+        throw new RuntimeException("Episode found on TiVo with no ProgramId field!");
+      }
+
+      if (lookAtAllShows) {
+        episodesOnTiVo.add(programId);
+      }
+
+      DBCollection episodes = _db.getCollection("episodes");
+
+      try {
+        DBCursor existingProgram = findSingleMatch(episodes, "ProgramId", programId);
+
+        if (existingProgram == null) {
+          addNewShow(attributesToSave, dateAttributes, url, isSuggestion, showDetails, episodes);
+        } else {
+          if (updateAllFieldsMode) {
+            updateShow(attributesToSave, dateAttributes, url, isSuggestion, showDetails, programId, episodes, existingProgram);
+          }
+          if (!lookAtAllShows) {
+            debug("Found existing recording with id '" + programId + "'. Ending session.");
+            throw new EpisodeAlreadyFoundException("Episode found with ID " + programId);
+          }
+        }
+      } catch (IllegalStateException e) {
+        debug("Error updating program with id '" + programId + "'. Multiple matches found.");
+        e.printStackTrace();
+        throw new EpisodeAlreadyFoundException("Multiple episodes found with ID " + programId);
+      }
     }
 
-    if (lookAtAllShows) {
-      episodesOnTiVo.add(programId);
-    }
+  }
 
-    DBCollection episodes = _db.getCollection("episodes");
-
-    try {
-      DBCursor existingProgram = findSingleMatch(episodes, "ProgramId", programId);
-
-      if (existingProgram == null) {
-        BasicDBObject episodeObject = new BasicDBObject();
-        for (String fieldName : attributesToSave) {
-          String fieldValue = getValueOfSimpleStringNode(showDetails, fieldName);
-          if (fieldValue != null) {
-            if (dateAttributes.contains(fieldName)) {
-              long numberOfSeconds = Long.decode(fieldValue);
-              Date date = new Date(numberOfSeconds * 1000);
-              episodeObject.append(fieldName, date);
-            } else {
-              episodeObject.append(fieldName, fieldValue);
-            }
-          }
-        }
-        episodeObject.append("AddedDate", new Date());
-        if (url != null) {
-          episodeObject.append("Url", url);
-        }
-        episodes.insert(episodeObject);
-        addedShows++;
-      } else {
-        if (updateAllFieldsMode) {
-          BasicDBObject episodeObject = new BasicDBObject();
-          DBObject existingObject = existingProgram.next();
-          for (String fieldName : attributesToSave) {
-            Object existingValue = existingObject.get(fieldName);
-            if (existingValue == null) {
-              String fieldValue = getValueOfSimpleStringNode(showDetails, fieldName);
-
-              if (fieldValue != null) {
-                if (dateAttributes.contains(fieldName)) {
-                  long numberOfSeconds = Long.decode(fieldValue);
-                  Date date = new Date(numberOfSeconds * 1000);
-                  episodeObject.append(fieldName, date);
-                } else {
-                  episodeObject.append(fieldName, fieldValue);
-                }
-              }
-            }
-          }
-          if (url != null && episodeObject.get("Url") == null) {
-            episodeObject.append("Url", url);
-          }
-          debug(episodeObject.toString());
-          episodes.update(new BasicDBObject("ProgramId", programId), new BasicDBObject("$set", episodeObject));
-          updatedShows++;
-        }
-        if (!lookAtAllShows) {
-          debug("Found existing recording with id '" + programId + "'. Ending session.");
-          throw new EpisodeAlreadyFoundException("Episode found with ID " + programId);
+  private static void addNewShow(List<String> attributesToSave, List<String> dateAttributes, String url, Boolean isSuggestion, NodeList showDetails, DBCollection episodes) {
+    BasicDBObject episodeObject = new BasicDBObject();
+    for (String fieldName : attributesToSave) {
+      String fieldValue = getValueOfSimpleStringNode(showDetails, fieldName);
+      if (fieldValue != null) {
+        if (dateAttributes.contains(fieldName)) {
+          long numberOfSeconds = Long.decode(fieldValue);
+          Date date = new Date(numberOfSeconds * 1000);
+          episodeObject.append(fieldName, date);
+        } else {
+          episodeObject.append(fieldName, fieldValue);
         }
       }
-    } catch (IllegalStateException e) {
-      debug("Error updating program with id '" + programId + "'. Multiple matches found.");
-      e.printStackTrace();
-      throw new EpisodeAlreadyFoundException("Multiple episodes found with ID " + programId);
+    }
+    episodeObject.append("AddedDate", new Date());
+    episodeObject.append("Suggestion", isSuggestion);
+    if (url != null) {
+      episodeObject.append("Url", url);
+    }
+    episodes.insert(episodeObject);
+    addedShows++;
+  }
+
+  private static void updateShow(List<String> attributesToSave, List<String> dateAttributes, String url, Boolean isSuggestion, NodeList showDetails, String programId, DBCollection episodes, DBCursor existingProgram) {
+    BasicDBObject episodeObject = new BasicDBObject();
+    DBObject existingObject = existingProgram.next();
+    for (String fieldName : attributesToSave) {
+      Object existingValue = existingObject.get(fieldName);
+      if (existingValue == null) {
+        String fieldValue = getValueOfSimpleStringNode(showDetails, fieldName);
+
+        if (fieldValue != null) {
+          if (dateAttributes.contains(fieldName)) {
+            long numberOfSeconds = Long.decode(fieldValue);
+            Date date = new Date(numberOfSeconds * 1000);
+            episodeObject.append(fieldName, date);
+          } else {
+            episodeObject.append(fieldName, fieldValue);
+          }
+        }
+      }
+    }
+    if (url != null && existingObject.get("Url") == null) {
+      episodeObject.append("Url", url);
+    }
+    if (existingObject.get("Suggestion") == null) {
+      episodeObject.append("Suggestion", isSuggestion);
     }
 
+    if (episodeObject.size() > 0) {
+      debug(episodeObject.toString());
+      episodes.update(new BasicDBObject("ProgramId", programId), new BasicDBObject("$set", episodeObject));
+      updatedShows++;
+    }
+  }
+
+  private static Boolean isSuggestion(NodeList showAttributes) {
+    NodeList links = getNodeWithTag(showAttributes, "Links").getChildNodes();
+    Node customIcon = getNodeWithTag(links, "CustomIcon");
+    if (customIcon == null) {
+      return false;
+    } else {
+      NodeList customIcons = customIcon.getChildNodes();
+      String iconUrl = getValueOfSimpleStringNode(customIcons, "Url");
+
+      return iconUrl != null && iconUrl.endsWith("suggestion-recording");
+    }
+  }
+
+  private static Boolean isRecordingNow(NodeList showAttributes) {
+    NodeList links = getNodeWithTag(showAttributes, "Links").getChildNodes();
+    Node customIcon = getNodeWithTag(links, "CustomIcon");
+    if (customIcon == null) {
+      return false;
+    } else {
+      NodeList customIcons = customIcon.getChildNodes();
+      String iconUrl = getValueOfSimpleStringNode(customIcons, "Url");
+
+      return iconUrl != null && iconUrl.endsWith("in-progress-recording");
+    }
   }
 
   private static String getUrl(NodeList showAttributes) {
