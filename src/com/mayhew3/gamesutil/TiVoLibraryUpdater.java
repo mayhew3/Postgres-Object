@@ -223,14 +223,42 @@ public class TiVoLibraryUpdater extends DatabaseUtility {
 
       NodeList showDetails = getNodeWithTag(showAttributes, "Details").getChildNodes();
       String programId = getValueOfSimpleStringNode(showDetails, "ProgramId");
+      String seriesId = getValueOfSimpleStringNode(showDetails, "SeriesId");
+      String seriesTitle = getValueOfSimpleStringNode(showDetails, "Title");
 
       if (programId == null) {
         throw new RuntimeException("Episode found on TiVo with no ProgramId field!");
       }
 
+      if (seriesId == null) {
+        throw new RuntimeException("Episode found on TiVo with no SeriesId field!");
+      }
+
       if (lookAtAllShows) {
         episodesOnTiVo.add(programId);
       }
+
+      DBCollection series = _db.getCollection("series");
+      DBCursor existingSeries = findSingleMatch(series, "SeriesId", seriesId);
+
+      if (existingSeries == null) {
+        debug("Adding series '" + seriesTitle + "'  with ID '" + seriesId + "'");
+
+        Boolean isEpisodic = isEpisodic(showAttributes);
+        BasicDBObject seriesObject = new BasicDBObject();
+
+        Integer tier = isSuggestion ? 5 : 4;
+
+        seriesObject.append("SeriesId", seriesId);
+        seriesObject.append("SeriesTitle", seriesTitle);
+        seriesObject.append("IsEpisodic", isEpisodic);
+        seriesObject.append("Tier", tier);
+
+        series.insert(seriesObject);
+      } else {
+        debug("Series '" + seriesTitle + "' with ID '" + seriesId + "' exists. Skipping insert.");
+      }
+
 
       DBCollection episodes = _db.getCollection("episodes");
 
@@ -326,6 +354,38 @@ public class TiVoLibraryUpdater extends DatabaseUtility {
     }
   }
 
+  private static Boolean isEpisodic(NodeList showAttributes) {
+    String detailUrl = getDetailUrl(showAttributes);
+
+    try {
+      Document document = readXMLFromUrl(detailUrl);
+
+      debug("Checking against DB...");
+      return parseDetailFromDocument(document);
+    } catch (IOException e) {
+      debug("Error reading from URL: " + detailUrl);
+      e.printStackTrace();
+    } catch (EpisodeAlreadyFoundException e) {
+      e.printStackTrace();
+    }
+
+    return null;
+  }
+
+
+  private static boolean parseDetailFromDocument(Document document) throws EpisodeAlreadyFoundException {
+    NodeList nodeList = document.getChildNodes();
+
+    NodeList tvBus = getNodeWithTag(nodeList, "TvBusMarshalledStruct:TvBusEnvelope").getChildNodes();
+    NodeList showing = getNodeWithTag(tvBus, "showing").getChildNodes();
+    NodeList program = getNodeWithTag(showing, "program").getChildNodes();
+    NodeList series = getNodeWithTag(program, "series").getChildNodes();
+
+    String isEpisodic = getValueOfSimpleStringNode(series, "isEpisodic");
+    return Boolean.parseBoolean(isEpisodic);
+  }
+
+
   private static Boolean isRecordingNow(NodeList showAttributes) {
     NodeList links = getNodeWithTag(showAttributes, "Links").getChildNodes();
     Node customIcon = getNodeWithTag(links, "CustomIcon");
@@ -342,6 +402,12 @@ public class TiVoLibraryUpdater extends DatabaseUtility {
   private static String getUrl(NodeList showAttributes) {
     NodeList links = getNodeWithTag(showAttributes, "Links").getChildNodes();
     NodeList content = getNodeWithTag(links, "Content").getChildNodes();
+    return getValueOfSimpleStringNode(content, "Url");
+  }
+
+  private static String getDetailUrl(NodeList showAttributes) {
+    NodeList links = getNodeWithTag(showAttributes, "Links").getChildNodes();
+    NodeList content = getNodeWithTag(links, "TiVoVideoDetails").getChildNodes();
     return getValueOfSimpleStringNode(content, "Url");
   }
 
