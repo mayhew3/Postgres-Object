@@ -11,10 +11,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
-import java.net.Authenticator;
-import java.net.PasswordAuthentication;
-import java.net.URL;
-import java.net.UnknownHostException;
+import java.net.*;
 import java.nio.charset.Charset;
 import java.util.Date;
 
@@ -71,7 +68,7 @@ public class DatabaseUtility {
     }
   }
 
-  public static Document readXMLFromUrl(String urlString) throws IOException {
+  public static Document readXMLFromTivoUrl(String urlString) throws IOException, SAXException {
 //    KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
 //    keyStore.load("mySrvKeystore", "butthead");
 //    trustStore.close();
@@ -109,6 +106,11 @@ public class DatabaseUtility {
     }
   }
 
+  public static Document readXMLFromUrl(String urlString) throws IOException, SAXException {
+      InputStream is = new URL(urlString).openStream();
+      return recoverDocument(is);
+  }
+
   private static String readAll(Reader rd) throws IOException {
     StringBuilder sb = new StringBuilder();
     int cp;
@@ -119,7 +121,7 @@ public class DatabaseUtility {
   }
 
 
-  private static Document recoverDocument(InputStream inputStream) {
+  protected static Document recoverDocument(InputStream inputStream) throws IOException, SAXException {
     DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
     DocumentBuilder dBuilder = null;
     try {
@@ -129,12 +131,8 @@ public class DatabaseUtility {
     }
 
     Document doc= null;
-    try {
       assert dBuilder != null;
       doc = dBuilder.parse(inputStream);
-    } catch (SAXException | IOException e) {
-      e.printStackTrace();
-    }
     return doc;
   }
 

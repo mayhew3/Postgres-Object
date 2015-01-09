@@ -5,6 +5,7 @@ import com.mongodb.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
@@ -50,7 +51,7 @@ public class TiVoLibraryUpdater extends DatabaseUtility {
        *   adding the right VM parameters to recognize it, create a Keystore, Trusting something, running it through
        *   an SSL Factory and Https connection, but I was never able to get it to recognize the certificate.
        * - Because I'm only running this over the local network, I'm just disabling the validation completely, which
-       *   is hacky, but seems to work. (After getting the Authorization popup to work. See DatabaseUtility#readXMLFromUrl.
+       *   is hacky, but seems to work. (After getting the Authorization popup to work. See DatabaseUtility#readXMLFromTivoUrl.
        */
 
       connect("tv");
@@ -130,13 +131,14 @@ public class TiVoLibraryUpdater extends DatabaseUtility {
 
       while (keepGoing) {
         debug("Downloading entries " + offset + " to " + (offset + 50) + "...");
-        Document document = readXMLFromUrl(fullURL + "&AnchorOffset=" + offset);
+
+        Document document = readXMLFromTivoUrl(fullURL + "&AnchorOffset=" + offset);
 
         debug("Checking against DB...");
         keepGoing = parseShowsFromDocument(document);
         offset += 50;
       }
-    } catch (IOException e) {
+    } catch (SAXException | IOException e) {
       debug("Error reading from URL: " + fullURL);
       e.printStackTrace();
     } catch (EpisodeAlreadyFoundException e) {
@@ -358,11 +360,11 @@ public class TiVoLibraryUpdater extends DatabaseUtility {
     String detailUrl = getDetailUrl(showAttributes);
 
     try {
-      Document document = readXMLFromUrl(detailUrl);
+      Document document = readXMLFromTivoUrl(detailUrl);
 
       debug("Checking against DB...");
       return parseDetailFromDocument(document);
-    } catch (IOException e) {
+    } catch (SAXException | IOException e) {
       debug("Error reading from URL: " + detailUrl);
       e.printStackTrace();
     } catch (EpisodeAlreadyFoundException e) {
