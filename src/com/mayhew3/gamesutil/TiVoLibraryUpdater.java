@@ -257,6 +257,7 @@ public class TiVoLibraryUpdater extends DatabaseUtility {
         seriesObject.append("IsEpisodic", isEpisodic);
         seriesObject.append("IsSuggestion", isSuggestion);
         seriesObject.append("Tier", tier);
+        seriesObject.append("DateAdded", new Date());
 
         series.insert(seriesObject);
       } else {
