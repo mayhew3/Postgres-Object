@@ -28,7 +28,7 @@ public class TVDatabaseSeriesDenormUpdater extends DatabaseUtility {
 
   public static void updateFields() {
     BasicDBObject query = new BasicDBObject()
-        .append("SeriesId", new BasicDBObject("$exists", true))
+//        .append("SeriesId", new BasicDBObject("$exists", true))
         ;
 
     DBCollection untaggedShows = _db.getCollection("series");
@@ -55,20 +55,37 @@ public class TVDatabaseSeriesDenormUpdater extends DatabaseUtility {
     String seriesTitle = (String) show.get("SeriesTitle");
     String tivoId = (String) show.get("SeriesId");
 
+    boolean hasIntentional = hasIntentionallyRecordedEpisodes(tivoId);
+    boolean hasSuggested = hasSuggestedEpisodes(tivoId);
+
+    boolean isSuggestion = hasSuggested && !hasIntentional;
+
+    BasicDBObject updateQuery = new BasicDBObject("_id", seriesId);
+    BasicDBObject updateChange = new BasicDBObject("IsSuggestion", isSuggestion);
+
+    debug("Updating '" + seriesTitle + "' to IsSuggestion '" + isSuggestion + "'");
+
+    _db.getCollection("series").update(updateQuery, new BasicDBObject("$set", updateChange));
+  }
+
+  private static boolean hasIntentionallyRecordedEpisodes(String tivoId) {
     BasicDBObject suggestion = new BasicDBObject()
         .append("SeriesId", tivoId)
         .append("Suggestion", false);
 
     DBCursor cursor = _db.getCollection("episodes").find(suggestion);
 
-    boolean isIntentional = cursor.hasNext();
+    return cursor.hasNext();
+  }
 
-    BasicDBObject updateQuery = new BasicDBObject("_id", seriesId);
-    BasicDBObject updateChange = new BasicDBObject("IsSuggestion", !isIntentional);
+  private static boolean hasSuggestedEpisodes(String tivoId) {
+    BasicDBObject suggestion = new BasicDBObject()
+        .append("SeriesId", tivoId)
+        .append("Suggestion", true);
 
-    debug("Updating '" + seriesTitle + "' to IsSuggestion '" + !isIntentional + "'");
+    DBCursor cursor = _db.getCollection("episodes").find(suggestion);
 
-    _db.getCollection("series").update(updateQuery, new BasicDBObject("$set", updateChange));
+    return cursor.hasNext();
   }
 
 }
