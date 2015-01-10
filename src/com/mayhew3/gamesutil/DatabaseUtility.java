@@ -155,4 +155,20 @@ public class DatabaseUtility {
       throw new IllegalStateException("Multiple matches found with " + key + " field with value '" + value + "'");
     }
   }
+
+  protected static void singleFieldUpdateWithId(String collectionName, Object id, String fieldName, Object value) {
+    BasicDBObject updateQuery = new BasicDBObject(fieldName, value);
+
+    updateObjectWithId(collectionName, id, updateQuery);
+  }
+
+  protected static void updateObjectWithId(String collectionName, Object id, DBObject updateQuery) {
+    BasicDBObject queryObject = new BasicDBObject("_id", id);
+
+    updateCollectionWithQuery(collectionName, queryObject, updateQuery);
+  }
+
+  protected static WriteResult updateCollectionWithQuery(String collectionName, BasicDBObject queryObject, DBObject updateObject) {
+    return _db.getCollection(collectionName).update(queryObject, new BasicDBObject("$set", updateObject));
+  }
 }

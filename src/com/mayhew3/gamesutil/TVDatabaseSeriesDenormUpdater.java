@@ -66,7 +66,7 @@ public class TVDatabaseSeriesDenormUpdater extends DatabaseUtility {
 
       debug("Updating TiVoName.");
 
-      _db.getCollection("series").update(queryObject, new BasicDBObject("$set", updateObject));
+      updateCollectionWithQuery("series", queryObject, updateObject);
     }
   }
 
@@ -81,7 +81,7 @@ public class TVDatabaseSeriesDenormUpdater extends DatabaseUtility {
 
     debug("Updating '" + seriesTitle + "' to IsSuggestion '" + isSuggestion + "'");
 
-    _db.getCollection("series").update(updateQuery, new BasicDBObject("$set", updateChange));
+    updateCollectionWithQuery("series", updateQuery, updateChange);
   }
 
   private static boolean hasIntentionallyRecordedEpisodes(String tivoId) {
