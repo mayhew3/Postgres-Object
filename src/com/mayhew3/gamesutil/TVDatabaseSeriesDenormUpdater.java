@@ -55,6 +55,22 @@ public class TVDatabaseSeriesDenormUpdater extends DatabaseUtility {
     String seriesTitle = (String) show.get("SeriesTitle");
     String tivoId = (String) show.get("SeriesId");
 
+    updateIsSuggestion(seriesId, seriesTitle, tivoId);
+    updateTiVoName(seriesId, seriesTitle, tivoId, show.get("TiVoName"));
+  }
+
+  private static void updateTiVoName(ObjectId seriesId, String seriesTitle, String tivoId, Object tivoName) {
+    if (tivoName == null) {
+      BasicDBObject queryObject = new BasicDBObject("_id", seriesId);
+      BasicDBObject updateObject = new BasicDBObject("TiVoName", seriesTitle);
+
+      debug("Updating TiVoName.");
+
+      _db.getCollection("series").update(queryObject, new BasicDBObject("$set", updateObject));
+    }
+  }
+
+  private static void updateIsSuggestion(ObjectId seriesId, String seriesTitle, String tivoId) {
     boolean hasIntentional = hasIntentionallyRecordedEpisodes(tivoId);
     boolean hasSuggested = hasSuggestedEpisodes(tivoId);
 

@@ -253,7 +253,9 @@ public class TiVoLibraryUpdater extends DatabaseUtility {
 
         seriesObject.append("SeriesId", seriesId);
         seriesObject.append("SeriesTitle", seriesTitle);
+        seriesObject.append("TiVoName", seriesTitle);
         seriesObject.append("IsEpisodic", isEpisodic);
+        seriesObject.append("IsSuggestion", isSuggestion);
         seriesObject.append("Tier", tier);
 
         series.insert(seriesObject);

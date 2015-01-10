@@ -108,6 +108,7 @@ public class TVDBUpdater extends DatabaseUtility {
     BasicDBObject query = new BasicDBObject()
         .append("tvdbId", new BasicDBObject("$exists", false))
         .append("IsSuggestion", false)
+        .append("IgnoreTVDB", new BasicDBObject("$ne", true))
         .append("IsEpisodic", true);
 
     DBCollection untaggedShows = _db.getCollection("series");
@@ -133,24 +134,39 @@ public class TVDBUpdater extends DatabaseUtility {
     String seriesTitle = (String) show.get("SeriesTitle");
     String tivoId = (String) show.get("SeriesId");
 
-    Integer tvdbid = getTVDBID(tivoId, seriesTitle);
+    DBObject errorLog = getErrorLog(tivoId);
 
-    if (tvdbid != null) {
-      debug(seriesTitle + ": ID found, getting show data.");
-      DBObject showData = getShowData(tivoId, tvdbid);
+    if (shouldIgnoreShow(errorLog)) {
+      markSeriesToIgnore(seriesId);
+      resolveError(errorLog);
+    } else {
 
-      if (showData != null) {
-        debug(seriesTitle + ": Data found, updating.");
-        BasicDBObject queryObject = new BasicDBObject("_id", seriesId);
-        _db.getCollection("series").update(queryObject, new BasicDBObject("$set", showData));
-        debug(seriesTitle + ": Update complete.");
+      Integer tvdbid = getTVDBID(tivoId, seriesTitle, errorLog);
+
+      if (tvdbid != null) {
+        debug(seriesTitle + ": ID found, getting show data.");
+        DBObject showData = getShowData(tivoId, tvdbid);
+
+        if (showData != null) {
+          debug(seriesTitle + ": Data found, updating.");
+          BasicDBObject queryObject = new BasicDBObject("_id", seriesId);
+          _db.getCollection("series").update(queryObject, new BasicDBObject("$set", showData));
+          debug(seriesTitle + ": Update complete.");
+        }
       }
     }
-
   }
 
-  private static Integer getTVDBID(String tivoId, String seriesTitle) {
-    String formattedTitle = seriesTitle
+  private static DBObject getErrorLog(String tivoId) {
+    BasicDBObject query = new BasicDBObject("TiVoID", tivoId)
+        .append("Resolved", false);
+    return _db.getCollection("errorlogs").findOne(query);
+  }
+
+  private static Integer getTVDBID(String tivoId, String seriesTitle, DBObject errorLog) {
+    String titleToCheck = getTitleToCheck(seriesTitle, errorLog);
+
+    String formattedTitle = titleToCheck
         .toLowerCase()
         .replaceAll(" ", "_");
 
@@ -174,19 +190,98 @@ public class TVDBUpdater extends DatabaseUtility {
     List<Node> seriesNodes = getAllNodesWithTag(dataNode, "Series");
 
     if (seriesNodes.isEmpty()) {
-      addShowNotFoundErrorLog(tivoId, seriesTitle, formattedTitle, "Empty result found.");
+      debug("Show not found!");
+      if (!isNotFoundError(errorLog)) {
+        addShowNotFoundErrorLog(tivoId, seriesTitle, formattedTitle, "Empty result found.");
+      }
       return null;
+    }
+
+    if (isNotFoundError(errorLog)) {
+      resolveError(errorLog);
     }
 
     NodeList firstSeries = seriesNodes.get(0).getChildNodes();
     String seriesName = getValueOfSimpleStringNode(firstSeries, "SeriesName");
 
-    if (!seriesTitle.equalsIgnoreCase(seriesName)) {
-      addMismatchErrorLog(tivoId, seriesTitle, formattedTitle, seriesName);
-      return null;
+    if (!seriesTitle.equalsIgnoreCase(seriesName) && !titleToCheck.equalsIgnoreCase(seriesName)) {
+      if (shouldAcceptMismatch(errorLog)) {
+        updateSeriesTitle(tivoId, seriesTitle, errorLog);
+      } else {
+        debug("Discrepency between TiVo and TVDB names!");
+        if (!isMismatchError(errorLog)) {
+          addMismatchErrorLog(tivoId, seriesTitle, formattedTitle, seriesName);
+        }
+        return null;
+      }
+    }
+
+    if (isMismatchError(errorLog)) {
+      resolveError(errorLog);
     }
 
     return Integer.parseInt(getValueOfSimpleStringNode(firstSeries, "id"));
+  }
+
+  private static String getTitleToCheck(String seriesTitle, DBObject errorLog) {
+    if (errorLog != null && isNotFoundError(errorLog)) {
+      Object chosenName = errorLog.get("ChosenName");
+      if (chosenName == null) {
+        return seriesTitle;
+      }
+      return (String) chosenName;
+    }
+    return seriesTitle;
+  }
+
+  private static boolean isNotFoundError(DBObject errorLog) {
+    return errorLog != null && "NoMatchFound".equals(errorLog.get("ErrorType"));
+  }
+
+  private static boolean isMismatchError(DBObject errorLog) {
+    return errorLog != null && "NameMismatch".equals(errorLog.get("ErrorType"));
+  }
+
+  private static boolean shouldIgnoreShow(DBObject errorLog) {
+    return errorLog != null && Boolean.TRUE.equals(errorLog.get("IgnoreError"));
+  }
+
+  private static void updateSeriesTitle(String tivoId, String seriesTitle, DBObject errorLog) {
+    String chosenName = (String) errorLog.get("ChosenName");
+    if (!seriesTitle.equalsIgnoreCase(chosenName)) {
+      BasicDBObject queryObject = new BasicDBObject("SeriesId", tivoId);
+      BasicDBObject updateObject = new BasicDBObject("SeriesTitle", chosenName);
+
+      _db.getCollection("series").update(queryObject, new BasicDBObject("$set", updateObject));
+    }
+  }
+
+  private static void markSeriesToIgnore(ObjectId seriesId) {
+    BasicDBObject queryObject = new BasicDBObject("_id", seriesId);
+
+    BasicDBObject ignoreTVDB = new BasicDBObject("IgnoreTVDB", true);
+
+    _db.getCollection("series").update(queryObject, new BasicDBObject("$set", ignoreTVDB));
+  }
+
+  private static boolean shouldAcceptMismatch(DBObject errorLog) {
+    if (!isMismatchError(errorLog)) {
+      return false;
+    }
+
+    String chosenName = (String) errorLog.get("ChosenName");
+
+    return chosenName != null && !"".equals(chosenName);
+  }
+
+  private static void resolveError(DBObject errorLog) {
+    BasicDBObject queryObject = new BasicDBObject("_id", errorLog.get("_id"));
+
+    BasicDBObject updateObject = new BasicDBObject()
+        .append("Resolved", true)
+        .append("ResolvedDate", new Date());
+
+    _db.getCollection("errorlogs").update(queryObject, new BasicDBObject("$set", updateObject));
   }
 
   private static DBObject getShowData(String tivoId, Integer tvdbID) {
