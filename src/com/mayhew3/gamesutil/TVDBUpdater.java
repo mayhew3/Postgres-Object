@@ -107,6 +107,7 @@ public class TVDBUpdater extends DatabaseUtility {
   private static void updateUntaggedShows() {
     BasicDBObject query = new BasicDBObject()
         .append("tvdbId", new BasicDBObject("$exists", false))
+        .append("IsSuggestion", false)
         .append("IsEpisodic", true);
 
     DBCollection untaggedShows = _db.getCollection("series");
@@ -130,12 +131,13 @@ public class TVDBUpdater extends DatabaseUtility {
   private static void updateShow(DBObject show) {
     ObjectId seriesId = (ObjectId) show.get("_id");
     String seriesTitle = (String) show.get("SeriesTitle");
+    String tivoId = (String) show.get("SeriesId");
 
-    Integer tvdbid = getTVDBID(seriesTitle);
+    Integer tvdbid = getTVDBID(tivoId, seriesTitle);
 
     if (tvdbid != null) {
       debug(seriesTitle + ": ID found, getting show data.");
-      DBObject showData = getShowData(tvdbid);
+      DBObject showData = getShowData(tivoId, tvdbid);
 
       if (showData != null) {
         debug(seriesTitle + ": Data found, updating.");
@@ -147,7 +149,7 @@ public class TVDBUpdater extends DatabaseUtility {
 
   }
 
-  private static Integer getTVDBID(String seriesTitle) {
+  private static Integer getTVDBID(String tivoId, String seriesTitle) {
     String formattedTitle = seriesTitle
         .toLowerCase()
         .replaceAll(" ", "_");
@@ -161,7 +163,7 @@ public class TVDBUpdater extends DatabaseUtility {
       document = readXMLFromUrl(tvdbUrl);
     } catch (SAXException | IOException e) {
       e.printStackTrace();
-      addErrorLog("No response with series '" + seriesTitle + "', ('" + formattedTitle + "')");
+      addShowNotFoundErrorLog(tivoId, seriesTitle, formattedTitle, "HTTP Timeout");
       return null;
     }
 
@@ -172,7 +174,7 @@ public class TVDBUpdater extends DatabaseUtility {
     List<Node> seriesNodes = getAllNodesWithTag(dataNode, "Series");
 
     if (seriesNodes.isEmpty()) {
-      addErrorLog("No results found on TVDB for series '" + seriesTitle + "' (" + formattedTitle + ")");
+      addShowNotFoundErrorLog(tivoId, seriesTitle, formattedTitle, "Empty result found.");
       return null;
     }
 
@@ -180,14 +182,14 @@ public class TVDBUpdater extends DatabaseUtility {
     String seriesName = getValueOfSimpleStringNode(firstSeries, "SeriesName");
 
     if (!seriesTitle.equalsIgnoreCase(seriesName)) {
-      addErrorLog("Top result for search on '" + seriesTitle + "' resulted in non-matching '" + seriesName + "'");
+      addMismatchErrorLog(tivoId, seriesTitle, formattedTitle, seriesName);
       return null;
     }
 
     return Integer.parseInt(getValueOfSimpleStringNode(firstSeries, "id"));
   }
 
-  private static DBObject getShowData(Integer tvdbID) {
+  private static DBObject getShowData(String tivoId, Integer tvdbID) {
     String apiKey = "04DBA547465DC136";
     String url = "http://thetvdb.com/api/" + apiKey + "/series/" + tvdbID + "/all/en.xml";
 
@@ -196,7 +198,7 @@ public class TVDBUpdater extends DatabaseUtility {
       document = readXMLFromUrl(url);
     } catch (SAXException | IOException e) {
       e.printStackTrace();
-      addErrorLog("Error calling API for TVDB ID " + tvdbID);
+      addErrorLog(tivoId, "Error calling API for TVDB ID " + tvdbID);
       return null;
     }
 
@@ -247,9 +249,47 @@ public class TVDBUpdater extends DatabaseUtility {
 
   }
 
-  private static void addErrorLog(String errorMessage) {
+  private static void addShowNotFoundErrorLog(String tivoId, String tivoName, String formattedName, String context) {
+    BasicDBObject object = new BasicDBObject()
+        .append("TiVoName", tivoName)
+        .append("FormattedName", formattedName)
+        .append("Context", context)
+        .append("ErrorType", "NoMatchFound")
+        .append("ErrorMessage", "Unable to find TVDB show with TiVo Name.");
+
+    addBasicErrorLog(tivoId, object);
+  }
+
+  private static void addMismatchErrorLog(String tivoId, String tivoName, String formattedName, String tvdbName) {
+    BasicDBObject object = new BasicDBObject()
+        .append("TiVoName", tivoName)
+        .append("FormattedName", formattedName)
+        .append("TVDBName", tvdbName)
+        .append("ErrorType", "NameMismatch")
+        .append("ErrorMessage", "Mismatch between TiVo and TVDB names.");
+
+    addBasicErrorLog(tivoId, object);
+  }
+
+  private static void addBasicErrorLog(String tivoId, BasicDBObject errorObject) {
+    DBCollection errorlogs = _db.getCollection("errorlogs");
+    errorObject
+        .append("TiVoID", tivoId)
+        .append("EventDate", new Date())
+        .append("Resolved", false)
+        .append("ResolvedDate", null);
+
+    try {
+      errorlogs.insert(errorObject);
+    } catch (MongoException e) {
+      throw new RuntimeException("Error inserting error log into database.\r\n" + e.getLocalizedMessage());
+    }
+  }
+
+  private static void addErrorLog(String tivoId, String errorMessage) {
     DBCollection errorlogs = _db.getCollection("errorlogs");
     BasicDBObject errorLog = new BasicDBObject()
+        .append("TiVoID", tivoId)
         .append("EventDate", new Date())
         .append("ErrorMessage", errorMessage)
         .append("Resolved", false)
