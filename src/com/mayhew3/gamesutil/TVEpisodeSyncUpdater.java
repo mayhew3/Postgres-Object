@@ -27,7 +27,8 @@ public class TVEpisodeSyncUpdater extends DatabaseUtility {
     BasicDBObject query = new BasicDBObject()
         .append("IsSuggestion", false)
         .append("IsEpisodic", true)
-//        .append("SeriesId", new BasicDBObject("$exists", true))
+        .append("SeriesId", new BasicDBObject("$exists", true))
+        .append("UnmatchedEpisodes", new BasicDBObject("$ne", 0))
         ;
 
     DBCollection allSeries = _db.getCollection("series");
@@ -99,13 +100,14 @@ public class TVEpisodeSyncUpdater extends DatabaseUtility {
 
           BasicDBObject queryObject = new BasicDBObject()
               .append("_id", seriesId)
-              .append("tvdbEpisodes.tvdbEpisodeName", episodeMatch.get("tvdbEpisodeName"));
+              .append("tvdbEpisodes.tvdbEpisodeId", episodeMatch.get("tvdbEpisodeId"));
 
           BasicDBObject updateObject = new BasicDBObject()
               .append("tvdbEpisodes.$.OnTiVo", true)
               .append("tvdbEpisodes.$.DateAdded", tivoEpisode.get("AddedDate"))
               .append("tvdbEpisodes.$.TiVoDescription", tivoEpisode.get("Description"))
-              .append("tvdbEpisodes.$.TiVoEpisideTitle", tivoEpisode.get("EpisodeTitle"))
+              .append("tvdbEpisodes.$.TiVoEpisodeTitle", tivoEpisode.get("EpisodeTitle"))
+              .append("tvdbEpisodes.$.TiVoEpisodeNumber", tivoEpisode.get("EpisodeNumber"))
               .append("tvdbEpisodes.$.TiVoShowingStartTime", tivoEpisode.get("ShowingStartTime"))
               .append("tvdbEpisodes.$.TiVoDeletedDate", deletedDate)
               .append("tvdbEpisodes.$.TiVoHD", tivoEpisode.get("HighDefinition"))
@@ -113,7 +115,6 @@ public class TVEpisodeSyncUpdater extends DatabaseUtility {
               .append("tvdbEpisodes.$.TiVoShowingDuration", tivoEpisode.get("ShowingDuration"))
               .append("tvdbEpisodes.$.TiVoChannel", tivoEpisode.get("SourceChannel"))
               .append("tvdbEpisodes.$.TiVoStation", tivoEpisode.get("SourceStation"))
-              .append("tvdbEpisodes.$.TiVoSourceType", tivoEpisode.get("SourceType"))
               .append("tvdbEpisodes.$.TiVoSuggestion", suggestion)
               .append("tvdbEpisodes.$.TiVoRating", tivoEpisode.get("TvRating"))
               .append("tvdbEpisodes.$.TiVoUrl", tivoEpisode.get("Url"));
@@ -126,7 +127,8 @@ public class TVEpisodeSyncUpdater extends DatabaseUtility {
         BasicDBObject updateObject = new BasicDBObject()
             .append("ActiveEpisodes", activeEpisodes)
             .append("DeletedEpisodes", deletedEpisodes)
-            .append("SuggestionEpisode", suggestionEpisodes);
+            .append("SuggestionEpisodes", suggestionEpisodes)
+            .append("UnmatchedEpisodes", notMatched);
 
         updateObjectWithId("series", seriesId, updateObject);
 
@@ -168,9 +170,10 @@ public class TVEpisodeSyncUpdater extends DatabaseUtility {
     }
 
     // no match found on episode title.
-    Integer episodeNumber = Integer.valueOf((String) tivoEpisode.get("EpisodeNumber"));
+    Object numberObject = tivoEpisode.get("EpisodeNumber");
 
-    if (episodeNumber != null) {
+    if (numberObject != null) {
+      Integer episodeNumber = Integer.valueOf((String) numberObject);
       Integer seasonNumber = 1;
 
       if (episodeNumber < 100) {
@@ -208,26 +211,6 @@ public class TVEpisodeSyncUpdater extends DatabaseUtility {
       }
     }
     return null;
-  }
-
-  private static boolean hasIntentionallyRecordedEpisodes(String tivoId) {
-    BasicDBObject suggestion = new BasicDBObject()
-        .append("SeriesId", tivoId)
-        .append("Suggestion", false);
-
-    DBCursor cursor = _db.getCollection("episodes").find(suggestion);
-
-    return cursor.hasNext();
-  }
-
-  private static boolean hasSuggestedEpisodes(String tivoId) {
-    BasicDBObject suggestion = new BasicDBObject()
-        .append("SeriesId", tivoId)
-        .append("Suggestion", true);
-
-    DBCursor cursor = _db.getCollection("episodes").find(suggestion);
-
-    return cursor.hasNext();
   }
 
 }
