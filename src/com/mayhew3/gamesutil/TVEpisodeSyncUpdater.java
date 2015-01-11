@@ -67,6 +67,7 @@ public class TVEpisodeSyncUpdater extends DatabaseUtility {
       Integer unwatchedEpisodes = 0;
 
       DateTime lastUnwatched = null;
+      DateTime mostRecent = null;
 
       Integer notMatched = 0;
 
@@ -98,8 +99,16 @@ public class TVEpisodeSyncUpdater extends DatabaseUtility {
             deletedEpisodes++;
           }
 
-          Object watched = tivoEpisode.get("Watched");
           Object showingStartTime = tivoEpisode.get("ShowingStartTime");
+
+          if (showingStartTime != null) {
+            DateTime startTime = new DateTime(showingStartTime);
+            if (mostRecent == null || startTime.isAfter(mostRecent)) {
+              mostRecent = startTime;
+            }
+          }
+
+          Object watched = tivoEpisode.get("Watched");
           if (!Boolean.TRUE.equals(watched)) {
             watched = Boolean.FALSE;
             unwatchedEpisodes++;
@@ -146,6 +155,7 @@ public class TVEpisodeSyncUpdater extends DatabaseUtility {
             .append("UnmatchedEpisodes", notMatched)
             .append("UnwatchedEpisodes", unwatchedEpisodes)
             .append("LastUnwatched", (lastUnwatched == null) ? null : lastUnwatched.toDate())
+            .append("MostRecent", (mostRecent == null) ? null : mostRecent.toDate())
             ;
 
         updateObjectWithId("series", seriesId, updateObject);
