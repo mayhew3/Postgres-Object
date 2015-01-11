@@ -64,6 +64,9 @@ public class TVEpisodeSyncUpdater extends DatabaseUtility {
       Integer activeEpisodes = 0;
       Integer deletedEpisodes = 0;
       Integer suggestionEpisodes = 0;
+      Integer unwatchedEpisodes = 0;
+
+      DateTime lastUnwatched = null;
 
       Integer notMatched = 0;
 
@@ -95,6 +98,19 @@ public class TVEpisodeSyncUpdater extends DatabaseUtility {
             deletedEpisodes++;
           }
 
+          Object watched = tivoEpisode.get("Watched");
+          Object showingStartTime = tivoEpisode.get("ShowingStartTime");
+          if (!Boolean.TRUE.equals(watched)) {
+            watched = Boolean.FALSE;
+            unwatchedEpisodes++;
+            if (showingStartTime != null) {
+              DateTime startTime = new DateTime(showingStartTime);
+              if (lastUnwatched == null || startTime.isAfter(lastUnwatched)) {
+                lastUnwatched = startTime;
+              }
+            }
+          }
+
           BasicDBObject queryObject = new BasicDBObject()
               .append("_id", seriesId)
               .append("tvdbEpisodes.tvdbEpisodeId", episodeMatch.get("tvdbEpisodeId"));
@@ -105,7 +121,7 @@ public class TVEpisodeSyncUpdater extends DatabaseUtility {
               .append("tvdbEpisodes.$.TiVoDescription", tivoEpisode.get("Description"))
               .append("tvdbEpisodes.$.TiVoEpisodeTitle", tivoEpisode.get("EpisodeTitle"))
               .append("tvdbEpisodes.$.TiVoEpisodeNumber", tivoEpisode.get("EpisodeNumber"))
-              .append("tvdbEpisodes.$.TiVoShowingStartTime", tivoEpisode.get("ShowingStartTime"))
+              .append("tvdbEpisodes.$.TiVoShowingStartTime", showingStartTime)
               .append("tvdbEpisodes.$.TiVoDeletedDate", deletedDate)
               .append("tvdbEpisodes.$.TiVoHD", tivoEpisode.get("HighDefinition"))
               .append("tvdbEpisodes.$.TiVoProgramId", tivoEpisode.get("ProgramId"))
@@ -114,7 +130,9 @@ public class TVEpisodeSyncUpdater extends DatabaseUtility {
               .append("tvdbEpisodes.$.TiVoStation", tivoEpisode.get("SourceStation"))
               .append("tvdbEpisodes.$.TiVoSuggestion", suggestion)
               .append("tvdbEpisodes.$.TiVoRating", tivoEpisode.get("TvRating"))
-              .append("tvdbEpisodes.$.TiVoUrl", tivoEpisode.get("Url"));
+              .append("tvdbEpisodes.$.TiVoUrl", tivoEpisode.get("Url"))
+              .append("tvdbEpisodes.$.Watched", watched)
+              ;
 
           updateCollectionWithQuery("series", queryObject, updateObject);
         }
@@ -125,7 +143,10 @@ public class TVEpisodeSyncUpdater extends DatabaseUtility {
             .append("ActiveEpisodes", activeEpisodes)
             .append("DeletedEpisodes", deletedEpisodes)
             .append("SuggestionEpisodes", suggestionEpisodes)
-            .append("UnmatchedEpisodes", notMatched);
+            .append("UnmatchedEpisodes", notMatched)
+            .append("UnwatchedEpisodes", unwatchedEpisodes)
+            .append("LastUnwatched", (lastUnwatched == null) ? null : lastUnwatched.toDate())
+            ;
 
         updateObjectWithId("series", seriesId, updateObject);
 
