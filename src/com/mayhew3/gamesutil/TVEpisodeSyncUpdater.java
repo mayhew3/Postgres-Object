@@ -2,25 +2,22 @@ package com.mayhew3.gamesutil;
 
 import com.mongodb.*;
 import org.bson.types.ObjectId;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeComparator;
 
 import java.net.UnknownHostException;
 
 public class TVEpisodeSyncUpdater extends DatabaseUtility {
 
   public static void main(String[] args) {
-
-
     try {
-
       connect("tv");
-
       updateFields();
     } catch (UnknownHostException | RuntimeException e) {
       e.printStackTrace();
     } finally {
       closeDatabase();
     }
-
   }
 
   public static void updateFields() {
@@ -34,7 +31,7 @@ public class TVEpisodeSyncUpdater extends DatabaseUtility {
     DBCollection allSeries = _db.getCollection("series");
     DBCursor cursor = allSeries.find(query);
 
-    int totalRows = cursor.size();
+    int totalRows = cursor.count();
     debug(totalRows + " series found for update. Starting.");
 
     int i = 0;
@@ -64,9 +61,9 @@ public class TVEpisodeSyncUpdater extends DatabaseUtility {
       BasicDBObject episodeQuery = new BasicDBObject()
           .append("SeriesId", tivoId);
 
-      Integer activeEpisodes = getIntegerValueOrZero(show, "ActiveEpisodes");
-      Integer deletedEpisodes = getIntegerValueOrZero(show, "DeletedEpisodes");
-      Integer suggestionEpisodes = getIntegerValueOrZero(show, "SuggestionEpisodes");
+      Integer activeEpisodes = 0;
+      Integer deletedEpisodes = 0;
+      Integer suggestionEpisodes = 0;
 
       Integer notMatched = 0;
 
@@ -146,15 +143,6 @@ public class TVEpisodeSyncUpdater extends DatabaseUtility {
 
   }
 
-  private static Integer getIntegerValueOrZero(DBObject object, String fieldName) {
-    Object existingObject = object.get(fieldName);
-    if (existingObject == null) {
-      return 0;
-    } else {
-      return (Integer)existingObject;
-    }
-  }
-
   private static DBObject findEpisodeMatch(DBObject tivoEpisode, BasicDBList tvdbEpisodes) {
     String titleObject = (String) tivoEpisode.get("EpisodeTitle");
 
@@ -169,7 +157,8 @@ public class TVEpisodeSyncUpdater extends DatabaseUtility {
       }
     }
 
-    // no match found on episode title.
+    // no match found on episode title. Try episode number.
+
     Object numberObject = tivoEpisode.get("EpisodeNumber");
 
     if (numberObject != null) {
@@ -194,6 +183,30 @@ public class TVEpisodeSyncUpdater extends DatabaseUtility {
           return match;
         }
       }
+    }
+
+    // no match on episode number. Try air date.
+
+    Object startTimeObj = tivoEpisode.get("ShowingStartTime");
+
+    if (startTimeObj != null) {
+      DateTime showingStartTime = new DateTime(startTimeObj);
+
+      for (Object tvdbEpisode : tvdbEpisodes) {
+        BasicDBObject fullObject = (BasicDBObject) tvdbEpisode;
+        Object firstAiredObj = fullObject.get("tvdbFirstAired");
+
+        if (firstAiredObj != null) {
+          DateTime firstAired = new DateTime(firstAiredObj);
+
+          DateTimeComparator comparator = DateTimeComparator.getDateOnlyInstance();
+
+          if (comparator.compare(showingStartTime, firstAired) == 0) {
+            return fullObject;
+          }
+        }
+      }
+
     }
 
     return null;

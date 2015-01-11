@@ -32,7 +32,7 @@ public class TVDBRedoUpdater extends DatabaseUtility {
 
   private static void updateUntaggedShows() {
     BasicDBObject query = new BasicDBObject()
-//        .append("tvdbId", new BasicDBObject("$exists", false))
+        .append("tvdbId", new BasicDBObject("$exists", false))
         .append("IsSuggestion", false)
         .append("IgnoreTVDB", new BasicDBObject("$ne", true))
         .append("SeriesId", new BasicDBObject("$exists", true))
@@ -71,13 +71,11 @@ public class TVDBRedoUpdater extends DatabaseUtility {
       Object existingObj = show.get("tvdbId");
 
       Integer tvdbId = existingObj == null ?
-          getTVDBID(tivoId, seriesTitle, errorLog) :
+          getTVDBID(show, errorLog) :
           Integer.valueOf((String) existingObj);
 
       if (tvdbId != null) {
         debug(seriesTitle + ": ID found, getting show data.");
-
-//        deleteEpisodeData(seriesId);
 
         DBObject showData = getShowData(tivoId, tvdbId);
 
@@ -91,18 +89,20 @@ public class TVDBRedoUpdater extends DatabaseUtility {
     }
   }
 
-  private static void deleteEpisodeData(ObjectId seriesId) {
-    singleFieldUpdateWithId("series", seriesId, "tvdbEpisodes", new BasicDBList());
-  }
-
   private static DBObject getErrorLog(String tivoId) {
     BasicDBObject query = new BasicDBObject("TiVoID", tivoId)
         .append("Resolved", false);
     return _db.getCollection("errorlogs").findOne(query);
   }
 
-  private static Integer getTVDBID(String tivoId, String seriesTitle, DBObject errorLog) {
-    String titleToCheck = getTitleToCheck(seriesTitle, errorLog);
+  private static Integer getTVDBID(DBObject show, DBObject errorLog) {
+    String seriesTitle = (String) show.get("SeriesTitle");
+    String tivoId = (String) show.get("SeriesId");
+    String tvdbHint = (String) show.get("TVDBHint");
+
+    String titleToCheck = tvdbHint == null ?
+        getTitleToCheck(seriesTitle, errorLog) :
+        tvdbHint;
 
     String formattedTitle = titleToCheck
         .toLowerCase()
