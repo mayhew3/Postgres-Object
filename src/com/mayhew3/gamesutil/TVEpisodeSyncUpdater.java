@@ -25,7 +25,7 @@ public class TVEpisodeSyncUpdater extends DatabaseUtility {
         .append("IsSuggestion", false)
         .append("IsEpisodic", true)
         .append("SeriesId", new BasicDBObject("$exists", true))
-        .append("UnmatchedEpisodes", new BasicDBObject("$ne", 0))
+//        .append("UnmatchedEpisodes", new BasicDBObject("$ne", 0))
         ;
 
     DBCollection allSeries = _db.getCollection("series");
@@ -247,8 +247,15 @@ public class TVEpisodeSyncUpdater extends DatabaseUtility {
     for (Object tvdbEpisode : tvdbEpisodes) {
       BasicDBObject fullObject = (BasicDBObject) tvdbEpisode;
 
-      Integer tvdbSeason = Integer.valueOf((String) fullObject.get("tvdbSeason"));
-      Integer tvdbEpisodeNumber = Integer.valueOf((String) fullObject.get("tvdbEpisodeNumber"));
+      String tvdbSeasonStr = (String) fullObject.get("tvdbSeason");
+      String tvdbEpisodeNumberStr = (String) fullObject.get("tvdbEpisodeNumber");
+
+      if (tvdbSeasonStr == null || tvdbEpisodeNumberStr == null) {
+        return null;
+      }
+
+      Integer tvdbSeason = Integer.valueOf(tvdbSeasonStr);
+      Integer tvdbEpisodeNumber = Integer.valueOf(tvdbEpisodeNumberStr);
 
       if (seasonNumber.equals(tvdbSeason) && episodeNumber.equals(tvdbEpisodeNumber)) {
         return fullObject;
