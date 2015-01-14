@@ -57,28 +57,14 @@ public class DatabaseUtility {
 
 
   public static JSONObject readJsonFromUrl(String url) throws IOException, JSONException {
-    InputStream is = new URL(url).openStream();
-    try {
+    try (InputStream is = new URL(url).openStream()) {
       BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
       String jsonText = readAll(rd);
-      JSONObject json = new JSONObject(jsonText);
-      return json;
-    } finally {
-      is.close();
+      return new JSONObject(jsonText);
     }
   }
 
   public static Document readXMLFromTivoUrl(String urlString) throws IOException, SAXException {
-//    KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
-//    keyStore.load("mySrvKeystore", "butthead");
-//    trustStore.close();
-//
-//    TrustManagerFactory tmf =
-//        TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
-//    tmf.init(keyStore);
-//    SSLContext ctx = SSLContext.getInstance("TLS");
-//    ctx.init(null, tmf.getTrustManagers(), null);
-//    SSLSocketFactory sslFactory = ctx.getSocketFactory();
 
     Authenticator.setDefault (new Authenticator() {
       protected PasswordAuthentication getPasswordAuthentication() {
@@ -87,22 +73,10 @@ public class DatabaseUtility {
     });
 
     URL url = new URL(urlString);
-//
-//    String credentials = "tivo" + ":" + "4649000153";
-//    String encoding = new BASE64Encoder().encode(credentials.getBytes("UTF-8"));
-//    URLConnection uc = url.openConnection();
-//    uc.setRequestProperty("Authorization", String.format("Basic %s", encoding));
 
     HttpsURLConnection conn = (HttpsURLConnection)url.openConnection();
-//    conn.setSSLSocketFactory(sslFactory);
-//    conn.setRequestMethod("POST");
-
-//    HttpsURLConnection con = (HttpsURLConnection)url.openConnection();
-    InputStream is = conn.getInputStream();
-    try {
+    try (InputStream is = conn.getInputStream()) {
       return recoverDocument(is);
-    } finally {
-      is.close();
     }
   }
 
@@ -130,9 +104,9 @@ public class DatabaseUtility {
       e.printStackTrace();
     }
 
-    Document doc= null;
-      assert dBuilder != null;
-      doc = dBuilder.parse(inputStream);
+    Document doc;
+    assert dBuilder != null;
+    doc = dBuilder.parse(inputStream);
     return doc;
   }
 
@@ -142,13 +116,13 @@ public class DatabaseUtility {
     _mongoClient.close();
   }
 
-  protected static DBCursor findSingleMatch(DBCollection collection, String key, Object value) {
+  protected static DBObject findSingleMatch(DBCollection collection, String key, Object value) {
     BasicDBObject query = new BasicDBObject(key, value);
 
     DBCursor cursor = collection.find(query);
 
     if (cursor.count() == 1) {
-      return cursor;
+      return cursor.next();
     } else if (cursor.count() == 0) {
       return null;
     } else {

@@ -81,13 +81,11 @@ public class TVDBUpdater extends DatabaseUtility {
   private static void logConnectionEnd() {
     DBCollection collection = _db.getCollection("tvdbconnectlogs");
 
-    DBCursor connectionLog = findSingleMatch(collection, "ConnectionID", connectionID);
+    DBObject existing = findSingleMatch(collection, "ConnectionID", connectionID);
 
-    if (!connectionLog.hasNext()) {
+    if (existing == null) {
       throw new RuntimeException("Unable to find connect log with ID " + connectionID);
     }
-
-    DBObject existing = connectionLog.next();
 
     Date startTime = (Date) existing.get("StartTime");
     Date endTime = new Date();
