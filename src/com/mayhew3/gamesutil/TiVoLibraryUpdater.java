@@ -1,6 +1,7 @@
 package com.mayhew3.gamesutil;
 
 import com.google.common.collect.Lists;
+import com.mongodb.BasicDBObject;
 
 import java.net.UnknownHostException;
 import java.util.List;
@@ -9,12 +10,9 @@ public class TiVoLibraryUpdater {
 
 
   public static void main(String[] args) {
-    Boolean lookAtAllShows = false;
-
     List<String> argList = Lists.newArrayList(args);
-    if (argList.contains("FullMode")) {
-      lookAtAllShows = true;
-    }
+    Boolean lookAtAllShows = argList.contains("FullMode");
+    Boolean tvdbOnly = argList.contains("TVDBOnly");
 
 
     ConnectionLogger logger;
@@ -33,19 +31,44 @@ public class TiVoLibraryUpdater {
       tiVoCommunicator = new TiVoCommunicator();
     } catch (UnknownHostException e) {
       e.printStackTrace();
+      logger.logConnectionEnd(new BasicDBObject());
+      logger.closeDatabase();
       throw new RuntimeException("Error connecting to TiVo database.");
     }
 
-    try {
-      tiVoCommunicator.runUpdate(lookAtAllShows);
-    } catch (RuntimeException e) {
-      e.printStackTrace();
-    } finally {
-      logger.logConnectionEnd(tiVoCommunicator.getSessionInfo());
-      logger.closeDatabase();
+    if (!tvdbOnly) {
+      try {
+        tiVoCommunicator.runUpdate(lookAtAllShows);
+      } catch (RuntimeException e) {
+        e.printStackTrace();
+        logger.logConnectionEnd(tiVoCommunicator.getSessionInfo());
+        logger.closeDatabase();
+        throw new RuntimeException("Error downloading info from TiVo box!");
+      }
     }
 
+    TVDBUpdater tvdbUpdater;
+    try {
+      tvdbUpdater = new TVDBUpdater();
+    } catch (UnknownHostException e) {
+      e.printStackTrace();
+      logger.logConnectionEnd(tiVoCommunicator.getSessionInfo());
+      logger.closeDatabase();
+      throw new RuntimeException("Error connecting to TiVo database while updating TVDB info.");
+    }
 
+    try {
+      tvdbUpdater.runUpdate();
+    } catch (RuntimeException e) {
+      e.printStackTrace();
+      logger.logConnectionEnd(tvdbUpdater.getSessionInfo());
+      logger.closeDatabase();
+      throw new RuntimeException("Error downloading info from TVDB service.");
+    }
+
+    logger.logConnectionEnd(tiVoCommunicator.getSessionInfo());
+    logger.logConnectionEnd(tvdbUpdater.getSessionInfo());
+    logger.closeDatabase();
 
   }
 

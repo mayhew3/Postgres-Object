@@ -1,6 +1,5 @@
 package com.mayhew3.gamesutil;
 
-import com.google.common.collect.Lists;
 import com.mongodb.*;
 import org.bson.types.ObjectId;
 import org.w3c.dom.Document;
@@ -10,109 +9,40 @@ import org.xml.sax.SAXException;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
-public class TVDBUpdater extends DatabaseUtility {
+public class TVDBUpdater extends TVDatabaseUtility {
 
-  private static Integer connectionID;
+  private Integer seriesUpdates = 0;
+  private Integer episodesAdded = 0;
+  private Integer episodesUpdated = 0;
 
-  private static Boolean lookAtAllShows = false;
+  public TVDBUpdater() throws UnknownHostException {
+    super("tv");
+  }
 
-  private static Integer updatedShows = 0;
-
-  private static Boolean updateAllFieldsMode = false;
-
-  public static void main(String[] args) {
-
-
-
-    // Only enable when adding fields! Will slow shit down!
-    updateAllFieldsMode = false;
-
-    List<String> argList = Lists.newArrayList(args);
-    if (argList.contains("FullMode")) {
-      lookAtAllShows = true;
-    }
+  public void runUpdate() {
 
     try {
-      connect("tv");
-
-      connectionID = findMaximumConnectionId() + 1;
-
-      debug(connectionID);
-      updateUntaggedShows();
-//      logConnectionStart();
-    } catch (UnknownHostException | RuntimeException e) {
-      e.printStackTrace();
-    } finally {
-//      logConnectionEnd();
+      updateShows();
       closeDatabase();
-    }
-
-  }
-
-  private static Integer findMaximumConnectionId() {
-    DBCollection connectlogs = _db.getCollection("tvdbconnectlogs");
-    DBCursor orderedCursor = connectlogs.find().sort(new BasicDBObject("ConnectionID", -1));
-    if (orderedCursor.hasNext()) {
-      DBObject maxRow = orderedCursor.next();
-      return (Integer) maxRow.get("ConnectionID");
-    } else {
-      return 0;
+    } catch (RuntimeException e) {
+      closeDatabase();
+      throw e;
     }
   }
 
-  private static void logConnectionStart() {
-    DBCollection collection = _db.getCollection("tvdbconnectlogs");
-    BasicDBObject basicDBObject = new BasicDBObject()
-        .append("StartTime", new Date())
-        .append("ConnectionID", connectionID)
-        .append("FastUpdate", !lookAtAllShows);
-
-    try {
-      collection.insert(basicDBObject);
-    } catch (MongoException e) {
-      throw new RuntimeException("Error inserting log into database.\r\n" + e.getLocalizedMessage());
-    }
-  }
-
-  private static void logConnectionEnd() {
-    DBCollection collection = _db.getCollection("tvdbconnectlogs");
-
-    DBObject existing = findSingleMatch(collection, "ConnectionID", connectionID);
-
-    if (existing == null) {
-      throw new RuntimeException("Unable to find connect log with ID " + connectionID);
-    }
-
-    Date startTime = (Date) existing.get("StartTime");
-    Date endTime = new Date();
-
-    long diffInMillis = endTime.getTime() - startTime.getTime();
-
-    long diffInSeconds = diffInMillis/1000;
-
-    BasicDBObject updateObject = new BasicDBObject()
-        .append("EndTime", endTime)
-        .append("UpdatedShows", updatedShows)
-        .append("TimeConnected", diffInSeconds);
-
-    collection.update(new BasicDBObject("ConnectionID", connectionID), new BasicDBObject("$set", updateObject));
-  }
-
-  private static void updateUntaggedShows() {
+  private void updateShows() {
     BasicDBObject query = new BasicDBObject()
-        .append("tvdbId", new BasicDBObject("$exists", false))
         .append("IsSuggestion", false)
         .append("IgnoreTVDB", new BasicDBObject("$ne", true))
+        .append("SeriesId", new BasicDBObject("$exists", true))
         .append("IsEpisodic", true);
 
     DBCollection untaggedShows = _db.getCollection("series");
     DBCursor cursor = untaggedShows.find(query);
 
-    int totalRows = cursor.size();
+    int totalRows = cursor.count();
     debug(totalRows + " series found for update. Starting.");
 
     int i = 0;
@@ -127,7 +57,7 @@ public class TVDBUpdater extends DatabaseUtility {
     }
   }
 
-  private static void updateShow(DBObject show) {
+  private void updateShow(DBObject show) {
     ObjectId seriesId = (ObjectId) show.get("_id");
     String seriesTitle = (String) show.get("SeriesTitle");
     String tivoId = (String) show.get("SeriesId");
@@ -139,30 +69,35 @@ public class TVDBUpdater extends DatabaseUtility {
       resolveError(errorLog);
     } else {
 
-      Integer tvdbid = getTVDBID(tivoId, seriesTitle, errorLog);
+      Object existingObj = show.get("tvdbId");
 
-      if (tvdbid != null) {
+      Integer tvdbId = existingObj == null ?
+          getTVDBID(show, errorLog) :
+          Integer.valueOf((String) existingObj);
+
+      if (tvdbId != null) {
         debug(seriesTitle + ": ID found, getting show data.");
-        DBObject showData = getShowData(tivoId, tvdbid);
 
-        if (showData != null) {
-          debug(seriesTitle + ": Data found, updating.");
-          BasicDBObject queryObject = new BasicDBObject("_id", seriesId);
-          updateCollectionWithQuery("series", queryObject, showData);
-          debug(seriesTitle + ": Update complete.");
-        }
+        updateShowData(tivoId, tvdbId, seriesId, seriesTitle);
+
       }
     }
   }
 
-  private static DBObject getErrorLog(String tivoId) {
+  private DBObject getErrorLog(String tivoId) {
     BasicDBObject query = new BasicDBObject("TiVoID", tivoId)
         .append("Resolved", false);
     return _db.getCollection("errorlogs").findOne(query);
   }
 
-  private static Integer getTVDBID(String tivoId, String seriesTitle, DBObject errorLog) {
-    String titleToCheck = getTitleToCheck(seriesTitle, errorLog);
+  private Integer getTVDBID(DBObject show, DBObject errorLog) {
+    String seriesTitle = (String) show.get("SeriesTitle");
+    String tivoId = (String) show.get("SeriesId");
+    String tvdbHint = (String) show.get("TVDBHint");
+
+    String titleToCheck = tvdbHint == null ?
+        getTitleToCheck(seriesTitle, errorLog) :
+        tvdbHint;
 
     String formattedTitle = titleToCheck
         .toLowerCase()
@@ -221,7 +156,7 @@ public class TVDBUpdater extends DatabaseUtility {
     return Integer.parseInt(getValueOfSimpleStringNode(firstSeries, "id"));
   }
 
-  private static String getTitleToCheck(String seriesTitle, DBObject errorLog) {
+  private String getTitleToCheck(String seriesTitle, DBObject errorLog) {
     if (errorLog != null && isNotFoundError(errorLog)) {
       Object chosenName = errorLog.get("ChosenName");
       if (chosenName == null) {
@@ -232,19 +167,19 @@ public class TVDBUpdater extends DatabaseUtility {
     return seriesTitle;
   }
 
-  private static boolean isNotFoundError(DBObject errorLog) {
+  private boolean isNotFoundError(DBObject errorLog) {
     return errorLog != null && "NoMatchFound".equals(errorLog.get("ErrorType"));
   }
 
-  private static boolean isMismatchError(DBObject errorLog) {
+  private boolean isMismatchError(DBObject errorLog) {
     return errorLog != null && "NameMismatch".equals(errorLog.get("ErrorType"));
   }
 
-  private static boolean shouldIgnoreShow(DBObject errorLog) {
+  private boolean shouldIgnoreShow(DBObject errorLog) {
     return errorLog != null && Boolean.TRUE.equals(errorLog.get("IgnoreError"));
   }
 
-  private static void updateSeriesTitle(String tivoId, String seriesTitle, DBObject errorLog) {
+  private void updateSeriesTitle(String tivoId, String seriesTitle, DBObject errorLog) {
     String chosenName = (String) errorLog.get("ChosenName");
     if (!seriesTitle.equalsIgnoreCase(chosenName)) {
       BasicDBObject queryObject = new BasicDBObject("SeriesId", tivoId);
@@ -254,7 +189,7 @@ public class TVDBUpdater extends DatabaseUtility {
     }
   }
 
-  private static void markSeriesToIgnore(ObjectId seriesId) {
+  private void markSeriesToIgnore(ObjectId seriesId) {
     BasicDBObject queryObject = new BasicDBObject("_id", seriesId);
 
     BasicDBObject ignoreTVDB = new BasicDBObject("IgnoreTVDB", true);
@@ -262,7 +197,7 @@ public class TVDBUpdater extends DatabaseUtility {
     updateCollectionWithQuery("series", queryObject, ignoreTVDB);
   }
 
-  private static boolean shouldAcceptMismatch(DBObject errorLog) {
+  private boolean shouldAcceptMismatch(DBObject errorLog) {
     if (!isMismatchError(errorLog)) {
       return false;
     }
@@ -272,7 +207,7 @@ public class TVDBUpdater extends DatabaseUtility {
     return chosenName != null && !"".equals(chosenName);
   }
 
-  private static void resolveError(DBObject errorLog) {
+  private void resolveError(DBObject errorLog) {
     BasicDBObject queryObject = new BasicDBObject("_id", errorLog.get("_id"));
 
     BasicDBObject updateObject = new BasicDBObject()
@@ -282,7 +217,7 @@ public class TVDBUpdater extends DatabaseUtility {
     updateCollectionWithQuery("errorlogs", queryObject, updateObject);
   }
 
-  private static DBObject getShowData(String tivoId, Integer tvdbID) {
+  private void updateShowData(String tivoId, Integer tvdbID, ObjectId seriesId, String seriesTitle) {
     String apiKey = "04DBA547465DC136";
     String url = "http://thetvdb.com/api/" + apiKey + "/series/" + tvdbID + "/all/en.xml";
 
@@ -292,8 +227,10 @@ public class TVDBUpdater extends DatabaseUtility {
     } catch (SAXException | IOException e) {
       e.printStackTrace();
       addErrorLog(tivoId, "Error calling API for TVDB ID " + tvdbID);
-      return null;
+      return;
     }
+
+    debug(seriesTitle + ": Data found, updating.");
 
     NodeList nodeList = document.getChildNodes();
 
@@ -308,9 +245,10 @@ public class TVDBUpdater extends DatabaseUtility {
         .replaceFirst("^\\|", "")
         .split("\\|");
 
+    String tvdbSeriesName = getValueOfSimpleStringNode(seriesNode, "seriesname");
     BasicDBObject seriesUpdate = new BasicDBObject()
         .append("tvdbId", getValueOfSimpleStringNode(seriesNode, "id"))
-        .append("tvdbName", getValueOfSimpleStringNode(seriesNode, "seriesname"))
+        .append("tvdbName", tvdbSeriesName)
         .append("tvdbAirsDayOfWeek", getValueOfSimpleStringNode(seriesNode, "airs_dayofweek"))
         .append("tvdbAirsTime", getValueOfSimpleStringNode(seriesNode, "airs_time"))
         .append("tvdbFirstAired", getValueOfSimpleStringNode(seriesNode, "firstaired"))
@@ -320,29 +258,127 @@ public class TVDBUpdater extends DatabaseUtility {
         .append("tvdbRating", getValueOfSimpleStringNode(seriesNode, "rating"))
         .append("tvdbRatingCount", getValueOfSimpleStringNode(seriesNode, "ratingcount"))
         .append("tvdbRuntime", getValueOfSimpleStringNode(seriesNode, "runtime"))
+        .append("tvdbSeriesId", getValueOfSimpleStringNode(seriesNode, "SeriesID"))
         .append("tvdbStatus", getValueOfSimpleStringNode(seriesNode, "status"))
         .append("tvdbPoster", getValueOfSimpleStringNode(seriesNode, "poster"))
+        .append("tvdbBanner", getValueOfSimpleStringNode(seriesNode, "banner"))
+        .append("tvdbLastUpdated", getValueOfSimpleStringNode(seriesNode, "lastupdated"))
+        .append("imdbId", getValueOfSimpleStringNode(seriesNode, "IMDB_ID"))
+        .append("zap2it_id", getValueOfSimpleStringNode(seriesNode, "zap2it_id"))
         ;
 
-    List<Node> episodes = getAllNodesWithTag(dataNode, "Episode");
-    BasicDBObject[] episodeObjects = new BasicDBObject[episodes.size()];
+    updateObjectWithId("series", seriesId, seriesUpdate);
+    seriesUpdates++;
 
-    for (int i = 0; i < episodes.size(); i++) {
-      NodeList episodeNode = episodes.get(i).getChildNodes();
-      episodeObjects[i] = new BasicDBObject()
+    Integer seriesEpisodesAdded = 0;
+    Integer seriesEpisodesUpdated = 0;
+
+    List<Node> episodes = getAllNodesWithTag(dataNode, "Episode");
+
+    Map<String, String> episodeMap = getTVDBtoTiVoEpisodeMap(seriesId);
+
+    for (Node episode : episodes) {
+      NodeList episodeNode = episode.getChildNodes();
+      String tvdbEpisodeId = getValueOfSimpleStringNode(episodeNode, "id");
+
+
+      // todo: find the episode in the series tvdbEpisodes[], get its ProgramId, and query for that if
+      // todo: existingEpisode is null;
+      DBCollection episodeCollection = _db.getCollection("episodes");
+      DBObject existingEpisode = findSingleMatch(episodeCollection, "tvdbEpisodeId", tvdbEpisodeId);
+
+      if (existingEpisode == null) {
+        String tivoProgramId = episodeMap.get(tvdbEpisodeId);
+        if (tivoProgramId != null) {
+          existingEpisode = findSingleMatch(episodeCollection, "TiVoProgramId", tivoProgramId);
+
+          if (existingEpisode == null) {
+            existingEpisode = findSingleMatch(episodeCollection, "ProgramId", tivoProgramId);
+          }
+        }
+      }
+
+
+      // todo: loop through fields on DBObject to find changed values. Only change those values. Only run
+      // todo: update if there are more than 0 changed fields. Add log entry for when TVDB values change.
+
+      BasicDBObject tvdbObject = new BasicDBObject()
+          .append("SeriesId", seriesId)
+          .append("TiVoSeriesId", tivoId)
+          .append("TiVoSeriesTitle", seriesTitle)
+          .append("tvdbSeriesName", tvdbSeriesName)
+          .append("tvdbEpisodeId", tvdbEpisodeId)
+          .append("tvdbAbsoluteNumber", getValueOfSimpleStringNode(episodeNode, "absoute_number"))
           .append("tvdbSeason", getValueOfSimpleStringNode(episodeNode, "seasonnumber"))
           .append("tvdbEpisodeNumber", getValueOfSimpleStringNode(episodeNode, "episodenumber"))
           .append("tvdbEpisodeName", getValueOfSimpleStringNode(episodeNode, "episodename"))
           .append("tvdbFirstAired", getValueOfSimpleStringNode(episodeNode, "firstaired"))
           .append("tvdbOverview", getValueOfSimpleStringNode(episodeNode, "overview"))
-          ;
+          .append("tvdbProductionCode", getValueOfSimpleStringNode(episodeNode, "ProductionCode"))
+          .append("tvdbRating", getValueOfSimpleStringNode(episodeNode, "Rating"))
+          .append("tvdbRatingCount", getValueOfSimpleStringNode(episodeNode, "RatingCount"))
+          .append("tvdbDirector", getValueOfSimpleStringNode(episodeNode, "Director"))
+          .append("tvdbWriter", getValueOfSimpleStringNode(episodeNode, "Writer"))
+          .append("tvdbLastUpdated", getValueOfSimpleStringNode(episodeNode, "lastupdated"))
+          .append("tvdbSeasonId", getValueOfSimpleStringNode(episodeNode, "seasonid"))
+          .append("tvdbFilename", getValueOfSimpleStringNode(episodeNode, "filename"))
+          .append("tvdbAirsAfterSeason", getValueOfSimpleStringNode(episodeNode, "airsafter_season"))
+          .append("tvdbAirsBeforeSeason", getValueOfSimpleStringNode(episodeNode, "airsbefore_season"))
+          .append("tvdbAirsBeforeEpisode", getValueOfSimpleStringNode(episodeNode, "airsbefore_episode"))
+          .append("tvdbThumbHeight", getValueOfSimpleStringNode(episodeNode, "thumb_height"))
+          .append("tvdbThumbWidth", getValueOfSimpleStringNode(episodeNode, "thumb_width"));
+
+      Object episodeId;
+
+      if (existingEpisode == null) {
+        episodeCollection.insert(tvdbObject);
+        episodesAdded++;
+        seriesEpisodesAdded++;
+        episodeId = tvdbObject.get("_id");
+        if (episodeId == null) {
+          throw new RuntimeException("_id wasn't populated on Episode with tvdbEpisodeId " + tvdbEpisodeId + " after insert.");
+        }
+      } else {
+        episodeId = existingEpisode.get("_id");
+        updateObjectWithId("episodes", episodeId, tvdbObject);
+        episodesUpdated++;
+        seriesEpisodesUpdated++;
+      }
+
+
+      // add manual reference to episode to episodes array.
+      BasicDBObject queryObject = new BasicDBObject("_id", seriesId);
+      BasicDBObject updateObject = new BasicDBObject("episodes", episodeId);
+
+      _db.getCollection("series").update(queryObject, new BasicDBObject("$push", updateObject));
     }
 
-    return seriesUpdate.append("tvdbEpisodes", episodeObjects);
+    debug(seriesTitle + ": Update complete! Added: " + seriesEpisodesAdded + "; Updated: " + seriesEpisodesUpdated);
 
   }
 
-  private static void addShowNotFoundErrorLog(String tivoId, String tivoName, String formattedName, String context) {
+  private Map<String, String> getTVDBtoTiVoEpisodeMap(Object seriesId) {
+    Map<String, String> episodeMap = new HashMap<>();
+
+    DBObject series = findSingleMatch(_db.getCollection("series"), "_id", seriesId);
+    Object tvdbEpisodes = series.get("tvdbEpisodes");
+    if (tvdbEpisodes != null) {
+      BasicDBList tvdbEpisodeList = (BasicDBList) tvdbEpisodes;
+
+      for (Object episodeObj : tvdbEpisodeList) {
+        DBObject seriesEpisode = (DBObject) episodeObj;
+        Object tvdbEpisodeId = seriesEpisode.get("tvdbEpisodeId");
+        Object tiVoProgramId = seriesEpisode.get("TiVoProgramId");
+
+        if (tvdbEpisodeId != null && tiVoProgramId != null) {
+          episodeMap.put((String) tvdbEpisodeId, (String) tiVoProgramId);
+        }
+      }
+    }
+    return episodeMap;
+  }
+
+  private void addShowNotFoundErrorLog(String tivoId, String tivoName, String formattedName, String context) {
     BasicDBObject object = new BasicDBObject()
         .append("TiVoName", tivoName)
         .append("FormattedName", formattedName)
@@ -353,7 +389,7 @@ public class TVDBUpdater extends DatabaseUtility {
     addBasicErrorLog(tivoId, object);
   }
 
-  private static void addMismatchErrorLog(String tivoId, String tivoName, String formattedName, String tvdbName) {
+  private void addMismatchErrorLog(String tivoId, String tivoName, String formattedName, String tvdbName) {
     BasicDBObject object = new BasicDBObject()
         .append("TiVoName", tivoName)
         .append("FormattedName", formattedName)
@@ -364,7 +400,7 @@ public class TVDBUpdater extends DatabaseUtility {
     addBasicErrorLog(tivoId, object);
   }
 
-  private static void addBasicErrorLog(String tivoId, BasicDBObject errorObject) {
+  private void addBasicErrorLog(String tivoId, BasicDBObject errorObject) {
     DBCollection errorlogs = _db.getCollection("errorlogs");
     errorObject
         .append("TiVoID", tivoId)
@@ -379,7 +415,7 @@ public class TVDBUpdater extends DatabaseUtility {
     }
   }
 
-  private static void addErrorLog(String tivoId, String errorMessage) {
+  private void addErrorLog(String tivoId, String errorMessage) {
     DBCollection errorlogs = _db.getCollection("errorlogs");
     BasicDBObject errorLog = new BasicDBObject()
         .append("TiVoID", tivoId)
@@ -396,7 +432,7 @@ public class TVDBUpdater extends DatabaseUtility {
   }
 
 
-  private static Node getNodeWithTag(NodeList nodeList, String tag) {
+  private Node getNodeWithTag(NodeList nodeList, String tag) {
     for (int x = 0; x < nodeList.getLength(); x++) {
       Node item = nodeList.item(x);
       if (tag.equalsIgnoreCase(item.getNodeName())) {
@@ -406,7 +442,7 @@ public class TVDBUpdater extends DatabaseUtility {
     return null;
   }
 
-  private static List<Node> getAllNodesWithTag(NodeList nodeList, String tag) {
+  private List<Node> getAllNodesWithTag(NodeList nodeList, String tag) {
     List<Node> matchingNodes = new ArrayList<>();
     for (int x = 0; x < nodeList.getLength(); x++) {
       Node item = nodeList.item(x);
@@ -417,12 +453,12 @@ public class TVDBUpdater extends DatabaseUtility {
     return matchingNodes;
   }
 
-  private static String getValueOfSimpleStringNode(NodeList nodeList, String tag) {
+  private String getValueOfSimpleStringNode(NodeList nodeList, String tag) {
     Node nodeWithTag = getNodeWithTag(nodeList, tag);
     return nodeWithTag == null ? null : parseSimpleStringFromNode(nodeWithTag);
   }
 
-  private static String parseSimpleStringFromNode(Node nodeWithTag) {
+  private String parseSimpleStringFromNode(Node nodeWithTag) {
     NodeList childNodes = nodeWithTag.getChildNodes();
     if (childNodes.getLength() > 1) {
       throw new RuntimeException("Expect only one text child of node '" + nodeWithTag.getNodeName() + "'");
@@ -434,10 +470,11 @@ public class TVDBUpdater extends DatabaseUtility {
   }
 
 
-  private static class EpisodeAlreadyFoundException extends Exception {
-    public EpisodeAlreadyFoundException(String message) {
-      super(message);
-    }
+  public BasicDBObject getSessionInfo() {
+    return new BasicDBObject()
+    .append("TVDBSeriesUpdates", seriesUpdates)
+    .append("TVDBEpisodesUpdated", episodesUpdated)
+    .append("TVDBEpisodesAdded", episodesAdded);
   }
 }
 
