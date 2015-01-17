@@ -13,6 +13,7 @@ public class TiVoLibraryUpdater {
     List<String> argList = Lists.newArrayList(args);
     Boolean lookAtAllShows = argList.contains("FullMode");
     Boolean tvdbOnly = argList.contains("TVDBOnly");
+    Boolean tiVoOnly = argList.contains("TiVoOnly");
 
 
     ConnectionLogger logger;
@@ -57,13 +58,15 @@ public class TiVoLibraryUpdater {
       throw new RuntimeException("Error connecting to TiVo database while updating TVDB info.");
     }
 
-    try {
-      tvdbUpdater.runUpdate();
-    } catch (RuntimeException e) {
-      e.printStackTrace();
-      logger.logConnectionEnd(tvdbUpdater.getSessionInfo());
-      logger.closeDatabase();
-      throw new RuntimeException("Error downloading info from TVDB service.");
+    if (!tiVoOnly) {
+      try {
+        tvdbUpdater.runUpdate();
+      } catch (RuntimeException e) {
+        e.printStackTrace();
+        logger.logConnectionEnd(tvdbUpdater.getSessionInfo());
+        logger.closeDatabase();
+        throw new RuntimeException("Error downloading info from TVDB service.");
+      }
     }
 
     logger.logConnectionEnd(tiVoCommunicator.getSessionInfo());

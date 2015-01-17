@@ -97,21 +97,40 @@ public class TiVoCommunicator extends TVDatabaseUtility {
   private void checkForDeletedShows() {
     DBCollection episodes = _db.getCollection("episodes");
 
-    BasicDBObject deletedDate = new BasicDBObject("DeletedDate", null);
+    BasicDBObject deletedDate = new BasicDBObject("DeletedDate", null)
+            .append("ProgramId", new BasicDBObject("$exists", true));
     DBCursor dbObjects = episodes.find(deletedDate);
 
     while (dbObjects.hasNext()) {
       DBObject episode = dbObjects.next();
-      String programId = (String) episode.get("ProgramId");
+      deleteIfGone(episode);
+    }
 
+    deletedDate = new BasicDBObject("DeletedDate", null)
+        .append("TiVoProgramId", new BasicDBObject("$exists", true));
+    dbObjects = episodes.find(deletedDate);
 
-      if (!episodesOnTiVo.contains(programId)) {
-        Date captureDate = (Date) episode.get("CaptureDate");
-        String formattedDate = new SimpleDateFormat("yyyy-MM-dd").format(captureDate);
-        debug("Found episode in DB that is no longer on Tivo: '" + episode.get("Title") + "' on " + formattedDate + ". Updating deletion date.");
-        updateDeletedDate(programId);
-        deletedShows++;
+    while (dbObjects.hasNext()) {
+      DBObject episode = dbObjects.next();
+      deleteIfGone(episode);
+    }
+  }
+
+  private void deleteIfGone(DBObject episode) {
+    String programId = (String) episode.get("TiVoProgramId");
+    if (programId == null) {
+      programId = (String) episode.get("ProgramId");
+    }
+
+    if (programId != null && !episodesOnTiVo.contains(programId)) {
+      Date captureDate = (Date) episode.get("TiVoCaptureDate");
+      if (captureDate == null) {
+        captureDate = (Date) episode.get("CaptureDate");
       }
+      String formattedDate = new SimpleDateFormat("yyyy-MM-dd").format(captureDate);
+      debug("Found episode in DB that is no longer on Tivo: '" + episode.get("Title") + "' on " + formattedDate + ". Updating deletion date.");
+      updateDeletedDate(programId);
+      deletedShows++;
     }
   }
 
@@ -176,14 +195,14 @@ public class TiVoCommunicator extends TVDatabaseUtility {
 
       NodeList showDetails = getNodeWithTag(showAttributes, "Details").getChildNodes();
       String programId = getValueOfSimpleStringNode(showDetails, "ProgramId");
-      String seriesId = getValueOfSimpleStringNode(showDetails, "SeriesId");
+      String tivoId = getValueOfSimpleStringNode(showDetails, "SeriesId");
       String seriesTitle = getValueOfSimpleStringNode(showDetails, "Title");
 
       if (programId == null) {
         throw new RuntimeException("Episode found on TiVo with no ProgramId field!");
       }
 
-      if (seriesId == null) {
+      if (tivoId == null) {
         throw new RuntimeException("Episode found on TiVo with no SeriesId field!");
       }
 
@@ -192,17 +211,18 @@ public class TiVoCommunicator extends TVDatabaseUtility {
       }
 
       DBCollection series = _db.getCollection("series");
-      DBObject seriesObject = findSingleMatch(series, "SeriesId", seriesId);
+      DBObject seriesObject = findSingleMatch(series, "SeriesId", tivoId);
+      Object seriesId;
 
       if (seriesObject == null) {
-        debug("Adding series '" + seriesTitle + "'  with ID '" + seriesId + "'");
+        debug("Adding series '" + seriesTitle + "'  with TiVoID '" + tivoId + "'");
 
         Boolean isEpisodic = isEpisodic(showAttributes);
         BasicDBObject seriesInsert = new BasicDBObject();
 
         Integer tier = isSuggestion ? 5 : 4;
 
-        seriesInsert.append("SeriesId", seriesId);
+        seriesInsert.append("SeriesId", tivoId);
         seriesInsert.append("SeriesTitle", seriesTitle);
         seriesInsert.append("TiVoName", seriesTitle);
         seriesInsert.append("IsEpisodic", isEpisodic);
@@ -210,103 +230,152 @@ public class TiVoCommunicator extends TVDatabaseUtility {
         seriesInsert.append("Tier", tier);
         seriesInsert.append("DateAdded", new Date());
 
-        DBObject episode = addNewEpisode(attributeMap, dateAttributes, url, isSuggestion, showDetails);
-        BasicDBList episodeList = new BasicDBList();
-        episodeList.add(episode);
-
-        seriesInsert.append("tvdbEpisodes", episodeList);
-
         series.insert(seriesInsert);
+
+        seriesId = seriesInsert.get("_id");
         addedShows++;
       } else {
-        BasicDBList tvdbEpisodes = (BasicDBList) seriesObject.get("tvdbEpisodes");
-        DBObject existingTiVoEpisode = findTiVoMatch(tvdbEpisodes, programId);
+        debug("Updating existing series '" + seriesTitle + "'.");
+        seriesId = seriesObject.get("_id");
+      }
 
-        BasicDBObject queryObject = new BasicDBObject();
-        queryObject.append("_id", seriesObject.get("_id"));
+      DBCollection episodes = _db.getCollection("episodes");
 
-        BasicDBObject updateObject = new BasicDBObject();
+      DBObject existingEpisode = getExistingTiVoEpisode(programId, episodes);
+      Object episodeId = null;
 
-        if (existingTiVoEpisode == null) {
-          String episodeTitle = getValueOfSimpleStringNode(showDetails, "EpisodeTitle");
-          String episodeNumber = getValueOfSimpleStringNode(showDetails, "EpisodeNumber");
-          String showingStartTime = getValueOfSimpleStringNode(showDetails, "ShowingStartTime");
+      DBObject newEpisodeObject = formatEpisodeData(attributeMap, dateAttributes, url, isSuggestion, showDetails);
+      newEpisodeObject.put("SeriesId", seriesId);
+      newEpisodeObject.put("TiVoSeriesId", tivoId);
+//      newEpisodeObject.put("TiVoProgramId", programId);
 
-          DBObject tvdbMatch = findTVDBMatch(episodeTitle, episodeNumber, showingStartTime, tvdbEpisodes);
+      if (existingEpisode == null) {
+        String episodeTitle = (String) newEpisodeObject.get("TiVoEpisodeTitle");
+        String episodeNumber = (String) newEpisodeObject.get("TivoEpisodeNumber");
+        Date showingStartTime = (Date) newEpisodeObject.get("TiVoShowingStartTime");
 
-          if (tvdbMatch == null) {
-            debug("Adding new episode '" + episodeTitle + "' to series '" + seriesTitle + "'");
+        DBObject tvdbMatch = findTVDBMatch(episodeTitle, episodeNumber, showingStartTime, seriesId);
 
-            DBObject episode = addNewEpisode(attributeMap, dateAttributes, url, isSuggestion, showDetails);
-
-            updateObject.append("tvdbEpisodes", episode);
-            series.update(queryObject, new BasicDBObject("$push", updateObject));
-
-            addedShows++;
-
-          } else {
-            Object tvdbEpisodeId = tvdbMatch.get("tvdbEpisodeId");
-            if (tvdbEpisodeId == null) {
-              debug("WARNING: Series '" + seriesTitle + "' has episodes with no EpisodeId!");
-            } else {
-              debug("Updating existing TVDB record with TiVo recording: episode '" + episodeTitle + "' of series '" + seriesTitle + "'");
-
-              BasicDBObject episodeChanges = updateEpisode(attributeMap, dateAttributes, url, isSuggestion, showDetails, tvdbMatch);
-
-              queryObject.append("tvdbEpisodes.tvdbEpisodeId", tvdbEpisodeId);
-              series.update(queryObject, new BasicDBObject("$set", episodeChanges));
-
-              updatedShows++;
-            }
-          }
+        if (tvdbMatch == null) {
+          _db.getCollection("episodes").insert(newEpisodeObject);
+          episodeId = newEpisodeObject.get("_id");
+          addedShows++;
         } else {
-          if (updateAllFieldsMode) {
-            BasicDBObject episodeChanges = updateEpisode(attributeMap, dateAttributes, url, isSuggestion, showDetails, existingTiVoEpisode);
+          episodeId = tvdbMatch.get("_id");
+          updateObjectWithId("episodes", episodeId, newEpisodeObject);
+          updatedShows++;
+        }
+      } else {
+        if (updateAllFieldsMode) {
+          episodeId = existingEpisode.get("_id");
+          updateObjectWithId("episodes", episodeId, newEpisodeObject);
+          updatedShows++;
+        }
+        if (!lookAtAllShows) {
+          debug("Found existing recording with id '" + programId + "'. Ending session.");
+          throw new EpisodeAlreadyFoundException("Episode found with ID " + programId);
+        }
+      }
 
-            queryObject.append("tvdbEpisodes.TiVoProgramId", programId);
-            series.update(queryObject, new BasicDBObject("$set", episodeChanges));
+      BasicDBObject queryObject = new BasicDBObject("_id", seriesId);
+      BasicDBObject updateObject = new BasicDBObject("episodes", episodeId);
 
-            updatedShows++;
-          } else if (!lookAtAllShows && hasTiVoInformation(existingTiVoEpisode) && hasSameDate(existingTiVoEpisode, showDetails)) {
-            debug("Found existing recording with id '" + programId + "'. Ending session.");
-            throw new EpisodeAlreadyFoundException("Episode found with ID " + programId);
-          }
+      _db.getCollection("series").update(queryObject, new BasicDBObject("$addToSet", updateObject));
+
+
+//      seriesObject = findSingleMatch(_db.getCollection("series"), "_id", seriesId);
+//      verifyEpisodesArray(seriesObject);
+    }
+
+  }
+
+  private DBObject getExistingTiVoEpisode(String programId, DBCollection episodes) throws EpisodeAlreadyFoundException {
+    DBObject existingProgram;
+    try {
+      existingProgram = findSingleMatch(episodes, "TiVoProgramId", programId);
+      if (existingProgram == null) {
+        return findSingleMatch(episodes, "ProgramId", programId);
+      }
+    } catch (IllegalStateException e) {
+      debug("Error updating program with id '" + programId + "'. Multiple matches found.");
+      e.printStackTrace();
+      throw new EpisodeAlreadyFoundException("Multiple episodes found with ID " + programId);
+    }
+    return existingProgram;
+  }
+
+  private DBObject formatEpisodeData(Map<String, String> attributeMap, List<String> dateAttributes, String url, Boolean isSuggestion, NodeList showDetails) {
+    BasicDBObject episodeObject = new BasicDBObject();
+    for (String fieldName : attributeMap.keySet()) {
+      String fieldValue = getValueOfSimpleStringNode(showDetails, fieldName);
+      if (fieldValue != null) {
+        if (dateAttributes.contains(fieldName)) {
+          Date date = getDate(fieldValue);
+          episodeObject.append(attributeMap.get(fieldName), date);
+        } else {
+          episodeObject.append(attributeMap.get(fieldName), fieldValue);
         }
       }
     }
-
-
-  }
-
-  private Boolean hasTiVoInformation(DBObject episode) {
-    return Boolean.TRUE.equals(episode.get("OnTiVo"));
-  }
-
-  private Boolean hasSameDate(DBObject existingEpisode, NodeList showDetails) {
-    Date showingStartTime = getDate(getValueOfSimpleStringNode(showDetails, "ShowingStartTime"));
-    if (showingStartTime == null) {
-      return false;
+    episodeObject.append("DateAdded", new Date());
+    episodeObject.append("TiVoSuggestion", isSuggestion);
+    episodeObject.append("Watched", false);
+    episodeObject.append("OnTiVo", true);
+    if (url != null) {
+      episodeObject.append("TiVoUrl", url);
     }
-    return showingStartTime.equals(existingEpisode.get("TiVoShowingStartTime"));
+    return episodeObject;
   }
 
-  private DBObject findTiVoMatch(BasicDBList episodes, String programId) {
+
+  private Integer getSizeOfEpisodesArray(DBObject series) {
+    Object episodes = series.get("episodes");
     if (episodes == null) {
-      return null;
+      return 0;
+    } else {
+      BasicDBList dbList = (BasicDBList) episodes;
+      return dbList.size();
     }
-    for (Object episodeObj : episodes) {
-      DBObject episode = (DBObject) episodeObj;
-      if (Objects.equals(episode.get("TiVoProgramId"), programId)) {
-        return episode;
-      }
-    }
-    return null;
   }
 
-  private DBObject findTVDBMatch(String episodeTitle, String episodeNumberStr, String startTimeStr, BasicDBList tvdbEpisodes) {
-    if (tvdbEpisodes == null) {
+  private Integer getNumberOfExistingEpisodesInCollection(DBObject series) {
+    Object seriesId = series.get("_id");
+
+    return _db.getCollection("episodes").find(new BasicDBObject("SeriesId", seriesId)).count();
+  }
+
+
+  private void verifyEpisodesArray(DBObject series) {
+    Integer sizeOfEpisodesArray = getSizeOfEpisodesArray(series);
+    Integer episodesInCollection = getNumberOfExistingEpisodesInCollection(series);
+
+    if (sizeOfEpisodesArray.equals(episodesInCollection)) {
+      if (sizeOfEpisodesArray > 0) {
+        BasicDBList episodeArray = (BasicDBList) series.get("episodes");
+        for (Object episodeId : episodeArray) {
+          DBObject matchingEpisode = findSingleMatch(_db.getCollection("episodes"), "_id", episodeId);
+          if (matchingEpisode == null) {
+            throw new RuntimeException("Bad Episode Reference in episodes array: " + episodeId);
+          }
+        }
+      }
+    } else {
+      debug("Size of episodes array is " + sizeOfEpisodesArray +
+          " but there are " + episodesInCollection + " episodes in the collection for series " + series.get("TiVoSeriesTitle"));
+    }
+  }
+
+  private Date getDate(String fieldValue) {
+    if (fieldValue == null) {
       return null;
     }
+    long numberOfSeconds = Long.decode(fieldValue);
+    return new Date(numberOfSeconds * 1000);
+  }
+
+
+  private DBObject findTVDBMatch(String episodeTitle, String episodeNumberStr, Date startTime, Object seriesId) {
+    List<DBObject> tvdbEpisodes = _db.getCollection("episodes").find(new BasicDBObject("SeriesId", seriesId)).toArray();
 
     if (episodeTitle != null) {
       for (Object tvdbEpisode : tvdbEpisodes) {
@@ -347,8 +416,8 @@ public class TiVoCommunicator extends TVDatabaseUtility {
 
     // no match on episode number. Try air date.
 
-    if (startTimeStr != null) {
-      DateTime showingStartTime = new DateTime(getDate(startTimeStr));
+    if (startTime != null) {
+      DateTime showingStartTime = new DateTime(startTime);
 
       for (Object tvdbEpisode : tvdbEpisodes) {
         BasicDBObject fullObject = (BasicDBObject) tvdbEpisode;
@@ -371,7 +440,7 @@ public class TiVoCommunicator extends TVDatabaseUtility {
   }
 
 
-  private DBObject checkForNumberMatch(Integer seasonNumber, Integer episodeNumber, BasicDBList tvdbEpisodes) {
+  private DBObject checkForNumberMatch(Integer seasonNumber, Integer episodeNumber, List<DBObject> tvdbEpisodes) {
     for (Object tvdbEpisode : tvdbEpisodes) {
       BasicDBObject fullObject = (BasicDBObject) tvdbEpisode;
 
@@ -393,64 +462,6 @@ public class TiVoCommunicator extends TVDatabaseUtility {
     return null;
   }
 
-
-  private DBObject addNewEpisode(Map<String, String> attributeMap, List<String> dateAttributes, String url, Boolean isSuggestion, NodeList showDetails) {
-    BasicDBObject episodeObject = new BasicDBObject();
-    for (String fieldName : attributeMap.keySet()) {
-      String fieldValue = getValueOfSimpleStringNode(showDetails, fieldName);
-      if (fieldValue != null) {
-        if (dateAttributes.contains(fieldName)) {
-          Date date = getDate(fieldValue);
-          episodeObject.append(attributeMap.get(fieldName), date);
-        } else {
-          episodeObject.append(attributeMap.get(fieldName), fieldValue);
-        }
-      }
-    }
-    episodeObject.append("DateAdded", new Date());
-    episodeObject.append("TiVoSuggestion", isSuggestion);
-    episodeObject.append("Watched", false);
-    episodeObject.append("OnTiVo", true);
-    if (url != null) {
-      episodeObject.append("TiVoUrl", url);
-    }
-    return episodeObject;
-  }
-
-  private Date getDate(String fieldValue) {
-    if (fieldValue == null) {
-      return null;
-    }
-    long numberOfSeconds = Long.decode(fieldValue);
-    return new Date(numberOfSeconds * 1000);
-  }
-
-  private BasicDBObject updateEpisode(Map<String, String> attributeMap, List<String> dateAttributes, String url, Boolean isSuggestion, NodeList showDetails, DBObject existingProgram) {
-    BasicDBObject episodeObject = new BasicDBObject();
-    for (String fieldName : attributeMap.keySet()) {
-      Object existingValue = existingProgram.get(fieldName);
-      if (existingValue == null) {
-        String fieldValue = getValueOfSimpleStringNode(showDetails, fieldName);
-
-        if (fieldValue != null) {
-          if (dateAttributes.contains(fieldName)) {
-            Date date = getDate(fieldValue);
-            episodeObject.append("tvdbEpisodes.$." + attributeMap.get(fieldName), date);
-          } else {
-            episodeObject.append("tvdbEpisodes.$." + attributeMap.get(fieldName), fieldValue);
-          }
-        }
-      }
-    }
-    if (url != null && existingProgram.get("TiVoUrl") == null) {
-      episodeObject.append("tvdbEpisodes.$.TiVoUrl", url);
-    }
-    if (existingProgram.get("TiVoSuggestion") == null) {
-      episodeObject.append("tvdbEpisodes.$.TiVoSuggestion", isSuggestion);
-    }
-
-    return episodeObject;
-  }
 
   private Boolean isSuggestion(NodeList showAttributes) {
     NodeList links = getNodeWithTag(showAttributes, "Links").getChildNodes();
