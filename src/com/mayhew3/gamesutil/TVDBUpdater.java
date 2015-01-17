@@ -275,15 +275,18 @@ public class TVDBUpdater extends TVDatabaseUtility {
 
     List<Node> episodes = getAllNodesWithTag(dataNode, "Episode");
 
-    Map<String, String> episodeMap = getTVDBtoTiVoEpisodeMap(seriesId);
+    DBObject series = findSingleMatch(_db.getCollection("series"), "_id", seriesId);
+
+    // todo: is this a good place to update denorms?
+
+
+    Map<String, String> episodeMap = getTVDBtoTiVoEpisodeMap(series);
 
     for (Node episode : episodes) {
       NodeList episodeNode = episode.getChildNodes();
       String tvdbEpisodeId = getValueOfSimpleStringNode(episodeNode, "id");
 
 
-      // todo: find the episode in the series tvdbEpisodes[], get its ProgramId, and query for that if
-      // todo: existingEpisode is null;
       DBCollection episodeCollection = _db.getCollection("episodes");
       DBObject existingEpisode = findSingleMatch(episodeCollection, "tvdbEpisodeId", tvdbEpisodeId);
 
@@ -350,17 +353,19 @@ public class TVDBUpdater extends TVDatabaseUtility {
       BasicDBObject queryObject = new BasicDBObject("_id", seriesId);
       BasicDBObject updateObject = new BasicDBObject("episodes", episodeId);
 
-      _db.getCollection("series").update(queryObject, new BasicDBObject("$push", updateObject));
+      _db.getCollection("series").update(queryObject, new BasicDBObject("$addToSet", updateObject));
     }
+
+    series = findSingleMatch(_db.getCollection("series"), "_id", seriesId);
+    verifyEpisodesArray(series);
 
     debug(seriesTitle + ": Update complete! Added: " + seriesEpisodesAdded + "; Updated: " + seriesEpisodesUpdated);
 
   }
 
-  private Map<String, String> getTVDBtoTiVoEpisodeMap(Object seriesId) {
+  private Map<String, String> getTVDBtoTiVoEpisodeMap(DBObject series) {
     Map<String, String> episodeMap = new HashMap<>();
 
-    DBObject series = findSingleMatch(_db.getCollection("series"), "_id", seriesId);
     Object tvdbEpisodes = series.get("tvdbEpisodes");
     if (tvdbEpisodes != null) {
       BasicDBList tvdbEpisodeList = (BasicDBList) tvdbEpisodes;
@@ -377,6 +382,43 @@ public class TVDBUpdater extends TVDatabaseUtility {
     }
     return episodeMap;
   }
+
+  private Integer getSizeOfEpisodesArray(DBObject series) {
+    Object episodes = series.get("episodes");
+    if (episodes == null) {
+      return 0;
+    } else {
+      BasicDBList dbList = (BasicDBList) episodes;
+      return dbList.size();
+    }
+  }
+
+  private Integer getNumberOfExistingEpisodesInCollection(DBObject series) {
+    Object seriesId = series.get("_id");
+
+    return _db.getCollection("episodes").find(new BasicDBObject("SeriesId", seriesId)).count();
+  }
+
+  private void verifyEpisodesArray(DBObject series) {
+    Integer sizeOfEpisodesArray = getSizeOfEpisodesArray(series);
+    Integer episodesInCollection = getNumberOfExistingEpisodesInCollection(series);
+
+    if (sizeOfEpisodesArray.equals(episodesInCollection)) {
+      if (sizeOfEpisodesArray > 0) {
+        BasicDBList episodeArray = (BasicDBList) series.get("episodes");
+        for (Object episodeId : episodeArray) {
+          DBObject matchingEpisode = findSingleMatch(_db.getCollection("episodes"), "_id", episodeId);
+          if (matchingEpisode == null) {
+            throw new RuntimeException("Bad Episode Reference in episodes array: " + episodeId);
+          }
+        }
+      }
+    } else {
+      throw new RuntimeException("Size of episodes array is " + sizeOfEpisodesArray +
+          " but there are " + episodesInCollection + " episodes in the collection.");
+    }
+  }
+
 
   private void addShowNotFoundErrorLog(String tivoId, String tivoName, String formattedName, String context) {
     BasicDBObject object = new BasicDBObject()
