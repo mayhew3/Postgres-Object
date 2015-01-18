@@ -294,10 +294,6 @@ public class TVDBUpdater extends TVDatabaseUtility {
         String tivoProgramId = episodeMap.get(tvdbEpisodeId);
         if (tivoProgramId != null) {
           existingEpisode = findSingleMatch(episodeCollection, "TiVoProgramId", tivoProgramId);
-
-          if (existingEpisode == null) {
-            existingEpisode = findSingleMatch(episodeCollection, "ProgramId", tivoProgramId);
-          }
         }
       }
 
@@ -383,39 +379,44 @@ public class TVDBUpdater extends TVDatabaseUtility {
     return episodeMap;
   }
 
-  private Integer getSizeOfEpisodesArray(DBObject series) {
-    Object episodes = series.get("episodes");
-    if (episodes == null) {
-      return 0;
-    } else {
-      BasicDBList dbList = (BasicDBList) episodes;
-      return dbList.size();
-    }
-  }
-
-  private Integer getNumberOfExistingEpisodesInCollection(DBObject series) {
-    Object seriesId = series.get("_id");
-
-    return _db.getCollection("episodes").find(new BasicDBObject("SeriesId", seriesId)).count();
-  }
-
   private void verifyEpisodesArray(DBObject series) {
-    Integer sizeOfEpisodesArray = getSizeOfEpisodesArray(series);
-    Integer episodesInCollection = getNumberOfExistingEpisodesInCollection(series);
 
-    if (sizeOfEpisodesArray.equals(episodesInCollection)) {
-      if (sizeOfEpisodesArray > 0) {
-        BasicDBList episodeArray = (BasicDBList) series.get("episodes");
-        for (Object episodeId : episodeArray) {
-          DBObject matchingEpisode = findSingleMatch(_db.getCollection("episodes"), "_id", episodeId);
-          if (matchingEpisode == null) {
-            throw new RuntimeException("Bad Episode Reference in episodes array: " + episodeId);
-          }
-        }
+    List<Object> arrayNotCollection = new ArrayList<>();
+    List<Object> collectionNotArray = new ArrayList<>();
+
+    DBCollection episodesCollection = _db.getCollection("episodes");
+
+    BasicDBList episodeArray = (BasicDBList) series.get("episodes");
+
+    DBCursor cursor = episodesCollection.find(new BasicDBObject("SeriesId", series.get("_id")));
+    List<Object> collectionIds = new ArrayList<>();
+
+    while (cursor.hasNext()) {
+      DBObject episode = cursor.next();
+
+      Object episodeId = episode.get("_id");
+      collectionIds.add(episodeId);
+
+      if (!episodeArray.contains(episodeId)) {
+        collectionNotArray.add(episodeId);
       }
-    } else {
-      throw new RuntimeException("Size of episodes array is " + sizeOfEpisodesArray +
-          " but there are " + episodesInCollection + " episodes in the collection.");
+    }
+
+    for (Object episodeId : episodeArray) {
+      if (!collectionIds.contains(episodeId)) {
+        arrayNotCollection.add(episodeId);
+      }
+    }
+
+    if (!arrayNotCollection.isEmpty() || !collectionNotArray.isEmpty()) {
+      String errorMessage = "Episodes array doesn't match episode ids found in collection: ";
+      if (!arrayNotCollection.isEmpty()) {
+        errorMessage += "Not in collection: {" + arrayNotCollection + "}. ";
+      }
+      if (!collectionNotArray.isEmpty()) {
+        errorMessage += "Not in array: {" + collectionNotArray + "}. ";
+      }
+      debug(errorMessage);
     }
   }
 
