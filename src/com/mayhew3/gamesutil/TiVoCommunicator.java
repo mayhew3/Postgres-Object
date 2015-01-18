@@ -97,8 +97,8 @@ public class TiVoCommunicator extends TVDatabaseUtility {
   private void checkForDeletedShows() {
     DBCollection episodes = _db.getCollection("episodes");
 
-    BasicDBObject deletedDate = new BasicDBObject("DeletedDate", null)
-            .append("ProgramId", new BasicDBObject("$exists", true));
+    BasicDBObject deletedDate = new BasicDBObject("TiVoDeletedDate", null)
+            .append("OnTiVo", true);
     DBCursor dbObjects = episodes.find(deletedDate);
 
     while (dbObjects.hasNext()) {
@@ -106,45 +106,24 @@ public class TiVoCommunicator extends TVDatabaseUtility {
       deleteIfGone(episode);
     }
 
-    deletedDate = new BasicDBObject("DeletedDate", null)
-        .append("TiVoProgramId", new BasicDBObject("$exists", true));
-    dbObjects = episodes.find(deletedDate);
-
-    while (dbObjects.hasNext()) {
-      DBObject episode = dbObjects.next();
-      deleteIfGone(episode);
-    }
   }
 
   private void deleteIfGone(DBObject episode) {
     String programId = (String) episode.get("TiVoProgramId");
+
     if (programId == null) {
-      programId = (String) episode.get("ProgramId");
+      throw new RuntimeException("Episode found with OnTiVo 'true' and TiVoProgramId 'null'.");
     }
 
-    if (programId != null && !episodesOnTiVo.contains(programId)) {
+    if (!episodesOnTiVo.contains(programId)) {
       Date captureDate = (Date) episode.get("TiVoCaptureDate");
-      if (captureDate == null) {
-        captureDate = (Date) episode.get("CaptureDate");
-      }
+
       String formattedDate = new SimpleDateFormat("yyyy-MM-dd").format(captureDate);
-      debug("Found episode in DB that is no longer on Tivo: '" + episode.get("Title") + "' on " + formattedDate + ". Updating deletion date.");
-      updateDeletedDate(programId);
+      debug("Found episode in DB that is no longer on Tivo: '" + episode.get("TiVoEpisodeTitle") + "' on " + formattedDate + ". Updating deletion date.");
+
+      singleFieldUpdateWithId("episodes", episode.get("_id"), "TiVoDeletedDate", Calendar.getInstance().getTime());
       deletedShows++;
     }
-  }
-
-  private void updateDeletedDate(String programId) {
-    Date now = Calendar.getInstance().getTime();
-
-    DBCollection collection = _db.getCollection("episodes");
-
-    BasicDBObject query = new BasicDBObject("ProgramId", programId);
-
-    BasicDBObject updateObject = new BasicDBObject();
-    updateObject.append("$set", new BasicDBObject().append("DeletedDate", now));
-
-    collection.update(query, updateObject);
   }
 
   private boolean parseShowsFromDocument(Document document) throws EpisodeAlreadyFoundException {
