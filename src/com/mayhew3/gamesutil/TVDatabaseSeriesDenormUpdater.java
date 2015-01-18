@@ -7,26 +7,31 @@ import com.mongodb.DBObject;
 import org.bson.types.ObjectId;
 
 import java.net.UnknownHostException;
+import java.util.Date;
 
-public class TVDatabaseSeriesDenormUpdater extends DatabaseUtility {
+public class TVDatabaseSeriesDenormUpdater extends TVDatabaseUtility {
+
+  public TVDatabaseSeriesDenormUpdater() throws UnknownHostException {
+    super("tv");
+  }
 
   public static void main(String[] args) {
 
 
     try {
 
-      connect("tv");
+      TVDatabaseSeriesDenormUpdater updater = new TVDatabaseSeriesDenormUpdater();
 
-      updateFields();
+      updater.updateFields();
+      updater.closeDatabase();
     } catch (UnknownHostException | RuntimeException e) {
+
       e.printStackTrace();
-    } finally {
-      closeDatabase();
     }
 
   }
 
-  public static void updateFields() {
+  public void updateFields() {
     BasicDBObject query = new BasicDBObject()
 //        .append("SeriesId", new BasicDBObject("$exists", true))
         ;
@@ -34,7 +39,7 @@ public class TVDatabaseSeriesDenormUpdater extends DatabaseUtility {
     DBCollection untaggedShows = _db.getCollection("series");
     DBCursor cursor = untaggedShows.find(query);
 
-    int totalRows = cursor.size();
+    int totalRows = cursor.count();
     debug(totalRows + " series found for update. Starting.");
 
     int i = 0;
@@ -50,16 +55,104 @@ public class TVDatabaseSeriesDenormUpdater extends DatabaseUtility {
   }
 
 
-  private static void updateShow(DBObject show) {
+  private void updateShow(DBObject show) {
     ObjectId seriesId = (ObjectId) show.get("_id");
     String seriesTitle = (String) show.get("SeriesTitle");
     String tivoId = (String) show.get("SeriesId");
 
-    updateIsSuggestion(seriesId, seriesTitle, tivoId);
-    updateTiVoName(seriesId, seriesTitle, tivoId, show.get("TiVoName"));
+//    updateIsSuggestion(seriesId, seriesTitle, tivoId);
+//    updateTiVoName(seriesId, seriesTitle, tivoId, show.get("TiVoName"));
+
+    updateEpisodeCounts(show);
   }
 
-  private static void updateTiVoName(ObjectId seriesId, String seriesTitle, String tivoId, Object tivoName) {
+  private void updateEpisodeCounts(DBObject series) {
+    Integer activeEpisodes = 0;
+    Integer deletedEpisodes = 0;
+    Integer suggestionEpisodes = 0;
+    Integer unmatchedEpisodes = 0;
+    Integer watchedEpisodes = 0;
+    Integer unwatchedEpisodes = 0;
+    Integer unwatchedUnrecorded = 0;
+    Date lastUnwatched = null;
+    Date mostRecent = null;
+
+    Integer tvdbOnly = 0;
+    Integer matchedEpisodes = 0;
+
+    Object seriesId = series.get("_id");
+
+    DBCollection episodesCollection = _db.getCollection("episodes");
+    DBCursor cursor = episodesCollection.find(new BasicDBObject("SeriesId", seriesId));
+
+    while (cursor.hasNext()) {
+      DBObject episode = cursor.next();
+
+      Object onTiVo = episode.get("OnTiVo");
+      Object suggestion = episode.get("TiVoSuggestion");
+      Object showingStartTime = episode.get("TiVoShowingStartTime");
+      Object deletedDate = episode.get("TiVoDeletedDate");
+      Object watched = episode.get("Watched");
+      Object tvdbId = episode.get("tvdbEpisodeId");
+
+      if (Boolean.TRUE.equals(onTiVo)) {
+        if (deletedDate == null) {
+          activeEpisodes++;
+        } else {
+          deletedEpisodes++;
+        }
+        if (Boolean.TRUE.equals(suggestion)) {
+          suggestionEpisodes++;
+        }
+        if (tvdbId == null) {
+          unmatchedEpisodes++;
+        } else {
+          matchedEpisodes++;
+        }
+
+        Date showingStartTimeDate = (Date) showingStartTime;
+
+        if (mostRecent == null || mostRecent.before(showingStartTimeDate)) {
+          mostRecent = showingStartTimeDate;
+        }
+
+        if (Boolean.TRUE.equals(watched)) {
+          watchedEpisodes++;
+        } else {
+          unwatchedEpisodes++;
+
+          if (lastUnwatched == null || lastUnwatched.before(showingStartTimeDate)) {
+            lastUnwatched = showingStartTimeDate;
+          }
+        }
+      } else {
+        if (tvdbId != null) {
+          tvdbOnly++;
+          if (!Boolean.TRUE.equals(watched)) {
+            unwatchedUnrecorded++;
+          }
+        }
+      }
+    }
+
+    BasicDBObject updateObject = new BasicDBObject()
+        .append("ActiveEpisodes", activeEpisodes)
+        .append("DeletedEpisodes", deletedEpisodes)
+        .append("SuggestionEpisodes", suggestionEpisodes)
+        .append("UnmatchedEpisodes", unmatchedEpisodes)
+        .append("WatchedEpisodes", watchedEpisodes)
+        .append("UnwatchedEpisodes", unwatchedEpisodes)
+        .append("UnwatchedUnrecorded", unwatchedUnrecorded)
+        .append("tvdbOnlyEpisodes", tvdbOnly)
+        .append("MatchedEpisodes", matchedEpisodes)
+        .append("LastUnwatched", (lastUnwatched == null) ? null : lastUnwatched)
+        .append("MostRecent", (mostRecent == null) ? null : mostRecent)
+        ;
+
+    updateObjectWithId("series", seriesId, updateObject);
+  }
+
+  private void updateTiVoName(ObjectId seriesId, String seriesTitle, String tivoId, Object tivoName) {
     if (tivoName == null) {
       BasicDBObject queryObject = new BasicDBObject("_id", seriesId);
       BasicDBObject updateObject = new BasicDBObject("TiVoName", seriesTitle);
@@ -70,7 +163,7 @@ public class TVDatabaseSeriesDenormUpdater extends DatabaseUtility {
     }
   }
 
-  private static void updateIsSuggestion(ObjectId seriesId, String seriesTitle, String tivoId) {
+  private void updateIsSuggestion(ObjectId seriesId, String seriesTitle, String tivoId) {
     boolean hasIntentional = hasIntentionallyRecordedEpisodes(tivoId);
     boolean hasSuggested = hasSuggestedEpisodes(tivoId);
 
@@ -84,7 +177,7 @@ public class TVDatabaseSeriesDenormUpdater extends DatabaseUtility {
     updateCollectionWithQuery("series", updateQuery, updateChange);
   }
 
-  private static boolean hasIntentionallyRecordedEpisodes(String tivoId) {
+  private boolean hasIntentionallyRecordedEpisodes(String tivoId) {
     BasicDBObject suggestion = new BasicDBObject()
         .append("SeriesId", tivoId)
         .append("Suggestion", false);
@@ -94,7 +187,7 @@ public class TVDatabaseSeriesDenormUpdater extends DatabaseUtility {
     return cursor.hasNext();
   }
 
-  private static boolean hasSuggestedEpisodes(String tivoId) {
+  private boolean hasSuggestedEpisodes(String tivoId) {
     BasicDBObject suggestion = new BasicDBObject()
         .append("SeriesId", tivoId)
         .append("Suggestion", true);
