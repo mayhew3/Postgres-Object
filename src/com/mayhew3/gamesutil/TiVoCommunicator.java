@@ -247,6 +247,7 @@ public class TiVoCommunicator extends TVDatabaseUtility {
       DBObject newEpisodeObject = formatEpisodeData(attributeMap, dateAttributes, url, isSuggestion, showDetails);
       newEpisodeObject.put("SeriesId", seriesId);
       newEpisodeObject.put("TiVoSeriesId", tivoId);
+      newEpisodeObject.put("TiVoSeriesTitle", seriesTitle);
 //      newEpisodeObject.put("TiVoProgramId", programId);
 
       if (existingEpisode == null) {
