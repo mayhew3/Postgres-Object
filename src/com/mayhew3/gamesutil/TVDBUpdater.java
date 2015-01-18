@@ -330,6 +330,7 @@ public class TVDBUpdater extends TVDatabaseUtility {
       Object episodeId;
 
       if (existingEpisode == null) {
+        tvdbObject.append("DateAdded", new Date());
         episodeCollection.insert(tvdbObject);
         episodesAdded++;
         seriesEpisodesAdded++;
