@@ -257,10 +257,12 @@ public class TiVoCommunicator extends TVDatabaseUtility {
         }
       }
 
-      BasicDBObject queryObject = new BasicDBObject("_id", seriesId);
-      BasicDBObject updateObject = new BasicDBObject("episodes", episodeId);
+      if (episodeId != null) {
+        BasicDBObject queryObject = new BasicDBObject("_id", seriesId);
+        BasicDBObject updateObject = new BasicDBObject("episodes", episodeId);
 
-      _db.getCollection("series").update(queryObject, new BasicDBObject("$addToSet", updateObject));
+        _db.getCollection("series").update(queryObject, new BasicDBObject("$addToSet", updateObject));
+      }
 
 
 //      seriesObject = findSingleMatch(_db.getCollection("series"), "_id", seriesId);
