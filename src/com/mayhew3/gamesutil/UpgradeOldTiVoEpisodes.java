@@ -1,16 +1,12 @@
 package com.mayhew3.gamesutil;
 
-import com.google.common.base.Objects;
-import com.google.common.collect.Lists;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 
 import java.net.UnknownHostException;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class UpgradeOldTiVoEpisodes extends TVDatabaseUtility {
@@ -55,7 +51,7 @@ public class UpgradeOldTiVoEpisodes extends TVDatabaseUtility {
   public void upgradeRows() {
     DBCursor episodes = _db.getCollection("episodes")
         .find(new BasicDBObject()
-                .append("ShowingStartTime", new BasicDBObject("$exists", true))
+                .append("TiVoSeriesTitle", new BasicDBObject("$exists", false))
 //            .append("Suggestion", new BasicDBObject("$ne", true))
 //            .append("Suggestion", false)
 //            .append("DeletedDate", new BasicDBObject("$exists", false))
@@ -65,68 +61,15 @@ public class UpgradeOldTiVoEpisodes extends TVDatabaseUtility {
 
       DBObject episode = episodes.next();
 
-      Object episodeTitle = getEpisodeTitle(episode);
+      Object programId = getProgramId(episode);
+      debug("Updating fields for Program ID '" + programId + "'");
 
       Object seriesTitle = getSeriesTitle(episode);
-      Object programId = getProgramId(episode);
 
       if (seriesTitle == null) {
-        seriesTitle = updateSeriesTitle(episode);
+        updateSeriesTitle(episode);
       }
 
-      debug("Updating fields for Episode '" + episodeTitle + "' in Series '" + seriesTitle + "', Program ID '" + programId + "'");
-
-      BasicDBObject queryObject = new BasicDBObject("_id", episode.get("_id"));
-      BasicDBObject updateObject = new BasicDBObject();
-
-      BasicDBObject removeObject = new BasicDBObject();
-
-      List<String> takeNewer = Lists.newArrayList("CaptureDate", "Url", "ShowingStartTime");
-      List<String> takeOlder = Lists.newArrayList("Title", "EpisodeNumber");
-
-      for (String oldName : newColumns.keySet()) {
-        String newName = newColumns.get(oldName);
-
-        Object oldValue = episode.get(oldName);
-        Object newValue = episode.get(newName);
-
-        Boolean removeField = true;
-
-
-
-        if (!isEmpty(oldValue)) {
-          if (isEmpty(newValue)) {
-            updateObject.append(newName, oldValue);
-          } else if (!Objects.equal(oldValue, newValue)) {
-            debug("Conflict between values in " + oldName + " '" + oldValue + "' and " + newName + " '" + newValue + "'");
-            if ("AddedDate".equals(oldName)) {
-              Date oldDate = (Date) oldValue;
-              Date newDate = (Date) newValue;
-              if (oldDate.before(newDate)) {
-                updateObject.append(newName, oldValue);
-              } else {
-                removeField = false;
-              }
-            } else if (takeNewer.contains(oldName)) {
-              removeField = true;
-            } else if (takeOlder.contains(oldName)) {
-              updateObject.append(newName, oldValue);
-            } else {
-              removeField = false;
-            }
-          }
-        }
-
-        if (removeField) {
-          removeObject.append(oldName, "");
-        }
-
-      }
-
-      updateObject.append("OnTiVo", true);
-
-      _db.getCollection("episodes").update(queryObject, new BasicDBObject("$set", updateObject));
-      _db.getCollection("episodes").update(queryObject, new BasicDBObject("$unset", removeObject));
     }
 
   }
@@ -225,6 +168,7 @@ public class UpgradeOldTiVoEpisodes extends TVDatabaseUtility {
       }
     }
 
+    debug("Found series name '" + tiVoName + "', updating now!");
     singleFieldUpdateWithId("episodes", episode.get("_id"), "TiVoSeriesTitle", tiVoName);
 
     return tiVoName;
