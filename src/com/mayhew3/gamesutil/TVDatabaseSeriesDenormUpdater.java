@@ -96,35 +96,38 @@ public class TVDatabaseSeriesDenormUpdater extends TVDatabaseUtility {
       Object tvdbId = episode.get("tvdbEpisodeId");
 
       if (Boolean.TRUE.equals(onTiVo)) {
-        if (deletedDate == null) {
-          activeEpisodes++;
-        } else {
-          deletedEpisodes++;
-        }
-        if (Boolean.TRUE.equals(suggestion)) {
-          suggestionEpisodes++;
-        }
+
+
         if (tvdbId == null) {
           unmatchedEpisodes++;
         } else {
           matchedEpisodes++;
-        }
 
-        Date showingStartTimeDate = (Date) showingStartTime;
+          Date showingStartTimeDate = (Date) showingStartTime;
+          if (deletedDate == null) {
+            activeEpisodes++;
 
-        if (mostRecent == null || mostRecent.before(showingStartTimeDate)) {
-          mostRecent = showingStartTimeDate;
-        }
+            if (Boolean.TRUE.equals(watched)) {
+              watchedEpisodes++;
+            } else {
+              unwatchedEpisodes++;
 
-        if (Boolean.TRUE.equals(watched)) {
-          watchedEpisodes++;
-        } else {
-          unwatchedEpisodes++;
+              if (lastUnwatched == null || lastUnwatched.before(showingStartTimeDate)) {
+                lastUnwatched = showingStartTimeDate;
+              }
+            }
 
-          if (lastUnwatched == null || lastUnwatched.before(showingStartTimeDate)) {
-            lastUnwatched = showingStartTimeDate;
+            if (mostRecent == null || mostRecent.before(showingStartTimeDate)) {
+              mostRecent = showingStartTimeDate;
+            }
+          } else {
+            deletedEpisodes++;
+          }
+          if (Boolean.TRUE.equals(suggestion)) {
+            suggestionEpisodes++;
           }
         }
+
       } else {
         if (tvdbId != null) {
           tvdbOnly++;
