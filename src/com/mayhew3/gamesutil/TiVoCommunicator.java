@@ -192,6 +192,8 @@ public class TiVoCommunicator extends TVDatabaseUtility {
       DBCollection series = _db.getCollection("series");
       DBObject seriesObject = findSingleMatch(series, "SeriesId", tivoId);
       Object seriesId;
+      Object lastUnwatched = null;
+      Object mostRecent = null;
 
       if (seriesObject == null) {
         debug("Adding series '" + seriesTitle + "'  with TiVoID '" + tivoId + "'");
@@ -216,6 +218,8 @@ public class TiVoCommunicator extends TVDatabaseUtility {
       } else {
         debug("Updating existing series '" + seriesTitle + "'.");
         seriesId = seriesObject.get("_id");
+        lastUnwatched = seriesObject.get("LastUnwatched");
+        mostRecent = seriesObject.get("MostRecent");
       }
 
       DBCollection episodes = _db.getCollection("episodes");
@@ -229,6 +233,8 @@ public class TiVoCommunicator extends TVDatabaseUtility {
       newEpisodeObject.put("TiVoSeriesTitle", seriesTitle);
 //      newEpisodeObject.put("TiVoProgramId", programId);
 
+      Object tvdbEpisodeId = null;
+
       if (existingEpisode == null) {
         String episodeTitle = (String) newEpisodeObject.get("TiVoEpisodeTitle");
         String episodeNumber = (String) newEpisodeObject.get("TivoEpisodeNumber");
@@ -236,12 +242,14 @@ public class TiVoCommunicator extends TVDatabaseUtility {
 
         DBObject tvdbMatch = findTVDBMatch(episodeTitle, episodeNumber, showingStartTime, seriesId);
 
+
         if (tvdbMatch == null) {
           _db.getCollection("episodes").insert(newEpisodeObject);
           episodeId = newEpisodeObject.get("_id");
           addedShows++;
         } else {
           episodeId = tvdbMatch.get("_id");
+          tvdbEpisodeId = tvdbMatch.get("tvdbEpisodeId");
           updateObjectWithId("episodes", episodeId, newEpisodeObject);
           updatedShows++;
         }
@@ -262,6 +270,15 @@ public class TiVoCommunicator extends TVDatabaseUtility {
         BasicDBObject updateObject = new BasicDBObject("episodes", episodeId);
 
         _db.getCollection("series").update(queryObject, new BasicDBObject("$addToSet", updateObject));
+
+        BasicDBObject setObject = new BasicDBObject();
+        BasicDBObject incObject = new BasicDBObject();
+
+        updateSeriesDenorms(newEpisodeObject, tvdbEpisodeId, setObject, incObject, lastUnwatched, mostRecent);
+
+        _db.getCollection("series").update(queryObject, new BasicDBObject()
+            .append("$set", setObject)
+            .append("$inc", incObject));
       }
 
 
@@ -270,6 +287,62 @@ public class TiVoCommunicator extends TVDatabaseUtility {
     }
 
   }
+
+  private void updateSeriesDenorms(DBObject episodeObject, Object tvdbId, BasicDBObject setObject, BasicDBObject incObject, Object lastUnwatched, Object mostRecent) {
+
+    Object onTiVo = episodeObject.get("OnTiVo");
+    Object suggestion = episodeObject.get("TiVoSuggestion");
+    Object showingStartTime = episodeObject.get("TiVoShowingStartTime");
+    Object deletedDate = episodeObject.get("TiVoDeletedDate");
+    Object watched = episodeObject.get("Watched");
+
+    if (Boolean.TRUE.equals(onTiVo)) {
+
+
+      if (tvdbId == null) {
+        incObject.append("UnmatchedEpisodes", 1);
+      } else {
+        incObject.append("MatchedEpisodes", 1);
+
+        Date showingStartTimeDate = (Date) showingStartTime;
+        if (deletedDate == null) {
+          incObject.append("ActiveEpisodes", 1);
+
+          if (Boolean.TRUE.equals(watched)) {
+            incObject.append("WatchedEpisodes", 1);
+          } else {
+            incObject.append("UnwatchedEpisodes", 1);
+
+            if (shouldOverrideDate(lastUnwatched, showingStartTimeDate)) {
+              setObject.append("LastUnwatched", showingStartTimeDate);
+            }
+          }
+
+          if (shouldOverrideDate(mostRecent, showingStartTimeDate)) {
+            setObject.append("MostRecent", showingStartTimeDate);
+          }
+        } else {
+          incObject.append("DeletedEpisodes", 1);
+        }
+        if (Boolean.TRUE.equals(suggestion)) {
+          incObject.append("SuggestionEpisodes", 1);
+        }
+      }
+
+    } else {
+      if (tvdbId != null) {
+        incObject.append("tvdbOnlyEpisodes", 1);
+        if (!Boolean.TRUE.equals(watched)) {
+          incObject.append("UnwatchedUnrecorded", 1);
+        }
+      }
+    }
+  }
+
+  private Boolean shouldOverrideDate(Object oldDate, Date newDate) {
+    return oldDate == null || ((Date) oldDate).before(newDate);
+  }
+
 
   private DBObject getExistingTiVoEpisode(String programId, DBCollection episodes) throws EpisodeAlreadyFoundException {
     DBObject existingProgram;

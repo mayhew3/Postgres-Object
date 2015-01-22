@@ -277,7 +277,8 @@ public class TVDBUpdater extends TVDatabaseUtility {
 
     DBObject series = findSingleMatch(_db.getCollection("series"), "_id", seriesId);
 
-    // todo: is this a good place to update denorms?
+    Object mostRecent = series.get("MostRecent");
+    Object lastUnwatched = series.get("LastUnwatched");
 
 
     Map<String, String> episodeMap = getTVDBtoTiVoEpisodeMap(series);
@@ -328,10 +329,12 @@ public class TVDBUpdater extends TVDatabaseUtility {
           .append("tvdbThumbWidth", getValueOfSimpleStringNode(episodeNode, "thumb_width"));
 
       Object episodeId;
+      Boolean added = false;
 
       if (existingEpisode == null) {
         tvdbObject.append("DateAdded", new Date());
         episodeCollection.insert(tvdbObject);
+        added = true;
         episodesAdded++;
         seriesEpisodesAdded++;
         episodeId = tvdbObject.get("_id");
@@ -346,11 +349,14 @@ public class TVDBUpdater extends TVDatabaseUtility {
       }
 
 
-      // add manual reference to episode to episodes array.
-      BasicDBObject queryObject = new BasicDBObject("_id", seriesId);
-      BasicDBObject updateObject = new BasicDBObject("episodes", episodeId);
+      if (episodeId != null) {
+        // add manual reference to episode to episodes array.
+        BasicDBObject queryObject = new BasicDBObject("_id", seriesId);
+        BasicDBObject updateObject = new BasicDBObject("episodes", episodeId);
 
-      _db.getCollection("series").update(queryObject, new BasicDBObject("$addToSet", updateObject));
+        _db.getCollection("series").update(queryObject, new BasicDBObject("$addToSet", updateObject));
+
+      }
     }
 
     series = findSingleMatch(_db.getCollection("series"), "_id", seriesId);
@@ -359,6 +365,63 @@ public class TVDBUpdater extends TVDatabaseUtility {
     debug(seriesTitle + ": Update complete! Added: " + seriesEpisodesAdded + "; Updated: " + seriesEpisodesUpdated);
 
   }
+
+
+  private void updateSeriesDenorms(DBObject episodeObject, Object tvdbId, BasicDBObject setObject, BasicDBObject incObject, Object lastUnwatched, Object mostRecent) {
+
+    Object onTiVo = episodeObject.get("OnTiVo");
+    Object suggestion = episodeObject.get("TiVoSuggestion");
+    Object showingStartTime = episodeObject.get("TiVoShowingStartTime");
+    Object deletedDate = episodeObject.get("TiVoDeletedDate");
+    Object watched = episodeObject.get("Watched");
+
+    if (Boolean.TRUE.equals(onTiVo)) {
+
+
+      if (tvdbId == null) {
+        incObject.append("UnmatchedEpisodes", 1);
+      } else {
+        incObject.append("MatchedEpisodes", 1);
+
+        Date showingStartTimeDate = (Date) showingStartTime;
+        if (deletedDate == null) {
+          incObject.append("ActiveEpisodes", 1);
+
+          if (Boolean.TRUE.equals(watched)) {
+            incObject.append("WatchedEpisodes", 1);
+          } else {
+            incObject.append("UnwatchedEpisodes", 1);
+
+            if (shouldOverrideDate(lastUnwatched, showingStartTimeDate)) {
+              setObject.append("LastUnwatched", showingStartTimeDate);
+            }
+          }
+
+          if (shouldOverrideDate(mostRecent, showingStartTimeDate)) {
+            setObject.append("MostRecent", showingStartTimeDate);
+          }
+        } else {
+          incObject.append("DeletedEpisodes", 1);
+        }
+        if (Boolean.TRUE.equals(suggestion)) {
+          incObject.append("SuggestionEpisodes", 1);
+        }
+      }
+
+    } else {
+      if (tvdbId != null) {
+        incObject.append("tvdbOnlyEpisodes", 1);
+        if (!Boolean.TRUE.equals(watched)) {
+          incObject.append("UnwatchedUnrecorded", 1);
+        }
+      }
+    }
+  }
+
+  private Boolean shouldOverrideDate(Object oldDate, Date newDate) {
+    return oldDate == null || ((Date) oldDate).before(newDate);
+  }
+
 
   private Map<String, String> getTVDBtoTiVoEpisodeMap(DBObject series) {
     Map<String, String> episodeMap = new HashMap<>();
