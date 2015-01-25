@@ -222,20 +222,32 @@ public class TiVoCommunicator extends TVDatabaseUtility {
         mostRecent = seriesObject.get("MostRecent");
       }
 
-      DBCollection episodes = _db.getCollection("episodes");
+      DBCursor existingEpisodes = getExistingTiVoEpisodes(programId);
+      Boolean tivoEpisodeExists = existingEpisodes.hasNext();
 
-      DBObject existingEpisode = getExistingTiVoEpisode(programId, episodes);
       Object episodeId = null;
 
       DBObject newEpisodeObject = formatEpisodeData(attributeMap, dateAttributes, url, isSuggestion, showDetails);
       newEpisodeObject.put("SeriesId", seriesId);
       newEpisodeObject.put("TiVoSeriesId", tivoId);
       newEpisodeObject.put("TiVoSeriesTitle", seriesTitle);
-//      newEpisodeObject.put("TiVoProgramId", programId);
 
       Object tvdbEpisodeId = null;
 
-      if (existingEpisode == null) {
+      if (tivoEpisodeExists) {
+        if (updateAllFieldsMode) {
+          while (existingEpisodes.hasNext()) {
+            DBObject existingEpisode = existingEpisodes.next();
+            episodeId = existingEpisode.get("_id");
+            updateObjectWithId("episodes", episodeId, newEpisodeObject);
+            updatedShows++;
+          }
+        }
+        if (!lookAtAllShows) {
+          debug("Found existing recording with id '" + programId + "'. Ending session.");
+          throw new EpisodeAlreadyFoundException("Episode found with ID " + programId);
+        }
+      } else {
         String episodeTitle = (String) newEpisodeObject.get("TiVoEpisodeTitle");
         String episodeNumber = (String) newEpisodeObject.get("TivoEpisodeNumber");
         Date showingStartTime = (Date) newEpisodeObject.get("TiVoShowingStartTime");
@@ -252,16 +264,6 @@ public class TiVoCommunicator extends TVDatabaseUtility {
           tvdbEpisodeId = tvdbMatch.get("tvdbEpisodeId");
           updateObjectWithId("episodes", episodeId, newEpisodeObject);
           updatedShows++;
-        }
-      } else {
-        if (updateAllFieldsMode) {
-          episodeId = existingEpisode.get("_id");
-          updateObjectWithId("episodes", episodeId, newEpisodeObject);
-          updatedShows++;
-        }
-        if (!lookAtAllShows) {
-          debug("Found existing recording with id '" + programId + "'. Ending session.");
-          throw new EpisodeAlreadyFoundException("Episode found with ID " + programId);
         }
       }
 
@@ -341,19 +343,10 @@ public class TiVoCommunicator extends TVDatabaseUtility {
   }
 
 
-  private DBObject getExistingTiVoEpisode(String programId, DBCollection episodes) throws EpisodeAlreadyFoundException {
-    DBObject existingProgram;
-    try {
-      existingProgram = findSingleMatch(episodes, "TiVoProgramId", programId);
-      if (existingProgram == null) {
-        return findSingleMatch(episodes, "ProgramId", programId);
-      }
-    } catch (IllegalStateException e) {
-      debug("Error updating program with id '" + programId + "'. Multiple matches found.");
-      e.printStackTrace();
-      throw new EpisodeAlreadyFoundException("Multiple episodes found with ID " + programId);
-    }
-    return existingProgram;
+  private DBCursor getExistingTiVoEpisodes(String programId) throws EpisodeAlreadyFoundException {
+    DBCollection collection = _db.getCollection("episodes");
+
+    return collection.find(new BasicDBObject("TiVoProgramId", programId));
   }
 
   private DBObject formatEpisodeData(Map<String, String> attributeMap, List<String> dateAttributes, String url, Boolean isSuggestion, NodeList showDetails) {

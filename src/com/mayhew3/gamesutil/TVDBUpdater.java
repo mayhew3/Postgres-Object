@@ -2,6 +2,8 @@ package com.mayhew3.gamesutil;
 
 import com.mongodb.*;
 import org.bson.types.ObjectId;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeComparator;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -19,6 +21,15 @@ public class TVDBUpdater extends TVDatabaseUtility {
 
   public TVDBUpdater() throws UnknownHostException {
     super("tv");
+  }
+
+  public static void main(String[] args) {
+    try {
+      TVDBUpdater tvdbUpdater = new TVDBUpdater();
+      tvdbUpdater.runUpdate();
+    } catch (UnknownHostException e) {
+      e.printStackTrace();
+    }
   }
 
   public void runUpdate() {
@@ -275,10 +286,6 @@ public class TVDBUpdater extends TVDatabaseUtility {
 
     List<Node> episodes = getAllNodesWithTag(dataNode, "Episode");
 
-    DBObject series = findSingleMatch("series", "_id", seriesId);
-
-
-    Map<String, String> episodeMap = getTVDBtoTiVoEpisodeMap(series);
 
     for (Node episode : episodes) {
       NodeList episodeNode = episode.getChildNodes();
@@ -286,12 +293,23 @@ public class TVDBUpdater extends TVDatabaseUtility {
 
 
       DBCollection episodeCollection = _db.getCollection("episodes");
-      DBObject existingEpisode = findSingleMatch(episodeCollection, "tvdbEpisodeId", tvdbEpisodeId);
+
+
+      String episodenumber = getValueOfSimpleStringNode(episodeNode, "episodenumber");
+      String episodename = getValueOfSimpleStringNode(episodeNode, "episodename");
+      String seasonnumber = getValueOfSimpleStringNode(episodeNode, "seasonnumber");
+      String firstaired = getValueOfSimpleStringNode(episodeNode, "firstaired");
+
+
+
+      DBObject existingEpisode = findSingleMatch("episodes", "tvdbEpisodeId", tvdbEpisodeId);
+      Boolean matched = false;
 
       if (existingEpisode == null) {
-        String tivoProgramId = episodeMap.get(tvdbEpisodeId);
-        if (tivoProgramId != null) {
-          existingEpisode = findSingleMatch(episodeCollection, "TiVoProgramId", tivoProgramId);
+        // todo: Optimization: skip looking for match when firstAired is future. Obviously it's not on the TiVo yet.
+        existingEpisode = findTiVoMatch(episodename, seasonnumber, episodenumber, firstaired, seriesId);
+        if (existingEpisode != null) {
+          matched = true;
         }
       }
 
@@ -306,10 +324,10 @@ public class TVDBUpdater extends TVDatabaseUtility {
           .append("tvdbSeriesName", tvdbSeriesName)
           .append("tvdbEpisodeId", tvdbEpisodeId)
           .append("tvdbAbsoluteNumber", getValueOfSimpleStringNode(episodeNode, "absoute_number"))
-          .append("tvdbSeason", getValueOfSimpleStringNode(episodeNode, "seasonnumber"))
-          .append("tvdbEpisodeNumber", getValueOfSimpleStringNode(episodeNode, "episodenumber"))
-          .append("tvdbEpisodeName", getValueOfSimpleStringNode(episodeNode, "episodename"))
-          .append("tvdbFirstAired", getValueOfSimpleStringNode(episodeNode, "firstaired"))
+          .append("tvdbSeason", seasonnumber)
+          .append("tvdbEpisodeNumber", episodenumber)
+          .append("tvdbEpisodeName", episodename)
+          .append("tvdbFirstAired", firstaired)
           .append("tvdbOverview", getValueOfSimpleStringNode(episodeNode, "overview"))
           .append("tvdbProductionCode", getValueOfSimpleStringNode(episodeNode, "ProductionCode"))
           .append("tvdbRating", getValueOfSimpleStringNode(episodeNode, "Rating"))
@@ -354,51 +372,32 @@ public class TVDBUpdater extends TVDatabaseUtility {
         _db.getCollection("series").update(queryObject, new BasicDBObject("$addToSet", updateObject));
 
         BasicDBObject incObject = new BasicDBObject();
-        updateSeriesDenorms(added, incObject);
+        updateSeriesDenorms(added, matched, incObject);
 
         _db.getCollection("series").update(queryObject, new BasicDBObject("$inc", incObject));
       }
     }
 
-    series = findSingleMatch(_db.getCollection("series"), "_id", seriesId);
-    verifyEpisodesArray(series);
+//    series = findSingleMatch(_db.getCollection("series"), "_id", seriesId);
+//    verifyEpisodesArray(series);
 
     debug(seriesTitle + ": Update complete! Added: " + seriesEpisodesAdded + "; Updated: " + seriesEpisodesUpdated);
 
   }
 
 
-  private void updateSeriesDenorms(Boolean added, BasicDBObject incObject) {
+  private void updateSeriesDenorms(Boolean added, Boolean matched, BasicDBObject incObject) {
 
     if (added) {
       incObject.append("tvdbOnlyEpisodes", 1);
       incObject.append("UnwatchedUnrecorded", 1);
-    } else {
+    }
+    if (matched) {
       incObject.append("MatchedEpisodes", 1);
       incObject.append("UnmatchedEpisodes", -1);
     }
   }
 
-
-  private Map<String, String> getTVDBtoTiVoEpisodeMap(DBObject series) {
-    Map<String, String> episodeMap = new HashMap<>();
-
-    Object tvdbEpisodes = series.get("tvdbEpisodes");
-    if (tvdbEpisodes != null) {
-      BasicDBList tvdbEpisodeList = (BasicDBList) tvdbEpisodes;
-
-      for (Object episodeObj : tvdbEpisodeList) {
-        DBObject seriesEpisode = (DBObject) episodeObj;
-        Object tvdbEpisodeId = seriesEpisode.get("tvdbEpisodeId");
-        Object tiVoProgramId = seriesEpisode.get("TiVoProgramId");
-
-        if (tvdbEpisodeId != null && tiVoProgramId != null) {
-          episodeMap.put((String) tvdbEpisodeId, (String) tiVoProgramId);
-        }
-      }
-    }
-    return episodeMap;
-  }
 
   private void verifyEpisodesArray(DBObject series) {
 
@@ -440,6 +439,122 @@ public class TVDBUpdater extends TVDatabaseUtility {
       debug(errorMessage);
     }
   }
+
+
+  private DBObject findTiVoMatch(String episodeTitle, String tvdbSeasonStr, String tvdbEpisodeNumberStr, String firstAiredStr, Object seriesId) {
+    List<DBObject> matchingEpisodes = new ArrayList<>();
+
+    List<DBObject> episodes = _db.getCollection("episodes")
+        .find(new BasicDBObject()
+                .append("SeriesId", seriesId)
+                .append("tvdbEpisodeId", null)
+        ).toArray();
+
+    if (episodeTitle != null) {
+      for (DBObject episode : episodes) {
+        String tivoTitleObject = (String) episode.get("TiVoEpisodeTitle");
+        if (episodeTitle.equalsIgnoreCase(tivoTitleObject)) {
+          matchingEpisodes.add(episode);
+        }
+      }
+    }
+
+    if (matchingEpisodes.size() == 1) {
+      return matchingEpisodes.get(0);
+    } else if (matchingEpisodes.size() > 1) {
+      debug("Found " + matchingEpisodes.size() + " matching episodes for " +
+          tvdbSeasonStr + "x" + tvdbEpisodeNumberStr + " " +
+          "'" + episodeTitle + "'.");
+      return null;
+    }
+
+    // no match found on episode title. Try episode number.
+
+
+    if (tvdbEpisodeNumberStr != null && tvdbSeasonStr != null) {
+      Integer tvdbSeason = Integer.valueOf(tvdbSeasonStr);
+      Integer tvdbEpisodeNumber = Integer.valueOf(tvdbEpisodeNumberStr);
+
+      for (DBObject episode : episodes) {
+
+        String tiVoEpisodeNumberStr = (String) episode.get("TiVoEpisodeNumber");
+
+        if (tiVoEpisodeNumberStr != null) {
+
+          Integer tivoEpisodeNumber = Integer.valueOf(tiVoEpisodeNumberStr);
+          Integer tivoSeasonNumber = 1;
+
+          if (tivoEpisodeNumber < 100) {
+            if (Objects.equals(tivoSeasonNumber, tvdbSeason) && Objects.equals(tivoEpisodeNumber, tvdbEpisodeNumber)) {
+              matchingEpisodes.add(episode);
+            }
+          } else {
+            int seasonLength = tiVoEpisodeNumberStr.length() / 2;
+
+            String tivoSeasonStr = tiVoEpisodeNumberStr.substring(0, seasonLength);
+            String tivoEpisodeNumberStr = tiVoEpisodeNumberStr.substring(seasonLength, tiVoEpisodeNumberStr.length());
+
+            tivoEpisodeNumber = Integer.valueOf(tivoEpisodeNumberStr);
+            tivoSeasonNumber = Integer.valueOf(tivoSeasonStr);
+
+            if (Objects.equals(tivoSeasonNumber, tvdbSeason) && Objects.equals(tivoEpisodeNumber, tvdbEpisodeNumber)) {
+              matchingEpisodes.add(episode);
+            }
+          }
+        }
+      }
+
+    }
+
+
+    if (matchingEpisodes.size() == 1) {
+      return matchingEpisodes.get(0);
+    } else if (matchingEpisodes.size() > 1) {
+      debug("Found " + matchingEpisodes.size() + " matching episodes for " +
+          tvdbSeasonStr + "x" + tvdbEpisodeNumberStr + " " +
+          "'" + episodeTitle + "'.");
+      return null;
+    }
+
+
+    // no match on episode number. Try air date.
+
+    if (firstAiredStr != null) {
+      DateTime firstAired = new DateTime(firstAiredStr);
+
+      for (DBObject episode : episodes) {
+        Object showingStartTimeObj = episode.get("TiVoShowingStartTime");
+
+        if (showingStartTimeObj != null) {
+          DateTime showingStartTime = new DateTime(showingStartTimeObj);
+
+          DateTimeComparator comparator = DateTimeComparator.getDateOnlyInstance();
+
+          if (comparator.compare(firstAired, showingStartTime) == 0) {
+            matchingEpisodes.add(episode);
+          }
+        }
+      }
+
+    }
+
+
+    if (matchingEpisodes.size() == 1) {
+      return matchingEpisodes.get(0);
+    } else if (matchingEpisodes.size() > 1) {
+      debug("Found " + matchingEpisodes.size() + " matching episodes for " +
+          tvdbSeasonStr + "x" + tvdbEpisodeNumberStr + " " +
+          "'" + episodeTitle + "'.");
+      return null;
+    } else {
+      debug("Found no matches for " +
+          tvdbSeasonStr + "x" + tvdbEpisodeNumberStr + " " +
+          "'" + episodeTitle + "'.");
+      return null;
+    }
+
+  }
+
 
 
   private void addShowNotFoundErrorLog(String tivoId, String tivoName, String formattedName, String context) {
