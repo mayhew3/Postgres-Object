@@ -275,10 +275,7 @@ public class TVDBUpdater extends TVDatabaseUtility {
 
     List<Node> episodes = getAllNodesWithTag(dataNode, "Episode");
 
-    DBObject series = findSingleMatch(_db.getCollection("series"), "_id", seriesId);
-
-    Object mostRecent = series.get("MostRecent");
-    Object lastUnwatched = series.get("LastUnwatched");
+    DBObject series = findSingleMatch("series", "_id", seriesId);
 
 
     Map<String, String> episodeMap = getTVDBtoTiVoEpisodeMap(series);

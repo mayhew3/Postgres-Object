@@ -133,6 +133,16 @@ public class TVDatabaseUtility {
     }
   }
 
+  protected DBObject findSingleMatch(String collectionName, String key, Object value) {
+    if (!_db.collectionExists(collectionName)) {
+      throw new IllegalStateException("No collection '" + collectionName + "' found.");
+    }
+
+    DBCollection collection = _db.getCollection(collectionName);
+
+    return findSingleMatch(collection, key, value);
+  }
+
   protected void singleFieldUpdateWithId(String collectionName, Object id, String fieldName, Object value) {
     BasicDBObject updateQuery = new BasicDBObject(fieldName, value);
 

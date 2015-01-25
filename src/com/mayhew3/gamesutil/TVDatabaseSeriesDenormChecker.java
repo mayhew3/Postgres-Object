@@ -85,7 +85,7 @@ public class TVDatabaseSeriesDenormChecker extends TVDatabaseUtility {
     DBCollection episodesCollection = _db.getCollection("episodes");
     DBCursor cursor = episodesCollection.find(new BasicDBObject("SeriesId", seriesId));
 
-    DBObject seriesObject = findSingleMatch(_db.getCollection("series"), "_id", seriesId);
+    DBObject seriesObject = findSingleMatch("series", "_id", seriesId);
 
     while (cursor.hasNext()) {
       DBObject episode = cursor.next();
