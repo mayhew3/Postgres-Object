@@ -356,6 +356,10 @@ public class TVDBUpdater extends TVDatabaseUtility {
 
         _db.getCollection("series").update(queryObject, new BasicDBObject("$addToSet", updateObject));
 
+        BasicDBObject incObject = new BasicDBObject();
+        updateSeriesDenorms(added, incObject);
+
+        _db.getCollection("series").update(queryObject, new BasicDBObject("$inc", incObject));
       }
     }
 
@@ -367,59 +371,15 @@ public class TVDBUpdater extends TVDatabaseUtility {
   }
 
 
-  private void updateSeriesDenorms(DBObject episodeObject, Object tvdbId, BasicDBObject setObject, BasicDBObject incObject, Object lastUnwatched, Object mostRecent) {
+  private void updateSeriesDenorms(Boolean added, BasicDBObject incObject) {
 
-    Object onTiVo = episodeObject.get("OnTiVo");
-    Object suggestion = episodeObject.get("TiVoSuggestion");
-    Object showingStartTime = episodeObject.get("TiVoShowingStartTime");
-    Object deletedDate = episodeObject.get("TiVoDeletedDate");
-    Object watched = episodeObject.get("Watched");
-
-    if (Boolean.TRUE.equals(onTiVo)) {
-
-
-      if (tvdbId == null) {
-        incObject.append("UnmatchedEpisodes", 1);
-      } else {
-        incObject.append("MatchedEpisodes", 1);
-
-        Date showingStartTimeDate = (Date) showingStartTime;
-        if (deletedDate == null) {
-          incObject.append("ActiveEpisodes", 1);
-
-          if (Boolean.TRUE.equals(watched)) {
-            incObject.append("WatchedEpisodes", 1);
-          } else {
-            incObject.append("UnwatchedEpisodes", 1);
-
-            if (shouldOverrideDate(lastUnwatched, showingStartTimeDate)) {
-              setObject.append("LastUnwatched", showingStartTimeDate);
-            }
-          }
-
-          if (shouldOverrideDate(mostRecent, showingStartTimeDate)) {
-            setObject.append("MostRecent", showingStartTimeDate);
-          }
-        } else {
-          incObject.append("DeletedEpisodes", 1);
-        }
-        if (Boolean.TRUE.equals(suggestion)) {
-          incObject.append("SuggestionEpisodes", 1);
-        }
-      }
-
+    if (added) {
+      incObject.append("tvdbOnlyEpisodes", 1);
+      incObject.append("UnwatchedUnrecorded", 1);
     } else {
-      if (tvdbId != null) {
-        incObject.append("tvdbOnlyEpisodes", 1);
-        if (!Boolean.TRUE.equals(watched)) {
-          incObject.append("UnwatchedUnrecorded", 1);
-        }
-      }
+      incObject.append("MatchedEpisodes", 1);
+      incObject.append("UnmatchedEpisodes", -1);
     }
-  }
-
-  private Boolean shouldOverrideDate(Object oldDate, Date newDate) {
-    return oldDate == null || ((Date) oldDate).before(newDate);
   }
 
 
