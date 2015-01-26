@@ -441,6 +441,7 @@ public class TVDBUpdater extends TVDatabaseUtility {
   }
 
 
+  // todo: Handle finding two TiVo matches.
   private DBObject findTiVoMatch(String episodeTitle, String tvdbSeasonStr, String tvdbEpisodeNumberStr, String firstAiredStr, Object seriesId) {
     List<DBObject> matchingEpisodes = new ArrayList<>();
 
