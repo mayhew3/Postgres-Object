@@ -96,12 +96,15 @@ public class TVDatabaseSeriesDenormChecker extends TVDatabaseUtility {
       Object deletedDate = episode.get("TiVoDeletedDate");
       Object watched = episode.get("Watched");
       Object tvdbId = episode.get("tvdbEpisodeId");
+      Object matchingStump = episode.get("MatchingStump");
 
       if (Boolean.TRUE.equals(onTiVo)) {
 
 
         if (tvdbId == null) {
-          unmatchedEpisodes++;
+          if (!Boolean.TRUE.equals(matchingStump)) {
+            unmatchedEpisodes++;
+          }
         } else {
           matchedEpisodes++;
 
