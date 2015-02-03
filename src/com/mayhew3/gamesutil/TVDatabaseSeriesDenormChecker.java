@@ -88,19 +88,17 @@ public class TVDatabaseSeriesDenormChecker extends TVDatabaseUtility {
     DBObject seriesObject = findSingleMatch("series", "_id", seriesId);
 
     while (cursor.hasNext()) {
-      DBObject episode = cursor.next();
+      Episode episode = new Episode(cursor.next());
 
-      Object onTiVo = episode.get("OnTiVo");
-      Object suggestion = episode.get("TiVoSuggestion");
-      Object showingStartTime = episode.get("TiVoShowingStartTime");
-      Object deletedDate = episode.get("TiVoDeletedDate");
-      Object watched = episode.get("Watched");
-      Object tvdbId = episode.get("tvdbEpisodeId");
-      Object matchingStump = episode.get("MatchingStump");
+      Boolean onTiVo = episode.onTiVo.getValue();
+      Boolean suggestion = episode.tiVoSuggestion.getValue();
+      Date showingStartTime = episode.tiVoShowingStartTime.getValue();
+      Date deletedDate = episode.tiVoDeletedDate.getValue();
+      Boolean watched = episode.watched.getValue();
+      String tvdbId = episode.tvdbEpisodeId.getValue();
+      Boolean matchingStump = episode.matchedStump.getValue();
 
       if (Boolean.TRUE.equals(onTiVo)) {
-
-
         if (tvdbId == null) {
           if (!Boolean.TRUE.equals(matchingStump)) {
             unmatchedEpisodes++;
@@ -108,7 +106,6 @@ public class TVDatabaseSeriesDenormChecker extends TVDatabaseUtility {
         } else {
           matchedEpisodes++;
 
-          Date showingStartTimeDate = (Date) showingStartTime;
           if (deletedDate == null) {
             activeEpisodes++;
 
@@ -117,13 +114,13 @@ public class TVDatabaseSeriesDenormChecker extends TVDatabaseUtility {
             } else {
               unwatchedEpisodes++;
 
-              if (lastUnwatched == null || lastUnwatched.before(showingStartTimeDate)) {
-                lastUnwatched = showingStartTimeDate;
+              if (lastUnwatched == null || lastUnwatched.before(showingStartTime)) {
+                lastUnwatched = showingStartTime;
               }
             }
 
-            if (mostRecent == null || mostRecent.before(showingStartTimeDate)) {
-              mostRecent = showingStartTimeDate;
+            if (mostRecent == null || mostRecent.before(showingStartTime)) {
+              mostRecent = showingStartTime;
             }
           } else {
             deletedEpisodes++;

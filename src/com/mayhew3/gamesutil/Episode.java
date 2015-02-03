@@ -10,22 +10,22 @@ public class Episode {
 
   List<FieldValue> allFieldValues = new ArrayList<>();
 
-  FieldValue<Date> DATE_ADDED = registerDateField("DateAdded");
-  FieldValue<Date> WATCHED_DATE = registerDateField("WatchedDate");
+  FieldValue<Date> dateAdded = registerDateField("DateAdded");
+  FieldValue<Date> watchedDate = registerDateField("WatchedDate");
 
-  FieldValue<Date> TIVO_SHOWING_START_TIME = registerDateField("TiVoShowingStartTime");
-  FieldValue<Date> TIVO_DELETED_DATE = registerDateField("TiVoDeletedDate");
-  FieldValue<Date> TIVO_CAPTURE_DATE = registerDateField("TiVoCaptureDate");
+  FieldValue<Date> tiVoShowingStartTime = registerDateField("TiVoShowingStartTime");
+  FieldValue<Date> tiVoDeletedDate = registerDateField("TiVoDeletedDate");
+  FieldValue<Date> tiVoCaptureDate = registerDateField("TiVoCaptureDate");
 
-  FieldValue<Date> TVDB_FIRST_AIRED = registerDateField("tvdbFirstAired");
+  FieldValue<Date> tvdbFirstAired = registerDateField("tvdbFirstAired");
 
-  FieldValue<String> TivoEpisodeTitle = registerStringField("TivoEpisodeTitle");
+  FieldValue<String> tivoEpisodeTitle = registerStringField("TivoEpisodeTitle");
+  FieldValue<String> tvdbEpisodeId = registerStringField("tvdbEpisodeId");
 
-
-
-  FieldValue<Boolean> ON_TIVO = registerBooleanField("OnTiVo");
-  FieldValue<Boolean> WATCHED = registerBooleanField("Watched");
-  FieldValue<Boolean> MATCHED_STUMP = registerBooleanField("MatchedStump");
+  FieldValue<Boolean> onTiVo = registerBooleanField("OnTiVo");
+  FieldValue<Boolean> watched = registerBooleanField("Watched");
+  FieldValue<Boolean> tiVoSuggestion = registerBooleanField("TiVoSuggestion");
+  FieldValue<Boolean> matchedStump = registerBooleanField("MatchedStump");
 
 
   public Episode(DBObject dbObject) {
@@ -55,6 +55,12 @@ public class Episode {
     FieldValue<Date> fieldBooleanValue = new FieldValue<>(fieldName, new FieldConversionDate());
     allFieldValues.add(fieldBooleanValue);
     return fieldBooleanValue;
+  }
+
+  protected final FieldValue<Integer> registerIntegerField(String fieldName) {
+    FieldValue<Integer> fieldIntegerValue = new FieldValue<>(fieldName, new FieldConversionInteger());
+    allFieldValues.add(fieldIntegerValue);
+    return fieldIntegerValue;
   }
 
   protected final FieldValue<String> registerStringField(String fieldName) {
