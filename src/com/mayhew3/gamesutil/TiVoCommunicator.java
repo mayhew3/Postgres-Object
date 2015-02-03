@@ -81,9 +81,6 @@ public class TiVoCommunicator extends TVDatabaseUtility {
     } catch (SAXException | IOException e) {
       debug("Error reading from URL: " + fullURL);
       e.printStackTrace();
-    } catch (EpisodeAlreadyFoundException e) {
-      debug(e.getLocalizedMessage());
-      debug("Execution found episode already in database. Stopping.");
     }
 
     if (lookAtAllShows) {
@@ -126,26 +123,33 @@ public class TiVoCommunicator extends TVDatabaseUtility {
     }
   }
 
-  private boolean parseShowsFromDocument(Document document) throws EpisodeAlreadyFoundException {
+  private boolean parseShowsFromDocument(Document document) {
     NodeList nodeList = document.getChildNodes();
 
     Node tivoContainer = getNodeWithTag(nodeList, "TiVoContainer");
     NodeList childNodes = tivoContainer.getChildNodes();
+
+    Boolean shouldBeLastDocument = false;
 
     Integer showNumber = 0;
     for (int i = 0; i < childNodes.getLength(); i++) {
       Node item = childNodes.item(i);
       if (item.getNodeName().equals("Item")) {
         NodeList showAttributes = item.getChildNodes();
-        parseAndUpdateSingleShow(showAttributes);
+        Boolean alreadyExists = parseAndUpdateSingleShow(showAttributes);
+        if (alreadyExists) {
+          shouldBeLastDocument = true;
+        }
         showNumber++;
       }
     }
 
-    return showNumber == 50;
+    return !shouldBeLastDocument && showNumber == 50;
   }
 
-  private void parseAndUpdateSingleShow(NodeList showAttributes) throws EpisodeAlreadyFoundException {
+  private Boolean parseAndUpdateSingleShow(NodeList showAttributes) {
+    Boolean thisEpisodeExists = false;
+
     Map<String, String> attributeMap = Maps.newHashMap();
 
     attributeMap.put("CaptureDate", "TiVoCaptureDate");
@@ -244,8 +248,7 @@ public class TiVoCommunicator extends TVDatabaseUtility {
           }
         }
         if (!lookAtAllShows) {
-          debug("Found existing recording with id '" + programId + "'. Ending session.");
-          throw new EpisodeAlreadyFoundException("Episode found with ID " + programId);
+          thisEpisodeExists = true;
         }
       } else {
         String episodeTitle = (String) newEpisodeObject.get("TiVoEpisodeTitle");
@@ -285,6 +288,7 @@ public class TiVoCommunicator extends TVDatabaseUtility {
 
     }
 
+    return thisEpisodeExists;
   }
 
   private void updateSeriesDenorms(DBObject episodeObject, Object tvdbId, BasicDBObject setObject, BasicDBObject incObject, Object lastUnwatched, Object mostRecent) {
@@ -343,7 +347,7 @@ public class TiVoCommunicator extends TVDatabaseUtility {
   }
 
 
-  private DBCursor getExistingTiVoEpisodes(String programId) throws EpisodeAlreadyFoundException {
+  private DBCursor getExistingTiVoEpisodes(String programId) {
     DBCollection collection = _db.getCollection("episodes");
 
     return collection.find(new BasicDBObject("TiVoProgramId", programId));
