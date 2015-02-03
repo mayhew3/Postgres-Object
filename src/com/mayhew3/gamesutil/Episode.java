@@ -2,13 +2,9 @@ package com.mayhew3.gamesutil;
 
 import com.mongodb.DBObject;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
-public class Episode {
-
-  List<FieldValue> allFieldValues = new ArrayList<>();
+public class Episode extends MediaObject {
 
   FieldValue<Date> dateAdded = registerDateField("DateAdded");
   FieldValue<Date> watchedDate = registerDateField("WatchedDate");
@@ -29,43 +25,6 @@ public class Episode {
 
 
   public Episode(DBObject dbObject) {
-    for (FieldValue fieldValue : allFieldValues) {
-      Object obj = dbObject.get(fieldValue.getFieldName());
-      if (obj instanceof String) {
-        fieldValue.setValueFromString((String) obj);
-      } else {
-        fieldValue.setValue(obj);
-      }
-    }
-  }
-
-  protected final <G> FieldValue<G> registerField(String fieldName, FieldConversion<G> converter) {
-    FieldValue<G> fieldValue = new FieldValue<>(fieldName, converter);
-    allFieldValues.add(fieldValue);
-    return fieldValue;
-  }
-
-  protected final FieldValue<Boolean> registerBooleanField(String fieldName) {
-    FieldValue<Boolean> fieldBooleanValue = new FieldValueBoolean(fieldName, new FieldConversionBoolean());
-    allFieldValues.add(fieldBooleanValue);
-    return fieldBooleanValue;
-  }
-
-  protected final FieldValue<Date> registerDateField(String fieldName) {
-    FieldValue<Date> fieldBooleanValue = new FieldValue<>(fieldName, new FieldConversionDate());
-    allFieldValues.add(fieldBooleanValue);
-    return fieldBooleanValue;
-  }
-
-  protected final FieldValue<Integer> registerIntegerField(String fieldName) {
-    FieldValue<Integer> fieldIntegerValue = new FieldValue<>(fieldName, new FieldConversionInteger());
-    allFieldValues.add(fieldIntegerValue);
-    return fieldIntegerValue;
-  }
-
-  protected final FieldValue<String> registerStringField(String fieldName) {
-    FieldValue<String> fieldBooleanValue = new FieldValue<>(fieldName, new FieldConversionString());
-    allFieldValues.add(fieldBooleanValue);
-    return fieldBooleanValue;
+    super(dbObject);
   }
 }
