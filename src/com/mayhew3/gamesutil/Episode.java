@@ -1,7 +1,5 @@
 package com.mayhew3.gamesutil;
 
-import com.mongodb.DBObject;
-
 import java.util.Date;
 
 public class Episode extends MediaObject {
@@ -23,8 +21,4 @@ public class Episode extends MediaObject {
   FieldValue<Boolean> tiVoSuggestion = registerBooleanField("TiVoSuggestion");
   FieldValue<Boolean> matchedStump = registerBooleanField("MatchedStump");
 
-
-  public Episode(DBObject dbObject) {
-    super(dbObject);
-  }
 }

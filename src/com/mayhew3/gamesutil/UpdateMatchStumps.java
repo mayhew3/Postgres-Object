@@ -35,7 +35,8 @@ public class UpdateMatchStumps extends TVDatabaseUtility {
     if (cursor.hasNext()) {
       DBObject next = cursor.next();
 
-      Episode episode = new Episode(next);
+      Episode episode = new Episode();
+      episode.initializeFromDBObject(next);
       Date showingStartTime = episode.tiVoShowingStartTime.getValue();
       Boolean watched = episode.tiVoSuggestion.getValue();
       Date dateAdded = episode.dateAdded.getValue();

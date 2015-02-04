@@ -1,7 +1,5 @@
 package com.mayhew3.gamesutil;
 
-import com.mongodb.DBObject;
-
 import java.util.Date;
 
 public class Series extends MediaObject {
@@ -20,7 +18,4 @@ public class Series extends MediaObject {
   FieldValue<Date> mostRecent = registerDateField("MostRecent");
 
 
-  public Series(DBObject dbObject) {
-    super(dbObject);
-  }
 }

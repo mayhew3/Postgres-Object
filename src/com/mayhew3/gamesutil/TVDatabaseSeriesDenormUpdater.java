@@ -86,7 +86,8 @@ public class TVDatabaseSeriesDenormUpdater extends TVDatabaseUtility {
     DBCursor cursor = episodesCollection.find(new BasicDBObject("SeriesId", seriesId));
 
     while (cursor.hasNext()) {
-      Episode episode = new Episode(cursor.next());
+      Episode episode = new Episode();
+      episode.initializeFromDBObject(cursor.next());
 
       Boolean onTiVo = episode.onTiVo.getValue();
       Boolean suggestion = episode.tiVoSuggestion.getValue();

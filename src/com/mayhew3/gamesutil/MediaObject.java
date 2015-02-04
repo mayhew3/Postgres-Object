@@ -13,7 +13,7 @@ public abstract class MediaObject {
 
   FieldValue<ObjectId> _id = registerObjectIdField("_id");
 
-  public MediaObject(DBObject dbObject) {
+  public void initializeFromDBObject(DBObject dbObject) {
     for (FieldValue fieldValue : allFieldValues) {
       String fieldName = fieldValue.getFieldName();
       Object obj = dbObject.get(fieldName);
