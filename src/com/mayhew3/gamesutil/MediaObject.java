@@ -1,6 +1,9 @@
 package com.mayhew3.gamesutil;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DB;
 import com.mongodb.DBObject;
+import com.mongodb.WriteResult;
 import org.bson.types.ObjectId;
 
 import java.util.ArrayList;
@@ -11,42 +14,66 @@ public abstract class MediaObject {
 
   List<FieldValue> allFieldValues = new ArrayList<>();
 
-  FieldValue<ObjectId> _id = registerObjectIdField("_id");
+  FieldValue<ObjectId> _id = new FieldValue<>("_id", new FieldConversionMongoId());
 
   public void initializeFromDBObject(DBObject dbObject) {
+
+    Object existingId = dbObject.get("_id");
+
+    if (existingId == null) {
+      throw new RuntimeException("DBObject found with no valid _id field.");
+    }
+
+    initializeValue(_id, existingId);
+
     for (FieldValue fieldValue : allFieldValues) {
       String fieldName = fieldValue.getFieldName();
       Object obj = dbObject.get(fieldName);
 
-      if ("_id".equals(fieldName) && obj == null) {
-        throw new RuntimeException("DBObject found with no valid _id field.");
-      }
-
-      if (obj instanceof String) {
-        fieldValue.setValueFromString((String) obj);
-      } else {
-        fieldValue.setValue(obj);
-      }
+      initializeValue(fieldValue, obj);
     }
   }
 
-  public Object getValueByFieldName(String fieldName) {
-    if (fieldName == null) {
-      return null;
+  private void initializeValue(FieldValue fieldValue, Object obj) {
+    if (obj instanceof String) {
+      fieldValue.initializeValueFromString((String) obj);
+    } else {
+      fieldValue.initializeValue(obj);
     }
+  }
+
+  public void commit(DB db) {
+    if (_id.isChanged()) {
+      throw new RuntimeException("Cannot change _id field on existing object.");
+    }
+    BasicDBObject queryObject = new BasicDBObject("_id", _id.getValue());
+    BasicDBObject updateObject = new BasicDBObject();
+
+    List<FieldValue> changedFields = new ArrayList<>();
+
     for (FieldValue fieldValue : allFieldValues) {
-      if (fieldName.equals(fieldValue.getFieldName())) {
-        return fieldValue.getValue();
+      if (fieldValue.isChanged()) {
+        updateObject.append(fieldValue.getFieldName(), fieldValue.getChangedValue());
+        changedFields.add(fieldValue);
       }
     }
-    return null;
+    if (!updateObject.isEmpty()) {
+      updateDatabase(db, queryObject, updateObject);
+      updateObjects(changedFields);
+    }
   }
 
-  protected final <G> FieldValue<G> registerField(String fieldName, FieldConversion<G> converter) {
-    FieldValue<G> fieldValue = new FieldValue<>(fieldName, converter);
-    allFieldValues.add(fieldValue);
-    return fieldValue;
+  private void updateObjects(List<FieldValue> changedFields) {
+    for (FieldValue changedField : changedFields) {
+      changedField.updateInternal();
+    }
   }
+
+  private WriteResult updateDatabase(DB db, BasicDBObject queryObject, BasicDBObject updateObject) {
+    return db.getCollection(getTableName()).update(queryObject, new BasicDBObject("$set", updateObject));
+  }
+
+  protected abstract String getTableName();
 
   protected final FieldValue<Boolean> registerBooleanField(String fieldName) {
     FieldValue<Boolean> fieldBooleanValue = new FieldValueBoolean(fieldName, new FieldConversionBoolean());
@@ -64,12 +91,6 @@ public abstract class MediaObject {
     FieldValue<Integer> fieldIntegerValue = new FieldValue<>(fieldName, new FieldConversionInteger());
     allFieldValues.add(fieldIntegerValue);
     return fieldIntegerValue;
-  }
-
-  protected final FieldValue<ObjectId> registerObjectIdField(String fieldName) {
-    FieldValue<ObjectId> fieldObjectIdValue = new FieldValue<>(fieldName, new FieldConversionMongoId());
-    allFieldValues.add(fieldObjectIdValue);
-    return fieldObjectIdValue;
   }
 
   protected final FieldValue<String> registerStringField(String fieldName) {

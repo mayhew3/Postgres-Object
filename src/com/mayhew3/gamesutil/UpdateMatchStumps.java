@@ -37,13 +37,13 @@ public class UpdateMatchStumps extends TVDatabaseUtility {
 
       Episode episode = new Episode();
       episode.initializeFromDBObject(next);
-      Date showingStartTime = episode.tiVoShowingStartTime.getValue();
-      Boolean watched = episode.tiVoSuggestion.getValue();
-      Date dateAdded = episode.dateAdded.getValue();
+      Date showingStartTime = episode.tiVoShowingStartTime.getOriginalValue();
+      Boolean watched = episode.tiVoSuggestion.getOriginalValue();
+      Date dateAdded = episode.dateAdded.getOriginalValue();
 
-      Date firstAired = episode.tvdbFirstAired.getValue();
+      Date firstAired = episode.tvdbFirstAired.getOriginalValue();
 
-      String episodeTitle = episode.tivoEpisodeTitle.getValue();
+      String episodeTitle = episode.tivoEpisodeTitle.getOriginalValue();
 
       int poop = 0;
     }

@@ -66,7 +66,7 @@ public class TVDatabaseSeriesDenormUpdater extends TVDatabaseUtility {
     updateEpisodeCounts(show);
   }
 
-  private void updateEpisodeCounts(DBObject series) {
+  private void updateEpisodeCounts(DBObject seriesObj) {
     Integer activeEpisodes = 0;
     Integer deletedEpisodes = 0;
     Integer suggestionEpisodes = 0;
@@ -80,7 +80,7 @@ public class TVDatabaseSeriesDenormUpdater extends TVDatabaseUtility {
     Integer tvdbOnly = 0;
     Integer matchedEpisodes = 0;
 
-    Object seriesId = series.get("_id");
+    Object seriesId = seriesObj.get("_id");
 
     DBCollection episodesCollection = _db.getCollection("episodes");
     DBCursor cursor = episodesCollection.find(new BasicDBObject("SeriesId", seriesId));
@@ -141,21 +141,28 @@ public class TVDatabaseSeriesDenormUpdater extends TVDatabaseUtility {
       }
     }
 
-    BasicDBObject updateObject = new BasicDBObject()
-        .append("ActiveEpisodes", activeEpisodes)
-        .append("DeletedEpisodes", deletedEpisodes)
-        .append("SuggestionEpisodes", suggestionEpisodes)
-        .append("UnmatchedEpisodes", unmatchedEpisodes)
-        .append("WatchedEpisodes", watchedEpisodes)
-        .append("UnwatchedEpisodes", unwatchedEpisodes)
-        .append("UnwatchedUnrecorded", unwatchedUnrecorded)
-        .append("tvdbOnlyEpisodes", tvdbOnly)
-        .append("MatchedEpisodes", matchedEpisodes)
-        .append("LastUnwatched", (lastUnwatched == null) ? null : lastUnwatched)
-        .append("MostRecent", (mostRecent == null) ? null : mostRecent)
-        ;
+    Series series = new Series();
+    series.initializeFromDBObject(seriesObj);
 
-    updateObjectWithId("series", seriesId, updateObject);
+    series.activeEpisodes.changeValue(activeEpisodes);
+
+    series.deletedEpisodes.changeValue(deletedEpisodes);
+    series.suggestionEpisodes.changeValue(suggestionEpisodes);
+    series.unmatchedEpisodes.changeValue(unmatchedEpisodes);
+    series.watchedEpisodes.changeValue(watchedEpisodes);
+    series.unwatchedEpisodes.changeValue(unwatchedEpisodes);
+    series.unwatchedUnrecorded.changeValue(unwatchedUnrecorded);
+    series.tvdbOnlyEpisodes.changeValue(tvdbOnly);
+    series.matchedEpisodes.changeValue(matchedEpisodes);
+    series.lastUnwatched.changeValue((lastUnwatched == null) ? null : lastUnwatched);
+    series.mostRecent.changeValue((mostRecent == null) ? null : mostRecent);
+
+    series.commit(_db);
+
+  }
+
+  private void incrementValue(FieldValue<Integer> fieldValue) {
+
   }
 
   private void updateTiVoName(ObjectId seriesId, String seriesTitle, String tivoId, Object tivoName) {

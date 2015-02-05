@@ -6,7 +6,7 @@ public class FieldValueBoolean extends FieldValue<Boolean> {
   }
 
   @Override
-  public void setValue(Boolean value) {
-    super.setValue((value == null) ? false : value);
+  public void initializeValue(Boolean value) {
+    super.initializeValue((value == null) ? false : value);
   }
 }

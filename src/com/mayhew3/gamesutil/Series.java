@@ -17,5 +17,11 @@ public class Series extends MediaObject {
   FieldValue<Date> lastUnwatched = registerDateField("LastUnwatched");
   FieldValue<Date> mostRecent = registerDateField("MostRecent");
 
+  FieldValue<String> seriesTitle = registerStringField("SeriesTitle");
+
+  @Override
+  protected String getTableName() {
+    return "series";
+  }
 
 }

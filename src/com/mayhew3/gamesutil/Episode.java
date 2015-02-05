@@ -21,4 +21,8 @@ public class Episode extends MediaObject {
   FieldValue<Boolean> tiVoSuggestion = registerBooleanField("TiVoSuggestion");
   FieldValue<Boolean> matchedStump = registerBooleanField("MatchedStump");
 
+  @Override
+  protected String getTableName() {
+    return "episodes";
+  }
 }
