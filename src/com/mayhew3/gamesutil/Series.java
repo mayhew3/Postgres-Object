@@ -16,6 +16,11 @@ public class Series extends MediaObject {
 
   FieldValue<Date> lastUnwatched = registerDateField("LastUnwatched");
   FieldValue<Date> mostRecent = registerDateField("MostRecent");
+  FieldValue<Date> tvdbFirstAired = registerDateField("tvdbFirstAired");
+
+  FieldValue<Integer> tvdbId = registerIntegerField("tvdbId");
+  FieldValue<Integer> tvdbRatingCount = registerIntegerField("tvdbRatingCount");
+  FieldValue<Integer> tvdbRuntime = registerIntegerField("tvdbRuntime");
 
   FieldValue<String> seriesTitle = registerStringField("SeriesTitle");
 
@@ -24,4 +29,8 @@ public class Series extends MediaObject {
     return "series";
   }
 
+  @Override
+  public String toString() {
+    return seriesTitle.getValue();
+  }
 }
