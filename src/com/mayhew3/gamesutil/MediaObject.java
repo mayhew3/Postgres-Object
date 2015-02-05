@@ -73,6 +73,14 @@ public abstract class MediaObject {
     return db.getCollection(getTableName()).update(queryObject, new BasicDBObject("$set", updateObject));
   }
 
+  public void markFieldsForUpgrade() {
+    for (FieldValue fieldValue : allFieldValues) {
+      if (fieldValue.shouldUpgradeText()) {
+        fieldValue.changeValue(fieldValue.getOriginalValue());
+      }
+    }
+  }
+
   protected abstract String getTableName();
 
   protected final FieldValue<Boolean> registerBooleanField(String fieldName) {
@@ -94,7 +102,7 @@ public abstract class MediaObject {
   }
 
   protected final FieldValue<String> registerStringField(String fieldName) {
-    FieldValue<String> fieldBooleanValue = new FieldValue<>(fieldName, new FieldConversionString());
+    FieldValue<String> fieldBooleanValue = new FieldValueString(fieldName, new FieldConversionString());
     allFieldValues.add(fieldBooleanValue);
     return fieldBooleanValue;
   }

@@ -94,7 +94,7 @@ public class TVDatabaseSeriesDenormUpdater extends TVDatabaseUtility {
       Date showingStartTime = episode.tiVoShowingStartTime.getValue();
       Date deletedDate = episode.tiVoDeletedDate.getValue();
       Boolean watched = episode.watched.getValue();
-      String tvdbId = episode.tvdbEpisodeId.getValue();
+      Integer tvdbId = episode.tvdbEpisodeId.getValue();
       Boolean matchingStump = episode.matchedStump.getValue();
 
       if (Boolean.TRUE.equals(onTiVo)) {

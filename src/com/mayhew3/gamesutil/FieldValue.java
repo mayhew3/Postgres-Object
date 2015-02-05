@@ -8,6 +8,9 @@ public class FieldValue<T> {
   private T changedValue;
   private FieldConversion<T> converter;
 
+  private Boolean wasText = false;
+  protected Boolean isText = false;
+
   public FieldValue(String fieldName, FieldConversion<T> converter) {
     this.fieldName = fieldName;
     this.converter = converter;
@@ -27,6 +30,7 @@ public class FieldValue<T> {
 
   protected void initializeValueFromString(String valueString) {
     this.originalValue = converter.setValue(valueString);
+    this.wasText = true;
   }
 
   public String getFieldName() {
@@ -47,7 +51,15 @@ public class FieldValue<T> {
   }
 
   public Boolean isChanged() {
-    return changedValue != null && !Objects.equals(originalValue, changedValue);
+    return shouldUpgradeText() || valueHasChanged();
+  }
+
+  private boolean valueHasChanged() {
+    return (changedValue != null && !Objects.equals(originalValue, changedValue));
+  }
+
+  protected boolean shouldUpgradeText() {
+    return (originalValue != null && wasText && !isText);
   }
 
   public void updateInternal() {
