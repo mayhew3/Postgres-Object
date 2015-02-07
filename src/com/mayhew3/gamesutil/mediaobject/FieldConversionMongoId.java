@@ -1,4 +1,4 @@
-package com.mayhew3.gamesutil;
+package com.mayhew3.gamesutil.mediaobject;
 
 import org.bson.types.ObjectId;
 

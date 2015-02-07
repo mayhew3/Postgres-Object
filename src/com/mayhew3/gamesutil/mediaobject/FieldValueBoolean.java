@@ -1,4 +1,4 @@
-package com.mayhew3.gamesutil;
+package com.mayhew3.gamesutil.mediaobject;
 
 public class FieldValueBoolean extends FieldValue<Boolean> {
   public FieldValueBoolean(String fieldName, FieldConversion<Boolean> converter) {

@@ -1,5 +1,6 @@
 package com.mayhew3.gamesutil;
 
+import com.mayhew3.gamesutil.mediaobject.Episode;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
@@ -18,10 +19,7 @@ public class TVDatabaseSeriesDenormChecker extends TVDatabaseUtility {
   }
 
   public static void main(String[] args) {
-
-
     try {
-
       TVDatabaseSeriesDenormChecker updater = new TVDatabaseSeriesDenormChecker();
 
       updater.updateFields();

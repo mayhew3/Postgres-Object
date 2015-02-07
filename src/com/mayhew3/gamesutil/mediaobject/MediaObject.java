@@ -1,4 +1,4 @@
-package com.mayhew3.gamesutil;
+package com.mayhew3.gamesutil.mediaobject;
 
 import com.mongodb.*;
 import org.bson.types.ObjectId;
@@ -15,8 +15,8 @@ public abstract class MediaObject {
 
   List<FieldValue> allFieldValues = new ArrayList<>();
 
-  FieldValue<ObjectId> _id = new FieldValue<>("_id", new FieldConversionMongoId());
-  FieldValue<Date> dateAdded = registerDateField("DateAdded");
+  public FieldValue<ObjectId> _id = new FieldValue<>("_id", new FieldConversionMongoId());
+  public FieldValue<Date> dateAdded = registerDateField("DateAdded");
 
   public void initializeFromDBObject(DBObject dbObject) {
     editMode = EditMode.UPDATE;
