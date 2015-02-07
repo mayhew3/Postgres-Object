@@ -48,7 +48,7 @@ public class TVDBUpdater extends TVDatabaseUtility {
         .append("IsSuggestion", false)
         .append("IgnoreTVDB", new BasicDBObject("$ne", true))
         .append("SeriesId", new BasicDBObject("$exists", true))
-        .append("SeriesTitle", "Fresh Off the Boat")
+        .append("SeriesTitle", "Kroll Show")
         .append("IsEpisodic", true);
 
     DBCollection untaggedShows = _db.getCollection("series");
@@ -298,6 +298,8 @@ public class TVDBUpdater extends TVDatabaseUtility {
       Boolean matched = false;
       Boolean added = false;
 
+      Date showingStartTime = null;
+
       Episode episode = new Episode();
 
       if (existingEpisodeObj == null) {
@@ -309,13 +311,13 @@ public class TVDBUpdater extends TVDatabaseUtility {
         } else {
           episode = tiVoMatch;
           matched = true;
+          showingStartTime = episode.tiVoShowingStartTime.getValue();
         }
       } else {
         episode.initializeFromDBObject(existingEpisodeObj);
       }
 
-      // todo: loop through fields on DBObject to find changed values. Only change those values. Only run
-      // todo: update if there are more than 0 changed fields. Add log entry for when TVDB values change.
+      // todo: Add log entry for when TVDB values change.
 
       episode.seriesId.changeValue(seriesId);
       episode.tivoSeriesId.changeValueFromString(tivoSeriesId);
@@ -360,7 +362,7 @@ public class TVDBUpdater extends TVDatabaseUtility {
         // add manual reference to episode to episodes array.
 
         series.episodes.addToArray(episodeId);
-        updateSeriesDenorms(added, matched, series);
+        updateSeriesDenorms(added, matched, series, showingStartTime);
 
         series.commit(_db);
       }
@@ -374,7 +376,7 @@ public class TVDBUpdater extends TVDatabaseUtility {
   }
 
 
-  private void updateSeriesDenorms(Boolean added, Boolean matched, Series series) {
+  private void updateSeriesDenorms(Boolean added, Boolean matched, Series series, Date showingStartTime) {
     if (added) {
       series.tvdbOnlyEpisodes.changeValue(series.tvdbOnlyEpisodes.getValue() + 1);
       series.unwatchedUnrecorded.changeValue(series.unwatchedUnrecorded.getValue() + 1);
@@ -382,6 +384,18 @@ public class TVDBUpdater extends TVDatabaseUtility {
     if (matched) {
       series.matchedEpisodes.changeValue(series.matchedEpisodes.getValue() + 1);
       series.unmatchedEpisodes.changeValue(series.unmatchedEpisodes.getValue() - 1);
+      series.activeEpisodes.changeValue(series.activeEpisodes.getValue() + 1);
+      series.unwatchedEpisodes.changeValue(series.unwatchedEpisodes.getValue() + 1);
+
+      Date lastUnwatched = series.lastUnwatched.getValue();
+      Date mostRecent = series.mostRecent.getValue();
+
+      if (lastUnwatched == null || lastUnwatched.before(showingStartTime)) {
+        series.lastUnwatched.changeValue(showingStartTime);
+      }
+      if (mostRecent == null || mostRecent.before(showingStartTime)) {
+        series.mostRecent.changeValue(showingStartTime);
+      }
     }
   }
 

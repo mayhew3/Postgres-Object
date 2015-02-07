@@ -21,20 +21,31 @@ public class FieldValue<T> {
   }
 
   public T getValue() {
-    return changedValue == null ? originalValue : changedValue;
+    return changedValue;
   }
 
   protected void initializeValue(T value) {
     this.originalValue = value;
+    this.changedValue = value;
   }
 
   protected void initializeValueFromString(String valueString) {
-    this.originalValue = converter.parseFromString(valueString);
+    T convertedValue = getConversion(valueString);
+    initializeValue(convertedValue);
+
     this.wasText = true;
   }
 
+  private T getConversion(String valueString) {
+    try {
+      return converter.parseFromString(valueString);
+    } catch (NumberFormatException e) {
+      throw new RuntimeException("Error converting " + fieldName + " field with value " + valueString + " to Number.");
+    }
+  }
+
   public void changeValueFromString(String valueString) {
-    this.changedValue = converter.parseFromString(valueString);
+    this.changedValue = getConversion(valueString);
   }
 
   public String getFieldName() {
@@ -51,17 +62,15 @@ public class FieldValue<T> {
   }
 
   public void discardChange() {
-    changedValue = null;
+    changedValue = originalValue;
   }
 
   public Boolean isChanged() {
     return shouldUpgradeText() || valueHasChanged();
   }
 
-  // todo: come up with way to signify the value should be made null from non-null. Might just be
-  // todo: better to have changedValue start as same as original.
   private boolean valueHasChanged() {
-    return (changedValue != null && !Objects.equals(originalValue, changedValue));
+    return !Objects.equals(originalValue, changedValue);
   }
 
   protected boolean shouldUpgradeText() {
@@ -70,7 +79,6 @@ public class FieldValue<T> {
 
   public void updateInternal() {
     originalValue = changedValue;
-    changedValue = null;
   }
 
   @Override

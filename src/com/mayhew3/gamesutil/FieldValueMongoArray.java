@@ -12,7 +12,10 @@ public class FieldValueMongoArray extends FieldValue<BasicDBList> {
   public void addToArray(ObjectId value) {
     BasicDBList objectIds = getValue();
     if (!objectIds.contains(value)) {
-      objectIds.add(value);
+      BasicDBList dbList = new BasicDBList();
+      dbList.addAll(objectIds);
+      dbList.add(value);
+      changeValue(dbList);
     }
   }
 
@@ -28,6 +31,9 @@ public class FieldValueMongoArray extends FieldValue<BasicDBList> {
 
   public void removeFromArray(ObjectId value) {
     BasicDBList objectIds = getValue();
-    objectIds.remove(value);
+    BasicDBList dbList = new BasicDBList();
+    dbList.addAll(objectIds);
+    dbList.remove(value);
+    changeValue(dbList);
   }
 }

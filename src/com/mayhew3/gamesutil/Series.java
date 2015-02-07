@@ -22,7 +22,7 @@ public class Series extends MediaObject {
 
   FieldValue<String> seriesId = registerStringField("SeriesId");
   FieldValue<Integer> tvdbId = registerIntegerField("tvdbId");
-  FieldValue<Integer> tvdbSeriesId = registerIntegerField("tvdbSeriesId");
+  FieldValue<String> tvdbSeriesId = registerStringField("tvdbSeriesId");
   FieldValue<Integer> tvdbRatingCount = registerIntegerField("tvdbRatingCount");
   FieldValue<Integer> tvdbRuntime = registerIntegerField("tvdbRuntime");
 
