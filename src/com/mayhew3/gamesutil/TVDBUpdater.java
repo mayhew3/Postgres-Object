@@ -48,7 +48,6 @@ public class TVDBUpdater extends TVDatabaseUtility {
         .append("IsSuggestion", false)
         .append("IgnoreTVDB", new BasicDBObject("$ne", true))
         .append("SeriesId", new BasicDBObject("$exists", true))
-        .append("SeriesTitle", "Kroll Show")
         .append("IsEpisodic", true);
 
     DBCollection untaggedShows = _db.getCollection("series");

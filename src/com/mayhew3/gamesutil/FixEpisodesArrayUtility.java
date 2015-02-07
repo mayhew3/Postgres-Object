@@ -27,7 +27,7 @@ public class FixEpisodesArrayUtility extends TVDatabaseUtility {
   }
 
   public void upgradeRows() {
-    Boolean autoFix = true;
+    Boolean autoFix = false;
 
     DBCollection collection = _db.getCollection("series");
     DBCursor serieses = collection
