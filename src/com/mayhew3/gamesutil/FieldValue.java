@@ -29,8 +29,12 @@ public class FieldValue<T> {
   }
 
   protected void initializeValueFromString(String valueString) {
-    this.originalValue = converter.setValue(valueString);
+    this.originalValue = converter.parseFromString(valueString);
     this.wasText = true;
+  }
+
+  public void changeValueFromString(String valueString) {
+    this.changedValue = converter.parseFromString(valueString);
   }
 
   public String getFieldName() {
@@ -54,6 +58,8 @@ public class FieldValue<T> {
     return shouldUpgradeText() || valueHasChanged();
   }
 
+  // todo: come up with way to signify the value should be made null from non-null. Might just be
+  // todo: better to have changedValue start as same as original.
   private boolean valueHasChanged() {
     return (changedValue != null && !Objects.equals(originalValue, changedValue));
   }

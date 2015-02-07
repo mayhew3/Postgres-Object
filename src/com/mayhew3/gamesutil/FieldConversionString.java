@@ -2,7 +2,7 @@ package com.mayhew3.gamesutil;
 
 public class FieldConversionString extends FieldConversion<String> {
   @Override
-  String setValue(String value) {
+  String parseFromString(String value) {
     return value;
   }
 }

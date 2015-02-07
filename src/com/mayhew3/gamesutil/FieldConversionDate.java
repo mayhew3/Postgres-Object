@@ -6,7 +6,7 @@ import java.util.Date;
 
 public class FieldConversionDate extends FieldConversion<Date> {
   @Override
-  Date setValue(String value) {
+  Date parseFromString(String value) {
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     try {
       return simpleDateFormat.parse(value);
