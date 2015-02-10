@@ -50,7 +50,6 @@ public class TVDBUpdater extends TVDatabaseUtility {
         .append("IsSuggestion", false)
         .append("IgnoreTVDB", new BasicDBObject("$ne", true))
         .append("SeriesId", new BasicDBObject("$exists", true))
-        .append("SeriesTitle", "Better Call Saul")
         .append("IsEpisodic", true);
 
     DBCollection untaggedShows = _db.getCollection("series");
@@ -313,7 +312,7 @@ public class TVDBUpdater extends TVDatabaseUtility {
         } else {
           episode = tiVoMatch;
           matched = true;
-          showingStartTime = episode.tiVoShowingStartTime.getValue();
+          showingStartTime = episode.tivoShowingStartTime.getValue();
         }
       } else {
         episode.initializeFromDBObject(existingEpisodeObj);
@@ -491,7 +490,7 @@ public class TVDBUpdater extends TVDatabaseUtility {
 
       for (Episode episode : episodes) {
 
-        Integer tivoEpisodeNumber = episode.tiVoEpisodeNumber.getValue();
+        Integer tivoEpisodeNumber = episode.tivoEpisodeNumber.getValue();
 
         if (tivoEpisodeNumber != null) {
 
@@ -537,7 +536,7 @@ public class TVDBUpdater extends TVDatabaseUtility {
       DateTime firstAired = new DateTime(firstAiredStr);
 
       for (Episode episode : episodes) {
-        Date showingStartTimeObj = episode.tiVoShowingStartTime.getValue();
+        Date showingStartTimeObj = episode.tivoShowingStartTime.getValue();
 
         if (showingStartTimeObj != null) {
           DateTime showingStartTime = new DateTime(showingStartTimeObj);

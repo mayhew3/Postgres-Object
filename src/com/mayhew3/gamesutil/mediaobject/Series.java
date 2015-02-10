@@ -6,18 +6,6 @@ import java.util.Date;
 
 public class Series extends MediaObject {
 
-  public FieldValueInteger activeEpisodes = registerIntegerField("ActiveEpisodes");
-  public FieldValueInteger deletedEpisodes = registerIntegerField("DeletedEpisodes");
-  public FieldValueInteger suggestionEpisodes = registerIntegerField("SuggestionEpisodes");
-  public FieldValueInteger unmatchedEpisodes = registerIntegerField("UnmatchedEpisodes");
-  public FieldValueInteger watchedEpisodes = registerIntegerField("WatchedEpisodes");
-  public FieldValueInteger unwatchedEpisodes = registerIntegerField("UnwatchedEpisodes");
-  public FieldValueInteger unwatchedUnrecorded = registerIntegerField("UnwatchedUnrecorded");
-  public FieldValueInteger tvdbOnlyEpisodes = registerIntegerField("tvdbOnlyEpisodes");
-  public FieldValueInteger matchedEpisodes = registerIntegerField("MatchedEpisodes");
-
-  public FieldValue<Date> lastUnwatched = registerDateField("LastUnwatched");
-  public FieldValue<Date> mostRecent = registerDateField("MostRecent");
   public FieldValue<Date> tvdbFirstAired = registerDateField("tvdbFirstAired");
 
   public FieldValue<String> seriesId = registerStringField("SeriesId");
@@ -25,6 +13,10 @@ public class Series extends MediaObject {
   public FieldValue<String> tvdbSeriesId = registerStringField("tvdbSeriesId");
   public FieldValueInteger tvdbRatingCount = registerIntegerField("tvdbRatingCount");
   public FieldValueInteger tvdbRuntime = registerIntegerField("tvdbRuntime");
+
+  public FieldValueInteger tier = registerIntegerField("Tier");
+
+
 
   public FieldValue<Double> tvdbRating = registerDoubleField("tvdbRating");
 
@@ -47,7 +39,26 @@ public class Series extends MediaObject {
 
   public FieldValue<BasicDBList> tvdbGenre = registerStringArrayField("tvdbGenre");
 
-  public FieldValue<Boolean> ignoreTVDB = registerBooleanField("IgnoreTVDB");
+  public FieldValueBoolean ignoreTVDB = registerBooleanField("IgnoreTVDB");
+  public FieldValueBoolean isEpisodic = registerBooleanField("IsEpisodic");
+
+
+  /* Denorms */
+
+  public FieldValueInteger activeEpisodes = registerIntegerField("ActiveEpisodes");
+  public FieldValueInteger deletedEpisodes = registerIntegerField("DeletedEpisodes");
+  public FieldValueInteger suggestionEpisodes = registerIntegerField("SuggestionEpisodes");
+  public FieldValueInteger unmatchedEpisodes = registerIntegerField("UnmatchedEpisodes");
+  public FieldValueInteger watchedEpisodes = registerIntegerField("WatchedEpisodes");
+  public FieldValueInteger unwatchedEpisodes = registerIntegerField("UnwatchedEpisodes");
+  public FieldValueInteger unwatchedUnrecorded = registerIntegerField("UnwatchedUnrecorded");
+  public FieldValueInteger tvdbOnlyEpisodes = registerIntegerField("tvdbOnlyEpisodes");
+  public FieldValueInteger matchedEpisodes = registerIntegerField("MatchedEpisodes");
+
+  public FieldValue<Date> lastUnwatched = registerDateField("LastUnwatched");
+  public FieldValue<Date> mostRecent = registerDateField("MostRecent");
+  public FieldValueBoolean isSuggestion = registerBooleanField("IsSuggestion");
+
 
 
 
@@ -59,5 +70,17 @@ public class Series extends MediaObject {
   @Override
   public String toString() {
     return seriesTitle.getValue();
+  }
+
+  public void initializeDenorms() {
+    activeEpisodes.changeValue(0);
+    deletedEpisodes.changeValue(0);
+    suggestionEpisodes.changeValue(0);
+    unmatchedEpisodes.changeValue(0);
+    watchedEpisodes.changeValue(0);
+    unwatchedEpisodes.changeValue(0);
+    unwatchedUnrecorded.changeValue(0);
+    tvdbOnlyEpisodes.changeValue(0);
+    matchedEpisodes.changeValue(0);
   }
 }

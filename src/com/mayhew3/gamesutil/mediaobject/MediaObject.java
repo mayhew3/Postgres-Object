@@ -126,20 +126,34 @@ public abstract class MediaObject {
 
   protected abstract String getTableName();
 
+  public List<FieldValue> getAllFieldValues() {
+    return allFieldValues;
+  }
+
+  public FieldValue getMatchingField(FieldValue matchingValue) {
+    for (FieldValue fieldValue : allFieldValues) {
+      if (fieldValue.getFieldName().equals(matchingValue.getFieldName())) {
+        return fieldValue;
+      }
+    }
+    return null;
+  }
+
+
   protected final FieldValue<BasicDBList> registerStringArrayField(String fieldName) {
     FieldValue<BasicDBList> fieldStringArrayValue = new FieldValue<>(fieldName, new FieldConversionStringArray());
     allFieldValues.add(fieldStringArrayValue);
     return fieldStringArrayValue;
   }
 
-  protected final FieldValue<Boolean> registerBooleanField(String fieldName) {
-    FieldValue<Boolean> fieldBooleanValue = new FieldValueBoolean(fieldName, new FieldConversionBoolean());
+  protected final FieldValueBoolean registerBooleanField(String fieldName) {
+    FieldValueBoolean fieldBooleanValue = new FieldValueBoolean(fieldName, new FieldConversionBoolean());
     allFieldValues.add(fieldBooleanValue);
     return fieldBooleanValue;
   }
 
-  protected final FieldValue<Date> registerDateField(String fieldName) {
-    FieldValue<Date> fieldBooleanValue = new FieldValue<>(fieldName, new FieldConversionDate());
+  protected final FieldValueDate registerDateField(String fieldName) {
+    FieldValueDate fieldBooleanValue = new FieldValueDate(fieldName, new FieldConversionDate());
     allFieldValues.add(fieldBooleanValue);
     return fieldBooleanValue;
   }

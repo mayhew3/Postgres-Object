@@ -9,9 +9,9 @@ public class Episode extends MediaObject {
 
   public FieldValue<Date> watchedDate = registerDateField("WatchedDate");
 
-  public FieldValue<Date> tiVoShowingStartTime = registerDateField("TiVoShowingStartTime");
-  public FieldValue<Date> tiVoDeletedDate = registerDateField("TiVoDeletedDate");
-  public FieldValue<Date> tiVoCaptureDate = registerDateField("TiVoCaptureDate");
+  public FieldValueDate tivoShowingStartTime = registerDateField("TiVoShowingStartTime");
+  public FieldValue<Date> tivoDeletedDate = registerDateField("TiVoDeletedDate");
+  public FieldValueDate tivoCaptureDate = registerDateField("TiVoCaptureDate");
 
   public FieldValue<Date> tvdbFirstAired = registerDateField("tvdbFirstAired");
   public FieldValue<Integer> tvdbLastUpdated = registerIntegerField("tvdbLastUpdated");
@@ -33,11 +33,19 @@ public class Episode extends MediaObject {
   public FieldValue<Double> tvdbRating = registerDoubleField("tvdbRating");
 
 
-  public FieldValue<Integer> tiVoEpisodeNumber = registerIntegerField("TiVoEpisodeNumber");
+  public FieldValue<Integer> tivoEpisodeNumber = registerIntegerField("TiVoEpisodeNumber");
+  public FieldValue<Integer> tivoDuration = registerIntegerField("TiVoDuration");
+  public FieldValue<Integer> tivoShowingDuration = registerIntegerField("TiVoShowingDuration");
+  public FieldValue<Integer> tivoChannel = registerIntegerField("TiVoChannel");
+  public FieldValue<Integer> tivoRating = registerIntegerField("TiVoRating");
 
   public FieldValue<String> tivoSeriesId = registerStringField("TiVoSeriesId");
+  public FieldValue<String> tivoProgramId = registerStringField("TiVoProgramId");
   public FieldValue<String> tivoSeriesTitle = registerStringField("TiVoSeriesTitle");
   public FieldValue<String> tivoEpisodeTitle = registerStringField("TiVoEpisodeTitle");
+  public FieldValue<String> tivoDescription = registerStringField("TiVoDescription");
+  public FieldValue<String> tivoStation = registerStringField("TiVoStation");
+  public FieldValue<String> tivoUrl = registerStringField("TiVoUrl");
 
   public FieldValue<String> tvdbSeriesName = registerStringField("tvdbSeriesName");
   public FieldValue<String> tvdbEpisodeName = registerStringField("tvdbEpisodeName");
@@ -48,8 +56,9 @@ public class Episode extends MediaObject {
   public FieldValue<String> tvdbFilename = registerStringField("tvdbFilename");
 
   public FieldValue<Boolean> onTiVo = registerBooleanField("OnTiVo");
+  public FieldValue<Boolean> tivoHD = registerBooleanField("TiVoHD");
   public FieldValue<Boolean> watched = registerBooleanField("Watched");
-  public FieldValue<Boolean> tiVoSuggestion = registerBooleanField("TiVoSuggestion");
+  public FieldValue<Boolean> tivoSuggestion = registerBooleanField("TiVoSuggestion");
   public FieldValue<Boolean> matchedStump = registerBooleanField("MatchedStump");
 
   @Override
@@ -61,7 +70,7 @@ public class Episode extends MediaObject {
   public String toString() {
     String seriesTitle = tivoSeriesTitle.getValue() == null ? tvdbSeriesName.getValue() : tivoSeriesTitle.getValue();
     String episodeTitle = tivoEpisodeTitle.getValue() == null ? tvdbEpisodeName.getValue() : tivoEpisodeTitle.getValue();
-    Integer episodeNumber = tiVoEpisodeNumber.getValue() == null ? tvdbEpisodeNumber.getValue() : tiVoEpisodeNumber.getValue();
+    Integer episodeNumber = tivoEpisodeNumber.getValue() == null ? tvdbEpisodeNumber.getValue() : tivoEpisodeNumber.getValue();
     return seriesTitle + " " + episodeNumber + ": " + episodeTitle;
   }
 }
