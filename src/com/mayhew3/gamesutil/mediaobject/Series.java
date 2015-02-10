@@ -6,25 +6,25 @@ import java.util.Date;
 
 public class Series extends MediaObject {
 
-  public FieldValue<Integer> activeEpisodes = registerIntegerField("ActiveEpisodes");
-  public FieldValue<Integer> deletedEpisodes = registerIntegerField("DeletedEpisodes");
-  public FieldValue<Integer> suggestionEpisodes = registerIntegerField("SuggestionEpisodes");
-  public FieldValue<Integer> unmatchedEpisodes = registerIntegerField("UnmatchedEpisodes");
-  public FieldValue<Integer> watchedEpisodes = registerIntegerField("WatchedEpisodes");
-  public FieldValue<Integer> unwatchedEpisodes = registerIntegerField("UnwatchedEpisodes");
-  public FieldValue<Integer> unwatchedUnrecorded = registerIntegerField("UnwatchedUnrecorded");
-  public FieldValue<Integer> tvdbOnlyEpisodes = registerIntegerField("tvdbOnlyEpisodes");
-  public FieldValue<Integer> matchedEpisodes = registerIntegerField("MatchedEpisodes");
+  public FieldValueInteger activeEpisodes = registerIntegerField("ActiveEpisodes");
+  public FieldValueInteger deletedEpisodes = registerIntegerField("DeletedEpisodes");
+  public FieldValueInteger suggestionEpisodes = registerIntegerField("SuggestionEpisodes");
+  public FieldValueInteger unmatchedEpisodes = registerIntegerField("UnmatchedEpisodes");
+  public FieldValueInteger watchedEpisodes = registerIntegerField("WatchedEpisodes");
+  public FieldValueInteger unwatchedEpisodes = registerIntegerField("UnwatchedEpisodes");
+  public FieldValueInteger unwatchedUnrecorded = registerIntegerField("UnwatchedUnrecorded");
+  public FieldValueInteger tvdbOnlyEpisodes = registerIntegerField("tvdbOnlyEpisodes");
+  public FieldValueInteger matchedEpisodes = registerIntegerField("MatchedEpisodes");
 
   public FieldValue<Date> lastUnwatched = registerDateField("LastUnwatched");
   public FieldValue<Date> mostRecent = registerDateField("MostRecent");
   public FieldValue<Date> tvdbFirstAired = registerDateField("tvdbFirstAired");
 
   public FieldValue<String> seriesId = registerStringField("SeriesId");
-  public FieldValue<Integer> tvdbId = registerIntegerField("tvdbId");
+  public FieldValueInteger tvdbId = registerIntegerField("tvdbId");
   public FieldValue<String> tvdbSeriesId = registerStringField("tvdbSeriesId");
-  public FieldValue<Integer> tvdbRatingCount = registerIntegerField("tvdbRatingCount");
-  public FieldValue<Integer> tvdbRuntime = registerIntegerField("tvdbRuntime");
+  public FieldValueInteger tvdbRatingCount = registerIntegerField("tvdbRatingCount");
+  public FieldValueInteger tvdbRuntime = registerIntegerField("tvdbRuntime");
 
   public FieldValue<Double> tvdbRating = registerDoubleField("tvdbRating");
 

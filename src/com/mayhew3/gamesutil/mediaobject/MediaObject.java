@@ -144,8 +144,8 @@ public abstract class MediaObject {
     return fieldBooleanValue;
   }
 
-  protected final FieldValue<Integer> registerIntegerField(String fieldName) {
-    FieldValue<Integer> fieldIntegerValue = new FieldValue<>(fieldName, new FieldConversionInteger());
+  protected final FieldValueInteger registerIntegerField(String fieldName) {
+    FieldValueInteger fieldIntegerValue = new FieldValueInteger(fieldName, new FieldConversionInteger());
     allFieldValues.add(fieldIntegerValue);
     return fieldIntegerValue;
   }

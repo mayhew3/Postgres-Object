@@ -50,6 +50,7 @@ public class TVDBUpdater extends TVDatabaseUtility {
         .append("IsSuggestion", false)
         .append("IgnoreTVDB", new BasicDBObject("$ne", true))
         .append("SeriesId", new BasicDBObject("$exists", true))
+        .append("SeriesTitle", "Better Call Saul")
         .append("IsEpisodic", true);
 
     DBCollection untaggedShows = _db.getCollection("series");
@@ -345,6 +346,7 @@ public class TVDBUpdater extends TVDatabaseUtility {
       episode.tvdbThumbHeight.changeValueFromString(getValueOfSimpleStringNode(episodeNode, "thumb_height"));
       episode.tvdbThumbWidth.changeValueFromString(getValueOfSimpleStringNode(episodeNode, "thumb_width"));
 
+
       episode.commit(_db);
 
       if (added) {
@@ -378,15 +380,16 @@ public class TVDBUpdater extends TVDatabaseUtility {
 
 
   private void updateSeriesDenorms(Boolean added, Boolean matched, Series series, Date showingStartTime) {
+    // todo: TiVoUpdater should initialize all these to 0
     if (added) {
-      series.tvdbOnlyEpisodes.changeValue(series.tvdbOnlyEpisodes.getValue() + 1);
-      series.unwatchedUnrecorded.changeValue(series.unwatchedUnrecorded.getValue() + 1);
+      series.tvdbOnlyEpisodes.increment(1);
+      series.unwatchedUnrecorded.increment(1);
     }
     if (matched) {
-      series.matchedEpisodes.changeValue(series.matchedEpisodes.getValue() + 1);
-      series.unmatchedEpisodes.changeValue(series.unmatchedEpisodes.getValue() - 1);
-      series.activeEpisodes.changeValue(series.activeEpisodes.getValue() + 1);
-      series.unwatchedEpisodes.changeValue(series.unwatchedEpisodes.getValue() + 1);
+      series.matchedEpisodes.increment(1);
+      series.unmatchedEpisodes.increment(-1);
+      series.activeEpisodes.increment(1);
+      series.unwatchedEpisodes.increment(1);
 
       Date lastUnwatched = series.lastUnwatched.getValue();
       Date mostRecent = series.mostRecent.getValue();
