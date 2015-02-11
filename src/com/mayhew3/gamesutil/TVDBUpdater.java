@@ -299,8 +299,6 @@ public class TVDBUpdater extends TVDatabaseUtility {
       Boolean matched = false;
       Boolean added = false;
 
-      Date showingStartTime = null;
-
       Episode episode = new Episode();
 
       if (existingEpisodeObj == null) {
@@ -312,7 +310,6 @@ public class TVDBUpdater extends TVDatabaseUtility {
         } else {
           episode = tiVoMatch;
           matched = true;
-          showingStartTime = episode.tivoShowingStartTime.getValue();
         }
       } else {
         episode.initializeFromDBObject(existingEpisodeObj);
@@ -364,7 +361,7 @@ public class TVDBUpdater extends TVDatabaseUtility {
         // add manual reference to episode to episodes array.
 
         series.episodes.addToArray(episodeId);
-        updateSeriesDenorms(added, matched, series, showingStartTime);
+        updateSeriesDenorms(added, matched, series);
 
         series.commit(_db);
       }
@@ -378,8 +375,7 @@ public class TVDBUpdater extends TVDatabaseUtility {
   }
 
 
-  private void updateSeriesDenorms(Boolean added, Boolean matched, Series series, Date showingStartTime) {
-    // todo: TiVoUpdater should initialize all these to 0
+  private void updateSeriesDenorms(Boolean added, Boolean matched, Series series) {
     if (added) {
       series.tvdbOnlyEpisodes.increment(1);
       series.unwatchedUnrecorded.increment(1);
@@ -387,18 +383,6 @@ public class TVDBUpdater extends TVDatabaseUtility {
     if (matched) {
       series.matchedEpisodes.increment(1);
       series.unmatchedEpisodes.increment(-1);
-      series.activeEpisodes.increment(1);
-      series.unwatchedEpisodes.increment(1);
-
-      Date lastUnwatched = series.lastUnwatched.getValue();
-      Date mostRecent = series.mostRecent.getValue();
-
-      if (lastUnwatched == null || lastUnwatched.before(showingStartTime)) {
-        series.lastUnwatched.changeValue(showingStartTime);
-      }
-      if (mostRecent == null || mostRecent.before(showingStartTime)) {
-        series.mostRecent.changeValue(showingStartTime);
-      }
     }
   }
 
