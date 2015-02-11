@@ -187,9 +187,6 @@ public class TiVoCommunicator extends TVDatabaseUtility {
       DBCollection serieses = _db.getCollection("series");
       DBObject seriesObject = findSingleMatch(serieses, "SeriesId", tivoId);
 
-      Date lastUnwatched = null;
-      Date mostRecent = null;
-
       Series series = new Series();
 
       if (seriesObject == null) {
@@ -218,8 +215,6 @@ public class TiVoCommunicator extends TVDatabaseUtility {
         series.initializeFromDBObject(seriesObject);
 
         debug("Updating existing series '" + seriesTitle + "'.");
-        lastUnwatched = series.lastUnwatched.getValue();
-        mostRecent = series.mostRecent.getValue();
       }
 
       ObjectId seriesId = series._id.getValue();
@@ -227,14 +222,10 @@ public class TiVoCommunicator extends TVDatabaseUtility {
       DBCursor existingEpisodes = getExistingTiVoEpisodes(programId);
       Boolean tivoEpisodeExists = existingEpisodes.hasNext();
 
-      ObjectId episodeId = null;
-
       Episode episode = formatEpisodeObject(url, isSuggestion, showDetails);
       episode.seriesId.changeValue(seriesId);
       episode.tivoSeriesId.changeValue(tivoId);
       episode.tivoSeriesTitle.changeValue(seriesTitle);
-
-      Object tvdbEpisodeId = null;
 
       Boolean added = false;
       Boolean matched = false;
@@ -259,27 +250,28 @@ public class TiVoCommunicator extends TVDatabaseUtility {
 
           // todo: update TVDB and then try again to find a match.
 
+          episode.onTiVo.changeValue(true);
           episode.commit(_db);
-          episodeId = episode._id.getValue();
           addedShows++;
         } else {
           matched = true;
 
-          episodeId = tvdbMatch._id.getValue();
-          tvdbEpisodeId = tvdbMatch.tvdbEpisodeId.getValue();
-
           episode = mergeEpisodes(tvdbMatch, episode);
+          episode.onTiVo.changeValue(true);
           episode.commit(_db);
 
           updatedShows++;
         }
       }
 
-      if (episodeId != null) {
-        series.episodes.addToArray(episodeId);
+      ObjectId episodeId = episode._id.getValue();
 
-        // todo: use 'added' and 'matched' values like in TVDB updater to fix denorms.
-        updateSeriesDenorms(episode, series, tvdbEpisodeId, lastUnwatched, mostRecent);
+      if (!tivoEpisodeExists) {
+        if (added) {
+          series.episodes.addToArray(episodeId);
+        }
+
+        updateSeriesDenorms(episode, series, matched);
 
         series.commit(_db);
       }
@@ -289,52 +281,47 @@ public class TiVoCommunicator extends TVDatabaseUtility {
     return thisEpisodeExists;
   }
 
-  private void updateSeriesDenorms(Episode episodeObject, Series series, Object tvdbId, Object lastUnwatched, Object mostRecent) {
 
-    Boolean onTiVo = episodeObject.onTiVo.getValue();
+  private Boolean isAfter(Date trackingDate, Date newDate) {
+    return trackingDate == null || trackingDate.before(newDate);
+  }
+
+
+  private void updateSeriesDenorms(Episode episodeObject, Series series, Boolean matched) {
+
     Boolean suggestion = episodeObject.tivoSuggestion.getValue();
     Date showingStartTime = episodeObject.tivoShowingStartTime.getValue();
-    Date deletedDate = episodeObject.tivoDeletedDate.getValue();
     Boolean watched = episodeObject.watched.getValue();
 
-    if (onTiVo) {
-      if (tvdbId == null) {
-        series.unmatchedEpisodes.increment(1);
-      } else {
-        series.matchedEpisodes.increment(1);
 
-        if (deletedDate == null) {
-          series.activeEpisodes.increment(1);
 
-          if (watched) {
-            series.watchedEpisodes.increment(1);
-          } else {
-            series.unwatchedEpisodes.increment(1);
-
-            if (shouldOverrideDate(lastUnwatched, showingStartTime)) {
-              series.lastUnwatched.changeValue(showingStartTime);
-            }
-          }
-
-          if (shouldOverrideDate(mostRecent, showingStartTime)) {
-            series.mostRecent.changeValue(showingStartTime);
-          }
-        } else {
-          series.deletedEpisodes.increment(1);
-        }
-        if (suggestion) {
-          series.suggestionEpisodes.increment(1);
-        }
-      }
-
+    if (suggestion) {
+      series.suggestionEpisodes.increment(1);
     } else {
-      if (tvdbId != null) {
-        series.tvdbOnlyEpisodes.increment(1);
-        if (!Boolean.TRUE.equals(watched)) {
-          series.unwatchedUnrecorded.increment(1);
-        }
-      }
+      series.activeEpisodes.increment(1);
+      series.unwatchedEpisodes.increment(1);
     }
+
+
+
+    if (matched) {
+      series.matchedEpisodes.increment(1);
+      series.tvdbOnlyEpisodes.increment(-1);
+      if (!watched) {
+        series.unwatchedUnrecorded.increment(-1);
+      }
+    } else {
+      series.unmatchedEpisodes.increment(1);
+    }
+
+    if (isAfter(series.mostRecent.getValue(), showingStartTime)) {
+      series.mostRecent.changeValue(showingStartTime);
+    }
+
+    if (isAfter(series.lastUnwatched.getValue(), showingStartTime)) {
+      series.lastUnwatched.changeValue(showingStartTime);
+    }
+
   }
 
   private Boolean shouldOverrideDate(Object oldDate, Date newDate) {

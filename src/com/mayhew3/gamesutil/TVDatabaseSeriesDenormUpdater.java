@@ -103,7 +103,7 @@ public class TVDatabaseSeriesDenormUpdater extends TVDatabaseUtility {
       if (!matchingStump) {
 
         // ACTIVE
-        if (onTiVo && deletedDate == null) {
+        if (onTiVo && !suggestion && deletedDate == null) {
           activeEpisodes++;
         }
 
@@ -123,7 +123,7 @@ public class TVDatabaseSeriesDenormUpdater extends TVDatabaseUtility {
         }
 
         // UNWATCHED
-        if (onTiVo && deletedDate == null && !watched) {
+        if (onTiVo && !suggestion && deletedDate == null && !watched) {
           unwatchedEpisodes++;
         }
 
@@ -153,7 +153,7 @@ public class TVDatabaseSeriesDenormUpdater extends TVDatabaseUtility {
         }
 
         // LAST UNWATCHED EPISODE
-        if (onTiVo && isAfter(lastUnwatched, showingStartTime) && deletedDate == null && !watched) {
+        if (onTiVo && isAfter(lastUnwatched, showingStartTime) && !suggestion && deletedDate == null && !watched) {
           lastUnwatched = showingStartTime;
         }
       }
