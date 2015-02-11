@@ -195,6 +195,8 @@ public class TiVoCommunicator extends TVDatabaseUtility {
       if (seriesObject == null) {
         series.initializeForInsert();
 
+        // todo: get TVDB series info
+
         debug("Adding series '" + seriesTitle + "'  with TiVoID '" + tivoId + "'");
 
         Boolean isEpisodic = isEpisodic(showAttributes);
@@ -255,6 +257,8 @@ public class TiVoCommunicator extends TVDatabaseUtility {
         if (tvdbMatch == null) {
           added = true;
 
+          // todo: update TVDB and then try again to find a match.
+
           episode.commit(_db);
           episodeId = episode._id.getValue();
           addedShows++;
@@ -274,7 +278,7 @@ public class TiVoCommunicator extends TVDatabaseUtility {
       if (episodeId != null) {
         series.episodes.addToArray(episodeId);
 
-        // todo:
+        // todo: use 'added' and 'matched' values like in TVDB updater to fix denorms.
         updateSeriesDenorms(episode, series, tvdbEpisodeId, lastUnwatched, mostRecent);
 
         series.commit(_db);

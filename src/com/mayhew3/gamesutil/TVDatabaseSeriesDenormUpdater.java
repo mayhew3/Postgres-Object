@@ -100,46 +100,61 @@ public class TVDatabaseSeriesDenormUpdater extends TVDatabaseUtility {
       Integer tvdbId = episode.tvdbEpisodeId.getValue();
       Boolean matchingStump = episode.matchedStump.getValue();
 
-      if (Boolean.TRUE.equals(onTiVo)) {
+      if (!matchingStump) {
 
-
-        if (tvdbId == null) {
-          if (!Boolean.TRUE.equals(matchingStump)) {
-            unmatchedEpisodes++;
-          }
-        } else {
-          matchedEpisodes++;
-
-          if (deletedDate == null) {
-            activeEpisodes++;
-
-            if (Boolean.TRUE.equals(watched)) {
-              watchedEpisodes++;
-            } else {
-              unwatchedEpisodes++;
-
-              if (lastUnwatched == null || lastUnwatched.before(showingStartTime)) {
-                lastUnwatched = showingStartTime;
-              }
-            }
-
-            if (mostRecent == null || mostRecent.before(showingStartTime)) {
-              mostRecent = showingStartTime;
-            }
-          } else {
-            deletedEpisodes++;
-          }
-          if (Boolean.TRUE.equals(suggestion)) {
-            suggestionEpisodes++;
-          }
+        // ACTIVE
+        if (onTiVo && deletedDate == null) {
+          activeEpisodes++;
         }
 
-      } else {
-        if (tvdbId != null) {
+        // DELETED
+        if (onTiVo && deletedDate != null) {
+          deletedEpisodes++;
+        }
+
+        // SUGGESTIONS
+        if (onTiVo && suggestion && deletedDate == null) {
+          suggestionEpisodes++;
+        }
+
+        // WATCHED
+        if (watched) {
+          watchedEpisodes++;
+        }
+
+        // UNWATCHED
+        if (onTiVo && deletedDate == null && !watched) {
+          unwatchedEpisodes++;
+        }
+
+        // MATCHED
+        if (onTiVo && tvdbId != null) {
+          matchedEpisodes++;
+        }
+
+        // UNMATCHED
+        if (onTiVo && tvdbId == null) {
+          unmatchedEpisodes++;
+        }
+
+        // TVDB ONLY
+        if (!onTiVo && tvdbId != null) {
           tvdbOnly++;
-          if (!Boolean.TRUE.equals(watched)) {
-            unwatchedUnrecorded++;
-          }
+        }
+
+        // UNWATCHED, UNRECORDED
+        if (!onTiVo && !watched) {
+          unwatchedUnrecorded++;
+        }
+
+        // LAST EPISODE
+        if (onTiVo && isAfter(mostRecent, showingStartTime) && deletedDate == null) {
+          mostRecent = showingStartTime;
+        }
+
+        // LAST UNWATCHED EPISODE
+        if (onTiVo && isAfter(lastUnwatched, showingStartTime) && deletedDate == null && !watched) {
+          lastUnwatched = showingStartTime;
         }
       }
     }
@@ -157,12 +172,19 @@ public class TVDatabaseSeriesDenormUpdater extends TVDatabaseUtility {
     series.unwatchedUnrecorded.changeValue(unwatchedUnrecorded);
     series.tvdbOnlyEpisodes.changeValue(tvdbOnly);
     series.matchedEpisodes.changeValue(matchedEpisodes);
-    series.lastUnwatched.changeValue((lastUnwatched == null) ? null : lastUnwatched);
-    series.mostRecent.changeValue((mostRecent == null) ? null : mostRecent);
+    series.lastUnwatched.changeValue(lastUnwatched);
+    series.mostRecent.changeValue(mostRecent);
 
     series.commit(_db);
 
   }
+
+
+  private Boolean isAfter(Date trackingDate, Date newDate) {
+    return trackingDate == null || trackingDate.before(newDate);
+  }
+
+
 
   private void incrementValue(FieldValue<Integer> fieldValue) {
 
