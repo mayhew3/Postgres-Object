@@ -48,9 +48,9 @@ public class TiVoLibraryUpdater {
       }
     }
 
-    TVDBUpdater tvdbUpdater;
+    TVDBUpdateRunner tvdbUpdateRunner;
     try {
-      tvdbUpdater = new TVDBUpdater();
+      tvdbUpdateRunner = new TVDBUpdateRunner();
     } catch (UnknownHostException e) {
       e.printStackTrace();
       logger.logConnectionEnd(tiVoCommunicator.getSessionInfo());
@@ -60,17 +60,17 @@ public class TiVoLibraryUpdater {
 
     if (!tiVoOnly) {
       try {
-        tvdbUpdater.runUpdate();
+        tvdbUpdateRunner.runUpdate();
       } catch (RuntimeException e) {
         e.printStackTrace();
-        logger.logConnectionEnd(tvdbUpdater.getSessionInfo());
+        logger.logConnectionEnd(tvdbUpdateRunner.getSessionInfo());
         logger.closeDatabase();
         throw new RuntimeException("Error downloading info from TVDB service.");
       }
     }
 
     logger.logConnectionEnd(tiVoCommunicator.getSessionInfo());
-    logger.logConnectionEnd(tvdbUpdater.getSessionInfo());
+    logger.logConnectionEnd(tvdbUpdateRunner.getSessionInfo());
     logger.closeDatabase();
 
   }

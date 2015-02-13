@@ -219,6 +219,11 @@ public class TiVoCommunicator extends TVDatabaseUtility {
 
       ObjectId seriesId = series._id.getValue();
 
+      if (series.tvdbId.getValue() == null) {
+        TVDBSeriesUpdater updater = new TVDBSeriesUpdater(_mongoClient, _db, series);
+        updater.updateSeries();
+      }
+
       DBCursor existingEpisodes = getExistingTiVoEpisodes(programId);
       Boolean tivoEpisodeExists = existingEpisodes.hasNext();
 
@@ -246,9 +251,14 @@ public class TiVoCommunicator extends TVDatabaseUtility {
         Episode tvdbMatch = findTVDBEpisodeMatch(episode, seriesId);
 
         if (tvdbMatch == null) {
-          added = true;
+          TVDBSeriesUpdater updater = new TVDBSeriesUpdater(_mongoClient, _db, series);
+          updater.updateSeries();
 
-          // todo: update TVDB and then try again to find a match.
+          tvdbMatch = findTVDBEpisodeMatch(episode, seriesId);
+        }
+
+        if (tvdbMatch == null) {
+          added = true;
 
           episode.onTiVo.changeValue(true);
           episode.commit(_db);

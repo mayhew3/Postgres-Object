@@ -16,18 +16,20 @@ import java.net.PasswordAuthentication;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.nio.charset.Charset;
-import java.util.Date;
 
 public class TVDatabaseUtility {
 
   protected MongoClient _mongoClient;
   protected DB _db;
-  protected DBCollection _collection;
+
+  public TVDatabaseUtility(MongoClient client, DB db) {
+    _mongoClient = client;
+    _db = db;
+  }
 
   public TVDatabaseUtility(String dbName) throws UnknownHostException {
     _mongoClient = new MongoClient("localhost");
     _db = _mongoClient.getDB(dbName);
-    _collection = _db.getCollection(dbName);
   }
 
   protected void debug(Object object) {
@@ -42,6 +44,7 @@ public class TVDatabaseUtility {
         "&format=json" +
         "&include_appinfo=1";
   }
+/*
 
   protected void addGame(Integer steamID, String gameName) {
     try {
@@ -57,6 +60,7 @@ public class TVDatabaseUtility {
       e.printStackTrace();
     }
   }
+*/
 
 
   public JSONObject readJsonFromUrl(String url) throws IOException, JSONException {

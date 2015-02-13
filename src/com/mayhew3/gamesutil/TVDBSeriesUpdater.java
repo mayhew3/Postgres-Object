@@ -3,6 +3,7 @@ package com.mayhew3.gamesutil;
 import com.mayhew3.gamesutil.mediaobject.Episode;
 import com.mayhew3.gamesutil.mediaobject.Series;
 import com.mongodb.*;
+import com.sun.javafx.beans.annotations.NonNull;
 import org.bson.types.ObjectId;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeComparator;
@@ -12,89 +13,46 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
-import java.net.UnknownHostException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
 
-public class TVDBUpdater extends TVDatabaseUtility {
+public class TVDBSeriesUpdater extends TVDatabaseUtility {
 
-  private Integer seriesUpdates = 0;
-  private Integer episodesAdded = 0;
-  private Integer episodesUpdated = 0;
+  Series _series;
 
-  public TVDBUpdater() throws UnknownHostException {
-    super("tv");
+  Integer _episodesAdded = 0;
+  Integer _episodesUpdated = 0;
+
+  public TVDBSeriesUpdater(MongoClient client, DB db, @NonNull Series series) {
+    super(client, db);
+    this._series = series;
   }
 
-  public static void main(String[] args) {
-    try {
-      TVDBUpdater tvdbUpdater = new TVDBUpdater();
-      tvdbUpdater.runUpdate();
-    } catch (UnknownHostException e) {
-      e.printStackTrace();
-    }
-  }
 
-  public void runUpdate() {
-
-    try {
-      updateShows();
-      closeDatabase();
-    } catch (RuntimeException e) {
-      closeDatabase();
-      throw e;
-    }
-  }
-
-  private void updateShows() {
-    BasicDBObject query = new BasicDBObject()
-        .append("IsSuggestion", false)
-        .append("IgnoreTVDB", new BasicDBObject("$ne", true))
-        .append("SeriesId", new BasicDBObject("$exists", true))
-        .append("IsEpisodic", true);
-
-    DBCollection untaggedShows = _db.getCollection("series");
-    DBCursor cursor = untaggedShows.find(query);
-
-    int totalRows = cursor.count();
-    debug(totalRows + " series found for update. Starting.");
-
-    int i = 0;
-
-    while (cursor.hasNext()) {
-      i++;
-      DBObject show = cursor.next();
-
-      updateShow(show);
-
-      debug(i + " out of " + totalRows + " processed.");
-    }
-  }
-
-  private void updateShow(DBObject show) {
-    Series series = new Series();
-    series.initializeFromDBObject(show);
-
-    String seriesTitle = series.seriesTitle.getValue();
-    String tivoId = series.seriesId.getValue();
+  public void updateSeries() {
+    String seriesTitle = _series.seriesTitle.getValue();
+    String tivoId = _series.seriesId.getValue();
 
     DBObject errorLog = getErrorLog(tivoId);
 
     if (shouldIgnoreShow(errorLog)) {
-      markSeriesToIgnore(series);
+      markSeriesToIgnore(_series);
       resolveError(errorLog);
     } else {
 
-      Integer existingId = series.tvdbId.getValue();
+      Integer existingId = _series.tvdbId.getValue();
 
       Integer tvdbId = existingId == null ?
-          getTVDBID(series, errorLog) :
+          getTVDBID(_series, errorLog) :
           existingId;
 
       if (tvdbId != null) {
         debug(seriesTitle + ": ID found, getting show data.");
-        series.tvdbId.changeValue(tvdbId);
+        _series.tvdbId.changeValue(tvdbId);
 
-        updateShowData(series);
+        updateShowData(_series);
 
       }
     }
@@ -278,7 +236,6 @@ public class TVDBUpdater extends TVDatabaseUtility {
     series.zap2it_id.changeValueFromString(getValueOfSimpleStringNode(seriesNode, "zap2it_id"));
 
     series.commit(_db);
-    seriesUpdates++;
 
     Integer seriesEpisodesAdded = 0;
     Integer seriesEpisodesUpdated = 0;
@@ -346,10 +303,10 @@ public class TVDBUpdater extends TVDatabaseUtility {
       episode.commit(_db);
 
       if (added) {
-        episodesAdded++;
+        _episodesAdded++;
         seriesEpisodesAdded++;
       } else {
-        episodesUpdated++;
+        _episodesUpdated++;
         seriesEpisodesUpdated++;
       }
 
@@ -648,11 +605,12 @@ public class TVDBUpdater extends TVDatabaseUtility {
   }
 
 
-  public BasicDBObject getSessionInfo() {
-    return new BasicDBObject()
-    .append("TVDBSeriesUpdates", seriesUpdates)
-    .append("TVDBEpisodesUpdated", episodesUpdated)
-    .append("TVDBEpisodesAdded", episodesAdded);
+  public Integer getEpisodesAdded() {
+    return _episodesAdded;
   }
-}
 
+  public Integer getEpisodesUpdated() {
+    return _episodesUpdated;
+  }
+
+}
