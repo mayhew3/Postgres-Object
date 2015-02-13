@@ -36,6 +36,7 @@ public class TVDatabaseSeriesDenormUpdater extends TVDatabaseUtility {
 
   public void updateFields() {
     BasicDBObject query = new BasicDBObject()
+
 //        .append("SeriesId", new BasicDBObject("$exists", true))
         ;
 
@@ -98,7 +99,7 @@ public class TVDatabaseSeriesDenormUpdater extends TVDatabaseUtility {
       Date deletedDate = episode.tivoDeletedDate.getValue();
       Boolean watched = episode.watched.getValue();
       Integer tvdbId = episode.tvdbEpisodeId.getValue();
-      Boolean matchingStump = episode.matchedStump.getValue();
+      Boolean matchingStump = episode.matchingStump.getValue();
 
       if (!matchingStump) {
 

@@ -59,7 +59,7 @@ public class Episode extends MediaObject {
   public FieldValue<Boolean> tivoHD = registerBooleanField("TiVoHD");
   public FieldValue<Boolean> watched = registerBooleanField("Watched");
   public FieldValue<Boolean> tivoSuggestion = registerBooleanField("TiVoSuggestion");
-  public FieldValue<Boolean> matchedStump = registerBooleanField("MatchedStump");
+  public FieldValue<Boolean> matchingStump = registerBooleanField("MatchingStump");
 
   @Override
   protected String getTableName() {
