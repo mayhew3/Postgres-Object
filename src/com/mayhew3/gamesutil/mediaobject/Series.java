@@ -59,8 +59,9 @@ public class Series extends MediaObject {
   public FieldValue<Date> mostRecent = registerDateField("MostRecent");
   public FieldValueBoolean isSuggestion = registerBooleanField("IsSuggestion");
 
+  public FieldValueBoolean matchedWrong = registerBooleanField("MatchedWrong");
 
-
+  public FieldValueBoolean needsTVDBRedo = registerBooleanField("NeedsTVDBRedo");
 
   @Override
   protected String getTableName() {

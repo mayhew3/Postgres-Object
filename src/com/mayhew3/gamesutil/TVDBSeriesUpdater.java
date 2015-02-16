@@ -33,29 +33,58 @@ public class TVDBSeriesUpdater extends TVDatabaseUtility {
 
   public void updateSeries() {
     String seriesTitle = _series.seriesTitle.getValue();
-    String tivoId = _series.seriesId.getValue();
+    String seriesTiVoId = _series.seriesId.getValue();
 
-    DBObject errorLog = getErrorLog(tivoId);
+    DBObject errorLog = getErrorLog(seriesTiVoId);
 
     if (shouldIgnoreShow(errorLog)) {
       markSeriesToIgnore(_series);
       resolveError(errorLog);
     } else {
 
+
+      Boolean matchedWrong = _series.matchedWrong.getValue();
       Integer existingId = _series.tvdbId.getValue();
 
-      Integer tvdbId = existingId == null ?
-          getTVDBID(_series, errorLog) :
+      Integer tvdbId = (existingId == null || matchedWrong) ?
+          getTVDBID(_series, errorLog, matchedWrong) :
           existingId;
 
-      if (tvdbId != null) {
+      if (tvdbId != null && !matchedWrong) {
         debug(seriesTitle + ": ID found, getting show data.");
         _series.tvdbId.changeValue(tvdbId);
+
+        if (_series.needsTVDBRedo.getValue()) {
+          removeTVDBOnlyEpisodes(seriesTiVoId);
+          clearTVDBIds(seriesTiVoId);
+          singleFieldUpdateWithId("series", _series._id.getValue(), "NeedsTVDBRedo", false);
+        }
 
         updateShowData(_series);
 
       }
     }
+  }
+
+  private void removeTVDBOnlyEpisodes(String tivoSeriesId) {
+    BasicDBObject queryObject = new BasicDBObject()
+        .append("TiVoSeriesId", tivoSeriesId)
+        .append("tvdbEpisodeId", new BasicDBObject("$exists", true))
+        .append("OnTiVo", new BasicDBObject("$ne", true))
+        ;
+
+    BasicDBObject updateObject = new BasicDBObject("MatchingStump", true);
+
+    updateCollectionWithQueryMultiple("episodes", queryObject, updateObject);
+  }
+
+  private void clearTVDBIds(String tivoSeriesId) {
+    BasicDBObject queryObject = new BasicDBObject()
+        .append("TiVoSeriesId", tivoSeriesId);
+
+    BasicDBObject updateObject = new BasicDBObject("$unset", new BasicDBObject("tvdbEpisodeId", ""));
+
+    _db.getCollection("episodes").update(queryObject, updateObject, false, true);
   }
 
   private DBObject getErrorLog(String tivoId) {
@@ -64,7 +93,7 @@ public class TVDBSeriesUpdater extends TVDatabaseUtility {
     return _db.getCollection("errorlogs").findOne(query);
   }
 
-  private Integer getTVDBID(Series series, DBObject errorLog) {
+  private Integer getTVDBID(Series series, DBObject errorLog, Boolean matchedWrong) {
     String seriesTitle = series.seriesTitle.getValue();
     String tivoId = series.seriesId.getValue();
     String tvdbHint = series.tvdbHint.getValue();
@@ -111,11 +140,15 @@ public class TVDBSeriesUpdater extends TVDatabaseUtility {
     NodeList firstSeries = seriesNodes.get(0).getChildNodes();
     String seriesName = getValueOfSimpleStringNode(firstSeries, "SeriesName");
 
+    attachPossibleSeries(series, seriesNodes);
+
     if (!seriesTitle.equalsIgnoreCase(seriesName) && !titleToCheck.equalsIgnoreCase(seriesName)) {
       if (shouldAcceptMismatch(errorLog)) {
         updateSeriesTitle(tivoId, seriesTitle, errorLog);
       } else {
         debug("Discrepency between TiVo and TVDB names!");
+        attachPossibleSeries(series, seriesNodes);
+
         if (!isMismatchError(errorLog)) {
           addMismatchErrorLog(tivoId, seriesTitle, formattedTitle, seriesName);
         }
@@ -128,6 +161,22 @@ public class TVDBSeriesUpdater extends TVDatabaseUtility {
     }
 
     return Integer.parseInt(getValueOfSimpleStringNode(firstSeries, "id"));
+  }
+
+  private void attachPossibleSeries(Series series, List<Node> seriesNodes) {
+    BasicDBList possibleMatches = new BasicDBList();
+
+    int possibleSeries = Math.min(5, seriesNodes.size());
+    for (int i = 0; i < possibleSeries; i++) {
+      NodeList seriesNode = seriesNodes.get(i).getChildNodes();
+
+      BasicDBObject possibleMatch = new BasicDBObject()
+          .append("SeriesTitle", getValueOfSimpleStringNode(seriesNode, "SeriesName"))
+          .append("SeriesID", Integer.parseInt(getValueOfSimpleStringNode(seriesNode, "id")));
+      possibleMatches.add(possibleMatch);
+    }
+
+    singleFieldUpdateWithId("series", series._id.getValue(), "PossibleMatches", possibleMatches);
   }
 
   private String getTitleToCheck(String seriesTitle, DBObject errorLog) {
@@ -394,6 +443,7 @@ public class TVDBSeriesUpdater extends TVDatabaseUtility {
         .find(new BasicDBObject()
                 .append("SeriesId", seriesId)
                 .append("tvdbEpisodeId", null)
+                .append("MatchingStump", new BasicDBObject("$ne", true))
         );
 
     List<Episode> episodes = new ArrayList<>();
@@ -523,6 +573,7 @@ public class TVDBSeriesUpdater extends TVDatabaseUtility {
 
     addBasicErrorLog(series.seriesId.getValue(), object);
   }
+
 
   private void addMismatchErrorLog(String tivoId, String tivoName, String formattedName, String tvdbName) {
     BasicDBObject object = new BasicDBObject()

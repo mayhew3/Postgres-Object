@@ -162,4 +162,8 @@ public class TVDatabaseUtility {
   protected WriteResult updateCollectionWithQuery(String collectionName, BasicDBObject queryObject, DBObject updateObject) {
     return _db.getCollection(collectionName).update(queryObject, new BasicDBObject("$set", updateObject));
   }
+
+  protected WriteResult updateCollectionWithQueryMultiple(String collectionName, BasicDBObject queryObject, DBObject updateObject) {
+    return _db.getCollection(collectionName).update(queryObject, new BasicDBObject("$set", updateObject), false, true);
+  }
 }
