@@ -40,12 +40,12 @@ public class TVDBUpdateRunner extends TVDatabaseUtility {
 
   private void updateShows() {
     BasicDBObject query = new BasicDBObject()
-        .append("IsSuggestion", false)
+        .append("IsSuggestion", new BasicDBObject("$ne", true))
         .append("IgnoreTVDB", new BasicDBObject("$ne", true))
-        .append("SeriesId", new BasicDBObject("$exists", true))
-//        .append("SeriesTitle", "Web Therapy")
+//        .append("SeriesId", new BasicDBObject("$exists", true))
+//        .append("SeriesTitle", "MI-5")
 //        .append("Tier", 1)
-        .append("IsEpisodic", true);
+        .append("IsEpisodic", new BasicDBObject("$ne", false));
 
     DBCollection untaggedShows = _db.getCollection("series");
     DBCursor cursor = untaggedShows.find(query);

@@ -11,9 +11,11 @@ public class FieldValueMongoArray extends FieldValue<BasicDBList> {
   // todo: update code should really use $addToSet instead of sending the whole array in every time.
   public void addToArray(ObjectId value) {
     BasicDBList objectIds = getValue();
-    if (!objectIds.contains(value)) {
+    if (objectIds == null || !objectIds.contains(value)) {
       BasicDBList dbList = new BasicDBList();
-      dbList.addAll(objectIds);
+      if (objectIds != null) {
+        dbList.addAll(objectIds);
+      }
       dbList.add(value);
       changeValue(dbList);
     }
