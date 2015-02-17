@@ -33,7 +33,7 @@ public class TVDBSeriesUpdater extends TVDatabaseUtility {
 
   public void updateSeries() {
     String seriesTitle = _series.seriesTitle.getValue();
-    String seriesTiVoId = _series.seriesId.getValue();
+    String seriesTiVoId = _series.tivoSeriesId.getValue();
 
     DBObject errorLog = getErrorLog(seriesTiVoId);
 
@@ -95,7 +95,7 @@ public class TVDBSeriesUpdater extends TVDatabaseUtility {
 
   private Integer getTVDBID(Series series, DBObject errorLog, Boolean matchedWrong) {
     String seriesTitle = series.seriesTitle.getValue();
-    String tivoId = series.seriesId.getValue();
+    String tivoId = series.tivoSeriesId.getValue();
     String tvdbHint = series.tvdbHint.getValue();
 
     String titleToCheck = tvdbHint == null ?
@@ -205,7 +205,7 @@ public class TVDBSeriesUpdater extends TVDatabaseUtility {
   private void updateSeriesTitle(String tivoId, String seriesTitle, DBObject errorLog) {
     String chosenName = (String) errorLog.get("ChosenName");
     if (!seriesTitle.equalsIgnoreCase(chosenName)) {
-      BasicDBObject queryObject = new BasicDBObject("SeriesId", tivoId);
+      BasicDBObject queryObject = new BasicDBObject("TiVoSeriesId", tivoId);
       BasicDBObject updateObject = new BasicDBObject("SeriesTitle", chosenName);
 
       updateCollectionWithQuery("series", queryObject, updateObject);
@@ -239,7 +239,7 @@ public class TVDBSeriesUpdater extends TVDatabaseUtility {
 
   private void updateShowData(Series series) {
     Integer tvdbID = series.tvdbId.getValue();
-    String tivoSeriesId = series.seriesId.getValue();
+    String tivoSeriesId = series.tivoSeriesId.getValue();
     String seriesTitle = series.seriesTitle.getValue();
     ObjectId seriesId = series._id.getValue();
 
@@ -571,7 +571,7 @@ public class TVDBSeriesUpdater extends TVDatabaseUtility {
         .append("ErrorType", "NoMatchFound")
         .append("ErrorMessage", "Unable to find TVDB show with TiVo Name.");
 
-    addBasicErrorLog(series.seriesId.getValue(), object);
+    addBasicErrorLog(series.tivoSeriesId.getValue(), object);
   }
 
 

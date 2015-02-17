@@ -182,7 +182,7 @@ public class TiVoCommunicator extends TVDatabaseUtility {
       }
 
       DBCollection serieses = _db.getCollection("series");
-      DBObject seriesObject = findSingleMatch(serieses, "SeriesId", tivoId);
+      DBObject seriesObject = findSingleMatch(serieses, "TiVoSeriesId", tivoId);
 
       Series series = new Series();
 
@@ -194,7 +194,7 @@ public class TiVoCommunicator extends TVDatabaseUtility {
         Boolean isEpisodic = isEpisodic(showAttributes);
         Integer tier = isSuggestion ? 5 : 4;
 
-        series.seriesId.changeValue(tivoId);
+        series.tivoSeriesId.changeValue(tivoId);
         series.seriesTitle.changeValue(seriesTitle);
         series.tivoName.changeValue(seriesTitle);
         series.isEpisodic.changeValue(isEpisodic);

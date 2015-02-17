@@ -8,7 +8,7 @@ public class Series extends MediaObject {
 
   public FieldValue<Date> tvdbFirstAired = registerDateField("tvdbFirstAired");
 
-  public FieldValue<String> seriesId = registerStringField("SeriesId");
+  public FieldValue<String> tivoSeriesId = registerStringField("TiVoSeriesId");
   public FieldValueInteger tvdbId = registerIntegerField("tvdbId");
   public FieldValue<String> tvdbSeriesId = registerStringField("tvdbSeriesId");
   public FieldValueInteger tvdbRatingCount = registerIntegerField("tvdbRatingCount");
