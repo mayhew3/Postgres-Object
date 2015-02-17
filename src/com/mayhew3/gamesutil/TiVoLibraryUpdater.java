@@ -3,18 +3,30 @@ package com.mayhew3.gamesutil;
 import com.google.common.collect.Lists;
 import com.mongodb.BasicDBObject;
 
+import java.io.*;
 import java.net.UnknownHostException;
+import java.util.Date;
 import java.util.List;
 
 public class TiVoLibraryUpdater {
 
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws FileNotFoundException {
     List<String> argList = Lists.newArrayList(args);
     Boolean lookAtAllShows = argList.contains("FullMode");
     Boolean tvdbOnly = argList.contains("TVDBOnly");
     Boolean tiVoOnly = argList.contains("TiVoOnly");
 
+
+    File file = new File("D:\\Projects\\mean_projects\\GamesDBUtil\\logs\\TiVoUpdater.log");
+    FileOutputStream fos = new FileOutputStream(file, true);
+    PrintStream ps = new PrintStream(fos);
+    System.setErr(ps);
+    System.setOut(ps);
+
+    debug("");
+    debug("SESSION START! Date: " + new Date());
+    debug("");
 
     ConnectionLogger logger;
     try {
