@@ -38,6 +38,7 @@ public class Series extends MediaObject {
   public FieldValue<String> zap2it_id = registerStringField("zap2it_id");
 
   public FieldValue<BasicDBList> tvdbGenre = registerStringArrayField("tvdbGenre");
+  public FieldValue<BasicDBList> viewingLocations = registerStringArrayField("ViewingLocations");
 
   public FieldValueBoolean ignoreTVDB = registerBooleanField("IgnoreTVDB");
   public FieldValueBoolean isEpisodic = registerBooleanField("IsEpisodic");

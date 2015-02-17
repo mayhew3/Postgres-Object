@@ -3,10 +3,7 @@ package com.mayhew3.gamesutil;
 import com.mayhew3.gamesutil.mediaobject.Episode;
 import com.mayhew3.gamesutil.mediaobject.FieldValue;
 import com.mayhew3.gamesutil.mediaobject.Series;
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
+import com.mongodb.*;
 import org.bson.types.ObjectId;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeComparator;
@@ -192,8 +189,6 @@ public class TiVoCommunicator extends TVDatabaseUtility {
       if (seriesObject == null) {
         series.initializeForInsert();
 
-        // todo: get TVDB series info
-
         debug("Adding series '" + seriesTitle + "'  with TiVoID '" + tivoId + "'");
 
         Boolean isEpisodic = isEpisodic(showAttributes);
@@ -205,6 +200,10 @@ public class TiVoCommunicator extends TVDatabaseUtility {
         series.isEpisodic.changeValue(isEpisodic);
         series.isSuggestion.changeValue(isSuggestion);
         series.tier.changeValue(tier);
+
+        BasicDBList locations = new BasicDBList();
+        locations.add("TiVo");
+        series.viewingLocations.changeValue(locations);
 
         series.initializeDenorms();
 
@@ -278,6 +277,10 @@ public class TiVoCommunicator extends TVDatabaseUtility {
 
       if (!tivoEpisodeExists) {
         if (added) {
+          /*
+          if (episodeId == null) {
+            throw new RuntimeException("EpisodeId should never be null!");
+          }*/
           series.episodes.addToArray(episodeId);
         }
 
