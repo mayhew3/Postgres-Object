@@ -56,6 +56,9 @@ public class Series extends MediaObject {
   public FieldValueInteger tvdbOnlyEpisodes = registerIntegerField("tvdbOnlyEpisodes");
   public FieldValueInteger matchedEpisodes = registerIntegerField("MatchedEpisodes");
 
+  public FieldValueInteger metacritic = registerIntegerField("Metacritic");
+  public FieldValue<String> metacriticHint = registerStringField("MetacriticHint");
+
   public FieldValue<Date> lastUnwatched = registerDateField("LastUnwatched");
   public FieldValue<Date> mostRecent = registerDateField("MostRecent");
   public FieldValueBoolean isSuggestion = registerBooleanField("IsSuggestion");

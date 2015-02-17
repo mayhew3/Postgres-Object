@@ -62,6 +62,7 @@ public class TVDBUpdateRunner extends TVDatabaseUtility {
       try {
         updateShow(show);
       } catch (RuntimeException e) {
+        e.printStackTrace();
         debug("Show failed: " + show.get("SeriesTitle"));
       }
 
@@ -72,6 +73,9 @@ public class TVDBUpdateRunner extends TVDatabaseUtility {
   private void updateShow(DBObject show) {
     Series series = new Series();
     series.initializeFromDBObject(show);
+
+    MetacriticUpdater metacriticUpdater = new MetacriticUpdater(_mongoClient, _db, series);
+    metacriticUpdater.runUpdater();
 
     TVDBSeriesUpdater updater = new TVDBSeriesUpdater(_mongoClient, _db, series);
     updater.updateSeries();
