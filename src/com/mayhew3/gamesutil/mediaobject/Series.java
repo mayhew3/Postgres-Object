@@ -43,6 +43,8 @@ public class Series extends MediaObject {
   public FieldValueBoolean ignoreTVDB = registerBooleanField("IgnoreTVDB");
   public FieldValueBoolean isEpisodic = registerBooleanField("IsEpisodic");
 
+  public FieldValueDBObjectArray metacriticSeasons = registerIntegerDBObjectArrayField("MetacriticSeasons");
+
 
   /* Denorms */
 

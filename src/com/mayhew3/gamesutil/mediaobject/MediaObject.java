@@ -146,6 +146,12 @@ public abstract class MediaObject {
     return fieldStringArrayValue;
   }
 
+  protected final FieldValueDBObjectArray registerIntegerDBObjectArrayField(String fieldName) {
+    FieldValueDBObjectArray fieldIntegerArrayValue = new FieldValueDBObjectArray(fieldName, new FieldConversionIntegerDBObjectArray());
+    allFieldValues.add(fieldIntegerArrayValue);
+    return fieldIntegerArrayValue;
+  }
+
   protected final FieldValueBoolean registerBooleanField(String fieldName) {
     FieldValueBoolean fieldBooleanValue = new FieldValueBoolean(fieldName, new FieldConversionBoolean());
     allFieldValues.add(fieldBooleanValue);

@@ -37,12 +37,12 @@ public class MetacriticUpdateRunner extends TVDatabaseUtility {
 
   private void updateShows() {
     BasicDBObject query = new BasicDBObject()
-//        .append("IsSuggestion", new BasicDBObject("$ne", true))
+        .append("IsSuggestion", new BasicDBObject("$ne", true))
         .append("IgnoreTVDB", new BasicDBObject("$ne", true))
 //        .append("SeriesId", new BasicDBObject("$exists", true))
-//        .append("SeriesTitle", "MI-5")
-//        .append("Tier", 1)
-        .append("Metacritic", null)
+//        .append("SeriesTitle", "Homeland")
+//        .append("Tier", new BasicDBObject("$ne", 1))
+//        .append("Metacritic", null)
         .append("IsEpisodic", new BasicDBObject("$ne", false));
 
     DBCollection untaggedShows = _db.getCollection("series");
@@ -59,7 +59,7 @@ public class MetacriticUpdateRunner extends TVDatabaseUtility {
 
       try {
         updateShow(show);
-      } catch (RuntimeException e) {
+      } catch (ShowFailedException e) {
         e.printStackTrace();
         debug("Show failed: " + show.get("SeriesTitle"));
       }
@@ -68,9 +68,11 @@ public class MetacriticUpdateRunner extends TVDatabaseUtility {
     }
   }
 
-  private void updateShow(DBObject show) {
+  private void updateShow(DBObject show) throws ShowFailedException {
     Series series = new Series();
     series.initializeFromDBObject(show);
+
+    debug("Updating series: " + series.seriesTitle.getValue());
 
     MetacriticUpdater metacriticUpdater = new MetacriticUpdater(_mongoClient, _db, series);
     metacriticUpdater.runUpdater();

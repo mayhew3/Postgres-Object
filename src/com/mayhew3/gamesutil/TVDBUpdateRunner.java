@@ -61,7 +61,7 @@ public class TVDBUpdateRunner extends TVDatabaseUtility {
 
       try {
         updateShow(show);
-      } catch (RuntimeException e) {
+      } catch (RuntimeException | ShowFailedException e) {
         e.printStackTrace();
         debug("Show failed: " + show.get("SeriesTitle"));
       }
@@ -70,7 +70,7 @@ public class TVDBUpdateRunner extends TVDatabaseUtility {
     }
   }
 
-  private void updateShow(DBObject show) {
+  private void updateShow(DBObject show) throws ShowFailedException {
     Series series = new Series();
     series.initializeFromDBObject(show);
 
