@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -104,26 +103,36 @@ public class TiVoCommunicator extends TVDatabaseUtility {
     DBCursor dbObjects = episodes.find(deletedDate);
 
     while (dbObjects.hasNext()) {
-      DBObject episode = dbObjects.next();
+      DBObject episodeObj = dbObjects.next();
+
+      Episode episode = new Episode();
+      episode.initializeFromDBObject(episodeObj);
+
       deleteIfGone(episode);
     }
 
   }
 
-  private void deleteIfGone(DBObject episode) {
-    String programId = (String) episode.get("TiVoProgramId");
+  private void deleteIfGone(Episode episode) {
+    String programId = episode.tivoProgramId.getValue();
 
     if (programId == null) {
       throw new RuntimeException("Episode found with OnTiVo 'true' and TiVoProgramId 'null'.");
     }
 
     if (!episodesOnTiVo.contains(programId)) {
-      Date captureDate = (Date) episode.get("TiVoCaptureDate");
+      Date showingTime = episode.tivoShowingStartTime.getValue();
 
-      String formattedDate = new SimpleDateFormat("yyyy-MM-dd").format(captureDate);
-      debug("Found episode in DB that is no longer on Tivo: '" + episode.get("TiVoEpisodeTitle") + "' on " + formattedDate + ". Updating deletion date.");
+      if (showingTime == null) {
+        debug("Found episode in DB that is no longer on Tivo: '" + episode.tivoEpisodeTitle.getValue() + "' on UNKNOWN DATE. Updating deletion date.");
+      } else {
+        String formattedDate = new SimpleDateFormat("yyyy-MM-dd").format(showingTime);
+        debug("Found episode in DB that is no longer on Tivo: '" + episode.tivoEpisodeTitle.getValue() + "' on " + formattedDate + ". Updating deletion date.");
+      }
 
-      singleFieldUpdateWithId("episodes", episode.get("_id"), "TiVoDeletedDate", Calendar.getInstance().getTime());
+      episode.tivoDeletedDate.changeValue(new Date());
+      episode.commit(_db);
+
       deletedShows++;
     }
   }
