@@ -50,14 +50,17 @@ public class TVDBSeriesUpdater extends TVDatabaseUtility {
           getTVDBID(_series, errorLog, matchedWrong) :
           existingId;
 
-      if (tvdbId != null && !matchedWrong) {
+      Boolean usingOldWrongID = matchedWrong && Objects.equals(existingId, tvdbId);
+
+      if (tvdbId != null && !usingOldWrongID) {
         debug(seriesTitle + ": ID found, getting show data.");
         _series.tvdbId.changeValue(tvdbId);
 
-        if (_series.needsTVDBRedo.getValue()) {
+        if (matchedWrong) {
           removeTVDBOnlyEpisodes(seriesTiVoId);
           clearTVDBIds(seriesTiVoId);
-          singleFieldUpdateWithId("series", _series._id.getValue(), "NeedsTVDBRedo", false);
+          _series.needsTVDBRedo.changeValue(false);
+          _series.matchedWrong.changeValue(false);
         }
 
         updateShowData(_series);
