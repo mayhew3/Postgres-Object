@@ -16,13 +16,16 @@ public class TiVoLibraryUpdater {
     Boolean lookAtAllShows = argList.contains("FullMode");
     Boolean tvdbOnly = argList.contains("TVDBOnly");
     Boolean tiVoOnly = argList.contains("TiVoOnly");
+    Boolean logToFile = argList.contains("LogToFile");
 
 
-    File file = new File("D:\\Projects\\mean_projects\\GamesDBUtil\\logs\\TiVoUpdater.log");
-    FileOutputStream fos = new FileOutputStream(file, true);
-    PrintStream ps = new PrintStream(fos);
-    System.setErr(ps);
-    System.setOut(ps);
+    if (logToFile) {
+      File file = new File("D:\\Projects\\mean_projects\\GamesDBUtil\\logs\\TiVoUpdater.log");
+      FileOutputStream fos = new FileOutputStream(file, true);
+      PrintStream ps = new PrintStream(fos);
+      System.setErr(ps);
+      System.setOut(ps);
+    }
 
     debug("");
     debug("SESSION START! Date: " + new Date());

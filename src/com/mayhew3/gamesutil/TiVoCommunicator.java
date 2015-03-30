@@ -227,7 +227,7 @@ public class TiVoCommunicator extends TVDatabaseUtility {
 
       ObjectId seriesId = series._id.getValue();
 
-      if (series.tvdbId.getValue() == null) {
+      if (series.tvdbId.getValue() == null && series.isEpisodic.getValue()) {
         TVDBSeriesUpdater updater = new TVDBSeriesUpdater(_mongoClient, _db, series);
         updater.updateSeries();
       }
@@ -258,7 +258,7 @@ public class TiVoCommunicator extends TVDatabaseUtility {
       } else {
         Episode tvdbMatch = findTVDBEpisodeMatch(episode, seriesId);
 
-        if (tvdbMatch == null) {
+        if (tvdbMatch == null && series.isEpisodic.getValue()) {
           TVDBSeriesUpdater updater = new TVDBSeriesUpdater(_mongoClient, _db, series);
           updater.updateSeries();
 
@@ -274,6 +274,7 @@ public class TiVoCommunicator extends TVDatabaseUtility {
         } else {
           matched = true;
 
+          episode.changeToUpdateObject();
           episode = mergeEpisodes(tvdbMatch, episode);
           episode.onTiVo.changeValue(true);
           episode.commit(_db);
@@ -283,6 +284,10 @@ public class TiVoCommunicator extends TVDatabaseUtility {
       }
 
       ObjectId episodeId = episode._id.getValue();
+
+      if (episodeId == null) {
+        throw new RuntimeException("Episode ID should never be null after insert or update!");
+      }
 
       if (!tivoEpisodeExists) {
         if (added) {
@@ -373,6 +378,7 @@ public class TiVoCommunicator extends TVDatabaseUtility {
 
   private Episode formatEpisodeObject(String url, Boolean isSuggestion, NodeList showDetails) {
     Episode episode = new Episode();
+    episode.initializeForInsert();
 
     episode.tivoCaptureDate.changeValueFromXMLString(getValueOfSimpleStringNode(showDetails, "CaptureDate"));
     episode.tivoShowingStartTime.changeValueFromXMLString(getValueOfSimpleStringNode(showDetails, "ShowingStartTime"));

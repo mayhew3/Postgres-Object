@@ -41,6 +41,10 @@ public abstract class MediaObject {
     editMode = EditMode.INSERT;
   }
 
+  public void changeToUpdateObject() {
+    editMode = EditMode.UPDATE;
+  }
+
   private void initializeValue(FieldValue fieldValue, Object obj) {
     if (obj instanceof String) {
       fieldValue.initializeValueFromString((String) obj);
@@ -55,6 +59,8 @@ public abstract class MediaObject {
       update(db);
     } else if (editMode == EditMode.INSERT) {
       insert(db);
+    } else {
+      throw new IllegalStateException("Attempting to commit MediaObject that wasn't properly initialized!");
     }
   }
 
@@ -82,6 +88,9 @@ public abstract class MediaObject {
   }
 
   private void update(DB db) {
+    if (_id == null) {
+      throw new RuntimeException("Cannot update object with no _id field.");
+    }
     if (_id.isChanged()) {
       throw new RuntimeException("Cannot change _id field on existing object.");
     }
