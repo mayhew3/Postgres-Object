@@ -84,6 +84,16 @@ public class TiVoLibraryUpdater {
       }
     }
 
+    try {
+      TVDatabaseSeriesDenormUpdater updater = new TVDatabaseSeriesDenormUpdater();
+      updater.updateFields();
+      updater.closeDatabase();
+    } catch (UnknownHostException e) {
+      e.printStackTrace();
+      logger.closeDatabase();
+      throw new RuntimeException("Error updating denorms.");
+    }
+
     logger.logConnectionEnd(tiVoCommunicator.getSessionInfo());
     logger.logConnectionEnd(tvdbUpdateRunner.getSessionInfo());
     logger.closeDatabase();
