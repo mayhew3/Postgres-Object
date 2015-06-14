@@ -72,7 +72,8 @@ public abstract class MediaObject {
     dateAdded.changeValue(new Date());
     for (FieldValue fieldValue : allFieldValues) {
       if (fieldValue.getOriginalValue() != null) {
-        throw new IllegalStateException("Shouldn't find any original values on Insert object.");
+        throw new IllegalStateException("Shouldn't find any original values on Insert object: '" + fieldValue.getFieldName() + "' field has value '"
+            + fieldValue.getOriginalValue() + "', changed value '" + fieldValue.getChangedValue() + "'");
       }
       if (fieldValue.isChanged()) {
         insertObject.append(fieldValue.getFieldName(), fieldValue.getChangedValue());
@@ -85,6 +86,9 @@ public abstract class MediaObject {
       updateObjects(changedFields);
       _id.initializeValue((ObjectId) insertObject.get("_id"));
     }
+
+    // INSERT COMPLETE. Subsequent changes should be updates.
+    editMode = EditMode.UPDATE;
   }
 
   private void update(DB db) {

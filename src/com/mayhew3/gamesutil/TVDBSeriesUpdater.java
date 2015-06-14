@@ -43,7 +43,7 @@ public class TVDBSeriesUpdater extends TVDatabaseUtility {
     } else {
 
 
-      Boolean matchedWrong = _series.matchedWrong.getValue();
+      Boolean matchedWrong = Boolean.TRUE.equals(_series.matchedWrong.getValue());
       Integer existingId = _series.tvdbId.getValue();
 
       Integer tvdbId = (existingId == null || matchedWrong) ?

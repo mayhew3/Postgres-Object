@@ -9,6 +9,6 @@ echo DB started.
 :Running
 echo Program is running
 java -classpath "D:\Projects\mean_projects\GamesDBUtil\out\artifacts\GamesDBUtil_jar\GamesDBUtil.jar" com.mayhew3.gamesutil.SteamGameUpdater
-java -classpath "D:\Projects\mean_projects\GamesDBUtil\out\artifacts\GamesDBUtil_jar\GamesDBUtil.jar" com.mayhew3.gamesutil.TiVoLibraryUpdater FullMode
+java -classpath "D:\Projects\mean_projects\GamesDBUtil\out\artifacts\GamesDBUtil_jar\GamesDBUtil.jar" com.mayhew3.gamesutil.TiVoLibraryUpdater FullMode LogToFile
 if %mongoshutdown%=="1" taskkill /im mongod.exe
 endlocal

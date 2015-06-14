@@ -209,6 +209,7 @@ public class TiVoCommunicator extends TVDatabaseUtility {
         series.isEpisodic.changeValue(isEpisodic);
         series.isSuggestion.changeValue(isSuggestion);
         series.tier.changeValue(tier);
+        series.matchedWrong.changeValue(false);
 
         BasicDBList locations = new BasicDBList();
         locations.add("TiVo");
@@ -281,15 +282,14 @@ public class TiVoCommunicator extends TVDatabaseUtility {
 
           updatedShows++;
         }
-      }
 
-      ObjectId episodeId = episode._id.getValue();
 
-      if (episodeId == null) {
-        throw new RuntimeException("Episode ID should never be null after insert or update!");
-      }
+        ObjectId episodeId = episode._id.getValue();
 
-      if (!tivoEpisodeExists) {
+        if (episodeId == null) {
+          throw new RuntimeException("Episode ID should never be null after insert or update!");
+        }
+
         if (added) {
           /*
           if (episodeId == null) {
@@ -301,6 +301,7 @@ public class TiVoCommunicator extends TVDatabaseUtility {
         updateSeriesDenorms(episode, series, matched);
 
         series.commit(_db);
+
       }
 
     }

@@ -7,11 +7,14 @@ import java.util.Collections;
 public class FieldConversionStringArray extends FieldConversion<BasicDBList> {
   @Override
   BasicDBList parseFromString(String value) {
-    String[] split = value.replaceFirst("^\\|", "")
-        .split("\\|");
     BasicDBList objects = new BasicDBList();
 
-    Collections.addAll(objects, split);
+    if (value != null) {
+      String[] split = value.replaceFirst("^\\|", "")
+          .split("\\|");
+
+      Collections.addAll(objects, split);
+    }
 
     return objects;
   }
