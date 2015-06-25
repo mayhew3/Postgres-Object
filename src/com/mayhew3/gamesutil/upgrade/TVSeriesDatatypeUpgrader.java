@@ -1,5 +1,6 @@
-package com.mayhew3.gamesutil;
+package com.mayhew3.gamesutil.upgrade;
 
+import com.mayhew3.gamesutil.TVDatabaseUtility;
 import com.mayhew3.gamesutil.mediaobject.Series;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;

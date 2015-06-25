@@ -1,5 +1,6 @@
-package com.mayhew3.gamesutil;
+package com.mayhew3.gamesutil.games;
 
+import com.mayhew3.gamesutil.DatabaseUtility;
 import com.mongodb.*;
 import org.json.JSONArray;
 import org.json.JSONObject;

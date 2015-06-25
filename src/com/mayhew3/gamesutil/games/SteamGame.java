@@ -1,4 +1,4 @@
-package com.mayhew3.gamesutil;
+package com.mayhew3.gamesutil.games;
 
 import com.mongodb.*;
 import org.json.JSONObject;

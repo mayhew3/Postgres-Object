@@ -21,6 +21,7 @@ public class Series extends MediaObject {
   public FieldValue<Double> tvdbRating = registerDoubleField("tvdbRating");
 
   public FieldValueMongoArray episodes = registerMongoArrayField("episodes");
+  public FieldValueMongoArray tvdbEpisodes = registerMongoArrayField("tvdbEpisodes");
 
   public FieldValue<String> seriesTitle = registerStringField("SeriesTitle");
   public FieldValue<String> tivoName = registerStringField("TiVoName");
