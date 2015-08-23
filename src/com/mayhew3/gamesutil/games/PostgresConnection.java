@@ -126,7 +126,7 @@ public class PostgresConnection {
     }
   }
 
-  protected void prepareAndExecuteStatementUpdate(String sql, List<Object> params) {
+  public void prepareAndExecuteStatementUpdate(String sql, List<Object> params) {
     try {
       PreparedStatement preparedStatement = prepareStatement(sql, params);
 
