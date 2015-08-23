@@ -126,11 +126,15 @@ public class PostgresConnection {
     }
   }
 
-  protected void prepareAndExecuteStatementUpdateWithException(String sql, List<Object> params) throws SQLException {
-    PreparedStatement preparedStatement = prepareStatement(sql, params);
+  protected void prepareAndExecuteStatementUpdate(String sql, List<Object> params) {
+    try {
+      PreparedStatement preparedStatement = prepareStatement(sql, params);
 
-    preparedStatement.executeUpdate();
-    preparedStatement.close();
+      preparedStatement.executeUpdate();
+      preparedStatement.close();
+    } catch (SQLException e) {
+      throw new RuntimeException("Error preparing and executing statement for SQL: " + sql + ": " + e.getLocalizedMessage());
+    }
   }
 
   protected PreparedStatement prepareStatement(String sql, List<Object> params) {
@@ -200,6 +204,12 @@ public class PostgresConnection {
         preparedStatement.setString(i, (String) param);
       } else if (param instanceof Integer) {
         preparedStatement.setInt(i, (Integer) param);
+      } else if (param instanceof Double) {
+        preparedStatement.setDouble(i, (Double) param);
+      } else if (param instanceof Timestamp) {
+        preparedStatement.setTimestamp(i, (Timestamp) param);
+      } else if (param instanceof Boolean) {
+        preparedStatement.setBoolean(i, (Boolean) param);
       } else {
         throw new RuntimeException("Unknown type of param: " + param.getClass());
       }
