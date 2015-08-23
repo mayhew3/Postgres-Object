@@ -6,6 +6,7 @@ import com.mayhew3.gamesutil.games.PostgresConnection;
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -228,6 +229,12 @@ public abstract class MediaObject {
     FieldValue<Double> fieldDoubleValue = new FieldValue<>(fieldName, new FieldConversionDouble());
     allFieldValues.add(fieldDoubleValue);
     return fieldDoubleValue;
+  }
+
+  protected final FieldValue<BigDecimal> registerBigDecimalField(String fieldName) {
+    FieldValue<BigDecimal> fieldBigDecimalValue = new FieldValue<>(fieldName, new FieldConversionBigDecimal());
+    allFieldValues.add(fieldBigDecimalValue);
+    return fieldBigDecimalValue;
   }
 
   protected final FieldValueString registerStringField(String fieldName) {

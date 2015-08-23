@@ -1,5 +1,6 @@
 package com.mayhew3.gamesutil.mediaobjectpostgres;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class Game extends MediaObject {
@@ -7,22 +8,22 @@ public class Game extends MediaObject {
 
   public FieldValue<Date> finished = registerDateField("finished");
 
-  public FieldValue<Double> metacritic = registerDoubleField("metacritic");
-  public FieldValue<Double> guess = registerDoubleField("guess");
-  public FieldValue<Double> mayhew = registerDoubleField("mayhew");
-  public FieldValue<Double> sum = registerDoubleField("sum");
-  public FieldValue<Double> sumd = registerDoubleField("sumd");
-  public FieldValue<Double> hrsPlayed = registerDoubleField("hrs played");
-  public FieldValue<Double> hrsTotal = registerDoubleField("hrs total");
-  public FieldValue<Double> percentDone = registerDoubleField("percent done");
-  public FieldValue<Double> remaining = registerDoubleField("remaining");
-  public FieldValue<Double> percent = registerDoubleField("percent");
-  public FieldValue<Double> percentd = registerDoubleField("percentd");
-  public FieldValue<Double> playtime = registerDoubleField("playtime");
-  public FieldValue<Double> finalscore = registerDoubleField("finalscore");
-  public FieldValue<Double> replay = registerDoubleField("replay?");
-  public FieldValue<Double> adj = registerDoubleField("adj");
-  public FieldValue<Double> remainder = registerDoubleField("remainder");
+  public FieldValue<BigDecimal> metacritic = registerBigDecimalField("metacritic");
+  public FieldValue<BigDecimal> guess = registerBigDecimalField("guess");
+  public FieldValue<BigDecimal> mayhew = registerBigDecimalField("mayhew");
+  public FieldValue<BigDecimal> sum = registerBigDecimalField("sum");
+  public FieldValue<BigDecimal> sumd = registerBigDecimalField("sumd");
+  public FieldValue<BigDecimal> hrsPlayed = registerBigDecimalField("hrs played");
+  public FieldValue<BigDecimal> hrsTotal = registerBigDecimalField("hrs total");
+  public FieldValue<BigDecimal> percentDone = registerBigDecimalField("percent done");
+  public FieldValue<BigDecimal> remaining = registerBigDecimalField("remaining");
+  public FieldValue<BigDecimal> percent = registerBigDecimalField("percent");
+  public FieldValue<BigDecimal> percentd = registerBigDecimalField("percentd");
+  public FieldValue<BigDecimal> playtime = registerBigDecimalField("playtime");
+  public FieldValue<BigDecimal> finalscore = registerBigDecimalField("finalscore");
+  public FieldValue<BigDecimal> replay = registerBigDecimalField("replay?");
+  public FieldValue<BigDecimal> adj = registerBigDecimalField("adj");
+  public FieldValue<BigDecimal> remainder = registerBigDecimalField("remainder");
 
 
   public FieldValueShort total = registerShortField("total");

@@ -1,8 +1,10 @@
 package com.mayhew3.gamesutil.games;
 
+import com.mayhew3.gamesutil.mediaobjectpostgres.Game;
 import com.mongodb.*;
 import org.json.JSONObject;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class SteamGame {
@@ -41,6 +43,33 @@ public class SteamGame {
     }
   }
 
+  public void updateFieldsOnGameObject(Game game) {
+    BigDecimal previousPlaytime = game.playtime.getValue();
+    if (!(new BigDecimal(playtime)).equals(previousPlaytime)) {
+      debug(" - Updating new play time!");
+      if (previousPlaytime != null) {
+        logUpdateToPlaytimePostgres(previousPlaytime);
+      }
+      game.playtime.changeValue(new BigDecimal(playtime));
+    } else {
+      debug(" - playtime unchanged.");
+    }
+  }
+
+  public void copyFieldsToGameObject(Game game) {
+    if (playtime > 0) {
+      logUpdateToPlaytimePostgres(BigDecimal.ZERO);
+    }
+    game.game.changeValue(name);
+    game.steamID.changeValue(steamID);
+    game.playtime.changeValue(new BigDecimal(playtime));
+    game.icon.changeValue(icon);
+    game.logo.changeValue(logo);
+  }
+
+  public void logUpdateToPlaytimePostgres(BigDecimal previousPlaytime) {
+    // todo: update game logs when table is populated.
+  }
 
   public void logUpdateToPlaytime(Integer previousPlaytime) {
     try {
