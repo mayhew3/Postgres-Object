@@ -1,4 +1,4 @@
-package com.mayhew3.gamesutil.mediaobject;
+package com.mayhew3.gamesutil.mediaobjectmongo;
 
 import com.mongodb.BasicDBList;
 import com.mongodb.DBObject;

@@ -1,6 +1,6 @@
 package com.mayhew3.gamesutil;
 
-import com.mayhew3.gamesutil.mediaobject.Series;
+import com.mayhew3.gamesutil.mediaobjectmongo.Series;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;

@@ -1,4 +1,4 @@
-package com.mayhew3.gamesutil.mediaobject;
+package com.mayhew3.gamesutil.mediaobjectmongo;
 
 public class FieldValueString extends FieldValue<String> {
   public FieldValueString(String fieldName, FieldConversion<String> converter) {
