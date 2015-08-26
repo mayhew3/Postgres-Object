@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
-Class-Path: json-20140107.jar jsoup-1.8.1.jar mongo-java-driver-2.12.3
- .jar commons-codec-1.2.jar google-collections-1.0.jar cotta-3.0.jar j
- oda-time-2.6.jar
+Class-Path: mongo-java-driver-2.12.3.jar postgresql-9.4-1201-jdbc41.ja
+ r json-20140107.jar cotta-3.0.jar joda-time-2.6.jar jsoup-1.8.1.jar c
+ ommons-codec-1.2.jar google-collections-1.0.jar
 Main-Class: com.mayhew3.gamesutil.TiVoLibraryUpdater
 
