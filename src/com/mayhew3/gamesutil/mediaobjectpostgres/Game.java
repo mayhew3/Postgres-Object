@@ -1,12 +1,10 @@
 package com.mayhew3.gamesutil.mediaobjectpostgres;
 
 import java.math.BigDecimal;
-import java.util.Date;
 
 public class Game extends MediaObject {
 
-
-  public FieldValue<Date> finished = registerDateField("finished");
+  public FieldValueDate finished = registerDateField("finished");
 
   public FieldValue<BigDecimal> metacritic = registerBigDecimalField("metacritic");
   public FieldValue<BigDecimal> guess = registerBigDecimalField("guess");
