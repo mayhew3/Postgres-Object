@@ -207,6 +207,8 @@ public class PostgresConnection {
         preparedStatement.setInt(i, (Integer) param);
       } else if (param instanceof BigDecimal) {
         preparedStatement.setBigDecimal(i, (BigDecimal) param);
+      } else if (param instanceof Double) {
+        preparedStatement.setDouble(i, (Double) param);
       } else if (param instanceof Timestamp) {
         preparedStatement.setTimestamp(i, (Timestamp) param);
       } else if (param instanceof Boolean) {
