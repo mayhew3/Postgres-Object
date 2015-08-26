@@ -13,11 +13,22 @@ import java.util.Set;
 
 public class GamePostgresMongoSyncer {
 
+  private static MongoConnection mongoConnection;
+  private static PostgresConnection postgresConnection;
+
   public static void main(String[] args) {
 
-    MongoConnection mongoConnection = new MongoConnection("games");
+    mongoConnection = new MongoConnection("games");
 
-    PostgresConnection postgresConnection = new PostgresConnection();
+    postgresConnection = new PostgresConnection();
+
+    eraseAndCopyGames();
+
+    eraseAndCopyGamelogs();
+
+  }
+
+  private static void eraseAndCopyGames() {
     postgresConnection.executeUpdate("TRUNCATE TABLE games");
     postgresConnection.executeUpdate("ALTER SEQUENCE games_id_seq RESTART WITH 1");
 
@@ -29,8 +40,32 @@ public class GamePostgresMongoSyncer {
       DBObject dbObject = dbObjects.next();
       Object game = dbObject.get("Game");
       debug("Processing game: " + game);
-      translateRow(dbObject, postgresConnection);
+      translateRow(dbObject, postgresConnection, "games");
     }
+
+
+    debug("");
+    debug("COMPLETE!");
+    debug("");
+
+  }
+
+  private static void eraseAndCopyGamelogs() {
+    postgresConnection.executeUpdate("TRUNCATE TABLE gamelogs");
+    postgresConnection.executeUpdate("ALTER SEQUENCE gamelogs_id_seq RESTART WITH 1");
+
+    DBCollection gamelogs = mongoConnection.getCollection("gamelogs");
+
+    DBCursor dbObjects = gamelogs.find();
+
+    while (dbObjects.hasNext()) {
+      DBObject dbObject = dbObjects.next();
+      Object game = dbObject.get("Game");
+      Object eventDate = dbObject.get("EventDate");
+      debug("Processing game log: " + game + ": " + eventDate);
+      translateRow(dbObject, postgresConnection, "gamelogs");
+    }
+
 
     debug("");
     debug("COMPLETE!");
@@ -42,7 +77,7 @@ public class GamePostgresMongoSyncer {
     System.out.println(debugString);
   }
 
-  private static void translateRow(DBObject dbObject, PostgresConnection connection) {
+  private static void translateRow(DBObject dbObject, PostgresConnection connection, String tableName) {
     List<String> fieldNames = Lists.newArrayList();
     List<Object> fieldValues = Lists.newArrayList();
     List<String> questionMarks = Lists.newArrayList();
@@ -88,7 +123,7 @@ public class GamePostgresMongoSyncer {
     String commaSeparatedNames = joiner.join(fieldNames);
     String commaSeparatedQuestionMarks = joiner.join(questionMarks);
 
-    String sql = "INSERT INTO games (" + commaSeparatedNames + ") VALUES (" + commaSeparatedQuestionMarks + ")";
+    String sql = "INSERT INTO " + tableName + " (" + commaSeparatedNames + ") VALUES (" + commaSeparatedQuestionMarks + ")";
     connection.prepareAndExecuteStatementUpdate(sql, fieldValues);
 
 
