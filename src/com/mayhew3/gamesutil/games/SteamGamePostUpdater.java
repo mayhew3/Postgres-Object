@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,15 +50,11 @@ public class SteamGamePostUpdater extends DatabaseUtility {
         Game game = new Game();
         if (connection.hasMoreElements(resultSet)) {
           game.initializeFromDBObject(resultSet);
-          steamGame.updateFieldsOnGameObject(game);
+          steamGame.updateFieldsOnGameObject(game, connection);
         } else {
           debug(" - Game not found! Adding.");
           game.initializeForInsert();
-          steamGame.copyFieldsToGameObject(game);
-          game.platform.changeValue("Steam");
-          game.owned.changeValue("true");
-          game.started.changeValue(false);
-          game.added.changeValue(new Date());
+          steamGame.copyFieldsToGameObjectAndInsert(game, connection);
           unfoundGames.put(steamGame.getID(), steamGame.getName());
         }
 

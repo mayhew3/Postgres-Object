@@ -1,10 +1,12 @@
 package com.mayhew3.gamesutil.games;
 
 import com.mayhew3.gamesutil.mediaobjectpostgres.Game;
+import com.mayhew3.gamesutil.mediaobjectpostgres.GameLog;
 import com.mongodb.*;
 import org.json.JSONObject;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class SteamGame {
@@ -43,32 +45,54 @@ public class SteamGame {
     }
   }
 
-  public void updateFieldsOnGameObject(Game game) {
+  public void updateFieldsOnGameObject(Game game, PostgresConnection connection) {
     BigDecimal previousPlaytime = game.playtime.getValue();
     if (!(new BigDecimal(playtime)).equals(previousPlaytime)) {
       debug(" - Updating new play time!");
       if (previousPlaytime != null) {
-        logUpdateToPlaytimePostgres(previousPlaytime);
+        logUpdateToPlaytimePostgres(previousPlaytime, connection);
       }
       game.playtime.changeValue(new BigDecimal(playtime));
+      game.commit(connection);
     } else {
       debug(" - playtime unchanged.");
     }
   }
 
-  public void copyFieldsToGameObject(Game game) {
+  public void copyFieldsToGameObjectAndInsert(Game game, PostgresConnection connection) {
     if (playtime > 0) {
-      logUpdateToPlaytimePostgres(BigDecimal.ZERO);
+      logUpdateToPlaytimePostgres(BigDecimal.ZERO, connection);
     }
+    game.platform.changeValue("Steam");
+    game.owned.changeValue("true");
+    game.started.changeValue(false);
+    game.added.changeValue(new Timestamp(new Date().getTime()));
     game.game.changeValue(name);
     game.steamID.changeValue(steamID);
     game.playtime.changeValue(new BigDecimal(playtime));
     game.icon.changeValue(icon);
     game.logo.changeValue(logo);
+
+    game.commit(connection);
   }
 
-  public void logUpdateToPlaytimePostgres(BigDecimal previousPlaytime) {
-    // todo: update game logs when table is populated.
+  public void logUpdateToPlaytimePostgres(BigDecimal previousPlaytime, PostgresConnection connection) {
+    int previousInteger = previousPlaytime.intValue();
+    int diff = playtime - previousInteger;
+
+    GameLog gameLog = new GameLog();
+    gameLog.initializeForInsert();
+
+    gameLog.game.changeValue(name);
+    gameLog.steamID.changeValue(steamID);
+    gameLog.platform.changeValue("Steam");
+    gameLog.previousPlaytime.changeValue(previousInteger);
+    gameLog.updatedplaytime.changeValue(playtime);
+    gameLog.diff.changeValue(diff);
+    gameLog.eventtype.changeValue("Played");
+    gameLog.eventdate.changeValue(new Timestamp(new Date().getTime()));
+
+    gameLog.commit(connection);
   }
 
   public void logUpdateToPlaytime(Integer previousPlaytime) {

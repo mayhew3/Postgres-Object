@@ -9,8 +9,8 @@ import com.mongodb.BasicDBObject;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public abstract class MediaObject {
@@ -22,7 +22,7 @@ public abstract class MediaObject {
   List<FieldValue> allFieldValues = new ArrayList<>();
 
   public FieldValue<Integer> id = new FieldValue<>("id", new FieldConversionInteger());
-  public FieldValue<Date> added = registerDateField("added");
+
 
   public void initializeFromDBObject(ResultSet resultSet) throws SQLException {
     editMode = EditMode.UPDATE;
@@ -75,7 +75,6 @@ public abstract class MediaObject {
 
     List<FieldValue> changedFields = new ArrayList<>();
 
-    added.changeValue(new Date());
     for (FieldValue fieldValue : allFieldValues) {
       if (fieldValue.getOriginalValue() != null) {
         throw new IllegalStateException("Shouldn't find any original values on Insert object: '" + fieldValue.getFieldName() + "' field has value '"
@@ -211,6 +210,12 @@ public abstract class MediaObject {
     FieldValueDate fieldBooleanValue = new FieldValueDate(fieldName, new FieldConversionDate());
     allFieldValues.add(fieldBooleanValue);
     return fieldBooleanValue;
+  }
+
+  protected final FieldValue<Timestamp> registerTimestampField(String fieldName) {
+    FieldValue<Timestamp> fieldTimestampValue = new FieldValue<>(fieldName, new FieldConversionTimestamp());
+    allFieldValues.add(fieldTimestampValue);
+    return fieldTimestampValue;
   }
 
   protected final FieldValueInteger registerIntegerField(String fieldName) {

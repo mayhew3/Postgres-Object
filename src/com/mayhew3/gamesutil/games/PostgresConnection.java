@@ -3,6 +3,7 @@ package com.mayhew3.gamesutil.games;
 import com.google.common.collect.Lists;
 import com.sun.istack.internal.NotNull;
 
+import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.*;
@@ -204,8 +205,8 @@ public class PostgresConnection {
         preparedStatement.setString(i, (String) param);
       } else if (param instanceof Integer) {
         preparedStatement.setInt(i, (Integer) param);
-      } else if (param instanceof Double) {
-        preparedStatement.setDouble(i, (Double) param);
+      } else if (param instanceof BigDecimal) {
+        preparedStatement.setBigDecimal(i, (BigDecimal) param);
       } else if (param instanceof Timestamp) {
         preparedStatement.setTimestamp(i, (Timestamp) param);
       } else if (param instanceof Boolean) {

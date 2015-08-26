@@ -1,9 +1,11 @@
 package com.mayhew3.gamesutil.mediaobjectpostgres;
 
+import java.sql.Timestamp;
+
 public class GameLog extends MediaObject {
 
 
-  public FieldValueDate eventdate = registerDateField("eventdate");
+  public FieldValue<Timestamp> eventdate = registerTimestampField("eventdate");
 
   public FieldValueInteger previousPlaytime = registerIntegerField("previousplaytime");
   public FieldValueInteger updatedplaytime = registerIntegerField("updatedplaytime");
