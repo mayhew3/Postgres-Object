@@ -114,6 +114,8 @@ public abstract class MediaObject {
       }
     }
     if (!updateObject.isEmpty()) {
+      Joiner joiner = Joiner.on(", ");
+      System.out.println(" - Changed: " + joiner.join(updateObject.keySet()));
       updateDatabase(db, updateObject);
       updateObjects(changedFields);
     }

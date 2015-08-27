@@ -2,25 +2,31 @@ package com.mayhew3.gamesutil.games;
 
 import com.mayhew3.gamesutil.DatabaseUtility;
 import com.mayhew3.gamesutil.mediaobjectpostgres.Game;
+import com.mayhew3.gamesutil.mediaobjectpostgres.GameLog;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 public class SteamGamePostUpdater extends DatabaseUtility {
 
+  private static PostgresConnection connection;
+
   public static void main(String[] args) throws SQLException {
-    PostgresConnection connection = new PostgresConnection();
-    updateFields(connection);
+    connection = new PostgresConnection();
+    updateFields();
 
   }
 
-  public static void updateFields(PostgresConnection connection) throws SQLException {
+  public static void updateFields() throws SQLException {
     Map<Integer, String> unfoundGames = new HashMap<Integer, String>();
     ArrayList<String> duplicateGames = new ArrayList<String>();
 
@@ -33,9 +39,15 @@ public class SteamGamePostUpdater extends DatabaseUtility {
 
       for (int i = 0; i < jsonArray.length(); i++) {
         JSONObject jsonGame = jsonArray.getJSONObject(i);
-        SteamGame steamGame = new SteamGame(jsonGame, _db);
 
-        debug(steamGame.getName() + ": looking for updates.");
+        String name = jsonGame.getString("name");
+        Integer steamID = jsonGame.getInt("appid");
+        Integer playtime = jsonGame.getInt("playtime_forever");
+        String icon = jsonGame.getString("img_icon_url");
+        String logo = jsonGame.getString("img_logo_url");
+
+
+        debug(name + ": looking for updates.");
 
         // if changed (match on appid, not name):
         // - update playtime
@@ -45,21 +57,34 @@ public class SteamGamePostUpdater extends DatabaseUtility {
         //    log is just a stamp of the date of checking and the total time?
         //    LOG: Previous Hours, Current Hours, Change. For first time, Prev and Curr are the same, and Change is 0.
 
-        ResultSet resultSet = connection.prepareAndExecuteStatementFetch("SELECT * FROM games WHERE steamid = ?", steamGame.getID());
+        ResultSet resultSet = connection.prepareAndExecuteStatementFetch("SELECT * FROM games WHERE steamid = ?", steamID);
 
         Game game = new Game();
         if (connection.hasMoreElements(resultSet)) {
           game.initializeFromDBObject(resultSet);
-          steamGame.updateFieldsOnGameObject(game, connection);
+
+          game.logo.changeValue(logo);
+          game.icon.changeValue(icon);
+          game.game.changeValue(name);
+
+          BigDecimal previousPlaytime = game.playtime.getValue();
+          if (!(new BigDecimal(playtime)).equals(previousPlaytime)) {
+            if (previousPlaytime != null) {
+              logUpdateToPlaytime(name, steamID, previousPlaytime.intValue(), playtime);
+            }
+            game.playtime.changeValue(new BigDecimal(playtime));
+          }
+          game.commit(connection);
         } else {
           debug(" - Game not found! Adding.");
-          game.initializeForInsert();
-          steamGame.copyFieldsToGameObjectAndInsert(game, connection);
-          unfoundGames.put(steamGame.getID(), steamGame.getName());
+
+          addNewGame(name, steamID, playtime, icon, logo, game);
+
+          unfoundGames.put(steamID, name);
         }
 
         if (connection.hasMoreElements(resultSet)) {
-          duplicateGames.add(steamGame.getName() + "(" + steamGame.getID() + ")");
+          duplicateGames.add(name + "(" + steamID + ")");
         }
       }
 
@@ -70,6 +95,42 @@ public class SteamGamePostUpdater extends DatabaseUtility {
       e.printStackTrace();
     }
 
+  }
+
+  private static void addNewGame(String name, Integer steamID, Integer playtime, String icon, String logo, Game game) {
+    if (playtime > 0) {
+      logUpdateToPlaytime(name, steamID, 0, playtime);
+    }
+
+    game.initializeForInsert();
+
+    game.platform.changeValue("Steam");
+    game.owned.changeValue("true");
+    game.started.changeValue(false);
+    game.added.changeValue(new Timestamp(new Date().getTime()));
+    game.game.changeValue(name);
+    game.steamID.changeValue(steamID);
+    game.playtime.changeValue(new BigDecimal(playtime));
+    game.icon.changeValue(icon);
+    game.logo.changeValue(logo);
+
+    game.commit(connection);
+  }
+
+  private static void logUpdateToPlaytime(String name, Integer steamID, Integer previousPlaytime, Integer updatedPlaytime) {
+    GameLog gameLog = new GameLog();
+    gameLog.initializeForInsert();
+
+    gameLog.game.changeValue(name);
+    gameLog.steamID.changeValue(steamID);
+    gameLog.platform.changeValue("Steam");
+    gameLog.previousPlaytime.changeValue(previousPlaytime);
+    gameLog.updatedplaytime.changeValue(updatedPlaytime);
+    gameLog.diff.changeValue(updatedPlaytime - previousPlaytime);
+    gameLog.eventtype.changeValue("Played");
+    gameLog.eventdate.changeValue(new Timestamp(new Date().getTime()));
+
+    gameLog.commit(connection);
   }
 
 
