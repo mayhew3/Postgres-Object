@@ -55,7 +55,7 @@ public class SteamGamePostUpdater extends DatabaseUtility {
     debug("Updating ownership of games no longer in steam library...");
     debug("");
 
-    ResultSet resultSet = connection.executeQuery("SELECT * FROM games WHERE steamid is not null");
+    ResultSet resultSet = connection.executeQuery("SELECT * FROM games WHERE steamid is not null AND owned = 'true'");
 
     while (connection.hasMoreElements(resultSet)) {
       Integer steamid = connection.getInt(resultSet, "steamid");
@@ -110,6 +110,7 @@ public class SteamGamePostUpdater extends DatabaseUtility {
     game.logo.changeValue(logo);
     game.icon.changeValue(icon);
     game.game.changeValue(name);
+    game.owned.changeValue("true");
 
     BigDecimal previousPlaytime = game.playtime.getValue();
     if (!(new BigDecimal(playtime)).equals(previousPlaytime)) {
