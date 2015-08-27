@@ -1,5 +1,6 @@
 package com.mayhew3.gamesutil.games;
 
+import com.google.common.collect.Sets;
 import com.mayhew3.gamesutil.DatabaseUtility;
 import com.mayhew3.gamesutil.mediaobjectpostgres.Game;
 import com.mayhew3.gamesutil.mediaobjectpostgres.GameLog;
@@ -11,10 +12,7 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class SteamGamePostUpdater extends DatabaseUtility {
 
@@ -32,6 +30,7 @@ public class SteamGamePostUpdater extends DatabaseUtility {
 
     String fullURL = getFullUrl();
 
+    Set<Integer> jsonSteamIDs = Sets.newHashSet();
 
     try {
       JSONObject jsonObject = readJsonFromUrl(fullURL);
@@ -40,52 +39,9 @@ public class SteamGamePostUpdater extends DatabaseUtility {
       for (int i = 0; i < jsonArray.length(); i++) {
         JSONObject jsonGame = jsonArray.getJSONObject(i);
 
-        String name = jsonGame.getString("name");
-        Integer steamID = jsonGame.getInt("appid");
-        Integer playtime = jsonGame.getInt("playtime_forever");
-        String icon = jsonGame.getString("img_icon_url");
-        String logo = jsonGame.getString("img_logo_url");
+        processSteamGame(unfoundGames, duplicateGames, jsonGame);
 
-
-        debug(name + ": looking for updates.");
-
-        // if changed (match on appid, not name):
-        // - update playtime
-        // - update "Steam Name" column
-        // - add log that it changed? How to know if it just differs from what I have,
-        //    of if I've actually played since that was there? Confirmed flag? Or
-        //    log is just a stamp of the date of checking and the total time?
-        //    LOG: Previous Hours, Current Hours, Change. For first time, Prev and Curr are the same, and Change is 0.
-
-        ResultSet resultSet = connection.prepareAndExecuteStatementFetch("SELECT * FROM games WHERE steamid = ?", steamID);
-
-        Game game = new Game();
-        if (connection.hasMoreElements(resultSet)) {
-          game.initializeFromDBObject(resultSet);
-
-          game.logo.changeValue(logo);
-          game.icon.changeValue(icon);
-          game.game.changeValue(name);
-
-          BigDecimal previousPlaytime = game.playtime.getValue();
-          if (!(new BigDecimal(playtime)).equals(previousPlaytime)) {
-            if (previousPlaytime != null) {
-              logUpdateToPlaytime(name, steamID, previousPlaytime.intValue(), playtime);
-            }
-            game.playtime.changeValue(new BigDecimal(playtime));
-          }
-          game.commit(connection);
-        } else {
-          debug(" - Game not found! Adding.");
-
-          addNewGame(name, steamID, playtime, icon, logo, game);
-
-          unfoundGames.put(steamID, name);
-        }
-
-        if (connection.hasMoreElements(resultSet)) {
-          duplicateGames.add(name + "(" + steamID + ")");
-        }
+        jsonSteamIDs.add(jsonGame.getInt("appid"));
       }
 
       debug("Operation finished!");
@@ -95,6 +51,74 @@ public class SteamGamePostUpdater extends DatabaseUtility {
       e.printStackTrace();
     }
 
+    debug("");
+    debug("Updating ownership of games no longer in steam library...");
+    debug("");
+
+    ResultSet resultSet = connection.executeQuery("SELECT * FROM games WHERE steamid is not null");
+
+    while (connection.hasMoreElements(resultSet)) {
+      Integer steamid = connection.getInt(resultSet, "steamid");
+
+      if (!jsonSteamIDs.contains(steamid)) {
+        debug(connection.getString(resultSet, "game") + ": no longer found!");
+
+        Game game = new Game();
+        game.initializeFromDBObject(resultSet);
+        game.owned.changeValue("a");
+        game.commit(connection);
+      }
+    }
+
+  }
+
+  private static void processSteamGame(Map<Integer, String> unfoundGames, ArrayList<String> duplicateGames, JSONObject jsonGame) throws SQLException {
+    String name = jsonGame.getString("name");
+    Integer steamID = jsonGame.getInt("appid");
+    Integer playtime = jsonGame.getInt("playtime_forever");
+    String icon = jsonGame.getString("img_icon_url");
+    String logo = jsonGame.getString("img_logo_url");
+
+    debug(name + ": looking for updates.");
+
+    // if changed (match on appid, not name):
+    // - update playtime
+    // - update "Steam Name" column
+    // - add log that it changed? How to know if it just differs from what I have,
+    //    of if I've actually played since that was there? Confirmed flag? Or
+    //    log is just a stamp of the date of checking and the total time?
+    //    LOG: Previous Hours, Current Hours, Change. For first time, Prev and Curr are the same, and Change is 0.
+
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch("SELECT * FROM games WHERE steamid = ?", steamID);
+
+    Game game = new Game();
+    if (connection.hasMoreElements(resultSet)) {
+      game.initializeFromDBObject(resultSet);
+      updateGame(name, steamID, playtime, icon, logo, game);
+    } else {
+      debug(" - Game not found! Adding.");
+      addNewGame(name, steamID, playtime, icon, logo, game);
+      unfoundGames.put(steamID, name);
+    }
+
+    if (connection.hasMoreElements(resultSet)) {
+      duplicateGames.add(name + "(" + steamID + ")");
+    }
+  }
+
+  private static void updateGame(String name, Integer steamID, Integer playtime, String icon, String logo, Game game) {
+    game.logo.changeValue(logo);
+    game.icon.changeValue(icon);
+    game.game.changeValue(name);
+
+    BigDecimal previousPlaytime = game.playtime.getValue();
+    if (!(new BigDecimal(playtime)).equals(previousPlaytime)) {
+      if (previousPlaytime != null) {
+        logUpdateToPlaytime(name, steamID, previousPlaytime.intValue(), playtime);
+      }
+      game.playtime.changeValue(new BigDecimal(playtime));
+    }
+    game.commit(connection);
   }
 
   private static void addNewGame(String name, Integer steamID, Integer playtime, String icon, String logo, Game game) {
