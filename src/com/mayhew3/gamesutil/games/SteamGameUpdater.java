@@ -1,5 +1,6 @@
 package com.mayhew3.gamesutil.games;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.mayhew3.gamesutil.DatabaseUtility;
 import com.mayhew3.gamesutil.mediaobject.Game;
@@ -7,7 +8,7 @@ import com.mayhew3.gamesutil.mediaobject.GameLog;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.IOException;
+import java.io.*;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,7 +19,19 @@ public class SteamGameUpdater extends DatabaseUtility {
 
   private static PostgresConnection connection;
 
-  public static void main(String[] args) throws SQLException {
+  public static void main(String[] args) throws SQLException, FileNotFoundException {
+    List<String> argList = Lists.newArrayList(args);
+    Boolean logToFile = argList.contains("LogToFile");
+
+    if (logToFile) {
+      File file = new File("D:\\Projects\\mean_projects\\GamesDBUtil\\logs\\SteamUpdaterErrors.log");
+      FileOutputStream fos = new FileOutputStream(file, true);
+      PrintStream ps = new PrintStream(fos);
+      System.setErr(ps);
+
+      System.err.println("Starting run on " + new Date());
+    }
+
     connection = new PostgresConnection();
     updateFields();
 
