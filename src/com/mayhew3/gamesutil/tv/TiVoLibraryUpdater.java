@@ -1,4 +1,4 @@
-package com.mayhew3.gamesutil;
+package com.mayhew3.gamesutil.tv;
 
 import com.google.common.collect.Lists;
 import com.mongodb.BasicDBObject;

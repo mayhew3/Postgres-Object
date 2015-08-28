@@ -1,4 +1,4 @@
-package com.mayhew3.gamesutil;
+package com.mayhew3.gamesutil.tv;
 
 import com.mayhew3.gamesutil.mediaobject.Episode;
 import com.mongodb.BasicDBObject;

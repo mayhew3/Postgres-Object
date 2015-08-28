@@ -1,4 +1,4 @@
-package com.mayhew3.gamesutil;
+package com.mayhew3.gamesutil.tv;
 
 import com.mayhew3.gamesutil.mediaobject.Series;
 import com.mongodb.BasicDBObject;
@@ -8,17 +8,20 @@ import com.mongodb.DBObject;
 
 import java.net.UnknownHostException;
 
-public class MetacriticUpdateRunner extends TVDatabaseUtility {
+public class TVDBUpdateRunner extends TVDatabaseUtility {
 
+  private Integer seriesUpdates = 0;
+  private Integer episodesAdded = 0;
+  private Integer episodesUpdated = 0;
 
-  public MetacriticUpdateRunner() throws UnknownHostException {
+  public TVDBUpdateRunner() throws UnknownHostException {
     super("tv");
   }
 
   public static void main(String[] args) {
     try {
-      MetacriticUpdateRunner updateRunner = new MetacriticUpdateRunner();
-      updateRunner.runUpdate();
+      TVDBUpdateRunner tvdbUpdateRunner = new TVDBUpdateRunner();
+      tvdbUpdateRunner.runUpdate();
     } catch (UnknownHostException e) {
       e.printStackTrace();
     }
@@ -40,9 +43,8 @@ public class MetacriticUpdateRunner extends TVDatabaseUtility {
         .append("IsSuggestion", new BasicDBObject("$ne", true))
         .append("IgnoreTVDB", new BasicDBObject("$ne", true))
 //        .append("SeriesId", new BasicDBObject("$exists", true))
-//        .append("SeriesTitle", "Homeland")
-//        .append("Tier", new BasicDBObject("$ne", 1))
-//        .append("Metacritic", null)
+//        .append("SeriesTitle", "MI-5")
+//        .append("Tier", 1)
         .append("IsEpisodic", new BasicDBObject("$ne", false));
 
     DBCollection untaggedShows = _db.getCollection("series");
@@ -59,7 +61,7 @@ public class MetacriticUpdateRunner extends TVDatabaseUtility {
 
       try {
         updateShow(show);
-      } catch (ShowFailedException e) {
+      } catch (RuntimeException | ShowFailedException e) {
         e.printStackTrace();
         debug("Show failed: " + show.get("SeriesTitle"));
       }
@@ -72,13 +74,23 @@ public class MetacriticUpdateRunner extends TVDatabaseUtility {
     Series series = new Series();
     series.initializeFromDBObject(show);
 
-    debug("Updating series: " + series.seriesTitle.getValue());
-
-    MetacriticUpdater metacriticUpdater = new MetacriticUpdater(_mongoClient, _db, series);
+    MetacriticTVUpdater metacriticUpdater = new MetacriticTVUpdater(_mongoClient, _db, series);
     metacriticUpdater.runUpdater();
+
+    TVDBSeriesUpdater updater = new TVDBSeriesUpdater(_mongoClient, _db, series);
+    updater.updateSeries();
+    seriesUpdates++;
+    episodesAdded += updater.getEpisodesAdded();
+    episodesUpdated += updater.getEpisodesUpdated();
 
   }
 
 
+  public BasicDBObject getSessionInfo() {
+    return new BasicDBObject()
+    .append("TVDBSeriesUpdates", seriesUpdates)
+    .append("TVDBEpisodesUpdated", episodesUpdated)
+    .append("TVDBEpisodesAdded", episodesAdded);
+  }
 }
 

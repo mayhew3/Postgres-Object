@@ -1,5 +1,6 @@
-package com.mayhew3.gamesutil;
+package com.mayhew3.gamesutil.tv;
 
+import com.mayhew3.gamesutil.SSLTool;
 import com.mayhew3.gamesutil.mediaobject.Episode;
 import com.mayhew3.gamesutil.mediaobject.FieldValue;
 import com.mayhew3.gamesutil.mediaobject.Series;

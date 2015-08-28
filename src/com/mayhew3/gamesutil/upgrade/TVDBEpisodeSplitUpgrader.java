@@ -1,6 +1,6 @@
 package com.mayhew3.gamesutil.upgrade;
 
-import com.mayhew3.gamesutil.TVDatabaseUtility;
+import com.mayhew3.gamesutil.tv.TVDatabaseUtility;
 import com.mayhew3.gamesutil.mediaobject.Episode;
 import com.mayhew3.gamesutil.mediaobject.FieldValue;
 import com.mayhew3.gamesutil.mediaobject.Series;
