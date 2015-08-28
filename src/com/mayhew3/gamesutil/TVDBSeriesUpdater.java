@@ -1,7 +1,7 @@
 package com.mayhew3.gamesutil;
 
-import com.mayhew3.gamesutil.mediaobjectmongo.Episode;
-import com.mayhew3.gamesutil.mediaobjectmongo.Series;
+import com.mayhew3.gamesutil.mediaobject.Episode;
+import com.mayhew3.gamesutil.mediaobject.Series;
 import com.mongodb.*;
 import com.sun.javafx.beans.annotations.NonNull;
 import org.bson.types.ObjectId;

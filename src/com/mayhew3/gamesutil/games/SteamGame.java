@@ -1,7 +1,7 @@
 package com.mayhew3.gamesutil.games;
 
-import com.mayhew3.gamesutil.mediaobjectpostgres.Game;
-import com.mayhew3.gamesutil.mediaobjectpostgres.GameLog;
+import com.mayhew3.gamesutil.mediaobject.Game;
+import com.mayhew3.gamesutil.mediaobject.GameLog;
 import com.mongodb.*;
 import org.json.JSONObject;
 
