@@ -1,5 +1,6 @@
 package com.mayhew3.gamesutil.mediaobject;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 public class GameLog extends MediaObjectPostgreSQL {
@@ -7,9 +8,9 @@ public class GameLog extends MediaObjectPostgreSQL {
 
   public FieldValue<Timestamp> eventdate = registerTimestampField("eventdate");
 
-  public FieldValueInteger previousPlaytime = registerIntegerField("previousplaytime");
-  public FieldValueInteger updatedplaytime = registerIntegerField("updatedplaytime");
-  public FieldValueInteger diff = registerIntegerField("diff");
+  public FieldValue<BigDecimal> previousPlaytime = registerBigDecimalField("previousplaytime");
+  public FieldValue<BigDecimal> updatedplaytime = registerBigDecimalField("updatedplaytime");
+  public FieldValue<BigDecimal> diff = registerBigDecimalField("diff");
 
   public FieldValueInteger steamID = registerIntegerField("steamid");
 

@@ -41,6 +41,9 @@ public class Game extends MediaObjectPostgreSQL {
   public FieldValueString reason = registerStringField("reason");
   public FieldValueString icon = registerStringField("icon");
   public FieldValueString logo = registerStringField("logo");
+  public FieldValueString metacriticHint = registerStringField("metacritic_hint");
+  public FieldValueBoolean metacriticPage = registerBooleanField("metacritic_page");
+  public FieldValue<Timestamp> metacriticMatched = registerTimestampField("metacritic_matched");
 
   public FieldValueBoolean started = registerBooleanField("started");
   public FieldValueBoolean include = registerBooleanField("include");

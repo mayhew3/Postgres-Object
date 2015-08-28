@@ -88,7 +88,7 @@ public class SteamGameUpdater extends DatabaseUtility {
   private static void processSteamGame(Map<Integer, String> unfoundGames, ArrayList<String> duplicateGames, JSONObject jsonGame) throws SQLException {
     String name = jsonGame.getString("name");
     Integer steamID = jsonGame.getInt("appid");
-    Integer playtime = jsonGame.getInt("playtime_forever");
+    BigDecimal playtime = new BigDecimal(jsonGame.getInt("playtime_forever"));
     String icon = jsonGame.getString("img_icon_url");
     String logo = jsonGame.getString("img_logo_url");
 
@@ -119,25 +119,25 @@ public class SteamGameUpdater extends DatabaseUtility {
     }
   }
 
-  private static void updateGame(String name, Integer steamID, Integer playtime, String icon, String logo, Game game) {
+  private static void updateGame(String name, Integer steamID, BigDecimal playtime, String icon, String logo, Game game) {
     game.logo.changeValue(logo);
     game.icon.changeValue(icon);
     game.game.changeValue(name);
     game.owned.changeValue("owned");
 
     BigDecimal previousPlaytime = game.playtime.getValue();
-    if (!(new BigDecimal(playtime)).equals(previousPlaytime)) {
+    if (!(playtime.compareTo(previousPlaytime) == 0)) {
       if (previousPlaytime != null) {
-        logUpdateToPlaytime(name, steamID, previousPlaytime.intValue(), playtime);
+        logUpdateToPlaytime(name, steamID, previousPlaytime, playtime);
       }
-      game.playtime.changeValue(new BigDecimal(playtime));
+      game.playtime.changeValue(playtime);
     }
     game.commit(connection);
   }
 
-  private static void addNewGame(String name, Integer steamID, Integer playtime, String icon, String logo, Game game) {
-    if (playtime > 0) {
-      logUpdateToPlaytime(name, steamID, 0, playtime);
+  private static void addNewGame(String name, Integer steamID, BigDecimal playtime, String icon, String logo, Game game) {
+    if (playtime.compareTo(BigDecimal.ZERO) > 0) {
+      logUpdateToPlaytime(name, steamID, BigDecimal.ZERO, playtime);
     }
 
     game.initializeForInsert();
@@ -148,14 +148,14 @@ public class SteamGameUpdater extends DatabaseUtility {
     game.added.changeValue(new Timestamp(new Date().getTime()));
     game.game.changeValue(name);
     game.steamID.changeValue(steamID);
-    game.playtime.changeValue(new BigDecimal(playtime));
+    game.playtime.changeValue(playtime);
     game.icon.changeValue(icon);
     game.logo.changeValue(logo);
 
     game.commit(connection);
   }
 
-  private static void logUpdateToPlaytime(String name, Integer steamID, Integer previousPlaytime, Integer updatedPlaytime) {
+  private static void logUpdateToPlaytime(String name, Integer steamID, BigDecimal previousPlaytime, BigDecimal updatedPlaytime) {
     GameLog gameLog = new GameLog();
     gameLog.initializeForInsert();
 
@@ -164,7 +164,7 @@ public class SteamGameUpdater extends DatabaseUtility {
     gameLog.platform.changeValue("Steam");
     gameLog.previousPlaytime.changeValue(previousPlaytime);
     gameLog.updatedplaytime.changeValue(updatedPlaytime);
-    gameLog.diff.changeValue(updatedPlaytime - previousPlaytime);
+    gameLog.diff.changeValue(updatedPlaytime.subtract(previousPlaytime));
     gameLog.eventtype.changeValue("Played");
     gameLog.eventdate.changeValue(new Timestamp(new Date().getTime()));
 

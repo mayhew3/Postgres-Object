@@ -8,16 +8,16 @@ import com.mongodb.DBObject;
 
 import java.net.UnknownHostException;
 
-public class MetacriticUpdateRunner extends TVDatabaseUtility {
+public class MetacriticTVUpdateRunner extends TVDatabaseUtility {
 
 
-  public MetacriticUpdateRunner() throws UnknownHostException {
+  public MetacriticTVUpdateRunner() throws UnknownHostException {
     super("tv");
   }
 
   public static void main(String[] args) {
     try {
-      MetacriticUpdateRunner updateRunner = new MetacriticUpdateRunner();
+      MetacriticTVUpdateRunner updateRunner = new MetacriticTVUpdateRunner();
       updateRunner.runUpdate();
     } catch (UnknownHostException e) {
       e.printStackTrace();
