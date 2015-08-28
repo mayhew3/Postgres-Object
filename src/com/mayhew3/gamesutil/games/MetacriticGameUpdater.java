@@ -3,7 +3,6 @@ package com.mayhew3.gamesutil.games;
 import com.google.common.collect.Maps;
 import com.mayhew3.gamesutil.mediaobject.Game;
 import com.mayhew3.gamesutil.mediaobject.GameLog;
-import com.mayhew3.gamesutil.mediaobject.Series;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -18,7 +17,6 @@ import java.util.Map;
 
 public class MetacriticGameUpdater {
 
-  private Series _series;
   private Game game;
   private PostgresConnection connection;
 
@@ -51,6 +49,7 @@ public class MetacriticGameUpdater {
       formattedPlatforms.put("Xbox 360", "xbox-360");
       formattedPlatforms.put("PS3", "playstation-3");
       formattedPlatforms.put("Wii", "wii");
+      formattedPlatforms.put("Wii U", "wii-u");
       formattedPlatforms.put("DS", "ds");
       formattedPlatforms.put("Xbox", "xbox");
 

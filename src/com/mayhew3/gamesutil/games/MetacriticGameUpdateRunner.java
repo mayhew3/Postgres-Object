@@ -1,27 +1,49 @@
 package com.mayhew3.gamesutil.games;
 
+import com.google.common.collect.Lists;
 import com.mayhew3.gamesutil.mediaobject.Game;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 public class MetacriticGameUpdateRunner {
 
   private static PostgresConnection connection;
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws FileNotFoundException {
+    List<String> argList = Lists.newArrayList(args);
+    Boolean allGames = argList.contains("AllGames");
+    Boolean logToFile = argList.contains("LogToFile");
+
+    if (logToFile) {
+      File file = new File("D:\\Projects\\mean_projects\\GamesDBUtil\\logs\\MetacriticGameUpdater.log");
+      FileOutputStream fos = new FileOutputStream(file, true);
+      PrintStream ps = new PrintStream(fos);
+      System.setErr(ps);
+      System.setOut(ps);
+    }
+
     connection = new PostgresConnection();
 
     MetacriticGameUpdateRunner updateRunner = new MetacriticGameUpdateRunner();
-    updateRunner.runUpdate();
+    updateRunner.runUpdate(allGames);
   }
 
-  public void runUpdate() {
-    updateShows();
+  public void runUpdate(Boolean allGames) {
+    updateGames(allGames);
   }
 
-  private void updateShows() {
-    ResultSet resultSet = connection.executeQuery("SELECT * FROM games");
+  private void updateGames(Boolean allGames) {
+    String sql = "SELECT * FROM games";
+    if (!allGames) {
+      sql += " WHERE metacritic_matched IS NULL";
+    }
+    ResultSet resultSet = connection.executeQuery(sql);
 
     int i = 0;
 
