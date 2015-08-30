@@ -30,7 +30,7 @@ public class MetacriticGameUpdater {
   }
 
   private void parseMetacritic() throws GameFailedException {
-    String title = game.game.getValue();
+    String title = game.title.getValue();
     String hint = game.metacriticHint.getValue();
     String platform = game.platform.getValue();
     String formattedTitle = hint == null ?

@@ -122,7 +122,7 @@ public class SteamGameUpdater extends DatabaseUtility {
   private static void updateGame(String name, Integer steamID, BigDecimal playtime, String icon, String logo, Game game) {
     game.logo.changeValue(logo);
     game.icon.changeValue(icon);
-    game.game.changeValue(name);
+    game.title.changeValue(name);
     game.owned.changeValue("owned");
 
     BigDecimal previousPlaytime = game.playtime.getValue();
@@ -146,7 +146,7 @@ public class SteamGameUpdater extends DatabaseUtility {
     game.owned.changeValue("owned");
     game.started.changeValue(false);
     game.added.changeValue(new Timestamp(new Date().getTime()));
-    game.game.changeValue(name);
+    game.title.changeValue(name);
     game.steamID.changeValue(steamID);
     game.playtime.changeValue(playtime);
     game.icon.changeValue(icon);

@@ -13,28 +13,28 @@ public class Game extends MediaObjectPostgreSQL {
   public FieldValue<BigDecimal> mayhew = registerBigDecimalField("mayhew");
   public FieldValue<BigDecimal> sum = registerBigDecimalField("sum");
   public FieldValue<BigDecimal> sumd = registerBigDecimalField("sumd");
-  public FieldValue<BigDecimal> hrsPlayed = registerBigDecimalField("hrs played");
-  public FieldValue<BigDecimal> hrsTotal = registerBigDecimalField("hrs total");
-  public FieldValue<BigDecimal> percentDone = registerBigDecimalField("percent done");
+  public FieldValue<BigDecimal> timeplayed = registerBigDecimalField("timeplayed");
+  public FieldValue<BigDecimal> timetotal = registerBigDecimalField("timetotal");
+  public FieldValue<BigDecimal> percentDone = registerBigDecimalField("percentdone");
   public FieldValue<BigDecimal> remaining = registerBigDecimalField("remaining");
   public FieldValue<BigDecimal> percent = registerBigDecimalField("percent");
   public FieldValue<BigDecimal> percentd = registerBigDecimalField("percentd");
   public FieldValue<BigDecimal> playtime = registerBigDecimalField("playtime");
   public FieldValue<BigDecimal> finalscore = registerBigDecimalField("finalscore");
-  public FieldValue<BigDecimal> replay = registerBigDecimalField("replay?");
+  public FieldValue<BigDecimal> replay = registerBigDecimalField("replay");
   public FieldValue<BigDecimal> adj = registerBigDecimalField("adj");
   public FieldValue<BigDecimal> remainder = registerBigDecimalField("remainder");
 
 
   public FieldValueShort total = registerShortField("total");
   public FieldValueShort totalinc = registerShortField("totalinc");
-  public FieldValueShort die1 = registerShortField("die 1");
-  public FieldValueShort die2 = registerShortField("die 2");
+  public FieldValueShort die1 = registerShortField("die1");
+  public FieldValueShort die2 = registerShortField("die2");
   public FieldValueShort finaldie = registerShortField("finaldie");
 
   public FieldValueInteger steamID = registerIntegerField("steamid");
 
-  public FieldValueString game = registerStringField("game");
+  public FieldValueString title = registerStringField("title");
   public FieldValueString platform = registerStringField("platform");
   public FieldValueString owned = registerStringField("owned");
   public FieldValueString by = registerStringField("by");
@@ -55,6 +55,6 @@ public class Game extends MediaObjectPostgreSQL {
 
   @Override
   public String toString() {
-    return game.getValue();
+    return title.getValue();
   }
 }

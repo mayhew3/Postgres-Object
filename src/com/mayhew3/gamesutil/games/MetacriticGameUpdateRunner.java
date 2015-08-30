@@ -54,13 +54,13 @@ public class MetacriticGameUpdateRunner {
       try {
         game.initializeFromDBObject(resultSet);
 
-        debug("Updating game: " + game.game.getValue());
+        debug("Updating game: " + game.title.getValue());
 
         MetacriticGameUpdater metacriticGameUpdater = new MetacriticGameUpdater(game, connection);
         metacriticGameUpdater.runUpdater();
       } catch (GameFailedException e) {
         e.printStackTrace();
-        debug("Show failed: " + game.game.getValue());
+        debug("Show failed: " + game.title.getValue());
       } catch (SQLException e) {
         e.printStackTrace();
         debug("Failed to load game from database.");
