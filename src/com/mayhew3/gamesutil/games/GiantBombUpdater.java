@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.mayhew3.gamesutil.mediaobject.Game;
 import com.mayhew3.gamesutil.mediaobject.GameLog;
 import com.sun.istack.internal.Nullable;
+import com.sun.javafx.beans.annotations.NonNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,115 +45,132 @@ public class GiantBombUpdater {
   }
 
   public static void updateFields() throws SQLException {
-    String sql = "SELECT * FROM games WHERE giantbomb_name IS NULL and owned <> 'not owned'";
-    ResultSet resultSet1 = connection.executeQuery(sql);
+    String sql = "SELECT * FROM games WHERE NOT (giantbomb_id IS NOT NULL and giantbomb_icon_url IS NOT NULL) and owned <> 'not owned'";
+//    String sql = "SELECT * FROM games WHERE giantbomb_id = 20238";
+    ResultSet resultSet = connection.executeQuery(sql);
 
-    while (connection.hasMoreElements(resultSet1)) {
+    while (connection.hasMoreElements(resultSet)) {
       Game game = new Game();
-      game.initializeFromDBObject(resultSet1);
-
-      String title = game.title.getValue();
-      Integer giantbomb_id = game.giantbomb_id.getValue();
-      String giantbomb_title = title;
-      if (game.giantbomb_best_guess.getValue() != null && game.giantbomb_guess_confirmed.getValue()) {
-        giantbomb_title = game.giantbomb_best_guess.getValue();
-      }
+      game.initializeFromDBObject(resultSet);
 
       try {
-        JSONArray jsonArray = null;
-        JSONObject match;
-        if (giantbomb_id == null) {
-          jsonArray = getResultsArray(giantbomb_title);
-          match = findMatch(jsonArray, giantbomb_title);
-        } else {
-          match = getSingleGameWithId(giantbomb_id);
-        }
+        JSONObject match = findMatchIfPossible(game);
 
         if (match != null) {
-
-          debug("O) " + title + ": Match found.");
-
-          String name = match.getString("name");
-
-          try {
-            JSONObject image = match.getJSONObject("image");
-
-            game.giantbomb_name.changeValue(name);
-
-            if (giantbomb_id == null) {
-              game.giantbomb_id.changeValue(match.getInt("id"));
-            }
-
-            String original_release_date = match.getString("original_release_date");
-
-            if (original_release_date != null) {
-              SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-              Date timestamp = simpleDateFormat.parse(original_release_date);
-              int year = timestamp.getYear() + 1900;
-              game.giantbomb_year.changeValue(year);
-            }
-
-            game.giantbomb_icon_url.changeValue(image.getString("icon_url"));
-            game.giantbomb_medium_url.changeValue(image.getString("medium_url"));
-            game.giantbomb_screen_url.changeValue(image.getString("screen_url"));
-            game.giantbomb_small_url.changeValue(image.getString("small_url"));
-            game.giantbomb_super_url.changeValue(image.getString("super_url"));
-            game.giantbomb_thumb_url.changeValue(image.getString("thumb_url"));
-            game.giantbomb_tiny_url.changeValue(image.getString("tiny_url"));
-
-            game.commit(connection);
-          } catch (JSONException e) {
-            debug("Error getting image object for results on '" + title + "'.");
-            e.printStackTrace();
-          } catch (ParseException e) {
-            debug("Error parsing date.");
-            e.printStackTrace();
-          }
-
-        } else {
-          debug("X) " + title + ": No match found!");
-
-          if (game.giantbomb_manual_guess.getValue() != null) {
-            JSONArray lessRestrictive = getResultsArray(game.giantbomb_manual_guess.getValue());
-            JSONObject anotherBestGuess = getBestGuess(lessRestrictive, game.giantbomb_manual_guess.getValue(), game);
-
-            if (anotherBestGuess != null) {
-              game.giantbomb_best_guess.changeValue(anotherBestGuess.getString("name"));
-              game.commit(connection);
-            }
-          } else {
-            JSONObject bestGuess = getBestGuess(jsonArray, title, game);
-
-            if (bestGuess != null) {
-              game.giantbomb_best_guess.changeValue(bestGuess.getString("name"));
-              game.commit(connection);
-            }
-          }
+          updateMatch(game, match);
         }
-
-//      debug(jsonObject);
       } catch (IOException e) {
-        debug("Error reading from URL.");
+        debug("Error occured for game: " + game.title.getValue());
         e.printStackTrace();
       }
-
-
-
-
     }
 
     debug("Operation finished!");
 
   }
 
-  private static JSONArray getResultsArray(String title) throws IOException {
+  @Nullable
+  private static JSONObject findMatchIfPossible(Game game) throws IOException {
+    Integer giantbomb_id = game.giantbomb_id.getValue();
+    if (giantbomb_id != null) {
+      return getSingleGameWithId(giantbomb_id);
+    }
+
+    String giantbomb_title = getTitleToTry(game);
+
+    JSONArray jsonArray = getResultsArray(giantbomb_title);
+    JSONObject match = findMatch(jsonArray, giantbomb_title);
+
+    if (match != null) {
+      return match;
+    }
+
+    debug("X) " + game.title.getValue() + ": No match found.");
+    populateAlternatives(game, jsonArray);
+
+
+    return null;
+  }
+
+  private static void populateAlternatives(Game game, JSONArray originalResults) throws JSONException, IOException {
+    if (game.giantbomb_manual_guess.getValue() != null) {
+      JSONArray guessResults = getResultsArray(game.giantbomb_manual_guess.getValue());
+      populateBestGuess(game, guessResults);
+    } else {
+      populateBestGuess(game, originalResults);
+    }
+  }
+
+  private static void populateBestGuess(Game game, JSONArray lessRestrictive) {
+    JSONObject bestGuess = getNextInexactResult(lessRestrictive, game);
+
+    if (bestGuess != null) {
+      game.giantbomb_best_guess.changeValue(bestGuess.getString("name"));
+      game.commit(connection);
+    }
+  }
+
+
+  private static String getTitleToTry(Game game) {
+    if (game.giantbomb_name.getValue() != null) {
+      return game.giantbomb_name.getValue();
+    } else if (hasConfirmedGuess(game)) {
+      return game.giantbomb_best_guess.getValue();
+    } else {
+      return game.title.getValue();
+    }
+  }
+
+  private static boolean hasConfirmedGuess(Game game) {
+    return game.giantbomb_best_guess.getValue() != null && game.giantbomb_guess_confirmed.getValue();
+  }
+
+  private static void updateMatch(Game game, @NonNull JSONObject match) {
+    String title = game.title.getValue();
+    debug("O) " + title + ": Match found.");
+
+    try {
+      JSONObject image = match.getJSONObject("image");
+
+      game.giantbomb_name.changeValue(match.getString("name"));
+      game.giantbomb_id.changeValue(match.getInt("id"));
+
+      if (match.has("original_release_date") && !match.isNull("original_release_date")) {
+        String original_release_date = match.getString("original_release_date");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        Date date = simpleDateFormat.parse(original_release_date);
+        Timestamp timestamp = new Timestamp(date.getTime());
+        game.giantbomb_release_date.changeValue(timestamp);
+        game.giantbomb_year.changeValue(date.getYear() + 1900);
+      }
+
+      game.giantbomb_icon_url.changeValue(image.getString("icon_url"));
+      game.giantbomb_medium_url.changeValue(image.getString("medium_url"));
+      game.giantbomb_screen_url.changeValue(image.getString("screen_url"));
+      game.giantbomb_small_url.changeValue(image.getString("small_url"));
+      game.giantbomb_super_url.changeValue(image.getString("super_url"));
+      game.giantbomb_thumb_url.changeValue(image.getString("thumb_url"));
+      game.giantbomb_tiny_url.changeValue(image.getString("tiny_url"));
+
+      game.commit(connection);
+    } catch (JSONException e) {
+      debug("Error getting object for results on '" + title + "'.");
+      e.printStackTrace();
+    } catch (ParseException e) {
+      debug("Error parsing date.");
+      e.printStackTrace();
+    }
+  }
+
+  private static JSONArray getResultsArray(String title) throws JSONException, IOException {
     String fullURL = getFullUrl(title);
     JSONObject jsonObject = readJsonFromUrl(fullURL);
     return jsonObject.getJSONArray("results");
   }
 
   @Nullable
-  private static JSONObject findMatch(JSONArray parentArray, String title) throws SQLException {
+  private static JSONObject findMatch(JSONArray parentArray, String title) {
+    List<JSONObject> matches = Lists.newArrayList();
 
     for (int i = 0; i < parentArray.length(); i++) {
       JSONObject jsonGame = parentArray.getJSONObject(i);
@@ -160,21 +178,25 @@ public class GiantBombUpdater {
       String name = jsonGame.getString("name");
 
       if (title.equalsIgnoreCase(name)) {
-        return jsonGame;
+        matches.add(jsonGame);
       }
+    }
+
+    if (matches.size() == 1) {
+      return matches.get(0);
     }
 
     return null;
   }
 
   @Nullable
-  private static JSONObject getBestGuess(JSONArray parentArray, String title, Game game) throws SQLException {
+  private static JSONObject getNextInexactResult(JSONArray parentArray, Game game) {
     String previousBestGuess = game.giantbomb_best_guess.getValue();
 
     Boolean confirmed = game.giantbomb_guess_confirmed.getValue();
 
     if (previousBestGuess != null) {
-      if (confirmed != null && !confirmed) {
+      if (Boolean.FALSE.equals(confirmed)) {
         Boolean foundPreviousGuess = false;
         for (int i = 0; i < parentArray.length(); i++) {
           JSONObject jsonGame = parentArray.getJSONObject(i);
@@ -239,7 +261,7 @@ public class GiantBombUpdater {
         "?api_key=" + api_key +
         "&format=json" +
         "&resources=game" +
-        "&field_list=name,image,original_release_date";
+        "&field_list=id,name,image,original_release_date";
   }
 
 

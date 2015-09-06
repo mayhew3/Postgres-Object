@@ -7,6 +7,7 @@ public class Game extends MediaObjectPostgreSQL {
 
   public FieldValue<Timestamp> finished = registerTimestampField("finished");
   public FieldValue<Timestamp> added = registerTimestampField("added");
+  public FieldValue<Timestamp> giantbomb_release_date = registerTimestampField("giantbomb_release_date");
 
   public FieldValue<BigDecimal> metacritic = registerBigDecimalField("metacritic");
   public FieldValue<BigDecimal> guess = registerBigDecimalField("guess");
