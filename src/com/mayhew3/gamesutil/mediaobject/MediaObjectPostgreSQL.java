@@ -208,6 +208,12 @@ public abstract class MediaObjectPostgreSQL {
     return fieldBooleanValue;
   }
 
+  protected final FieldValueBoolean registerBooleanFieldAllowingNulls(String fieldName) {
+    FieldValueBoolean fieldBooleanValue = new FieldValueBoolean(fieldName, new FieldConversionBoolean(), Boolean.TRUE);
+    allFieldValues.add(fieldBooleanValue);
+    return fieldBooleanValue;
+  }
+
   protected final FieldValueDate registerDateField(String fieldName) {
     FieldValueDate fieldBooleanValue = new FieldValueDate(fieldName, new FieldConversionDate());
     allFieldValues.add(fieldBooleanValue);

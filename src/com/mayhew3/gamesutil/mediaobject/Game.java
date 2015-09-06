@@ -27,11 +27,12 @@ public class Game extends MediaObjectPostgreSQL {
   public FieldValue<BigDecimal> remainder = registerBigDecimalField("remainder");
 
 
-  public FieldValueShort total = registerShortField("total");
-  public FieldValueShort totalinc = registerShortField("totalinc");
-  public FieldValueShort die1 = registerShortField("die1");
-  public FieldValueShort die2 = registerShortField("die2");
-  public FieldValueShort finaldie = registerShortField("finaldie");
+  public FieldValueInteger total = registerIntegerField("total");
+  public FieldValueInteger totalinc = registerIntegerField("totalinc");
+  public FieldValueInteger die1 = registerIntegerField("die1");
+  public FieldValueInteger die2 = registerIntegerField("die2");
+  public FieldValueInteger finaldie = registerIntegerField("finaldie");
+  public FieldValueInteger steam_attribute_count = registerIntegerField("steam_attribute_count");
 
   public FieldValueInteger steamID = registerIntegerField("steamid");
   public FieldValueInteger giantbomb_id = registerIntegerField("giantbomb_id");
@@ -55,14 +56,19 @@ public class Game extends MediaObjectPostgreSQL {
   public FieldValueString giantbomb_tiny_url = registerStringField("giantbomb_tiny_url");
   public FieldValueString giantbomb_best_guess = registerStringField("giantbomb_best_guess");
   public FieldValueString giantbomb_manual_guess = registerStringField("giantbomb_manual_guess");
-  public FieldValueBoolean giantbomb_guess_confirmed = registerBooleanField("giantbomb_guess_confirmed");
+  public FieldValueBoolean giantbomb_guess_confirmed = registerBooleanFieldAllowingNulls("giantbomb_guess_confirmed");
 
   public FieldValueString metacriticHint = registerStringField("metacritic_hint");
-  public FieldValueBoolean metacriticPage = registerBooleanField("metacritic_page");
-  public FieldValue<Timestamp> metacriticMatched = registerTimestampField("metacritic_matched");
+  public FieldValueBoolean metacriticPage = registerBooleanFieldAllowingNulls("metacritic_page");
+  public FieldValueBoolean steam_cloud = registerBooleanFieldAllowingNulls("steam_cloud");
+  public FieldValueBoolean steam_controller = registerBooleanFieldAllowingNulls("steam_controller");
+  public FieldValueBoolean steam_local_coop = registerBooleanFieldAllowingNulls("steam_local_coop");
 
-  public FieldValueBoolean started = registerBooleanField("started");
-  public FieldValueBoolean include = registerBooleanField("include");
+  public FieldValue<Timestamp> metacriticMatched = registerTimestampField("metacritic_matched");
+  public FieldValue<Timestamp> steam_attributes = registerTimestampField("steam_attributes");
+
+  public FieldValueBoolean started = registerBooleanFieldAllowingNulls("started");
+  public FieldValueBoolean include = registerBooleanFieldAllowingNulls("include");
 
   @Override
   protected String getTableName() {
@@ -71,6 +77,11 @@ public class Game extends MediaObjectPostgreSQL {
 
   @Override
   public String toString() {
-    return title.getValue();
+    String msg = title.getValue() + " (" + id.getValue() + ")";
+    Integer steamID = this.steamID.getValue();
+    if (steamID != null) {
+      msg += " (Steam: " + steamID + ")";
+    }
+    return msg;
   }
 }
