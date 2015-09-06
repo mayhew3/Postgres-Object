@@ -13,7 +13,11 @@ import java.util.List;
 
 public class SteamAttributeUpdateRunner {
 
-  private static PostgresConnection connection;
+  private PostgresConnection connection;
+
+  public SteamAttributeUpdateRunner(PostgresConnection connection) {
+    this.connection = connection;
+  }
 
   public static void main(String[] args) throws FileNotFoundException {
     List<String> argList = Lists.newArrayList(args);
@@ -28,7 +32,7 @@ public class SteamAttributeUpdateRunner {
       System.setOut(ps);
     }
 
-    connection = new PostgresConnection();
+    PostgresConnection connection = new PostgresConnection();
 
     if (redo) {
       connection.executeUpdate("TRUNCATE TABLE steam_attributes");
@@ -36,7 +40,7 @@ public class SteamAttributeUpdateRunner {
       connection.executeUpdate("UPDATE games SET steam_attributes = NULL");
     }
 
-    SteamAttributeUpdateRunner updateRunner = new SteamAttributeUpdateRunner();
+    SteamAttributeUpdateRunner updateRunner = new SteamAttributeUpdateRunner(connection);
 
     updateRunner.runSteamAttributeUpdate();
 
@@ -72,7 +76,7 @@ public class SteamAttributeUpdateRunner {
   }
 
 
-  protected static void debug(Object object) {
+  protected void debug(Object object) {
     System.out.println(object);
   }
 }

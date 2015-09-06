@@ -35,6 +35,15 @@ public class SteamGameUpdater extends DatabaseUtility {
     connection = new PostgresConnection();
     updateFields();
 
+    debug(" --- ");
+    debug(" Finished Steam API section, starting attribute update!");
+    debug(" --- ");
+
+    SteamAttributeUpdateRunner steamAttributeUpdateRunner = new SteamAttributeUpdateRunner(connection);
+    steamAttributeUpdateRunner.runSteamAttributeUpdate();
+
+    debug(" --- ");
+    debug(" Full operation complete!");
   }
 
   public static void updateFields() throws SQLException {
@@ -74,7 +83,7 @@ public class SteamGameUpdater extends DatabaseUtility {
       Integer steamid = connection.getInt(resultSet, "steamid");
 
       if (!jsonSteamIDs.contains(steamid)) {
-        debug(connection.getString(resultSet, "game") + ": no longer found!");
+        debug(connection.getString(resultSet, "title") + ": no longer found!");
 
         Game game = new Game();
         game.initializeFromDBObject(resultSet);
@@ -151,6 +160,7 @@ public class SteamGameUpdater extends DatabaseUtility {
     game.playtime.changeValue(playtime);
     game.icon.changeValue(icon);
     game.logo.changeValue(logo);
+    game.metacriticPage.changeValue(false);
 
     game.commit(connection);
   }
