@@ -11,10 +11,10 @@
     <orderEntry type="library" exported="" name="org.json:json:20140107" level="project" />
     <orderEntry type="library" exported="" name="net.sf.cotta.core:cotta:3.0" level="project" />
     <orderEntry type="library" exported="" name="apache-codec:commons-codec:1.2" level="project" />
-    <orderEntry type="library" exported="" name="com.google.collections:google-collections:1.0" level="project" />
     <orderEntry type="library" name="joda-time:joda-time:2.6" level="project" />
     <orderEntry type="library" name="org.jsoup:jsoup:1.8.1" level="project" />
     <orderEntry type="library" name="org.postgresql:postgresql:9.4-1201-jdbc41" level="project" />
     <orderEntry type="library" name="org.apache.logging.log4j:log4j-core:2.3" level="project" />
+    <orderEntry type="library" name="org.seleniumhq.selenium:selenium-server:2.47.1" level="project" />
   </component>
 </module>

@@ -3,13 +3,11 @@ package com.mayhew3.gamesutil.games;
 import com.google.common.collect.Lists;
 import com.mayhew3.gamesutil.mediaobject.Game;
 import com.mayhew3.gamesutil.mediaobject.SteamAttribute;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.nodes.Node;
-import org.jsoup.select.Elements;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 
-import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
@@ -18,10 +16,12 @@ public class SteamAttributeUpdater {
 
   private Game game;
   private PostgresConnection connection;
+  private WebDriver driver;
 
-  public SteamAttributeUpdater(Game game, PostgresConnection connection) {
+  public SteamAttributeUpdater(Game game, PostgresConnection connection, WebDriver webDriver) {
     this.game = game;
     this.connection = connection;
+    this.driver = webDriver;
   }
 
   public void runUpdater() throws GameFailedException {
@@ -30,63 +30,87 @@ public class SteamAttributeUpdater {
 
   private void parseSteamPage() throws GameFailedException {
     Integer steamID = game.steamID.getValue();
-    String gameTitle = game.title.getValue();
 
-    try {
-      String url = "http://store.steampowered.com/app/" + steamID + "/";
-      Document document = Jsoup.connect(url)
-          .timeout(3000)
-          .userAgent("Chrome")
-          .get();
+    String url = "http://store.steampowered.com/app/" + steamID + "/";
 
-      Elements elements = document.select("[id=category_block]");
-      Element first = elements.first();
+    driver.get(url);
 
-      if (first == null) {
-        throw new GameFailedException("Page found, but no element found with 'category_block' id. Url: " + url);
-      }
+    WebElement categoryBlock = getCategoryBlock(driver);
 
-      List<String> attributes = Lists.newArrayList();
-
-      for (Node node : first.select("[class=game_area_details_specs]")) {
-        Node link = node.childNode(1).childNode(0);
-        attributes.add(link.toString());
-      }
-
-      game.steam_cloud.changeValue(false);
-      game.steam_controller.changeValue(false);
-      game.steam_local_coop.changeValue(false);
-
-      for (String attribute : attributes) {
-        SteamAttribute steamAttribute = new SteamAttribute();
-        steamAttribute.initializeForInsert();
-
-        steamAttribute.steamID.changeValue(steamID);
-        steamAttribute.attribute.changeValue(attribute);
-        steamAttribute.commit(connection);
-
-        if (attribute.equalsIgnoreCase("Steam Cloud")) {
-          game.steam_cloud.changeValue(true);
-        }
-        if (attribute.equalsIgnoreCase("Local Co-op")) {
-          game.steam_local_coop.changeValue(true);
-        }
-        if (attribute.equalsIgnoreCase("Full controller support") ||
-            attribute.equalsIgnoreCase("Partial Controller Support")) {
-          game.steam_controller.changeValue(true);
-        }
-      }
-
-      game.steam_attributes.changeValue(new Timestamp(new Date().getTime()));
-      game.steam_attribute_count.changeValue(attributes.size());
-
-      game.commit(connection);
-
-
-    } catch (IOException e) {
-      throw new GameFailedException("Couldn't find Steam page for Game " + gameTitle + " (" + steamID  + ")");
+    if (categoryBlock == null) {
+      throw new GameFailedException("Page found, but no element found with 'category_block' id. Url: " + url);
     }
 
+    List<String> attributes = Lists.newArrayList();
+
+    for (WebElement element : categoryBlock.findElements(By.className("name"))) {
+      String attribute = element.getText();
+      attributes.add(attribute);
+    }
+
+    game.steam_cloud.changeValue(false);
+    game.steam_controller.changeValue(false);
+    game.steam_local_coop.changeValue(false);
+
+    for (String attribute : attributes) {
+      SteamAttribute steamAttribute = new SteamAttribute();
+      steamAttribute.initializeForInsert();
+
+      steamAttribute.steamID.changeValue(steamID);
+      steamAttribute.attribute.changeValue(attribute);
+      steamAttribute.commit(connection);
+
+      if (attribute.equalsIgnoreCase("Steam Cloud")) {
+        game.steam_cloud.changeValue(true);
+      }
+      if (attribute.equalsIgnoreCase("Local Co-op")) {
+        game.steam_local_coop.changeValue(true);
+      }
+      if (attribute.equalsIgnoreCase("Full controller support") ||
+          attribute.equalsIgnoreCase("Partial Controller Support")) {
+        game.steam_controller.changeValue(true);
+      }
+    }
+
+    game.steam_attributes.changeValue(new Timestamp(new Date().getTime()));
+    game.steam_attribute_count.changeValue(attributes.size());
+
+    game.commit(connection);
+  }
+
+
+  private static WebElement getCategoryBlock(WebDriver driver) {
+
+    // Find the text input element by its name
+    List<WebElement> elements = driver.findElements(By.id("category_block"));
+
+    if (!elements.isEmpty()) {
+      return elements.get(0);
+    }
+
+    List<WebElement> forms = driver.findElements(By.id("agecheck_form"));
+    if (forms.isEmpty()) {
+      return null;
+    }
+    WebElement form = forms.get(0);
+
+    Select daySelect = new Select(form.findElement(By.name("ageDay")));
+    Select monthSelect = new Select(form.findElement(By.name("ageMonth")));
+    Select yearSelect = new Select(form.findElement(By.id("ageYear")));
+    WebElement enter = form.findElement(By.linkText("Enter"));
+
+    daySelect.selectByValue("1");
+    monthSelect.selectByValue("December");
+    yearSelect.selectByValue("1980");
+
+    enter.click();
+
+    elements = driver.findElements(By.id("category_block"));
+    if (elements.isEmpty()) {
+      return null;
+    } else {
+      return elements.get(0);
+    }
   }
 
 }

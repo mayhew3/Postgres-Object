@@ -2,6 +2,7 @@ package com.mayhew3.gamesutil.games;
 
 import com.google.common.collect.Lists;
 import com.mayhew3.gamesutil.mediaobject.Game;
+import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -47,6 +48,8 @@ public class SteamAttributeUpdateRunner {
   }
 
   public void runSteamAttributeUpdate() {
+    ChromeDriver chromeDriver = new ChromeDriver();
+
     String sql = "SELECT * FROM games WHERE steamid is not null AND steam_attributes IS NULL";
     ResultSet resultSet = connection.executeQuery(sql);
 
@@ -61,7 +64,7 @@ public class SteamAttributeUpdateRunner {
 
         debug("Updating game: " + game);
 
-        SteamAttributeUpdater steamAttributeUpdater = new SteamAttributeUpdater(game, connection);
+        SteamAttributeUpdater steamAttributeUpdater = new SteamAttributeUpdater(game, connection, chromeDriver);
         steamAttributeUpdater.runUpdater();
       } catch (SQLException e) {
         e.printStackTrace();
@@ -73,6 +76,8 @@ public class SteamAttributeUpdateRunner {
 
       debug(i + " processed.");
     }
+
+    chromeDriver.close();
   }
 
 
