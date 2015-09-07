@@ -38,7 +38,9 @@ public class SteamAttributeUpdater {
     WebElement categoryBlock = getCategoryBlock(driver);
 
     if (categoryBlock == null) {
-      throw new GameFailedException("Page found, but no element found with 'category_block' id. Url: " + url);
+      game.steam_page_gone.changeValue(new Timestamp(new Date().getTime()));
+      game.commit(connection);
+      throw new GameFailedException("Resulting page had neither category_block nor agecheck_form. Url: " + url);
     }
 
     List<String> attributes = Lists.newArrayList();

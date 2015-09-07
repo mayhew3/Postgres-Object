@@ -35,6 +35,7 @@ public class SteamAttributeUpdateRunner {
 
     PostgresConnection connection = new PostgresConnection();
 
+    // don't do this.
     if (redo) {
       connection.executeUpdate("TRUNCATE TABLE steam_attributes");
       connection.executeUpdate("ALTER SEQUENCE steam_attributes_id_seq RESTART WITH 1");
@@ -48,12 +49,12 @@ public class SteamAttributeUpdateRunner {
   }
 
   public void runSteamAttributeUpdate() {
-    ChromeDriver chromeDriver = new ChromeDriver();
-
-    String sql = "SELECT * FROM games WHERE steamid is not null AND steam_attributes IS NULL";
+    String sql = "SELECT * FROM games WHERE steamid is not null AND steam_attributes IS NULL AND steam_page_gone IS NULL";
     ResultSet resultSet = connection.executeQuery(sql);
 
     int i = 0;
+
+    ChromeDriver chromeDriver = new ChromeDriver();
 
     while (connection.hasMoreElements(resultSet)) {
       i++;

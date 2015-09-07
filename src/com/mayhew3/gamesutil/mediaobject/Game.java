@@ -66,6 +66,7 @@ public class Game extends MediaObjectPostgreSQL {
 
   public FieldValue<Timestamp> metacriticMatched = registerTimestampField("metacritic_matched");
   public FieldValue<Timestamp> steam_attributes = registerTimestampField("steam_attributes");
+  public FieldValue<Timestamp> steam_page_gone = registerTimestampField("steam_page_gone");
 
   public FieldValueBoolean started = registerBooleanFieldAllowingNulls("started");
   public FieldValueBoolean include = registerBooleanFieldAllowingNulls("include");
