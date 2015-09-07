@@ -9,6 +9,7 @@ import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 public class MetacriticGameUpdateRunner {
@@ -72,7 +73,7 @@ public class MetacriticGameUpdateRunner {
 
 
   protected static void debug(Object object) {
-    System.out.println(object);
+    System.out.println(new Date() + ": " + object);
   }
 }
 
