@@ -8,6 +8,8 @@ public class Game extends MediaObjectPostgreSQL {
   public FieldValue<Timestamp> finished = registerTimestampField("finished");
   public FieldValue<Timestamp> added = registerTimestampField("added");
   public FieldValue<Timestamp> giantbomb_release_date = registerTimestampField("giantbomb_release_date");
+  public FieldValue<Timestamp> howlong_updated = registerTimestampField("howlong_updated");
+  public FieldValue<Timestamp> howlong_failed = registerTimestampField("howlong_failed");
 
   public FieldValue<BigDecimal> metacritic = registerBigDecimalField("metacritic");
   public FieldValue<BigDecimal> guess = registerBigDecimalField("guess");
@@ -25,6 +27,10 @@ public class Game extends MediaObjectPostgreSQL {
   public FieldValue<BigDecimal> replay = registerBigDecimalField("replay");
   public FieldValue<BigDecimal> adj = registerBigDecimalField("adj");
   public FieldValue<BigDecimal> remainder = registerBigDecimalField("remainder");
+  public FieldValue<BigDecimal> howlong_main = registerBigDecimalField("howlong_main");
+  public FieldValue<BigDecimal> howlong_extras = registerBigDecimalField("howlong_extras");
+  public FieldValue<BigDecimal> howlong_completionist = registerBigDecimalField("howlong_completionist");
+  public FieldValue<BigDecimal> howlong_all = registerBigDecimalField("howlong_all");
 
 
   public FieldValueInteger total = registerIntegerField("total");
@@ -37,6 +43,11 @@ public class Game extends MediaObjectPostgreSQL {
   public FieldValueInteger steamID = registerIntegerField("steamid");
   public FieldValueInteger giantbomb_id = registerIntegerField("giantbomb_id");
   public FieldValueInteger giantbomb_year = registerIntegerField("giantbomb_year");
+  public FieldValueInteger howlong_id = registerIntegerField("howlong_id");
+  public FieldValueInteger howlong_main_confidence = registerIntegerField("howlong_main_confidence");
+  public FieldValueInteger howlong_extras_confidence = registerIntegerField("howlong_extras_confidence");
+  public FieldValueInteger howlong_completionist_confidence = registerIntegerField("howlong_completionist_confidence");
+  public FieldValueInteger howlong_all_confidence = registerIntegerField("howlong_all_confidence");
 
   public FieldValueString title = registerStringField("title");
   public FieldValueString platform = registerStringField("platform");
