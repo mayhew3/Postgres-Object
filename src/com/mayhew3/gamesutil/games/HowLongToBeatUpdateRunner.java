@@ -45,7 +45,6 @@ public class HowLongToBeatUpdateRunner {
 
   public void runUpdate() {
     String sql = "SELECT * FROM games WHERE howlong_updated IS NULL";
-//    String sql = "SELECT * FROM games WHERE title = 'ICO'";
     ResultSet resultSet = connection.executeQuery(sql);
 
     int i = 0;
