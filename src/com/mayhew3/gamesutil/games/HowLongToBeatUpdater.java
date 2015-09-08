@@ -2,12 +2,12 @@ package com.mayhew3.gamesutil.games;
 
 import com.mayhew3.gamesutil.mediaobject.Game;
 import com.sun.istack.internal.Nullable;
+import com.sun.javafx.beans.annotations.NonNull;
 import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -39,11 +39,13 @@ public class HowLongToBeatUpdater {
 
     String gameUrl;
     if (howlong_id == null) {
-      gameUrl = useSearchToFindGame(title);
+      gameUrl = findGame(title);
     } else {
       gameUrl = "http://howlongtobeat.com/game.php?id=" + howlong_id;
       driver.get(gameUrl);
     }
+
+    updateTitle();
 
     WebElement game_main_table = findCorrectTable();
 
@@ -59,6 +61,16 @@ public class HowLongToBeatUpdater {
     game.commit(connection);
   }
 
+  private void updateTitle() throws GameFailedException {
+    WebElement profile_header = driver.findElement(By.className("profile_header"));
+    String howlong_title = profile_header.getText();
+    if (howlong_title == null) {
+      throw new GameFailedException("Unable to find title on page.");
+    } else {
+      game.howlong_title.changeValue(howlong_title);
+    }
+  }
+
   private WebElement findCorrectTable() {
     List<WebElement> allTables = driver.findElements(By.className("game_main_table"));
     for (WebElement table : allTables) {
@@ -71,31 +83,65 @@ public class HowLongToBeatUpdater {
     return null;
   }
 
-  private String useSearchToFindGame(String title) throws GameFailedException {
-    String url = "http://howlongtobeat.com/user.php?n=mayhew3";
-
+  @NonNull
+  private String goToGameUrlFromProfile(String title) throws GameFailedException {
+    String url = "http://howlongtobeat.com/user.php?n=mayhew3&s=games";
     driver.get(url);
 
-    WebElement searchBox = goToSearchBox();
-    if (searchBox == null) {
-      throw new GameFailedException("Unable to find search box");
-    }
+    // use filters to select all games. tricky because there's not a good condition to look for to indicate it is finished loading.
+    // could get triggered before all the filters are activated, and will throw from the data being stale. So wait 7 seconds.
+    WebElement list_multi = driver.findElement(By.id("list_multi"));
+    WebElement list_b = driver.findElement(By.id("list_b"));
+    WebElement list_r = driver.findElement(By.id("list_r"));
+    WebElement list_c = driver.findElement(By.id("list_c"));
+    WebElement list_cp = driver.findElement(By.id("list_cp"));
 
-    WebElement resultElement;
+    Actions actions = new Actions(driver);
+    actions.moveToElement(list_multi).click()
+        .moveToElement(list_b).click()
+        .moveToElement(list_r).click()
+        .moveToElement(list_c).click()
+        .moveToElement(list_cp).click()
+        .build()
+        .perform();
+
+    waitForSeconds(7);
+
+    WebElement user_games = driver.findElement(By.id("user_games"));
+    List<WebElement> links = user_games.findElements(By.tagName("a"));
+
     try {
-      resultElement = getResult(searchBox);
-    } catch (InterruptedException e) {
+      for (WebElement link : links) {
+        if (title.equalsIgnoreCase(link.getText())) {
+          link.click();
+          return driver.getCurrentUrl();
+        }
+      }
+    } catch (StaleElementReferenceException e) {
       e.printStackTrace();
-      throw new GameFailedException("Interrupted while waiting for search results.");
+      throw new GameFailedException("Stale element exception while getting list of links.");
     }
 
-    if (resultElement == null) {
-      throw new GameFailedException("Unable to find exact match for game '" + title + "'");
+    throw new GameFailedException("No game found on profile page.");
+  }
+
+
+  private void waitForSeconds(Integer seconds) {
+    // probably better way to do this.
+    long end = System.currentTimeMillis() + (seconds*1000);
+    while (System.currentTimeMillis() < end) {
+      // do nothing;
+    }
+  }
+
+  @NonNull
+  private String findGame(String title) throws GameFailedException {
+    String currentUrl = goToGameUrlFromSearch(title);
+
+    if (currentUrl == null) {
+      currentUrl = goToGameUrlFromProfile(title);
     }
 
-    resultElement.click();
-
-    String currentUrl = driver.getCurrentUrl();
     String[] split = currentUrl.split("=");
     if (split.length != 2) {
       throw new GameFailedException("Unexpected URL format for game detail: " + currentUrl);
@@ -108,34 +154,37 @@ public class HowLongToBeatUpdater {
     return currentUrl;
   }
 
-  private WebElement getResult(WebElement searchBox) throws InterruptedException {
+  @Nullable
+  private String goToGameUrlFromSearch(String title) throws GameFailedException {
+    String url = "http://howlongtobeat.com/user.php?n=mayhew3";
+
+    driver.get(url);
+
+    WebElement searchBox = goToSearchBox();
+    if (searchBox == null) {
+      throw new GameFailedException("Unable to find search box");
+    }
+
+    WebElement resultElement;
+    resultElement = getResult(searchBox);
+
+    if (resultElement == null) {
+      debug("Unable to find exact match for game '" + title + "'");
+      return null;
+    }
+
+    resultElement.click();
+
+    return driver.getCurrentUrl();
+  }
+
+  private WebElement getResult(WebElement searchBox) {
     String title = game.title.getValue();
 
     Actions actions = new Actions(driver);
     actions.moveToElement(searchBox).click().sendKeys(title).build().perform();
 
     return findResultElement(By.xpath("//*[@title=\"" + title + "\"]"));
-  }
-
-  private WebElement getSearchResult(WebElement searchBox) throws InterruptedException {
-    String title = game.title.getValue();
-
-    Actions actions = new Actions(driver);
-    actions.moveToElement(searchBox).click().sendKeys(title).build().perform();
-
-    (new WebDriverWait(driver, 10))
-        .until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@class=\"content_100 index_preview_container\"]")));
-
-    List<WebElement> containers = driver.findElements(By.xpath("//*[@class=\"content_100 index_preview_container\"]"));
-    for (WebElement container : containers) {
-      List<WebElement> links = container.findElements(By.tagName("a"));
-      for (WebElement link : links) {
-        if (title.equalsIgnoreCase(link.getAttribute("title"))) {
-          return link;
-        }
-      }
-    }
-    return null;
   }
 
   private WebElement goToSearchBox() {
@@ -245,6 +294,10 @@ public class HowLongToBeatUpdater {
       }
     }
     return null;
+  }
+
+  protected void debug(Object object) {
+    System.out.println(object);
   }
 
 

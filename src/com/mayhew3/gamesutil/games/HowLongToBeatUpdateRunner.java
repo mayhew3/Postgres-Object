@@ -44,11 +44,12 @@ public class HowLongToBeatUpdateRunner {
   }
 
   public void runUpdate() {
-    String sql = "SELECT * FROM games WHERE howlong_id IS NOT NULL AND howlong_updated IS NULL AND owned <> 'not owned'";
+    String sql = "SELECT * FROM games WHERE howlong_updated IS NULL";
 //    String sql = "SELECT * FROM games WHERE title = 'ICO'";
     ResultSet resultSet = connection.executeQuery(sql);
 
     int i = 0;
+    int failures = 0;
 
     ChromeDriver chromeDriver = new ChromeDriver();
 
@@ -66,18 +67,23 @@ public class HowLongToBeatUpdateRunner {
       } catch (SQLException e) {
         e.printStackTrace();
         debug("Game failed to load from DB.");
+        failures++;
       } catch (GameFailedException e) {
         e.printStackTrace();
         debug("Game failed: " + game);
         logFailure(game);
+        failures++;
       } catch (WebDriverException e) {
         e.printStackTrace();
         debug("WebDriver error: " + game);
         logFailure(game);
+        failures++;
       }
 
       debug(i + " processed.");
     }
+
+    debug("Operation completed! Failed on " + failures + "/" + i + " games (" + (failures/i*100) + "%)");
 
     chromeDriver.close();
   }

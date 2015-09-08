@@ -67,6 +67,9 @@ public class Game extends MediaObjectPostgreSQL {
   public FieldValueString giantbomb_tiny_url = registerStringField("giantbomb_tiny_url");
   public FieldValueString giantbomb_best_guess = registerStringField("giantbomb_best_guess");
   public FieldValueString giantbomb_manual_guess = registerStringField("giantbomb_manual_guess");
+  public FieldValueString howlong_title = registerStringField("howlong_title");
+
+
   public FieldValueBoolean giantbomb_guess_confirmed = registerBooleanFieldAllowingNulls("giantbomb_guess_confirmed");
 
   public FieldValueString metacriticHint = registerStringField("metacritic_hint");
