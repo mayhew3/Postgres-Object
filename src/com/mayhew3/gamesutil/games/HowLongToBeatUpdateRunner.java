@@ -44,7 +44,7 @@ public class HowLongToBeatUpdateRunner {
   }
 
   public void runUpdate() {
-    String sql = "SELECT * FROM games WHERE howlong_updated IS NULL";
+    String sql = "SELECT * FROM games WHERE howlong_updated IS NULL AND howlong_failed IS NULL AND owned <> 'not owned'";
     ResultSet resultSet = connection.executeQuery(sql);
 
     int i = 0;

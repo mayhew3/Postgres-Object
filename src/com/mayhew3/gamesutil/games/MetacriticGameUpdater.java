@@ -47,6 +47,7 @@ public class MetacriticGameUpdater {
       formattedPlatforms.put("PC", "pc");
       formattedPlatforms.put("Steam", "pc");
       formattedPlatforms.put("Xbox 360", "xbox-360");
+      formattedPlatforms.put("Xbox One", "xbox-one");
       formattedPlatforms.put("PS3", "playstation-3");
       formattedPlatforms.put("Wii", "wii");
       formattedPlatforms.put("Wii U", "wii-u");

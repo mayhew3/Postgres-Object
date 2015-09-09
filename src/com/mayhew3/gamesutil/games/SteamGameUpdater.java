@@ -43,6 +43,13 @@ public class SteamGameUpdater extends DatabaseUtility {
     steamAttributeUpdateRunner.runSteamAttributeUpdate();
 
     debug(" --- ");
+    debug(" Finished Steam Attribute section, starting HowLongToBeat update!");
+    debug(" --- ");
+
+    HowLongToBeatUpdateRunner howLongToBeatUpdateRunner = new HowLongToBeatUpdateRunner(connection);
+    howLongToBeatUpdateRunner.runUpdate();
+
+    debug(" --- ");
     debug(" Full operation complete!");
   }
 
