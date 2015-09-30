@@ -36,9 +36,18 @@ public class MetacriticGameUpdater {
     String formattedTitle = hint == null ?
         title
         .toLowerCase()
+        .replaceAll(" - ", "-")
         .replaceAll(" ", "-")
         .replaceAll("'", "")
-        .replaceAll("\\.", "") :
+        .replaceAll("\\.", "")
+        .replaceAll("\u2122", "")
+        .replaceAll("\u00AE", "")
+        .replaceAll(":", "")
+        .replaceAll("&", "and")
+        .replaceAll(",", "")
+        .replaceAll("\\(", "")
+        .replaceAll("\\)", "")
+        :
         hint
         ;
 

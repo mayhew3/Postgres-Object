@@ -46,11 +46,10 @@ public class MetacriticGameUpdateRunner {
     }
     ResultSet resultSet = connection.executeQuery(sql);
 
-    int i = 0;
+    int i = 1;
+    int failures = 0;
 
     while (connection.hasMoreElements(resultSet)) {
-      i++;
-
       Game game = new Game();
       try {
         game.initializeFromDBObject(resultSet);
@@ -62,12 +61,19 @@ public class MetacriticGameUpdateRunner {
       } catch (GameFailedException e) {
         e.printStackTrace();
         debug("Show failed: " + game.title.getValue());
+        failures++;
       } catch (SQLException e) {
         e.printStackTrace();
         debug("Failed to load game from database.");
+        failures++;
       }
 
       debug(i + " processed.");
+      i++;
+    }
+
+    if (i > 1) {
+      debug("Operation completed! Failed on " + failures + "/" + (i - 1) + " games (" + (100 * failures / (i - 1)) + "%)");
     }
   }
 
