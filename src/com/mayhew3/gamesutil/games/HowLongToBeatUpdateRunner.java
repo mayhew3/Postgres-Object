@@ -44,17 +44,15 @@ public class HowLongToBeatUpdateRunner {
   }
 
   public void runUpdate() {
-    String sql = "SELECT * FROM games WHERE howlong_updated IS NULL AND howlong_failed IS NULL AND owned <> 'not owned'";
+    String sql = "SELECT * FROM games WHERE howlong_updated IS NULL AND howlong_failed IS NULL";
     ResultSet resultSet = connection.executeQuery(sql);
 
-    int i = 0;
+    int i = 1;
     int failures = 0;
 
     ChromeDriver chromeDriver = new ChromeDriver();
 
     while (connection.hasMoreElements(resultSet)) {
-      i++;
-
       Game game = new Game();
       try {
         game.initializeFromDBObject(resultSet);
@@ -80,6 +78,7 @@ public class HowLongToBeatUpdateRunner {
       }
 
       debug(i + " processed.");
+      i++;
     }
 
     debug("Operation completed! Failed on " + failures + "/" + i + " games (" + (failures/i*100) + "%)");
