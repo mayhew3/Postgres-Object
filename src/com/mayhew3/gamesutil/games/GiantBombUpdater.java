@@ -24,7 +24,11 @@ import java.util.List;
 
 public class GiantBombUpdater {
 
-  private static PostgresConnection connection;
+  private PostgresConnection connection;
+
+  public GiantBombUpdater(PostgresConnection connection) {
+    this.connection = connection;
+  }
 
   public static void main(String[] args) throws SQLException, FileNotFoundException {
     List<String> argList = Lists.newArrayList(args);
@@ -39,12 +43,13 @@ public class GiantBombUpdater {
       System.err.println("Starting run on " + new Date());
     }
 
-    connection = new PostgresConnection();
-    updateFields();
+    GiantBombUpdater giantBombUpdater = new GiantBombUpdater(new PostgresConnection());
+
+    giantBombUpdater.updateFields();
 
   }
 
-  public static void updateFields() throws SQLException {
+  public void updateFields() throws SQLException {
     String sql = "SELECT * FROM games WHERE NOT (giantbomb_id IS NOT NULL and giantbomb_icon_url IS NOT NULL) and owned <> 'not owned'";
 //    String sql = "SELECT * FROM games WHERE giantbomb_id = 20238";
     ResultSet resultSet = connection.executeQuery(sql);
@@ -70,7 +75,7 @@ public class GiantBombUpdater {
   }
 
   @Nullable
-  private static JSONObject findMatchIfPossible(Game game) throws IOException {
+  private JSONObject findMatchIfPossible(Game game) throws IOException {
     Integer giantbomb_id = game.giantbomb_id.getValue();
     if (giantbomb_id != null) {
       return getSingleGameWithId(giantbomb_id);
@@ -92,7 +97,7 @@ public class GiantBombUpdater {
     return null;
   }
 
-  private static void populateAlternatives(Game game, JSONArray originalResults) throws JSONException, IOException {
+  private void populateAlternatives(Game game, JSONArray originalResults) throws JSONException, IOException {
     if (game.giantbomb_manual_guess.getValue() != null) {
       JSONArray guessResults = getResultsArray(game.giantbomb_manual_guess.getValue());
       populateBestGuess(game, guessResults);
@@ -101,7 +106,7 @@ public class GiantBombUpdater {
     }
   }
 
-  private static void populateBestGuess(Game game, JSONArray lessRestrictive) {
+  private void populateBestGuess(Game game, JSONArray lessRestrictive) {
     JSONObject bestGuess = getNextInexactResult(lessRestrictive, game);
 
     if (bestGuess != null) {
@@ -111,7 +116,7 @@ public class GiantBombUpdater {
   }
 
 
-  private static String getTitleToTry(Game game) {
+  private String getTitleToTry(Game game) {
     if (game.giantbomb_name.getValue() != null) {
       return game.giantbomb_name.getValue();
     } else if (hasConfirmedGuess(game)) {
@@ -121,11 +126,11 @@ public class GiantBombUpdater {
     }
   }
 
-  private static boolean hasConfirmedGuess(Game game) {
-    return game.giantbomb_best_guess.getValue() != null && game.giantbomb_guess_confirmed.getValue();
+  private boolean hasConfirmedGuess(Game game) {
+    return game.giantbomb_best_guess.getValue() != null && Boolean.TRUE.equals(game.giantbomb_guess_confirmed.getValue());
   }
 
-  private static void updateMatch(Game game, @NonNull JSONObject match) {
+  private void updateMatch(Game game, @NonNull JSONObject match) {
     String title = game.title.getValue();
     debug("O) " + title + ": Match found.");
 
@@ -162,14 +167,14 @@ public class GiantBombUpdater {
     }
   }
 
-  private static JSONArray getResultsArray(String title) throws JSONException, IOException {
+  private JSONArray getResultsArray(String title) throws JSONException, IOException {
     String fullURL = getFullUrl(title);
     JSONObject jsonObject = readJsonFromUrl(fullURL);
     return jsonObject.getJSONArray("results");
   }
 
   @Nullable
-  private static JSONObject findMatch(JSONArray parentArray, String title) {
+  private JSONObject findMatch(JSONArray parentArray, String title) {
     List<JSONObject> matches = Lists.newArrayList();
 
     for (int i = 0; i < parentArray.length(); i++) {
@@ -190,7 +195,7 @@ public class GiantBombUpdater {
   }
 
   @Nullable
-  private static JSONObject getNextInexactResult(JSONArray parentArray, Game game) {
+  private JSONObject getNextInexactResult(JSONArray parentArray, Game game) {
     String previousBestGuess = game.giantbomb_best_guess.getValue();
 
     Boolean confirmed = game.giantbomb_guess_confirmed.getValue();
@@ -222,7 +227,7 @@ public class GiantBombUpdater {
     }
   }
 
-  private static void logUpdateToPlaytime(String name, Integer steamID, BigDecimal previousPlaytime, BigDecimal updatedPlaytime) {
+  private void logUpdateToPlaytime(String name, Integer steamID, BigDecimal previousPlaytime, BigDecimal updatedPlaytime) {
     GameLog gameLog = new GameLog();
     gameLog.initializeForInsert();
 
@@ -238,7 +243,7 @@ public class GiantBombUpdater {
     gameLog.commit(connection);
   }
 
-  protected static String getFullUrl(String search) throws UnsupportedEncodingException {
+  protected String getFullUrl(String search) throws UnsupportedEncodingException {
     String encoded = URLEncoder.encode(search, "UTF-8");
     String api_key = System.getenv("giantbomb_api");
     return "http://www.giantbomb.com/api/search/" +
@@ -249,13 +254,13 @@ public class GiantBombUpdater {
         "&field_list=id,name,image,original_release_date";
   }
 
-  protected static JSONObject getSingleGameWithId(Integer id) throws IOException {
+  protected JSONObject getSingleGameWithId(Integer id) throws IOException {
     String idUrl = getIdUrl(id);
     JSONObject jsonObject = readJsonFromUrl(idUrl);
     return jsonObject.getJSONObject("results");
   }
 
-  protected static String getIdUrl(Integer id) throws UnsupportedEncodingException {
+  protected String getIdUrl(Integer id) throws UnsupportedEncodingException {
     String api_key = System.getenv("giantbomb_api");
     return "http://www.giantbomb.com/api/game/3030-" + id + "/" +
         "?api_key=" + api_key +
@@ -265,7 +270,7 @@ public class GiantBombUpdater {
   }
 
 
-  public static JSONObject readJsonFromUrl(String url) throws IOException, JSONException {
+  public JSONObject readJsonFromUrl(String url) throws IOException, JSONException {
     try (InputStream is = new URL(url).openStream()) {
       BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
       String jsonText = readAll(rd);
@@ -273,7 +278,7 @@ public class GiantBombUpdater {
     }
   }
 
-  private static String readAll(Reader rd) throws IOException {
+  private String readAll(Reader rd) throws IOException {
     StringBuilder sb = new StringBuilder();
     int cp;
     while ((cp = rd.read()) != -1) {

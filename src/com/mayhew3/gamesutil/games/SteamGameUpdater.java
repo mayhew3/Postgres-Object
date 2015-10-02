@@ -50,6 +50,13 @@ public class SteamGameUpdater extends DatabaseUtility {
     howLongToBeatUpdateRunner.runUpdate();
 
     debug(" --- ");
+    debug(" Finished HowLongToBeat section, starting GiantBomb update!");
+    debug(" --- ");
+
+    GiantBombUpdater giantBombUpdater = new GiantBombUpdater(connection);
+    giantBombUpdater.updateFields();
+
+    debug(" --- ");
     debug(" Full operation complete!");
   }
 
