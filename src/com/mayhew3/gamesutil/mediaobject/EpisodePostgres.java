@@ -1,17 +1,15 @@
 package com.mayhew3.gamesutil.mediaobject;
 
-import java.util.Date;
-
 public class EpisodePostgres extends MediaObjectPostgreSQL {
 
 
-  public FieldValue<Date> watchedDate = registerDateField("watched_date");
+  public FieldValueTimestamp watchedDate = registerTimestampField("watched_date");
 
   public FieldValue<Integer> season = registerIntegerField("season");
   public FieldValue<Integer> seasonEpisodeNumber = registerIntegerField("season_episode_number");
   public FieldValue<Integer> episodeNumber = registerIntegerField("episode_number");
 
-  public FieldValue<Date> airDate = registerDateField("air_date");
+  public FieldValueTimestamp airDate = registerTimestampField("air_date");
 
   public FieldValueInteger seriesId = registerIntegerField("seriesid");
 
@@ -20,6 +18,10 @@ public class EpisodePostgres extends MediaObjectPostgreSQL {
 
   public FieldValueString title = registerStringField("title");
   public FieldValueString seriesTitle = registerStringField("series_title");
+
+  public FieldValueString tivoProgramId = registerStringField("tivo_program_id");
+
+
 
 
   @Override

@@ -4,7 +4,7 @@ import org.bson.types.ObjectId;
 
 import java.util.Date;
 
-public class TVDBEpisode extends MediaObjectMongoDB {
+public class TVDBEpisodeMongo extends MediaObjectMongoDB {
 
   public FieldValue<Date> tvdbFirstAired = registerDateField("tvdbFirstAired");
   public FieldValue<Integer> tvdbLastUpdated = registerIntegerField("tvdbLastUpdated");

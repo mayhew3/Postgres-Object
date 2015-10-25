@@ -1,7 +1,5 @@
 package com.mayhew3.gamesutil.mediaobject;
 
-import java.util.Date;
-
 public class TiVoEpisodePostgres extends MediaObjectPostgreSQL {
 
 
@@ -11,9 +9,9 @@ public class TiVoEpisodePostgres extends MediaObjectPostgreSQL {
 
   public FieldValueString title = registerStringField("title");
 
-  public FieldValueDate showingStartTime = registerDateField("showing_start_time");
-  public FieldValue<Date> deletedDate = registerDateField("deleted_date");
-  public FieldValueDate captureDate = registerDateField("capture_date");
+  public FieldValueTimestamp showingStartTime = registerTimestampField("showing_start_time");
+  public FieldValueTimestamp deletedDate = registerTimestampField("deleted_date");
+  public FieldValueTimestamp captureDate = registerTimestampField("capture_date");
 
   public FieldValue<Boolean> hd = registerBooleanField("hd");
 

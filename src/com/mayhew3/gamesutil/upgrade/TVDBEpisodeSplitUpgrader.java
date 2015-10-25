@@ -4,7 +4,7 @@ import com.mayhew3.gamesutil.tv.TVDatabaseUtility;
 import com.mayhew3.gamesutil.mediaobject.EpisodeMongo;
 import com.mayhew3.gamesutil.mediaobject.FieldValue;
 import com.mayhew3.gamesutil.mediaobject.SeriesMongo;
-import com.mayhew3.gamesutil.mediaobject.TVDBEpisode;
+import com.mayhew3.gamesutil.mediaobject.TVDBEpisodeMongo;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
@@ -83,7 +83,7 @@ public class TVDBEpisodeSplitUpgrader extends TVDatabaseUtility {
         EpisodeMongo episode = new EpisodeMongo();
         episode.initializeFromDBObject(episodeObj);
 
-        TVDBEpisode tvdbEpisode = new TVDBEpisode();
+        TVDBEpisodeMongo tvdbEpisode = new TVDBEpisodeMongo();
         tvdbEpisode.initializeForInsert();
 
         for (FieldValue fieldValue : tvdbEpisode.getAllFieldValues()) {
