@@ -83,17 +83,18 @@ public class TiVoCommunicator extends TVDatabaseUtility {
         keepGoing = parseShowsFromDocument(document);
         offset += 50;
       }
+
+      if (lookAtAllShows) {
+        checkForDeletedShows();
+        // todo: delete TiVo suggestions from DB completely if they're deleted. Don't need that noise.
+      }
+
+      debug("Finished.");
+
     } catch (SAXException | IOException e) {
       debug("Error reading from URL: " + fullURL);
       e.printStackTrace();
     }
-
-    if (lookAtAllShows) {
-      checkForDeletedShows();
-      // todo: delete TiVo suggestions from DB completely if they're deleted. Don't need that noise.
-    }
-
-    debug("Finished.");
   }
 
   private void checkForDeletedShows() {
