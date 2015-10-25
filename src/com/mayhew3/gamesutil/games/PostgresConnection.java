@@ -60,7 +60,7 @@ public class PostgresConnection {
   }
 
   @NotNull
-  protected Statement executeUpdate(String sql) {
+  public Statement executeUpdate(String sql) {
     try {
       Statement statement = _connection.createStatement();
 

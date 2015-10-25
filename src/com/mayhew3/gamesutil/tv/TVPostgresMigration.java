@@ -1,5 +1,6 @@
 package com.mayhew3.gamesutil.tv;
 
+import com.google.common.collect.Lists;
 import com.mayhew3.gamesutil.games.MongoConnection;
 import com.mayhew3.gamesutil.games.PostgresConnection;
 import com.mayhew3.gamesutil.mediaobject.SeriesMongo;
@@ -11,17 +12,30 @@ import com.mongodb.DBObject;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 public class TVPostgresMigration {
   private static MongoConnection mongoConnection;
   private static PostgresConnection postgresConnection;
 
   public static void main(String[] args) throws SQLException {
+    List<String> argList = Lists.newArrayList(args);
+    Boolean devMode = argList.contains("dev");
+
     postgresConnection = new PostgresConnection();
     mongoConnection = new MongoConnection("tv");
 
     TVPostgresMigration tvPostgresMigration = new TVPostgresMigration();
+
+    if (devMode) {
+      tvPostgresMigration.truncatePostgresTables();
+    }
+
     tvPostgresMigration.updatePostgresDatabase();
+  }
+
+  private void truncatePostgresTables() throws SQLException {
+    postgresConnection.executeUpdate("TRUNCATE TABLE series CASCADE");
   }
 
   public void updatePostgresDatabase() throws SQLException {
