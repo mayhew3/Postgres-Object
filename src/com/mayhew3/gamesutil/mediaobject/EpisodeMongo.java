@@ -4,7 +4,7 @@ import org.bson.types.ObjectId;
 
 import java.util.Date;
 
-public class Episode extends MediaObjectMongoDB {
+public class EpisodeMongo extends MediaObjectMongoDB {
 
 
   public FieldValue<Date> watchedDate = registerDateField("WatchedDate");

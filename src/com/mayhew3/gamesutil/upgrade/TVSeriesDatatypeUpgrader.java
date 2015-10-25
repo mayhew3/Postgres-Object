@@ -1,7 +1,7 @@
 package com.mayhew3.gamesutil.upgrade;
 
 import com.mayhew3.gamesutil.tv.TVDatabaseUtility;
-import com.mayhew3.gamesutil.mediaobject.Series;
+import com.mayhew3.gamesutil.mediaobject.SeriesMongo;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
@@ -46,7 +46,7 @@ public class TVSeriesDatatypeUpgrader extends TVDatabaseUtility {
       i++;
       DBObject seriesObj = cursor.next();
 
-      Series series = new Series();
+      SeriesMongo series = new SeriesMongo();
       series.initializeFromDBObject(seriesObj);
 
       series.markFieldsForUpgrade();

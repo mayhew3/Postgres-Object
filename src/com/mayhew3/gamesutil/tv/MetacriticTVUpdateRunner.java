@@ -1,6 +1,6 @@
 package com.mayhew3.gamesutil.tv;
 
-import com.mayhew3.gamesutil.mediaobject.Series;
+import com.mayhew3.gamesutil.mediaobject.SeriesMongo;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
@@ -69,7 +69,7 @@ public class MetacriticTVUpdateRunner extends TVDatabaseUtility {
   }
 
   private void updateShow(DBObject show) throws ShowFailedException {
-    Series series = new Series();
+    SeriesMongo series = new SeriesMongo();
     series.initializeFromDBObject(show);
 
     debug("Updating series: " + series.seriesTitle.getValue());

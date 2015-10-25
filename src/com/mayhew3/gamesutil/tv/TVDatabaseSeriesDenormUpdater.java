@@ -1,8 +1,8 @@
 package com.mayhew3.gamesutil.tv;
 
-import com.mayhew3.gamesutil.mediaobject.Episode;
+import com.mayhew3.gamesutil.mediaobject.EpisodeMongo;
 import com.mayhew3.gamesutil.mediaobject.FieldValue;
-import com.mayhew3.gamesutil.mediaobject.Series;
+import com.mayhew3.gamesutil.mediaobject.SeriesMongo;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
@@ -94,7 +94,7 @@ public class TVDatabaseSeriesDenormUpdater extends TVDatabaseUtility {
     DBCursor cursor = episodesCollection.find(new BasicDBObject("SeriesId", seriesId));
 
     while (cursor.hasNext()) {
-      Episode episode = new Episode();
+      EpisodeMongo episode = new EpisodeMongo();
       episode.initializeFromDBObject(cursor.next());
 
       Boolean onTiVo = episode.onTiVo.getValue();
@@ -164,7 +164,7 @@ public class TVDatabaseSeriesDenormUpdater extends TVDatabaseUtility {
       }
     }
 
-    Series series = new Series();
+    SeriesMongo series = new SeriesMongo();
     series.initializeFromDBObject(seriesObj);
 
     series.activeEpisodes.changeValue(activeEpisodes);

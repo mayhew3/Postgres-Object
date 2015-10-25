@@ -4,7 +4,7 @@ import com.mongodb.BasicDBList;
 
 import java.util.Date;
 
-public class Series extends MediaObjectMongoDB {
+public class SeriesMongo extends MediaObjectMongoDB {
 
   public FieldValue<Date> tvdbFirstAired = registerDateField("tvdbFirstAired");
 

@@ -1,9 +1,9 @@
 package com.mayhew3.gamesutil.tv;
 
 import com.mayhew3.gamesutil.SSLTool;
-import com.mayhew3.gamesutil.mediaobject.Episode;
+import com.mayhew3.gamesutil.mediaobject.EpisodeMongo;
 import com.mayhew3.gamesutil.mediaobject.FieldValue;
-import com.mayhew3.gamesutil.mediaobject.Series;
+import com.mayhew3.gamesutil.mediaobject.SeriesMongo;
 import com.mongodb.*;
 import org.bson.types.ObjectId;
 import org.joda.time.DateTime;
@@ -107,7 +107,7 @@ public class TiVoCommunicator extends TVDatabaseUtility {
     while (dbObjects.hasNext()) {
       DBObject episodeObj = dbObjects.next();
 
-      Episode episode = new Episode();
+      EpisodeMongo episode = new EpisodeMongo();
       episode.initializeFromDBObject(episodeObj);
 
       deleteIfGone(episode);
@@ -115,7 +115,7 @@ public class TiVoCommunicator extends TVDatabaseUtility {
 
   }
 
-  private void deleteIfGone(Episode episode) {
+  private void deleteIfGone(EpisodeMongo episode) {
     String programId = episode.tivoProgramId.getValue();
 
     if (programId == null) {
@@ -195,7 +195,7 @@ public class TiVoCommunicator extends TVDatabaseUtility {
       DBCollection serieses = _db.getCollection("series");
       DBObject seriesObject = findSingleMatch(serieses, "TiVoSeriesId", tivoId);
 
-      Series series = new Series();
+      SeriesMongo series = new SeriesMongo();
 
       if (seriesObject == null) {
         series.initializeForInsert();
@@ -238,7 +238,7 @@ public class TiVoCommunicator extends TVDatabaseUtility {
       DBCursor existingEpisodes = getExistingTiVoEpisodes(programId);
       Boolean tivoEpisodeExists = existingEpisodes.hasNext();
 
-      Episode episode = formatEpisodeObject(url, isSuggestion, showDetails);
+      EpisodeMongo episode = formatEpisodeObject(url, isSuggestion, showDetails);
       episode.seriesId.changeValue(seriesId);
       episode.tivoSeriesId.changeValue(tivoId);
       episode.tivoSeriesTitle.changeValue(seriesTitle);
@@ -259,7 +259,7 @@ public class TiVoCommunicator extends TVDatabaseUtility {
           thisEpisodeExists = true;
         }
       } else {
-        Episode tvdbMatch = findTVDBEpisodeMatch(episode, seriesId);
+        EpisodeMongo tvdbMatch = findTVDBEpisodeMatch(episode, seriesId);
 
         if (tvdbMatch == null && series.isEpisodic.getValue()) {
           TVDBSeriesUpdater updater = new TVDBSeriesUpdater(_mongoClient, _db, series);
@@ -317,7 +317,7 @@ public class TiVoCommunicator extends TVDatabaseUtility {
   }
 
 
-  private void updateSeriesDenorms(Episode episodeObject, Series series, Boolean matched) {
+  private void updateSeriesDenorms(EpisodeMongo episodeObject, SeriesMongo series, Boolean matched) {
 
     Boolean suggestion = episodeObject.tivoSuggestion.getValue();
     Date showingStartTime = episodeObject.tivoShowingStartTime.getValue();
@@ -358,7 +358,7 @@ public class TiVoCommunicator extends TVDatabaseUtility {
     return oldDate == null || ((Date) oldDate).before(newDate);
   }
 
-  private Episode mergeEpisodes(Episode existingEpisode, Episode episodeWithFields) {
+  private EpisodeMongo mergeEpisodes(EpisodeMongo existingEpisode, EpisodeMongo episodeWithFields) {
     for (FieldValue fieldValue : episodeWithFields.getAllFieldValues()) {
       Object valueToCopy = fieldValue.getValue();
       if (valueToCopy != null) {
@@ -379,8 +379,8 @@ public class TiVoCommunicator extends TVDatabaseUtility {
     return collection.find(new BasicDBObject("TiVoProgramId", programId));
   }
 
-  private Episode formatEpisodeObject(String url, Boolean isSuggestion, NodeList showDetails) {
-    Episode episode = new Episode();
+  private EpisodeMongo formatEpisodeObject(String url, Boolean isSuggestion, NodeList showDetails) {
+    EpisodeMongo episode = new EpisodeMongo();
     episode.initializeForInsert();
 
     episode.tivoCaptureDate.changeValueFromXMLString(getValueOfSimpleStringNode(showDetails, "CaptureDate"));
@@ -405,7 +405,7 @@ public class TiVoCommunicator extends TVDatabaseUtility {
     return episode;
   }
 
-  private Episode findTVDBEpisodeMatch(Episode tivoEpisode, Object seriesId) {
+  private EpisodeMongo findTVDBEpisodeMatch(EpisodeMongo tivoEpisode, Object seriesId) {
     String episodeTitle = tivoEpisode.tivoEpisodeTitle.getValue();
     Integer episodeNumber = tivoEpisode.tivoEpisodeNumber.getValue();
     Date startTime = tivoEpisode.tivoShowingStartTime.getValue();
@@ -416,16 +416,16 @@ public class TiVoCommunicator extends TVDatabaseUtility {
                 .append("TiVoProgramId", null)
         );
 
-    List<Episode> tvdbEpisodes = new ArrayList<>();
+    List<EpisodeMongo> tvdbEpisodes = new ArrayList<>();
 
     while(cursor.hasNext()) {
-      Episode episode = new Episode();
+      EpisodeMongo episode = new EpisodeMongo();
       episode.initializeFromDBObject(cursor.next());
       tvdbEpisodes.add(episode);
     }
 
     if (episodeTitle != null) {
-      for (Episode tvdbEpisode : tvdbEpisodes) {
+      for (EpisodeMongo tvdbEpisode : tvdbEpisodes) {
         String tvdbTitleObject = tvdbEpisode.tvdbEpisodeName.getValue();
 
         if (episodeTitle.equalsIgnoreCase(tvdbTitleObject)) {
@@ -440,7 +440,7 @@ public class TiVoCommunicator extends TVDatabaseUtility {
       Integer seasonNumber = 1;
 
       if (episodeNumber < 100) {
-        Episode match = checkForNumberMatch(seasonNumber, episodeNumber, tvdbEpisodes);
+        EpisodeMongo match = checkForNumberMatch(seasonNumber, episodeNumber, tvdbEpisodes);
         if (match != null) {
           return match;
         }
@@ -451,7 +451,7 @@ public class TiVoCommunicator extends TVDatabaseUtility {
         String seasonString = episodeNumberString.substring(0, seasonLength);
         String episodeString = episodeNumberString.substring(seasonLength, episodeNumberString.length());
 
-        Episode match = checkForNumberMatch(Integer.valueOf(seasonString), Integer.valueOf(episodeString), tvdbEpisodes);
+        EpisodeMongo match = checkForNumberMatch(Integer.valueOf(seasonString), Integer.valueOf(episodeString), tvdbEpisodes);
 
         if (match != null) {
           return match;
@@ -464,7 +464,7 @@ public class TiVoCommunicator extends TVDatabaseUtility {
     if (startTime != null) {
       DateTime showingStartTime = new DateTime(startTime);
 
-      for (Episode tvdbEpisode : tvdbEpisodes) {
+      for (EpisodeMongo tvdbEpisode : tvdbEpisodes) {
         Date firstAiredValue = tvdbEpisode.tvdbFirstAired.getValue();
         if (firstAiredValue != null) {
           DateTime firstAired = new DateTime(firstAiredValue);
@@ -482,8 +482,8 @@ public class TiVoCommunicator extends TVDatabaseUtility {
   }
 
 
-  private Episode checkForNumberMatch(Integer seasonNumber, Integer episodeNumber, List<Episode> tvdbEpisodes) {
-    for (Episode tvdbEpisode : tvdbEpisodes) {
+  private EpisodeMongo checkForNumberMatch(Integer seasonNumber, Integer episodeNumber, List<EpisodeMongo> tvdbEpisodes) {
+    for (EpisodeMongo tvdbEpisode : tvdbEpisodes) {
       Integer tvdbSeason = tvdbEpisode.tvdbSeason.getValue();
       Integer tvdbEpisodeNumber = tvdbEpisode.tvdbEpisodeNumber.getValue();
 

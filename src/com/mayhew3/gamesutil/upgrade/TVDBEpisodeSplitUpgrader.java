@@ -1,9 +1,9 @@
 package com.mayhew3.gamesutil.upgrade;
 
 import com.mayhew3.gamesutil.tv.TVDatabaseUtility;
-import com.mayhew3.gamesutil.mediaobject.Episode;
+import com.mayhew3.gamesutil.mediaobject.EpisodeMongo;
 import com.mayhew3.gamesutil.mediaobject.FieldValue;
-import com.mayhew3.gamesutil.mediaobject.Series;
+import com.mayhew3.gamesutil.mediaobject.SeriesMongo;
 import com.mayhew3.gamesutil.mediaobject.TVDBEpisode;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
@@ -51,7 +51,7 @@ public class TVDBEpisodeSplitUpgrader extends TVDatabaseUtility {
       i++;
       DBObject seriesObj = cursor.next();
 
-      Series series = new Series();
+      SeriesMongo series = new SeriesMongo();
       series.initializeFromDBObject(seriesObj);
 
       DBCollection episodes = _db.getCollection("episodes");
@@ -80,7 +80,7 @@ public class TVDBEpisodeSplitUpgrader extends TVDatabaseUtility {
 
         DBObject episodeObj = episodeCursor.next();
 
-        Episode episode = new Episode();
+        EpisodeMongo episode = new EpisodeMongo();
         episode.initializeFromDBObject(episodeObj);
 
         TVDBEpisode tvdbEpisode = new TVDBEpisode();

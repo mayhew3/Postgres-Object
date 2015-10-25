@@ -1,6 +1,6 @@
 package com.mayhew3.gamesutil.tv;
 
-import com.mayhew3.gamesutil.mediaobject.Series;
+import com.mayhew3.gamesutil.mediaobject.SeriesMongo;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.MongoClient;
@@ -14,10 +14,10 @@ import java.io.IOException;
 
 public class MetacriticTVUpdater extends TVDatabaseUtility {
 
-  private Series _series;
+  private SeriesMongo _series;
 
 
-  public MetacriticTVUpdater(MongoClient client, DB db, Series series) {
+  public MetacriticTVUpdater(MongoClient client, DB db, SeriesMongo series) {
     super(client, db);
     _series = series;
   }

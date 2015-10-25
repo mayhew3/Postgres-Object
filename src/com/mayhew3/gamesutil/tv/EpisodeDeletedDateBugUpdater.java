@@ -1,6 +1,6 @@
 package com.mayhew3.gamesutil.tv;
 
-import com.mayhew3.gamesutil.mediaobject.Episode;
+import com.mayhew3.gamesutil.mediaobject.EpisodeMongo;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
@@ -55,7 +55,7 @@ public class EpisodeDeletedDateBugUpdater extends TVDatabaseUtility {
 
 
   private void updateShow(DBObject episodeObj) {
-    Episode episode = new Episode();
+    EpisodeMongo episode = new EpisodeMongo();
     episode.initializeFromDBObject(episodeObj);
 
     episode.tivoDeletedDate.changeValue(null);

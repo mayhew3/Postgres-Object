@@ -1,7 +1,7 @@
 package com.mayhew3.gamesutil.tv;
 
-import com.mayhew3.gamesutil.mediaobject.Episode;
-import com.mayhew3.gamesutil.mediaobject.Series;
+import com.mayhew3.gamesutil.mediaobject.EpisodeMongo;
+import com.mayhew3.gamesutil.mediaobject.SeriesMongo;
 import com.mongodb.*;
 import com.sun.javafx.beans.annotations.NonNull;
 import org.bson.types.ObjectId;
@@ -20,12 +20,12 @@ import java.util.Objects;
 
 public class TVDBSeriesUpdater extends TVDatabaseUtility {
 
-  Series _series;
+  SeriesMongo _series;
 
   Integer _episodesAdded = 0;
   Integer _episodesUpdated = 0;
 
-  public TVDBSeriesUpdater(MongoClient client, DB db, @NonNull Series series) {
+  public TVDBSeriesUpdater(MongoClient client, DB db, @NonNull SeriesMongo series) {
     super(client, db);
     this._series = series;
   }
@@ -96,7 +96,7 @@ public class TVDBSeriesUpdater extends TVDatabaseUtility {
     return _db.getCollection("errorlogs").findOne(query);
   }
 
-  private Integer getTVDBID(Series series, DBObject errorLog, Boolean matchedWrong) {
+  private Integer getTVDBID(SeriesMongo series, DBObject errorLog, Boolean matchedWrong) {
     String seriesTitle = series.seriesTitle.getValue();
     String tivoId = series.tivoSeriesId.getValue();
     String tvdbHint = series.tvdbHint.getValue();
@@ -166,7 +166,7 @@ public class TVDBSeriesUpdater extends TVDatabaseUtility {
     return Integer.parseInt(getValueOfSimpleStringNode(firstSeries, "id"));
   }
 
-  private void attachPossibleSeries(Series series, List<Node> seriesNodes) {
+  private void attachPossibleSeries(SeriesMongo series, List<Node> seriesNodes) {
     BasicDBList possibleMatches = new BasicDBList();
 
     int possibleSeries = Math.min(5, seriesNodes.size());
@@ -215,7 +215,7 @@ public class TVDBSeriesUpdater extends TVDatabaseUtility {
     }
   }
 
-  private void markSeriesToIgnore(Series series) {
+  private void markSeriesToIgnore(SeriesMongo series) {
     series.ignoreTVDB.changeValue(true);
     series.commit(_db);
   }
@@ -240,7 +240,7 @@ public class TVDBSeriesUpdater extends TVDatabaseUtility {
     updateCollectionWithQuery("errorlogs", queryObject, updateObject);
   }
 
-  private void updateShowData(Series series) {
+  private void updateShowData(SeriesMongo series) {
     Integer tvdbID = series.tvdbId.getValue();
     String tivoSeriesId = series.tivoSeriesId.getValue();
     String seriesTitle = series.seriesTitle.getValue();
@@ -308,11 +308,11 @@ public class TVDBSeriesUpdater extends TVDatabaseUtility {
       Boolean matched = false;
       Boolean added = false;
 
-      Episode episode = new Episode();
+      EpisodeMongo episode = new EpisodeMongo();
 
       if (existingEpisodeObj == null) {
         // todo: Optimization: skip looking for match when firstAired is future. Obviously it's not on the TiVo yet.
-        Episode tiVoMatch = findTiVoMatch(episodename, seasonnumber, episodenumber, firstaired, seriesId);
+        EpisodeMongo tiVoMatch = findTiVoMatch(episodename, seasonnumber, episodenumber, firstaired, seriesId);
         if (tiVoMatch == null) {
           episode.initializeForInsert();
           added = true;
@@ -384,7 +384,7 @@ public class TVDBSeriesUpdater extends TVDatabaseUtility {
   }
 
 
-  private void updateSeriesDenorms(Boolean added, Boolean matched, Series series) {
+  private void updateSeriesDenorms(Boolean added, Boolean matched, SeriesMongo series) {
     if (added) {
       series.tvdbOnlyEpisodes.increment(1);
       series.unwatchedUnrecorded.increment(1);
@@ -439,8 +439,8 @@ public class TVDBSeriesUpdater extends TVDatabaseUtility {
 
 
   // todo: Handle finding two TiVo matches.
-  private Episode findTiVoMatch(String episodeTitle, String tvdbSeasonStr, String tvdbEpisodeNumberStr, String firstAiredStr, Object seriesId) {
-    List<Episode> matchingEpisodes = new ArrayList<>();
+  private EpisodeMongo findTiVoMatch(String episodeTitle, String tvdbSeasonStr, String tvdbEpisodeNumberStr, String firstAiredStr, Object seriesId) {
+    List<EpisodeMongo> matchingEpisodes = new ArrayList<>();
 
     DBCursor cursor = _db.getCollection("episodes")
         .find(new BasicDBObject()
@@ -449,16 +449,16 @@ public class TVDBSeriesUpdater extends TVDatabaseUtility {
                 .append("MatchingStump", new BasicDBObject("$ne", true))
         );
 
-    List<Episode> episodes = new ArrayList<>();
+    List<EpisodeMongo> episodes = new ArrayList<>();
 
     while(cursor.hasNext()) {
-      Episode episode = new Episode();
+      EpisodeMongo episode = new EpisodeMongo();
       episode.initializeFromDBObject(cursor.next());
       episodes.add(episode);
     }
 
     if (episodeTitle != null) {
-      for (Episode episode : episodes) {
+      for (EpisodeMongo episode : episodes) {
         String tivoTitleObject = episode.tivoEpisodeTitle.getValue();
         if (episodeTitle.equalsIgnoreCase(tivoTitleObject)) {
           matchingEpisodes.add(episode);
@@ -482,7 +482,7 @@ public class TVDBSeriesUpdater extends TVDatabaseUtility {
       Integer tvdbSeason = Integer.valueOf(tvdbSeasonStr);
       Integer tvdbEpisodeNumber = Integer.valueOf(tvdbEpisodeNumberStr);
 
-      for (Episode episode : episodes) {
+      for (EpisodeMongo episode : episodes) {
 
         Integer tivoEpisodeNumber = episode.tivoEpisodeNumber.getValue();
 
@@ -529,7 +529,7 @@ public class TVDBSeriesUpdater extends TVDatabaseUtility {
     if (firstAiredStr != null) {
       DateTime firstAired = new DateTime(firstAiredStr);
 
-      for (Episode episode : episodes) {
+      for (EpisodeMongo episode : episodes) {
         Date showingStartTimeObj = episode.tivoShowingStartTime.getValue();
 
         if (showingStartTimeObj != null) {
@@ -564,7 +564,7 @@ public class TVDBSeriesUpdater extends TVDatabaseUtility {
 
 
 
-  private void addShowNotFoundErrorLog(Series series, String formattedName, String context) {
+  private void addShowNotFoundErrorLog(SeriesMongo series, String formattedName, String context) {
 
 
     BasicDBObject object = new BasicDBObject()

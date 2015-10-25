@@ -1,6 +1,6 @@
 package com.mayhew3.gamesutil.tv;
 
-import com.mayhew3.gamesutil.mediaobject.Episode;
+import com.mayhew3.gamesutil.mediaobject.EpisodeMongo;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
@@ -36,7 +36,7 @@ public class UpdateMatchStumps extends TVDatabaseUtility {
     if (cursor.hasNext()) {
       DBObject next = cursor.next();
 
-      Episode episode = new Episode();
+      EpisodeMongo episode = new EpisodeMongo();
       episode.initializeFromDBObject(next);
       Date showingStartTime = episode.tivoShowingStartTime.getOriginalValue();
       Boolean watched = episode.tivoSuggestion.getOriginalValue();

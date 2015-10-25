@@ -1,6 +1,6 @@
 package com.mayhew3.gamesutil.tv;
 
-import com.mayhew3.gamesutil.mediaobject.Episode;
+import com.mayhew3.gamesutil.mediaobject.EpisodeMongo;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
@@ -86,7 +86,7 @@ public class TVDatabaseSeriesDenormChecker extends TVDatabaseUtility {
     DBObject seriesObject = findSingleMatch("series", "_id", seriesId);
 
     while (cursor.hasNext()) {
-      Episode episode = new Episode();
+      EpisodeMongo episode = new EpisodeMongo();
       episode.initializeFromDBObject(cursor.next());
 
       Boolean onTiVo = episode.onTiVo.getValue();
