@@ -43,7 +43,8 @@ public class TVPostgresMigration {
         .append("IsEpisodic", true)
 //        .append("IsSuggestion", new BasicDBObject("$ne", true))
 
-        // todo: figure out what series don't have TiVoSeriesId
+        // only include series that were added from TiVo. Manually added shows have no useful data in them at this point anyway,
+        // and it'll be difficult to check if they already exist in Postgres.
         .append("TiVoSeriesId", new BasicDBObject("$ne", null))
         ;
 
