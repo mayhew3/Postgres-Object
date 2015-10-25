@@ -1,16 +1,14 @@
 package com.mayhew3.gamesutil.mediaobject;
 
-import java.util.Date;
-
 public class TVDBSeriesPostgres extends MediaObjectPostgreSQL {
 
-  public FieldValue<Date> firstAired = registerDateField("first_aired");
+  public FieldValueTimestamp firstAired = registerTimestampField("first_aired");
 
   public FieldValueInteger tvdbId = registerIntegerField("tvdb_id");
   public FieldValue<String> tvdbSeriesId = registerStringField("tvdb_series_id");
   public FieldValueInteger ratingCount = registerIntegerField("rating_count");
   public FieldValueInteger runtime = registerIntegerField("runtime");
-  public FieldValue<Double> rating = registerDoubleField("rating");
+  public FieldValueBigDecimal rating = registerBigDecimalField("rating");
   public FieldValue<String> name = registerStringField("name");
 
   public FieldValueInteger seriesId = registerIntegerField("seriesid");

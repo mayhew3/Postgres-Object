@@ -6,10 +6,9 @@ import com.mayhew3.gamesutil.games.PostgresConnection;
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 
-import java.math.BigDecimal;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,13 +86,13 @@ public abstract class MediaObjectPostgreSQL {
     }
 
     if (!insertObject.isEmpty()) {
-      insertIntoDatabase(connection, insertObject);
+      Integer resultingID = insertIntoDatabaseAndGetID(connection, insertObject);
       updateObjects(changedFields);
-      id.initializeValue((Integer) insertObject.get("id"));
+      id.initializeValue(resultingID);
     }
 
     // INSERT COMPLETE. Subsequent changes should be updates.
-    editMode = EditMode.UPDATE;
+    changeToUpdateObject();
   }
 
   private void update(PostgresConnection db) {
@@ -166,6 +165,45 @@ public abstract class MediaObjectPostgreSQL {
     connection.prepareAndExecuteStatementUpdate(sql, fieldValues);
   }
 
+  private Integer insertIntoDatabaseAndGetID(PostgresConnection connection, BasicDBObject updateObject) {
+    List<String> fieldNames = Lists.newArrayList();
+    List<String> questionMarks = Lists.newArrayList();
+    List<Object> fieldValues = Lists.newArrayList();
+
+    for (String fieldName : updateObject.keySet()) {
+      fieldNames.add("\"" + fieldName + "\"");
+      questionMarks.add("?");
+      fieldValues.add(updateObject.get(fieldName));
+    }
+
+    Joiner joiner = Joiner.on(", ");
+    String commaSeparatedNames = joiner.join(fieldNames);
+    String commaSeparatedQuestionMarks = joiner.join(questionMarks);
+
+    String sql = "INSERT INTO " + getTableName() + " (" + commaSeparatedNames + ") VALUES (" + commaSeparatedQuestionMarks + ")";
+
+    PreparedStatement preparedStatement = connection.getPreparedStatementWithReturnValue(sql);
+    connection.executePreparedUpdateWithParamsWithoutClose(preparedStatement, fieldValues);
+
+    return getIDFromInsert(preparedStatement);
+  }
+
+  private Integer getIDFromInsert(PreparedStatement preparedStatement) {
+    try {
+      ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+
+      if (!generatedKeys.next()) {
+        throw new RuntimeException("No rows in ResultSet from Inserted object!");
+      }
+
+      int id = generatedKeys.getInt("ID");
+      preparedStatement.close();
+      return id;
+    } catch (SQLException e) {
+      throw new RuntimeException("Error retrieving ID from inserted object!" + e.getLocalizedMessage());
+    }
+  }
+
   public void markFieldsForUpgrade() {
     for (FieldValue fieldValue : allFieldValues) {
       if (fieldValue.shouldUpgradeText()) {
@@ -220,8 +258,8 @@ public abstract class MediaObjectPostgreSQL {
     return fieldBooleanValue;
   }
 
-  protected final FieldValue<Timestamp> registerTimestampField(String fieldName) {
-    FieldValue<Timestamp> fieldTimestampValue = new FieldValue<>(fieldName, new FieldConversionTimestamp());
+  protected final FieldValueTimestamp registerTimestampField(String fieldName) {
+    FieldValueTimestamp fieldTimestampValue = new FieldValueTimestamp(fieldName, new FieldConversionTimestamp());
     allFieldValues.add(fieldTimestampValue);
     return fieldTimestampValue;
   }
@@ -244,8 +282,8 @@ public abstract class MediaObjectPostgreSQL {
     return fieldDoubleValue;
   }
 
-  protected final FieldValue<BigDecimal> registerBigDecimalField(String fieldName) {
-    FieldValue<BigDecimal> fieldBigDecimalValue = new FieldValue<>(fieldName, new FieldConversionBigDecimal());
+  protected final FieldValueBigDecimal registerBigDecimalField(String fieldName) {
+    FieldValueBigDecimal fieldBigDecimalValue = new FieldValueBigDecimal(fieldName, new FieldConversionBigDecimal());
     allFieldValues.add(fieldBigDecimalValue);
     return fieldBigDecimalValue;
   }

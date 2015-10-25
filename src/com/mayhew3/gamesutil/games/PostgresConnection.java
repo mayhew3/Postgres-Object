@@ -25,14 +25,20 @@ public class PostgresConnection {
 
 
   private Connection createConnection() throws URISyntaxException, SQLException {
-    URI dbUri = new URI(System.getenv("postgresURL"));
+    String postgresURL = System.getenv("postgresURL");
 
-    String username = dbUri.getUserInfo().split(":")[0];
-    String password = dbUri.getUserInfo().split(":")[1];
-    String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath() +
-        "?user=" + username + "&password=" + password + "&ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";
+    try {
+      return DriverManager.getConnection(postgresURL);
+    } catch (SQLException e) {
+      URI dbUri = new URI(postgresURL);
 
-    return DriverManager.getConnection(dbUrl);
+      String username = dbUri.getUserInfo().split(":")[0];
+      String password = dbUri.getUserInfo().split(":")[1];
+      String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath() +
+          "?user=" + username + "&password=" + password + "&ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";
+
+      return DriverManager.getConnection(dbUrl);
+    }
   }
 
   public Connection getConnection() {
@@ -65,7 +71,7 @@ public class PostgresConnection {
     }
   }
 
-  protected boolean hasMoreElements(ResultSet resultSet) {
+  public boolean hasMoreElements(ResultSet resultSet) {
     try {
       return resultSet.next();
     } catch (SQLException e) {
@@ -98,7 +104,7 @@ public class PostgresConnection {
     }
   }
 
-  protected ResultSet prepareAndExecuteStatementFetch(String sql, Object... params) {
+  public ResultSet prepareAndExecuteStatementFetch(String sql, Object... params) {
     return prepareAndExecuteStatementFetch(sql, Lists.newArrayList(params));
   }
 
@@ -155,6 +161,14 @@ public class PostgresConnection {
     }
   }
 
+  public PreparedStatement getPreparedStatementWithReturnValue(String sql) {
+    try {
+      return _connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+    } catch (SQLException e) {
+      throw new RuntimeException("Error preparing statement for SQL: " + sql + ": " + e.getLocalizedMessage());
+    }
+  }
+
   protected ResultSet executePreparedStatementAlreadyHavingParameters(PreparedStatement preparedStatement) {
     try {
       return preparedStatement.executeQuery();
@@ -177,19 +191,7 @@ public class PostgresConnection {
     }
   }
 
-  public void executePreparedUpdateWithParams(PreparedStatement preparedStatement, Object... params) {
-    List<Object> paramList = Lists.newArrayList(params);
-    try {
-      PreparedStatement statementWithParams = plugParamsIntoStatement(preparedStatement, paramList);
-      statementWithParams.executeUpdate();
-      statementWithParams.close();
-    } catch (SQLException e) {
-      throw new RuntimeException("Error executing prepared statement with params: " + paramList + ": " + e.getLocalizedMessage());
-    }
-  }
-
-  public void executePreparedUpdateWithParamsWithoutClose(PreparedStatement preparedStatement, Object... params) {
-    List<Object> paramList = Lists.newArrayList(params);
+  public void executePreparedUpdateWithParamsWithoutClose(PreparedStatement preparedStatement, List<Object> paramList) {
     try {
       PreparedStatement statementWithParams = plugParamsIntoStatement(preparedStatement, paramList);
       statementWithParams.executeUpdate();

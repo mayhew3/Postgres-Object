@@ -1,7 +1,5 @@
 package com.mayhew3.gamesutil.mediaobject;
 
-import java.util.Date;
-
 public class SeriesPostgres extends MediaObjectPostgreSQL {
 
   public FieldValueInteger tier = registerIntegerField("tier");
@@ -28,8 +26,8 @@ public class SeriesPostgres extends MediaObjectPostgreSQL {
   public FieldValueInteger metacritic = registerIntegerField("metacritic");
   public FieldValueString metacriticHint = registerStringField("metacritic_hint");
 
-  public FieldValue<Date> lastUnwatched = registerDateField("last_unwatched");
-  public FieldValue<Date> mostRecent = registerDateField("most_recent");
+  public FieldValueTimestamp lastUnwatched = registerTimestampField("last_unwatched");
+  public FieldValueTimestamp mostRecent = registerTimestampField("most_recent");
   public FieldValueBoolean isSuggestion = registerBooleanField("suggestion");
 
   public FieldValueBoolean matchedWrong = registerBooleanField("matched_wrong");
