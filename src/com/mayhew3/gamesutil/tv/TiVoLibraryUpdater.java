@@ -5,6 +5,7 @@ import com.mongodb.BasicDBObject;
 
 import java.io.*;
 import java.net.UnknownHostException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -20,7 +21,10 @@ public class TiVoLibraryUpdater {
 
 
     if (logToFile) {
-      File file = new File("D:\\Projects\\mean_projects\\GamesDBUtil\\logs\\TiVoUpdater.log");
+      SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMM");
+      String dateFormatted = simpleDateFormat.format(new Date());
+
+      File file = new File("D:\\Projects\\mean_projects\\GamesDBUtil\\logs\\TiVoUpdater_" + dateFormatted + ".log");
       FileOutputStream fos = new FileOutputStream(file, true);
       PrintStream ps = new PrintStream(fos);
       System.setErr(ps);
