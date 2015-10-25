@@ -25,7 +25,7 @@ public class TVDatabaseSeriesDenormUpdater extends TVDatabaseUtility {
 
       TVDatabaseSeriesDenormUpdater updater = new TVDatabaseSeriesDenormUpdater();
 
-      updater.updateFields();
+      updater.updateFields(true);
       updater.closeDatabase();
     } catch (UnknownHostException | RuntimeException e) {
 
@@ -34,7 +34,7 @@ public class TVDatabaseSeriesDenormUpdater extends TVDatabaseUtility {
 
   }
 
-  public void updateFields() {
+  public void updateFields(Boolean verbose) {
     BasicDBObject query = new BasicDBObject()
 
 //        .append("SeriesId", new BasicDBObject("$exists", true))
@@ -54,8 +54,12 @@ public class TVDatabaseSeriesDenormUpdater extends TVDatabaseUtility {
 
       updateShow(show);
 
-      debug(i + " out of " + totalRows + " processed.");
+      if (verbose) {
+        debug(i + " out of " + totalRows + " processed.");
+      }
     }
+
+    debug("Finished updating denorms.");
   }
 
 

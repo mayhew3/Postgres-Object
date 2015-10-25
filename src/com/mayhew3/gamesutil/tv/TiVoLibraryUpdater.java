@@ -90,7 +90,7 @@ public class TiVoLibraryUpdater {
 
     try {
       TVDatabaseSeriesDenormUpdater updater = new TVDatabaseSeriesDenormUpdater();
-      updater.updateFields();
+      updater.updateFields(false);
       updater.closeDatabase();
     } catch (UnknownHostException e) {
       e.printStackTrace();
