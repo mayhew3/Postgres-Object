@@ -83,23 +83,30 @@ public class TVPostgresMigration {
       debug(title + ": Inserting");
     }
 
-    copyAllSeriesFields(seriesMongo, seriesPostgres);
-    seriesPostgres.commit(postgresConnection);
-
-    Integer seriesId = seriesPostgres.id.getValue();
-    if (seriesId == null) {
-      throw new RuntimeException("No ID populated on series postgres object after insert or update.");
-    }
+    Integer tvdbSeriesId = null;
 
     if (seriesMongo.tvdbId.getValue() != null) {
       debug("   (also copying tvdb info...)");
 
       TVDBSeriesPostgres tvdbSeriesPostgres = getOrCreateTVDBSeriesPostgres(seriesMongo.tvdbId.getValue());
 
-      tvdbSeriesPostgres.seriesId.changeValue(seriesId);
-
       copyAllTVDBSeriesFields(seriesMongo, tvdbSeriesPostgres);
       tvdbSeriesPostgres.commit(postgresConnection);
+
+      tvdbSeriesId = tvdbSeriesPostgres.id.getValue();
+
+      if (tvdbSeriesId == null) {
+        throw new RuntimeException("No ID populated on tvdb_series postgres object after insert or update.");
+      }
+    }
+
+    seriesPostgres.tvdbSeriesId.changeValue(tvdbSeriesId);
+    copyAllSeriesFields(seriesMongo, seriesPostgres);
+    seriesPostgres.commit(postgresConnection);
+
+    Integer seriesId = seriesPostgres.id.getValue();
+    if (seriesId == null) {
+      throw new RuntimeException("No ID populated on series postgres object after insert or update.");
     }
 
     updateEpisodes(seriesMongo, seriesId);
@@ -126,8 +133,8 @@ public class TVPostgresMigration {
 
       EpisodePostgres episodePostgres = getOrCreateEpisodePostgres(episodeMongo.tivoProgramId.getValue());
 
-      Integer tvdbEpisodeId = episodeMongo.tvdbEpisodeId.getValue();
-      String tvdbInfo = (tvdbEpisodeId == null) ? " (NO TVDB!)" : "";
+      Integer tvdbNativeEpisodeId = episodeMongo.tvdbEpisodeId.getValue();
+      String tvdbInfo = (tvdbNativeEpisodeId == null) ? " (NO TVDB!)" : "";
 
       if (episodePostgres.id.getValue() == null) {
         debug("    * " + episodeMongo + " (INSERT)" + tvdbInfo);
@@ -135,28 +142,37 @@ public class TVPostgresMigration {
         debug("    * " + episodeMongo + " (UPDATE)" + tvdbInfo);
       }
 
-      episodePostgres.seriesId.changeValue(seriesId);
-      copyAllEpisodeFields(episodeMongo, episodePostgres);
-      episodePostgres.commit(postgresConnection);
-
-      Integer episodeId = episodePostgres.id.getValue();
-      if (episodeId == null) {
-        throw new RuntimeException("No ID populated on episode postgres object after insert or update.");
-      }
-
       TiVoEpisodePostgres tiVoEpisodePostgres = getOrCreateTiVoEpisodePostgres(episodeMongo.tivoProgramId.getValue());
 
-      tiVoEpisodePostgres.episodeId.changeValue(episodeId);
       copyAllTiVoEpisodeFields(episodeMongo, tiVoEpisodePostgres);
       tiVoEpisodePostgres.commit(postgresConnection);
 
-      if (tvdbEpisodeId != null) {
-        TVDBEpisodePostgres tvdbEpisodePostgres = getOrCreateTVDBEpisodePostgres(tvdbEpisodeId);
+      Integer tivoEpisodeId = tiVoEpisodePostgres.id.getValue();
+      if (tivoEpisodeId == null) {
+        throw new RuntimeException("No ID populated on tivo_episode postgres object after insert or update.");
+      }
 
-        tvdbEpisodePostgres.episodeId.changeValue(episodeId);
+      Integer tvdbLocalEpisodeId = null;
+      if (tvdbNativeEpisodeId != null) {
+        TVDBEpisodePostgres tvdbEpisodePostgres = getOrCreateTVDBEpisodePostgres(tvdbNativeEpisodeId);
+
         copyAllTVDBEpisodeFields(episodeMongo, tvdbEpisodePostgres);
         tvdbEpisodePostgres.commit(postgresConnection);
+
+        tvdbLocalEpisodeId = tvdbEpisodePostgres.id.getValue();
+
+        if (tvdbLocalEpisodeId == null) {
+          throw new RuntimeException("No ID populated on tvdb_episode postgres object after insert or update.");
+        }
       }
+
+      episodePostgres.seriesId.changeValue(seriesId);
+      episodePostgres.tivoEpisodeId.changeValue(tivoEpisodeId);
+      episodePostgres.tvdbEpisodeId.changeValue(tvdbLocalEpisodeId);
+
+      copyAllEpisodeFields(episodeMongo, episodePostgres);
+      episodePostgres.commit(postgresConnection);
+
     }
   }
 

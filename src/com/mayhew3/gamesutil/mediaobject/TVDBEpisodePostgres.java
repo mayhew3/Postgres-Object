@@ -2,8 +2,6 @@ package com.mayhew3.gamesutil.mediaobject;
 
 public class TVDBEpisodePostgres extends MediaObjectPostgreSQL {
 
-  public FieldValue<Integer> episodeId = registerIntegerField("episodeid");
-
   public FieldValue<Integer> seasonNumber = registerIntegerField("season_number");
   public FieldValue<Integer> seasonId = registerIntegerField("season_id");
   public FieldValue<Integer> tvdbId = registerIntegerField("tvdb_id");

@@ -2,7 +2,11 @@ package com.mayhew3.gamesutil.mediaobject;
 
 public class EpisodePostgres extends MediaObjectPostgreSQL {
 
+  /* Foreign Keys */
+  public FieldValue<Integer> tivoEpisodeId = registerIntegerField("tivo_episode_id");
+  public FieldValue<Integer> tvdbEpisodeId = registerIntegerField("tvdb_episode_id");
 
+  /* Data */
   public FieldValueTimestamp watchedDate = registerTimestampField("watched_date");
 
   public FieldValue<Integer> season = registerIntegerField("season");

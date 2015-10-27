@@ -11,8 +11,6 @@ public class TVDBSeriesPostgres extends MediaObjectPostgreSQL {
   public FieldValueBigDecimal rating = registerBigDecimalField("rating");
   public FieldValue<String> name = registerStringField("name");
 
-  public FieldValueInteger seriesId = registerIntegerField("seriesid");
-
   public FieldValue<String> airsDayOfWeek = registerStringField("airs_day_of_week");
   public FieldValue<String> airsTime = registerStringField("airs_time");
   public FieldValue<String> network = registerStringField("network");

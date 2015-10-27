@@ -2,9 +2,6 @@ package com.mayhew3.gamesutil.mediaobject;
 
 public class TiVoEpisodePostgres extends MediaObjectPostgreSQL {
 
-
-  public FieldValueInteger episodeId = registerIntegerField("episodeid");
-
   public FieldValue<Boolean> suggestion = registerBooleanField("suggestion");
 
   public FieldValueString title = registerStringField("title");
