@@ -10,6 +10,7 @@ public class SeriesPostgres extends MediaObjectPostgreSQL {
   public FieldValueInteger tier = registerIntegerField("tier");
   public FieldValueInteger metacritic = registerIntegerField("metacritic");
   public FieldValueString tivoSeriesId = registerStringField("tivo_series_id");
+  public FieldValueInteger tvdbId = registerIntegerField("tvdb_id");
 
   /* Matching Helpers */
   public FieldValueString metacriticHint = registerStringField("metacritic_hint");
