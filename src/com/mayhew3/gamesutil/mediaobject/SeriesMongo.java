@@ -69,6 +69,7 @@ public class SeriesMongo extends MediaObjectMongoDB {
   public FieldValueBoolean matchedWrong = registerBooleanField("MatchedWrong");
 
   public FieldValueBoolean needsTVDBRedo = registerBooleanField("NeedsTVDBRedo");
+  public FieldValueBoolean hasDuplicates = registerBooleanField("HasDuplicates");
 
   @Override
   protected String getTableName() {

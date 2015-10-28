@@ -60,6 +60,7 @@ public class EpisodeMongo extends MediaObjectMongoDB {
   public FieldValue<Boolean> watched = registerBooleanField("Watched");
   public FieldValue<Boolean> tivoSuggestion = registerBooleanField("TiVoSuggestion");
   public FieldValue<Boolean> matchingStump = registerBooleanField("MatchingStump");
+  public FieldValue<Boolean> hasDuplicates = registerBooleanField("HasDuplicates");
 
   @Override
   protected String getTableName() {
@@ -71,6 +72,7 @@ public class EpisodeMongo extends MediaObjectMongoDB {
     String seriesTitle = tivoSeriesTitle.getValue() == null ? tvdbSeriesName.getValue() : tivoSeriesTitle.getValue();
     String episodeTitle = tivoEpisodeTitle.getValue() == null ? tvdbEpisodeName.getValue() : tivoEpisodeTitle.getValue();
     Integer episodeNumber = tivoEpisodeNumber.getValue() == null ? tvdbEpisodeNumber.getValue() : tivoEpisodeNumber.getValue();
-    return seriesTitle + " " + episodeNumber + ": " + episodeTitle;
+    String seasonNumber = tvdbSeason.getValue() == null ? "" : (tvdbSeason.getValue() + "x");
+    return seriesTitle + " " + seasonNumber + episodeNumber + ": " + episodeTitle;
   }
 }
