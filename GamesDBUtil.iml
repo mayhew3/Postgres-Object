@@ -16,5 +16,6 @@
     <orderEntry type="library" name="org.postgresql:postgresql:9.4-1201-jdbc41" level="project" />
     <orderEntry type="library" name="org.apache.logging.log4j:log4j-core:2.3" level="project" />
     <orderEntry type="library" name="org.seleniumhq.selenium:selenium-server:2.47.1" level="project" />
+    <orderEntry type="library" name="google-collections-1.0-javadoc" level="project" />
   </component>
 </module>

@@ -1,8 +1,8 @@
 package com.mayhew3.gamesutil.games;
 
 import com.mayhew3.gamesutil.mediaobject.Game;
+import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
-import com.sun.javafx.beans.annotations.NonNull;
 import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
@@ -83,7 +83,7 @@ public class HowLongToBeatUpdater {
     return null;
   }
 
-  @NonNull
+  @NotNull
   private String goToGameUrlFromProfile(String title) throws GameFailedException {
     String url = "http://howlongtobeat.com/user.php?n=mayhew3&s=games";
     driver.get(url);
@@ -134,7 +134,7 @@ public class HowLongToBeatUpdater {
     }
   }
 
-  @NonNull
+  @NotNull
   private String findGame(String title) throws GameFailedException {
     String currentUrl = goToGameUrlFromSearch(title);
 

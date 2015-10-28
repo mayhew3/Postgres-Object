@@ -3,8 +3,8 @@ package com.mayhew3.gamesutil.games;
 import com.google.common.collect.Lists;
 import com.mayhew3.gamesutil.mediaobject.Game;
 import com.mayhew3.gamesutil.mediaobject.GameLog;
+import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
-import com.sun.javafx.beans.annotations.NonNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -130,7 +130,7 @@ public class GiantBombUpdater {
     return game.giantbomb_best_guess.getValue() != null && Boolean.TRUE.equals(game.giantbomb_guess_confirmed.getValue());
   }
 
-  private void updateMatch(Game game, @NonNull JSONObject match) {
+  private void updateMatch(Game game, @NotNull JSONObject match) {
     String title = game.title.getValue();
     debug("O) " + title + ": Match found.");
 

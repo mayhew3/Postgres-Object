@@ -3,7 +3,7 @@ package com.mayhew3.gamesutil.tv;
 import com.mayhew3.gamesutil.mediaobject.EpisodeMongo;
 import com.mayhew3.gamesutil.mediaobject.SeriesMongo;
 import com.mongodb.*;
-import com.sun.javafx.beans.annotations.NonNull;
+import com.sun.istack.internal.NotNull;
 import org.bson.types.ObjectId;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeComparator;
@@ -25,7 +25,7 @@ public class TVDBSeriesUpdater extends TVDatabaseUtility {
   Integer _episodesAdded = 0;
   Integer _episodesUpdated = 0;
 
-  public TVDBSeriesUpdater(MongoClient client, DB db, @NonNull SeriesMongo series) {
+  public TVDBSeriesUpdater(MongoClient client, DB db, @NotNull SeriesMongo series) {
     super(client, db);
     this._series = series;
   }
