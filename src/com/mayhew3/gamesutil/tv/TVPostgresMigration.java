@@ -39,10 +39,12 @@ public class TVPostgresMigration {
     postgresConnection.executeUpdate("TRUNCATE TABLE tvdb_series CASCADE");
     postgresConnection.executeUpdate("TRUNCATE TABLE tvdb_episode CASCADE");
     postgresConnection.executeUpdate("TRUNCATE TABLE tivo_episode CASCADE");
-    postgresConnection.executeUpdate("TRUNCATE TABLE series_genre CASCADE");
+    postgresConnection.executeUpdate("TRUNCATE TABLE genre CASCADE");
+    postgresConnection.executeUpdate("TRUNCATE TABLE viewing_location CASCADE");
 
     postgresConnection.executeUpdate("ALTER SEQUENCE series_id_seq RESTART WITH 1");
     postgresConnection.executeUpdate("ALTER SEQUENCE tvdb_series_id_seq RESTART WITH 1");
+    postgresConnection.executeUpdate("ALTER SEQUENCE season_id_seq RESTART WITH 1");
     postgresConnection.executeUpdate("ALTER SEQUENCE episode_id_seq RESTART WITH 1");
     postgresConnection.executeUpdate("ALTER SEQUENCE tivo_episode_id_seq RESTART WITH 1");
     postgresConnection.executeUpdate("ALTER SEQUENCE tvdb_episode_id_seq RESTART WITH 1");
@@ -121,6 +123,12 @@ public class TVPostgresMigration {
     Integer seriesId = seriesPostgres.id.getValue();
     if (seriesId == null) {
       throw new RuntimeException("No ID populated on series postgres object after insert or update.");
+    }
+
+    for (Object obj : seriesMongo.tvdbGenre.getValue()) {
+      String genreName = (String) obj;
+      debug(" - Add genre '" + genreName + "'");
+      seriesPostgres.addGenre(postgresConnection, genreName);
     }
 
     updateEpisodes(seriesMongo, seriesId);

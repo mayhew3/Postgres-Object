@@ -47,7 +47,7 @@ public class PostgresConnection {
 
 
   @NotNull
-  protected ResultSet executeQuery(String sql) {
+  public ResultSet executeQuery(String sql) {
     try {
       Statement statement = _connection.createStatement();
       return statement.executeQuery(sql);
@@ -79,7 +79,7 @@ public class PostgresConnection {
     }
   }
 
-  protected int getInt(ResultSet resultSet, String columnName) {
+  public int getInt(ResultSet resultSet, String columnName) {
     try {
       return resultSet.getInt(columnName);
     } catch (SQLException e) {
@@ -87,7 +87,7 @@ public class PostgresConnection {
     }
   }
 
-  protected String getString(ResultSet resultSet, String columnName) {
+  public String getString(ResultSet resultSet, String columnName) {
     try {
       return resultSet.getString(columnName);
     } catch (SQLException e) {
@@ -95,7 +95,7 @@ public class PostgresConnection {
     }
   }
 
-  protected boolean columnExists(String tableName, String columnName) {
+  public boolean columnExists(String tableName, String columnName) {
     try {
       ResultSet tables = _connection.getMetaData().getColumns(null, null, tableName, columnName);
       return tables.next();
@@ -108,7 +108,7 @@ public class PostgresConnection {
     return prepareAndExecuteStatementFetch(sql, Lists.newArrayList(params));
   }
 
-  protected ResultSet prepareAndExecuteStatementFetch(String sql, List<Object> params) {
+  public ResultSet prepareAndExecuteStatementFetch(String sql, List<Object> params) {
     PreparedStatement preparedStatement = prepareStatement(sql, params);
     try {
       return preparedStatement.executeQuery();
@@ -117,12 +117,12 @@ public class PostgresConnection {
     }
   }
 
-  protected ResultSet prepareAndExecuteStatementFetchWithException(String sql, List<Object> params) throws SQLException {
+  public ResultSet prepareAndExecuteStatementFetchWithException(String sql, List<Object> params) throws SQLException {
     PreparedStatement preparedStatement = prepareStatement(sql, params);
     return preparedStatement.executeQuery();
   }
 
-  protected void prepareAndExecuteStatementUpdate(String sql, Object... params) {
+  public void prepareAndExecuteStatementUpdate(String sql, Object... params) {
     try {
       PreparedStatement preparedStatement = prepareStatement(sql, Lists.newArrayList(params));
 
@@ -144,7 +144,7 @@ public class PostgresConnection {
     }
   }
 
-  protected PreparedStatement prepareStatement(String sql, List<Object> params) {
+  public PreparedStatement prepareStatement(String sql, List<Object> params) {
     PreparedStatement preparedStatement = getPreparedStatement(sql);
     try {
       return plugParamsIntoStatement(preparedStatement, params);
@@ -169,7 +169,7 @@ public class PostgresConnection {
     }
   }
 
-  protected ResultSet executePreparedStatementAlreadyHavingParameters(PreparedStatement preparedStatement) {
+  public ResultSet executePreparedStatementAlreadyHavingParameters(PreparedStatement preparedStatement) {
     try {
       return preparedStatement.executeQuery();
     } catch (SQLException e) {

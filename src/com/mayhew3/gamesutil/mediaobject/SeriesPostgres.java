@@ -1,5 +1,12 @@
 package com.mayhew3.gamesutil.mediaobject;
 
+import com.google.common.base.Preconditions;
+import com.mayhew3.gamesutil.games.PostgresConnection;
+import com.sun.istack.internal.Nullable;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public class SeriesPostgres extends MediaObjectPostgreSQL {
 
   /* Foreign Keys */
@@ -60,5 +67,37 @@ public class SeriesPostgres extends MediaObjectPostgreSQL {
     isSuggestion.changeValue(false);
     needsTVDBRedo.changeValue(false);
     matchedWrong.changeValue(false);
+  }
+
+  /**
+   * @param connection DB connection to use
+   * @param genreName Name of new or existing genre
+   * @return New SeriesGenrePostgres join entity, if a new one was created. Null otherwise.
+   * @throws SQLException
+   */
+
+  @Nullable
+  public SeriesGenrePostgres addGenre(PostgresConnection connection, String genreName) throws SQLException {
+    Preconditions.checkNotNull(id.getValue(), "Cannot insert join entity until Series object is committed (id is non-null)");
+
+    GenrePostgres genrePostgres = GenrePostgres.findOrCreate(connection, genreName);
+
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
+        "SELECT * FROM series_genre WHERE series_id = ? AND genre_id = ?",
+        id.getValue(),
+        genrePostgres.id.getValue());
+
+    if (!connection.hasMoreElements(resultSet)) {
+      SeriesGenrePostgres seriesGenrePostgres = new SeriesGenrePostgres();
+      seriesGenrePostgres.initializeForInsert();
+
+      seriesGenrePostgres.seriesId.changeValue(id.getValue());
+      seriesGenrePostgres.genreId.changeValue(genrePostgres.id.getValue());
+
+      seriesGenrePostgres.commit(connection);
+      return seriesGenrePostgres;
+    }
+
+    return null;
   }
 }
