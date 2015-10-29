@@ -75,7 +75,6 @@ public class SeriesPostgres extends MediaObjectPostgreSQL {
    * @return New SeriesGenrePostgres join entity, if a new one was created. Null otherwise.
    * @throws SQLException
    */
-
   @Nullable
   public SeriesGenrePostgres addGenre(PostgresConnection connection, String genreName) throws SQLException {
     Preconditions.checkNotNull(id.getValue(), "Cannot insert join entity until Series object is committed (id is non-null)");
@@ -96,6 +95,40 @@ public class SeriesPostgres extends MediaObjectPostgreSQL {
 
       seriesGenrePostgres.commit(connection);
       return seriesGenrePostgres;
+    }
+
+    return null;
+  }
+
+  /**
+   * @param connection DB connection to use
+   * @param viewingLocationName Name of new or existing viewing location
+   * @return New {{@link}SeriesViewingLocationPostgres} join entity, if a new one was created. Null otherwise.
+   * @throws SQLException
+   */
+  @Nullable
+  public SeriesViewingLocationPostgres addViewingLocation(PostgresConnection connection, String viewingLocationName) throws SQLException {
+    Preconditions.checkNotNull(id.getValue(), "Cannot insert join entity until Series object is committed (id is non-null)");
+
+    ViewingLocationPostgres viewingLocationPostgres = ViewingLocationPostgres.findOrCreate(connection, viewingLocationName);
+
+    SeriesViewingLocationPostgres seriesViewingLocationPostgres = new SeriesViewingLocationPostgres();
+
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
+        "SELECT * FROM " + seriesViewingLocationPostgres.getTableName() + " " +
+            "WHERE " + seriesViewingLocationPostgres.seriesId.getFieldName() + " = ? " +
+            "AND " + seriesViewingLocationPostgres.viewingLocationId.getFieldName() + " = ?",
+        id.getValue(),
+        viewingLocationPostgres.id.getValue());
+
+    if (!connection.hasMoreElements(resultSet)) {
+      seriesViewingLocationPostgres.initializeForInsert();
+
+      seriesViewingLocationPostgres.seriesId.changeValue(id.getValue());
+      seriesViewingLocationPostgres.viewingLocationId.changeValue(viewingLocationPostgres.id.getValue());
+
+      seriesViewingLocationPostgres.commit(connection);
+      return seriesViewingLocationPostgres;
     }
 
     return null;

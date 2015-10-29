@@ -131,6 +131,12 @@ public class TVPostgresMigration {
       seriesPostgres.addGenre(postgresConnection, genreName);
     }
 
+    for (Object obj : seriesMongo.viewingLocations.getValue()) {
+      String viewingLocation = (String) obj;
+      debug(" - Add viewing location '" + viewingLocation + "'");
+      seriesPostgres.addViewingLocation(postgresConnection, viewingLocation);
+    }
+
     updateEpisodes(seriesMongo, seriesId);
   }
 
