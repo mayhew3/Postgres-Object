@@ -5,6 +5,7 @@ public class EpisodePostgres extends MediaObjectPostgreSQL {
   /* Foreign Keys */
   public FieldValue<Integer> tivoEpisodeId = registerIntegerField("tivo_episode_id");
   public FieldValue<Integer> tvdbEpisodeId = registerIntegerField("tvdb_episode_id");
+  public FieldValueInteger seasonId = registerIntegerField("season_id");
 
   /* Data */
   public FieldValue<Integer> season = registerIntegerField("season");

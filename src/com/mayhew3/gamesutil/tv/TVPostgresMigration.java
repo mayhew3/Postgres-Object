@@ -153,7 +153,7 @@ public class TVPostgresMigration {
       }
     }
 
-    updateEpisodes(seriesMongo, seriesId);
+    updateEpisodes(seriesMongo, seriesPostgres);
   }
 
   private SeriesPostgres getOrCreateSeriesPostgres(SeriesMongo seriesMongo) throws SQLException {
@@ -168,7 +168,7 @@ public class TVPostgresMigration {
     }
   }
 
-  private void updateEpisodes(SeriesMongo seriesMongo, Integer seriesId) throws SQLException {
+  private void updateEpisodes(SeriesMongo seriesMongo, SeriesPostgres seriesPostgres) throws SQLException {
     ObjectId mongoId = seriesMongo._id.getValue();
 
     BasicDBObject episodeQuery = new BasicDBObject()
@@ -203,7 +203,13 @@ public class TVPostgresMigration {
       Integer tivoLocalEpisodeId = insertTiVoEpisodeAndReturnId(episodeMongo, tivoNativeEpisodeId);
       Integer tvdbLocalEpisodeId = insertTVDBEpisodeAndReturnId(episodeMongo, tvdbNativeEpisodeId);
 
-      episodePostgres.seriesId.changeValue(seriesId);
+      Integer seasonNumber = episodeMongo.tvdbSeason.getValue();
+      if (seasonNumber != null) {
+        SeasonPostgres season = seriesPostgres.getOrCreateSeason(postgresConnection, seasonNumber);
+        episodePostgres.seasonId.changeValue(season.id.getValue());
+      }
+
+      episodePostgres.seriesId.changeValue(seriesPostgres.id.getValue());
       episodePostgres.tivoEpisodeId.changeValue(tivoLocalEpisodeId);
       episodePostgres.tvdbEpisodeId.changeValue(tvdbLocalEpisodeId);
 
