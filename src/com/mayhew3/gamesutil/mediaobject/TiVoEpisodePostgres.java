@@ -25,6 +25,7 @@ public class TiVoEpisodePostgres extends MediaObjectPostgreSQL {
   public FieldValue<String> station = registerStringField("station");
   public FieldValue<String> url = registerStringField("url");
 
+  public FieldValueInteger retired = registerIntegerField("retired");
 
   @Override
   protected String getTableName() {

@@ -23,6 +23,8 @@ public class EpisodePostgres extends MediaObjectPostgreSQL {
 
   public FieldValueString tivoProgramId = registerStringField("tivo_program_id");
 
+  public FieldValueInteger retired = registerIntegerField("retired");
+
   /* User Data */
   public FieldValueTimestamp watchedDate = registerTimestampField("watched_date");
   public FieldValue<Boolean> watched = registerBooleanField("watched");
