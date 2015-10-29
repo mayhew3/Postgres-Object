@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.mayhew3.gamesutil.games.MongoConnection;
 import com.mayhew3.gamesutil.games.PostgresConnection;
 import com.mayhew3.gamesutil.mediaobject.*;
+import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
@@ -135,6 +136,21 @@ public class TVPostgresMigration {
       String viewingLocation = (String) obj;
       debug(" - Add viewing location '" + viewingLocation + "'");
       seriesPostgres.addViewingLocation(postgresConnection, viewingLocation);
+    }
+
+    BasicDBList metacriticSeasons = seriesMongo.metacriticSeasons.getValue();
+    if (metacriticSeasons != null) {
+      for (Object obj : metacriticSeasons) {
+        DBObject dbObject = (DBObject) obj;
+        Integer seasonNumber = (Integer) dbObject.get("SeasonNumber");
+        Integer seasonMetacritic = (Integer) dbObject.get("SeasonMetacritic");
+
+        debug(" - Add season " + seasonNumber + " with Metacritic " + seasonMetacritic);
+
+        SeasonPostgres season = seriesPostgres.getOrCreateSeason(postgresConnection, seasonNumber);
+        season.metacritic.changeValue(seasonMetacritic);
+        season.commit(postgresConnection);
+      }
     }
 
     updateEpisodes(seriesMongo, seriesId);

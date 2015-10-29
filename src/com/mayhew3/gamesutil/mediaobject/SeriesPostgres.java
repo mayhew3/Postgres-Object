@@ -2,6 +2,7 @@ package com.mayhew3.gamesutil.mediaobject;
 
 import com.google.common.base.Preconditions;
 import com.mayhew3.gamesutil.games.PostgresConnection;
+import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
 
 import java.sql.ResultSet;
@@ -132,5 +133,30 @@ public class SeriesPostgres extends MediaObjectPostgreSQL {
     }
 
     return null;
+  }
+
+  @NotNull
+  public SeasonPostgres getOrCreateSeason(PostgresConnection connection, Integer seasonNumber) throws SQLException {
+    Preconditions.checkNotNull(id.getValue(), "Cannot insert join entity until Series object is committed (id is non-null)");
+
+    SeasonPostgres seasonPostgres = new SeasonPostgres();
+
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
+        "SELECT * FROM " + seasonPostgres.getTableName() + " " +
+            "WHERE " + seasonPostgres.seriesId.getFieldName() + " = ? " +
+            "AND " + seasonPostgres.seasonNumber.getFieldName() + " = ?",
+        id.getValue(),
+        seasonNumber);
+    if (connection.hasMoreElements(resultSet)) {
+      seasonPostgres.initializeFromDBObject(resultSet);
+    } else {
+      seasonPostgres.initializeForInsert();
+      seasonPostgres.seriesId.changeValue(id.getValue());
+      seasonPostgres.seasonNumber.changeValue(seasonNumber);
+
+      seasonPostgres.commit(connection);
+    }
+
+    return seasonPostgres;
   }
 }
