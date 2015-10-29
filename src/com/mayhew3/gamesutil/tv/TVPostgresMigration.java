@@ -39,6 +39,20 @@ public class TVPostgresMigration {
     postgresConnection.executeUpdate("TRUNCATE TABLE tvdb_series CASCADE");
     postgresConnection.executeUpdate("TRUNCATE TABLE tvdb_episode CASCADE");
     postgresConnection.executeUpdate("TRUNCATE TABLE tivo_episode CASCADE");
+    postgresConnection.executeUpdate("TRUNCATE TABLE series_genre CASCADE");
+
+    postgresConnection.executeUpdate("ALTER SEQUENCE series_id_seq RESTART WITH 1");
+    postgresConnection.executeUpdate("ALTER SEQUENCE tvdb_series_id_seq RESTART WITH 1");
+    postgresConnection.executeUpdate("ALTER SEQUENCE episode_id_seq RESTART WITH 1");
+    postgresConnection.executeUpdate("ALTER SEQUENCE tivo_episode_id_seq RESTART WITH 1");
+    postgresConnection.executeUpdate("ALTER SEQUENCE tvdb_episode_id_seq RESTART WITH 1");
+
+    postgresConnection.executeUpdate("ALTER SEQUENCE genre_id_seq RESTART WITH 1");
+    postgresConnection.executeUpdate("ALTER SEQUENCE series_genre_id_seq RESTART WITH 1");
+
+    postgresConnection.executeUpdate("ALTER SEQUENCE viewing_location_id_seq RESTART WITH 1");
+    postgresConnection.executeUpdate("ALTER SEQUENCE series_viewing_location_id_seq RESTART WITH 1");
+
   }
 
   public void updatePostgresDatabase() throws SQLException {
