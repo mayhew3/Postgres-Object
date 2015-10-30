@@ -315,7 +315,7 @@ public class TVPostgresMigration {
     episodePostgres.episodeNumber.changeValue(episodeMongo.tvdbAbsoluteNumber.getValue());
     episodePostgres.airDate.changeValue(episodeMongo.tvdbFirstAired.getValue());
 
-    episodePostgres.retired.changeValue(0);
+    episodePostgres.retired.changeValue(episodeMongo.matchingStump.getValue() ? 1 : 0);
   }
 
   private void copyAllTiVoEpisodeFields(EpisodeMongo episodeMongo, TiVoEpisodePostgres tiVoEpisodePostgres) {
@@ -337,7 +337,7 @@ public class TVPostgresMigration {
     tiVoEpisodePostgres.url.changeValue(episodeMongo.tivoUrl.getValue());
     tiVoEpisodePostgres.seriesTitle.changeValue(episodeMongo.tivoSeriesTitle.getValue());
 
-    tiVoEpisodePostgres.retired.changeValue(0);
+    tiVoEpisodePostgres.retired.changeValue(episodeMongo.matchingStump.getValue() ? 1 : 0);
   }
 
   private void copyAllTVDBEpisodeFields(EpisodeMongo episodeMongo, TVDBEpisodePostgres tvdbEpisodePostgres) {

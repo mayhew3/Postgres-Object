@@ -18,4 +18,11 @@ public class FieldValueTimestamp extends FieldValue<Timestamp> {
       changeValue(timestamp);
     }
   }
+
+  public void changeValueFromXMLString(String xmlString) {
+    if (xmlString != null) {
+      long numberOfSeconds = Long.decode(xmlString);
+      changeValue(new Timestamp(numberOfSeconds * 1000));
+    }
+  }
 }

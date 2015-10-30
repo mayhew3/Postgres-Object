@@ -14,6 +14,8 @@ public class TVDBEpisodePostgres extends MediaObjectPostgreSQL {
   public FieldValue<Integer> thumbHeight = registerIntegerField("thumb_height");
   public FieldValue<Integer> thumbWidth = registerIntegerField("thumb_width");
 
+  public FieldValueInteger retired = registerIntegerField("retired");
+
 
   public FieldValueTimestamp firstAired = registerTimestampField("first_aired");
   public FieldValue<Integer> lastUpdated = registerIntegerField("last_updated");

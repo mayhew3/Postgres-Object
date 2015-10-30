@@ -45,6 +45,9 @@ public class PostgresConnection {
     return _connection;
   }
 
+  public void closeConnection() throws SQLException {
+    _connection.close();
+  }
 
   @NotNull
   public ResultSet executeQuery(String sql) {
