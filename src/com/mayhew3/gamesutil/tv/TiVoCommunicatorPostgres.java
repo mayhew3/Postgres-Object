@@ -209,22 +209,17 @@ public class TiVoCommunicatorPostgres {
     return !shouldBeLastDocument && showNumber == 50;
   }
 
-  private Boolean parseAndUpdateSingleShow(NodeList showAttributes) throws SQLException {
-    Boolean thisEpisodeExists = false;
+  private class TivoInfo {
+    public String programId;
+    public String tivoId;
+    public String seriesTitle;
+    public Boolean isSuggestion;
+    public String url;
 
-    Boolean recordingNow = isRecordingNow(showAttributes);
-
-    if (recordingNow) {
-      debug("Skipping episode that is currently recording.");
-    } else {
-
-      String url = getUrl(showAttributes);
-      Boolean isSuggestion = isSuggestion(showAttributes);
-
-      NodeList showDetails = getNodeWithTag(showAttributes, "Details").getChildNodes();
-      String programId = getValueOfSimpleStringNode(showDetails, "ProgramId");
-      String tivoId = getValueOfSimpleStringNode(showDetails, "SeriesId");
-      String seriesTitle = getValueOfSimpleStringNode(showDetails, "Title");
+    public TivoInfo(@NotNull NodeList showDetails) {
+      programId = getValueOfSimpleStringNode(showDetails, "ProgramId");;
+      tivoId = getValueOfSimpleStringNode(showDetails, "SeriesId");
+      seriesTitle = getValueOfSimpleStringNode(showDetails, "Title");
 
       if (programId == null) {
         throw new RuntimeException("Episode found on TiVo with no ProgramId field!");
@@ -233,128 +228,139 @@ public class TiVoCommunicatorPostgres {
       if (tivoId == null) {
         throw new RuntimeException("Episode found on TiVo with no SeriesId field!");
       }
+    }
+  }
 
-      if (lookAtAllShows) {
-        episodesOnTiVo.add(programId);
-      }
+  private Boolean parseAndUpdateSingleShow(NodeList showAttributes) throws SQLException {
 
-      ResultSet resultSet = connection.prepareAndExecuteStatementFetch("SELECT * FROM series WHERE tivo_series_id = ?", tivoId);
-
-      SeriesPostgres series = new SeriesPostgres();
-
-      if (!connection.hasMoreElements(resultSet)) {
-        series.initializeForInsert();
-
-        debug("Adding series '" + seriesTitle + "'  with TiVoID '" + tivoId + "'");
-
-        if (!isEpisodic(showAttributes)) {
-          return false;
-        }
-
-        Integer tier = isSuggestion ? 5 : 4;
-
-        series.tivoSeriesId.changeValue(tivoId);
-        series.seriesTitle.changeValue(seriesTitle);
-        series.seriesTitle.changeValue(seriesTitle);
-        series.isSuggestion.changeValue(isSuggestion);
-        series.tier.changeValue(tier);
-        series.matchedWrong.changeValue(false);
-
-        series.initializeDenorms();
-
-        series.commit(connection);
-
-        series.addViewingLocation(connection, "TiVo");
-
-        addedShows++;
-      } else {
-        series.initializeFromDBObject(resultSet);
-
-        debug("Updating existing series '" + seriesTitle + "'.");
-      }
-
-      Integer seriesId = series.id.getValue();
-
-      if (series.tvdbId.getValue() == null) {
-        TVDBSeriesPostgresUpdater updater = new TVDBSeriesPostgresUpdater(connection, series);
-        updater.updateSeries();
-      }
-
-      ResultSet existingEpisode = getExistingTiVoEpisodes(programId);
-      Boolean tivoEpisodeExists = connection.hasMoreElements(existingEpisode);
-
-      TiVoEpisodePostgres tivoEpisode = new TiVoEpisodePostgres();
-      if (tivoEpisodeExists) {
-        tivoEpisode.initializeFromDBObject(existingEpisode);
-      } else {
-        tivoEpisode.initializeForInsert();
-      }
-
-      formatEpisodeObject(tivoEpisode, url, isSuggestion, showDetails);
-      tivoEpisode.tivoSeriesId.changeValue(tivoId);
-      tivoEpisode.seriesTitle.changeValue(seriesTitle);
-      tivoEpisode.commit(connection);
-
-      EpisodePostgres episode = new EpisodePostgres();
-
-      Boolean matched = false;
-
-      if (tivoEpisodeExists) {
-        /*if (updateAllFieldsMode) {
-          while (existingEpisodes.hasNext()) {
-            DBObject existingEpisode = existingEpisodes.next();
-            episodeId = existingEpisode.get("_id");
-            updateObjectWithId("episodes", episodeId, newEpisodeObject);
-            updatedShows++;
-          }
-        }*/
-        if (!lookAtAllShows) {
-          thisEpisodeExists = true;
-        }
-      } else {
-        TVDBEpisodePostgres tvdbEpisode = findTVDBEpisodeMatch(tivoEpisode, seriesId);
-
-        if (tvdbEpisode == null) {
-          TVDBSeriesPostgresUpdater updater = new TVDBSeriesPostgresUpdater(connection, series);
-          updater.updateSeries();
-
-          tvdbEpisode = findTVDBEpisodeMatch(tivoEpisode, seriesId);
-        }
-
-        if (tvdbEpisode == null) {
-          episode.initializeForInsert();
-          addedShows++;
-        } else {
-          matched = true;
-
-          ResultSet existingRow = getExistingEpisodeRow(tvdbEpisode);
-          episode.initializeFromDBObject(existingRow);
-
-          updatedShows++;
-        }
-
-        episode.tivoEpisodeId.changeValue(tivoEpisode.id.getValue());
-        episode.tivoProgramId.changeValue(tivoEpisode.programId.getValue());
-        episode.onTiVo.changeValue(true);
-        episode.seriesId.changeValue(seriesId);
-
-        episode.commit(connection);
-
-        Integer episodeId = tivoEpisode.id.getValue();
-
-        if (episodeId == null) {
-          throw new RuntimeException("Episode ID should never be null after insert or update!");
-        }
-
-        updateSeriesDenorms(tivoEpisode, episode, series, matched);
-
-        series.commit(connection);
-
-      }
-
+    if (isRecordingNow(showAttributes)) {
+      debug("Skipping episode that is currently recording.");
+      return false;
     }
 
-    return thisEpisodeExists;
+    if (!isEpisodic(showAttributes)) {
+      debug("Skipping episode that is not episodic.");
+      return false;
+    }
+
+    NodeList showDetails = getNodeWithTag(showAttributes, "Details").getChildNodes();
+
+    TivoInfo tivoInfo = new TivoInfo(showDetails);
+    tivoInfo.isSuggestion = isSuggestion(showAttributes);
+    tivoInfo.url = getUrl(showAttributes);
+
+    if (lookAtAllShows) {
+      episodesOnTiVo.add(tivoInfo.programId);
+    }
+
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch("SELECT * FROM series WHERE tivo_series_id = ?", tivoInfo.tivoId);
+
+    SeriesPostgres series = new SeriesPostgres();
+
+    if (!connection.hasMoreElements(resultSet)) {
+      addNewSeries(series, tivoInfo);
+    } else {
+      series.initializeFromDBObject(resultSet);
+      debug("Updating existing series '" + tivoInfo.seriesTitle + "'.");
+    }
+
+    if (series.tvdbId.getValue() == null) {
+      TVDBSeriesPostgresUpdater updater = new TVDBSeriesPostgresUpdater(connection, series);
+      updater.updateSeries();
+    }
+
+    return addEpisodeIfNotExists(showDetails, series, tivoInfo);
+
+  }
+
+
+  private Boolean addEpisodeIfNotExists(NodeList showDetails, SeriesPostgres series, TivoInfo tivoInfo) throws SQLException {
+    ResultSet existingEpisode = getExistingTiVoEpisodes(tivoInfo.programId);
+    Boolean tivoEpisodeExists = connection.hasMoreElements(existingEpisode);
+
+    TiVoEpisodePostgres tivoEpisode = new TiVoEpisodePostgres();
+    if (tivoEpisodeExists) {
+      tivoEpisode.initializeFromDBObject(existingEpisode);
+    } else {
+      tivoEpisode.initializeForInsert();
+    }
+
+    formatEpisodeObject(tivoEpisode, tivoInfo.url, tivoInfo.isSuggestion, showDetails);
+    tivoEpisode.tivoSeriesId.changeValue(tivoInfo.tivoId);
+    tivoEpisode.seriesTitle.changeValue(tivoInfo.seriesTitle);
+    tivoEpisode.commit(connection);
+
+    EpisodePostgres episode = new EpisodePostgres();
+
+    Boolean matched = false;
+
+    if (tivoEpisodeExists) {
+      if (!lookAtAllShows) {
+        return true;
+      }
+    } else {
+      TVDBEpisodePostgres tvdbEpisode = findTVDBEpisodeMatch(tivoEpisode, series.id.getValue());
+
+      if (tvdbEpisode == null) {
+        TVDBSeriesPostgresUpdater updater = new TVDBSeriesPostgresUpdater(connection, series);
+        updater.updateSeries();
+
+        tvdbEpisode = findTVDBEpisodeMatch(tivoEpisode, series.id.getValue());
+      }
+
+      if (tvdbEpisode == null) {
+        episode.initializeForInsert();
+        addedShows++;
+      } else {
+        matched = true;
+
+        ResultSet existingRow = getExistingEpisodeRow(tvdbEpisode);
+        episode.initializeFromDBObject(existingRow);
+
+        updatedShows++;
+      }
+
+      episode.tivoEpisodeId.changeValue(tivoEpisode.id.getValue());
+      episode.tivoProgramId.changeValue(tivoEpisode.programId.getValue());
+      episode.onTiVo.changeValue(true);
+      episode.seriesId.changeValue(series.id.getValue());
+
+      episode.commit(connection);
+
+      Integer episodeId = tivoEpisode.id.getValue();
+
+      if (episodeId == null) {
+        throw new RuntimeException("Episode ID should never be null after insert or update!");
+      }
+
+      updateSeriesDenorms(tivoEpisode, episode, series, matched);
+
+      series.commit(connection);
+
+    }
+    return false;
+  }
+
+  private void addNewSeries(SeriesPostgres series, TivoInfo tivoInfo) throws SQLException {
+    series.initializeForInsert();
+
+    debug("Adding series '" + tivoInfo.seriesTitle + "'  with TiVoID '" + tivoInfo.tivoId + "'");
+
+    Integer tier = tivoInfo.isSuggestion ? 5 : 4;
+
+    series.tivoSeriesId.changeValue(tivoInfo.tivoId);
+    series.seriesTitle.changeValue(tivoInfo.seriesTitle);
+    series.isSuggestion.changeValue(tivoInfo.isSuggestion);
+    series.tier.changeValue(tier);
+    series.matchedWrong.changeValue(false);
+
+    series.initializeDenorms();
+
+    series.commit(connection);
+
+    series.addViewingLocation(connection, "TiVo");
+
+    addedShows++;
   }
 
   private ResultSet getExistingEpisodeRow(TVDBEpisodePostgres tvdbMatch) {
@@ -686,5 +692,6 @@ public class TiVoCommunicatorPostgres {
       super(message);
     }
   }
+
 }
 
