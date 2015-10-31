@@ -231,6 +231,11 @@ public class TiVoCommunicatorPostgres {
     }
   }
 
+  /**
+   * @param showAttributes Root XML object
+   * @return Whether this episode already exists in the database, and we should stop updating later episodes in quick mode.
+   * @throws SQLException
+   */
   private Boolean parseAndUpdateSingleShow(NodeList showAttributes) throws SQLException {
 
     if (isRecordingNow(showAttributes)) {
@@ -264,20 +269,88 @@ public class TiVoCommunicatorPostgres {
       debug("Updating existing series '" + tivoInfo.seriesTitle + "'.");
     }
 
+    Boolean tvdbUpdated = false;
     if (series.tvdbId.getValue() == null) {
       TVDBSeriesPostgresUpdater updater = new TVDBSeriesPostgresUpdater(connection, series);
       updater.updateSeries();
+      tvdbUpdated = true;
     }
 
-    return addEpisodeIfNotExists(showDetails, series, tivoInfo);
+    return addEpisodeIfNotExists(showDetails, series, tivoInfo, tvdbUpdated);
 
   }
 
 
-  private Boolean addEpisodeIfNotExists(NodeList showDetails, SeriesPostgres series, TivoInfo tivoInfo) throws SQLException {
+  /**
+   * @return Whether the episode already exists in the database.
+   * @throws SQLException
+   */
+  private Boolean addEpisodeIfNotExists(NodeList showDetails, SeriesPostgres series, TivoInfo tivoInfo, Boolean tvdbUpdated) throws SQLException {
     ResultSet existingEpisode = getExistingTiVoEpisodes(tivoInfo.programId);
     Boolean tivoEpisodeExists = connection.hasMoreElements(existingEpisode);
 
+    if (tivoEpisodeExists && !lookAtAllShows) {
+      return true;
+    }
+
+    TiVoEpisodePostgres tivoEpisode = getOrCreateTiVoEpisode(showDetails, tivoInfo, existingEpisode, tivoEpisodeExists);
+    EpisodePostgres episode = new EpisodePostgres();
+    TVDBEpisodePostgres tvdbEpisode = findTVDBEpisodeMatch(tivoEpisode, series.id.getValue());
+
+    if (tvdbEpisode == null) {
+      tvdbEpisode = retryMatchWithUpdatedTVDB(series, tvdbUpdated, tivoEpisode);
+    }
+
+    Boolean matched = false;
+
+    // if still no match after updating TVDB...
+    if (tvdbEpisode == null) {
+      episode.initializeForInsert();
+      addedShows++;
+    } else {
+      matched = true;
+
+      ResultSet existingRow = getExistingEpisodeRow(tvdbEpisode);
+      episode.initializeFromDBObject(existingRow);
+
+      updatedShows++;
+    }
+
+    updateEpisodeAndSeries(series, tivoEpisode, episode, matched);
+
+    return false;
+  }
+
+  private void updateEpisodeAndSeries(SeriesPostgres series, TiVoEpisodePostgres tivoEpisode, EpisodePostgres episode, Boolean matched) {
+    episode.tivoEpisodeId.changeValue(tivoEpisode.id.getValue());
+    episode.tivoProgramId.changeValue(tivoEpisode.programId.getValue());
+    episode.onTiVo.changeValue(true);
+    episode.seriesId.changeValue(series.id.getValue());
+
+    episode.commit(connection);
+
+    Integer episodeId = tivoEpisode.id.getValue();
+
+    if (episodeId == null) {
+      throw new RuntimeException("Episode ID should never be null after insert or update!");
+    }
+
+    updateSeriesDenorms(tivoEpisode, episode, series, matched);
+
+    series.commit(connection);
+  }
+
+  private TVDBEpisodePostgres retryMatchWithUpdatedTVDB(SeriesPostgres series, Boolean tvdbUpdated, TiVoEpisodePostgres tivoEpisode) throws SQLException {
+    if (!tvdbUpdated) {
+      TVDBSeriesPostgresUpdater updater = new TVDBSeriesPostgresUpdater(connection, series);
+      updater.updateSeries();
+
+      return findTVDBEpisodeMatch(tivoEpisode, series.id.getValue());
+    }
+    return null;
+  }
+
+  private TiVoEpisodePostgres getOrCreateTiVoEpisode(NodeList showDetails, TivoInfo tivoInfo, ResultSet existingEpisode, Boolean tivoEpisodeExists) throws SQLException {
     TiVoEpisodePostgres tivoEpisode = new TiVoEpisodePostgres();
     if (tivoEpisodeExists) {
       tivoEpisode.initializeFromDBObject(existingEpisode);
@@ -289,56 +362,7 @@ public class TiVoCommunicatorPostgres {
     tivoEpisode.tivoSeriesId.changeValue(tivoInfo.tivoId);
     tivoEpisode.seriesTitle.changeValue(tivoInfo.seriesTitle);
     tivoEpisode.commit(connection);
-
-    EpisodePostgres episode = new EpisodePostgres();
-
-    Boolean matched = false;
-
-    if (tivoEpisodeExists) {
-      if (!lookAtAllShows) {
-        return true;
-      }
-    } else {
-      TVDBEpisodePostgres tvdbEpisode = findTVDBEpisodeMatch(tivoEpisode, series.id.getValue());
-
-      if (tvdbEpisode == null) {
-        TVDBSeriesPostgresUpdater updater = new TVDBSeriesPostgresUpdater(connection, series);
-        updater.updateSeries();
-
-        tvdbEpisode = findTVDBEpisodeMatch(tivoEpisode, series.id.getValue());
-      }
-
-      if (tvdbEpisode == null) {
-        episode.initializeForInsert();
-        addedShows++;
-      } else {
-        matched = true;
-
-        ResultSet existingRow = getExistingEpisodeRow(tvdbEpisode);
-        episode.initializeFromDBObject(existingRow);
-
-        updatedShows++;
-      }
-
-      episode.tivoEpisodeId.changeValue(tivoEpisode.id.getValue());
-      episode.tivoProgramId.changeValue(tivoEpisode.programId.getValue());
-      episode.onTiVo.changeValue(true);
-      episode.seriesId.changeValue(series.id.getValue());
-
-      episode.commit(connection);
-
-      Integer episodeId = tivoEpisode.id.getValue();
-
-      if (episodeId == null) {
-        throw new RuntimeException("Episode ID should never be null after insert or update!");
-      }
-
-      updateSeriesDenorms(tivoEpisode, episode, series, matched);
-
-      series.commit(connection);
-
-    }
-    return false;
+    return tivoEpisode;
   }
 
   private void addNewSeries(SeriesPostgres series, TivoInfo tivoInfo) throws SQLException {
