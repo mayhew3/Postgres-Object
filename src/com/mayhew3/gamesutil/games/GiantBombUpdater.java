@@ -246,6 +246,9 @@ public class GiantBombUpdater {
   protected String getFullUrl(String search) throws UnsupportedEncodingException {
     String encoded = URLEncoder.encode(search, "UTF-8");
     String api_key = System.getenv("giantbomb_api");
+    if (api_key == null) {
+      throw new RuntimeException("Environment variable with name 'giantbomb_api' not found!");
+    }
     return "http://www.giantbomb.com/api/search/" +
         "?api_key=" + api_key +
         "&format=json" +
