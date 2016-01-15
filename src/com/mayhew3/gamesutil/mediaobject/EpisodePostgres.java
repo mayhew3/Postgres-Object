@@ -1,5 +1,13 @@
 package com.mayhew3.gamesutil.mediaobject;
 
+import com.mayhew3.gamesutil.games.PostgresConnection;
+import com.sun.javafx.beans.annotations.NonNull;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 public class EpisodePostgres extends MediaObjectPostgreSQL {
 
   /* Foreign Keys */
@@ -39,5 +47,47 @@ public class EpisodePostgres extends MediaObjectPostgreSQL {
   @Override
   public String toString() {
     return seriesTitle.getValue() + " " + episodeNumber.getValue() + ": " + title.getValue();
+  }
+
+  public void addToTiVoEpisodes(PostgresConnection connection, @NonNull Integer tivoLocalEpisodeId) throws SQLException {
+    List<TiVoEpisodePostgres> tiVoEpisodes = getTiVoEpisodes(connection);
+    if (!hasMatch(tiVoEpisodes, tivoLocalEpisodeId)) {
+      EdgeTiVoEpisodePostgres edgeTiVoEpisodePostgres = new EdgeTiVoEpisodePostgres();
+      edgeTiVoEpisodePostgres.initializeForInsert();
+
+      edgeTiVoEpisodePostgres.tivoEpisodeId.changeValue(tivoLocalEpisodeId);
+      edgeTiVoEpisodePostgres.episodeId.changeValue(id.getValue());
+      edgeTiVoEpisodePostgres.retired.changeValue(0);
+
+      edgeTiVoEpisodePostgres.commit(connection);
+    }
+  }
+
+  private Boolean hasMatch(List<TiVoEpisodePostgres> tiVoEpisodes, Integer tivoLocalEpisodeId) {
+    for (TiVoEpisodePostgres tiVoEpisode : tiVoEpisodes) {
+      if (tivoLocalEpisodeId.equals(tiVoEpisode.id.getValue())) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public List<TiVoEpisodePostgres> getTiVoEpisodes(PostgresConnection connection) throws SQLException {
+    String sql = "SELECT te.* " +
+        "FROM tivo_episode te " +
+        "INNER JOIN edge_tivo_episode e " +
+        "  ON e.tivo_episode_id = te.id " +
+        "WHERE e.episode_id = ?";
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, id.getValue());
+    List<TiVoEpisodePostgres> tiVoEpisodePostgresList = new ArrayList<>();
+
+    while (connection.hasMoreElements(resultSet)) {
+      TiVoEpisodePostgres tiVoEpisodePostgres = new TiVoEpisodePostgres();
+      tiVoEpisodePostgres.initializeFromDBObject(resultSet);
+
+      tiVoEpisodePostgresList.add(tiVoEpisodePostgres);
+    }
+
+    return tiVoEpisodePostgresList;
   }
 }

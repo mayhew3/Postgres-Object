@@ -374,6 +374,8 @@ public class TVDBSeriesPostgresUpdater {
           episode.initializeForInsert();
           added = true;
         } else {
+
+          // todo: handle multiple rows returned
           ResultSet episodeRow = getEpisodeFromTiVoEpisodeID(tivoEpisode.id.getValue());
           episode.initializeFromDBObject(episodeRow);
           matched = true;
@@ -472,9 +474,11 @@ public class TVDBSeriesPostgresUpdater {
 
   private ResultSet getEpisodeFromTiVoEpisodeID(Integer tivoEpisodeID) throws SQLException {
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
-        "SELECT * " +
-            "FROM episode " +
-            "WHERE tivo_episode_id = ?",
+        "SELECT e.* " +
+            "FROM episode e " +
+            "INNER edge_tivo_episode ete " +
+            "  ON ete.episode_id = e.id " +
+            "WHERE ete.tivo_episode_id = ?",
         tivoEpisodeID
     );
     if (!connection.hasMoreElements(resultSet)) {
@@ -519,8 +523,10 @@ public class TVDBSeriesPostgresUpdater {
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
         "SELECT te.* " +
             "FROM tivo_episode te " +
+            "INNER JOIN edge_tivo_episode ete " +
+            "  ON ete.tivo_episode_id = te.id " +
             "INNER JOIN episode e " +
-            "  ON e.tivo_episode_id = te.id " +
+            "  ON ete.episode_id = e.id " +
             "WHERE e.seriesid = ? " +
             "AND e.tvdb_episode_id IS NULL " +
             "AND e.retired = ?",

@@ -42,6 +42,7 @@ public class TVPostgresMigration {
     postgresConnection.executeUpdate("TRUNCATE TABLE tivo_episode CASCADE");
     postgresConnection.executeUpdate("TRUNCATE TABLE genre CASCADE");
     postgresConnection.executeUpdate("TRUNCATE TABLE viewing_location CASCADE");
+    postgresConnection.executeUpdate("TRUNCATE TABLE edge_tivo_episode CASCADE");
 
     postgresConnection.executeUpdate("ALTER SEQUENCE series_id_seq RESTART WITH 1");
     postgresConnection.executeUpdate("ALTER SEQUENCE tvdb_series_id_seq RESTART WITH 1");
@@ -234,6 +235,10 @@ public class TVPostgresMigration {
 
     copyAllEpisodeFields(episodeMongo, episodePostgres);
     episodePostgres.commit(postgresConnection);
+
+    if (tivoLocalEpisodeId != null) {
+      episodePostgres.addToTiVoEpisodes(postgresConnection, tivoLocalEpisodeId);
+    }
 
     updateRetired(episodeMongo, episodePostgres);
   }

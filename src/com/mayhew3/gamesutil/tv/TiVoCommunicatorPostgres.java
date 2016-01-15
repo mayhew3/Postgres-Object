@@ -3,10 +3,7 @@ package com.mayhew3.gamesutil.tv;
 import com.google.common.collect.Lists;
 import com.mayhew3.gamesutil.SSLTool;
 import com.mayhew3.gamesutil.games.PostgresConnection;
-import com.mayhew3.gamesutil.mediaobject.EpisodePostgres;
-import com.mayhew3.gamesutil.mediaobject.SeriesPostgres;
-import com.mayhew3.gamesutil.mediaobject.TVDBEpisodePostgres;
-import com.mayhew3.gamesutil.mediaobject.TiVoEpisodePostgres;
+import com.mayhew3.gamesutil.mediaobject.*;
 import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
 import org.joda.time.DateTime;
@@ -304,10 +301,11 @@ public class TiVoCommunicatorPostgres {
 
 
     EpisodePostgres episode = new EpisodePostgres();
-    
+
     if (tivoEpisodeExists) {
 
-      ResultSet existingEpisodeRow = getExistingEpisodeRow(tivoEpisode);
+      // todo: handle multiple rows returned
+      ResultSet existingEpisodeRow = getExistingEpisodeRows(tivoEpisode);
       episode.initializeFromDBObject(existingEpisodeRow);
 
     } else if (tvdbEpisode != null) {
@@ -328,18 +326,24 @@ public class TiVoCommunicatorPostgres {
     return false;
   }
 
-  private void updateEpisodeAndSeries(SeriesPostgres series, TiVoEpisodePostgres tivoEpisode, EpisodePostgres episode, Boolean matched) {
-    episode.tivoEpisodeId.changeValue(tivoEpisode.id.getValue());
+  private void updateEpisodeAndSeries(SeriesPostgres series, TiVoEpisodePostgres tivoEpisode, EpisodePostgres episode, Boolean matched) throws SQLException {
+    Integer tivo_episode_id = tivoEpisode.id.getValue();
+
+    episode.tivoEpisodeId.changeValue(tivo_episode_id);
     episode.tivoProgramId.changeValue(tivoEpisode.programId.getValue());
     episode.onTiVo.changeValue(true);
     episode.seriesId.changeValue(series.id.getValue());
 
     episode.commit(connection);
 
-    Integer episodeId = tivoEpisode.id.getValue();
+    Integer episodeId = episode.id.getValue();
 
     if (episodeId == null) {
       throw new RuntimeException("Episode ID should never be null after insert or update!");
+    }
+
+    if (tivo_episode_id != null) {
+      episode.addToTiVoEpisodes(connection, tivo_episode_id);
     }
 
     updateSeriesDenorms(tivoEpisode, episode, series, matched);
@@ -408,12 +412,14 @@ public class TiVoCommunicatorPostgres {
     return resultSet;
   }
 
-  private ResultSet getExistingEpisodeRow(TiVoEpisodePostgres tiVoEpisodePostgres) {
+  private ResultSet getExistingEpisodeRows(TiVoEpisodePostgres tiVoEpisodePostgres) {
     Integer tivoEpisodeId = tiVoEpisodePostgres.id.getValue();
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
-        "SELECT * " +
-            "FROM episode " +
-            "WHERE tivo_episode_id = ?",
+        "SELECT e.* " +
+            "FROM episode e " +
+            "INNER JOIN edge_tivo_episode ete " +
+            "  ON ete.episode_id = e.id " +
+            "WHERE ete.tivo_episode_id = ?",
         tivoEpisodeId
     );
     if (!connection.hasMoreElements(resultSet)) {
@@ -497,7 +503,7 @@ public class TiVoCommunicatorPostgres {
             "FROM episode e " +
             "INNER JOIN tvdb_episode te " +
             "  ON e.tvdb_episode_id = te.id " +
-            "WHERE e.tivo_episode_id IS NULL " +
+            "WHERE NOT EXISTS (SELECT 1 FROM edge_tivo_episode ete WHERE ete.episode_id = e.id) " +
             "AND e.seriesid = ?",
         seriesId
     );
