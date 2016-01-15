@@ -68,7 +68,7 @@ public class TiVoCommunicator extends TVDatabaseUtility {
   }
 
   public void updateFields() {
-    String fullURL = "https://10.0.0.2/TiVoConnect?Command=QueryContainer&Container=%2FNowPlaying&Recurse=Yes&ItemCount=50";
+    String fullURL = "https://10.0.0.14/TiVoConnect?Command=QueryContainer&Container=%2FNowPlaying&Recurse=Yes&ItemCount=50";
 
     try {
       Boolean keepGoing = true;

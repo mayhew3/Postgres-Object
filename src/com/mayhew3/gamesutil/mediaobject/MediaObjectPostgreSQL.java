@@ -1,10 +1,12 @@
 package com.mayhew3.gamesutil.mediaobject;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.mayhew3.gamesutil.games.PostgresConnection;
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
+import com.sun.javafx.beans.annotations.NonNull;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,8 +17,10 @@ import java.util.List;
 public abstract class MediaObjectPostgreSQL {
 
   private enum EditMode {INSERT, UPDATE}
+  public enum SpecialTypes {NULL}
 
   private EditMode editMode;
+  private Boolean initialized = false;
 
   List<FieldValue> allFieldValues = new ArrayList<>();
 
@@ -40,15 +44,25 @@ public abstract class MediaObjectPostgreSQL {
 
       initializeValue(fieldValue, obj);
     }
+
+    initialized = true;
   }
 
   public void initializeForInsert() {
     editMode = EditMode.INSERT;
+    initialized = true;
   }
 
   public void changeToUpdateObject() {
+    Preconditions.checkState(initialized, "Shouldn't call change to update object if uninitialized.");
     editMode = EditMode.UPDATE;
   }
+
+  @NonNull
+  public boolean isInitialized() {
+    return initialized;
+  }
+
 
   private void initializeValue(FieldValue fieldValue, Object obj) {
     if (obj instanceof String) {

@@ -308,8 +308,14 @@ public class TVDBSeriesPostgresUpdater {
     NodeList dataNode = getNodeWithTag(nodeList, "Data").getChildNodes();
     NodeList seriesNode = getNodeWithTag(dataNode, "Series").getChildNodes();
 
+    ResultSet existingTVDBSeries = findExistingTVDBSeries(tvdbID);
+
     TVDBSeriesPostgres tvdbSeries = new TVDBSeriesPostgres();
-    tvdbSeries.initializeForInsert();
+    if (connection.hasMoreElements(existingTVDBSeries)) {
+      tvdbSeries.initializeFromDBObject(existingTVDBSeries);
+    } else {
+      tvdbSeries.initializeForInsert();
+    }
 
     String tvdbSeriesName = getValueOfSimpleStringNode(seriesNode, "seriesname");
 
@@ -444,6 +450,15 @@ public class TVDBSeriesPostgresUpdater {
 
     debug(seriesTitle + ": Update complete! Added: " + seriesEpisodesAdded + "; Updated: " + seriesEpisodesUpdated);
 
+  }
+
+  private ResultSet findExistingTVDBSeries(Integer tvdbRemoteId) {
+    return connection.prepareAndExecuteStatementFetch(
+        "SELECT * " +
+            "FROM tvdb_series " +
+            "WHERE tvdb_id = ?",
+        tvdbRemoteId
+    );
   }
 
   private ResultSet findExistingTVDBEpisode(Integer tvdbRemoteId) {

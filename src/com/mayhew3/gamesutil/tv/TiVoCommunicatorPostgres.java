@@ -112,7 +112,7 @@ public class TiVoCommunicatorPostgres {
 
 
   public void updateFields() throws SQLException {
-    String fullURL = "https://10.0.0.2/TiVoConnect?Command=QueryContainer&Container=%2FNowPlaying&Recurse=Yes&ItemCount=50";
+    String fullURL = "https://10.0.0.14/TiVoConnect?Command=QueryContainer&Container=%2FNowPlaying&Recurse=Yes&ItemCount=50";
 
     try {
       Boolean keepGoing = true;
@@ -294,29 +294,36 @@ public class TiVoCommunicatorPostgres {
     }
 
     TiVoEpisodePostgres tivoEpisode = getOrCreateTiVoEpisode(showDetails, tivoInfo, existingEpisode, tivoEpisodeExists);
-    EpisodePostgres episode = new EpisodePostgres();
     TVDBEpisodePostgres tvdbEpisode = findTVDBEpisodeMatch(tivoEpisode, series.id.getValue());
 
     if (tvdbEpisode == null) {
       tvdbEpisode = retryMatchWithUpdatedTVDB(series, tvdbUpdated, tivoEpisode);
     }
 
-    Boolean matched = false;
+    Boolean tvdb_matched = false;
 
-    // if still no match after updating TVDB...
-    if (tvdbEpisode == null) {
-      episode.initializeForInsert();
-      addedShows++;
-    } else {
-      matched = true;
+
+    EpisodePostgres episode = new EpisodePostgres();
+    
+    if (tivoEpisodeExists) {
+
+      ResultSet existingEpisodeRow = getExistingEpisodeRow(tivoEpisode);
+      episode.initializeFromDBObject(existingEpisodeRow);
+
+    } else if (tvdbEpisode != null) {
+      tvdb_matched = true;
 
       ResultSet existingRow = getExistingEpisodeRow(tvdbEpisode);
       episode.initializeFromDBObject(existingRow);
 
       updatedShows++;
+    } else {
+      episode.initializeForInsert();
+      addedShows++;
     }
 
-    updateEpisodeAndSeries(series, tivoEpisode, episode, matched);
+
+    updateEpisodeAndSeries(series, tivoEpisode, episode, tvdb_matched);
 
     return false;
   }
@@ -397,6 +404,20 @@ public class TiVoCommunicatorPostgres {
     );
     if (!connection.hasMoreElements(resultSet)) {
       throw new RuntimeException("No episode row found pointing to existing TVDB_episode with ID " + tvdb_id);
+    }
+    return resultSet;
+  }
+
+  private ResultSet getExistingEpisodeRow(TiVoEpisodePostgres tiVoEpisodePostgres) {
+    Integer tivoEpisodeId = tiVoEpisodePostgres.id.getValue();
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
+        "SELECT * " +
+            "FROM episode " +
+            "WHERE tivo_episode_id = ?",
+        tivoEpisodeId
+    );
+    if (!connection.hasMoreElements(resultSet)) {
+      throw new RuntimeException("No episode row found pointing to existing tivo_episode with ID " + tivoEpisodeId);
     }
     return resultSet;
   }

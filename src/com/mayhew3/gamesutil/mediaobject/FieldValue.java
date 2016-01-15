@@ -45,7 +45,7 @@ public class FieldValue<T> {
   }
 
   public void changeValueFromString(String valueString) {
-    this.changedValue = getConversion(valueString);
+    changeValue(getConversion(valueString));
   }
 
   public String getFieldName() {
@@ -58,7 +58,10 @@ public class FieldValue<T> {
   }
 
   public void changeValue(T newValue) {
-    changedValue = newValue;
+    // todo: support null with associated type
+    if (newValue != null) {
+      changedValue = newValue;
+    }
   }
 
   public void discardChange() {
