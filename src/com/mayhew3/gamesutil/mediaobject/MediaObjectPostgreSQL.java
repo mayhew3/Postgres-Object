@@ -4,7 +4,6 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.mayhew3.gamesutil.games.PostgresConnection;
-import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.sun.javafx.beans.annotations.NonNull;
 
@@ -17,7 +16,6 @@ import java.util.List;
 public abstract class MediaObjectPostgreSQL {
 
   private enum EditMode {INSERT, UPDATE}
-  public enum SpecialTypes {NULL}
 
   private EditMode editMode;
   private Boolean initialized = false;
@@ -63,6 +61,15 @@ public abstract class MediaObjectPostgreSQL {
     return initialized;
   }
 
+  @NonNull
+  public Boolean isForInsert() {
+    return EditMode.INSERT.equals(editMode);
+  }
+
+  @NonNull
+  public Boolean isForUpdate() {
+    return EditMode.UPDATE.equals(editMode);
+  }
 
   private void initializeValue(FieldValue fieldValue, Object obj) {
     if (obj instanceof String) {
@@ -159,26 +166,6 @@ public abstract class MediaObjectPostgreSQL {
     connection.prepareAndExecuteStatementUpdate(sql, fieldValues);
   }
 
-  private void insertIntoDatabase(PostgresConnection connection, BasicDBObject updateObject) {
-    List<String> fieldNames = Lists.newArrayList();
-    List<String> questionMarks = Lists.newArrayList();
-    List<Object> fieldValues = Lists.newArrayList();
-
-    for (String fieldName : updateObject.keySet()) {
-      fieldNames.add("\"" + fieldName + "\"");
-      questionMarks.add("?");
-      fieldValues.add(updateObject.get(fieldName));
-    }
-
-    Joiner joiner = Joiner.on(", ");
-    String commaSeparatedNames = joiner.join(fieldNames);
-    String commaSeparatedQuestionMarks = joiner.join(questionMarks);
-
-    String sql = "INSERT INTO " + getTableName() + " (" + commaSeparatedNames + ") VALUES (" + commaSeparatedQuestionMarks + ")";
-
-    connection.prepareAndExecuteStatementUpdate(sql, fieldValues);
-  }
-
   private Integer insertIntoDatabaseAndGetID(PostgresConnection connection, BasicDBObject updateObject) {
     List<String> fieldNames = Lists.newArrayList();
     List<String> questionMarks = Lists.newArrayList();
@@ -218,41 +205,8 @@ public abstract class MediaObjectPostgreSQL {
     }
   }
 
-  public void markFieldsForUpgrade() {
-    for (FieldValue fieldValue : allFieldValues) {
-      if (fieldValue.shouldUpgradeText()) {
-        fieldValue.changeValue(fieldValue.getOriginalValue());
-      }
-    }
-  }
-
   protected abstract String getTableName();
 
-  public List<FieldValue> getAllFieldValues() {
-    return allFieldValues;
-  }
-
-  public FieldValue getMatchingField(FieldValue matchingValue) {
-    for (FieldValue fieldValue : allFieldValues) {
-      if (fieldValue.getFieldName().equals(matchingValue.getFieldName())) {
-        return fieldValue;
-      }
-    }
-    return null;
-  }
-
-
-  protected final FieldValue<BasicDBList> registerStringArrayField(String fieldName) {
-    FieldValue<BasicDBList> fieldStringArrayValue = new FieldValue<>(fieldName, new FieldConversionStringArray());
-    allFieldValues.add(fieldStringArrayValue);
-    return fieldStringArrayValue;
-  }
-
-  protected final FieldValueDBObjectArray registerIntegerDBObjectArrayField(String fieldName) {
-    FieldValueDBObjectArray fieldIntegerArrayValue = new FieldValueDBObjectArray(fieldName, new FieldConversionIntegerDBObjectArray());
-    allFieldValues.add(fieldIntegerArrayValue);
-    return fieldIntegerArrayValue;
-  }
 
   protected final FieldValueBoolean registerBooleanField(String fieldName) {
     FieldValueBoolean fieldBooleanValue = new FieldValueBoolean(fieldName, new FieldConversionBoolean());
@@ -262,12 +216,6 @@ public abstract class MediaObjectPostgreSQL {
 
   protected final FieldValueBoolean registerBooleanFieldAllowingNulls(String fieldName) {
     FieldValueBoolean fieldBooleanValue = new FieldValueBoolean(fieldName, new FieldConversionBoolean(), Boolean.TRUE);
-    allFieldValues.add(fieldBooleanValue);
-    return fieldBooleanValue;
-  }
-
-  protected final FieldValueDate registerDateField(String fieldName) {
-    FieldValueDate fieldBooleanValue = new FieldValueDate(fieldName, new FieldConversionDate());
     allFieldValues.add(fieldBooleanValue);
     return fieldBooleanValue;
   }
@@ -282,18 +230,6 @@ public abstract class MediaObjectPostgreSQL {
     FieldValueInteger fieldIntegerValue = new FieldValueInteger(fieldName, new FieldConversionInteger());
     allFieldValues.add(fieldIntegerValue);
     return fieldIntegerValue;
-  }
-
-  protected final FieldValueShort registerShortField(String fieldName) {
-    FieldValueShort fieldShortValue = new FieldValueShort(fieldName, new FieldConversionShort());
-    allFieldValues.add(fieldShortValue);
-    return fieldShortValue;
-  }
-
-  protected final FieldValue<Double> registerDoubleField(String fieldName) {
-    FieldValue<Double> fieldDoubleValue = new FieldValue<>(fieldName, new FieldConversionDouble());
-    allFieldValues.add(fieldDoubleValue);
-    return fieldDoubleValue;
   }
 
   protected final FieldValueBigDecimal registerBigDecimalField(String fieldName) {
