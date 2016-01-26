@@ -7,8 +7,9 @@ import org.junit.Test;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import static org.fest.assertions.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.fest.assertions.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class MediaObjectPostgreSQLTest {
 
@@ -93,6 +94,16 @@ public class MediaObjectPostgreSQLTest {
         .isEqualTo(INITIAL_ID);
   }
 
+
+  @Test
+  public void testSimpleInsert() {
+    PostgresConnection connection = mock(PostgresConnection.class);
+
+    mediaObject.initializeForInsert();
+    mediaObject.title.changeValue("Booty");
+
+    mediaObject.commit(connection);
+  }
 
   protected class MediaObjectMock extends MediaObjectPostgreSQL {
     public FieldValueString title = registerStringField("title");
