@@ -3,13 +3,20 @@ package com.mayhew3.gamesutil.mediaobject;
 import com.mayhew3.gamesutil.games.PostgresConnection;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import static org.fest.assertions.Assertions.assertThat;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.eq;
 
 public class MediaObjectPostgreSQLTest {
 
@@ -96,17 +103,67 @@ public class MediaObjectPostgreSQLTest {
 
 
   @Test
-  public void testSimpleInsert() {
+  public void testSimpleInsert() throws SQLException {
     PostgresConnection connection = mock(PostgresConnection.class);
+    PreparedStatement statement = prepareMockStatement(connection);
 
     mediaObject.initializeForInsert();
-    mediaObject.title.changeValue("Booty");
+
+    String newTitle = "Booty";
+    Integer newKernels = 46;
+    mediaObject.title.changeValue(newTitle);
+    mediaObject.kernels.changeValue(newKernels);
 
     mediaObject.commit(connection);
+
+    ArgumentCaptor<List> listArgumentCaptor = ArgumentCaptor.forClass(List.class);
+
+    verify(connection).getPreparedStatementWithReturnValue("INSERT INTO test (\"title\", \"kernels\") VALUES (?, ?)");
+    verify(connection).executePreparedUpdateWithParamsWithoutClose(eq(statement), listArgumentCaptor.capture());
+
+    assertThat(listArgumentCaptor.getValue())
+        .contains(newTitle)
+        .contains(newKernels)
+        .hasSize(2);
+
+    verify(statement).close();
+
+    assertThat(mediaObject.isForUpdate())
+        .isTrue();
+    assertThat(mediaObject.isForInsert())
+        .isFalse();
+  }
+
+  @Test
+  public void testSimpleUpdate() throws SQLException {
+    assertThat(true)
+        .isFalse();
+  }
+
+  @Test
+  public void testUpdateWithNoChangedFieldsDoesNoDBOperations() throws SQLException {
+    assertThat(true)
+        .isFalse();
+  }
+
+
+  
+  // utility methods
+
+  private PreparedStatement prepareMockStatement(PostgresConnection connection) throws SQLException {
+    PreparedStatement statement = mock(PreparedStatement.class);
+    ResultSet resultSet = mock(ResultSet.class);
+
+    when(connection.getPreparedStatementWithReturnValue(anyString())).thenReturn(statement);
+    when(statement.getGeneratedKeys()).thenReturn(resultSet);
+    when(resultSet.next()).thenReturn(true);
+    when(resultSet.getInt("id")).thenReturn(anyInt());
+    return statement;
   }
 
   protected class MediaObjectMock extends MediaObjectPostgreSQL {
     public FieldValueString title = registerStringField("title");
+    public FieldValueInteger kernels = registerIntegerField("kernels");
 
     @Override
     protected String getTableName() {
