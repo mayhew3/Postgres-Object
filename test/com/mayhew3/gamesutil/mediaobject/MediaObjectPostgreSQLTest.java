@@ -4,6 +4,8 @@ import com.mayhew3.gamesutil.games.PostgresConnection;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.MockitoAnnotations;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,20 +13,22 @@ import java.sql.SQLException;
 import java.util.List;
 
 import static org.fest.assertions.Assertions.assertThat;
+import static org.fest.assertions.Fail.fail;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.eq;
+import static org.mockito.Mockito.*;
 
 public class MediaObjectPostgreSQLTest {
 
   private MediaObjectMock mediaObject;
 
+  @Captor
+  ArgumentCaptor<List<Object>> listCaptor;
+
   @Before
   public void setUp() {
     mediaObject = new MediaObjectMock();
+    MockitoAnnotations.initMocks(this);
   }
 
   @Test
@@ -116,12 +120,10 @@ public class MediaObjectPostgreSQLTest {
 
     mediaObject.commit(connection);
 
-    ArgumentCaptor<List> listArgumentCaptor = ArgumentCaptor.forClass(List.class);
-
     verify(connection).getPreparedStatementWithReturnValue("INSERT INTO test (\"title\", \"kernels\") VALUES (?, ?)");
-    verify(connection).executePreparedUpdateWithParamsWithoutClose(eq(statement), listArgumentCaptor.capture());
+    verify(connection).executePreparedUpdateWithParamsWithoutClose(eq(statement), listCaptor.capture());
 
-    assertThat(listArgumentCaptor.getValue())
+    assertThat(listCaptor.getValue())
         .contains(newTitle)
         .contains(newKernels)
         .hasSize(2);
@@ -136,14 +138,12 @@ public class MediaObjectPostgreSQLTest {
 
   @Test
   public void testSimpleUpdate() throws SQLException {
-    assertThat(true)
-        .isFalse();
+    fail();
   }
 
   @Test
   public void testUpdateWithNoChangedFieldsDoesNoDBOperations() throws SQLException {
-    assertThat(true)
-        .isFalse();
+    fail();
   }
 
 
