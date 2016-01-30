@@ -112,9 +112,9 @@ public class PostgresConnection {
     return plugParamsIntoStatement(preparedStatement, params);
   }
 
-  public PreparedStatement prepareStatementWithFields(String sql, List<FieldValue> params) throws SQLException {
+  public PreparedStatement prepareStatementWithFields(String sql, List<FieldValue> fields) throws SQLException {
     PreparedStatement preparedStatement = _connection.prepareStatement(sql);
-    return plugFieldsIntoStatement(preparedStatement, params);
+    return plugFieldsIntoStatement(preparedStatement, fields);
   }
 
   public PreparedStatement getPreparedStatementWithReturnValue(String sql) throws SQLException {

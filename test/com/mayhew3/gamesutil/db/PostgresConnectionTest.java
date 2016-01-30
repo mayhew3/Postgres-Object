@@ -2,6 +2,7 @@ package com.mayhew3.gamesutil.db;
 
 import com.google.common.collect.Lists;
 import com.mayhew3.gamesutil.db.PostgresConnection;
+import com.mayhew3.gamesutil.mediaobject.FieldValue;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,6 +12,7 @@ import org.mockito.MockitoAnnotations;
 
 import java.math.BigDecimal;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.fest.assertions.Assertions.assertThat;
@@ -137,6 +139,45 @@ public class PostgresConnectionTest {
 
     verify(preparedStatement).executeQuery();
     verify(preparedStatement, never()).close();
+  }
+
+  @Test
+  public void testExecutePreparedUpdateWithFields() throws SQLException {
+    PreparedStatement preparedStatement = mock(PreparedStatement.class);
+
+    FieldValue firstField = mock(FieldValue.class);
+    FieldValue secondField = mock(FieldValue.class);
+
+    List<FieldValue> fields = Lists.newArrayList(firstField, secondField);
+
+    postgresConnection.executePreparedUpdateWithFields(preparedStatement, fields);
+
+    verify(firstField).updatePreparedStatement(preparedStatement, 1);
+    verify(secondField).updatePreparedStatement(preparedStatement, 2);
+
+    verify(preparedStatement).executeUpdate();
+    verify(preparedStatement, never()).close();
+  }
+
+  @Test
+  public void testPrepareAndExecuteStatementUpdateWithFields() throws SQLException {
+    PreparedStatement preparedStatement = mock(PreparedStatement.class);
+
+    String sql = "INSERT NOTHING";
+    when(connection.prepareStatement(sql)).thenReturn(preparedStatement);
+
+    FieldValue firstField = mock(FieldValue.class);
+    FieldValue secondField = mock(FieldValue.class);
+
+    List<FieldValue> fields = Lists.newArrayList(firstField, secondField);
+
+    postgresConnection.prepareAndExecuteStatementUpdateWithFields(sql, fields);
+
+    verify(firstField).updatePreparedStatement(preparedStatement, 1);
+    verify(secondField).updatePreparedStatement(preparedStatement, 2);
+
+    verify(preparedStatement).executeUpdate();
+    verify(preparedStatement).close();
   }
 
   @Test
