@@ -1,6 +1,7 @@
 package com.mayhew3.gamesutil.games;
 
 import com.google.common.collect.Maps;
+import com.mayhew3.gamesutil.db.PostgresConnection;
 import com.mayhew3.gamesutil.mediaobject.Game;
 import com.mayhew3.gamesutil.mediaobject.GameLog;
 import org.jsoup.Jsoup;

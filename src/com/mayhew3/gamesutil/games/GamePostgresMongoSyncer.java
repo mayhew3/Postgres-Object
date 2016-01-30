@@ -2,6 +2,7 @@ package com.mayhew3.gamesutil.games;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
+import com.mayhew3.gamesutil.db.PostgresConnection;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;

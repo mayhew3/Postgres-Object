@@ -1,6 +1,6 @@
 package com.mayhew3.gamesutil.tv;
 
-import com.mayhew3.gamesutil.games.PostgresConnection;
+import com.mayhew3.gamesutil.db.PostgresConnection;
 import com.mayhew3.gamesutil.mediaobject.*;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;

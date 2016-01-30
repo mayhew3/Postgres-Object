@@ -2,7 +2,7 @@ package com.mayhew3.gamesutil.tv;
 
 import com.google.common.collect.Lists;
 import com.mayhew3.gamesutil.SSLTool;
-import com.mayhew3.gamesutil.games.PostgresConnection;
+import com.mayhew3.gamesutil.db.PostgresConnection;
 import com.mayhew3.gamesutil.mediaobject.*;
 import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;

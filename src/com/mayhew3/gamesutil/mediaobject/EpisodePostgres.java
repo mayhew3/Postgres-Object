@@ -1,6 +1,6 @@
 package com.mayhew3.gamesutil.mediaobject;
 
-import com.mayhew3.gamesutil.games.PostgresConnection;
+import com.mayhew3.gamesutil.db.PostgresConnection;
 import com.sun.javafx.beans.annotations.NonNull;
 
 import java.sql.ResultSet;

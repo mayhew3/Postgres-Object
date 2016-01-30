@@ -1,6 +1,7 @@
 package com.mayhew3.gamesutil.games;
 
 import com.google.common.collect.Lists;
+import com.mayhew3.gamesutil.db.PostgresConnection;
 import com.mayhew3.gamesutil.mediaobject.Game;
 import org.openqa.selenium.chrome.ChromeDriver;
 

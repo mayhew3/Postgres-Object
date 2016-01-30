@@ -3,7 +3,7 @@ package com.mayhew3.gamesutil.mediaobject;
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
-import com.mayhew3.gamesutil.games.PostgresConnection;
+import com.mayhew3.gamesutil.db.PostgresConnection;
 import com.mongodb.BasicDBObject;
 import com.sun.javafx.beans.annotations.NonNull;
 

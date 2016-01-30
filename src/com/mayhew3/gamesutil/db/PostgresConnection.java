@@ -1,4 +1,4 @@
-package com.mayhew3.gamesutil.games;
+package com.mayhew3.gamesutil.db;
 
 import com.google.common.collect.Lists;
 import com.sun.istack.internal.NotNull;
