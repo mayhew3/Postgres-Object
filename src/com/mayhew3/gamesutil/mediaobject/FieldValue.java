@@ -66,6 +66,10 @@ public abstract class FieldValue<T> {
     }
   }
 
+  public void nullValue() {
+    changedValue = null;
+  }
+
   public void discardChange() {
     changedValue = originalValue;
   }
