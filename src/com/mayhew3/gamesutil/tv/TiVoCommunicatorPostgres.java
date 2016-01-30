@@ -149,7 +149,7 @@ public class TiVoCommunicatorPostgres {
             "WHERE deleted_date IS NULL"
     );
 
-    while (connection.hasMoreElements(resultSet)) {
+    while (resultSet.next()) {
       TiVoEpisodePostgres tiVoEpisodePostgres = new TiVoEpisodePostgres();
       tiVoEpisodePostgres.initializeFromDBObject(resultSet);
 
@@ -158,7 +158,7 @@ public class TiVoCommunicatorPostgres {
 
   }
 
-  private void deleteIfGone(TiVoEpisodePostgres episode) {
+  private void deleteIfGone(TiVoEpisodePostgres episode) throws SQLException {
     String programId = episode.programId.getValue();
 
     if (programId == null) {
@@ -259,7 +259,7 @@ public class TiVoCommunicatorPostgres {
 
     SeriesPostgres series = new SeriesPostgres();
 
-    if (!connection.hasMoreElements(resultSet)) {
+    if (!resultSet.next()) {
       addNewSeries(series, tivoInfo);
     } else {
       series.initializeFromDBObject(resultSet);
@@ -284,7 +284,7 @@ public class TiVoCommunicatorPostgres {
    */
   private Boolean addEpisodeIfNotExists(NodeList showDetails, SeriesPostgres series, TivoInfo tivoInfo, Boolean tvdbUpdated) throws SQLException {
     ResultSet existingEpisode = getExistingTiVoEpisodes(tivoInfo.programId);
-    Boolean tivoEpisodeExists = connection.hasMoreElements(existingEpisode);
+    Boolean tivoEpisodeExists = existingEpisode.next();
 
     if (tivoEpisodeExists && !lookAtAllShows) {
       return true;
@@ -398,7 +398,7 @@ public class TiVoCommunicatorPostgres {
     addedShows++;
   }
 
-  private ResultSet getExistingEpisodeRow(TVDBEpisodePostgres tvdbMatch) {
+  private ResultSet getExistingEpisodeRow(TVDBEpisodePostgres tvdbMatch) throws SQLException {
     Integer tvdb_id = tvdbMatch.id.getValue();
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
         "SELECT * " +
@@ -406,13 +406,13 @@ public class TiVoCommunicatorPostgres {
             "WHERE tvdb_episode_id = ?",
         tvdb_id
     );
-    if (!connection.hasMoreElements(resultSet)) {
+    if (!resultSet.next()) {
       throw new RuntimeException("No episode row found pointing to existing TVDB_episode with ID " + tvdb_id);
     }
     return resultSet;
   }
 
-  private ResultSet getExistingEpisodeRows(TiVoEpisodePostgres tiVoEpisodePostgres) {
+  private ResultSet getExistingEpisodeRows(TiVoEpisodePostgres tiVoEpisodePostgres) throws SQLException {
     Integer tivoEpisodeId = tiVoEpisodePostgres.id.getValue();
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
         "SELECT e.* " +
@@ -422,7 +422,7 @@ public class TiVoCommunicatorPostgres {
             "WHERE ete.tivo_episode_id = ?",
         tivoEpisodeId
     );
-    if (!connection.hasMoreElements(resultSet)) {
+    if (!resultSet.next()) {
       throw new RuntimeException("No episode row found pointing to existing tivo_episode with ID " + tivoEpisodeId);
     }
     return resultSet;
@@ -467,7 +467,7 @@ public class TiVoCommunicatorPostgres {
 
   }
 
-  private ResultSet getExistingTiVoEpisodes(String programId) {
+  private ResultSet getExistingTiVoEpisodes(String programId) throws SQLException {
     return connection.prepareAndExecuteStatementFetch("SELECT * FROM tivo_episode WHERE program_id = ?", programId);
   }
 
@@ -510,7 +510,7 @@ public class TiVoCommunicatorPostgres {
 
     List<TVDBEpisodePostgres> tvdbEpisodes = new ArrayList<>();
 
-    while(connection.hasMoreElements(resultSet)) {
+    while(resultSet.next()) {
       TVDBEpisodePostgres tvdbEpisode = new TVDBEpisodePostgres();
       tvdbEpisode.initializeFromDBObject(resultSet);
       tvdbEpisodes.add(tvdbEpisode);

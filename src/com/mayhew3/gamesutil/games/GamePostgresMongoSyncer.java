@@ -7,6 +7,7 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
@@ -17,7 +18,7 @@ public class GamePostgresMongoSyncer {
   private static MongoConnection mongoConnection;
   private static PostgresConnection postgresConnection;
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws SQLException {
 
     mongoConnection = new MongoConnection("games");
 
@@ -29,7 +30,7 @@ public class GamePostgresMongoSyncer {
 
   }
 
-  private static void eraseAndCopyGames() {
+  private static void eraseAndCopyGames() throws SQLException {
     postgresConnection.executeUpdate("TRUNCATE TABLE games");
     postgresConnection.executeUpdate("ALTER SEQUENCE games_id_seq RESTART WITH 1");
 
@@ -51,7 +52,7 @@ public class GamePostgresMongoSyncer {
 
   }
 
-  private static void eraseAndCopyGamelogs() {
+  private static void eraseAndCopyGamelogs() throws SQLException {
     postgresConnection.executeUpdate("TRUNCATE TABLE gamelogs");
     postgresConnection.executeUpdate("ALTER SEQUENCE gamelogs_id_seq RESTART WITH 1");
 
@@ -78,7 +79,7 @@ public class GamePostgresMongoSyncer {
     System.out.println(debugString);
   }
 
-  private static void translateRow(DBObject dbObject, PostgresConnection connection, String tableName) {
+  private static void translateRow(DBObject dbObject, PostgresConnection connection, String tableName) throws SQLException {
     List<String> fieldNames = Lists.newArrayList();
     List<Object> fieldValues = Lists.newArrayList();
     List<String> questionMarks = Lists.newArrayList();

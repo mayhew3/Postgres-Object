@@ -9,6 +9,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
@@ -25,11 +26,11 @@ public class SteamAttributeUpdater {
     this.driver = webDriver;
   }
 
-  public void runUpdater() throws GameFailedException {
+  public void runUpdater() throws GameFailedException, SQLException {
     parseSteamPage();
   }
 
-  private void parseSteamPage() throws GameFailedException {
+  private void parseSteamPage() throws GameFailedException, SQLException {
     Integer steamID = game.steamID.getValue();
 
     String url = "http://store.steampowered.com/app/" + steamID + "/";

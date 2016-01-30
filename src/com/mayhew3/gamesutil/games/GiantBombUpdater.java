@@ -55,7 +55,7 @@ public class GiantBombUpdater {
 //    String sql = "SELECT * FROM games WHERE giantbomb_id = 20238";
     ResultSet resultSet = connection.executeQuery(sql);
 
-    while (connection.hasMoreElements(resultSet)) {
+    while (resultSet.next()) {
       Game game = new Game();
       game.initializeFromDBObject(resultSet);
 
@@ -76,7 +76,7 @@ public class GiantBombUpdater {
   }
 
   @Nullable
-  private JSONObject findMatchIfPossible(Game game) throws IOException {
+  private JSONObject findMatchIfPossible(Game game) throws IOException, SQLException {
     Integer giantbomb_id = game.giantbomb_id.getValue();
     if (giantbomb_id != null) {
       return getSingleGameWithId(giantbomb_id);
@@ -98,7 +98,7 @@ public class GiantBombUpdater {
     return null;
   }
 
-  private void populateAlternatives(Game game, JSONArray originalResults) throws JSONException, IOException {
+  private void populateAlternatives(Game game, JSONArray originalResults) throws JSONException, IOException, SQLException {
     if (game.giantbomb_manual_guess.getValue() != null) {
       JSONArray guessResults = getResultsArray(game.giantbomb_manual_guess.getValue());
       populateBestGuess(game, guessResults);
@@ -107,7 +107,7 @@ public class GiantBombUpdater {
     }
   }
 
-  private void populateBestGuess(Game game, JSONArray lessRestrictive) {
+  private void populateBestGuess(Game game, JSONArray lessRestrictive) throws SQLException {
     JSONObject bestGuess = getNextInexactResult(lessRestrictive, game);
 
     if (bestGuess != null) {
@@ -131,7 +131,7 @@ public class GiantBombUpdater {
     return game.giantbomb_best_guess.getValue() != null && Boolean.TRUE.equals(game.giantbomb_guess_confirmed.getValue());
   }
 
-  private void updateMatch(Game game, @NotNull JSONObject match) {
+  private void updateMatch(Game game, @NotNull JSONObject match) throws SQLException {
     String title = game.title.getValue();
     debug("O) " + title + ": Match found.");
 
@@ -228,7 +228,7 @@ public class GiantBombUpdater {
     }
   }
 
-  private void logUpdateToPlaytime(String name, Integer steamID, BigDecimal previousPlaytime, BigDecimal updatedPlaytime) {
+  private void logUpdateToPlaytime(String name, Integer steamID, BigDecimal previousPlaytime, BigDecimal updatedPlaytime) throws SQLException {
     GameLog gameLog = new GameLog();
     gameLog.initializeForInsert();
 

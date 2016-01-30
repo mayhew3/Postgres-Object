@@ -21,7 +21,7 @@ public class SteamAttributeUpdateRunner {
     this.connection = connection;
   }
 
-  public static void main(String[] args) throws FileNotFoundException {
+  public static void main(String[] args) throws FileNotFoundException, SQLException {
     List<String> argList = Lists.newArrayList(args);
     Boolean logToFile = argList.contains("LogToFile");
     Boolean redo = false;
@@ -49,7 +49,7 @@ public class SteamAttributeUpdateRunner {
 
   }
 
-  public void runSteamAttributeUpdate() {
+  public void runSteamAttributeUpdate() throws SQLException {
     String sql = "SELECT * FROM games WHERE steamid is not null AND steam_attributes IS NULL AND steam_page_gone IS NULL";
     ResultSet resultSet = connection.executeQuery(sql);
 
@@ -57,7 +57,7 @@ public class SteamAttributeUpdateRunner {
 
     ChromeDriver chromeDriver = new ChromeDriver();
 
-    while (connection.hasMoreElements(resultSet)) {
+    while (resultSet.next()) {
       i++;
 
       Game game = new Game();

@@ -243,7 +243,7 @@ public class TVPostgresMigration {
     updateRetired(episodeMongo, episodePostgres);
   }
 
-  private void updateRetired(EpisodeMongo episodeMongo, EpisodePostgres episodePostgres) {
+  private void updateRetired(EpisodeMongo episodeMongo, EpisodePostgres episodePostgres) throws SQLException {
     if (episodeMongo.matchingStump.getValue()) {
       Integer id_after_insert = episodePostgres.id.getValue();
       if (id_after_insert == null) {
@@ -424,7 +424,7 @@ public class TVPostgresMigration {
     String sql = "SELECT * FROM series WHERE tivo_series_id = ?";
     ResultSet resultSet = postgresConnection.prepareAndExecuteStatementFetch(sql, tivoSeriesId);
 
-    if (postgresConnection.hasMoreElements(resultSet)) {
+    if (resultSet.next()) {
       if (devMode) {
         throw new RuntimeException("DEV MODE: Expect to never update. Found series already with existing TiVoSeriesID: " + tivoSeriesId);
       }
@@ -445,7 +445,7 @@ public class TVPostgresMigration {
     String sql = "SELECT * FROM series WHERE tvdb_id = ?";
     ResultSet resultSet = postgresConnection.prepareAndExecuteStatementFetch(sql, tvdbId);
 
-    if (postgresConnection.hasMoreElements(resultSet)) {
+    if (resultSet.next()) {
       if (devMode) {
         throw new RuntimeException("DEV MODE: Expect to never update. Found series already with existing TVDB ID: " + tvdbId);
       }
@@ -507,7 +507,7 @@ public class TVPostgresMigration {
     String sql = "SELECT * FROM tvdb_episode WHERE tvdb_id = ?";
     ResultSet resultSet = postgresConnection.prepareAndExecuteStatementFetch(sql, tvdbEpisodeId);
 
-    if (postgresConnection.hasMoreElements(resultSet)) {
+    if (resultSet.next()) {
       if (devMode) {
         throw new RuntimeException("DEV MODE: Expect to never update. Found tvdb_episode already with existing TVDB ID: " + tvdbEpisodeId);
       }
@@ -528,7 +528,7 @@ public class TVPostgresMigration {
     String sql = "SELECT * FROM tvdb_series WHERE tvdb_id = ?";
     ResultSet resultSet = postgresConnection.prepareAndExecuteStatementFetch(sql, tvdbId);
 
-    if (postgresConnection.hasMoreElements(resultSet)) {
+    if (resultSet.next()) {
       tvdbSeriesPostgres.initializeFromDBObject(resultSet);
     } else {
       tvdbSeriesPostgres.initializeForInsert();

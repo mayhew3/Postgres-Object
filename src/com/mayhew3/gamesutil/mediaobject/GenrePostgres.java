@@ -29,7 +29,7 @@ public class GenrePostgres extends MediaObjectPostgreSQL {
         "SELECT * FROM genre WHERE " + genrePostgres.genreName.getFieldName() + " = ?",
         genreName);
 
-    if (connection.hasMoreElements(resultSet)) {
+    if (resultSet.next()) {
       genrePostgres.initializeFromDBObject(resultSet);
     } else {
       genrePostgres.initializeForInsert();

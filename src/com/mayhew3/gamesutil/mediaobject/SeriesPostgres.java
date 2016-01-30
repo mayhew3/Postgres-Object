@@ -87,7 +87,7 @@ public class SeriesPostgres extends MediaObjectPostgreSQL {
         id.getValue(),
         genrePostgres.id.getValue());
 
-    if (!connection.hasMoreElements(resultSet)) {
+    if (!resultSet.next()) {
       SeriesGenrePostgres seriesGenrePostgres = new SeriesGenrePostgres();
       seriesGenrePostgres.initializeForInsert();
 
@@ -122,7 +122,7 @@ public class SeriesPostgres extends MediaObjectPostgreSQL {
         id.getValue(),
         viewingLocationPostgres.id.getValue());
 
-    if (!connection.hasMoreElements(resultSet)) {
+    if (!resultSet.next()) {
       seriesViewingLocationPostgres.initializeForInsert();
 
       seriesViewingLocationPostgres.seriesId.changeValue(id.getValue());
@@ -147,7 +147,7 @@ public class SeriesPostgres extends MediaObjectPostgreSQL {
             "AND " + seasonPostgres.seasonNumber.getFieldName() + " = ?",
         id.getValue(),
         seasonNumber);
-    if (connection.hasMoreElements(resultSet)) {
+    if (resultSet.next()) {
       seasonPostgres.initializeFromDBObject(resultSet);
     } else {
       seasonPostgres.initializeForInsert();

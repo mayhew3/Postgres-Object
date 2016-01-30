@@ -17,7 +17,7 @@ public class MetacriticGameUpdateRunner {
 
   private static PostgresConnection connection;
 
-  public static void main(String[] args) throws FileNotFoundException {
+  public static void main(String[] args) throws FileNotFoundException, SQLException {
     List<String> argList = Lists.newArrayList(args);
     Boolean allGames = argList.contains("AllGames");
     Boolean logToFile = argList.contains("LogToFile");
@@ -36,11 +36,11 @@ public class MetacriticGameUpdateRunner {
     updateRunner.runUpdate(allGames);
   }
 
-  public void runUpdate(Boolean allGames) {
+  public void runUpdate(Boolean allGames) throws SQLException {
     updateGames(allGames);
   }
 
-  private void updateGames(Boolean allGames) {
+  private void updateGames(Boolean allGames) throws SQLException {
     String sql = "SELECT * FROM games";
     if (!allGames) {
       sql += " WHERE metacritic_matched IS NULL";
@@ -50,7 +50,7 @@ public class MetacriticGameUpdateRunner {
     int i = 1;
     int failures = 0;
 
-    while (connection.hasMoreElements(resultSet)) {
+    while (resultSet.next()) {
       Game game = new Game();
       try {
         game.initializeFromDBObject(resultSet);

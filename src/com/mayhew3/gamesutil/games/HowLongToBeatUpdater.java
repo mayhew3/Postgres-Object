@@ -11,6 +11,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
@@ -30,11 +31,11 @@ public class HowLongToBeatUpdater {
     this.driver = webDriver;
   }
 
-  public void runUpdater() throws GameFailedException {
+  public void runUpdater() throws GameFailedException, SQLException {
     parseSteamPage();
   }
 
-  private void parseSteamPage() throws GameFailedException {
+  private void parseSteamPage() throws GameFailedException, SQLException {
     String title = game.title.getValue();
     Integer howlong_id = game.howlong_id.getValue();
 
@@ -136,7 +137,7 @@ public class HowLongToBeatUpdater {
   }
 
   @NotNull
-  private String findGame(String title) throws GameFailedException {
+  private String findGame(String title) throws GameFailedException, SQLException {
     String currentUrl = goToGameUrlFromSearch(title);
 
     if (currentUrl == null) {

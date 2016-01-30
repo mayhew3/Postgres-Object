@@ -80,7 +80,7 @@ public abstract class MediaObjectPostgreSQL {
     }
   }
 
-  public void commit(PostgresConnection connection) {
+  public void commit(PostgresConnection connection) throws SQLException {
     if (editMode == EditMode.UPDATE) {
       update(connection);
     } else if (editMode == EditMode.INSERT) {
@@ -90,7 +90,7 @@ public abstract class MediaObjectPostgreSQL {
     }
   }
 
-  private void insert(PostgresConnection connection) {
+  private void insert(PostgresConnection connection) throws SQLException {
     BasicDBObject insertObject = new BasicDBObject();
 
     List<FieldValue> changedFields = new ArrayList<>();
@@ -116,7 +116,7 @@ public abstract class MediaObjectPostgreSQL {
     changeToUpdateObject();
   }
 
-  private void update(PostgresConnection db) {
+  private void update(PostgresConnection db) throws SQLException {
     if (id == null) {
       throw new RuntimeException("Cannot update object with no id field.");
     }
@@ -147,7 +147,7 @@ public abstract class MediaObjectPostgreSQL {
     }
   }
 
-  private void updateDatabase(PostgresConnection connection, BasicDBObject updateObject) {
+  private void updateDatabase(PostgresConnection connection, BasicDBObject updateObject) throws SQLException {
     List<String> fieldNames = Lists.newArrayList();
     List<Object> fieldValues = Lists.newArrayList();
 
@@ -166,7 +166,7 @@ public abstract class MediaObjectPostgreSQL {
     connection.prepareAndExecuteStatementUpdate(sql, fieldValues);
   }
 
-  private Integer insertIntoDatabaseAndGetID(PostgresConnection connection, BasicDBObject updateObject) {
+  private Integer insertIntoDatabaseAndGetID(PostgresConnection connection, BasicDBObject updateObject) throws SQLException {
     List<String> fieldNames = Lists.newArrayList();
     List<String> questionMarks = Lists.newArrayList();
     List<Object> fieldValues = Lists.newArrayList();

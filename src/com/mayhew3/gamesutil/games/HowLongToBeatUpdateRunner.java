@@ -24,7 +24,7 @@ public class HowLongToBeatUpdateRunner {
     this.connection = connection;
   }
 
-  public static void main(String[] args) throws FileNotFoundException {
+  public static void main(String[] args) throws FileNotFoundException, SQLException {
     List<String> argList = Lists.newArrayList(args);
     Boolean logToFile = argList.contains("LogToFile");
 
@@ -44,7 +44,7 @@ public class HowLongToBeatUpdateRunner {
 
   }
 
-  public void runUpdate() {
+  public void runUpdate() throws SQLException {
     String sql = "SELECT * FROM games WHERE howlong_updated IS NULL AND howlong_failed IS NULL";
     ResultSet resultSet = connection.executeQuery(sql);
 
@@ -53,7 +53,7 @@ public class HowLongToBeatUpdateRunner {
 
     ChromeDriver chromeDriver = new ChromeDriver();
 
-    while (connection.hasMoreElements(resultSet)) {
+    while (resultSet.next()) {
       Game game = new Game();
       try {
         game.initializeFromDBObject(resultSet);
@@ -87,7 +87,7 @@ public class HowLongToBeatUpdateRunner {
     chromeDriver.close();
   }
 
-  private void logFailure(Game game) {
+  private void logFailure(Game game) throws SQLException {
     game.howlong_failed.changeValue(new Timestamp(new Date().getTime()));
     game.commit(connection);
   }

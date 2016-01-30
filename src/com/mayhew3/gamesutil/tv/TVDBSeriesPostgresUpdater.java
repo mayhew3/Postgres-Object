@@ -80,7 +80,7 @@ public class TVDBSeriesPostgresUpdater {
     }
   }
 
-  private void removeTVDBOnlyEpisodes(Integer seriesId) {
+  private void removeTVDBOnlyEpisodes(Integer seriesId) throws SQLException {
 
     connection.prepareAndExecuteStatementUpdate(
         "UPDATE tvdb_episode " +
@@ -102,7 +102,7 @@ public class TVDBSeriesPostgresUpdater {
 
   }
 
-  private void clearTVDBIds(Integer seriesId) {
+  private void clearTVDBIds(Integer seriesId) throws SQLException {
 
     connection.prepareAndExecuteStatementUpdate(
         "UPDATE episode " +
@@ -125,7 +125,7 @@ public class TVDBSeriesPostgresUpdater {
     return null;
   }
 
-  private Integer getTVDBID(SeriesPostgres series, DBObject errorLog, Boolean matchedWrong) {
+  private Integer getTVDBID(SeriesPostgres series, DBObject errorLog, Boolean matchedWrong) throws SQLException {
     String seriesTitle = series.seriesTitle.getValue();
     String tivoId = series.tivoSeriesId.getValue();
     String tvdbHint = series.tvdbHint.getValue();
@@ -199,7 +199,7 @@ public class TVDBSeriesPostgresUpdater {
     return Integer.parseInt(getValueOfSimpleStringNode(firstSeries, "id"));
   }
 
-  private void attachPossibleSeries(SeriesPostgres series, List<Node> seriesNodes) {
+  private void attachPossibleSeries(SeriesPostgres series, List<Node> seriesNodes) throws SQLException {
     int possibleSeries = Math.min(5, seriesNodes.size());
     for (int i = 0; i < possibleSeries; i++) {
       NodeList seriesNode = seriesNodes.get(i).getChildNodes();
@@ -240,7 +240,7 @@ public class TVDBSeriesPostgresUpdater {
     return errorLog != null && Boolean.TRUE.equals(errorLog.get("IgnoreError"));
   }
 
-  private void updateSeriesTitle(String tivoId, String seriesTitle, DBObject errorLog) {
+  private void updateSeriesTitle(String tivoId, String seriesTitle, DBObject errorLog) throws SQLException {
     String chosenName = (String) errorLog.get("ChosenName");
 
     if (!seriesTitle.equalsIgnoreCase(chosenName)) {
@@ -254,7 +254,7 @@ public class TVDBSeriesPostgresUpdater {
     }
   }
 
-  private void markSeriesToIgnore(SeriesPostgres series) {
+  private void markSeriesToIgnore(SeriesPostgres series) throws SQLException {
     series.ignoreTVDB.changeValue(true);
     series.commit(connection);
   }
@@ -311,7 +311,7 @@ public class TVDBSeriesPostgresUpdater {
     ResultSet existingTVDBSeries = findExistingTVDBSeries(tvdbID);
 
     TVDBSeriesPostgres tvdbSeries = new TVDBSeriesPostgres();
-    if (connection.hasMoreElements(existingTVDBSeries)) {
+    if (existingTVDBSeries.next()) {
       tvdbSeries.initializeFromDBObject(existingTVDBSeries);
     } else {
       tvdbSeries.initializeForInsert();
@@ -364,7 +364,7 @@ public class TVDBSeriesPostgresUpdater {
       TVDBEpisodePostgres tvdbEpisode = new TVDBEpisodePostgres();
       EpisodePostgres episode = new EpisodePostgres();
 
-      if (!connection.hasMoreElements(existingTVDBRow)) {
+      if (!existingTVDBRow.next()) {
         tvdbEpisode.initializeForInsert();
 
         // todo: Optimization: skip looking for match when firstAired is future. Obviously it's not on the TiVo yet.
@@ -454,7 +454,7 @@ public class TVDBSeriesPostgresUpdater {
 
   }
 
-  private ResultSet findExistingTVDBSeries(Integer tvdbRemoteId) {
+  private ResultSet findExistingTVDBSeries(Integer tvdbRemoteId) throws SQLException {
     return connection.prepareAndExecuteStatementFetch(
         "SELECT * " +
             "FROM tvdb_series " +
@@ -463,7 +463,7 @@ public class TVDBSeriesPostgresUpdater {
     );
   }
 
-  private ResultSet findExistingTVDBEpisode(Integer tvdbRemoteId) {
+  private ResultSet findExistingTVDBEpisode(Integer tvdbRemoteId) throws SQLException {
     return connection.prepareAndExecuteStatementFetch(
         "SELECT * " +
             "FROM tvdb_episode " +
@@ -481,7 +481,7 @@ public class TVDBSeriesPostgresUpdater {
             "WHERE ete.tivo_episode_id = ?",
         tivoEpisodeID
     );
-    if (!connection.hasMoreElements(resultSet)) {
+    if (!resultSet.next()) {
       throw new RuntimeException("No row in episode matching tivo_episode_id " + tivoEpisodeID);
     }
 
@@ -495,7 +495,7 @@ public class TVDBSeriesPostgresUpdater {
             "WHERE tvdb_episode_id = ?",
         tvdbEpisodeID
     );
-    if (!connection.hasMoreElements(resultSet)) {
+    if (!resultSet.next()) {
       throw new RuntimeException("No row in episode matching tvdb_episode_id " + tvdbEpisodeID);
     }
 
@@ -536,7 +536,7 @@ public class TVDBSeriesPostgresUpdater {
 
     List<TiVoEpisodePostgres> episodes = new ArrayList<>();
 
-    while(connection.hasMoreElements(resultSet)) {
+    while(resultSet.next()) {
       TiVoEpisodePostgres episode = new TiVoEpisodePostgres();
       episode.initializeFromDBObject(resultSet);
       episodes.add(episode);

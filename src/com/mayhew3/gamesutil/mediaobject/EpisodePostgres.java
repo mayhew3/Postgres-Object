@@ -81,7 +81,7 @@ public class EpisodePostgres extends MediaObjectPostgreSQL {
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, id.getValue());
     List<TiVoEpisodePostgres> tiVoEpisodePostgresList = new ArrayList<>();
 
-    while (connection.hasMoreElements(resultSet)) {
+    while (resultSet.next()) {
       TiVoEpisodePostgres tiVoEpisodePostgres = new TiVoEpisodePostgres();
       tiVoEpisodePostgres.initializeFromDBObject(resultSet);
 

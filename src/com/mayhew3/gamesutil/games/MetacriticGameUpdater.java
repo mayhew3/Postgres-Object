@@ -12,6 +12,7 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Map;
@@ -26,11 +27,11 @@ public class MetacriticGameUpdater {
     this.connection = connection;
   }
 
-  public void runUpdater() throws GameFailedException {
+  public void runUpdater() throws GameFailedException, SQLException {
     parseMetacritic();
   }
 
-  private void parseMetacritic() throws GameFailedException {
+  private void parseMetacritic() throws GameFailedException, SQLException {
     String title = game.title.getValue();
     String hint = game.metacriticHint.getValue();
     String platform = game.platform.getValue();

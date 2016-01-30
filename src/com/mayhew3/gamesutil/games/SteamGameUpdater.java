@@ -94,11 +94,11 @@ public class SteamGameUpdater extends DatabaseUtility {
 
     ResultSet resultSet = connection.executeQuery("SELECT * FROM games WHERE steamid is not null AND owned = 'owned'");
 
-    while (connection.hasMoreElements(resultSet)) {
-      Integer steamid = connection.getInt(resultSet, "steamid");
+    while (resultSet.next()) {
+      Integer steamid = resultSet.getInt("steamid");
 
       if (!jsonSteamIDs.contains(steamid)) {
-        debug(connection.getString(resultSet, "title") + ": no longer found!");
+        debug(resultSet.getString("title") + ": no longer found!");
 
         Game game = new Game();
         game.initializeFromDBObject(resultSet);
@@ -129,7 +129,7 @@ public class SteamGameUpdater extends DatabaseUtility {
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch("SELECT * FROM games WHERE steamid = ?", steamID);
 
     Game game = new Game();
-    if (connection.hasMoreElements(resultSet)) {
+    if (resultSet.next()) {
       game.initializeFromDBObject(resultSet);
       updateGame(name, steamID, playtime, icon, logo, game);
     } else {
@@ -138,12 +138,12 @@ public class SteamGameUpdater extends DatabaseUtility {
       unfoundGames.put(steamID, name);
     }
 
-    if (connection.hasMoreElements(resultSet)) {
+    if (resultSet.next()) {
       duplicateGames.add(name + "(" + steamID + ")");
     }
   }
 
-  private static void updateGame(String name, Integer steamID, BigDecimal playtime, String icon, String logo, Game game) {
+  private static void updateGame(String name, Integer steamID, BigDecimal playtime, String icon, String logo, Game game) throws SQLException {
     game.logo.changeValue(logo);
     game.icon.changeValue(icon);
     game.title.changeValue(name);
@@ -159,7 +159,7 @@ public class SteamGameUpdater extends DatabaseUtility {
     game.commit(connection);
   }
 
-  private static void addNewGame(String name, Integer steamID, BigDecimal playtime, String icon, String logo, Game game) {
+  private static void addNewGame(String name, Integer steamID, BigDecimal playtime, String icon, String logo, Game game) throws SQLException {
     if (playtime.compareTo(BigDecimal.ZERO) > 0) {
       logUpdateToPlaytime(name, steamID, BigDecimal.ZERO, playtime);
     }
@@ -180,7 +180,7 @@ public class SteamGameUpdater extends DatabaseUtility {
     game.commit(connection);
   }
 
-  private static void logUpdateToPlaytime(String name, Integer steamID, BigDecimal previousPlaytime, BigDecimal updatedPlaytime) {
+  private static void logUpdateToPlaytime(String name, Integer steamID, BigDecimal previousPlaytime, BigDecimal updatedPlaytime) throws SQLException {
     GameLog gameLog = new GameLog();
     gameLog.initializeForInsert();
 

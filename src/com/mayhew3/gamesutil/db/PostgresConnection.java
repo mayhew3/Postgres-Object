@@ -23,6 +23,10 @@ public class PostgresConnection {
     }
   }
 
+  public PostgresConnection(Connection connection) {
+    _connection = connection;
+  }
+
 
   private Connection createConnection() throws URISyntaxException, SQLException {
     String postgresURL = System.getenv("postgresURL");
@@ -50,52 +54,17 @@ public class PostgresConnection {
   }
 
   @NotNull
-  public ResultSet executeQuery(String sql) {
-    try {
-      Statement statement = _connection.createStatement();
-      return statement.executeQuery(sql);
-    } catch (SQLException e) {
-      System.out.println("Error running SQL select: " + sql);
-      e.printStackTrace();
-      System.exit(-1);
-    }
-    return null;
+  public ResultSet executeQuery(String sql) throws SQLException {
+    Statement statement = _connection.createStatement();
+    return statement.executeQuery(sql);
   }
 
   @NotNull
-  public Statement executeUpdate(String sql) {
-    try {
-      Statement statement = _connection.createStatement();
+  public Statement executeUpdate(String sql) throws SQLException {
+    Statement statement = _connection.createStatement();
 
-      statement.executeUpdate(sql);
-      return statement;
-    } catch (SQLException e) {
-      throw new IllegalStateException("Error running SQL select: " + sql);
-    }
-  }
-
-  public boolean hasMoreElements(ResultSet resultSet) {
-    try {
-      return resultSet.next();
-    } catch (SQLException e) {
-      throw new IllegalStateException("Error fetching next row from result set.");
-    }
-  }
-
-  public int getInt(ResultSet resultSet, String columnName) {
-    try {
-      return resultSet.getInt(columnName);
-    } catch (SQLException e) {
-      throw new RuntimeException("Error trying to get integer column " + columnName + ": " + e.getLocalizedMessage());
-    }
-  }
-
-  public String getString(ResultSet resultSet, String columnName) {
-    try {
-      return resultSet.getString(columnName);
-    } catch (SQLException e) {
-      throw new IllegalStateException("Error trying to get string column " + columnName);
-    }
+    statement.executeUpdate(sql);
+    return statement;
   }
 
   public boolean columnExists(String tableName, String columnName) {
@@ -107,100 +76,51 @@ public class PostgresConnection {
     }
   }
 
-  public ResultSet prepareAndExecuteStatementFetch(String sql, Object... params) {
+  public ResultSet prepareAndExecuteStatementFetch(String sql, Object... params) throws SQLException {
     return prepareAndExecuteStatementFetch(sql, Lists.newArrayList(params));
   }
 
-  public ResultSet prepareAndExecuteStatementFetch(String sql, List<Object> params) {
-    PreparedStatement preparedStatement = prepareStatement(sql, params);
-    try {
-      return preparedStatement.executeQuery();
-    } catch (SQLException e) {
-      throw new RuntimeException("Error executing prepared statement for SQL: " + sql + ": " + e.getLocalizedMessage());
-    }
-  }
-
-  public ResultSet prepareAndExecuteStatementFetchWithException(String sql, List<Object> params) throws SQLException {
+  public ResultSet prepareAndExecuteStatementFetch(String sql, List<Object> params) throws SQLException {
     PreparedStatement preparedStatement = prepareStatement(sql, params);
     return preparedStatement.executeQuery();
   }
 
-  public void prepareAndExecuteStatementUpdate(String sql, Object... params) {
-    try {
-      PreparedStatement preparedStatement = prepareStatement(sql, Lists.newArrayList(params));
+  public void prepareAndExecuteStatementUpdate(String sql, Object... params) throws SQLException {
+    PreparedStatement preparedStatement = prepareStatement(sql, Lists.newArrayList(params));
 
-      preparedStatement.executeUpdate();
-      preparedStatement.close();
-    } catch (SQLException e) {
-      throw new RuntimeException("Error preparing statement for SQL: " + sql + ": " + e.getLocalizedMessage());
-    }
+    preparedStatement.executeUpdate();
+    preparedStatement.close();
   }
 
-  public void prepareAndExecuteStatementUpdate(String sql, List<Object> params) {
-    try {
-      PreparedStatement preparedStatement = prepareStatement(sql, params);
+  public void prepareAndExecuteStatementUpdate(String sql, List<Object> params) throws SQLException {
+    PreparedStatement preparedStatement = prepareStatement(sql, params);
 
-      preparedStatement.executeUpdate();
-      preparedStatement.close();
-    } catch (SQLException e) {
-      throw new RuntimeException("Error preparing and executing statement for SQL: " + sql + ": " + e.getLocalizedMessage());
-    }
+    preparedStatement.executeUpdate();
+    preparedStatement.close();
   }
 
-  public PreparedStatement prepareStatement(String sql, List<Object> params) {
-    PreparedStatement preparedStatement = getPreparedStatement(sql);
-    try {
-      return plugParamsIntoStatement(preparedStatement, params);
-    } catch (SQLException e) {
-      throw new RuntimeException("Error adding parameters to prepared statement for SQL: " + sql + ": " + e.getLocalizedMessage());
-    }
+  public PreparedStatement prepareStatement(String sql, List<Object> params) throws SQLException {
+    PreparedStatement preparedStatement = _connection.prepareStatement(sql);
+    return plugParamsIntoStatement(preparedStatement, params);
   }
 
-  public PreparedStatement getPreparedStatement(String sql) {
-    try {
-      return _connection.prepareStatement(sql);
-    } catch (SQLException e) {
-      throw new RuntimeException("Error preparing statement for SQL: " + sql + ": " + e.getLocalizedMessage());
-    }
+  public PreparedStatement getPreparedStatementWithReturnValue(String sql) throws SQLException {
+    return _connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
   }
 
-  public PreparedStatement getPreparedStatementWithReturnValue(String sql) {
-    try {
-      return _connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-    } catch (SQLException e) {
-      throw new RuntimeException("Error preparing statement for SQL: " + sql + ": " + e.getLocalizedMessage());
-    }
-  }
-
-  public ResultSet executePreparedStatementAlreadyHavingParameters(PreparedStatement preparedStatement) {
-    try {
-      return preparedStatement.executeQuery();
-    } catch (SQLException e) {
-      throw new RuntimeException("Error executing prepared statement. " + e.getLocalizedMessage());
-    }
-  }
-
-  public ResultSet executePreparedStatementWithParams(PreparedStatement preparedStatement, Object... params) {
+  public ResultSet executePreparedStatementWithParams(PreparedStatement preparedStatement, Object... params) throws SQLException {
     List<Object> paramList = Lists.newArrayList(params);
     return executePreparedStatementWithParams(preparedStatement, paramList);
   }
 
-  public ResultSet executePreparedStatementWithParams(PreparedStatement preparedStatement, List<Object> params) {
-    try {
-      PreparedStatement statementWithParams = plugParamsIntoStatement(preparedStatement, params);
-      return statementWithParams.executeQuery();
-    } catch (SQLException e) {
-      throw new RuntimeException("Error executing prepared statement with params: " + params + ": " + e.getLocalizedMessage());
-    }
+  public ResultSet executePreparedStatementWithParams(PreparedStatement preparedStatement, List<Object> params) throws SQLException {
+    PreparedStatement statementWithParams = plugParamsIntoStatement(preparedStatement, params);
+    return statementWithParams.executeQuery();
   }
 
-  public void executePreparedUpdateWithParamsWithoutClose(PreparedStatement preparedStatement, List<Object> paramList) {
-    try {
-      PreparedStatement statementWithParams = plugParamsIntoStatement(preparedStatement, paramList);
-      statementWithParams.executeUpdate();
-    } catch (SQLException e) {
-      throw new RuntimeException("Error executing prepared statement with params: " + paramList + ": " + e.getLocalizedMessage());
-    }
+  public void executePreparedUpdateWithParamsWithoutClose(PreparedStatement preparedStatement, List<Object> paramList) throws SQLException {
+    PreparedStatement statementWithParams = plugParamsIntoStatement(preparedStatement, paramList);
+    statementWithParams.executeUpdate();
   }
 
   private PreparedStatement plugParamsIntoStatement(PreparedStatement preparedStatement, List<Object> params) throws SQLException {
@@ -226,21 +146,4 @@ public class PostgresConnection {
     return preparedStatement;
   }
 
-  protected void setString(PreparedStatement preparedStatement, int index, String value) {
-    try {
-      preparedStatement.setString(index, value);
-    } catch (SQLException e) {
-      throw new RuntimeException("Error binding parameter " + index + " on statement to value " + value + ": " + e.getLocalizedMessage());
-    }
-  }
-
-  public boolean hasConnection() {
-    boolean isOpen;
-    try {
-      isOpen = _connection != null && !_connection.isClosed();
-    } catch (SQLException e) {
-      return false;
-    }
-    return isOpen;
-  }
 }

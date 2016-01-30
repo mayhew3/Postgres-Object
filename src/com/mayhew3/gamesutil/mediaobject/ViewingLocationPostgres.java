@@ -31,7 +31,7 @@ public class ViewingLocationPostgres extends MediaObjectPostgreSQL {
             "WHERE " + viewingLocationPostgres.viewingLocationName.getFieldName() + " = ?",
         viewingLocationName);
 
-    if (connection.hasMoreElements(resultSet)) {
+    if (resultSet.next()) {
       viewingLocationPostgres.initializeFromDBObject(resultSet);
     } else {
       viewingLocationPostgres.initializeForInsert();
