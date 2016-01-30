@@ -1,5 +1,6 @@
 package com.mayhew3.gamesutil.mediaobject;
 
+import com.google.common.collect.Lists;
 import com.mayhew3.gamesutil.games.PostgresConnection;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,8 +14,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 import static org.fest.assertions.Assertions.assertThat;
-import static org.fest.assertions.Fail.fail;
-import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 
@@ -24,6 +23,10 @@ public class MediaObjectPostgreSQLTest {
 
   @Captor
   ArgumentCaptor<List<Object>> listCaptor;
+
+  private static final Integer initial_id = 2;
+  private static final String initial_title = "Taco Night!";
+  private static final Integer initial_kernels = 42;
 
   @Before
   public void setUp() {
@@ -86,12 +89,8 @@ public class MediaObjectPostgreSQLTest {
 
   @Test
   public void testInitializeFromDBObject() throws SQLException {
-    Integer INITIAL_ID = 2;
 
-    ResultSet resultSet = mock(ResultSet.class);
-
-    when(resultSet.wasNull()).thenReturn(false);
-    when(resultSet.getInt("id")).thenReturn(INITIAL_ID);
+    ResultSet resultSet = mockDBRow();
 
     mediaObject.initializeFromDBObject(resultSet);
 
@@ -102,7 +101,11 @@ public class MediaObjectPostgreSQLTest {
     assertThat(mediaObject.isForInsert())
         .isFalse();
     assertThat(mediaObject.id.getValue())
-        .isEqualTo(INITIAL_ID);
+        .isEqualTo(initial_id);
+    assertThat(mediaObject.title.getValue())
+        .isEqualTo(initial_title);
+    assertThat(mediaObject.kernels.getValue())
+        .isEqualTo(initial_kernels);
   }
 
 
@@ -138,12 +141,48 @@ public class MediaObjectPostgreSQLTest {
 
   @Test
   public void testSimpleUpdate() throws SQLException {
-    fail();
+    PostgresConnection connection = mock(PostgresConnection.class);
+
+    ResultSet resultSet = mockDBRow();
+
+    mediaObject.initializeFromDBObject(resultSet);
+
+    String newTitle = "Booty plz";
+    Integer newKernels = 113;
+    mediaObject.title.changeValue(newTitle);
+    mediaObject.kernels.changeValue(newKernels);
+
+    mediaObject.commit(connection);
+
+    verify(connection).prepareAndExecuteStatementUpdate(eq("UPDATE test SET \"title\" = ?, \"kernels\" = ? WHERE ID = ?"), listCaptor.capture());
+
+    List<Object> actual = listCaptor.getValue();
+    List<Object> expected = Lists.newArrayList((Object) newTitle, newKernels, initial_id);
+
+    assertThat(actual)
+        .isEqualTo(expected);
+
+    assertThat(mediaObject.isForUpdate())
+        .isTrue();
+    assertThat(mediaObject.isForInsert())
+        .isFalse();
   }
 
   @Test
   public void testUpdateWithNoChangedFieldsDoesNoDBOperations() throws SQLException {
-    fail();
+    PostgresConnection connection = mock(PostgresConnection.class);
+
+    ResultSet resultSet = mockDBRow();
+
+    mediaObject.initializeFromDBObject(resultSet);
+    mediaObject.commit(connection);
+
+    verifyNoMoreInteractions(connection);
+
+    assertThat(mediaObject.isForUpdate())
+        .isTrue();
+    assertThat(mediaObject.isForInsert())
+        .isFalse();
   }
 
 
@@ -157,8 +196,18 @@ public class MediaObjectPostgreSQLTest {
     when(connection.getPreparedStatementWithReturnValue(anyString())).thenReturn(statement);
     when(statement.getGeneratedKeys()).thenReturn(resultSet);
     when(resultSet.next()).thenReturn(true);
-    when(resultSet.getInt("id")).thenReturn(anyInt());
+    when(resultSet.getInt("id")).thenReturn(initial_id);
     return statement;
+  }
+
+  private ResultSet mockDBRow() throws SQLException {
+    ResultSet resultSet = mock(ResultSet.class);
+
+    when(resultSet.wasNull()).thenReturn(false);
+    when(resultSet.getInt("id")).thenReturn(initial_id);
+    when(resultSet.getObject("title")).thenReturn(initial_title);
+    when(resultSet.getObject("kernels")).thenReturn(initial_kernels);
+    return resultSet;
   }
 
   protected class MediaObjectMock extends MediaObjectPostgreSQL {
