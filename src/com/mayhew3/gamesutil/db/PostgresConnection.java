@@ -100,9 +100,21 @@ public class PostgresConnection {
     preparedStatement.close();
   }
 
+  public void prepareAndExecuteStatementUpdateWithFields(String sql, List<FieldValue> params) throws SQLException {
+    PreparedStatement preparedStatement = prepareStatementWithFields(sql, params);
+
+    preparedStatement.executeUpdate();
+    preparedStatement.close();
+  }
+
   public PreparedStatement prepareStatement(String sql, List<Object> params) throws SQLException {
     PreparedStatement preparedStatement = _connection.prepareStatement(sql);
     return plugParamsIntoStatement(preparedStatement, params);
+  }
+
+  public PreparedStatement prepareStatementWithFields(String sql, List<FieldValue> params) throws SQLException {
+    PreparedStatement preparedStatement = _connection.prepareStatement(sql);
+    return plugFieldsIntoStatement(preparedStatement, params);
   }
 
   public PreparedStatement getPreparedStatementWithReturnValue(String sql) throws SQLException {
@@ -125,11 +137,17 @@ public class PostgresConnection {
   }
 
   public void executePreparedUpdateWithFields(PreparedStatement preparedStatement, List<FieldValue> fieldValues) throws SQLException {
+    plugFieldsIntoStatement(preparedStatement, fieldValues);
+    preparedStatement.executeUpdate();
+  }
+
+  private PreparedStatement plugFieldsIntoStatement(PreparedStatement preparedStatement, List<FieldValue> fieldValues) throws SQLException {
     int i = 1;
     for (FieldValue fieldValue : fieldValues) {
       fieldValue.updatePreparedStatement(preparedStatement, i);
       i++;
     }
+    return preparedStatement;
   }
 
   private PreparedStatement plugParamsIntoStatement(PreparedStatement preparedStatement, List<Object> params) throws SQLException {

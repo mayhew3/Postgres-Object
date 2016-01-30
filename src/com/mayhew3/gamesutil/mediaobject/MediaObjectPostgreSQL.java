@@ -121,20 +121,20 @@ public abstract class MediaObjectPostgreSQL {
     if (id.isChanged()) {
       throw new RuntimeException("Cannot change id field on existing object.");
     }
-    BasicDBObject updateObject = new BasicDBObject();
 
+    List<String> changedFieldNames = new ArrayList<>();
     List<FieldValue> changedFields = new ArrayList<>();
 
     for (FieldValue fieldValue : allFieldValues) {
       if (fieldValue.isChanged()) {
-        updateObject.append(fieldValue.getFieldName(), fieldValue.getChangedValue());
+        changedFieldNames.add(fieldValue.getFieldName());
         changedFields.add(fieldValue);
       }
     }
-    if (!updateObject.isEmpty()) {
+    if (!changedFields.isEmpty()) {
       Joiner joiner = Joiner.on(", ");
-      System.out.println(" - Changed: " + joiner.join(updateObject.keySet()));
-      updateDatabase(db, updateObject);
+      System.out.println(" - Changed: " + joiner.join(changedFieldNames));
+      updateDatabase(db, changedFields);
       updateObjects(changedFields);
     }
   }
@@ -145,23 +145,21 @@ public abstract class MediaObjectPostgreSQL {
     }
   }
 
-  private void updateDatabase(PostgresConnection connection, BasicDBObject updateObject) throws SQLException {
+  private void updateDatabase(PostgresConnection connection, List<FieldValue> fieldValues) throws SQLException {
     List<String> fieldNames = Lists.newArrayList();
-    List<Object> fieldValues = Lists.newArrayList();
 
-    for (String fieldName : updateObject.keySet()) {
-      fieldNames.add("\"" + fieldName + "\" = ?");
-      fieldValues.add(updateObject.get(fieldName));
+    for (FieldValue fieldValue : fieldValues) {
+      fieldNames.add("\"" + fieldValue.getFieldName() + "\" = ?");
     }
 
-    fieldValues.add(id.getValue());
+    fieldValues.add(id);
 
     Joiner joiner = Joiner.on(", ");
     String commaSeparatedNames = joiner.join(fieldNames);
 
     String sql = "UPDATE " + getTableName() + " SET " + commaSeparatedNames + " WHERE ID = ?";
 
-    connection.prepareAndExecuteStatementUpdate(sql, fieldValues);
+    connection.prepareAndExecuteStatementUpdateWithFields(sql, fieldValues);
   }
 
   private Integer insertIntoDatabaseAndGetID(PostgresConnection connection, List<FieldValue> fieldValues) throws SQLException {

@@ -168,13 +168,29 @@ public class MediaObjectPostgreSQLTest {
 
     mediaObject.commit(connection);
 
-    verify(connection).prepareAndExecuteStatementUpdate(eq("UPDATE test SET \"title\" = ?, \"kernels\" = ? WHERE ID = ?"), listCaptor.capture());
+    verify(connection).prepareAndExecuteStatementUpdateWithFields(eq("UPDATE test SET \"title\" = ?, \"kernels\" = ? WHERE ID = ?"), fieldValueCaptor.capture());
 
-    List<Object> actual = listCaptor.getValue();
-    List<Object> expected = Lists.newArrayList((Object) newTitle, newKernels, initial_id);
+    List<FieldValue> fieldValues = fieldValueCaptor.getValue();
+    assertThat(fieldValues)
+        .hasSize(3);
 
-    assertThat(actual)
-        .isEqualTo(expected);
+    FieldValue titleField = fieldValues.get(0);
+    assertThat(titleField.getFieldName())
+        .isEqualTo("title");
+    assertThat(titleField.getChangedValue())
+        .isEqualTo(newTitle);
+
+    FieldValue kernelField = fieldValues.get(1);
+    assertThat(kernelField.getFieldName())
+        .isEqualTo("kernels");
+    assertThat(kernelField.getChangedValue())
+        .isEqualTo(newKernels);
+
+    FieldValue idField = fieldValues.get(2);
+    assertThat(idField.getFieldName())
+        .isEqualTo("id");
+    assertThat(idField.getValue())
+        .isEqualTo(initial_id);
 
     assertThat(mediaObject.isForUpdate())
         .isTrue();
