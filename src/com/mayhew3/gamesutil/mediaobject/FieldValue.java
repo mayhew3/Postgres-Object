@@ -1,8 +1,10 @@
 package com.mayhew3.gamesutil.mediaobject;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Objects;
 
-public class FieldValue<T> {
+public abstract class FieldValue<T> {
   private String fieldName;
   private T originalValue;
   private T changedValue;
@@ -92,4 +94,6 @@ public class FieldValue<T> {
     }
     return displayString;
   }
+
+  public abstract void updatePreparedStatement(PreparedStatement preparedStatement, int currentIndex) throws SQLException;
 }

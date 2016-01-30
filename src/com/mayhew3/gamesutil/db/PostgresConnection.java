@@ -1,6 +1,7 @@
 package com.mayhew3.gamesutil.db;
 
 import com.google.common.collect.Lists;
+import com.mayhew3.gamesutil.mediaobject.FieldValue;
 import com.sun.istack.internal.NotNull;
 
 import java.math.BigDecimal;
@@ -121,6 +122,14 @@ public class PostgresConnection {
   public void executePreparedUpdateWithParams(PreparedStatement preparedStatement, List<Object> paramList) throws SQLException {
     PreparedStatement statementWithParams = plugParamsIntoStatement(preparedStatement, paramList);
     statementWithParams.executeUpdate();
+  }
+
+  public void executePreparedUpdateWithFields(PreparedStatement preparedStatement, List<FieldValue> fieldValues) throws SQLException {
+    int i = 1;
+    for (FieldValue fieldValue : fieldValues) {
+      fieldValue.updatePreparedStatement(preparedStatement, i);
+      i++;
+    }
   }
 
   private PreparedStatement plugParamsIntoStatement(PreparedStatement preparedStatement, List<Object> params) throws SQLException {

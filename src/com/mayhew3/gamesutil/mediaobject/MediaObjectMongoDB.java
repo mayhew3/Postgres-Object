@@ -15,7 +15,7 @@ public abstract class MediaObjectMongoDB {
 
   List<FieldValue> allFieldValues = new ArrayList<>();
 
-  public FieldValue<ObjectId> _id = new FieldValue<>("_id", new FieldConversionMongoId());
+  public FieldValue<ObjectId> _id = new FieldValueMongoObjectId("_id", new FieldConversionMongoId());
   public FieldValue<Date> dateAdded = registerDateField("DateAdded");
 
   public void initializeFromDBObject(DBObject dbObject) {
@@ -154,7 +154,7 @@ public abstract class MediaObjectMongoDB {
 
 
   protected final FieldValue<BasicDBList> registerStringArrayField(String fieldName) {
-    FieldValue<BasicDBList> fieldStringArrayValue = new FieldValue<>(fieldName, new FieldConversionStringArray());
+    FieldValue<BasicDBList> fieldStringArrayValue = new FieldValueMongoArray(fieldName, new FieldConversionStringArray());
     allFieldValues.add(fieldStringArrayValue);
     return fieldStringArrayValue;
   }
@@ -184,7 +184,7 @@ public abstract class MediaObjectMongoDB {
   }
 
   protected final FieldValue<ObjectId> registerObjectIdField(String fieldName) {
-    FieldValue<ObjectId> fieldMongoValue = new FieldValue<>(fieldName, new FieldConversionMongoId());
+    FieldValue<ObjectId> fieldMongoValue = new FieldValueMongoObjectId(fieldName, new FieldConversionMongoId());
     allFieldValues.add(fieldMongoValue);
     return fieldMongoValue;
   }
@@ -196,7 +196,7 @@ public abstract class MediaObjectMongoDB {
   }
 
   protected final FieldValue<Double> registerDoubleField(String fieldName) {
-    FieldValue<Double> fieldDoubleValue = new FieldValue<>(fieldName, new FieldConversionDouble());
+    FieldValue<Double> fieldDoubleValue = new FieldValueDouble(fieldName, new FieldConversionDouble());
     allFieldValues.add(fieldDoubleValue);
     return fieldDoubleValue;
   }

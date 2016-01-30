@@ -1,5 +1,9 @@
 package com.mayhew3.gamesutil.mediaobject;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Types;
+
 public class FieldValueBoolean extends FieldValue<Boolean> {
   private Boolean allowNulls = false;
 
@@ -17,6 +21,15 @@ public class FieldValueBoolean extends FieldValue<Boolean> {
       super.initializeValue(value);
     } else {
       super.initializeValue((value == null) ? false : value);
+    }
+  }
+
+  @Override
+  public void updatePreparedStatement(PreparedStatement preparedStatement, int currentIndex) throws SQLException {
+    if (getChangedValue() == null) {
+      preparedStatement.setNull(currentIndex, Types.BOOLEAN);
+    } else {
+      preparedStatement.setBoolean(currentIndex, getChangedValue());
     }
   }
 }

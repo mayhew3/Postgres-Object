@@ -1,5 +1,9 @@
 package com.mayhew3.gamesutil.mediaobject;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Types;
+
 public class FieldValueString extends FieldValue<String> {
   public FieldValueString(String fieldName, FieldConversion<String> converter) {
     super(fieldName, converter);
@@ -15,5 +19,14 @@ public class FieldValueString extends FieldValue<String> {
   protected void initializeValueFromString(String valueString) {
     super.initializeValueFromString(valueString);
     this.isText = true;
+  }
+
+  @Override
+  public void updatePreparedStatement(PreparedStatement preparedStatement, int currentIndex) throws SQLException {
+    if (getChangedValue() == null) {
+      preparedStatement.setNull(currentIndex, Types.VARCHAR);
+    } else {
+      preparedStatement.setString(currentIndex, getChangedValue());
+    }
   }
 }

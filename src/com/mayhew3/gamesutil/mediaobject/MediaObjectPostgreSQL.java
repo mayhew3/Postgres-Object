@@ -22,7 +22,7 @@ public abstract class MediaObjectPostgreSQL {
 
   List<FieldValue> allFieldValues = new ArrayList<>();
 
-  public FieldValue<Integer> id = new FieldValue<>("id", new FieldConversionInteger());
+  public FieldValueInteger id = new FieldValueInteger("id", new FieldConversionInteger());
 
 
   public void initializeFromDBObject(ResultSet resultSet) throws SQLException {
@@ -91,7 +91,6 @@ public abstract class MediaObjectPostgreSQL {
   }
 
   private void insert(PostgresConnection connection) throws SQLException {
-    BasicDBObject insertObject = new BasicDBObject();
 
     List<FieldValue> changedFields = new ArrayList<>();
 
@@ -101,13 +100,12 @@ public abstract class MediaObjectPostgreSQL {
             + fieldValue.getOriginalValue() + "', changed value '" + fieldValue.getChangedValue() + "'");
       }
       if (fieldValue.isChanged()) {
-        insertObject.append(fieldValue.getFieldName(), fieldValue.getChangedValue());
         changedFields.add(fieldValue);
       }
     }
 
-    if (!insertObject.isEmpty()) {
-      Integer resultingID = insertIntoDatabaseAndGetID(connection, insertObject);
+    if (!changedFields.isEmpty()) {
+      Integer resultingID = insertIntoDatabaseAndGetID(connection, changedFields);
       updateObjects(changedFields);
       id.initializeValue(resultingID);
     }
@@ -166,15 +164,13 @@ public abstract class MediaObjectPostgreSQL {
     connection.prepareAndExecuteStatementUpdate(sql, fieldValues);
   }
 
-  private Integer insertIntoDatabaseAndGetID(PostgresConnection connection, BasicDBObject updateObject) throws SQLException {
+  private Integer insertIntoDatabaseAndGetID(PostgresConnection connection, List<FieldValue> fieldValues) throws SQLException {
     List<String> fieldNames = Lists.newArrayList();
     List<String> questionMarks = Lists.newArrayList();
-    List<Object> fieldValues = Lists.newArrayList();
 
-    for (String fieldName : updateObject.keySet()) {
-      fieldNames.add("\"" + fieldName + "\"");
+    for (FieldValue fieldValue : fieldValues) {
+      fieldNames.add("\"" + fieldValue.getFieldName() + "\"");
       questionMarks.add("?");
-      fieldValues.add(updateObject.get(fieldName));
     }
 
     Joiner joiner = Joiner.on(", ");
@@ -184,7 +180,7 @@ public abstract class MediaObjectPostgreSQL {
     String sql = "INSERT INTO " + getTableName() + " (" + commaSeparatedNames + ") VALUES (" + commaSeparatedQuestionMarks + ")";
 
     PreparedStatement preparedStatement = connection.getPreparedStatementWithReturnValue(sql);
-    connection.executePreparedUpdateWithParams(preparedStatement, fieldValues);
+    connection.executePreparedUpdateWithFields(preparedStatement, fieldValues);
 
     return getIDFromInsert(preparedStatement);
   }

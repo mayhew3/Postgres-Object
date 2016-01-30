@@ -24,6 +24,9 @@ public class MediaObjectPostgreSQLTest {
   @Captor
   ArgumentCaptor<List<Object>> listCaptor;
 
+  @Captor
+  ArgumentCaptor<List<FieldValue>> fieldValueCaptor;
+
   private static final Integer initial_id = 2;
   private static final String initial_title = "Taco Night!";
   private static final Integer initial_kernels = 42;
@@ -124,12 +127,23 @@ public class MediaObjectPostgreSQLTest {
     mediaObject.commit(connection);
 
     verify(connection).getPreparedStatementWithReturnValue("INSERT INTO test (\"title\", \"kernels\") VALUES (?, ?)");
-    verify(connection).executePreparedUpdateWithParams(eq(statement), listCaptor.capture());
+    verify(connection).executePreparedUpdateWithFields(eq(statement), fieldValueCaptor.capture());
 
-    assertThat(listCaptor.getValue())
-        .contains(newTitle)
-        .contains(newKernels)
+    List<FieldValue> fieldValues = fieldValueCaptor.getValue();
+    assertThat(fieldValues)
         .hasSize(2);
+
+    FieldValue titleField = fieldValues.get(0);
+    assertThat(titleField.getFieldName())
+        .isEqualTo("title");
+    assertThat(titleField.getChangedValue())
+        .isEqualTo(newTitle);
+
+    FieldValue kernelField = fieldValues.get(1);
+    assertThat(kernelField.getFieldName())
+        .isEqualTo("kernels");
+    assertThat(kernelField.getChangedValue())
+        .isEqualTo(newKernels);
 
     verify(statement).close();
 

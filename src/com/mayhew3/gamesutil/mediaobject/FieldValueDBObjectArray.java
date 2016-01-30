@@ -3,6 +3,8 @@ package com.mayhew3.gamesutil.mediaobject;
 import com.mongodb.BasicDBList;
 import com.mongodb.DBObject;
 
+import java.sql.PreparedStatement;
+
 public class FieldValueDBObjectArray extends FieldValue<BasicDBList> {
   public FieldValueDBObjectArray(String fieldName, FieldConversion<BasicDBList> converter) {
     super(fieldName, converter);
@@ -52,6 +54,11 @@ public class FieldValueDBObjectArray extends FieldValue<BasicDBList> {
   @Override
   protected void initializeValueFromString(String valueString) {
     super.initializeValueFromString(valueString);
+  }
+
+  @Override
+  public void updatePreparedStatement(PreparedStatement preparedStatement, int currentIndex) {
+    throw new IllegalStateException("Cannot update Postgres DB with Mongo value.");
   }
 
   public void removeFromArray(DBObject value) {
