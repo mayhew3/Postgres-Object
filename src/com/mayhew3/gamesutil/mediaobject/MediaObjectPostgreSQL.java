@@ -184,7 +184,7 @@ public abstract class MediaObjectPostgreSQL {
     String sql = "INSERT INTO " + getTableName() + " (" + commaSeparatedNames + ") VALUES (" + commaSeparatedQuestionMarks + ")";
 
     PreparedStatement preparedStatement = connection.getPreparedStatementWithReturnValue(sql);
-    connection.executePreparedUpdateWithParamsWithoutClose(preparedStatement, fieldValues);
+    connection.executePreparedUpdateWithParams(preparedStatement, fieldValues);
 
     return getIDFromInsert(preparedStatement);
   }

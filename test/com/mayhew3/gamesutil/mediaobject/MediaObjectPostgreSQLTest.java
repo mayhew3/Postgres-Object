@@ -124,7 +124,7 @@ public class MediaObjectPostgreSQLTest {
     mediaObject.commit(connection);
 
     verify(connection).getPreparedStatementWithReturnValue("INSERT INTO test (\"title\", \"kernels\") VALUES (?, ?)");
-    verify(connection).executePreparedUpdateWithParamsWithoutClose(eq(statement), listCaptor.capture());
+    verify(connection).executePreparedUpdateWithParams(eq(statement), listCaptor.capture());
 
     assertThat(listCaptor.getValue())
         .contains(newTitle)

@@ -2,12 +2,14 @@ package com.mayhew3.gamesutil.db;
 
 import com.google.common.collect.Lists;
 import com.mayhew3.gamesutil.db.PostgresConnection;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.MockitoAnnotations;
 
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.List;
 
@@ -57,21 +59,6 @@ public class PostgresConnectionTest {
   }
 
   @Test
-  public void testHasMoreElements() {
-
-  }
-
-  @Test
-  public void testGetInt() {
-
-  }
-
-  @Test
-  public void testGetString() {
-
-  }
-
-  @Test
   public void testColumnExists() {
 
   }
@@ -83,11 +70,6 @@ public class PostgresConnectionTest {
 
   @Test
   public void testPrepareAndExecuteStatementFetch1() {
-
-  }
-
-  @Test
-  public void testPrepareAndExecuteStatementFetchWithException() {
 
   }
 
@@ -107,32 +89,58 @@ public class PostgresConnectionTest {
   }
 
   @Test
-  public void testGetPreparedStatement() {
-
-  }
-
-  @Test
   public void testGetPreparedStatementWithReturnValue() {
 
   }
 
+  @SuppressWarnings("ConstantConditions")
   @Test
-  public void testExecutePreparedStatementAlreadyHavingParameters() {
+  public void testExecutePreparedStatementWithParams() throws SQLException {
+    PreparedStatement preparedStatement = mock(PreparedStatement.class);
+    Timestamp timestamp = new Timestamp(new java.util.Date().getTime());
+    Integer integer = 4;
+    String string = "Test!";
+    BigDecimal bigDecimal = BigDecimal.valueOf(12.34);
+    Boolean ohBoolean = true;
 
+    List<Object> params = Lists.newArrayList((Object) timestamp, integer, string, bigDecimal, ohBoolean);
+
+    postgresConnection.executePreparedStatementWithParams(preparedStatement, params);
+
+    verify(preparedStatement).setTimestamp(1, timestamp);
+    verify(preparedStatement).setInt(2, integer);
+    verify(preparedStatement).setString(3, string);
+    verify(preparedStatement).setBigDecimal(4, bigDecimal);
+    verify(preparedStatement).setBoolean(5, ohBoolean);
+
+    verify(preparedStatement).executeQuery();
+    verify(preparedStatement, never()).close();
+  }
+
+  @SuppressWarnings("ConstantConditions")
+  @Test
+  public void testExecutePreparedStatementWithParams1() throws SQLException {
+    PreparedStatement preparedStatement = mock(PreparedStatement.class);
+    Timestamp timestamp = new Timestamp(new java.util.Date().getTime());
+    Integer integer = 4;
+    String string = "Test!";
+    BigDecimal bigDecimal = BigDecimal.valueOf(12.34);
+    Boolean ohBoolean = true;
+
+    postgresConnection.executePreparedStatementWithParams(preparedStatement, timestamp, integer, string, bigDecimal, ohBoolean);
+
+    verify(preparedStatement).setTimestamp(1, timestamp);
+    verify(preparedStatement).setInt(2, integer);
+    verify(preparedStatement).setString(3, string);
+    verify(preparedStatement).setBigDecimal(4, bigDecimal);
+    verify(preparedStatement).setBoolean(5, ohBoolean);
+
+    verify(preparedStatement).executeQuery();
+    verify(preparedStatement, never()).close();
   }
 
   @Test
-  public void testExecutePreparedStatementWithParams() {
-
-  }
-
-  @Test
-  public void testExecutePreparedStatementWithParams1() {
-
-  }
-
-  @Test
-  public void testExecutePreparedUpdateWithParamsWithoutClose() {
+  public void testExecutePreparedUpdateWithParams() {
 
   }
 }

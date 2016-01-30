@@ -118,7 +118,7 @@ public class PostgresConnection {
     return statementWithParams.executeQuery();
   }
 
-  public void executePreparedUpdateWithParamsWithoutClose(PreparedStatement preparedStatement, List<Object> paramList) throws SQLException {
+  public void executePreparedUpdateWithParams(PreparedStatement preparedStatement, List<Object> paramList) throws SQLException {
     PreparedStatement statementWithParams = plugParamsIntoStatement(preparedStatement, paramList);
     statementWithParams.executeUpdate();
   }
