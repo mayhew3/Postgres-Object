@@ -1,6 +1,5 @@
 package com.mayhew3.gamesutil.mediaobject;
 
-import com.google.common.collect.Lists;
 import com.mayhew3.gamesutil.db.PostgresConnection;
 import org.junit.Before;
 import org.junit.Test;
