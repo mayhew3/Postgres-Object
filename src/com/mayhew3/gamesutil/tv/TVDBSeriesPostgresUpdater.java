@@ -41,7 +41,7 @@ public class TVDBSeriesPostgresUpdater {
   }
 
 
-  public void updateSeries() throws SQLException, BadlyFormattedXMLException {
+  public void updateSeries() throws SQLException, BadlyFormattedXMLException, ShowFailedException {
     String seriesTitle = _series.seriesTitle.getValue();
     String seriesTiVoId = _series.tivoSeriesId.getValue();
 
@@ -52,13 +52,10 @@ public class TVDBSeriesPostgresUpdater {
       resolveError(errorLog);
     } else {
 
-
       Boolean matchedWrong = Boolean.TRUE.equals(_series.matchedWrong.getValue());
       Integer existingId = _series.tvdbId.getValue();
 
-      Integer tvdbId = (existingId == null || matchedWrong) ?
-          getTVDBID(_series, errorLog) :
-          existingId;
+      Integer tvdbId = getTVDBID(errorLog, matchedWrong, existingId);
 
       Boolean usingOldWrongID = matchedWrong && Objects.equals(existingId, tvdbId);
 
@@ -77,6 +74,18 @@ public class TVDBSeriesPostgresUpdater {
         updateShowData(_series);
 
       }
+    }
+  }
+
+  private Integer getTVDBID(DBObject errorLog, Boolean matchedWrong, Integer existingId) throws SQLException, ShowFailedException, BadlyFormattedXMLException {
+    try {
+      Integer tvdbid = findTVDBMatch(_series, errorLog);
+      return (existingId == null || matchedWrong) ?
+          tvdbid :
+          existingId;
+    } catch (IOException | SAXException e) {
+      e.printStackTrace();
+      throw new ShowFailedException("Error downloading XML from TVDB.");
     }
   }
 
@@ -125,7 +134,7 @@ public class TVDBSeriesPostgresUpdater {
     return null;
   }
 
-  private Integer getTVDBID(SeriesPostgres series, DBObject errorLog) throws SQLException, BadlyFormattedXMLException {
+  private Integer findTVDBMatch(SeriesPostgres series, DBObject errorLog) throws SQLException, BadlyFormattedXMLException, IOException, SAXException {
     String seriesTitle = series.seriesTitle.getValue();
     String tivoId = series.tivoSeriesId.getValue();
     String tvdbHint = series.tvdbHint.getValue();
@@ -146,14 +155,7 @@ public class TVDBSeriesPostgresUpdater {
 
     String tvdbUrl = "http://thetvdb.com/api/GetSeries.php?seriesname=" + formattedTitle;
 
-    Document document;
-    try {
-      document = nodeReader.readXMLFromUrl(tvdbUrl);
-    } catch (SAXException | IOException e) {
-      e.printStackTrace();
-      addShowNotFoundErrorLog(series, formattedTitle, "HTTP Timeout");
-      return null;
-    }
+    Document document = nodeReader.readXMLFromUrl(tvdbUrl);
 
     NodeList nodeList = document.getChildNodes();
 

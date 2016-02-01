@@ -195,7 +195,15 @@ public class TiVoCommunicatorPostgres {
       Node item = childNodes.item(i);
       if (item.getNodeName().equals("Item")) {
         NodeList showAttributes = item.getChildNodes();
-        Boolean alreadyExists = parseAndUpdateSingleShow(showAttributes);
+        Boolean alreadyExists = false;
+
+        try {
+          alreadyExists = parseAndUpdateSingleShow(showAttributes);
+        } catch (ShowFailedException e) {
+          e.printStackTrace();
+          debug("Failed to parse TVDB data.");
+        }
+
         if (alreadyExists) {
           shouldBeLastDocument = true;
         }
@@ -214,7 +222,7 @@ public class TiVoCommunicatorPostgres {
     public String url;
 
     public TivoInfo(@NotNull NodeList showDetails) {
-      programId = getValueOfSimpleStringNode(showDetails, "ProgramId");;
+      programId = getValueOfSimpleStringNode(showDetails, "ProgramId");
       tivoId = getValueOfSimpleStringNode(showDetails, "SeriesId");
       seriesTitle = getValueOfSimpleStringNode(showDetails, "Title");
 
@@ -233,7 +241,7 @@ public class TiVoCommunicatorPostgres {
    * @return Whether this episode already exists in the database, and we should stop updating later episodes in quick mode.
    * @throws SQLException
    */
-  private Boolean parseAndUpdateSingleShow(NodeList showAttributes) throws SQLException, BadlyFormattedXMLException {
+  private Boolean parseAndUpdateSingleShow(NodeList showAttributes) throws SQLException, BadlyFormattedXMLException, ShowFailedException {
 
     if (isRecordingNow(showAttributes)) {
       debug("Skipping episode that is currently recording.");
@@ -354,7 +362,12 @@ public class TiVoCommunicatorPostgres {
   private TVDBEpisodePostgres retryMatchWithUpdatedTVDB(SeriesPostgres series, Boolean tvdbUpdated, TiVoEpisodePostgres tivoEpisode) throws SQLException, BadlyFormattedXMLException {
     if (!tvdbUpdated) {
       TVDBSeriesPostgresUpdater updater = new TVDBSeriesPostgresUpdater(sqlConnection, series, new NodeReaderImpl());
-      updater.updateSeries();
+      try {
+        updater.updateSeries();
+      } catch (ShowFailedException e) {
+        e.printStackTrace();
+        debug("Failed to parse TVDB data with updated ID.");
+      }
 
       return findTVDBEpisodeMatch(tivoEpisode, series.id.getValue());
     }
