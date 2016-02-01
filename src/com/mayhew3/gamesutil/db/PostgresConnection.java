@@ -48,9 +48,7 @@ public class PostgresConnection implements SQLConnection {
 
   public ResultSet prepareAndExecuteStatementFetch(String sql, List<Object> params) throws SQLException {
     PreparedStatement preparedStatement = prepareStatementWithParams(sql, params);
-    ResultSet resultSet = preparedStatement.executeQuery();
-    preparedStatement.close();
-    return resultSet;
+    return preparedStatement.executeQuery();
   }
 
 

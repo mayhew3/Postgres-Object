@@ -29,7 +29,10 @@ public interface SQLConnection {
    * - Create PreparedStatement using given SQL.
    * - Plug given parameters into PreparedStatement.
    * - Execute PreparedStatement against DB.
-   * - Close PreparedStatement.
+   *
+   * (Note: PreparedStatement is not closed because that would close the associated ResultSet. If this is
+   * an issue, try using the methods to get a handle on the PreparedStatement so close() can be called when
+   * finished.)
    *
    * @param sql SQL query that should be run. Should be SELECT query.
    * @param params Vararg of parameters that should be plugged into query.
@@ -43,7 +46,10 @@ public interface SQLConnection {
    * - Create PreparedStatement using given SQL.
    * - Plug given parameters into PreparedStatement.
    * - Execute PreparedStatement against DB.
-   * - Close PreparedStatement.
+   *
+   * (Note: PreparedStatement is not closed because that would close the associated ResultSet. If this is
+   * an issue, try using the methods to get a handle on the PreparedStatement so close() can be called when
+   * finished.)
    *
    * @param sql SQL query that should be run. Should be SELECT query.
    * @param params List of parameters that should be plugged into query.

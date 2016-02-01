@@ -3,7 +3,9 @@ package com.mayhew3.gamesutil.mediaobject;
 import com.sun.istack.internal.Nullable;
 
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.sql.Types;
 import java.util.Date;
 
 public class FieldValueTimestamp extends FieldValue<Timestamp> {
@@ -12,7 +14,12 @@ public class FieldValueTimestamp extends FieldValue<Timestamp> {
   }
 
   @Override
-  public void updatePreparedStatement(PreparedStatement preparedStatement, int currentIndex) {
+  public void updatePreparedStatement(PreparedStatement preparedStatement, int currentIndex) throws SQLException {
+    if (getChangedValue() == null) {
+      preparedStatement.setNull(currentIndex, Types.TIMESTAMP);
+    } else {
+      preparedStatement.setTimestamp(currentIndex, getChangedValue());
+    }
   }
 
   public void changeValue(@Nullable Date date) {
