@@ -2,6 +2,7 @@ package com.mayhew3.gamesutil.mediaobject;
 
 import com.google.common.base.Preconditions;
 import com.mayhew3.gamesutil.db.PostgresConnection;
+import com.mayhew3.gamesutil.db.SQLConnection;
 import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
 
@@ -77,7 +78,7 @@ public class SeriesPostgres extends MediaObjectPostgreSQL {
    * @throws SQLException
    */
   @Nullable
-  public SeriesGenrePostgres addGenre(PostgresConnection connection, String genreName) throws SQLException {
+  public SeriesGenrePostgres addGenre(SQLConnection connection, String genreName) throws SQLException {
     Preconditions.checkNotNull(id.getValue(), "Cannot insert join entity until Series object is committed (id is non-null)");
 
     GenrePostgres genrePostgres = GenrePostgres.findOrCreate(connection, genreName);
@@ -108,7 +109,7 @@ public class SeriesPostgres extends MediaObjectPostgreSQL {
    * @throws SQLException
    */
   @Nullable
-  public SeriesViewingLocationPostgres addViewingLocation(PostgresConnection connection, String viewingLocationName) throws SQLException {
+  public SeriesViewingLocationPostgres addViewingLocation(SQLConnection connection, String viewingLocationName) throws SQLException {
     Preconditions.checkNotNull(id.getValue(), "Cannot insert join entity until Series object is committed (id is non-null)");
 
     ViewingLocationPostgres viewingLocationPostgres = ViewingLocationPostgres.findOrCreate(connection, viewingLocationName);
@@ -136,7 +137,7 @@ public class SeriesPostgres extends MediaObjectPostgreSQL {
   }
 
   @NotNull
-  public SeasonPostgres getOrCreateSeason(PostgresConnection connection, Integer seasonNumber) throws SQLException {
+  public SeasonPostgres getOrCreateSeason(SQLConnection connection, Integer seasonNumber) throws SQLException {
     Preconditions.checkNotNull(id.getValue(), "Cannot insert join entity until Series object is committed (id is non-null)");
 
     SeasonPostgres seasonPostgres = new SeasonPostgres();

@@ -1,6 +1,6 @@
 package com.mayhew3.gamesutil.mediaobject;
 
-import com.mayhew3.gamesutil.db.PostgresConnection;
+import com.mayhew3.gamesutil.db.SQLConnection;
 import com.sun.javafx.beans.annotations.NonNull;
 
 import java.sql.ResultSet;
@@ -49,7 +49,7 @@ public class EpisodePostgres extends MediaObjectPostgreSQL {
     return seriesTitle.getValue() + " " + episodeNumber.getValue() + ": " + title.getValue();
   }
 
-  public void addToTiVoEpisodes(PostgresConnection connection, @NonNull Integer tivoLocalEpisodeId) throws SQLException {
+  public void addToTiVoEpisodes(SQLConnection connection, @NonNull Integer tivoLocalEpisodeId) throws SQLException {
     List<TiVoEpisodePostgres> tiVoEpisodes = getTiVoEpisodes(connection);
     if (!hasMatch(tiVoEpisodes, tivoLocalEpisodeId)) {
       EdgeTiVoEpisodePostgres edgeTiVoEpisodePostgres = new EdgeTiVoEpisodePostgres();
@@ -72,7 +72,7 @@ public class EpisodePostgres extends MediaObjectPostgreSQL {
     return false;
   }
 
-  public List<TiVoEpisodePostgres> getTiVoEpisodes(PostgresConnection connection) throws SQLException {
+  public List<TiVoEpisodePostgres> getTiVoEpisodes(SQLConnection connection) throws SQLException {
     String sql = "SELECT te.* " +
         "FROM tivo_episode te " +
         "INNER JOIN edge_tivo_episode e " +

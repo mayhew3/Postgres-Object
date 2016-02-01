@@ -2,6 +2,8 @@ package com.mayhew3.gamesutil.games;
 
 import com.google.common.collect.Lists;
 import com.mayhew3.gamesutil.db.PostgresConnection;
+import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
+import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.mediaobject.Game;
 import com.mayhew3.gamesutil.mediaobject.GameLog;
 import com.sun.istack.internal.NotNull;
@@ -12,6 +14,7 @@ import org.json.JSONObject;
 
 import java.io.*;
 import java.math.BigDecimal;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
@@ -25,13 +28,13 @@ import java.util.List;
 
 public class GiantBombUpdater {
 
-  private PostgresConnection connection;
+  private SQLConnection connection;
 
-  public GiantBombUpdater(PostgresConnection connection) {
+  public GiantBombUpdater(SQLConnection connection) {
     this.connection = connection;
   }
 
-  public static void main(String[] args) throws SQLException, FileNotFoundException {
+  public static void main(String[] args) throws SQLException, FileNotFoundException, URISyntaxException {
     List<String> argList = Lists.newArrayList(args);
     Boolean logToFile = argList.contains("LogToFile");
 
@@ -44,7 +47,7 @@ public class GiantBombUpdater {
       System.err.println("Starting run on " + new Date());
     }
 
-    GiantBombUpdater giantBombUpdater = new GiantBombUpdater(new PostgresConnection());
+    GiantBombUpdater giantBombUpdater = new GiantBombUpdater(new PostgresConnectionFactory().createConnection());
 
     giantBombUpdater.updateFields();
 

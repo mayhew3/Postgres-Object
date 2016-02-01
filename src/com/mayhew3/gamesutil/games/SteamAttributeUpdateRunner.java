@@ -2,6 +2,8 @@ package com.mayhew3.gamesutil.games;
 
 import com.google.common.collect.Lists;
 import com.mayhew3.gamesutil.db.PostgresConnection;
+import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
+import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.mediaobject.Game;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -9,19 +11,20 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
+import java.net.URISyntaxException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
 public class SteamAttributeUpdateRunner {
 
-  private PostgresConnection connection;
+  private SQLConnection connection;
 
-  public SteamAttributeUpdateRunner(PostgresConnection connection) {
+  public SteamAttributeUpdateRunner(SQLConnection connection) {
     this.connection = connection;
   }
 
-  public static void main(String[] args) throws FileNotFoundException, SQLException {
+  public static void main(String[] args) throws FileNotFoundException, SQLException, URISyntaxException {
     List<String> argList = Lists.newArrayList(args);
     Boolean logToFile = argList.contains("LogToFile");
     Boolean redo = false;
@@ -34,7 +37,7 @@ public class SteamAttributeUpdateRunner {
       System.setOut(ps);
     }
 
-    PostgresConnection connection = new PostgresConnection();
+    SQLConnection connection = new PostgresConnectionFactory().createConnection();
 
     // don't do this.
     if (redo) {

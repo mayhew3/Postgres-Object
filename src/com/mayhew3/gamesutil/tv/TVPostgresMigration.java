@@ -1,6 +1,8 @@
 package com.mayhew3.gamesutil.tv;
 
 import com.google.common.collect.Lists;
+import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
+import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.games.MongoConnection;
 import com.mayhew3.gamesutil.db.PostgresConnection;
 import com.mayhew3.gamesutil.mediaobject.*;
@@ -10,21 +12,22 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import org.bson.types.ObjectId;
 
+import java.net.URISyntaxException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
 public class TVPostgresMigration {
   private static MongoConnection mongoConnection;
-  private static PostgresConnection postgresConnection;
+  private static SQLConnection postgresConnection;
 
   private static Boolean devMode = false;
 
-  public static void main(String[] args) throws SQLException {
+  public static void main(String[] args) throws SQLException, URISyntaxException {
     List<String> argList = Lists.newArrayList(args);
     devMode = argList.contains("dev");
 
-    postgresConnection = new PostgresConnection();
+    postgresConnection = new PostgresConnectionFactory().createConnection();
     mongoConnection = new MongoConnection("tv");
 
     TVPostgresMigration tvPostgresMigration = new TVPostgresMigration();

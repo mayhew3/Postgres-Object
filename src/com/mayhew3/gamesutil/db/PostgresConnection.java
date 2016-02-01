@@ -10,45 +10,14 @@ import java.net.URISyntaxException;
 import java.sql.*;
 import java.util.List;
 
-public class PostgresConnection {
+public class PostgresConnection implements SQLConnection {
 
   private Connection _connection;
 
-  public PostgresConnection() {
-    try {
-      _connection = createConnection();
-      System.out.println("Connection successful.");
-    } catch (URISyntaxException | SQLException e) {
-      e.printStackTrace();
-      throw new RuntimeException("Connection refused.");
-    }
-  }
-
-  public PostgresConnection(Connection connection) {
+  PostgresConnection(Connection connection) {
     _connection = connection;
   }
 
-
-  private Connection createConnection() throws URISyntaxException, SQLException {
-    String postgresURL = System.getenv("postgresURL");
-
-    try {
-      return DriverManager.getConnection(postgresURL);
-    } catch (SQLException e) {
-      URI dbUri = new URI(postgresURL);
-
-      String username = dbUri.getUserInfo().split(":")[0];
-      String password = dbUri.getUserInfo().split(":")[1];
-      String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath() +
-          "?user=" + username + "&password=" + password + "&ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";
-
-      return DriverManager.getConnection(dbUrl);
-    }
-  }
-
-  public Connection getConnection() {
-    return _connection;
-  }
 
   public void closeConnection() throws SQLException {
     _connection.close();
@@ -83,7 +52,9 @@ public class PostgresConnection {
 
   public ResultSet prepareAndExecuteStatementFetch(String sql, List<Object> params) throws SQLException {
     PreparedStatement preparedStatement = prepareStatement(sql, params);
-    return preparedStatement.executeQuery();
+    ResultSet resultSet = preparedStatement.executeQuery();
+    preparedStatement.close();
+    return resultSet;
   }
 
   public void prepareAndExecuteStatementUpdate(String sql, Object... params) throws SQLException {
@@ -100,8 +71,8 @@ public class PostgresConnection {
     preparedStatement.close();
   }
 
-  public void prepareAndExecuteStatementUpdateWithFields(String sql, List<FieldValue> params) throws SQLException {
-    PreparedStatement preparedStatement = prepareStatementWithFields(sql, params);
+  public void prepareAndExecuteStatementUpdateWithFields(String sql, List<FieldValue> fields) throws SQLException {
+    PreparedStatement preparedStatement = prepareStatementWithFields(sql, fields);
 
     preparedStatement.executeUpdate();
     preparedStatement.close();
@@ -117,7 +88,7 @@ public class PostgresConnection {
     return plugFieldsIntoStatement(preparedStatement, fields);
   }
 
-  public PreparedStatement getPreparedStatementWithReturnValue(String sql) throws SQLException {
+  public PreparedStatement prepareStatementWithReturnValue(String sql) throws SQLException {
     return _connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
   }
 

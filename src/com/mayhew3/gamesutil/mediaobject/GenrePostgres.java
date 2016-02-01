@@ -1,6 +1,7 @@
 package com.mayhew3.gamesutil.mediaobject;
 
 import com.mayhew3.gamesutil.db.PostgresConnection;
+import com.mayhew3.gamesutil.db.SQLConnection;
 import com.sun.istack.internal.NotNull;
 
 import java.sql.ResultSet;
@@ -22,7 +23,7 @@ public class GenrePostgres extends MediaObjectPostgreSQL {
   }
 
   @NotNull
-  public static GenrePostgres findOrCreate(PostgresConnection connection, String genreName) throws SQLException {
+  public static GenrePostgres findOrCreate(SQLConnection connection, String genreName) throws SQLException {
     GenrePostgres genrePostgres = new GenrePostgres();
 
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(

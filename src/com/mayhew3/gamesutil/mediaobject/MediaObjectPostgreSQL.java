@@ -4,6 +4,7 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.mayhew3.gamesutil.db.PostgresConnection;
+import com.mayhew3.gamesutil.db.SQLConnection;
 import com.sun.javafx.beans.annotations.NonNull;
 
 import java.sql.PreparedStatement;
@@ -79,7 +80,7 @@ public abstract class MediaObjectPostgreSQL {
     }
   }
 
-  public void commit(PostgresConnection connection) throws SQLException {
+  public void commit(SQLConnection connection) throws SQLException {
     if (editMode == EditMode.UPDATE) {
       update(connection);
     } else if (editMode == EditMode.INSERT) {
@@ -89,7 +90,7 @@ public abstract class MediaObjectPostgreSQL {
     }
   }
 
-  private void insert(PostgresConnection connection) throws SQLException {
+  private void insert(SQLConnection connection) throws SQLException {
 
     List<FieldValue> changedFields = new ArrayList<>();
 
@@ -113,7 +114,7 @@ public abstract class MediaObjectPostgreSQL {
     changeToUpdateObject();
   }
 
-  private void update(PostgresConnection db) throws SQLException {
+  private void update(SQLConnection db) throws SQLException {
     if (id == null) {
       throw new RuntimeException("Cannot update object with no id field.");
     }
@@ -144,7 +145,7 @@ public abstract class MediaObjectPostgreSQL {
     }
   }
 
-  private void updateDatabase(PostgresConnection connection, List<FieldValue> fieldValues) throws SQLException {
+  private void updateDatabase(SQLConnection connection, List<FieldValue> fieldValues) throws SQLException {
     List<String> fieldNames = Lists.newArrayList();
 
     for (FieldValue fieldValue : fieldValues) {
@@ -161,7 +162,7 @@ public abstract class MediaObjectPostgreSQL {
     connection.prepareAndExecuteStatementUpdateWithFields(sql, fieldValues);
   }
 
-  private Integer insertIntoDatabaseAndGetID(PostgresConnection connection, List<FieldValue> fieldValues) throws SQLException {
+  private Integer insertIntoDatabaseAndGetID(SQLConnection connection, List<FieldValue> fieldValues) throws SQLException {
     List<String> fieldNames = Lists.newArrayList();
     List<String> questionMarks = Lists.newArrayList();
 
@@ -176,7 +177,7 @@ public abstract class MediaObjectPostgreSQL {
 
     String sql = "INSERT INTO " + getTableName() + " (" + commaSeparatedNames + ") VALUES (" + commaSeparatedQuestionMarks + ")";
 
-    PreparedStatement preparedStatement = connection.getPreparedStatementWithReturnValue(sql);
+    PreparedStatement preparedStatement = connection.prepareStatementWithReturnValue(sql);
     connection.executePreparedUpdateWithFields(preparedStatement, fieldValues);
 
     return getIDFromInsert(preparedStatement);

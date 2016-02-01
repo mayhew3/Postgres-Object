@@ -3,6 +3,8 @@ package com.mayhew3.gamesutil.tv;
 import com.google.common.collect.Lists;
 import com.mayhew3.gamesutil.SSLTool;
 import com.mayhew3.gamesutil.db.PostgresConnection;
+import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
+import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.mediaobject.*;
 import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
@@ -19,10 +21,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.Authenticator;
-import java.net.PasswordAuthentication;
-import java.net.URL;
-import java.net.UnknownHostException;
+import java.net.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -39,14 +38,14 @@ public class TiVoCommunicatorPostgres {
   private Integer deletedShows = 0;
   private Integer updatedShows = 0;
 
-  private static PostgresConnection connection;
+  private static SQLConnection connection;
 
-  public static void main(String[] args) throws UnknownHostException, SQLException {
+  public static void main(String[] args) throws UnknownHostException, SQLException, URISyntaxException {
     List<String> argList = Lists.newArrayList(args);
     Boolean lookAtAllShows = argList.contains("FullMode");
     Boolean dev = argList.contains("Dev");
 
-    connection = new PostgresConnection();
+    connection = new PostgresConnectionFactory().createConnection();
 
     TiVoCommunicatorPostgres tiVoCommunicatorPostgres = new TiVoCommunicatorPostgres();
 

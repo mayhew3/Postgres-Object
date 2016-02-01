@@ -2,12 +2,15 @@ package com.mayhew3.gamesutil.games;
 
 import com.google.common.collect.Lists;
 import com.mayhew3.gamesutil.db.PostgresConnection;
+import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
+import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.mediaobject.Game;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
+import java.net.URISyntaxException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
@@ -15,9 +18,9 @@ import java.util.List;
 
 public class MetacriticGameUpdateRunner {
 
-  private static PostgresConnection connection;
+  private static SQLConnection connection;
 
-  public static void main(String[] args) throws FileNotFoundException, SQLException {
+  public static void main(String[] args) throws FileNotFoundException, SQLException, URISyntaxException {
     List<String> argList = Lists.newArrayList(args);
     Boolean allGames = argList.contains("AllGames");
     Boolean logToFile = argList.contains("LogToFile");
@@ -30,7 +33,7 @@ public class MetacriticGameUpdateRunner {
       System.setOut(ps);
     }
 
-    connection = new PostgresConnection();
+    connection = new PostgresConnectionFactory().createConnection();
 
     MetacriticGameUpdateRunner updateRunner = new MetacriticGameUpdateRunner();
     updateRunner.runUpdate(allGames);

@@ -2,6 +2,7 @@ package com.mayhew3.gamesutil.games;
 
 import com.google.common.collect.Lists;
 import com.mayhew3.gamesutil.db.PostgresConnection;
+import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.mediaobject.Game;
 import com.mayhew3.gamesutil.mediaobject.SteamAttribute;
 import org.openqa.selenium.By;
@@ -17,10 +18,10 @@ import java.util.List;
 public class SteamAttributeUpdater {
 
   private Game game;
-  private PostgresConnection connection;
+  private SQLConnection connection;
   private WebDriver driver;
 
-  public SteamAttributeUpdater(Game game, PostgresConnection connection, WebDriver webDriver) {
+  public SteamAttributeUpdater(Game game, SQLConnection connection, WebDriver webDriver) {
     this.game = game;
     this.connection = connection;
     this.driver = webDriver;

@@ -2,6 +2,7 @@ package com.mayhew3.gamesutil.games;
 
 import com.google.common.collect.Maps;
 import com.mayhew3.gamesutil.db.PostgresConnection;
+import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.mediaobject.Game;
 import com.mayhew3.gamesutil.mediaobject.GameLog;
 import org.jsoup.Jsoup;
@@ -20,9 +21,9 @@ import java.util.Map;
 public class MetacriticGameUpdater {
 
   private Game game;
-  private PostgresConnection connection;
+  private SQLConnection connection;
 
-  public MetacriticGameUpdater(Game game, PostgresConnection connection) {
+  public MetacriticGameUpdater(Game game, SQLConnection connection) {
     this.game = game;
     this.connection = connection;
   }

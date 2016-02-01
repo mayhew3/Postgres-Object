@@ -1,6 +1,7 @@
 package com.mayhew3.gamesutil.mediaobject;
 
 import com.mayhew3.gamesutil.db.PostgresConnection;
+import com.mayhew3.gamesutil.db.SQLConnection;
 import com.sun.istack.internal.NotNull;
 
 import java.sql.ResultSet;
@@ -23,7 +24,7 @@ public class ViewingLocationPostgres extends MediaObjectPostgreSQL {
 
 
   @NotNull
-  public static ViewingLocationPostgres findOrCreate(PostgresConnection connection, String viewingLocationName) throws SQLException {
+  public static ViewingLocationPostgres findOrCreate(SQLConnection connection, String viewingLocationName) throws SQLException {
     ViewingLocationPostgres viewingLocationPostgres = new ViewingLocationPostgres();
 
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(

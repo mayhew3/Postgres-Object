@@ -4,6 +4,8 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.mayhew3.gamesutil.DatabaseUtility;
 import com.mayhew3.gamesutil.db.PostgresConnection;
+import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
+import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.mediaobject.Game;
 import com.mayhew3.gamesutil.mediaobject.GameLog;
 import org.json.JSONArray;
@@ -11,6 +13,7 @@ import org.json.JSONObject;
 
 import java.io.*;
 import java.math.BigDecimal;
+import java.net.URISyntaxException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -18,9 +21,9 @@ import java.util.*;
 
 public class SteamGameUpdater extends DatabaseUtility {
 
-  private static PostgresConnection connection;
+  private static SQLConnection connection;
 
-  public static void main(String[] args) throws SQLException, FileNotFoundException {
+  public static void main(String[] args) throws SQLException, FileNotFoundException, URISyntaxException {
     List<String> argList = Lists.newArrayList(args);
     Boolean logToFile = argList.contains("LogToFile");
 
@@ -33,7 +36,7 @@ public class SteamGameUpdater extends DatabaseUtility {
       System.err.println("Starting run on " + new Date());
     }
 
-    connection = new PostgresConnection();
+    connection = new PostgresConnectionFactory().createConnection();
     updateFields();
 
     debug(" --- ");

@@ -1,6 +1,7 @@
 package com.mayhew3.gamesutil.games;
 
 import com.mayhew3.gamesutil.db.PostgresConnection;
+import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.mediaobject.Game;
 import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
@@ -19,13 +20,13 @@ import java.util.List;
 public class HowLongToBeatUpdater {
 
   private Game game;
-  private PostgresConnection connection;
+  private SQLConnection connection;
   private WebDriver driver;
   final private Integer indexColumn = 0;
   final private Integer polledColumn = 1;
   final private Integer medianColumn = 3;
 
-  public HowLongToBeatUpdater(Game game, PostgresConnection connection, WebDriver webDriver) {
+  public HowLongToBeatUpdater(Game game, SQLConnection connection, WebDriver webDriver) {
     this.game = game;
     this.connection = connection;
     this.driver = webDriver;

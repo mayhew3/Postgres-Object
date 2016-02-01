@@ -2,11 +2,13 @@ package com.mayhew3.gamesutil.games;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
-import com.mayhew3.gamesutil.db.PostgresConnection;
+import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
+import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 
+import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Date;
@@ -16,13 +18,13 @@ import java.util.Set;
 public class GamePostgresMongoSyncer {
 
   private static MongoConnection mongoConnection;
-  private static PostgresConnection postgresConnection;
+  private static SQLConnection postgresConnection;
 
-  public static void main(String[] args) throws SQLException {
+  public static void main(String[] args) throws SQLException, URISyntaxException {
 
     mongoConnection = new MongoConnection("games");
 
-    postgresConnection = new PostgresConnection();
+    postgresConnection = new PostgresConnectionFactory().createConnection();
 
     eraseAndCopyGames();
 
@@ -79,7 +81,7 @@ public class GamePostgresMongoSyncer {
     System.out.println(debugString);
   }
 
-  private static void translateRow(DBObject dbObject, PostgresConnection connection, String tableName) throws SQLException {
+  private static void translateRow(DBObject dbObject, SQLConnection connection, String tableName) throws SQLException {
     List<String> fieldNames = Lists.newArrayList();
     List<Object> fieldValues = Lists.newArrayList();
     List<String> questionMarks = Lists.newArrayList();

@@ -125,7 +125,7 @@ public class MediaObjectPostgreSQLTest {
 
     mediaObject.commit(connection);
 
-    verify(connection).getPreparedStatementWithReturnValue("INSERT INTO test (\"title\", \"kernels\") VALUES (?, ?)");
+    verify(connection).prepareStatementWithReturnValue("INSERT INTO test (\"title\", \"kernels\") VALUES (?, ?)");
     verify(connection).executePreparedUpdateWithFields(eq(statement), fieldValueCaptor.capture());
 
     List<FieldValue> fieldValues = fieldValueCaptor.getValue();
@@ -222,7 +222,7 @@ public class MediaObjectPostgreSQLTest {
     PreparedStatement statement = mock(PreparedStatement.class);
     ResultSet resultSet = mock(ResultSet.class);
 
-    when(connection.getPreparedStatementWithReturnValue(anyString())).thenReturn(statement);
+    when(connection.prepareStatementWithReturnValue(anyString())).thenReturn(statement);
     when(statement.getGeneratedKeys()).thenReturn(resultSet);
     when(resultSet.next()).thenReturn(true);
     when(resultSet.getInt("id")).thenReturn(initial_id);

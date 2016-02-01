@@ -1,6 +1,7 @@
 package com.mayhew3.gamesutil.tv;
 
 import com.mayhew3.gamesutil.db.PostgresConnection;
+import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.mediaobject.*;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
@@ -30,12 +31,12 @@ public class TVDBSeriesPostgresUpdater {
 
   SeriesPostgres _series;
 
-  private PostgresConnection connection;
+  private SQLConnection connection;
 
   Integer _episodesAdded = 0;
   Integer _episodesUpdated = 0;
 
-  public TVDBSeriesPostgresUpdater(PostgresConnection connection, @NotNull SeriesPostgres series) {
+  public TVDBSeriesPostgresUpdater(SQLConnection connection, @NotNull SeriesPostgres series) {
     this._series = series;
     this.connection = connection;
   }
