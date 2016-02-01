@@ -60,10 +60,7 @@ public abstract class FieldValue<T> {
   }
 
   public void changeValue(T newValue) {
-    // todo: support null with associated type
-    if (newValue != null) {
-      changedValue = newValue;
-    }
+    changedValue = newValue;
   }
 
   public void nullValue() {
