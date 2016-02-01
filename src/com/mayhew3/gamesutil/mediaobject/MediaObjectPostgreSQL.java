@@ -4,9 +4,8 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.mayhew3.gamesutil.db.SQLConnection;
-import com.sun.javafx.beans.annotations.NonNull;
+import com.sun.istack.internal.NotNull;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -55,17 +54,17 @@ public abstract class MediaObjectPostgreSQL {
     editMode = EditMode.UPDATE;
   }
 
-  @NonNull
+  @NotNull
   public boolean isInitialized() {
     return initialized;
   }
 
-  @NonNull
+  @NotNull
   public Boolean isForInsert() {
     return EditMode.INSERT.equals(editMode);
   }
 
-  @NonNull
+  @NotNull
   public Boolean isForUpdate() {
     return EditMode.UPDATE.equals(editMode);
   }
