@@ -1,12 +1,12 @@
 package com.mayhew3.gamesutil.tv;
 
-import com.mayhew3.gamesutil.db.PostgresConnection;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.mediaobject.*;
+import com.mayhew3.gamesutil.xml.BadlyFormattedXMLException;
+import com.mayhew3.gamesutil.xml.NodeReader;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.sun.istack.internal.NotNull;
-import com.sun.istack.internal.Nullable;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeComparator;
 import org.w3c.dom.Document;
@@ -14,12 +14,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -32,17 +27,21 @@ public class TVDBSeriesPostgresUpdater {
   SeriesPostgres _series;
 
   private SQLConnection connection;
+  private NodeReader nodeReader;
 
   Integer _episodesAdded = 0;
   Integer _episodesUpdated = 0;
 
-  public TVDBSeriesPostgresUpdater(SQLConnection connection, @NotNull SeriesPostgres series) {
+  public TVDBSeriesPostgresUpdater(SQLConnection connection,
+                                   @NotNull SeriesPostgres series,
+                                   @NotNull NodeReader nodeReader) {
     this._series = series;
     this.connection = connection;
+    this.nodeReader = nodeReader;
   }
 
 
-  public void updateSeries() throws SQLException {
+  public void updateSeries() throws SQLException, BadlyFormattedXMLException {
     String seriesTitle = _series.seriesTitle.getValue();
     String seriesTiVoId = _series.tivoSeriesId.getValue();
 
@@ -126,7 +125,7 @@ public class TVDBSeriesPostgresUpdater {
     return null;
   }
 
-  private Integer getTVDBID(SeriesPostgres series, DBObject errorLog, Boolean matchedWrong) throws SQLException {
+  private Integer getTVDBID(SeriesPostgres series, DBObject errorLog, Boolean matchedWrong) throws SQLException, BadlyFormattedXMLException {
     String seriesTitle = series.seriesTitle.getValue();
     String tivoId = series.tivoSeriesId.getValue();
     String tvdbHint = series.tvdbHint.getValue();
@@ -149,7 +148,7 @@ public class TVDBSeriesPostgresUpdater {
 
     Document document;
     try {
-      document = readXMLFromUrl(tvdbUrl);
+      document = nodeReader.readXMLFromUrl(tvdbUrl);
     } catch (SAXException | IOException e) {
       e.printStackTrace();
       addShowNotFoundErrorLog(series, formattedTitle, "HTTP Timeout");
@@ -158,9 +157,9 @@ public class TVDBSeriesPostgresUpdater {
 
     NodeList nodeList = document.getChildNodes();
 
-    NodeList dataNode = getNodeWithTag(nodeList, "Data").getChildNodes();
+    NodeList dataNode = nodeReader.getNodeWithTag(nodeList, "Data").getChildNodes();
 
-    List<Node> seriesNodes = getAllNodesWithTag(dataNode, "Series");
+    List<Node> seriesNodes = nodeReader.getAllNodesWithTag(dataNode, "Series");
 
     if (seriesNodes.isEmpty()) {
       debug("Show not found!");
@@ -175,7 +174,7 @@ public class TVDBSeriesPostgresUpdater {
     }
 
     NodeList firstSeries = seriesNodes.get(0).getChildNodes();
-    String seriesName = getValueOfSimpleStringNode(firstSeries, "SeriesName");
+    String seriesName = nodeReader.getValueOfSimpleStringNode(firstSeries, "SeriesName");
 
     attachPossibleSeries(series, seriesNodes);
 
@@ -197,7 +196,7 @@ public class TVDBSeriesPostgresUpdater {
       resolveError(errorLog);
     }
 
-    return Integer.parseInt(getValueOfSimpleStringNode(firstSeries, "id"));
+    return Integer.parseInt(nodeReader.getValueOfSimpleStringNode(firstSeries, "id"));
   }
 
   private void attachPossibleSeries(SeriesPostgres series, List<Node> seriesNodes) throws SQLException {
@@ -205,8 +204,8 @@ public class TVDBSeriesPostgresUpdater {
     for (int i = 0; i < possibleSeries; i++) {
       NodeList seriesNode = seriesNodes.get(i).getChildNodes();
 
-      String tvdbSeriesName = getValueOfSimpleStringNode(seriesNode, "SeriesName");
-      Integer tvdbSeriesId = Integer.parseInt(getValueOfSimpleStringNode(seriesNode, "id"));
+      String tvdbSeriesName = nodeReader.getValueOfSimpleStringNode(seriesNode, "SeriesName");
+      Integer tvdbSeriesId = Integer.parseInt(nodeReader.getValueOfSimpleStringNode(seriesNode, "id"));
 
       connection.prepareAndExecuteStatementUpdate(
           "INSERT INTO possible_series_match (series_id, tvdb_series_title, tvdb_series_id) " +
@@ -284,7 +283,7 @@ public class TVDBSeriesPostgresUpdater {
     // todo: do this
   }
 
-  private void updateShowData(SeriesPostgres series) throws SQLException {
+  private void updateShowData(SeriesPostgres series) throws SQLException, BadlyFormattedXMLException {
     Integer tvdbID = series.tvdbId.getValue();
     String tivoSeriesId = series.tivoSeriesId.getValue();
     String seriesTitle = series.seriesTitle.getValue();
@@ -295,7 +294,7 @@ public class TVDBSeriesPostgresUpdater {
 
     Document document;
     try {
-      document = readXMLFromUrl(url);
+      document = nodeReader.readXMLFromUrl(url);
     } catch (SAXException | IOException e) {
       e.printStackTrace();
       addErrorLog(tivoSeriesId, "Error calling API for TVDB ID " + tvdbID);
@@ -306,8 +305,8 @@ public class TVDBSeriesPostgresUpdater {
 
     NodeList nodeList = document.getChildNodes();
 
-    NodeList dataNode = getNodeWithTag(nodeList, "Data").getChildNodes();
-    NodeList seriesNode = getNodeWithTag(dataNode, "Series").getChildNodes();
+    NodeList dataNode = nodeReader.getNodeWithTag(nodeList, "Data").getChildNodes();
+    NodeList seriesNode = nodeReader.getNodeWithTag(dataNode, "Series").getChildNodes();
 
     ResultSet existingTVDBSeries = findExistingTVDBSeries(tvdbID);
 
@@ -318,25 +317,25 @@ public class TVDBSeriesPostgresUpdater {
       tvdbSeries.initializeForInsert();
     }
 
-    String tvdbSeriesName = getValueOfSimpleStringNode(seriesNode, "seriesname");
+    String tvdbSeriesName = nodeReader.getValueOfSimpleStringNode(seriesNode, "seriesname");
 
-    tvdbSeries.tvdbId.changeValueFromString(getValueOfSimpleStringNode(seriesNode, "id"));
+    tvdbSeries.tvdbId.changeValueFromString(nodeReader.getValueOfSimpleStringNode(seriesNode, "id"));
     tvdbSeries.name.changeValueFromString(tvdbSeriesName);
-    tvdbSeries.airsDayOfWeek.changeValueFromString(getValueOfSimpleStringNode(seriesNode, "airs_dayofweek"));
-    tvdbSeries.airsTime.changeValueFromString(getValueOfSimpleStringNode(seriesNode, "airs_time"));
-    tvdbSeries.firstAired.changeValueFromString(getValueOfSimpleStringNode(seriesNode, "firstaired"));
-    tvdbSeries.network.changeValueFromString(getValueOfSimpleStringNode(seriesNode, "network"));
-    tvdbSeries.overview.changeValueFromString(getValueOfSimpleStringNode(seriesNode, "overview"));
-    tvdbSeries.rating.changeValueFromString(getValueOfSimpleStringNode(seriesNode, "rating"));
-    tvdbSeries.ratingCount.changeValueFromString(getValueOfSimpleStringNode(seriesNode, "ratingcount"));
-    tvdbSeries.runtime.changeValueFromString(getValueOfSimpleStringNode(seriesNode, "runtime"));
-    tvdbSeries.tvdbSeriesId.changeValueFromString(getValueOfSimpleStringNode(seriesNode, "SeriesID"));
-    tvdbSeries.status.changeValueFromString(getValueOfSimpleStringNode(seriesNode, "status"));
-    tvdbSeries.poster.changeValueFromString(getValueOfSimpleStringNode(seriesNode, "poster"));
-    tvdbSeries.banner.changeValueFromString(getValueOfSimpleStringNode(seriesNode, "banner"));
-    tvdbSeries.lastUpdated.changeValueFromString(getValueOfSimpleStringNode(seriesNode, "lastupdated"));
-    tvdbSeries.imdbId.changeValueFromString(getValueOfSimpleStringNode(seriesNode, "IMDB_ID"));
-    tvdbSeries.zap2it_id.changeValueFromString(getValueOfSimpleStringNode(seriesNode, "zap2it_id"));
+    tvdbSeries.airsDayOfWeek.changeValueFromString(nodeReader.getValueOfSimpleStringNode(seriesNode, "airs_dayofweek"));
+    tvdbSeries.airsTime.changeValueFromString(nodeReader.getValueOfSimpleStringNode(seriesNode, "airs_time"));
+    tvdbSeries.firstAired.changeValueFromString(nodeReader.getValueOfSimpleStringNode(seriesNode, "firstaired"));
+    tvdbSeries.network.changeValueFromString(nodeReader.getValueOfSimpleStringNode(seriesNode, "network"));
+    tvdbSeries.overview.changeValueFromString(nodeReader.getValueOfSimpleStringNode(seriesNode, "overview"));
+    tvdbSeries.rating.changeValueFromString(nodeReader.getValueOfSimpleStringNode(seriesNode, "rating"));
+    tvdbSeries.ratingCount.changeValueFromString(nodeReader.getValueOfSimpleStringNode(seriesNode, "ratingcount"));
+    tvdbSeries.runtime.changeValueFromString(nodeReader.getValueOfSimpleStringNode(seriesNode, "runtime"));
+    tvdbSeries.tvdbSeriesId.changeValueFromString(nodeReader.getValueOfSimpleStringNode(seriesNode, "SeriesID"));
+    tvdbSeries.status.changeValueFromString(nodeReader.getValueOfSimpleStringNode(seriesNode, "status"));
+    tvdbSeries.poster.changeValueFromString(nodeReader.getValueOfSimpleStringNode(seriesNode, "poster"));
+    tvdbSeries.banner.changeValueFromString(nodeReader.getValueOfSimpleStringNode(seriesNode, "banner"));
+    tvdbSeries.lastUpdated.changeValueFromString(nodeReader.getValueOfSimpleStringNode(seriesNode, "lastupdated"));
+    tvdbSeries.imdbId.changeValueFromString(nodeReader.getValueOfSimpleStringNode(seriesNode, "IMDB_ID"));
+    tvdbSeries.zap2it_id.changeValueFromString(nodeReader.getValueOfSimpleStringNode(seriesNode, "zap2it_id"));
 
     tvdbSeries.commit(connection);
 
@@ -346,17 +345,17 @@ public class TVDBSeriesPostgresUpdater {
     Integer seriesEpisodesAdded = 0;
     Integer seriesEpisodesUpdated = 0;
 
-    List<Node> episodes = getAllNodesWithTag(dataNode, "Episode");
+    List<Node> episodes = nodeReader.getAllNodesWithTag(dataNode, "Episode");
 
 
     for (Node episodeParent : episodes) {
       NodeList episodeNode = episodeParent.getChildNodes();
-      Integer tvdbRemoteId = Integer.valueOf(getValueOfSimpleStringNode(episodeNode, "id"));
+      Integer tvdbRemoteId = Integer.valueOf(nodeReader.getValueOfSimpleStringNode(episodeNode, "id"));
 
-      String episodenumber = getValueOfSimpleStringNode(episodeNode, "episodenumber");
-      String episodename = getValueOfSimpleStringNode(episodeNode, "episodename");
-      String seasonnumber = getValueOfSimpleStringNode(episodeNode, "seasonnumber");
-      String firstaired = getValueOfSimpleStringNode(episodeNode, "firstaired");
+      String episodenumber = nodeReader.getValueOfSimpleStringNode(episodeNode, "episodenumber");
+      String episodename = nodeReader.getValueOfSimpleStringNode(episodeNode, "episodename");
+      String seasonnumber = nodeReader.getValueOfSimpleStringNode(episodeNode, "seasonnumber");
+      String firstaired = nodeReader.getValueOfSimpleStringNode(episodeNode, "firstaired");
 
       ResultSet existingTVDBRow = findExistingTVDBEpisode(tvdbRemoteId);
       Boolean matched = false;
@@ -391,25 +390,25 @@ public class TVDBSeriesPostgresUpdater {
       // todo: Add log entry for when TVDB values change.
 
       tvdbEpisode.tvdbId.changeValue(tvdbRemoteId);
-      tvdbEpisode.absoluteNumber.changeValueFromString(getValueOfSimpleStringNode(episodeNode, "absoute_number"));
+      tvdbEpisode.absoluteNumber.changeValueFromString(nodeReader.getValueOfSimpleStringNode(episodeNode, "absoute_number"));
       tvdbEpisode.seasonNumber.changeValueFromString(seasonnumber);
       tvdbEpisode.episodeNumber.changeValueFromString(episodenumber);
       tvdbEpisode.name.changeValueFromString(episodename);
       tvdbEpisode.firstAired.changeValueFromString(firstaired);
-      tvdbEpisode.overview.changeValueFromString(getValueOfSimpleStringNode(episodeNode, "overview"));
-      tvdbEpisode.productionCode.changeValueFromString(getValueOfSimpleStringNode(episodeNode, "ProductionCode"));
-      tvdbEpisode.rating.changeValueFromString(getValueOfSimpleStringNode(episodeNode, "Rating"));
-      tvdbEpisode.ratingCount.changeValueFromString(getValueOfSimpleStringNode(episodeNode, "RatingCount"));
-      tvdbEpisode.director.changeValueFromString(getValueOfSimpleStringNode(episodeNode, "Director"));
-      tvdbEpisode.writer.changeValueFromString(getValueOfSimpleStringNode(episodeNode, "Writer"));
-      tvdbEpisode.lastUpdated.changeValueFromString(getValueOfSimpleStringNode(episodeNode, "lastupdated"));
-      tvdbEpisode.seasonId.changeValueFromString(getValueOfSimpleStringNode(episodeNode, "seasonid"));
-      tvdbEpisode.filename.changeValueFromString(getValueOfSimpleStringNode(episodeNode, "filename"));
-      tvdbEpisode.airsAfterSeason.changeValueFromString(getValueOfSimpleStringNode(episodeNode, "airsafter_season"));
-      tvdbEpisode.airsBeforeSeason.changeValueFromString(getValueOfSimpleStringNode(episodeNode, "airsbefore_season"));
-      tvdbEpisode.airsBeforeEpisode.changeValueFromString(getValueOfSimpleStringNode(episodeNode, "airsbefore_episode"));
-      tvdbEpisode.thumbHeight.changeValueFromString(getValueOfSimpleStringNode(episodeNode, "thumb_height"));
-      tvdbEpisode.thumbWidth.changeValueFromString(getValueOfSimpleStringNode(episodeNode, "thumb_width"));
+      tvdbEpisode.overview.changeValueFromString(nodeReader.getValueOfSimpleStringNode(episodeNode, "overview"));
+      tvdbEpisode.productionCode.changeValueFromString(nodeReader.getValueOfSimpleStringNode(episodeNode, "ProductionCode"));
+      tvdbEpisode.rating.changeValueFromString(nodeReader.getValueOfSimpleStringNode(episodeNode, "Rating"));
+      tvdbEpisode.ratingCount.changeValueFromString(nodeReader.getValueOfSimpleStringNode(episodeNode, "RatingCount"));
+      tvdbEpisode.director.changeValueFromString(nodeReader.getValueOfSimpleStringNode(episodeNode, "Director"));
+      tvdbEpisode.writer.changeValueFromString(nodeReader.getValueOfSimpleStringNode(episodeNode, "Writer"));
+      tvdbEpisode.lastUpdated.changeValueFromString(nodeReader.getValueOfSimpleStringNode(episodeNode, "lastupdated"));
+      tvdbEpisode.seasonId.changeValueFromString(nodeReader.getValueOfSimpleStringNode(episodeNode, "seasonid"));
+      tvdbEpisode.filename.changeValueFromString(nodeReader.getValueOfSimpleStringNode(episodeNode, "filename"));
+      tvdbEpisode.airsAfterSeason.changeValueFromString(nodeReader.getValueOfSimpleStringNode(episodeNode, "airsafter_season"));
+      tvdbEpisode.airsBeforeSeason.changeValueFromString(nodeReader.getValueOfSimpleStringNode(episodeNode, "airsbefore_season"));
+      tvdbEpisode.airsBeforeEpisode.changeValueFromString(nodeReader.getValueOfSimpleStringNode(episodeNode, "airsbefore_episode"));
+      tvdbEpisode.thumbHeight.changeValueFromString(nodeReader.getValueOfSimpleStringNode(episodeNode, "thumb_height"));
+      tvdbEpisode.thumbWidth.changeValueFromString(nodeReader.getValueOfSimpleStringNode(episodeNode, "thumb_width"));
 
 
       tvdbEpisode.commit(connection);
@@ -710,87 +709,10 @@ public class TVDBSeriesPostgresUpdater {
     */
   }
 
-  @NotNull
-  private Node getNodeWithTag(NodeList nodeList, String tag) {
-    for (int x = 0; x < nodeList.getLength(); x++) {
-      Node item = nodeList.item(x);
-      if (tag.equalsIgnoreCase(item.getNodeName())) {
-        return item;
-      }
-    }
-    throw new RuntimeException("No node found with tag '" + tag + "'");
-  }
-
-  @Nullable
-  private Node getNullableNodeWithTag(NodeList nodeList, String tag) {
-    for (int x = 0; x < nodeList.getLength(); x++) {
-      Node item = nodeList.item(x);
-      if (tag.equalsIgnoreCase(item.getNodeName())) {
-        return item;
-      }
-    }
-    return null;
-  }
-
-  private List<Node> getAllNodesWithTag(NodeList nodeList, String tag) {
-    List<Node> matchingNodes = new ArrayList<>();
-    for (int x = 0; x < nodeList.getLength(); x++) {
-      Node item = nodeList.item(x);
-      if (tag.equals(item.getNodeName())) {
-        matchingNodes.add(item);
-      }
-    }
-    return matchingNodes;
-  }
-
-  private String getValueOfSimpleStringNode(NodeList nodeList, String tag) {
-    Node nodeWithTag = getNullableNodeWithTag(nodeList, tag);
-    return nodeWithTag == null ? null : parseSimpleStringFromNode(nodeWithTag);
-  }
-
-  private String parseSimpleStringFromNode(Node nodeWithTag) {
-    NodeList childNodes = nodeWithTag.getChildNodes();
-    if (childNodes.getLength() > 1) {
-      throw new RuntimeException("Expect only one text child of node '" + nodeWithTag.getNodeName() + "'");
-    } else if (childNodes.getLength() == 0) {
-      return null;
-    }
-    Node textNode = childNodes.item(0);
-    return textNode.getNodeValue();
-  }
-
   protected void debug(Object object) {
     System.out.println(object);
   }
 
-  public Document readXMLFromUrl(String urlString) throws IOException, SAXException {
-    InputStream is = new URL(urlString).openStream();
-    return recoverDocument(is);
-  }
 
-  protected Document recoverDocument(InputStream inputStream) throws IOException, SAXException {
-    DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-    DocumentBuilder dBuilder = null;
-    try {
-      dBuilder = dbFactory.newDocumentBuilder();
-    } catch (ParserConfigurationException e) {
-      e.printStackTrace();
-    }
-
-    Document doc;
-    assert dBuilder != null;
-    doc = dBuilder.parse(inputStream);
-    return doc;
-  }
-
-
-
-  public Integer getEpisodesAdded() {
-    return _episodesAdded;
-  }
-
-  public Integer getEpisodesUpdated() {
-    return _episodesUpdated;
-  }
 
 }

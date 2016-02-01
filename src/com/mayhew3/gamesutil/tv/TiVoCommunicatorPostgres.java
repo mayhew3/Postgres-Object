@@ -6,6 +6,8 @@ import com.mayhew3.gamesutil.db.PostgresConnection;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.mediaobject.*;
+import com.mayhew3.gamesutil.xml.BadlyFormattedXMLException;
+import com.mayhew3.gamesutil.xml.NodeReaderImpl;
 import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
 import org.joda.time.DateTime;
@@ -40,7 +42,7 @@ public class TiVoCommunicatorPostgres {
 
   private static SQLConnection connection;
 
-  public static void main(String[] args) throws UnknownHostException, SQLException, URISyntaxException {
+  public static void main(String[] args) throws UnknownHostException, SQLException, URISyntaxException, BadlyFormattedXMLException {
     List<String> argList = Lists.newArrayList(args);
     Boolean lookAtAllShows = argList.contains("FullMode");
     Boolean dev = argList.contains("Dev");
@@ -56,7 +58,7 @@ public class TiVoCommunicatorPostgres {
     tiVoCommunicatorPostgres.runUpdate(lookAtAllShows);
   }
 
-  public void runUpdate(Boolean updateAllShows) throws SQLException {
+  public void runUpdate(Boolean updateAllShows) throws SQLException, BadlyFormattedXMLException {
 
     episodesOnTiVo = new ArrayList<>();
     lookAtAllShows = updateAllShows;
@@ -77,7 +79,7 @@ public class TiVoCommunicatorPostgres {
       updateFields();
       connection.closeConnection();
 
-    } catch (RuntimeException e) {
+    } catch (RuntimeException | BadlyFormattedXMLException e) {
       connection.closeConnection();
       throw e;
     }
@@ -107,7 +109,7 @@ public class TiVoCommunicatorPostgres {
   }
 
 
-  public void updateFields() throws SQLException {
+  public void updateFields() throws SQLException, BadlyFormattedXMLException {
     String fullURL = "https://10.0.0.14/TiVoConnect?Command=QueryContainer&Container=%2FNowPlaying&Recurse=Yes&ItemCount=50";
 
     try {
@@ -181,7 +183,7 @@ public class TiVoCommunicatorPostgres {
     }
   }
 
-  private boolean parseShowsFromDocument(Document document) throws SQLException {
+  private boolean parseShowsFromDocument(Document document) throws SQLException, BadlyFormattedXMLException {
     NodeList nodeList = document.getChildNodes();
 
     Node tivoContainer = getNodeWithTag(nodeList, "TiVoContainer");
@@ -232,7 +234,7 @@ public class TiVoCommunicatorPostgres {
    * @return Whether this episode already exists in the database, and we should stop updating later episodes in quick mode.
    * @throws SQLException
    */
-  private Boolean parseAndUpdateSingleShow(NodeList showAttributes) throws SQLException {
+  private Boolean parseAndUpdateSingleShow(NodeList showAttributes) throws SQLException, BadlyFormattedXMLException {
 
     if (isRecordingNow(showAttributes)) {
       debug("Skipping episode that is currently recording.");
@@ -267,7 +269,7 @@ public class TiVoCommunicatorPostgres {
 
     Boolean tvdbUpdated = false;
     if (series.tvdbId.getValue() == null) {
-      TVDBSeriesPostgresUpdater updater = new TVDBSeriesPostgresUpdater(connection, series);
+      TVDBSeriesPostgresUpdater updater = new TVDBSeriesPostgresUpdater(connection, series, new NodeReaderImpl());
       updater.updateSeries();
       tvdbUpdated = true;
     }
@@ -281,7 +283,7 @@ public class TiVoCommunicatorPostgres {
    * @return Whether the episode already exists in the database.
    * @throws SQLException
    */
-  private Boolean addEpisodeIfNotExists(NodeList showDetails, SeriesPostgres series, TivoInfo tivoInfo, Boolean tvdbUpdated) throws SQLException {
+  private Boolean addEpisodeIfNotExists(NodeList showDetails, SeriesPostgres series, TivoInfo tivoInfo, Boolean tvdbUpdated) throws SQLException, BadlyFormattedXMLException {
     ResultSet existingEpisode = getExistingTiVoEpisodes(tivoInfo.programId);
     Boolean tivoEpisodeExists = existingEpisode.next();
 
@@ -350,9 +352,9 @@ public class TiVoCommunicatorPostgres {
     series.commit(connection);
   }
 
-  private TVDBEpisodePostgres retryMatchWithUpdatedTVDB(SeriesPostgres series, Boolean tvdbUpdated, TiVoEpisodePostgres tivoEpisode) throws SQLException {
+  private TVDBEpisodePostgres retryMatchWithUpdatedTVDB(SeriesPostgres series, Boolean tvdbUpdated, TiVoEpisodePostgres tivoEpisode) throws SQLException, BadlyFormattedXMLException {
     if (!tvdbUpdated) {
-      TVDBSeriesPostgresUpdater updater = new TVDBSeriesPostgresUpdater(connection, series);
+      TVDBSeriesPostgresUpdater updater = new TVDBSeriesPostgresUpdater(connection, series, new NodeReaderImpl());
       updater.updateSeries();
 
       return findTVDBEpisodeMatch(tivoEpisode, series.id.getValue());
