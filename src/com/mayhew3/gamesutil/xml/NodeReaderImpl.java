@@ -1,5 +1,6 @@
 package com.mayhew3.gamesutil.xml;
 
+import com.sun.istack.internal.Nullable;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -55,6 +56,7 @@ public class NodeReaderImpl implements NodeReader {
     return matchingNodes;
   }
 
+  @Nullable
   @Override
   public String getValueOfSimpleStringNode(NodeList nodeList, String tag) {
     Node nodeWithTag = getNullableNodeWithTag(nodeList, tag);

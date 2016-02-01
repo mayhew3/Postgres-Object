@@ -57,7 +57,7 @@ public class TVDBSeriesPostgresUpdater {
       Integer existingId = _series.tvdbId.getValue();
 
       Integer tvdbId = (existingId == null || matchedWrong) ?
-          getTVDBID(_series, errorLog, matchedWrong) :
+          getTVDBID(_series, errorLog) :
           existingId;
 
       Boolean usingOldWrongID = matchedWrong && Objects.equals(existingId, tvdbId);
@@ -125,7 +125,7 @@ public class TVDBSeriesPostgresUpdater {
     return null;
   }
 
-  private Integer getTVDBID(SeriesPostgres series, DBObject errorLog, Boolean matchedWrong) throws SQLException, BadlyFormattedXMLException {
+  private Integer getTVDBID(SeriesPostgres series, DBObject errorLog) throws SQLException, BadlyFormattedXMLException {
     String seriesTitle = series.seriesTitle.getValue();
     String tivoId = series.tivoSeriesId.getValue();
     String tvdbHint = series.tvdbHint.getValue();
@@ -196,7 +196,8 @@ public class TVDBSeriesPostgresUpdater {
       resolveError(errorLog);
     }
 
-    return Integer.parseInt(nodeReader.getValueOfSimpleStringNode(firstSeries, "id"));
+    String id = nodeReader.getValueOfSimpleStringNode(firstSeries, "id");
+    return id == null ? null : Integer.parseInt(id);
   }
 
   private void attachPossibleSeries(SeriesPostgres series, List<Node> seriesNodes) throws SQLException {
