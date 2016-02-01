@@ -4,7 +4,6 @@ import com.google.common.collect.Lists;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.games.MongoConnection;
-import com.mayhew3.gamesutil.db.PostgresConnection;
 import com.mayhew3.gamesutil.mediaobject.*;
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
@@ -19,7 +18,7 @@ import java.util.List;
 
 public class TVPostgresMigration {
   private static MongoConnection mongoConnection;
-  private static SQLConnection postgresConnection;
+  private static SQLConnection sqlConnection;
 
   private static Boolean devMode = false;
 
@@ -27,7 +26,7 @@ public class TVPostgresMigration {
     List<String> argList = Lists.newArrayList(args);
     devMode = argList.contains("dev");
 
-    postgresConnection = new PostgresConnectionFactory().createConnection();
+    sqlConnection = new PostgresConnectionFactory().createConnection();
     mongoConnection = new MongoConnection("tv");
 
     TVPostgresMigration tvPostgresMigration = new TVPostgresMigration();
@@ -40,25 +39,25 @@ public class TVPostgresMigration {
   }
 
   private void truncatePostgresTables() throws SQLException {
-    postgresConnection.executeUpdate("TRUNCATE TABLE tvdb_series CASCADE");
-    postgresConnection.executeUpdate("TRUNCATE TABLE tvdb_episode CASCADE");
-    postgresConnection.executeUpdate("TRUNCATE TABLE tivo_episode CASCADE");
-    postgresConnection.executeUpdate("TRUNCATE TABLE genre CASCADE");
-    postgresConnection.executeUpdate("TRUNCATE TABLE viewing_location CASCADE");
-    postgresConnection.executeUpdate("TRUNCATE TABLE edge_tivo_episode CASCADE");
+    sqlConnection.executeUpdate("TRUNCATE TABLE tvdb_series CASCADE");
+    sqlConnection.executeUpdate("TRUNCATE TABLE tvdb_episode CASCADE");
+    sqlConnection.executeUpdate("TRUNCATE TABLE tivo_episode CASCADE");
+    sqlConnection.executeUpdate("TRUNCATE TABLE genre CASCADE");
+    sqlConnection.executeUpdate("TRUNCATE TABLE viewing_location CASCADE");
+    sqlConnection.executeUpdate("TRUNCATE TABLE edge_tivo_episode CASCADE");
 
-    postgresConnection.executeUpdate("ALTER SEQUENCE series_id_seq RESTART WITH 1");
-    postgresConnection.executeUpdate("ALTER SEQUENCE tvdb_series_id_seq RESTART WITH 1");
-    postgresConnection.executeUpdate("ALTER SEQUENCE season_id_seq RESTART WITH 1");
-    postgresConnection.executeUpdate("ALTER SEQUENCE episode_id_seq RESTART WITH 1");
-    postgresConnection.executeUpdate("ALTER SEQUENCE tivo_episode_id_seq RESTART WITH 1");
-    postgresConnection.executeUpdate("ALTER SEQUENCE tvdb_episode_id_seq RESTART WITH 1");
+    sqlConnection.executeUpdate("ALTER SEQUENCE series_id_seq RESTART WITH 1");
+    sqlConnection.executeUpdate("ALTER SEQUENCE tvdb_series_id_seq RESTART WITH 1");
+    sqlConnection.executeUpdate("ALTER SEQUENCE season_id_seq RESTART WITH 1");
+    sqlConnection.executeUpdate("ALTER SEQUENCE episode_id_seq RESTART WITH 1");
+    sqlConnection.executeUpdate("ALTER SEQUENCE tivo_episode_id_seq RESTART WITH 1");
+    sqlConnection.executeUpdate("ALTER SEQUENCE tvdb_episode_id_seq RESTART WITH 1");
 
-    postgresConnection.executeUpdate("ALTER SEQUENCE genre_id_seq RESTART WITH 1");
-    postgresConnection.executeUpdate("ALTER SEQUENCE series_genre_id_seq RESTART WITH 1");
+    sqlConnection.executeUpdate("ALTER SEQUENCE genre_id_seq RESTART WITH 1");
+    sqlConnection.executeUpdate("ALTER SEQUENCE series_genre_id_seq RESTART WITH 1");
 
-    postgresConnection.executeUpdate("ALTER SEQUENCE viewing_location_id_seq RESTART WITH 1");
-    postgresConnection.executeUpdate("ALTER SEQUENCE series_viewing_location_id_seq RESTART WITH 1");
+    sqlConnection.executeUpdate("ALTER SEQUENCE viewing_location_id_seq RESTART WITH 1");
+    sqlConnection.executeUpdate("ALTER SEQUENCE series_viewing_location_id_seq RESTART WITH 1");
 
   }
 
@@ -107,7 +106,7 @@ public class TVPostgresMigration {
 
     seriesPostgres.tvdbSeriesId.changeValue(tvdbSeriesId);
     copyAllSeriesFields(seriesMongo, seriesPostgres);
-    seriesPostgres.commit(postgresConnection);
+    seriesPostgres.commit(sqlConnection);
 
     Integer seriesId = seriesPostgres.id.getValue();
     if (seriesId == null) {
@@ -131,7 +130,7 @@ public class TVPostgresMigration {
     TVDBSeriesPostgres tvdbSeriesPostgres = getOrCreateTVDBSeriesPostgres(seriesMongo.tvdbId.getValue());
 
     copyAllTVDBSeriesFields(seriesMongo, tvdbSeriesPostgres);
-    tvdbSeriesPostgres.commit(postgresConnection);
+    tvdbSeriesPostgres.commit(sqlConnection);
 
     Integer tvdbSeriesId = tvdbSeriesPostgres.id.getValue();
 
@@ -151,9 +150,9 @@ public class TVPostgresMigration {
 
         debug(" - Add season " + seasonNumber + " with Metacritic " + seasonMetacritic);
 
-        SeasonPostgres season = seriesPostgres.getOrCreateSeason(postgresConnection, seasonNumber);
+        SeasonPostgres season = seriesPostgres.getOrCreateSeason(sqlConnection, seasonNumber);
         season.metacritic.changeValue(seasonMetacritic);
-        season.commit(postgresConnection);
+        season.commit(sqlConnection);
       }
     }
   }
@@ -164,7 +163,7 @@ public class TVPostgresMigration {
       for (Object obj : viewingLocations) {
         String viewingLocation = (String) obj;
         debug(" - Add viewing location '" + viewingLocation + "'");
-        seriesPostgres.addViewingLocation(postgresConnection, viewingLocation);
+        seriesPostgres.addViewingLocation(sqlConnection, viewingLocation);
       }
     }
   }
@@ -175,7 +174,7 @@ public class TVPostgresMigration {
       for (Object obj : tvdbGenre) {
         String genreName = (String) obj;
         debug(" - Add genre '" + genreName + "'");
-        seriesPostgres.addGenre(postgresConnection, genreName);
+        seriesPostgres.addGenre(sqlConnection, genreName);
       }
     }
   }
@@ -237,10 +236,10 @@ public class TVPostgresMigration {
     episodePostgres.tvdbEpisodeId.changeValue(tvdbLocalEpisodeId);
 
     copyAllEpisodeFields(episodeMongo, episodePostgres);
-    episodePostgres.commit(postgresConnection);
+    episodePostgres.commit(sqlConnection);
 
     if (tivoLocalEpisodeId != null) {
-      episodePostgres.addToTiVoEpisodes(postgresConnection, tivoLocalEpisodeId);
+      episodePostgres.addToTiVoEpisodes(sqlConnection, tivoLocalEpisodeId);
     }
 
     updateRetired(episodeMongo, episodePostgres);
@@ -254,14 +253,14 @@ public class TVPostgresMigration {
       }
 
       episodePostgres.retired.changeValue(id_after_insert);
-      episodePostgres.commit(postgresConnection);
+      episodePostgres.commit(sqlConnection);
     }
   }
 
   private void updateSeasonNumber(SeriesPostgres seriesPostgres, EpisodeMongo episodeMongo, EpisodePostgres episodePostgres) throws SQLException {
     Integer seasonNumber = episodeMongo.tvdbSeason.getValue();
     if (seasonNumber != null) {
-      SeasonPostgres season = seriesPostgres.getOrCreateSeason(postgresConnection, seasonNumber);
+      SeasonPostgres season = seriesPostgres.getOrCreateSeason(sqlConnection, seasonNumber);
       episodePostgres.seasonId.changeValue(season.id.getValue());
     }
   }
@@ -273,7 +272,7 @@ public class TVPostgresMigration {
     TVDBEpisodePostgres tvdbEpisodePostgres = getOrCreateTVDBEpisodePostgres(tvdbNativeEpisodeId);
 
     copyAllTVDBEpisodeFields(episodeMongo, tvdbEpisodePostgres);
-    tvdbEpisodePostgres.commit(postgresConnection);
+    tvdbEpisodePostgres.commit(sqlConnection);
 
     Integer tvdbLocalEpisodeId = tvdbEpisodePostgres.id.getValue();
 
@@ -291,7 +290,7 @@ public class TVPostgresMigration {
     TiVoEpisodePostgres tiVoEpisodePostgres = getOrCreateTiVoEpisodePostgres(tivoNativeEpisodeId);
 
     copyAllTiVoEpisodeFields(episodeMongo, tiVoEpisodePostgres);
-    tiVoEpisodePostgres.commit(postgresConnection);
+    tiVoEpisodePostgres.commit(sqlConnection);
 
     Integer tivoLocalEpisodeId = tiVoEpisodePostgres.id.getValue();
     if (tivoLocalEpisodeId == null) {
@@ -300,7 +299,7 @@ public class TVPostgresMigration {
 
     if (episodeMongo.matchingStump.getValue()) {
       tiVoEpisodePostgres.retired.changeValue(tivoLocalEpisodeId);
-      tiVoEpisodePostgres.commit(postgresConnection);
+      tiVoEpisodePostgres.commit(sqlConnection);
     }
 
     return tivoLocalEpisodeId;
@@ -425,7 +424,7 @@ public class TVPostgresMigration {
     }
 
     String sql = "SELECT * FROM series WHERE tivo_series_id = ?";
-    ResultSet resultSet = postgresConnection.prepareAndExecuteStatementFetch(sql, tivoSeriesId);
+    ResultSet resultSet = sqlConnection.prepareAndExecuteStatementFetch(sql, tivoSeriesId);
 
     if (resultSet.next()) {
       if (devMode) {
@@ -446,7 +445,7 @@ public class TVPostgresMigration {
     }
 
     String sql = "SELECT * FROM series WHERE tvdb_id = ?";
-    ResultSet resultSet = postgresConnection.prepareAndExecuteStatementFetch(sql, tvdbId);
+    ResultSet resultSet = sqlConnection.prepareAndExecuteStatementFetch(sql, tvdbId);
 
     if (resultSet.next()) {
       if (devMode) {
@@ -508,7 +507,7 @@ public class TVPostgresMigration {
     }
 
     String sql = "SELECT * FROM tvdb_episode WHERE tvdb_id = ?";
-    ResultSet resultSet = postgresConnection.prepareAndExecuteStatementFetch(sql, tvdbEpisodeId);
+    ResultSet resultSet = sqlConnection.prepareAndExecuteStatementFetch(sql, tvdbEpisodeId);
 
     if (resultSet.next()) {
       if (devMode) {
@@ -529,7 +528,7 @@ public class TVPostgresMigration {
     }
 
     String sql = "SELECT * FROM tvdb_series WHERE tvdb_id = ?";
-    ResultSet resultSet = postgresConnection.prepareAndExecuteStatementFetch(sql, tvdbId);
+    ResultSet resultSet = sqlConnection.prepareAndExecuteStatementFetch(sql, tvdbId);
 
     if (resultSet.next()) {
       tvdbSeriesPostgres.initializeFromDBObject(resultSet);

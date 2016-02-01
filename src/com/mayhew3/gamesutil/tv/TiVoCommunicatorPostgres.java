@@ -2,7 +2,6 @@ package com.mayhew3.gamesutil.tv;
 
 import com.google.common.collect.Lists;
 import com.mayhew3.gamesutil.SSLTool;
-import com.mayhew3.gamesutil.db.PostgresConnection;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.mediaobject.*;
@@ -40,14 +39,14 @@ public class TiVoCommunicatorPostgres {
   private Integer deletedShows = 0;
   private Integer updatedShows = 0;
 
-  private static SQLConnection connection;
+  private static SQLConnection sqlConnection;
 
   public static void main(String[] args) throws UnknownHostException, SQLException, URISyntaxException, BadlyFormattedXMLException {
     List<String> argList = Lists.newArrayList(args);
     Boolean lookAtAllShows = argList.contains("FullMode");
     Boolean dev = argList.contains("Dev");
 
-    connection = new PostgresConnectionFactory().createConnection();
+    sqlConnection = new PostgresConnectionFactory().createConnection();
 
     TiVoCommunicatorPostgres tiVoCommunicatorPostgres = new TiVoCommunicatorPostgres();
 
@@ -77,34 +76,34 @@ public class TiVoCommunicatorPostgres {
        */
 
       updateFields();
-      connection.closeConnection();
+      sqlConnection.closeConnection();
 
     } catch (RuntimeException | BadlyFormattedXMLException e) {
-      connection.closeConnection();
+      sqlConnection.closeConnection();
       throw e;
     }
 
   }
 
   private void truncatePostgresTables() throws SQLException {
-    connection.executeUpdate("TRUNCATE TABLE tvdb_series CASCADE");
-    connection.executeUpdate("TRUNCATE TABLE tvdb_episode CASCADE");
-    connection.executeUpdate("TRUNCATE TABLE tivo_episode CASCADE");
-    connection.executeUpdate("TRUNCATE TABLE genre CASCADE");
-    connection.executeUpdate("TRUNCATE TABLE viewing_location CASCADE");
+    sqlConnection.executeUpdate("TRUNCATE TABLE tvdb_series CASCADE");
+    sqlConnection.executeUpdate("TRUNCATE TABLE tvdb_episode CASCADE");
+    sqlConnection.executeUpdate("TRUNCATE TABLE tivo_episode CASCADE");
+    sqlConnection.executeUpdate("TRUNCATE TABLE genre CASCADE");
+    sqlConnection.executeUpdate("TRUNCATE TABLE viewing_location CASCADE");
 
-    connection.executeUpdate("ALTER SEQUENCE series_id_seq RESTART WITH 1");
-    connection.executeUpdate("ALTER SEQUENCE tvdb_series_id_seq RESTART WITH 1");
-    connection.executeUpdate("ALTER SEQUENCE season_id_seq RESTART WITH 1");
-    connection.executeUpdate("ALTER SEQUENCE episode_id_seq RESTART WITH 1");
-    connection.executeUpdate("ALTER SEQUENCE tivo_episode_id_seq RESTART WITH 1");
-    connection.executeUpdate("ALTER SEQUENCE tvdb_episode_id_seq RESTART WITH 1");
+    sqlConnection.executeUpdate("ALTER SEQUENCE series_id_seq RESTART WITH 1");
+    sqlConnection.executeUpdate("ALTER SEQUENCE tvdb_series_id_seq RESTART WITH 1");
+    sqlConnection.executeUpdate("ALTER SEQUENCE season_id_seq RESTART WITH 1");
+    sqlConnection.executeUpdate("ALTER SEQUENCE episode_id_seq RESTART WITH 1");
+    sqlConnection.executeUpdate("ALTER SEQUENCE tivo_episode_id_seq RESTART WITH 1");
+    sqlConnection.executeUpdate("ALTER SEQUENCE tvdb_episode_id_seq RESTART WITH 1");
 
-    connection.executeUpdate("ALTER SEQUENCE genre_id_seq RESTART WITH 1");
-    connection.executeUpdate("ALTER SEQUENCE series_genre_id_seq RESTART WITH 1");
+    sqlConnection.executeUpdate("ALTER SEQUENCE genre_id_seq RESTART WITH 1");
+    sqlConnection.executeUpdate("ALTER SEQUENCE series_genre_id_seq RESTART WITH 1");
 
-    connection.executeUpdate("ALTER SEQUENCE viewing_location_id_seq RESTART WITH 1");
-    connection.executeUpdate("ALTER SEQUENCE series_viewing_location_id_seq RESTART WITH 1");
+    sqlConnection.executeUpdate("ALTER SEQUENCE viewing_location_id_seq RESTART WITH 1");
+    sqlConnection.executeUpdate("ALTER SEQUENCE series_viewing_location_id_seq RESTART WITH 1");
 
   }
 
@@ -144,7 +143,7 @@ public class TiVoCommunicatorPostgres {
   }
 
   private void checkForDeletedShows() throws SQLException {
-    ResultSet resultSet = connection.executeQuery(
+    ResultSet resultSet = sqlConnection.executeQuery(
         "SELECT * " +
             "FROM tivo_episode " +
             "WHERE deleted_date IS NULL"
@@ -177,7 +176,7 @@ public class TiVoCommunicatorPostgres {
       }
 
       episode.deletedDate.changeValue(new Date());
-      episode.commit(connection);
+      episode.commit(sqlConnection);
 
       deletedShows++;
     }
@@ -256,7 +255,7 @@ public class TiVoCommunicatorPostgres {
       episodesOnTiVo.add(tivoInfo.programId);
     }
 
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch("SELECT * FROM series WHERE tivo_series_id = ?", tivoInfo.tivoId);
+    ResultSet resultSet = sqlConnection.prepareAndExecuteStatementFetch("SELECT * FROM series WHERE tivo_series_id = ?", tivoInfo.tivoId);
 
     SeriesPostgres series = new SeriesPostgres();
 
@@ -269,7 +268,7 @@ public class TiVoCommunicatorPostgres {
 
     Boolean tvdbUpdated = false;
     if (series.tvdbId.getValue() == null) {
-      TVDBSeriesPostgresUpdater updater = new TVDBSeriesPostgresUpdater(connection, series, new NodeReaderImpl());
+      TVDBSeriesPostgresUpdater updater = new TVDBSeriesPostgresUpdater(sqlConnection, series, new NodeReaderImpl());
       updater.updateSeries();
       tvdbUpdated = true;
     }
@@ -335,7 +334,7 @@ public class TiVoCommunicatorPostgres {
     episode.onTiVo.changeValue(true);
     episode.seriesId.changeValue(series.id.getValue());
 
-    episode.commit(connection);
+    episode.commit(sqlConnection);
 
     Integer episodeId = episode.id.getValue();
 
@@ -344,17 +343,17 @@ public class TiVoCommunicatorPostgres {
     }
 
     if (tivo_episode_id != null) {
-      episode.addToTiVoEpisodes(connection, tivo_episode_id);
+      episode.addToTiVoEpisodes(sqlConnection, tivo_episode_id);
     }
 
     updateSeriesDenorms(tivoEpisode, episode, series, matched);
 
-    series.commit(connection);
+    series.commit(sqlConnection);
   }
 
   private TVDBEpisodePostgres retryMatchWithUpdatedTVDB(SeriesPostgres series, Boolean tvdbUpdated, TiVoEpisodePostgres tivoEpisode) throws SQLException, BadlyFormattedXMLException {
     if (!tvdbUpdated) {
-      TVDBSeriesPostgresUpdater updater = new TVDBSeriesPostgresUpdater(connection, series, new NodeReaderImpl());
+      TVDBSeriesPostgresUpdater updater = new TVDBSeriesPostgresUpdater(sqlConnection, series, new NodeReaderImpl());
       updater.updateSeries();
 
       return findTVDBEpisodeMatch(tivoEpisode, series.id.getValue());
@@ -373,7 +372,7 @@ public class TiVoCommunicatorPostgres {
     formatEpisodeObject(tivoEpisode, tivoInfo.url, tivoInfo.isSuggestion, showDetails);
     tivoEpisode.tivoSeriesId.changeValue(tivoInfo.tivoId);
     tivoEpisode.seriesTitle.changeValue(tivoInfo.seriesTitle);
-    tivoEpisode.commit(connection);
+    tivoEpisode.commit(sqlConnection);
     return tivoEpisode;
   }
 
@@ -392,16 +391,16 @@ public class TiVoCommunicatorPostgres {
 
     series.initializeDenorms();
 
-    series.commit(connection);
+    series.commit(sqlConnection);
 
-    series.addViewingLocation(connection, "TiVo");
+    series.addViewingLocation(sqlConnection, "TiVo");
 
     addedShows++;
   }
 
   private ResultSet getExistingEpisodeRow(TVDBEpisodePostgres tvdbMatch) throws SQLException {
     Integer tvdb_id = tvdbMatch.id.getValue();
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
+    ResultSet resultSet = sqlConnection.prepareAndExecuteStatementFetch(
         "SELECT * " +
             "FROM episode " +
             "WHERE tvdb_episode_id = ?",
@@ -415,7 +414,7 @@ public class TiVoCommunicatorPostgres {
 
   private ResultSet getExistingEpisodeRows(TiVoEpisodePostgres tiVoEpisodePostgres) throws SQLException {
     Integer tivoEpisodeId = tiVoEpisodePostgres.id.getValue();
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
+    ResultSet resultSet = sqlConnection.prepareAndExecuteStatementFetch(
         "SELECT e.* " +
             "FROM episode e " +
             "INNER JOIN edge_tivo_episode ete " +
@@ -469,7 +468,7 @@ public class TiVoCommunicatorPostgres {
   }
 
   private ResultSet getExistingTiVoEpisodes(String programId) throws SQLException {
-    return connection.prepareAndExecuteStatementFetch("SELECT * FROM tivo_episode WHERE program_id = ?", programId);
+    return sqlConnection.prepareAndExecuteStatementFetch("SELECT * FROM tivo_episode WHERE program_id = ?", programId);
   }
 
   private TiVoEpisodePostgres formatEpisodeObject(TiVoEpisodePostgres episode, String url, Boolean isSuggestion, NodeList showDetails) {
@@ -499,7 +498,7 @@ public class TiVoCommunicatorPostgres {
     Integer episodeNumber = tivoEpisode.episodeNumber.getValue();
     Date startTime = tivoEpisode.showingStartTime.getValue();
 
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
+    ResultSet resultSet = sqlConnection.prepareAndExecuteStatementFetch(
         "SELECT te.* " +
             "FROM episode e " +
             "INNER JOIN tvdb_episode te " +
