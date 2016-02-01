@@ -3,7 +3,6 @@ package com.mayhew3.gamesutil.mediaobject;
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
-import com.mayhew3.gamesutil.db.PostgresConnection;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.sun.javafx.beans.annotations.NonNull;
 
@@ -177,7 +176,7 @@ public abstract class MediaObjectPostgreSQL {
 
     String sql = "INSERT INTO " + getTableName() + " (" + commaSeparatedNames + ") VALUES (" + commaSeparatedQuestionMarks + ")";
 
-    PreparedStatement preparedStatement = connection.prepareStatementWithReturnValue(sql);
+    PreparedStatement preparedStatement = connection.prepareStatementForInsertId(sql);
     connection.executePreparedUpdateWithFields(preparedStatement, fieldValues);
 
     return getIDFromInsert(preparedStatement);

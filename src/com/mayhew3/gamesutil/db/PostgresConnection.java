@@ -5,8 +5,6 @@ import com.mayhew3.gamesutil.mediaobject.FieldValue;
 import com.sun.istack.internal.NotNull;
 
 import java.math.BigDecimal;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.sql.*;
 import java.util.List;
 
@@ -19,9 +17,7 @@ public class PostgresConnection implements SQLConnection {
   }
 
 
-  public void closeConnection() throws SQLException {
-    _connection.close();
-  }
+  // Simple executes without use of PreparedStatement
 
   @NotNull
   public ResultSet executeQuery(String sql) throws SQLException {
@@ -37,55 +33,53 @@ public class PostgresConnection implements SQLConnection {
     return statement;
   }
 
-  public boolean columnExists(String tableName, String columnName) throws SQLException {
-    return _connection.getMetaData().getColumns(null, null, tableName, columnName).next();
+  public void closeConnection() throws SQLException {
+    _connection.close();
   }
+
+
+  // Full lifecycle operations using PreparedStatement
+
+
 
   public ResultSet prepareAndExecuteStatementFetch(String sql, Object... params) throws SQLException {
     return prepareAndExecuteStatementFetch(sql, Lists.newArrayList(params));
   }
 
   public ResultSet prepareAndExecuteStatementFetch(String sql, List<Object> params) throws SQLException {
-    PreparedStatement preparedStatement = prepareStatement(sql, params);
+    PreparedStatement preparedStatement = prepareStatementWithParams(sql, params);
     ResultSet resultSet = preparedStatement.executeQuery();
     preparedStatement.close();
     return resultSet;
   }
 
-  public void prepareAndExecuteStatementUpdate(String sql, Object... params) throws SQLException {
-    PreparedStatement preparedStatement = prepareStatement(sql, Lists.newArrayList(params));
 
-    preparedStatement.executeUpdate();
-    preparedStatement.close();
+  public void prepareAndExecuteStatementUpdate(String sql, Object... params) throws SQLException {
+    prepareAndExecuteStatementUpdate(sql, Lists.newArrayList(params));
   }
 
   public void prepareAndExecuteStatementUpdate(String sql, List<Object> params) throws SQLException {
-    PreparedStatement preparedStatement = prepareStatement(sql, params);
+    PreparedStatement preparedStatement = prepareStatementWithParams(sql, params);
 
     preparedStatement.executeUpdate();
     preparedStatement.close();
   }
 
-  public void prepareAndExecuteStatementUpdateWithFields(String sql, List<FieldValue> fields) throws SQLException {
-    PreparedStatement preparedStatement = prepareStatementWithFields(sql, fields);
 
-    preparedStatement.executeUpdate();
-    preparedStatement.close();
+
+
+
+  // Operations with user handle on PreparedStatement
+
+  public PreparedStatement prepareStatementForInsertId(String sql) throws SQLException {
+    return _connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
   }
 
-  public PreparedStatement prepareStatement(String sql, List<Object> params) throws SQLException {
+  public PreparedStatement prepareStatementWithParams(String sql, List<Object> params) throws SQLException {
     PreparedStatement preparedStatement = _connection.prepareStatement(sql);
     return plugParamsIntoStatement(preparedStatement, params);
   }
 
-  public PreparedStatement prepareStatementWithFields(String sql, List<FieldValue> fields) throws SQLException {
-    PreparedStatement preparedStatement = _connection.prepareStatement(sql);
-    return plugFieldsIntoStatement(preparedStatement, fields);
-  }
-
-  public PreparedStatement prepareStatementWithReturnValue(String sql) throws SQLException {
-    return _connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-  }
 
   public ResultSet executePreparedStatementWithParams(PreparedStatement preparedStatement, Object... params) throws SQLException {
     List<Object> paramList = Lists.newArrayList(params);
@@ -102,10 +96,38 @@ public class PostgresConnection implements SQLConnection {
     statementWithParams.executeUpdate();
   }
 
+
+
+  // Using FieldValue
+
+
+  public PreparedStatement prepareStatementWithFields(String sql, List<FieldValue> fields) throws SQLException {
+    PreparedStatement preparedStatement = _connection.prepareStatement(sql);
+    return plugFieldsIntoStatement(preparedStatement, fields);
+  }
+
+  public void prepareAndExecuteStatementUpdateWithFields(String sql, List<FieldValue> fields) throws SQLException {
+    PreparedStatement preparedStatement = prepareStatementWithFields(sql, fields);
+
+    preparedStatement.executeUpdate();
+    preparedStatement.close();
+  }
+
   public void executePreparedUpdateWithFields(PreparedStatement preparedStatement, List<FieldValue> fieldValues) throws SQLException {
     plugFieldsIntoStatement(preparedStatement, fieldValues);
     preparedStatement.executeUpdate();
   }
+
+
+  // unused but useful
+
+  public boolean columnExists(String tableName, String columnName) throws SQLException {
+    return _connection.getMetaData().getColumns(null, null, tableName, columnName).next();
+  }
+
+
+
+  // utility methods
 
   private PreparedStatement plugFieldsIntoStatement(PreparedStatement preparedStatement, List<FieldValue> fieldValues) throws SQLException {
     int i = 1;

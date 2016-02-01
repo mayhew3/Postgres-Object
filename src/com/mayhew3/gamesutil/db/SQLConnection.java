@@ -10,7 +10,7 @@ import java.sql.Statement;
 import java.util.List;
 
 public interface SQLConnection {
-  void closeConnection() throws SQLException;
+
 
   // Simple executes without use of PreparedStatements.
 
@@ -19,6 +19,8 @@ public interface SQLConnection {
 
   @NotNull
   Statement executeUpdate(String sql) throws SQLException;
+
+  void closeConnection() throws SQLException;
 
 
   // Full lifecycle operations using PreparedStatement
@@ -75,6 +77,12 @@ public interface SQLConnection {
    */
   void prepareAndExecuteStatementUpdate(String sql, List<Object> params) throws SQLException;
 
+
+
+
+  // Operations with user handle on PreparedStatement
+
+
   /**
    * Create a simple PreparedStatement but with the special argument that allows the PreparedStatement
    * to contain the resulting ID from an INSERT operation. Does nothing for an UPDATE.
@@ -84,11 +92,7 @@ public interface SQLConnection {
    * @throws SQLException
    */
   @NotNull
-  PreparedStatement prepareStatementWithReturnValue(String sql) throws SQLException;
-
-
-  // Operations with user handle on PreparedStatement
-
+  PreparedStatement prepareStatementForInsertId(String sql) throws SQLException;
 
   /**
    * - Create PreparedStatement using SQL.
@@ -100,7 +104,7 @@ public interface SQLConnection {
    * @throws SQLException
    */
   @NotNull
-  PreparedStatement prepareStatement(String sql, List<Object> params) throws SQLException;
+  PreparedStatement prepareStatementWithParams(String sql, List<Object> params) throws SQLException;
 
   /**
    * - Plug given parameters into given PreparedStatement.
@@ -128,7 +132,7 @@ public interface SQLConnection {
 
 
 
-  // using FieldValues
+  // Using FieldValue
 
   /**
    * - Create PreparedStatement using SQL.
