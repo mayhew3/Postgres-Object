@@ -1,10 +1,16 @@
 package com.mayhew3.gamesutil.mediaobject;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 public class FieldValueShort extends FieldValue<Short> {
   public FieldValueShort(String fieldName, FieldConversion<Short> converter) {
     super(fieldName, converter);
+  }
+
+  @Override
+  protected void initializeValue(ResultSet resultSet) {
+    throw new IllegalStateException("Cannot select Postgres DB with Mongo value.");
   }
 
   @Override

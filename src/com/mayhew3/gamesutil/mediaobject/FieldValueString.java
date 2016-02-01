@@ -1,6 +1,7 @@
 package com.mayhew3.gamesutil.mediaobject;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 
@@ -19,6 +20,11 @@ public class FieldValueString extends FieldValue<String> {
   protected void initializeValueFromString(String valueString) {
     super.initializeValueFromString(valueString);
     this.isText = true;
+  }
+
+  @Override
+  protected void initializeValue(ResultSet resultSet) throws SQLException {
+    initializeValue(resultSet.getString(getFieldName()));
   }
 
   @Override

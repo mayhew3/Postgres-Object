@@ -2,12 +2,18 @@ package com.mayhew3.gamesutil.mediaobject;
 
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 
 public class FieldValueBigDecimal extends FieldValue<BigDecimal> {
   public FieldValueBigDecimal(String fieldName, FieldConversion<BigDecimal> converter) {
     super(fieldName, converter);
+  }
+
+  @Override
+  protected void initializeValue(ResultSet resultSet) throws SQLException {
+    initializeValue(resultSet.getBigDecimal(getFieldName()));
   }
 
   @Override

@@ -1,6 +1,7 @@
 package com.mayhew3.gamesutil.mediaobject;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Objects;
 
@@ -37,6 +38,8 @@ public abstract class FieldValue<T> {
 
     this.wasText = true;
   }
+
+  abstract protected void initializeValue(ResultSet resultSet) throws SQLException;
 
   private T getConversion(String valueString) {
     try {

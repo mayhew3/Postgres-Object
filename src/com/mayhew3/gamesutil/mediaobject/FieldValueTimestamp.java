@@ -2,15 +2,17 @@ package com.mayhew3.gamesutil.mediaobject;
 
 import com.sun.istack.internal.Nullable;
 
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.sql.Types;
+import java.sql.*;
 import java.util.Date;
 
 public class FieldValueTimestamp extends FieldValue<Timestamp> {
   public FieldValueTimestamp(String fieldName, FieldConversion<Timestamp> converter) {
     super(fieldName, converter);
+  }
+
+  @Override
+  protected void initializeValue(ResultSet resultSet) throws SQLException {
+    initializeValue(resultSet.getTimestamp(getFieldName()));
   }
 
   @Override

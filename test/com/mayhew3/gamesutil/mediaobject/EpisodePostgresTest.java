@@ -45,7 +45,13 @@ public class EpisodePostgresTest {
     verify(resultSet).getInt("id");
 
     for (FieldValue fieldValue : tiVoEpisodePostgres.allFieldValues) {
-      verify(resultSet).getObject(fieldValue.getFieldName());
+      if (fieldValue instanceof FieldValueString) {
+        verify(resultSet).getString(fieldValue.getFieldName());
+      } else if (fieldValue instanceof FieldValueInteger) {
+        verify(resultSet).getInt(fieldValue.getFieldName());
+      }
+      // todo: assert other types
+//      verify(resultSet).getObject(fieldValue.getFieldName());
     }
   }
 }

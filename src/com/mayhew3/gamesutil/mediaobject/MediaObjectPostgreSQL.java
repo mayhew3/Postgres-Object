@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public abstract class MediaObjectPostgreSQL {
 
@@ -32,13 +33,10 @@ public abstract class MediaObjectPostgreSQL {
       throw new RuntimeException("Row found with no valid id field.");
     }
 
-    initializeValue(id, existingId);
+    id.initializeValue(existingId);
 
     for (FieldValue fieldValue : allFieldValues) {
-      String fieldName = fieldValue.getFieldName();
-      Object obj = resultSet.getObject(fieldName);
-
-      initializeValue(fieldValue, obj);
+      fieldValue.initializeValue(resultSet);
     }
 
     initialized = true;
@@ -67,15 +65,6 @@ public abstract class MediaObjectPostgreSQL {
   @NotNull
   public Boolean isForUpdate() {
     return EditMode.UPDATE.equals(editMode);
-  }
-
-  private void initializeValue(FieldValue fieldValue, Object obj) {
-    if (obj instanceof String) {
-      fieldValue.initializeValueFromString((String) obj);
-    } else {
-      // todo: Need to change MongoArray fieldvalue to BasicDBList instead of ObjectId[]. Probably need the same for genre.
-      fieldValue.initializeValue(obj);
-    }
   }
 
   public void commit(SQLConnection connection) throws SQLException {
@@ -123,12 +112,11 @@ public abstract class MediaObjectPostgreSQL {
     List<String> changedFieldNames = new ArrayList<>();
     List<FieldValue> changedFields = new ArrayList<>();
 
-    for (FieldValue fieldValue : allFieldValues) {
-      if (fieldValue.isChanged()) {
-        changedFieldNames.add(fieldValue.getFieldName());
-        changedFields.add(fieldValue);
-      }
-    }
+    allFieldValues.stream().filter(FieldValue::isChanged).forEach(fieldValue -> {
+      changedFieldNames.add(fieldValue.getFieldName());
+      changedFields.add(fieldValue);
+    });
+
     if (!changedFields.isEmpty()) {
       Joiner joiner = Joiner.on(", ");
       System.out.println(" - Changed: " + joiner.join(changedFieldNames));
@@ -138,17 +126,16 @@ public abstract class MediaObjectPostgreSQL {
   }
 
   private void updateObjects(List<FieldValue> changedFields) {
-    for (FieldValue changedField : changedFields) {
-      changedField.updateInternal();
-    }
+    changedFields.forEach(FieldValue::updateInternal);
   }
 
   private void updateDatabase(SQLConnection connection, List<FieldValue> fieldValues) throws SQLException {
     List<String> fieldNames = Lists.newArrayList();
 
-    for (FieldValue fieldValue : fieldValues) {
-      fieldNames.add("\"" + fieldValue.getFieldName() + "\" = ?");
-    }
+    fieldNames.addAll(fieldValues
+        .stream()
+        .map(fieldValue -> "\"" + fieldValue.getFieldName() + "\" = ?")
+        .collect(Collectors.toList()));
 
     fieldValues.add(id);
 

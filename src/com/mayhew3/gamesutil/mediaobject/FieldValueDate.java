@@ -1,11 +1,17 @@
 package com.mayhew3.gamesutil.mediaobject;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.Date;
 
 public class FieldValueDate extends FieldValue<Date> {
   public FieldValueDate(String fieldName, FieldConversion<Date> converter) {
     super(fieldName, converter);
+  }
+
+  @Override
+  protected void initializeValue(ResultSet resultSet) {
+    throw new IllegalStateException("Cannot select Postgres DB with Mongo value.");
   }
 
   @Override

@@ -6,6 +6,7 @@ import com.mongodb.BasicDBList;
 import org.bson.types.ObjectId;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 public class FieldValueMongoArray extends FieldValue<BasicDBList> {
   public FieldValueMongoArray(String fieldName, FieldConversion<BasicDBList> converter) {
@@ -33,6 +34,11 @@ public class FieldValueMongoArray extends FieldValue<BasicDBList> {
   @Override
   protected void initializeValueFromString(String valueString) {
     super.initializeValueFromString(valueString);
+  }
+
+  @Override
+  protected void initializeValue(ResultSet resultSet) {
+    throw new IllegalStateException("Cannot select Postgres DB with Mongo value.");
   }
 
   @Override

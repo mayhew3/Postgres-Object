@@ -1,12 +1,18 @@
 package com.mayhew3.gamesutil.mediaobject;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 
 public class FieldValueInteger extends FieldValue<Integer> {
   public FieldValueInteger(String fieldName, FieldConversion<Integer> converter) {
     super(fieldName, converter);
+  }
+
+  @Override
+  protected void initializeValue(ResultSet resultSet) throws SQLException {
+    initializeValue(resultSet.getInt(getFieldName()));
   }
 
   @Override

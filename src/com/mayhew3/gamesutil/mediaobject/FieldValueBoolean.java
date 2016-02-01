@@ -1,6 +1,7 @@
 package com.mayhew3.gamesutil.mediaobject;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 
@@ -22,6 +23,11 @@ public class FieldValueBoolean extends FieldValue<Boolean> {
     } else {
       super.initializeValue((value == null) ? false : value);
     }
+  }
+
+  @Override
+  protected void initializeValue(ResultSet resultSet) throws SQLException {
+    initializeValue(resultSet.getBoolean(getFieldName()));
   }
 
   @Override

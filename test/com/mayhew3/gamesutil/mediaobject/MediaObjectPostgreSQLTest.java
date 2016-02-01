@@ -222,8 +222,8 @@ public class MediaObjectPostgreSQLTest {
 
     when(resultSet.wasNull()).thenReturn(false);
     when(resultSet.getInt("id")).thenReturn(initial_id);
-    when(resultSet.getObject("title")).thenReturn(initial_title);
-    when(resultSet.getObject("kernels")).thenReturn(initial_kernels);
+    when(resultSet.getString("title")).thenReturn(initial_title);
+    when(resultSet.getInt("kernels")).thenReturn(initial_kernels);
     return resultSet;
   }
 

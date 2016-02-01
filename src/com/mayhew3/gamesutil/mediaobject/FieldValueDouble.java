@@ -1,10 +1,16 @@
 package com.mayhew3.gamesutil.mediaobject;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 public class FieldValueDouble extends FieldValue<Double> {
   public FieldValueDouble(String fieldName, FieldConversion<Double> converter) {
     super(fieldName, converter);
+  }
+
+  @Override
+  protected void initializeValue(ResultSet resultSet) {
+    throw new IllegalStateException("Cannot select Postgres DB with Mongo value.");
   }
 
   @Override
