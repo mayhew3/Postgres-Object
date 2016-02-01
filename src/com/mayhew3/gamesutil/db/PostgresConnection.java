@@ -37,13 +37,8 @@ public class PostgresConnection implements SQLConnection {
     return statement;
   }
 
-  public boolean columnExists(String tableName, String columnName) {
-    try {
-      ResultSet tables = _connection.getMetaData().getColumns(null, null, tableName, columnName);
-      return tables.next();
-    } catch (SQLException e) {
-      throw new IllegalStateException("Error trying to find column " + columnName);
-    }
+  public boolean columnExists(String tableName, String columnName) throws SQLException {
+    return _connection.getMetaData().getColumns(null, null, tableName, columnName).next();
   }
 
   public ResultSet prepareAndExecuteStatementFetch(String sql, Object... params) throws SQLException {
