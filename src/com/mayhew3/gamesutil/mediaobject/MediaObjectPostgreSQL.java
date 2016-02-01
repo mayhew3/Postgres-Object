@@ -176,26 +176,7 @@ public abstract class MediaObjectPostgreSQL {
 
     String sql = "INSERT INTO " + getTableName() + " (" + commaSeparatedNames + ") VALUES (" + commaSeparatedQuestionMarks + ")";
 
-    PreparedStatement preparedStatement = connection.prepareStatementForInsertId(sql);
-    connection.executePreparedUpdateWithFields(preparedStatement, fieldValues);
-
-    return getIDFromInsert(preparedStatement);
-  }
-
-  private Integer getIDFromInsert(PreparedStatement preparedStatement) {
-    try {
-      ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-
-      if (!generatedKeys.next()) {
-        throw new RuntimeException("No rows in ResultSet from Inserted object!");
-      }
-
-      int id = generatedKeys.getInt("ID");
-      preparedStatement.close();
-      return id;
-    } catch (SQLException e) {
-      throw new RuntimeException("Error retrieving ID from inserted object!" + e.getLocalizedMessage());
-    }
+    return connection.prepareAndExecuteStatementInsertReturnId(sql, fieldValues);
   }
 
   protected abstract String getTableName();

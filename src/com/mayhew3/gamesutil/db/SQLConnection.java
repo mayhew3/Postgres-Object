@@ -82,18 +82,6 @@ public interface SQLConnection {
 
   // Operations with user handle on PreparedStatement
 
-
-  /**
-   * Create a simple PreparedStatement but with the special argument that allows the PreparedStatement
-   * to contain the resulting ID from an INSERT operation. Does nothing for an UPDATE.
-   *
-   * @param sql SQL query that should be run
-   * @return PreparedStatement that can be executed as a query, and has getGeneratedKeys() enabled for ID retrieval.
-   * @throws SQLException
-   */
-  @NotNull
-  PreparedStatement prepareStatementForInsertId(String sql) throws SQLException;
-
   /**
    * - Create PreparedStatement using SQL.
    * - Plug given parameters into PreparedStatement.
@@ -157,6 +145,21 @@ public interface SQLConnection {
    * @throws SQLException
    */
   void prepareAndExecuteStatementUpdateWithFields(String sql, List<FieldValue> fields) throws SQLException;
+
+  /**
+   * - Create PreparedStatement using given SQL, with Generated Keys enabled.
+   * - Plug given parameters into PreparedStatement.
+   * - Execute PreparedStatement again DB.
+   * - Close PreparedStatement.
+   * - Return ID of newly inserted row.
+   *
+   * @param sql SQL query that should be run. Should be INSERT query.
+   * @param fieldValues List of FieldValues that should be plugged into query.
+   * @return ID of newly inserted row.
+   * @throws SQLException
+   */
+  @NotNull
+  Integer prepareAndExecuteStatementInsertReturnId(String sql, List<FieldValue> fieldValues) throws SQLException;
 
   /**
    * - Plug given parameters into given PreparedStatement.

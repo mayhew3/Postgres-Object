@@ -114,7 +114,8 @@ public class MediaObjectPostgreSQLTest {
   @Test
   public void testSimpleInsert() throws SQLException {
     PostgresConnection connection = mock(PostgresConnection.class);
-    PreparedStatement statement = prepareMockStatement(connection);
+
+    when(connection.prepareAndExecuteStatementInsertReturnId(anyString(), anyList())).thenReturn(initial_id);
 
     mediaObject.initializeForInsert();
 
@@ -125,8 +126,8 @@ public class MediaObjectPostgreSQLTest {
 
     mediaObject.commit(connection);
 
-    verify(connection).prepareStatementForInsertId("INSERT INTO test (\"title\", \"kernels\") VALUES (?, ?)");
-    verify(connection).executePreparedUpdateWithFields(eq(statement), fieldValueCaptor.capture());
+    String sql = "INSERT INTO test (\"title\", \"kernels\") VALUES (?, ?)";
+    verify(connection).prepareAndExecuteStatementInsertReturnId(eq(sql), fieldValueCaptor.capture());
 
     List<FieldValue> fieldValues = fieldValueCaptor.getValue();
     assertThat(fieldValues)
@@ -143,8 +144,6 @@ public class MediaObjectPostgreSQLTest {
         .isEqualTo("kernels");
     assertThat(kernelField.getChangedValue())
         .isEqualTo(newKernels);
-
-    verify(statement).close();
 
     assertThat(mediaObject.isForUpdate())
         .isTrue();
@@ -217,17 +216,6 @@ public class MediaObjectPostgreSQLTest {
 
   
   // utility methods
-
-  private PreparedStatement prepareMockStatement(PostgresConnection connection) throws SQLException {
-    PreparedStatement statement = mock(PreparedStatement.class);
-    ResultSet resultSet = mock(ResultSet.class);
-
-    when(connection.prepareStatementForInsertId(anyString())).thenReturn(statement);
-    when(statement.getGeneratedKeys()).thenReturn(resultSet);
-    when(resultSet.next()).thenReturn(true);
-    when(resultSet.getInt("id")).thenReturn(initial_id);
-    return statement;
-  }
 
   private ResultSet mockDBRow() throws SQLException {
     ResultSet resultSet = mock(ResultSet.class);

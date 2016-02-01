@@ -71,10 +71,6 @@ public class PostgresConnection implements SQLConnection {
 
   // Operations with user handle on PreparedStatement
 
-  public PreparedStatement prepareStatementForInsertId(String sql) throws SQLException {
-    return _connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-  }
-
   public PreparedStatement prepareStatementWithParams(String sql, List<Object> params) throws SQLException {
     PreparedStatement preparedStatement = _connection.prepareStatement(sql);
     return plugParamsIntoStatement(preparedStatement, params);
@@ -112,6 +108,24 @@ public class PostgresConnection implements SQLConnection {
     preparedStatement.executeUpdate();
     preparedStatement.close();
   }
+
+  public Integer prepareAndExecuteStatementInsertReturnId(String sql, List<FieldValue> fieldValues) throws SQLException {
+    PreparedStatement preparedStatement = prepareStatementForInsertId(sql);
+    plugFieldsIntoStatement(preparedStatement, fieldValues);
+
+    preparedStatement.executeUpdate();
+
+    ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+
+    if (!generatedKeys.next()) {
+      throw new RuntimeException("No rows in ResultSet from Inserted object!");
+    }
+
+    int id = generatedKeys.getInt("ID");
+    preparedStatement.close();
+    return id;
+  }
+
 
   public void executePreparedUpdateWithFields(PreparedStatement preparedStatement, List<FieldValue> fieldValues) throws SQLException {
     plugFieldsIntoStatement(preparedStatement, fieldValues);
@@ -159,6 +173,10 @@ public class PostgresConnection implements SQLConnection {
       i++;
     }
     return preparedStatement;
+  }
+
+  PreparedStatement prepareStatementForInsertId(String sql) throws SQLException {
+    return _connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
   }
 
 }
