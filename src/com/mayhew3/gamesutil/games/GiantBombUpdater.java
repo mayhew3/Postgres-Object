@@ -16,6 +16,7 @@ import java.io.*;
 import java.math.BigDecimal;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.sql.ResultSet;
@@ -25,6 +26,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class GiantBombUpdater {
 
@@ -34,7 +36,7 @@ public class GiantBombUpdater {
     this.connection = connection;
   }
 
-  public static void main(String[] args) throws SQLException, FileNotFoundException, URISyntaxException {
+  public static void main(String[] args) throws SQLException, FileNotFoundException, URISyntaxException, InterruptedException {
     List<String> argList = Lists.newArrayList(args);
     Boolean logToFile = argList.contains("LogToFile");
 
@@ -53,7 +55,7 @@ public class GiantBombUpdater {
 
   }
 
-  public void updateFields() throws SQLException {
+  public void updateFields() throws SQLException, InterruptedException {
     String sql = "SELECT * FROM games WHERE NOT (giantbomb_id IS NOT NULL and giantbomb_icon_url IS NOT NULL) and owned <> 'not owned'";
 //    String sql = "SELECT * FROM games WHERE giantbomb_id = 20238";
     ResultSet resultSet = connection.executeQuery(sql);
@@ -71,6 +73,10 @@ public class GiantBombUpdater {
       } catch (IOException e) {
         debug("Error occured for game: " + game.title.getValue());
         e.printStackTrace();
+      } finally {
+        // Giant Bomb added API request limits of 1 per second. Because it is exact, and I don't have many games to try,
+        // giving it a buffer to not go under it.
+        TimeUnit.SECONDS.sleep(2);
       }
     }
 
@@ -278,7 +284,10 @@ public class GiantBombUpdater {
 
 
   public JSONObject readJsonFromUrl(String url) throws IOException, JSONException {
-    try (InputStream is = new URL(url).openStream()) {
+    URLConnection urlConnection = new URL(url).openConnection();
+    urlConnection.addRequestProperty("User-Agent", "Mozilla/4.0");
+
+    try (InputStream is = urlConnection.getInputStream()) {
       BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
       String jsonText = readAll(rd);
       return new JSONObject(jsonText);

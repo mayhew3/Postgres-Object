@@ -12,7 +12,11 @@ public class FieldValueInteger extends FieldValue<Integer> {
 
   @Override
   protected void initializeValue(ResultSet resultSet) throws SQLException {
-    initializeValue(resultSet.getInt(getFieldName()));
+    Integer resultSetInt = resultSet.getInt(getFieldName());
+    if (resultSet.wasNull()) {
+      resultSetInt = null;
+    }
+    initializeValue(resultSetInt);
   }
 
   @Override

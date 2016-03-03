@@ -23,7 +23,7 @@ public class SteamGameUpdater extends DatabaseUtility {
 
   private static SQLConnection connection;
 
-  public static void main(String[] args) throws SQLException, FileNotFoundException, URISyntaxException {
+  public static void main(String[] args) throws SQLException, FileNotFoundException, URISyntaxException, InterruptedException {
     List<String> argList = Lists.newArrayList(args);
     Boolean logToFile = argList.contains("LogToFile");
 
