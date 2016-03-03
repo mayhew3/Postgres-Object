@@ -110,16 +110,21 @@ public class TiVoCommunicator extends TVDatabaseUtility {
       EpisodeMongo episode = new EpisodeMongo();
       episode.initializeFromDBObject(episodeObj);
 
-      deleteIfGone(episode);
+      try {
+        deleteIfGone(episode);
+      } catch (ShowFailedException e) {
+        debug(e.getLocalizedMessage());
+        e.printStackTrace();
+      }
     }
 
   }
 
-  private void deleteIfGone(EpisodeMongo episode) {
+  private void deleteIfGone(EpisodeMongo episode) throws ShowFailedException {
     String programId = episode.tivoProgramId.getValue();
 
     if (programId == null) {
-      throw new RuntimeException("Episode found with OnTiVo 'true' and TiVoProgramId 'null'.");
+      throw new ShowFailedException("Episode found with OnTiVo 'true' and TiVoProgramId 'null': " + episode);
     }
 
     if (!episodesOnTiVo.contains(programId)) {

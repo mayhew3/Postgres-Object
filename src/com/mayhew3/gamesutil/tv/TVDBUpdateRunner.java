@@ -1,10 +1,7 @@
 package com.mayhew3.gamesutil.tv;
 
 import com.mayhew3.gamesutil.mediaobject.SeriesMongo;
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
+import com.mongodb.*;
 
 import java.net.UnknownHostException;
 
@@ -49,24 +46,29 @@ public class TVDBUpdateRunner extends TVDatabaseUtility {
 
     DBCollection untaggedShows = _db.getCollection("series");
     DBCursor cursor = untaggedShows.find(query);
+    cursor.addOption(Bytes.QUERYOPTION_NOTIMEOUT);
 
     int totalRows = cursor.count();
     debug(totalRows + " series found for update. Starting.");
 
     int i = 0;
 
-    while (cursor.hasNext()) {
-      i++;
-      DBObject show = cursor.next();
+    try {
+      while (cursor.hasNext()) {
+        i++;
+        DBObject show = cursor.next();
 
-      try {
-        updateShow(show);
-      } catch (RuntimeException | ShowFailedException e) {
-        e.printStackTrace();
-        debug("Show failed: " + show.get("SeriesTitle"));
+        try {
+          updateShow(show);
+        } catch (RuntimeException | ShowFailedException e) {
+          e.printStackTrace();
+          debug("Show failed: " + show.get("SeriesTitle"));
+        }
+
+        debug(i + " out of " + totalRows + " processed.");
       }
-
-      debug(i + " out of " + totalRows + " processed.");
+    } catch (MongoException e) {
+      debug("Threw weird exception!");
     }
   }
 
