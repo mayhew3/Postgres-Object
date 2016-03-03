@@ -84,7 +84,7 @@ public class HowLongToBeatUpdateRunner {
       i++;
     }
 
-    debug("Operation completed! Failed on " + failures + "/" + i + " games (" + (failures/i*100) + "%)");
+    debug("Operation completed! Failed on " + failures + "/" + (i-1) + " games (" + (failures/i*100) + "%)");
 
     chromeDriver.close();
   }
