@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.mediaobject.Game;
+import org.joda.time.DateTime;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -47,8 +48,12 @@ public class HowLongToBeatUpdateRunner {
   }
 
   public void runUpdate() throws SQLException {
-    String sql = "SELECT * FROM games WHERE howlong_updated IS NULL AND howlong_failed IS NULL";
-    ResultSet resultSet = connection.executeQuery(sql);
+    Date date = new DateTime().minusDays(7).toDate();
+    Timestamp timestamp = new Timestamp(date.getTime());
+
+    String sql = "SELECT * FROM games WHERE howlong_updated IS NULL " +
+        " AND (howlong_failed IS NULL OR howlong_failed < ?)";
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, timestamp);
 
     int i = 1;
     int failures = 0;
