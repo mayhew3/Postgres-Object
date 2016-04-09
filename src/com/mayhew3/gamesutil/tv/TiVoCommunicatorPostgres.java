@@ -6,9 +6,9 @@ import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.dataobject.*;
 import com.mayhew3.gamesutil.xml.BadlyFormattedXMLException;
+import com.mayhew3.gamesutil.xml.NodeReader;
 import com.mayhew3.gamesutil.xml.NodeReaderImpl;
 import com.sun.istack.internal.NotNull;
-import com.sun.istack.internal.Nullable;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeComparator;
 import org.w3c.dom.Document;
@@ -34,12 +34,18 @@ public class TiVoCommunicatorPostgres {
 
   private Boolean lookAtAllShows = false;
   private List<String> episodesOnTiVo;
+  private NodeReader nodeReader;
 
   private Integer addedShows = 0;
   private Integer deletedShows = 0;
   private Integer updatedShows = 0;
 
   private static SQLConnection sqlConnection;
+
+  public TiVoCommunicatorPostgres() {
+    episodesOnTiVo = new ArrayList<>();
+    nodeReader = new NodeReaderImpl();
+  }
 
   public static void main(String[] args) throws UnknownHostException, SQLException, URISyntaxException, BadlyFormattedXMLException {
     List<String> argList = Lists.newArrayList(args);
@@ -59,7 +65,6 @@ public class TiVoCommunicatorPostgres {
 
   public void runUpdate(Boolean updateAllShows) throws SQLException, BadlyFormattedXMLException {
 
-    episodesOnTiVo = new ArrayList<>();
     lookAtAllShows = updateAllShows;
 
     try {
@@ -185,7 +190,7 @@ public class TiVoCommunicatorPostgres {
   private boolean parseShowsFromDocument(Document document) throws SQLException, BadlyFormattedXMLException {
     NodeList nodeList = document.getChildNodes();
 
-    Node tivoContainer = getNodeWithTag(nodeList, "TiVoContainer");
+    Node tivoContainer = nodeReader.getNodeWithTag(nodeList, "TiVoContainer");
     NodeList childNodes = tivoContainer.getChildNodes();
 
     Boolean shouldBeLastDocument = false;
@@ -214,27 +219,6 @@ public class TiVoCommunicatorPostgres {
     return !shouldBeLastDocument && showNumber == 50;
   }
 
-  private class TivoInfo {
-    public String programId;
-    public String tivoId;
-    public String seriesTitle;
-    public Boolean isSuggestion;
-    public String url;
-
-    public TivoInfo(@NotNull NodeList showDetails) {
-      programId = getValueOfSimpleStringNode(showDetails, "ProgramId");
-      tivoId = getValueOfSimpleStringNode(showDetails, "SeriesId");
-      seriesTitle = getValueOfSimpleStringNode(showDetails, "Title");
-
-      if (programId == null) {
-        throw new RuntimeException("Episode found on TiVo with no ProgramId field!");
-      }
-
-      if (tivoId == null) {
-        throw new RuntimeException("Episode found on TiVo with no SeriesId field!");
-      }
-    }
-  }
 
   /**
    * @param showAttributes Root XML object
@@ -253,9 +237,9 @@ public class TiVoCommunicatorPostgres {
       return false;
     }
 
-    NodeList showDetails = getNodeWithTag(showAttributes, "Details").getChildNodes();
+    NodeList showDetails = nodeReader.getNodeWithTag(showAttributes, "Details").getChildNodes();
 
-    TivoInfo tivoInfo = new TivoInfo(showDetails);
+    TiVoInfo tivoInfo = new TiVoInfo(showDetails, nodeReader);
     tivoInfo.isSuggestion = isSuggestion(showAttributes);
     tivoInfo.url = getUrl(showAttributes);
 
@@ -274,15 +258,7 @@ public class TiVoCommunicatorPostgres {
       debug("Updating existing series '" + tivoInfo.seriesTitle + "'.");
     }
 
-    Boolean tvdbUpdated = false;
-    if (series.tvdbId.getValue() == null) {
-      TVDBSeriesPostgresUpdater updater = new TVDBSeriesPostgresUpdater(sqlConnection, series, new NodeReaderImpl());
-      updater.updateSeries();
-      tvdbUpdated = true;
-    }
-
-    return addEpisodeIfNotExists(showDetails, series, tivoInfo, tvdbUpdated);
-
+    return addEpisodeIfNotExists(showDetails, series, tivoInfo);
   }
 
 
@@ -290,7 +266,7 @@ public class TiVoCommunicatorPostgres {
    * @return Whether the episode already exists in the database.
    * @throws SQLException
    */
-  private Boolean addEpisodeIfNotExists(NodeList showDetails, SeriesPostgres series, TivoInfo tivoInfo, Boolean tvdbUpdated) throws SQLException, BadlyFormattedXMLException {
+  private Boolean addEpisodeIfNotExists(NodeList showDetails, SeriesPostgres series, TiVoInfo tivoInfo) throws SQLException, BadlyFormattedXMLException {
     ResultSet existingEpisode = getExistingTiVoEpisodes(tivoInfo.programId);
     Boolean tivoEpisodeExists = existingEpisode.next();
 
@@ -302,7 +278,7 @@ public class TiVoCommunicatorPostgres {
     TVDBEpisodePostgres tvdbEpisode = findTVDBEpisodeMatch(tivoEpisode, series.id.getValue());
 
     if (tvdbEpisode == null) {
-      tvdbEpisode = retryMatchWithUpdatedTVDB(series, tvdbUpdated, tivoEpisode);
+      tvdbEpisode = retryMatchWithUpdatedTVDB(series, tivoEpisode);
     }
 
     Boolean tvdb_matched = false;
@@ -359,22 +335,19 @@ public class TiVoCommunicatorPostgres {
     series.commit(sqlConnection);
   }
 
-  private TVDBEpisodePostgres retryMatchWithUpdatedTVDB(SeriesPostgres series, Boolean tvdbUpdated, TiVoEpisodePostgres tivoEpisode) throws SQLException, BadlyFormattedXMLException {
-    if (!tvdbUpdated) {
-      TVDBSeriesPostgresUpdater updater = new TVDBSeriesPostgresUpdater(sqlConnection, series, new NodeReaderImpl());
-      try {
-        updater.updateSeries();
-      } catch (ShowFailedException e) {
-        e.printStackTrace();
-        debug("Failed to parse TVDB data with updated ID.");
-      }
-
-      return findTVDBEpisodeMatch(tivoEpisode, series.id.getValue());
+  private TVDBEpisodePostgres retryMatchWithUpdatedTVDB(SeriesPostgres series, TiVoEpisodePostgres tivoEpisode) throws SQLException, BadlyFormattedXMLException {
+    TVDBSeriesPostgresUpdater updater = new TVDBSeriesPostgresUpdater(sqlConnection, series, new NodeReaderImpl());
+    try {
+      updater.updateSeries();
+    } catch (ShowFailedException e) {
+      e.printStackTrace();
+      debug("Failed to parse TVDB data with updated ID.");
     }
-    return null;
+
+    return findTVDBEpisodeMatch(tivoEpisode, series.id.getValue());
   }
 
-  private TiVoEpisodePostgres getOrCreateTiVoEpisode(NodeList showDetails, TivoInfo tivoInfo, ResultSet existingEpisode, Boolean tivoEpisodeExists) throws SQLException {
+  private TiVoEpisodePostgres getOrCreateTiVoEpisode(NodeList showDetails, TiVoInfo tivoInfo, ResultSet existingEpisode, Boolean tivoEpisodeExists) throws SQLException {
     TiVoEpisodePostgres tivoEpisode = new TiVoEpisodePostgres();
     if (tivoEpisodeExists) {
       tivoEpisode.initializeFromDBObject(existingEpisode);
@@ -393,7 +366,7 @@ public class TiVoCommunicatorPostgres {
     return tivoEpisode;
   }
 
-  private void addNewSeries(SeriesPostgres series, TivoInfo tivoInfo) throws SQLException {
+  private void addNewSeries(SeriesPostgres series, TiVoInfo tivoInfo) throws SQLException {
     series.initializeForInsert();
 
     debug("Adding series '" + tivoInfo.seriesTitle + "'  with TiVoID '" + tivoInfo.tivoId + "'");
@@ -489,19 +462,19 @@ public class TiVoCommunicatorPostgres {
   }
 
   private TiVoEpisodePostgres formatEpisodeObject(TiVoEpisodePostgres episode, String url, Boolean isSuggestion, NodeList showDetails) {
-    episode.captureDate.changeValueFromXMLString(getValueOfSimpleStringNode(showDetails, "CaptureDate"));
-    episode.showingStartTime.changeValueFromXMLString(getValueOfSimpleStringNode(showDetails, "ShowingStartTime"));
+    episode.captureDate.changeValueFromXMLString(nodeReader.getValueOfSimpleStringNode(showDetails, "CaptureDate"));
+    episode.showingStartTime.changeValueFromXMLString(nodeReader.getValueOfSimpleStringNode(showDetails, "ShowingStartTime"));
 
-    episode.description.changeValueFromString(getValueOfSimpleStringNode(showDetails, "Description"));
-    episode.title.changeValueFromString(getValueOfSimpleStringNode(showDetails, "EpisodeTitle"));
-    episode.episodeNumber.changeValueFromString(getValueOfSimpleStringNode(showDetails, "EpisodeNumber"));
-    episode.hd.changeValueFromString(getValueOfSimpleStringNode(showDetails, "HighDefinition"));
-    episode.programId.changeValueFromString(getValueOfSimpleStringNode(showDetails, "ProgramId"));
-    episode.duration.changeValueFromString(getValueOfSimpleStringNode(showDetails, "Duration"));
-    episode.showingDuration.changeValueFromString(getValueOfSimpleStringNode(showDetails, "ShowingDuration"));
-    episode.channel.changeValueFromString(getValueOfSimpleStringNode(showDetails, "SourceChannel"));
-    episode.station.changeValueFromString(getValueOfSimpleStringNode(showDetails, "SourceStation"));
-    episode.rating.changeValueFromString(getValueOfSimpleStringNode(showDetails, "TvRating"));
+    episode.description.changeValueFromString(nodeReader.getValueOfSimpleStringNode(showDetails, "Description"));
+    episode.title.changeValueFromString(nodeReader.getValueOfSimpleStringNode(showDetails, "EpisodeTitle"));
+    episode.episodeNumber.changeValueFromString(nodeReader.getValueOfSimpleStringNode(showDetails, "EpisodeNumber"));
+    episode.hd.changeValueFromString(nodeReader.getValueOfSimpleStringNode(showDetails, "HighDefinition"));
+    episode.programId.changeValueFromString(nodeReader.getValueOfSimpleStringNode(showDetails, "ProgramId"));
+    episode.duration.changeValueFromString(nodeReader.getValueOfSimpleStringNode(showDetails, "Duration"));
+    episode.showingDuration.changeValueFromString(nodeReader.getValueOfSimpleStringNode(showDetails, "ShowingDuration"));
+    episode.channel.changeValueFromString(nodeReader.getValueOfSimpleStringNode(showDetails, "SourceChannel"));
+    episode.station.changeValueFromString(nodeReader.getValueOfSimpleStringNode(showDetails, "SourceStation"));
+    episode.rating.changeValueFromString(nodeReader.getValueOfSimpleStringNode(showDetails, "TvRating"));
     episode.retired.changeValue(0);
 
     episode.suggestion.changeValue(isSuggestion);
@@ -608,21 +581,21 @@ public class TiVoCommunicatorPostgres {
   }
 
 
-  private Boolean isSuggestion(NodeList showAttributes) {
-    NodeList links = getNodeWithTag(showAttributes, "Links").getChildNodes();
-    Node customIcon = getNullableNodeWithTag(links, "CustomIcon");
+  private Boolean isSuggestion(NodeList showAttributes) throws BadlyFormattedXMLException {
+    NodeList links = nodeReader.getNodeWithTag(showAttributes, "Links").getChildNodes();
+    Node customIcon = nodeReader.getNullableNodeWithTag(links, "CustomIcon");
     if (customIcon == null) {
       return false;
     } else {
       NodeList customIcons = customIcon.getChildNodes();
-      String iconUrl = getValueOfSimpleStringNode(customIcons, "Url");
+      String iconUrl = nodeReader.getValueOfSimpleStringNode(customIcons, "Url");
 
       return iconUrl != null && iconUrl.endsWith("suggestion-recording");
     }
   }
 
   @NotNull
-  private Boolean isEpisodic(NodeList showAttributes) {
+  private Boolean isEpisodic(NodeList showAttributes) throws BadlyFormattedXMLException {
     String detailUrl = getDetailUrl(showAttributes);
 
     try {
@@ -636,84 +609,49 @@ public class TiVoCommunicatorPostgres {
     } catch (EpisodeAlreadyFoundException e) {
       e.printStackTrace();
       throw new RuntimeException("Episode already found.");
+    } catch (BadlyFormattedXMLException e) {
+      e.printStackTrace();
+      throw new RuntimeException("XML formatting error!");
     }
   }
 
 
-  private boolean parseDetailFromDocument(Document document) throws EpisodeAlreadyFoundException {
+  private boolean parseDetailFromDocument(Document document) throws EpisodeAlreadyFoundException, BadlyFormattedXMLException {
     NodeList nodeList = document.getChildNodes();
 
-    NodeList tvBus = getNodeWithTag(nodeList, "TvBusMarshalledStruct:TvBusEnvelope").getChildNodes();
-    NodeList showing = getNodeWithTag(tvBus, "showing").getChildNodes();
-    NodeList program = getNodeWithTag(showing, "program").getChildNodes();
-    NodeList series = getNodeWithTag(program, "series").getChildNodes();
+    NodeList tvBus = nodeReader.getNodeWithTag(nodeList, "TvBusMarshalledStruct:TvBusEnvelope").getChildNodes();
+    NodeList showing = nodeReader.getNodeWithTag(tvBus, "showing").getChildNodes();
+    NodeList program = nodeReader.getNodeWithTag(showing, "program").getChildNodes();
+    NodeList series = nodeReader.getNodeWithTag(program, "series").getChildNodes();
 
-    String isEpisodic = getValueOfSimpleStringNode(series, "isEpisodic");
+    String isEpisodic = nodeReader.getValueOfSimpleStringNode(series, "isEpisodic");
     return Boolean.parseBoolean(isEpisodic);
   }
 
 
-  private Boolean isRecordingNow(NodeList showAttributes) {
-    NodeList links = getNodeWithTag(showAttributes, "Links").getChildNodes();
-    Node customIcon = getNullableNodeWithTag(links, "CustomIcon");
+  private Boolean isRecordingNow(NodeList showAttributes) throws BadlyFormattedXMLException {
+    NodeList links = nodeReader.getNodeWithTag(showAttributes, "Links").getChildNodes();
+    Node customIcon = nodeReader.getNullableNodeWithTag(links, "CustomIcon");
     if (customIcon == null) {
       return false;
     } else {
       NodeList customIcons = customIcon.getChildNodes();
-      String iconUrl = getValueOfSimpleStringNode(customIcons, "Url");
+      String iconUrl = nodeReader.getValueOfSimpleStringNode(customIcons, "Url");
 
       return iconUrl != null && iconUrl.endsWith("in-progress-recording");
     }
   }
 
-  private String getUrl(NodeList showAttributes) {
-    NodeList links = getNodeWithTag(showAttributes, "Links").getChildNodes();
-    NodeList content = getNodeWithTag(links, "Content").getChildNodes();
-    return getValueOfSimpleStringNode(content, "Url");
+  private String getUrl(NodeList showAttributes) throws BadlyFormattedXMLException {
+    NodeList links = nodeReader.getNodeWithTag(showAttributes, "Links").getChildNodes();
+    NodeList content = nodeReader.getNodeWithTag(links, "Content").getChildNodes();
+    return nodeReader.getValueOfSimpleStringNode(content, "Url");
   }
 
-  private String getDetailUrl(NodeList showAttributes) {
-    NodeList links = getNodeWithTag(showAttributes, "Links").getChildNodes();
-    NodeList content = getNodeWithTag(links, "TiVoVideoDetails").getChildNodes();
-    return getValueOfSimpleStringNode(content, "Url");
-  }
-
-  @NotNull
-  private Node getNodeWithTag(NodeList nodeList, String tag) {
-    for (int x = 0; x < nodeList.getLength(); x++) {
-      Node item = nodeList.item(x);
-      if (tag.equals(item.getNodeName())) {
-        return item;
-      }
-    }
-    throw new RuntimeException("No node found with tag '" + tag + "'");
-  }
-
-  @Nullable
-  private Node getNullableNodeWithTag(NodeList nodeList, String tag) {
-    for (int x = 0; x < nodeList.getLength(); x++) {
-      Node item = nodeList.item(x);
-      if (tag.equals(item.getNodeName())) {
-        return item;
-      }
-    }
-    return null;
-  }
-
-  private String getValueOfSimpleStringNode(NodeList nodeList, String tag) {
-    Node nodeWithTag = getNullableNodeWithTag(nodeList, tag);
-    return nodeWithTag == null ? null : parseSimpleStringFromNode(nodeWithTag);
-  }
-
-  private String parseSimpleStringFromNode(Node nodeWithTag) {
-    NodeList childNodes = nodeWithTag.getChildNodes();
-    if (childNodes.getLength() > 1) {
-      throw new RuntimeException("Expect only one text child of node '" + nodeWithTag.getNodeName() + "'");
-    } else if (childNodes.getLength() == 0) {
-      return null;
-    }
-    Node textNode = childNodes.item(0);
-    return textNode.getNodeValue();
+  private String getDetailUrl(NodeList showAttributes) throws BadlyFormattedXMLException {
+    NodeList links = nodeReader.getNodeWithTag(showAttributes, "Links").getChildNodes();
+    NodeList content = nodeReader.getNodeWithTag(links, "TiVoVideoDetails").getChildNodes();
+    return nodeReader.getValueOfSimpleStringNode(content, "Url");
   }
 
   public Document readXMLFromTivoUrl(String urlString) throws IOException, SAXException {

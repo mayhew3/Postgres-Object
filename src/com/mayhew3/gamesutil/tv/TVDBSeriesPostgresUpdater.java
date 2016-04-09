@@ -720,5 +720,12 @@ public class TVDBSeriesPostgresUpdater {
   }
 
 
+  public Integer getEpisodesAdded() {
+    return _episodesAdded;
+  }
+
+  public Integer getEpisodesUpdated() {
+    return _episodesUpdated;
+  }
 
 }
