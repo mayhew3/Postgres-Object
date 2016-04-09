@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.games.MongoConnection;
-import com.mayhew3.gamesutil.mediaobject.*;
+import com.mayhew3.gamesutil.dataobject.*;
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;

@@ -1,9 +1,9 @@
 package com.mayhew3.gamesutil.tv.example;
 
 import com.google.common.collect.Lists;
-import com.mayhew3.gamesutil.mediaobject.EpisodeMongo;
-import com.mayhew3.gamesutil.mediaobject.FieldValue;
-import com.mayhew3.gamesutil.mediaobject.SeriesMongo;
+import com.mayhew3.gamesutil.dataobject.EpisodeMongo;
+import com.mayhew3.gamesutil.dataobject.FieldValue;
+import com.mayhew3.gamesutil.dataobject.SeriesMongo;
 import com.mayhew3.gamesutil.tv.TVDatabaseUtility;
 import com.mongodb.*;
 import com.sun.istack.internal.NotNull;

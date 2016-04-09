@@ -1,7 +1,7 @@
 package com.mayhew3.gamesutil.tv;
 
 import com.mayhew3.gamesutil.db.SQLConnection;
-import com.mayhew3.gamesutil.mediaobject.*;
+import com.mayhew3.gamesutil.dataobject.*;
 import com.mayhew3.gamesutil.xml.BadlyFormattedXMLException;
 import com.mayhew3.gamesutil.xml.NodeReader;
 import com.mongodb.BasicDBObject;

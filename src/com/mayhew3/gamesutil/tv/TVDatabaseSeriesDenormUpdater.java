@@ -1,8 +1,8 @@
 package com.mayhew3.gamesutil.tv;
 
-import com.mayhew3.gamesutil.mediaobject.EpisodeMongo;
-import com.mayhew3.gamesutil.mediaobject.FieldValue;
-import com.mayhew3.gamesutil.mediaobject.SeriesMongo;
+import com.mayhew3.gamesutil.dataobject.EpisodeMongo;
+import com.mayhew3.gamesutil.dataobject.FieldValue;
+import com.mayhew3.gamesutil.dataobject.SeriesMongo;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;

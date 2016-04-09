@@ -1,11 +1,10 @@
 package com.mayhew3.gamesutil.games;
 
 import com.google.common.collect.Lists;
-import com.mayhew3.gamesutil.db.PostgresConnection;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
-import com.mayhew3.gamesutil.mediaobject.Game;
-import com.mayhew3.gamesutil.mediaobject.GameLog;
+import com.mayhew3.gamesutil.dataobject.Game;
+import com.mayhew3.gamesutil.dataobject.GameLog;
 import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
 import org.json.JSONArray;

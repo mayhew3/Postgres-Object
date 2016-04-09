@@ -1,8 +1,7 @@
 package com.mayhew3.gamesutil.games;
 
-import com.mayhew3.gamesutil.db.PostgresConnection;
 import com.mayhew3.gamesutil.db.SQLConnection;
-import com.mayhew3.gamesutil.mediaobject.Game;
+import com.mayhew3.gamesutil.dataobject.Game;
 import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
 import org.openqa.selenium.By;

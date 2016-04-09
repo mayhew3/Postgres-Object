@@ -1,6 +1,6 @@
 package com.mayhew3.gamesutil.tv;
 
-import com.mayhew3.gamesutil.mediaobject.SeriesMongo;
+import com.mayhew3.gamesutil.dataobject.SeriesMongo;
 import com.mongodb.*;
 
 import java.net.UnknownHostException;

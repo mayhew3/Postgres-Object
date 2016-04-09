@@ -1,10 +1,10 @@
 package com.mayhew3.gamesutil.upgrade;
 
 import com.mayhew3.gamesutil.tv.TVDatabaseUtility;
-import com.mayhew3.gamesutil.mediaobject.EpisodeMongo;
-import com.mayhew3.gamesutil.mediaobject.FieldValue;
-import com.mayhew3.gamesutil.mediaobject.SeriesMongo;
-import com.mayhew3.gamesutil.mediaobject.TVDBEpisodeMongo;
+import com.mayhew3.gamesutil.dataobject.EpisodeMongo;
+import com.mayhew3.gamesutil.dataobject.FieldValue;
+import com.mayhew3.gamesutil.dataobject.SeriesMongo;
+import com.mayhew3.gamesutil.dataobject.TVDBEpisodeMongo;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;

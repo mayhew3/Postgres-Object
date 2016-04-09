@@ -1,7 +1,7 @@
 package com.mayhew3.gamesutil.db;
 
 import com.google.common.collect.Lists;
-import com.mayhew3.gamesutil.mediaobject.FieldValue;
+import com.mayhew3.gamesutil.dataobject.FieldValue;
 import org.junit.Before;
 import org.junit.Test;
 

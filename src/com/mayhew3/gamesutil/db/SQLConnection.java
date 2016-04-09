@@ -1,6 +1,6 @@
 package com.mayhew3.gamesutil.db;
 
-import com.mayhew3.gamesutil.mediaobject.FieldValue;
+import com.mayhew3.gamesutil.dataobject.FieldValue;
 import com.sun.istack.internal.NotNull;
 
 import java.sql.PreparedStatement;

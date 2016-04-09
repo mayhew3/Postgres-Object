@@ -1,10 +1,9 @@
 package com.mayhew3.gamesutil.games;
 
 import com.google.common.collect.Lists;
-import com.mayhew3.gamesutil.db.PostgresConnection;
 import com.mayhew3.gamesutil.db.SQLConnection;
-import com.mayhew3.gamesutil.mediaobject.Game;
-import com.mayhew3.gamesutil.mediaobject.SteamAttribute;
+import com.mayhew3.gamesutil.dataobject.Game;
+import com.mayhew3.gamesutil.dataobject.SteamAttribute;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
