@@ -385,6 +385,10 @@ public class TiVoCommunicatorPostgres {
     formatEpisodeObject(tivoEpisode, tivoInfo.url, tivoInfo.isSuggestion, showDetails);
     tivoEpisode.tivoSeriesId.changeValue(tivoInfo.tivoId);
     tivoEpisode.seriesTitle.changeValue(tivoInfo.seriesTitle);
+
+    // todo: check for duplicate (program_id, retired). Do some research. In these cases, are two episodes
+    // todo: on TiVo with same program_id, or is one deleted but not marked yet? Either way I think we should update
+    // todo: instead of insert.
     tivoEpisode.commit(sqlConnection);
     return tivoEpisode;
   }

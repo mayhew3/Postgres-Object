@@ -77,6 +77,7 @@ public class TVDBSeriesPostgresUpdater {
     }
   }
 
+  // todo: never return null, just throw exception if failed to find
   private Integer getTVDBID(DBObject errorLog, Boolean matchedWrong, Integer existingId) throws SQLException, ShowFailedException, BadlyFormattedXMLException {
     try {
       Integer tvdbid = findTVDBMatch(_series, errorLog);
@@ -85,6 +86,7 @@ public class TVDBSeriesPostgresUpdater {
           existingId;
     } catch (IOException | SAXException e) {
       e.printStackTrace();
+      // todo: add error log
       throw new ShowFailedException("Error downloading XML from TVDB.");
     }
   }
@@ -153,15 +155,7 @@ public class TVDBSeriesPostgresUpdater {
 
     debug("Update for: " + seriesTitle + ", formatted as '" + formattedTitle + "'");
 
-    String tvdbUrl = "http://thetvdb.com/api/GetSeries.php?seriesname=" + formattedTitle;
-
-    Document document = nodeReader.readXMLFromUrl(tvdbUrl);
-
-    NodeList nodeList = document.getChildNodes();
-
-    NodeList dataNode = nodeReader.getNodeWithTag(nodeList, "Data").getChildNodes();
-
-    List<Node> seriesNodes = nodeReader.getAllNodesWithTag(dataNode, "Series");
+    List<Node> seriesNodes = getSeriesNodes(formattedTitle);
 
     if (seriesNodes.isEmpty()) {
       debug("Show not found!");
@@ -200,6 +194,15 @@ public class TVDBSeriesPostgresUpdater {
 
     String id = nodeReader.getValueOfSimpleStringNode(firstSeries, "id");
     return id == null ? null : Integer.parseInt(id);
+  }
+
+  private List<Node> getSeriesNodes(String formattedTitle) throws IOException, SAXException, BadlyFormattedXMLException {
+    String tvdbUrl = "http://thetvdb.com/api/GetSeries.php?seriesname=" + formattedTitle;
+    Document document = nodeReader.readXMLFromUrl(tvdbUrl);
+    NodeList nodeList = document.getChildNodes();
+    NodeList dataNode = nodeReader.getNodeWithTag(nodeList, "Data").getChildNodes();
+
+    return nodeReader.getAllNodesWithTag(dataNode, "Series");
   }
 
   private void attachPossibleSeries(SeriesPostgres series, List<Node> seriesNodes) throws SQLException {
