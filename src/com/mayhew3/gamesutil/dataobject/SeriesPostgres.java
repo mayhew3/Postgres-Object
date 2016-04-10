@@ -17,8 +17,10 @@ public class SeriesPostgres extends DataObject {
   public FieldValueString seriesTitle = registerStringField("title");
   public FieldValueInteger tier = registerIntegerField("tier");
   public FieldValueInteger metacritic = registerIntegerField("metacritic");
+  public FieldValueInteger my_rating = registerIntegerField("my_rating");
   public FieldValueString tivoSeriesId = registerStringField("tivo_series_id");
   public FieldValueInteger tvdbId = registerIntegerField("tvdb_id");
+  public FieldValueTimestamp date_added = registerTimestampField("date_added");
 
   /* Matching Helpers */
   public FieldValueString metacriticHint = registerStringField("metacritic_hint");

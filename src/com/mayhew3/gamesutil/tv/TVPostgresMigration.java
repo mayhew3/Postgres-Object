@@ -14,22 +14,32 @@ import org.bson.types.ObjectId;
 import java.net.URISyntaxException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class TVPostgresMigration {
-  private static MongoConnection mongoConnection;
-  private static SQLConnection sqlConnection;
+  private MongoConnection mongoConnection;
+  private SQLConnection sqlConnection;
 
   private static Boolean devMode = false;
+
+  private Map<ObjectId, ShowFailedException> failedEpisodes;
+
+  public TVPostgresMigration(MongoConnection mongoConnection, SQLConnection sqlConnection) {
+    this.failedEpisodes = new HashMap<>();
+    this.mongoConnection = mongoConnection;
+    this.sqlConnection = sqlConnection;
+  }
 
   public static void main(String[] args) throws SQLException, URISyntaxException {
     List<String> argList = Lists.newArrayList(args);
     devMode = argList.contains("dev");
 
-    sqlConnection = new PostgresConnectionFactory().createConnection();
-    mongoConnection = new MongoConnection("tv");
-
-    TVPostgresMigration tvPostgresMigration = new TVPostgresMigration();
+    TVPostgresMigration tvPostgresMigration = new TVPostgresMigration(
+        new MongoConnection("tv"),
+        new PostgresConnectionFactory().createConnection());
 
     if (devMode) {
       tvPostgresMigration.truncatePostgresTables();
@@ -84,6 +94,15 @@ public class TVPostgresMigration {
     }
 
     debug("Update complete!");
+
+    Set<ObjectId> failedIds = failedEpisodes.keySet();
+    if (!failedIds.isEmpty()) {
+      debug(failedIds.size() + " episodes failed!");
+      for (ObjectId failedId : failedIds) {
+        //noinspection ThrowableResultOfMethodCallIgnored
+        debug(" - " + failedId + ": " + failedEpisodes.get(failedId).getLocalizedMessage());
+      }
+    }
 
   }
 
@@ -205,11 +224,17 @@ public class TVPostgresMigration {
     while (cursor.hasNext()) {
       DBObject episodeDBObj = cursor.next();
 
-      updateSingleEpisode(seriesPostgres, episodeDBObj);
+      try {
+        updateSingleEpisode(seriesPostgres, episodeDBObj);
+      } catch (ShowFailedException e) {
+        debug("Failed!");
+        //noinspection ThrowableResultOfMethodCallIgnored
+        failedEpisodes.put((ObjectId) episodeDBObj.get("_id"), e);
+      }
     }
   }
 
-  private void updateSingleEpisode(SeriesPostgres seriesPostgres, DBObject episodeDBObj) throws SQLException {
+  private void updateSingleEpisode(SeriesPostgres seriesPostgres, DBObject episodeDBObj) throws SQLException, ShowFailedException {
     EpisodeMongo episodeMongo = new EpisodeMongo();
     episodeMongo.initializeFromDBObject(episodeDBObj);
 
@@ -265,7 +290,7 @@ public class TVPostgresMigration {
     }
   }
 
-  private Integer insertTVDBEpisodeAndReturnId(EpisodeMongo episodeMongo, Integer tvdbNativeEpisodeId) throws SQLException {
+  private Integer insertTVDBEpisodeAndReturnId(EpisodeMongo episodeMongo, Integer tvdbNativeEpisodeId) throws SQLException, ShowFailedException {
     if (tvdbNativeEpisodeId == null) {
       return null;
     }
@@ -282,7 +307,7 @@ public class TVPostgresMigration {
     return tvdbLocalEpisodeId;
   }
 
-  private Integer insertTiVoEpisodeAndReturnId(EpisodeMongo episodeMongo, String tivoNativeEpisodeId) throws SQLException {
+  private Integer insertTiVoEpisodeAndReturnId(EpisodeMongo episodeMongo, String tivoNativeEpisodeId) throws SQLException, ShowFailedException {
     if (tivoNativeEpisodeId == null) {
       return null;
     }
@@ -414,6 +439,8 @@ public class TVPostgresMigration {
     seriesPostgres.isSuggestion.changeValue(seriesMongo.isSuggestion.getValue());
     seriesPostgres.matchedWrong.changeValue(seriesMongo.matchedWrong.getValue());
     seriesPostgres.needsTVDBRedo.changeValue(seriesMongo.needsTVDBRedo.getValue());
+    seriesPostgres.my_rating.changeValue(seriesMongo.myRating.getValue());
+    seriesPostgres.date_added.changeValue(seriesMongo.dateAdded.getValue());
   }
 
   private SeriesPostgres getOrCreateSeriesPostgresFromTiVoID(String tivoSeriesId) throws SQLException {
@@ -458,48 +485,55 @@ public class TVPostgresMigration {
     return seriesPostgres;
   }
 
-  private EpisodePostgres getOrCreateEpisodePostgres(String tivoProgramId) throws SQLException {
+  private EpisodePostgres getOrCreateEpisodePostgres(String tivoProgramId) throws SQLException, ShowFailedException {
     EpisodePostgres episodePostgres = new EpisodePostgres();
+
+    if (tivoProgramId == null) {
       episodePostgres.initializeForInsert();
       return episodePostgres;
-/*
-    String sql = "SELECT * FROM episode WHERE tivo_program_id = ? AND retired = ?";
-    ResultSet resultSet = postgresConnection.prepareAndExecuteStatementFetch(sql, tivoProgramId, 0);
+    }
 
-    if (postgresConnection.hasMoreElements(resultSet)) {
-      if (devMode) {
-        throw new RuntimeException("DEV MODE: Expect to never update. Found episode already with existing TiVo ID: " + tivoProgramId);
-      }
+    String sql = "SELECT * FROM episode WHERE tivo_program_id = ? AND retired = ?";
+    ResultSet resultSet = sqlConnection.prepareAndExecuteStatementFetch(sql, tivoProgramId, 0);
+
+    if (resultSet.next()) {
       episodePostgres.initializeFromDBObject(resultSet);
+      if (devMode) {
+        throw new ShowFailedException("DEV MODE: Expect to never update. " +
+            "Found episode already with existing TiVo ID: " + tivoProgramId +
+            ", " + episodePostgres);
+      }
     } else {
       episodePostgres.initializeForInsert();
     }
     return episodePostgres;
-    */
   }
 
-  private TiVoEpisodePostgres getOrCreateTiVoEpisodePostgres(String tivoProgramId) throws SQLException {
+  private TiVoEpisodePostgres getOrCreateTiVoEpisodePostgres(String tivoProgramId) throws SQLException, ShowFailedException {
     TiVoEpisodePostgres tiVoEpisodePostgres = new TiVoEpisodePostgres();
+
+    if (tivoProgramId == null) {
       tiVoEpisodePostgres.initializeForInsert();
       return tiVoEpisodePostgres;
+    }
 
-    /*
     String sql = "SELECT * FROM tivo_episode WHERE program_id = ?";
-    ResultSet resultSet = postgresConnection.prepareAndExecuteStatementFetch(sql, tivoProgramId);
+    ResultSet resultSet = sqlConnection.prepareAndExecuteStatementFetch(sql, tivoProgramId);
 
-    if (postgresConnection.hasMoreElements(resultSet)) {
-      if (devMode) {
-        throw new RuntimeException("DEV MODE: Expect to never update. Found tivo_episode already with existing TiVo ID: " + tivoProgramId);
-      }
+    if (resultSet.next()) {
       tiVoEpisodePostgres.initializeFromDBObject(resultSet);
+      if (devMode) {
+        throw new ShowFailedException("DEV MODE: Expect to never update. " +
+            "Found tivo_episode already with existing TiVo ID: " + tivoProgramId +
+            ", " + tiVoEpisodePostgres);
+      }
     } else {
       tiVoEpisodePostgres.initializeForInsert();
     }
     return tiVoEpisodePostgres;
-    */
   }
 
-  private TVDBEpisodePostgres getOrCreateTVDBEpisodePostgres(Integer tvdbEpisodeId) throws SQLException {
+  private TVDBEpisodePostgres getOrCreateTVDBEpisodePostgres(Integer tvdbEpisodeId) throws SQLException, ShowFailedException {
     TVDBEpisodePostgres tvdbEpisodePostgres = new TVDBEpisodePostgres();
     if (tvdbEpisodeId == null) {
       tvdbEpisodePostgres.initializeForInsert();
@@ -510,10 +544,12 @@ public class TVPostgresMigration {
     ResultSet resultSet = sqlConnection.prepareAndExecuteStatementFetch(sql, tvdbEpisodeId);
 
     if (resultSet.next()) {
-      if (devMode) {
-        throw new RuntimeException("DEV MODE: Expect to never update. Found tvdb_episode already with existing TVDB ID: " + tvdbEpisodeId);
-      }
       tvdbEpisodePostgres.initializeFromDBObject(resultSet);
+      if (devMode) {
+        throw new ShowFailedException("DEV MODE: Expect to never update. " +
+            "Found tvdb_episode already with existing TVDB ID: " + tvdbEpisodeId +
+            ", " + tvdbEpisodePostgres);
+      }
     } else {
       tvdbEpisodePostgres.initializeForInsert();
     }

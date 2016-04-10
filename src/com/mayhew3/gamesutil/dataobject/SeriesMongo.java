@@ -61,9 +61,12 @@ public class SeriesMongo extends MediaObjectMongoDB {
 
   public FieldValueInteger metacritic = registerIntegerField("Metacritic");
   public FieldValue<String> metacriticHint = registerStringField("MetacriticHint");
+  public FieldValueInteger myRating = registerIntegerField("MyRating");
+
 
   public FieldValue<Date> lastUnwatched = registerDateField("LastUnwatched");
   public FieldValue<Date> mostRecent = registerDateField("MostRecent");
+  public FieldValue<Date> dateAdded = registerDateField("DateAdded");
   public FieldValueBoolean isSuggestion = registerBooleanField("IsSuggestion");
 
   public FieldValueBoolean matchedWrong = registerBooleanField("MatchedWrong");
