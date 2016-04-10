@@ -66,6 +66,12 @@ public abstract class FieldValue<T> {
     changedValue = newValue;
   }
 
+  public void changeValueUnlessToNull(T newValue) {
+    if (newValue != null) {
+      changeValue(newValue);
+    }
+  }
+
   public void nullValue() {
     changedValue = null;
   }

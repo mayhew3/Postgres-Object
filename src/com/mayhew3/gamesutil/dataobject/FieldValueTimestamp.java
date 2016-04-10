@@ -33,6 +33,12 @@ public class FieldValueTimestamp extends FieldValue<Timestamp> {
     }
   }
 
+  public void changeValueUnlessToNull(@Nullable Date date) {
+    if (date != null) {
+      changeValue(date);
+    }
+  }
+
   public void changeValueFromXMLString(String xmlString) {
     if (xmlString != null) {
       long numberOfSeconds = Long.decode(xmlString);

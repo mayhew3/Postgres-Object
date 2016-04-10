@@ -238,7 +238,7 @@ public class TVPostgresMigration {
     EpisodeMongo episodeMongo = new EpisodeMongo();
     episodeMongo.initializeFromDBObject(episodeDBObj);
 
-    EpisodePostgres episodePostgres = getOrCreateEpisodePostgres(episodeMongo.tivoProgramId.getValue());
+    EpisodePostgres episodePostgres = getOrCreateEpisodePostgres(episodeMongo.tivoProgramId.getValue(), episodeMongo.matchingStump.getValue() ? 1 : 0);
 
     Integer tvdbNativeEpisodeId = episodeMongo.tvdbEpisodeId.getValue();
     String tivoNativeEpisodeId = episodeMongo.tivoProgramId.getValue();
@@ -312,7 +312,7 @@ public class TVPostgresMigration {
       return null;
     }
 
-    TiVoEpisodePostgres tiVoEpisodePostgres = getOrCreateTiVoEpisodePostgres(tivoNativeEpisodeId);
+    TiVoEpisodePostgres tiVoEpisodePostgres = getOrCreateTiVoEpisodePostgres(tivoNativeEpisodeId, episodeMongo.matchingStump.getValue() ? 1 : 0);
 
     copyAllTiVoEpisodeFields(episodeMongo, tiVoEpisodePostgres);
     tiVoEpisodePostgres.commit(sqlConnection);
@@ -331,45 +331,45 @@ public class TVPostgresMigration {
   }
 
   private void copyAllEpisodeFields(EpisodeMongo episodeMongo, EpisodePostgres episodePostgres) {
-    episodePostgres.watchedDate.changeValue(episodeMongo.watchedDate.getValue());
-    episodePostgres.onTiVo.changeValue(episodeMongo.onTiVo.getValue());
-    episodePostgres.watched.changeValue(episodeMongo.watched.getValue());
+    episodePostgres.watchedDate.changeValueUnlessToNull(episodeMongo.watchedDate.getValue());
+    episodePostgres.onTiVo.changeValueUnlessToNull(episodeMongo.onTiVo.getValue());
+    episodePostgres.watched.changeValueUnlessToNull(episodeMongo.watched.getValue());
 
-    episodePostgres.seriesTitle.changeValue(episodeMongo.tivoSeriesTitle.getValue());
-    episodePostgres.tivoProgramId.changeValue(episodeMongo.tivoProgramId.getValue());
+    episodePostgres.seriesTitle.changeValueUnlessToNull(episodeMongo.tivoSeriesTitle.getValue());
+    episodePostgres.tivoProgramId.changeValueUnlessToNull(episodeMongo.tivoProgramId.getValue());
 
     String tivoTitle = episodeMongo.tivoEpisodeTitle.getValue();
     String tvdbTitle = episodeMongo.tvdbEpisodeName.getValue();
-    episodePostgres.title.changeValue(tvdbTitle == null ? tivoTitle : tvdbTitle);
+    episodePostgres.title.changeValueUnlessToNull(tvdbTitle == null ? tivoTitle : tvdbTitle);
 
-    episodePostgres.season.changeValue(episodeMongo.tvdbSeason.getValue());
-    episodePostgres.seasonEpisodeNumber.changeValue(episodeMongo.tvdbEpisodeNumber.getValue());
-    episodePostgres.episodeNumber.changeValue(episodeMongo.tvdbAbsoluteNumber.getValue());
-    episodePostgres.airDate.changeValue(episodeMongo.tvdbFirstAired.getValue());
+    episodePostgres.season.changeValueUnlessToNull(episodeMongo.tvdbSeason.getValue());
+    episodePostgres.seasonEpisodeNumber.changeValueUnlessToNull(episodeMongo.tvdbEpisodeNumber.getValue());
+    episodePostgres.episodeNumber.changeValueUnlessToNull(episodeMongo.tvdbAbsoluteNumber.getValue());
+    episodePostgres.airDate.changeValueUnlessToNull(episodeMongo.tvdbFirstAired.getValue());
 
-    episodePostgres.retired.changeValue(episodeMongo.matchingStump.getValue() ? 1 : 0);
+    episodePostgres.retired.changeValueUnlessToNull(episodeMongo.matchingStump.getValue() ? 1 : 0);
   }
 
   private void copyAllTiVoEpisodeFields(EpisodeMongo episodeMongo, TiVoEpisodePostgres tiVoEpisodePostgres) {
-    tiVoEpisodePostgres.suggestion.changeValue(episodeMongo.tivoSuggestion.getValue());
-    tiVoEpisodePostgres.title.changeValue(episodeMongo.tivoEpisodeTitle.getValue());
-    tiVoEpisodePostgres.showingStartTime.changeValue(episodeMongo.tivoShowingStartTime.getValue());
-    tiVoEpisodePostgres.showingDuration.changeValue(episodeMongo.tivoShowingDuration.getValue());
-    tiVoEpisodePostgres.deletedDate.changeValue(episodeMongo.tivoDeletedDate.getValue());
-    tiVoEpisodePostgres.captureDate.changeValue(episodeMongo.tivoCaptureDate.getValue());
-    tiVoEpisodePostgres.hd.changeValue(episodeMongo.tivoHD.getValue());
-    tiVoEpisodePostgres.episodeNumber.changeValue(episodeMongo.tivoEpisodeNumber.getValue());
-    tiVoEpisodePostgres.duration.changeValue(episodeMongo.tivoDuration.getValue());
-    tiVoEpisodePostgres.channel.changeValue(episodeMongo.tivoChannel.getValue());
-    tiVoEpisodePostgres.rating.changeValue(episodeMongo.tivoRating.getValue());
-    tiVoEpisodePostgres.tivoSeriesId.changeValue(episodeMongo.tivoSeriesId.getValue());
-    tiVoEpisodePostgres.programId.changeValue(episodeMongo.tivoProgramId.getValue());
-    tiVoEpisodePostgres.description.changeValue(episodeMongo.tivoDescription.getValue());
-    tiVoEpisodePostgres.station.changeValue(episodeMongo.tivoStation.getValue());
-    tiVoEpisodePostgres.url.changeValue(episodeMongo.tivoUrl.getValue());
-    tiVoEpisodePostgres.seriesTitle.changeValue(episodeMongo.tivoSeriesTitle.getValue());
+    tiVoEpisodePostgres.suggestion.changeValueUnlessToNull(episodeMongo.tivoSuggestion.getValue());
+    tiVoEpisodePostgres.title.changeValueUnlessToNull(episodeMongo.tivoEpisodeTitle.getValue());
+    tiVoEpisodePostgres.showingStartTime.changeValueUnlessToNull(episodeMongo.tivoShowingStartTime.getValue());
+    tiVoEpisodePostgres.showingDuration.changeValueUnlessToNull(episodeMongo.tivoShowingDuration.getValue());
+    tiVoEpisodePostgres.deletedDate.changeValueUnlessToNull(episodeMongo.tivoDeletedDate.getValue());
+    tiVoEpisodePostgres.captureDate.changeValueUnlessToNull(episodeMongo.tivoCaptureDate.getValue());
+    tiVoEpisodePostgres.hd.changeValueUnlessToNull(episodeMongo.tivoHD.getValue());
+    tiVoEpisodePostgres.episodeNumber.changeValueUnlessToNull(episodeMongo.tivoEpisodeNumber.getValue());
+    tiVoEpisodePostgres.duration.changeValueUnlessToNull(episodeMongo.tivoDuration.getValue());
+    tiVoEpisodePostgres.channel.changeValueUnlessToNull(episodeMongo.tivoChannel.getValue());
+    tiVoEpisodePostgres.rating.changeValueUnlessToNull(episodeMongo.tivoRating.getValue());
+    tiVoEpisodePostgres.tivoSeriesId.changeValueUnlessToNull(episodeMongo.tivoSeriesId.getValue());
+    tiVoEpisodePostgres.programId.changeValueUnlessToNull(episodeMongo.tivoProgramId.getValue());
+    tiVoEpisodePostgres.description.changeValueUnlessToNull(episodeMongo.tivoDescription.getValue());
+    tiVoEpisodePostgres.station.changeValueUnlessToNull(episodeMongo.tivoStation.getValue());
+    tiVoEpisodePostgres.url.changeValueUnlessToNull(episodeMongo.tivoUrl.getValue());
+    tiVoEpisodePostgres.seriesTitle.changeValueUnlessToNull(episodeMongo.tivoSeriesTitle.getValue());
 
-    tiVoEpisodePostgres.retired.changeValue(episodeMongo.matchingStump.getValue() ? 1 : 0);
+    tiVoEpisodePostgres.retired.changeValueUnlessToNull(episodeMongo.matchingStump.getValue() ? 1 : 0);
   }
 
   private void copyAllTVDBEpisodeFields(EpisodeMongo episodeMongo, TVDBEpisodePostgres tvdbEpisodePostgres) {
@@ -485,7 +485,7 @@ public class TVPostgresMigration {
     return seriesPostgres;
   }
 
-  private EpisodePostgres getOrCreateEpisodePostgres(String tivoProgramId) throws SQLException, ShowFailedException {
+  private EpisodePostgres getOrCreateEpisodePostgres(String tivoProgramId, Integer retired) throws SQLException, ShowFailedException {
     EpisodePostgres episodePostgres = new EpisodePostgres();
 
     if (tivoProgramId == null) {
@@ -494,22 +494,17 @@ public class TVPostgresMigration {
     }
 
     String sql = "SELECT * FROM episode WHERE tivo_program_id = ? AND retired = ?";
-    ResultSet resultSet = sqlConnection.prepareAndExecuteStatementFetch(sql, tivoProgramId, 0);
+    ResultSet resultSet = sqlConnection.prepareAndExecuteStatementFetch(sql, tivoProgramId, retired);
 
     if (resultSet.next()) {
       episodePostgres.initializeFromDBObject(resultSet);
-      if (devMode) {
-        throw new ShowFailedException("DEV MODE: Expect to never update. " +
-            "Found episode already with existing TiVo ID: " + tivoProgramId +
-            ", " + episodePostgres);
-      }
     } else {
       episodePostgres.initializeForInsert();
     }
     return episodePostgres;
   }
 
-  private TiVoEpisodePostgres getOrCreateTiVoEpisodePostgres(String tivoProgramId) throws SQLException, ShowFailedException {
+  private TiVoEpisodePostgres getOrCreateTiVoEpisodePostgres(String tivoProgramId, Integer retired) throws SQLException, ShowFailedException {
     TiVoEpisodePostgres tiVoEpisodePostgres = new TiVoEpisodePostgres();
 
     if (tivoProgramId == null) {
@@ -517,16 +512,11 @@ public class TVPostgresMigration {
       return tiVoEpisodePostgres;
     }
 
-    String sql = "SELECT * FROM tivo_episode WHERE program_id = ?";
-    ResultSet resultSet = sqlConnection.prepareAndExecuteStatementFetch(sql, tivoProgramId);
+    String sql = "SELECT * FROM tivo_episode WHERE program_id = ? and retired = ?";
+    ResultSet resultSet = sqlConnection.prepareAndExecuteStatementFetch(sql, tivoProgramId, retired);
 
     if (resultSet.next()) {
       tiVoEpisodePostgres.initializeFromDBObject(resultSet);
-      if (devMode) {
-        throw new ShowFailedException("DEV MODE: Expect to never update. " +
-            "Found tivo_episode already with existing TiVo ID: " + tivoProgramId +
-            ", " + tiVoEpisodePostgres);
-      }
     } else {
       tiVoEpisodePostgres.initializeForInsert();
     }
