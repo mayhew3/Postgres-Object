@@ -301,6 +301,7 @@ public class TiVoCommunicatorPostgres {
       updatedShows++;
     } else {
       episode.initializeForInsert();
+      episode.dateAdded.changeValue(new Date());
       addedShows++;
     }
 
@@ -313,10 +314,15 @@ public class TiVoCommunicatorPostgres {
   private void updateEpisodeAndSeries(SeriesPostgres series, TiVoEpisodePostgres tivoEpisode, EpisodePostgres episode, Boolean matched) throws SQLException {
     Integer tivo_episode_id = tivoEpisode.id.getValue();
 
-    episode.tivoEpisodeId.changeValue(tivo_episode_id);
     episode.tivoProgramId.changeValue(tivoEpisode.programId.getValue());
     episode.onTiVo.changeValue(true);
     episode.seriesId.changeValue(series.id.getValue());
+
+    // use tivo info if there is no TVDB info.
+    if (episode.tvdbEpisodeId.getValue() == null) {
+      episode.title.changeValue(tivoEpisode.title.getValue());
+      episode.seriesTitle.changeValue(tivoEpisode.seriesTitle.getValue());
+    }
 
     episode.commit(sqlConnection);
 
@@ -353,6 +359,7 @@ public class TiVoCommunicatorPostgres {
       tivoEpisode.initializeFromDBObject(existingEpisode);
     } else {
       tivoEpisode.initializeForInsert();
+      tivoEpisode.dateAdded.changeValue(new Date());
     }
 
     formatEpisodeObject(tivoEpisode, tivoInfo.url, tivoInfo.isSuggestion, showDetails);
@@ -378,6 +385,7 @@ public class TiVoCommunicatorPostgres {
     series.isSuggestion.changeValue(tivoInfo.isSuggestion);
     series.tier.changeValue(tier);
     series.matchedWrong.changeValue(false);
+    series.dateAdded.changeValue(new Date());
 
     series.initializeDenorms();
 

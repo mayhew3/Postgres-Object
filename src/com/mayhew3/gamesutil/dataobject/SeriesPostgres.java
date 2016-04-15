@@ -20,7 +20,6 @@ public class SeriesPostgres extends DataObject {
   public FieldValueInteger my_rating = registerIntegerField("my_rating");
   public FieldValueString tivoSeriesId = registerStringField("tivo_series_id");
   public FieldValueInteger tvdbId = registerIntegerField("tvdb_id");
-  public FieldValueTimestamp date_added = registerTimestampField("date_added");
 
   /* Matching Helpers */
   public FieldValueString metacriticHint = registerStringField("metacritic_hint");
@@ -44,6 +43,7 @@ public class SeriesPostgres extends DataObject {
   public FieldValueTimestamp mostRecent = registerTimestampField("most_recent");
   public FieldValueBoolean isSuggestion = registerBooleanField("suggestion");
 
+  public FieldValueTimestamp dateAdded = registerTimestampField("date_added");
 
   @Override
   protected String getTableName() {

@@ -141,7 +141,7 @@ public class TVDBSeriesPostgresUpdater {
     String tivoId = series.tivoSeriesId.getValue();
     String tvdbHint = series.tvdbHint.getValue();
 
-    String titleToCheck = tvdbHint == null ?
+    String titleToCheck = (tvdbHint == null || "".equals(tvdbHint)) ?
         getTitleToCheck(seriesTitle, errorLog) :
         tvdbHint;
 

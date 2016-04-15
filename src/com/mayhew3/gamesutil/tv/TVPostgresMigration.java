@@ -257,7 +257,6 @@ public class TVPostgresMigration {
     updateSeasonNumber(seriesPostgres, episodeMongo, episodePostgres);
 
     episodePostgres.seriesId.changeValue(seriesPostgres.id.getValue());
-    episodePostgres.tivoEpisodeId.changeValue(tivoLocalEpisodeId);
     episodePostgres.tvdbEpisodeId.changeValue(tvdbLocalEpisodeId);
 
     copyAllEpisodeFields(episodeMongo, episodePostgres);
@@ -347,6 +346,8 @@ public class TVPostgresMigration {
     episodePostgres.episodeNumber.changeValueUnlessToNull(episodeMongo.tvdbAbsoluteNumber.getValue());
     episodePostgres.airDate.changeValueUnlessToNull(episodeMongo.tvdbFirstAired.getValue());
 
+    episodePostgres.dateAdded.changeValueUnlessToNull(episodeMongo.dateAdded.getValue());
+
     episodePostgres.retired.changeValueUnlessToNull(episodeMongo.matchingStump.getValue() ? 1 : 0);
   }
 
@@ -368,6 +369,7 @@ public class TVPostgresMigration {
     tiVoEpisodePostgres.station.changeValueUnlessToNull(episodeMongo.tivoStation.getValue());
     tiVoEpisodePostgres.url.changeValueUnlessToNull(episodeMongo.tivoUrl.getValue());
     tiVoEpisodePostgres.seriesTitle.changeValueUnlessToNull(episodeMongo.tivoSeriesTitle.getValue());
+    tiVoEpisodePostgres.dateAdded.changeValueUnlessToNull(episodeMongo.dateAdded.getValue());
 
     tiVoEpisodePostgres.retired.changeValueUnlessToNull(episodeMongo.matchingStump.getValue() ? 1 : 0);
   }
@@ -394,6 +396,7 @@ public class TVPostgresMigration {
     tvdbEpisodePostgres.director.changeValue(episodeMongo.tvdbDirector.getValue());
     tvdbEpisodePostgres.writer.changeValue(episodeMongo.tvdbWriter.getValue());
     tvdbEpisodePostgres.filename.changeValue(episodeMongo.tvdbFilename.getValue());
+    tvdbEpisodePostgres.dateAdded.changeValue(episodeMongo.dateAdded.getValue());
   }
 
   private void copyAllTVDBSeriesFields(SeriesMongo seriesMongo, TVDBSeriesPostgres tvdbSeriesPostgres) {
@@ -414,6 +417,7 @@ public class TVPostgresMigration {
     tvdbSeriesPostgres.lastUpdated.changeValue(seriesMongo.tvdbLastUpdated.getValue());
     tvdbSeriesPostgres.imdbId.changeValue(seriesMongo.imdbId.getValue());
     tvdbSeriesPostgres.zap2it_id.changeValue(seriesMongo.zap2it_id.getValue());
+    tvdbSeriesPostgres.dateAdded.changeValue(seriesMongo.dateAdded.getValue());
   }
 
   private void copyAllSeriesFields(SeriesMongo seriesMongo, SeriesPostgres seriesPostgres) {
@@ -440,7 +444,7 @@ public class TVPostgresMigration {
     seriesPostgres.matchedWrong.changeValue(seriesMongo.matchedWrong.getValue());
     seriesPostgres.needsTVDBRedo.changeValue(seriesMongo.needsTVDBRedo.getValue());
     seriesPostgres.my_rating.changeValue(seriesMongo.myRating.getValue());
-    seriesPostgres.date_added.changeValue(seriesMongo.dateAdded.getValue());
+    seriesPostgres.dateAdded.changeValue(seriesMongo.dateAdded.getValue());
   }
 
   private SeriesPostgres getOrCreateSeriesPostgresFromTiVoID(String tivoSeriesId) throws SQLException {

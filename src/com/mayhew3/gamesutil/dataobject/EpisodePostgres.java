@@ -11,7 +11,6 @@ import java.util.List;
 public class EpisodePostgres extends DataObject {
 
   /* Foreign Keys */
-  public FieldValue<Integer> tivoEpisodeId = registerIntegerField("tivo_episode_id");
   public FieldValue<Integer> tvdbEpisodeId = registerIntegerField("tvdb_episode_id");
   public FieldValueInteger seasonId = registerIntegerField("season_id");
 
@@ -37,7 +36,7 @@ public class EpisodePostgres extends DataObject {
   public FieldValueTimestamp watchedDate = registerTimestampField("watched_date");
   public FieldValue<Boolean> watched = registerBooleanField("watched");
 
-
+  public FieldValueTimestamp dateAdded = registerTimestampField("date_added");
 
   @Override
   protected String getTableName() {
