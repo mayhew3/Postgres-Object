@@ -238,35 +238,40 @@ public class TVPostgresMigration {
     EpisodeMongo episodeMongo = new EpisodeMongo();
     episodeMongo.initializeFromDBObject(episodeDBObj);
 
-    EpisodePostgres episodePostgres = getOrCreateEpisodePostgres(episodeMongo.tivoProgramId.getValue(), episodeMongo.matchingStump.getValue() ? 1 : 0);
-
     Integer tvdbNativeEpisodeId = episodeMongo.tvdbEpisodeId.getValue();
     String tivoNativeEpisodeId = episodeMongo.tivoProgramId.getValue();
     String tvdbInfo = (tvdbNativeEpisodeId == null) ? " (NO TVDB!)" : "";
     String tivoInfo = (tivoNativeEpisodeId == null) ? " (NO TiVo!)" : "";
 
-    if (episodePostgres.id.getValue() == null) {
-      debug("    * " + episodeMongo + " (INSERT)" + tvdbInfo + tivoInfo);
-    } else {
-      debug("    * " + episodeMongo + " (UPDATE)" + tvdbInfo + tivoInfo);
-    }
-
     Integer tivoLocalEpisodeId = insertTiVoEpisodeAndReturnId(episodeMongo, tivoNativeEpisodeId);
-    Integer tvdbLocalEpisodeId = insertTVDBEpisodeAndReturnId(episodeMongo, tvdbNativeEpisodeId);
 
-    updateSeasonNumber(seriesPostgres, episodeMongo, episodePostgres);
+    if (tvdbNativeEpisodeId != null) {
+      Integer tvdbLocalEpisodeId = insertTVDBEpisodeAndReturnId(episodeMongo, tvdbNativeEpisodeId);
 
-    episodePostgres.seriesId.changeValue(seriesPostgres.id.getValue());
-    episodePostgres.tvdbEpisodeId.changeValue(tvdbLocalEpisodeId);
+      EpisodePostgres episodePostgres = new EpisodePostgres();
+      episodePostgres.initializeForInsert();
 
-    copyAllEpisodeFields(episodeMongo, episodePostgres);
-    episodePostgres.commit(sqlConnection);
+      if (episodePostgres.id.getValue() == null) {
+        debug("    * " + episodeMongo + " (INSERT)" + tvdbInfo + tivoInfo);
+      } else {
+        debug("    * " + episodeMongo + " (UPDATE)" + tvdbInfo + tivoInfo);
+      }
 
-    if (tivoLocalEpisodeId != null) {
-      episodePostgres.addToTiVoEpisodes(sqlConnection, tivoLocalEpisodeId);
+      episodePostgres.seriesId.changeValue(seriesPostgres.id.getValue());
+      episodePostgres.tvdbEpisodeId.changeValue(tvdbLocalEpisodeId);
+
+      updateSeasonNumber(seriesPostgres, episodeMongo, episodePostgres);
+
+      copyAllEpisodeFields(episodeMongo, episodePostgres);
+      episodePostgres.commit(sqlConnection);
+
+      if (tivoLocalEpisodeId != null) {
+        episodePostgres.addToTiVoEpisodes(sqlConnection, tivoLocalEpisodeId);
+      }
+
+      updateRetired(episodeMongo, episodePostgres);
     }
 
-    updateRetired(episodeMongo, episodePostgres);
   }
 
   private void updateRetired(EpisodeMongo episodeMongo, EpisodePostgres episodePostgres) throws SQLException {
@@ -335,7 +340,6 @@ public class TVPostgresMigration {
     episodePostgres.watched.changeValueUnlessToNull(episodeMongo.watched.getValue());
 
     episodePostgres.seriesTitle.changeValueUnlessToNull(episodeMongo.tivoSeriesTitle.getValue());
-    episodePostgres.tivoProgramId.changeValueUnlessToNull(episodeMongo.tivoProgramId.getValue());
 
     String tivoTitle = episodeMongo.tivoEpisodeTitle.getValue();
     String tvdbTitle = episodeMongo.tvdbEpisodeName.getValue();
@@ -487,25 +491,6 @@ public class TVPostgresMigration {
       seriesPostgres.initializeForInsert();
     }
     return seriesPostgres;
-  }
-
-  private EpisodePostgres getOrCreateEpisodePostgres(String tivoProgramId, Integer retired) throws SQLException, ShowFailedException {
-    EpisodePostgres episodePostgres = new EpisodePostgres();
-
-    if (tivoProgramId == null) {
-      episodePostgres.initializeForInsert();
-      return episodePostgres;
-    }
-
-    String sql = "SELECT * FROM episode WHERE tivo_program_id = ? AND retired = ?";
-    ResultSet resultSet = sqlConnection.prepareAndExecuteStatementFetch(sql, tivoProgramId, retired);
-
-    if (resultSet.next()) {
-      episodePostgres.initializeFromDBObject(resultSet);
-    } else {
-      episodePostgres.initializeForInsert();
-    }
-    return episodePostgres;
   }
 
   private TiVoEpisodePostgres getOrCreateTiVoEpisodePostgres(String tivoProgramId, Integer retired) throws SQLException, ShowFailedException {

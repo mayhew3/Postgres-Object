@@ -28,8 +28,6 @@ public class EpisodePostgres extends DataObject {
   public FieldValueString title = registerStringField("title");
   public FieldValueString seriesTitle = registerStringField("series_title");
 
-  public FieldValueString tivoProgramId = registerStringField("tivo_program_id");
-
   public FieldValueInteger retired = registerIntegerField("retired");
 
   /* User Data */

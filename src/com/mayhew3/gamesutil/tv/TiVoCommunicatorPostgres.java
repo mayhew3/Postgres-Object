@@ -96,6 +96,7 @@ public class TiVoCommunicatorPostgres {
     sqlConnection.executeUpdate("TRUNCATE TABLE tivo_episode CASCADE");
     sqlConnection.executeUpdate("TRUNCATE TABLE genre CASCADE");
     sqlConnection.executeUpdate("TRUNCATE TABLE viewing_location CASCADE");
+    sqlConnection.executeUpdate("TRUNCATE TABLE edge_tivo_episode CASCADE");
 
     sqlConnection.executeUpdate("ALTER SEQUENCE series_id_seq RESTART WITH 1");
     sqlConnection.executeUpdate("ALTER SEQUENCE tvdb_series_id_seq RESTART WITH 1");
@@ -314,7 +315,6 @@ public class TiVoCommunicatorPostgres {
   private void updateEpisodeAndSeries(SeriesPostgres series, TiVoEpisodePostgres tivoEpisode, EpisodePostgres episode, Boolean matched) throws SQLException {
     Integer tivo_episode_id = tivoEpisode.id.getValue();
 
-    episode.tivoProgramId.changeValue(tivoEpisode.programId.getValue());
     episode.onTiVo.changeValue(true);
     episode.seriesId.changeValue(series.id.getValue());
 
