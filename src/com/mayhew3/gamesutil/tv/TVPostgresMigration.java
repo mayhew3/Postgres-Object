@@ -55,6 +55,7 @@ public class TVPostgresMigration {
     sqlConnection.executeUpdate("TRUNCATE TABLE genre CASCADE");
     sqlConnection.executeUpdate("TRUNCATE TABLE viewing_location CASCADE");
     sqlConnection.executeUpdate("TRUNCATE TABLE edge_tivo_episode CASCADE");
+    sqlConnection.executeUpdate("TRUNCATE TABLE error_log CASCADE");
 
     sqlConnection.executeUpdate("ALTER SEQUENCE series_id_seq RESTART WITH 1");
     sqlConnection.executeUpdate("ALTER SEQUENCE tvdb_series_id_seq RESTART WITH 1");
@@ -62,6 +63,7 @@ public class TVPostgresMigration {
     sqlConnection.executeUpdate("ALTER SEQUENCE episode_id_seq RESTART WITH 1");
     sqlConnection.executeUpdate("ALTER SEQUENCE tivo_episode_id_seq RESTART WITH 1");
     sqlConnection.executeUpdate("ALTER SEQUENCE tvdb_episode_id_seq RESTART WITH 1");
+    sqlConnection.executeUpdate("ALTER SEQUENCE error_log_id_seq RESTART WITH 1");
 
     sqlConnection.executeUpdate("ALTER SEQUENCE genre_id_seq RESTART WITH 1");
     sqlConnection.executeUpdate("ALTER SEQUENCE series_genre_id_seq RESTART WITH 1");
@@ -72,6 +74,11 @@ public class TVPostgresMigration {
   }
 
   public void updatePostgresDatabase() throws SQLException {
+    updateErrorLogs();
+    updateAllSeries();
+  }
+
+  private void updateAllSeries() throws SQLException {
     DBObject dbObject = new BasicDBObject()
         .append("IsEpisodic", true)
         ;
@@ -103,7 +110,51 @@ public class TVPostgresMigration {
         debug(" - " + failedId + ": " + failedEpisodes.get(failedId).getLocalizedMessage());
       }
     }
+  }
 
+  private void updateErrorLogs() throws SQLException {
+    DBCursor dbCursor = mongoConnection.getCollection("errorlogs").find();
+
+    int totalRows = dbCursor.count();
+    debug(totalRows + " errorlogs found to copy. Starting.");
+
+    int i = 0;
+
+    while (dbCursor.hasNext()) {
+      i++;
+      DBObject errorLogMongoObject = dbCursor.next();
+
+      ErrorLogMongo errorLogMongo = new ErrorLogMongo();
+      errorLogMongo.initializeFromDBObject(errorLogMongoObject);
+
+      ErrorLogPostgres errorLogPostgres = new ErrorLogPostgres();
+      errorLogPostgres.initializeForInsert();
+
+      copyAllErrorLogFields(errorLogMongo, errorLogPostgres);
+
+      errorLogPostgres.commit(sqlConnection);
+
+      debug(i + " out of " + totalRows + " processed.");
+      debug("");
+    }
+
+    debug("Update complete!");
+
+  }
+
+  private void copyAllErrorLogFields(ErrorLogMongo errorLogMongo, ErrorLogPostgres errorLogPostgres) {
+    errorLogPostgres.chosenName.changeValue(errorLogMongo.chosenName.getValue());
+    errorLogPostgres.errorMessage.changeValue(errorLogMongo.errorMessage.getValue());
+    errorLogPostgres.errorType.changeValue(errorLogMongo.errorType.getValue());
+    errorLogPostgres.eventDate.changeValue(errorLogMongo.eventDate.getValue());
+    errorLogPostgres.formattedName.changeValue(errorLogMongo.formattedName.getValue());
+    errorLogPostgres.resolved.changeValue(errorLogMongo.resolved.getValue());
+    errorLogPostgres.resolvedDate.changeValue(errorLogMongo.resolvedDate.getValue());
+    errorLogPostgres.tvdbName.changeValue(errorLogMongo.tvdbName.getValue());
+    errorLogPostgres.tivoId.changeValue(errorLogMongo.tivoId.getValue());
+    errorLogPostgres.tivoName.changeValue(errorLogMongo.tivoName.getValue());
+    errorLogPostgres.context.changeValue(errorLogMongo.context.getValue());
+    errorLogPostgres.ignoreError.changeValue(errorLogMongo.ignoreError.getValue());
   }
 
 
