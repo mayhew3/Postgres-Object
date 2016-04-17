@@ -493,6 +493,7 @@ public class TVPostgresMigration {
     seriesPostgres.tivoSeriesId.changeValue(seriesMongo.tivoSeriesId.getValue());
     seriesPostgres.tvdbId.changeValue(seriesMongo.tvdbId.getValue());
     seriesPostgres.seriesTitle.changeValue(seriesMongo.seriesTitle.getValue());
+    seriesPostgres.tivoName.changeValue(seriesMongo.tivoName.getValue());
     seriesPostgres.tvdbHint.changeValue(seriesMongo.tvdbHint.getValue());
     seriesPostgres.ignoreTVDB.changeValue(seriesMongo.ignoreTVDB.getValue());
     seriesPostgres.activeEpisodes.changeValue(seriesMongo.activeEpisodes.getValue());

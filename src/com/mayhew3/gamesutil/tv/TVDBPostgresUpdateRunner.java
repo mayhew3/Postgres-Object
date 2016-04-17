@@ -49,30 +49,38 @@ public class TVDBPostgresUpdateRunner {
         series.initializeFromDBObject(resultSet);
 
         try {
-          updateShow(series);
-        } catch (RuntimeException | ShowFailedException | BadlyFormattedXMLException e) {
+          updateMetacritic(series);
+        } catch (RuntimeException | ShowFailedException e) {
           e.printStackTrace();
-          debug("Show failed: " + series.seriesTitle.getValue());
+          debug("Show failed metacritic: " + series.seriesTitle.getValue());
         }
 
-        debug(i + " out of " + totalRows + " processed.");
+        try {
+          updateTVDB(series);
+        } catch (ShowFailedException | BadlyFormattedXMLException e) {
+          e.printStackTrace();
+          debug("Show failed TVDB: " + series.seriesTitle.getValue());
+        }
+
+        seriesUpdates++;
+        debug(i + " processed.");
       }
     } catch (MongoException e) {
       debug("Threw weird exception!");
     }
   }
 
-  private void updateShow(SeriesPostgres series) throws ShowFailedException, SQLException, BadlyFormattedXMLException {
-
-    MetacriticTVPostgresUpdater metacriticUpdater = new MetacriticTVPostgresUpdater(series, connection);
-    metacriticUpdater.runUpdater();
-
+  private void updateTVDB(SeriesPostgres series) throws SQLException, BadlyFormattedXMLException, ShowFailedException {
     TVDBSeriesPostgresUpdater updater = new TVDBSeriesPostgresUpdater(connection, series, new NodeReaderImpl());
     updater.updateSeries();
-    seriesUpdates++;
+
     episodesAdded += updater.getEpisodesAdded();
     episodesUpdated += updater.getEpisodesUpdated();
+  }
 
+  private void updateMetacritic(SeriesPostgres series) throws ShowFailedException {
+    MetacriticTVPostgresUpdater metacriticUpdater = new MetacriticTVPostgresUpdater(series, connection);
+    metacriticUpdater.runUpdater();
   }
 
 

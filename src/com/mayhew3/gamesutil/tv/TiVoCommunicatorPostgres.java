@@ -382,6 +382,7 @@ public class TiVoCommunicatorPostgres {
 
     series.tivoSeriesId.changeValue(tivoInfo.tivoId);
     series.seriesTitle.changeValue(tivoInfo.seriesTitle);
+    series.tivoName.changeValue(tivoInfo.seriesTitle);
     series.isSuggestion.changeValue(tivoInfo.isSuggestion);
     series.tier.changeValue(tier);
     series.matchedWrong.changeValue(false);

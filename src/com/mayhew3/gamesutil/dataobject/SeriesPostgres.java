@@ -27,6 +27,8 @@ public class SeriesPostgres extends DataObject {
   public FieldValueBoolean matchedWrong = registerBooleanField("matched_wrong");
   public FieldValueBoolean needsTVDBRedo = registerBooleanField("needs_tvdb_redo");
   public FieldValueString tvdbHint = registerStringField("tvdb_hint");
+  public FieldValueString tivoName = registerStringField("tivo_name");
+
 
   /* Denorms */
   public FieldValueInteger activeEpisodes = registerIntegerField("active_episodes");

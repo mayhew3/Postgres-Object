@@ -1,12 +1,11 @@
 package com.mayhew3.gamesutil.tv;
 
-import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.dataobject.*;
+import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.xml.BadlyFormattedXMLException;
 import com.mayhew3.gamesutil.xml.NodeReader;
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
 import com.sun.istack.internal.NotNull;
+import com.sun.istack.internal.Nullable;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeComparator;
 import org.w3c.dom.Document;
@@ -24,7 +23,7 @@ import java.util.Objects;
 
 public class TVDBSeriesPostgresUpdater {
 
-  SeriesPostgres _series;
+  SeriesPostgres series;
 
   private SQLConnection connection;
   private NodeReader nodeReader;
@@ -35,25 +34,25 @@ public class TVDBSeriesPostgresUpdater {
   public TVDBSeriesPostgresUpdater(SQLConnection connection,
                                    @NotNull SeriesPostgres series,
                                    @NotNull NodeReader nodeReader) {
-    this._series = series;
+    this.series = series;
     this.connection = connection;
     this.nodeReader = nodeReader;
   }
 
 
   public void updateSeries() throws SQLException, BadlyFormattedXMLException, ShowFailedException {
-    String seriesTitle = _series.seriesTitle.getValue();
-    String seriesTiVoId = _series.tivoSeriesId.getValue();
+    String seriesTitle = series.seriesTitle.getValue();
+    String seriesTiVoId = series.tivoSeriesId.getValue();
 
-    DBObject errorLog = getErrorLog(seriesTiVoId);
+    ErrorLogPostgres errorLog = getErrorLog(seriesTiVoId);
 
     if (shouldIgnoreShow(errorLog)) {
-      markSeriesToIgnore(_series);
+      markSeriesToIgnore(series);
       resolveError(errorLog);
     } else {
 
-      Boolean matchedWrong = Boolean.TRUE.equals(_series.matchedWrong.getValue());
-      Integer existingId = _series.tvdbId.getValue();
+      Boolean matchedWrong = Boolean.TRUE.equals(series.matchedWrong.getValue());
+      Integer existingId = series.tvdbId.getValue();
 
       Integer tvdbId = getTVDBID(errorLog, matchedWrong, existingId);
 
@@ -61,29 +60,30 @@ public class TVDBSeriesPostgresUpdater {
 
       if (tvdbId != null && !usingOldWrongID) {
         debug(seriesTitle + ": ID found, getting show data.");
-        _series.tvdbId.changeValue(tvdbId);
+        series.tvdbId.changeValue(tvdbId);
 
         if (matchedWrong) {
-          Integer seriesId = _series.id.getValue();
+          Integer seriesId = series.id.getValue();
           removeTVDBOnlyEpisodes(seriesId);
           clearTVDBIds(seriesId);
-          _series.needsTVDBRedo.changeValue(false);
-          _series.matchedWrong.changeValue(false);
+          series.needsTVDBRedo.changeValue(false);
+          series.matchedWrong.changeValue(false);
         }
 
-        updateShowData(_series);
+        updateShowData(series);
 
       }
     }
   }
 
   // todo: never return null, just throw exception if failed to find
-  private Integer getTVDBID(DBObject errorLog, Boolean matchedWrong, Integer existingId) throws SQLException, ShowFailedException, BadlyFormattedXMLException {
+  private Integer getTVDBID(ErrorLogPostgres errorLog, Boolean matchedWrong, Integer existingId) throws SQLException, ShowFailedException, BadlyFormattedXMLException {
+    if (existingId != null && !matchedWrong) {
+      return existingId;
+    }
+
     try {
-      Integer tvdbid = findTVDBMatch(_series, errorLog);
-      return (existingId == null || matchedWrong) ?
-          tvdbid :
-          existingId;
+      return findTVDBMatch(series, errorLog);
     } catch (IOException | SAXException e) {
       e.printStackTrace();
       // todo: add error log
@@ -126,17 +126,24 @@ public class TVDBSeriesPostgresUpdater {
 
   }
 
-  private DBObject getErrorLog(String tivoId) {
-    /*
-    BasicDBObject query = new BasicDBObject("TiVoID", tivoId)
-        .append("Resolved", false);
-    return _db.getCollection("errorlogs").findOne(query);
-    */
-    // todo: update
+  @Nullable
+  private ErrorLogPostgres getErrorLog(String tivoId) throws SQLException {
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
+        "SELECT *" +
+            "FROM error_log " +
+            "WHERE tivo_id = ? " +
+            "AND resolved = ?", tivoId, false
+    );
+    if (resultSet.next()) {
+      ErrorLogPostgres errorLog = new ErrorLogPostgres();
+      errorLog.initializeFromDBObject(resultSet);
+      return errorLog;
+    }
+
     return null;
   }
 
-  private Integer findTVDBMatch(SeriesPostgres series, DBObject errorLog) throws SQLException, BadlyFormattedXMLException, IOException, SAXException {
+  private Integer findTVDBMatch(SeriesPostgres series, ErrorLogPostgres errorLog) throws SQLException, BadlyFormattedXMLException, IOException, SAXException {
     String seriesTitle = series.seriesTitle.getValue();
     String tivoId = series.tivoSeriesId.getValue();
     String tvdbHint = series.tvdbHint.getValue();
@@ -176,10 +183,9 @@ public class TVDBSeriesPostgresUpdater {
 
     if (!seriesTitle.equalsIgnoreCase(seriesName) && !titleToCheck.equalsIgnoreCase(seriesName)) {
       if (shouldAcceptMismatch(errorLog)) {
-        updateSeriesTitle(tivoId, seriesTitle, errorLog);
+        updateSeriesTitle(series, errorLog);
       } else {
         debug("Discrepency between TiVo and TVDB names!");
-        attachPossibleSeries(series, seriesNodes);
 
         if (!isMismatchError(errorLog)) {
           addMismatchErrorLog(tivoId, seriesTitle, formattedTitle, seriesName);
@@ -213,50 +219,40 @@ public class TVDBSeriesPostgresUpdater {
       String tvdbSeriesName = nodeReader.getValueOfSimpleStringNode(seriesNode, "SeriesName");
       Integer tvdbSeriesId = Integer.parseInt(nodeReader.getValueOfSimpleStringNode(seriesNode, "id"));
 
-      connection.prepareAndExecuteStatementUpdate(
-          "INSERT INTO possible_series_match (series_id, tvdb_series_title, tvdb_series_id) " +
-              "VALUES (?, ?, ?)",
-          series.id.getValue(),
-          tvdbSeriesName,
-          tvdbSeriesId
-      );
+      series.addPossibleSeriesMatch(connection, tvdbSeriesId, tvdbSeriesName);
     }
   }
 
-  private String getTitleToCheck(String seriesTitle, DBObject errorLog) {
+  private String getTitleToCheck(String seriesTitle, ErrorLogPostgres errorLog) {
     if (errorLog != null && isNotFoundError(errorLog)) {
-      Object chosenName = errorLog.get("ChosenName");
+      String chosenName = errorLog.chosenName.getValue();
       if (chosenName == null) {
         return seriesTitle;
       }
-      return (String) chosenName;
+      return chosenName;
     }
     return seriesTitle;
   }
 
-  private boolean isNotFoundError(DBObject errorLog) {
-    return errorLog != null && "NoMatchFound".equals(errorLog.get("ErrorType"));
+  private boolean isNotFoundError(@Nullable ErrorLogPostgres errorLog) {
+    return errorLog != null && "NoMatchFound".equals(errorLog.errorType.getValue());
   }
 
-  private boolean isMismatchError(DBObject errorLog) {
-    return errorLog != null && "NameMismatch".equals(errorLog.get("ErrorType"));
+  private boolean isMismatchError(@Nullable ErrorLogPostgres errorLog) {
+    return errorLog != null && "NameMismatch".equals(errorLog.errorType.getValue());
   }
 
-  private boolean shouldIgnoreShow(DBObject errorLog) {
-    return errorLog != null && Boolean.TRUE.equals(errorLog.get("IgnoreError"));
+  private boolean shouldIgnoreShow(@Nullable ErrorLogPostgres errorLog) {
+    return errorLog != null && Boolean.TRUE.equals(errorLog.ignoreError.getValue());
   }
 
-  private void updateSeriesTitle(String tivoId, String seriesTitle, DBObject errorLog) throws SQLException {
-    String chosenName = (String) errorLog.get("ChosenName");
+  private void updateSeriesTitle(SeriesPostgres series, ErrorLogPostgres errorLog) throws SQLException {
+    String chosenName = errorLog.chosenName.getValue();
+    String seriesTitle = series.seriesTitle.getValue();
 
     if (!seriesTitle.equalsIgnoreCase(chosenName)) {
-      connection.prepareAndExecuteStatementUpdate(
-          "UPDATE series " +
-              "SET title = ? " +
-              "WHERE tivo_series_id = ?",
-          chosenName,
-          tivoId
-      );
+      series.seriesTitle.changeValue(chosenName);
+      series.commit(connection);
     }
   }
 
@@ -265,28 +261,20 @@ public class TVDBSeriesPostgresUpdater {
     series.commit(connection);
   }
 
-  private boolean shouldAcceptMismatch(DBObject errorLog) {
+  private boolean shouldAcceptMismatch(ErrorLogPostgres errorLog) {
     if (!isMismatchError(errorLog)) {
       return false;
     }
 
-    String chosenName = (String) errorLog.get("ChosenName");
+    String chosenName = errorLog.chosenName.getValue();
 
     return chosenName != null && !"".equals(chosenName);
   }
 
-  private void resolveError(DBObject errorLog) {
-    /*
-    BasicDBObject queryObject = new BasicDBObject("_id", errorLog.get("_id"));
-
-    BasicDBObject updateObject = new BasicDBObject()
-        .append("Resolved", true)
-        .append("ResolvedDate", new Date());
-
-    updateCollectionWithQuery("errorlogs", queryObject, updateObject);
-    */
-
-    // todo: do this
+  private void resolveError(ErrorLogPostgres errorLog) throws SQLException {
+    errorLog.resolved.changeValue(true);
+    errorLog.resolvedDate.changeValue(new Date());
+    errorLog.commit(connection);
   }
 
   private void updateShowData(SeriesPostgres series) throws SQLException, BadlyFormattedXMLException {
@@ -655,64 +643,49 @@ public class TVDBSeriesPostgresUpdater {
 
 
 
-  private void addShowNotFoundErrorLog(SeriesPostgres series, String formattedName, String context) {
-    /*
+  private void addShowNotFoundErrorLog(SeriesPostgres series, String formattedName, String context) throws SQLException {
+    ErrorLogPostgres errorLog = new ErrorLogPostgres();
+    errorLog.initializeForInsert();
 
-    BasicDBObject object = new BasicDBObject()
-        .append("TiVoName", series.tivoName.getValue())
-        .append("FormattedName", formattedName)
-        .append("Context", context)
-        .append("ErrorType", "NoMatchFound")
-        .append("ErrorMessage", "Unable to find TVDB show with TiVo Name.");
+    errorLog.tivoName.changeValue(series.tivoName.getValue());
+    errorLog.formattedName.changeValue(formattedName);
+    errorLog.context.changeValue(context);
+    errorLog.errorType.changeValue("NoMatchFound");
+    errorLog.errorMessage.changeValue("Unable to find TVDB show with TiVo Name.");
 
-    addBasicErrorLog(series.tivoSeriesId.getValue(), object);*/
+    addBasicErrorLog(series.tivoSeriesId.getValue(), errorLog);
   }
 
 
-  private void addMismatchErrorLog(String tivoId, String tivoName, String formattedName, String tvdbName) {
-    BasicDBObject object = new BasicDBObject()
-        .append("TiVoName", tivoName)
-        .append("FormattedName", formattedName)
-        .append("TVDBName", tvdbName)
-        .append("ErrorType", "NameMismatch")
-        .append("ErrorMessage", "Mismatch between TiVo and TVDB names.");
+  private void addMismatchErrorLog(String tivoId, String tivoName, String formattedName, String tvdbName) throws SQLException {
+    ErrorLogPostgres errorLog = new ErrorLogPostgres();
+    errorLog.initializeForInsert();
 
-    addBasicErrorLog(tivoId, object);
+    errorLog.tivoName.changeValue(tivoName);
+    errorLog.formattedName.changeValue(formattedName);
+    errorLog.tvdbName.changeValue(tvdbName);
+    errorLog.errorType.changeValue("NameMismatch");
+    errorLog.errorMessage.changeValue("Mismatch between TiVo and TVDB names.");
+
+    addBasicErrorLog(tivoId, errorLog);
   }
 
-  private void addBasicErrorLog(String tivoId, BasicDBObject errorObject) {
-    /*
-    DBCollection errorlogs = _db.getCollection("errorlogs");
-    errorObject
-        .append("TiVoID", tivoId)
-        .append("EventDate", new Date())
-        .append("Resolved", false)
-        .append("ResolvedDate", null);
-
-    try {
-      errorlogs.insert(errorObject);
-    } catch (MongoException e) {
-      throw new RuntimeException("Error inserting error log into database.\r\n" + e.getLocalizedMessage());
-    }
-    */
+  private void addBasicErrorLog(String tivoId, ErrorLogPostgres errorLog) throws SQLException {
+    errorLog.tivoId.changeValue(tivoId);
+    errorLog.eventDate.changeValue(new Date());
+    errorLog.resolved.changeValue(false);
+    errorLog.commit(connection);
   }
 
-  private void addErrorLog(String tivoId, String errorMessage) {
-    /*
-    DBCollection errorlogs = _db.getCollection("errorlogs");
-    BasicDBObject errorLog = new BasicDBObject()
-        .append("TiVoID", tivoId)
-        .append("EventDate", new Date())
-        .append("ErrorMessage", errorMessage)
-        .append("Resolved", false)
-        .append("ResolvedDate", null);
+  private void addErrorLog(String tivoId, String errorMessage) throws SQLException {
+    ErrorLogPostgres errorLog = new ErrorLogPostgres();
+    errorLog.initializeForInsert();
 
-    try {
-      errorlogs.insert(errorLog);
-    } catch (MongoException e) {
-      throw new RuntimeException("Error inserting error log into database.\r\n" + e.getLocalizedMessage());
-    }
-    */
+    errorLog.tivoId.changeValue(tivoId);
+    errorLog.eventDate.changeValue(new Date());
+    errorLog.errorMessage.changeValue(errorMessage);
+    errorLog.resolved.changeValue(false);
+    errorLog.commit(connection);
   }
 
   protected void debug(Object object) {
