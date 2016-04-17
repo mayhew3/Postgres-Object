@@ -45,6 +45,7 @@ public class SeriesMongo extends MediaObjectMongoDB {
   public FieldValueBoolean isEpisodic = registerBooleanField("IsEpisodic");
 
   public FieldValueDBObjectArray metacriticSeasons = registerIntegerDBObjectArrayField("MetacriticSeasons");
+  public FieldValueDBObjectArray possibleMatches = registerIntegerDBObjectArrayField("PossibleMatches");
 
 
   /* Denorms */

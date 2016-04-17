@@ -135,6 +135,7 @@ public class TVPostgresMigration {
     updateGenres(seriesMongo, seriesPostgres);
     updateViewingLocations(seriesMongo, seriesPostgres);
     updateMetacriticSeasons(seriesMongo, seriesPostgres);
+    updatePossibleMatches(seriesMongo, seriesPostgres);
     updateEpisodes(seriesMongo, seriesPostgres);
   }
 
@@ -194,6 +195,18 @@ public class TVPostgresMigration {
         String genreName = (String) obj;
         debug(" - Add genre '" + genreName + "'");
         seriesPostgres.addGenre(sqlConnection, genreName);
+      }
+    }
+  }
+
+  private void updatePossibleMatches(SeriesMongo seriesMongo, SeriesPostgres seriesPostgres) throws SQLException {
+    BasicDBList dbList = seriesMongo.possibleMatches.getValue();
+    if (dbList != null) {
+      for (Object obj : dbList) {
+        DBObject possibleMatch = (DBObject) obj;
+        Integer seriesID = (Integer) possibleMatch.get("SeriesID");
+        String title = (String) possibleMatch.get("SeriesTitle");
+        seriesPostgres.addPossibleSeriesMatch(sqlConnection, seriesID, title);
       }
     }
   }

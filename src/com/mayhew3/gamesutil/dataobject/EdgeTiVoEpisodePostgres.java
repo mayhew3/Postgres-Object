@@ -7,6 +7,8 @@ public class EdgeTiVoEpisodePostgres extends DataObject {
 
   public FieldValueInteger retired = registerIntegerField("retired");
 
+  public FieldValueTimestamp dateAdded = registerTimestampField("date_added");
+
   @Override
   protected String getTableName() {
     return "edge_tivo_episode";

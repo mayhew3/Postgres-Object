@@ -103,6 +103,30 @@ public class SeriesPostgres extends DataObject {
     return null;
   }
 
+  public PossibleSeriesMatchPostgres addPossibleSeriesMatch(SQLConnection connection, Integer tvdbSeriesId, String title) throws SQLException {
+    Preconditions.checkNotNull(id.getValue(), "Cannot insert join entity until Series object is committed (id is non-null)");
+
+    PossibleSeriesMatchPostgres matchPostgres = new PossibleSeriesMatchPostgres();
+
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
+        "SELECT * FROM possible_series_match " +
+            "WHERE " + matchPostgres.tvdbSeriesId.getFieldName() + " = ?",
+        tvdbSeriesId);
+
+    if (resultSet.next()) {
+      matchPostgres.initializeFromDBObject(resultSet);
+    } else {
+      matchPostgres.initializeForInsert();
+      matchPostgres.seriesId.changeValue(id.getValue());
+      matchPostgres.tvdbSeriesId.changeValue(tvdbSeriesId);
+      matchPostgres.tvdbSeriesTitle.changeValue(title);
+      matchPostgres.dateAdded.changeValue(dateAdded.getValue());
+      matchPostgres.commit(connection);
+    }
+
+    return matchPostgres;
+  }
+
   /**
    * @param connection DB connection to use
    * @param viewingLocationName Name of new or existing viewing location

@@ -6,6 +6,7 @@ import com.sun.istack.internal.NotNull;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class EpisodePostgres extends DataObject {
@@ -55,6 +56,7 @@ public class EpisodePostgres extends DataObject {
       edgeTiVoEpisodePostgres.tivoEpisodeId.changeValue(tivoLocalEpisodeId);
       edgeTiVoEpisodePostgres.episodeId.changeValue(id.getValue());
       edgeTiVoEpisodePostgres.retired.changeValue(0);
+      edgeTiVoEpisodePostgres.dateAdded.changeValue(new Date());
 
       edgeTiVoEpisodePostgres.commit(connection);
     }
