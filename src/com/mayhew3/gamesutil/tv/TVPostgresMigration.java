@@ -1,7 +1,6 @@
 package com.mayhew3.gamesutil.tv;
 
 import com.google.common.collect.Lists;
-import com.google.common.math.LongMath;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.games.MongoConnection;
@@ -27,9 +26,11 @@ public class TVPostgresMigration {
   private static Boolean devMode = false;
 
   private Map<ObjectId, ShowFailedException> failedEpisodes;
+  private Map<String, ShowFailedException> failedMovies;
 
   public TVPostgresMigration(MongoConnection mongoConnection, SQLConnection sqlConnection) {
     this.failedEpisodes = new HashMap<>();
+    this.failedMovies = new HashMap<>();
     this.mongoConnection = mongoConnection;
     this.sqlConnection = sqlConnection;
   }
@@ -42,11 +43,21 @@ public class TVPostgresMigration {
         new MongoConnection("tv"),
         new PostgresConnectionFactory().createConnection());
 
+    tvPostgresMigration.updatePostgresDatabase();
+  }
+
+  public void updatePostgresDatabase() throws SQLException {
     if (devMode) {
-      tvPostgresMigration.truncatePostgresTables();
+      truncatePostgresTables();
     }
 
-    tvPostgresMigration.updatePostgresDatabase();
+    updateAllMovies();
+    updateConnectLogs();
+    updateErrorLogs();
+    updateAllSeries();
+
+    printFailedEpisodes();
+    printFailedMovies();
   }
 
   private void truncatePostgresTables() throws SQLException {
@@ -58,6 +69,7 @@ public class TVPostgresMigration {
     sqlConnection.executeUpdate("TRUNCATE TABLE edge_tivo_episode CASCADE");
     sqlConnection.executeUpdate("TRUNCATE TABLE error_log CASCADE");
     sqlConnection.executeUpdate("TRUNCATE TABLE connect_log CASCADE");
+    sqlConnection.executeUpdate("TRUNCATE TABLE movie CASCADE");
 
     sqlConnection.executeUpdate("ALTER SEQUENCE series_id_seq RESTART WITH 1");
     sqlConnection.executeUpdate("ALTER SEQUENCE tvdb_series_id_seq RESTART WITH 1");
@@ -67,6 +79,7 @@ public class TVPostgresMigration {
     sqlConnection.executeUpdate("ALTER SEQUENCE tvdb_episode_id_seq RESTART WITH 1");
     sqlConnection.executeUpdate("ALTER SEQUENCE error_log_id_seq RESTART WITH 1");
     sqlConnection.executeUpdate("ALTER SEQUENCE connect_logs_id_seq RESTART WITH 1");
+    sqlConnection.executeUpdate("ALTER SEQUENCE movie_id_seq RESTART WITH 1");
 
     sqlConnection.executeUpdate("ALTER SEQUENCE genre_id_seq RESTART WITH 1");
     sqlConnection.executeUpdate("ALTER SEQUENCE series_genre_id_seq RESTART WITH 1");
@@ -74,12 +87,6 @@ public class TVPostgresMigration {
     sqlConnection.executeUpdate("ALTER SEQUENCE viewing_location_id_seq RESTART WITH 1");
     sqlConnection.executeUpdate("ALTER SEQUENCE series_viewing_location_id_seq RESTART WITH 1");
 
-  }
-
-  public void updatePostgresDatabase() throws SQLException {
-    updateConnectLogs();
-    updateErrorLogs();
-    updateAllSeries();
   }
 
   private void updateAllSeries() throws SQLException {
@@ -105,7 +112,9 @@ public class TVPostgresMigration {
     }
 
     debug("Update complete!");
+  }
 
+  private void printFailedEpisodes() {
     Set<ObjectId> failedIds = failedEpisodes.keySet();
     if (!failedIds.isEmpty()) {
       debug(failedIds.size() + " episodes failed!");
@@ -114,6 +123,123 @@ public class TVPostgresMigration {
         debug(" - " + failedId + ": " + failedEpisodes.get(failedId).getLocalizedMessage());
       }
     }
+  }
+
+  private void printFailedMovies() {
+    Set<String> failedTitles = failedMovies.keySet();
+    if (!failedTitles.isEmpty()) {
+      debug(failedTitles.size() + " movies failed!");
+      for (String title : failedTitles) {
+        //noinspection ThrowableResultOfMethodCallIgnored
+        debug(" - " + title + ": " + failedMovies.get(title).getLocalizedMessage());
+      }
+    }
+  }
+
+
+  private void updateAllMovies() throws SQLException {
+    DBObject dbObject = new BasicDBObject()
+        .append("IsEpisodic", new BasicDBObject("$ne", true))
+        ;
+
+    DBCursor dbCursor = mongoConnection.getCollection("series").find(dbObject);
+
+    int totalRows = dbCursor.count();
+    debug(totalRows + " movies found to copy. Starting.");
+
+    int i = 0;
+
+    while (dbCursor.hasNext()) {
+      i++;
+      DBObject movieMongoObject = dbCursor.next();
+
+      SeriesMongo seriesMongo = new SeriesMongo();
+      seriesMongo.initializeFromDBObject(movieMongoObject);
+
+      try {
+        processSingleMovie(seriesMongo);
+      } catch (ShowFailedException e) {
+        debug("Movie failed: " + seriesMongo.seriesTitle.getValue());
+        //noinspection ThrowableResultOfMethodCallIgnored
+        failedMovies.put(seriesMongo.seriesTitle.getValue(), e);
+        e.printStackTrace();
+      }
+
+      debug(i + " out of " + totalRows + " processed.");
+      debug("");
+    }
+
+
+
+    debug("Update complete!");
+
+  }
+
+  private void processSingleMovie(SeriesMongo seriesMongo) throws ShowFailedException {
+    MoviePostgres moviePostgres = new MoviePostgres();
+    moviePostgres.initializeForInsert();
+
+    moviePostgres.onTiVo.changeValue(true);
+    copySeriesFieldsToMovie(seriesMongo, moviePostgres);
+
+    ObjectId mongoId = seriesMongo._id.getValue();
+
+    BasicDBObject episodeQuery = new BasicDBObject()
+        .append("SeriesId", mongoId)
+        .append("OnTiVo", true)
+        ;
+
+    DBCursor cursor = mongoConnection.getCollection("episodes").find(episodeQuery);
+
+    int numberOfEpisodes = cursor.count();
+    if (numberOfEpisodes > 1) {
+      throw new ShowFailedException("Movies should have no more than one episode. Found: " + numberOfEpisodes);
+    }
+
+    if (cursor.hasNext()) {
+      DBObject episodeDBObj = cursor.next();
+
+      EpisodeMongo episodeMongo = new EpisodeMongo();
+      episodeMongo.initializeFromDBObject(episodeDBObj);
+
+      copyEpisodeFieldsToMovie(episodeMongo, moviePostgres);
+
+      try {
+        moviePostgres.commit(sqlConnection);
+      } catch (SQLException e) {
+        e.printStackTrace();
+        throw new ShowFailedException("Insert failed for movie: " + moviePostgres.seriesTitle.getValue());
+      }
+    }
+  }
+
+  private void copySeriesFieldsToMovie(SeriesMongo seriesMongo, MoviePostgres moviePostgres) {
+    moviePostgres.title.changeValue(seriesMongo.seriesTitle.getValue());
+    moviePostgres.tier.changeValue(seriesMongo.tier.getValue());
+    moviePostgres.metacritic.changeValue(seriesMongo.metacritic.getValue());
+    moviePostgres.metacriticHint.changeValue(seriesMongo.metacriticHint.getValue());
+    moviePostgres.my_rating.changeValue(seriesMongo.myRating.getValue());
+    moviePostgres.tivoName.changeValue(seriesMongo.tivoName.getValue());
+  }
+
+  private void copyEpisodeFieldsToMovie(EpisodeMongo episodeMongo, MoviePostgres moviePostgres) {
+    moviePostgres.isSuggestion.changeValue(episodeMongo.tivoSuggestion.getValue());
+    moviePostgres.showingStartTime.changeValue(episodeMongo.tivoShowingStartTime.getValue());
+    moviePostgres.deletedDate.changeValue(episodeMongo.tivoDeletedDate.getValue());
+    moviePostgres.captureDate.changeValue(episodeMongo.tivoCaptureDate.getValue());
+    moviePostgres.hd.changeValue(episodeMongo.tivoHD.getValue());
+    moviePostgres.duration.changeValue(episodeMongo.tivoDuration.getValue());
+    moviePostgres.showingDuration.changeValue(episodeMongo.tivoShowingDuration.getValue());
+    moviePostgres.channel.changeValue(episodeMongo.tivoChannel.getValue());
+    moviePostgres.rating.changeValue(episodeMongo.tivoRating.getValue());
+    moviePostgres.tivoSeriesId.changeValue(episodeMongo.tivoSeriesId.getValue());
+    moviePostgres.programId.changeValue(episodeMongo.tivoProgramId.getValue());
+    moviePostgres.seriesTitle.changeValue(episodeMongo.tivoSeriesTitle.getValue());
+    moviePostgres.description.changeValue(episodeMongo.tivoDescription.getValue());
+    moviePostgres.station.changeValue(episodeMongo.tivoStation.getValue());
+    moviePostgres.url.changeValue(episodeMongo.tivoUrl.getValue());
+    moviePostgres.watched.changeValue(episodeMongo.watched.getValue());
+    moviePostgres.watchedDate.changeValue(episodeMongo.watchedDate.getValue());
   }
 
   private void updateErrorLogs() throws SQLException {
