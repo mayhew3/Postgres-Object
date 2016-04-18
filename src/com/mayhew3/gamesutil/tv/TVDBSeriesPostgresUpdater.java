@@ -128,6 +128,9 @@ public class TVDBSeriesPostgresUpdater {
 
   @Nullable
   private ErrorLogPostgres getErrorLog(String tivoId) throws SQLException {
+    if (tivoId == null) {
+      return null;
+    }
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
         "SELECT *" +
             "FROM error_log " +

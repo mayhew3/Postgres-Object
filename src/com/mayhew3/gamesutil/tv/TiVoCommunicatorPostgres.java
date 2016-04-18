@@ -68,26 +68,19 @@ public class TiVoCommunicatorPostgres {
 
     lookAtAllShows = updateAllShows;
 
-    try {
-      SSLTool.disableCertificateValidation();
+    SSLTool.disableCertificateValidation();
 
-      /**
-       * What I learned:
-       * - SSL is a pain in the butt.
-       * - There may be a magic combination of saving the certificate from the browser, running the keytool utility,
-       *   adding the right VM parameters to recognize it, create a Keystore, Trusting something, running it through
-       *   an SSL Factory and Https connection, but I was never able to get it to recognize the certificate.
-       * - Because I'm only running this over the local network, I'm just disabling the validation completely, which
-       *   is hacky, but seems to work. (After getting the Authorization popup to work. See DatabaseUtility#readXMLFromTivoUrl.
-       */
+    /**
+     * What I learned:
+     * - SSL is a pain in the butt.
+     * - There may be a magic combination of saving the certificate from the browser, running the keytool utility,
+     *   adding the right VM parameters to recognize it, create a Keystore, Trusting something, running it through
+     *   an SSL Factory and Https connection, but I was never able to get it to recognize the certificate.
+     * - Because I'm only running this over the local network, I'm just disabling the validation completely, which
+     *   is hacky, but seems to work. (After getting the Authorization popup to work. See DatabaseUtility#readXMLFromTivoUrl.
+     */
 
-      updateFields();
-      sqlConnection.closeConnection();
-
-    } catch (RuntimeException | BadlyFormattedXMLException e) {
-      sqlConnection.closeConnection();
-      throw e;
-    }
+    updateFields();
 
   }
 

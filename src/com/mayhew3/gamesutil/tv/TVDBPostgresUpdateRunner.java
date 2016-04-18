@@ -5,7 +5,6 @@ import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.xml.BadlyFormattedXMLException;
 import com.mayhew3.gamesutil.xml.NodeReaderImpl;
-import com.mongodb.MongoException;
 
 import java.net.URISyntaxException;
 import java.sql.ResultSet;
@@ -33,40 +32,35 @@ public class TVDBPostgresUpdateRunner {
 
     String sql = "select *\n" +
         "from series\n" +
-        "where ignore_tvdb = ?\n" +
-        "and suggestion = ?";
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, false, false);
+        "where ignore_tvdb = ?";
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, false);
 
     int totalRows = resultSet.getFetchSize();
     debug(totalRows + " series found for update. Starting.");
 
     int i = 0;
 
-    try {
-      while (resultSet.next()) {
-        i++;
-        SeriesPostgres series = new SeriesPostgres();
-        series.initializeFromDBObject(resultSet);
+    while (resultSet.next()) {
+      i++;
+      SeriesPostgres series = new SeriesPostgres();
+      series.initializeFromDBObject(resultSet);
 
-        try {
-          updateMetacritic(series);
-        } catch (RuntimeException | ShowFailedException e) {
-          e.printStackTrace();
-          debug("Show failed metacritic: " + series.seriesTitle.getValue());
-        }
-
-        try {
-          updateTVDB(series);
-        } catch (ShowFailedException | BadlyFormattedXMLException e) {
-          e.printStackTrace();
-          debug("Show failed TVDB: " + series.seriesTitle.getValue());
-        }
-
-        seriesUpdates++;
-        debug(i + " processed.");
+      try {
+        updateMetacritic(series);
+      } catch (RuntimeException | ShowFailedException e) {
+        e.printStackTrace();
+        debug("Show failed metacritic: " + series.seriesTitle.getValue());
       }
-    } catch (MongoException e) {
-      debug("Threw weird exception!");
+
+      try {
+        updateTVDB(series);
+      } catch (ShowFailedException | BadlyFormattedXMLException e) {
+        e.printStackTrace();
+        debug("Show failed TVDB: " + series.seriesTitle.getValue());
+      }
+
+      seriesUpdates++;
+      debug(i + " processed.");
     }
   }
 
