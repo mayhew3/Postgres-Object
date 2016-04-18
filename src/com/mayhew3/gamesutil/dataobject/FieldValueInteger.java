@@ -1,5 +1,7 @@
 package com.mayhew3.gamesutil.dataobject;
 
+import com.sun.istack.internal.Nullable;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,6 +19,21 @@ public class FieldValueInteger extends FieldValue<Integer> {
       resultSetInt = null;
     }
     initializeValue(resultSetInt);
+  }
+
+  /**
+   * Used for migrating values from Mongo that were long.
+   * @param newValue long value to convert
+   */
+  public void changeValue(@Nullable Long newValue) {
+    if (newValue == null) {
+      nullValue();
+    } else {
+      if (newValue > Integer.MAX_VALUE) {
+        throw new IllegalStateException("Cannot convert long that is larger than Integer.MAX_VALUE");
+      }
+      changeValue(newValue.intValue());
+    }
   }
 
   @Override

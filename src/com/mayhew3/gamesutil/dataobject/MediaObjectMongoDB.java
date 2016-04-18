@@ -183,6 +183,17 @@ public abstract class MediaObjectMongoDB {
     return fieldIntegerValue;
   }
 
+  protected final FieldValueLong registerLongField(String fieldName) {
+    FieldValueLong fieldLongValue = new FieldValueLong(fieldName, new FieldConversion<Long>() {
+      @Override
+      Long parseFromString(String value) throws NumberFormatException {
+        return Long.valueOf(value);
+      }
+    });
+    allFieldValues.add(fieldLongValue);
+    return fieldLongValue;
+  }
+
   protected final FieldValue<ObjectId> registerObjectIdField(String fieldName) {
     FieldValue<ObjectId> fieldMongoValue = new FieldValueMongoObjectId(fieldName, new FieldConversionMongoId());
     allFieldValues.add(fieldMongoValue);

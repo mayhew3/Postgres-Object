@@ -11,7 +11,7 @@ public class ConnectLogMongo extends MediaObjectMongoDB {
   public FieldValue<Integer> tvdbEpisodesAdded = registerIntegerField("TVDBEpisodesAdded");
   public FieldValue<Integer> tvdbEpisodesUpdated = registerIntegerField("TVDBEpisodesUpdated");
   public FieldValue<Integer> tvdbSeriesUpdated = registerIntegerField("TVDBSeriesUpdated");
-  public FieldValue<Integer> timeConnected = registerIntegerField("TimeConnected");
+  public FieldValue<Long> timeConnected = registerLongField("TimeConnected");
   public FieldValue<Integer> updatedShows = registerIntegerField("UpdatedShows");
 
   public FieldValue<Boolean> fastUpdate = registerBooleanField("FastUpdate");

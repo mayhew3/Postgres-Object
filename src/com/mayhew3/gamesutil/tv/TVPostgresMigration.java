@@ -1,6 +1,7 @@
 package com.mayhew3.gamesutil.tv;
 
 import com.google.common.collect.Lists;
+import com.google.common.math.LongMath;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.games.MongoConnection;
@@ -56,6 +57,7 @@ public class TVPostgresMigration {
     sqlConnection.executeUpdate("TRUNCATE TABLE viewing_location CASCADE");
     sqlConnection.executeUpdate("TRUNCATE TABLE edge_tivo_episode CASCADE");
     sqlConnection.executeUpdate("TRUNCATE TABLE error_log CASCADE");
+    sqlConnection.executeUpdate("TRUNCATE TABLE connect_log CASCADE");
 
     sqlConnection.executeUpdate("ALTER SEQUENCE series_id_seq RESTART WITH 1");
     sqlConnection.executeUpdate("ALTER SEQUENCE tvdb_series_id_seq RESTART WITH 1");
@@ -64,6 +66,7 @@ public class TVPostgresMigration {
     sqlConnection.executeUpdate("ALTER SEQUENCE tivo_episode_id_seq RESTART WITH 1");
     sqlConnection.executeUpdate("ALTER SEQUENCE tvdb_episode_id_seq RESTART WITH 1");
     sqlConnection.executeUpdate("ALTER SEQUENCE error_log_id_seq RESTART WITH 1");
+    sqlConnection.executeUpdate("ALTER SEQUENCE connect_logs_id_seq RESTART WITH 1");
 
     sqlConnection.executeUpdate("ALTER SEQUENCE genre_id_seq RESTART WITH 1");
     sqlConnection.executeUpdate("ALTER SEQUENCE series_genre_id_seq RESTART WITH 1");
@@ -74,6 +77,7 @@ public class TVPostgresMigration {
   }
 
   public void updatePostgresDatabase() throws SQLException {
+    updateConnectLogs();
     updateErrorLogs();
     updateAllSeries();
   }
@@ -142,6 +146,36 @@ public class TVPostgresMigration {
 
   }
 
+  private void updateConnectLogs() throws SQLException {
+    DBCursor dbCursor = mongoConnection.getCollection("connectlogs").find();
+
+    int totalRows = dbCursor.count();
+    debug(totalRows + " connectlogs found to copy. Starting.");
+
+    int i = 0;
+
+    while (dbCursor.hasNext()) {
+      i++;
+      DBObject connectLogMongoObject = dbCursor.next();
+
+      ConnectLogMongo connectLogMongo = new ConnectLogMongo();
+      connectLogMongo.initializeFromDBObject(connectLogMongoObject);
+
+      ConnectLogPostgres connectLogPostgres = new ConnectLogPostgres();
+      connectLogPostgres.initializeForInsert();
+
+      copyAllConnectLogFields(connectLogMongo, connectLogPostgres);
+
+      connectLogPostgres.commit(sqlConnection);
+
+      debug(i + " out of " + totalRows + " processed.");
+      debug("");
+    }
+
+    debug("Update complete!");
+
+  }
+
   private void copyAllErrorLogFields(ErrorLogMongo errorLogMongo, ErrorLogPostgres errorLogPostgres) {
     errorLogPostgres.chosenName.changeValue(errorLogMongo.chosenName.getValue());
     errorLogPostgres.errorMessage.changeValue(errorLogMongo.errorMessage.getValue());
@@ -155,6 +189,21 @@ public class TVPostgresMigration {
     errorLogPostgres.tivoName.changeValue(errorLogMongo.tivoName.getValue());
     errorLogPostgres.context.changeValue(errorLogMongo.context.getValue());
     errorLogPostgres.ignoreError.changeValue(errorLogMongo.ignoreError.getValue());
+  }
+
+
+  private void copyAllConnectLogFields(ConnectLogMongo connectLogMongo, ConnectLogPostgres connectLogPostgres) {
+    connectLogPostgres.startTime.changeValue(connectLogMongo.startTime.getValue());
+    connectLogPostgres.endTime.changeValue(connectLogMongo.endTime.getValue());
+    connectLogPostgres.addedShows.changeValue(connectLogMongo.addedShows.getValue());
+    connectLogPostgres.connectionID.changeValue(connectLogMongo.connectionID.getValue());
+    connectLogPostgres.deletedShows.changeValue(connectLogMongo.deletedShows.getValue());
+    connectLogPostgres.tvdbEpisodesAdded.changeValue(connectLogMongo.tvdbEpisodesAdded.getValue());
+    connectLogPostgres.tvdbEpisodesUpdated.changeValue(connectLogMongo.tvdbEpisodesUpdated.getValue());
+    connectLogPostgres.tvdbSeriesUpdated.changeValue(connectLogMongo.tvdbSeriesUpdated.getValue());
+    connectLogPostgres.timeConnected.changeValue(connectLogMongo.timeConnected.getValue());
+    connectLogPostgres.updatedShows.changeValue(connectLogMongo.updatedShows.getValue());
+    connectLogPostgres.fastUpdate.changeValue(connectLogMongo.fastUpdate.getValue());
   }
 
 

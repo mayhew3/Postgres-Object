@@ -18,7 +18,7 @@ public class ConnectLogPostgres extends DataObject {
 
   @Override
   protected String getTableName() {
-    return "connect_logs";
+    return "connect_log";
   }
 
   @Override
