@@ -8,14 +8,21 @@ import java.sql.SQLException;
 
 public class PostgresConnectionFactory extends ConnectionFactory {
 
+  String postgresURL;
+
   @Override
   public SQLConnection createConnection() throws URISyntaxException, SQLException {
+    postgresURL = System.getenv("postgresURL");
+    return new PostgresConnection(initiateDBConnect());
+  }
+
+  @Override
+  public SQLConnection createLocalConnection() throws URISyntaxException, SQLException {
+    postgresURL = System.getenv("postgresURL_local");
     return new PostgresConnection(initiateDBConnect());
   }
 
   private Connection initiateDBConnect() throws URISyntaxException, SQLException {
-    String postgresURL = System.getenv("postgresURL");
-
     try {
       return DriverManager.getConnection(postgresURL);
     } catch (SQLException e) {

@@ -42,9 +42,10 @@ public class TiVoCommunicatorPostgres {
 
   private static SQLConnection sqlConnection;
 
-  public TiVoCommunicatorPostgres() {
+  public TiVoCommunicatorPostgres(SQLConnection connection) {
     episodesOnTiVo = new ArrayList<>();
     nodeReader = new NodeReaderImpl();
+    sqlConnection = connection;
   }
 
   public static void main(String[] args) throws UnknownHostException, SQLException, URISyntaxException, BadlyFormattedXMLException {
@@ -52,9 +53,9 @@ public class TiVoCommunicatorPostgres {
     Boolean lookAtAllShows = argList.contains("FullMode");
     Boolean dev = argList.contains("Dev");
 
-    sqlConnection = new PostgresConnectionFactory().createConnection();
+    SQLConnection connection = new PostgresConnectionFactory().createConnection();
 
-    TiVoCommunicatorPostgres tiVoCommunicatorPostgres = new TiVoCommunicatorPostgres();
+    TiVoCommunicatorPostgres tiVoCommunicatorPostgres = new TiVoCommunicatorPostgres(connection);
 
     if (dev) {
       tiVoCommunicatorPostgres.truncatePostgresTables();
