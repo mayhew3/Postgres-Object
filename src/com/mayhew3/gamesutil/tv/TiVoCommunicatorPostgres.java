@@ -288,27 +288,24 @@ public class TiVoCommunicatorPostgres {
 
     EpisodePostgres episode = new EpisodePostgres();
 
-    if (tivoEpisodeExists) {
+    if (tvdbEpisode != null) {
+      if (tivoEpisodeExists) {
 
-      // todo: handle multiple rows returned
-      ResultSet existingEpisodeRow = getExistingEpisodeRows(tivoEpisode);
-      episode.initializeFromDBObject(existingEpisodeRow);
+        // todo: handle multiple rows returned
+        ResultSet existingEpisodeRow = getExistingEpisodeRows(tivoEpisode);
+        episode.initializeFromDBObject(existingEpisodeRow);
 
-    } else if (tvdbEpisode != null) {
-      tvdb_matched = true;
+      } else {
+        tvdb_matched = true;
 
-      ResultSet existingRow = getExistingEpisodeRow(tvdbEpisode);
-      episode.initializeFromDBObject(existingRow);
+        ResultSet existingRow = getExistingEpisodeRow(tvdbEpisode);
+        episode.initializeFromDBObject(existingRow);
 
-      updatedShows++;
-    } else {
-      episode.initializeForInsert();
-      episode.dateAdded.changeValue(new Date());
-      addedShows++;
+        updatedShows++;
+      }
+
+      updateEpisodeAndSeries(series, tivoEpisode, episode, tvdb_matched);
     }
-
-
-    updateEpisodeAndSeries(series, tivoEpisode, episode, tvdb_matched);
 
     return false;
   }
@@ -468,7 +465,7 @@ public class TiVoCommunicatorPostgres {
   }
 
   private ResultSet getExistingTiVoEpisodes(String programId) throws SQLException {
-    return sqlConnection.prepareAndExecuteStatementFetch("SELECT * FROM tivo_episode WHERE program_id = ?", programId);
+    return sqlConnection.prepareAndExecuteStatementFetch("SELECT * FROM tivo_episode WHERE program_id = ? AND retired = ?", programId, 0);
   }
 
   private TiVoEpisodePostgres formatEpisodeObject(TiVoEpisodePostgres episode, String url, Boolean isSuggestion, NodeList showDetails) {
