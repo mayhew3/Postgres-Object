@@ -11,5 +11,6 @@ echo Program is running
 java -classpath "D:\Projects\mean_projects\GamesDBUtil\out\artifacts\GamesDBUtil_jar\GamesDBUtil.jar" -Dwebdriver.chrome.driver="C:\Program Files (x86)\Google\Chrome\Application\chromedriver.exe" com.mayhew3.gamesutil.games.SteamGameUpdater LogToFile
 java -classpath "D:\Projects\mean_projects\GamesDBUtil\out\artifacts\GamesDBUtil_jar\GamesDBUtil.jar" com.mayhew3.gamesutil.games.MetacriticGameUpdateRunner LogToFile
 java -classpath "D:\Projects\mean_projects\GamesDBUtil\out\artifacts\GamesDBUtil_jar\GamesDBUtil.jar" com.mayhew3.gamesutil.tv.TiVoLibraryUpdater FullMode LogToFile
+java -classpath "D:\Projects\mean_projects\GamesDBUtil\out\artifacts\GamesDBUtil_jar\GamesDBUtil.jar" com.mayhew3.gamesutil.tv.TiVoLibraryPostgresUpdater FullMode LogToFile
 if %mongoshutdown%=="1" taskkill /im mongod.exe
 endlocal
