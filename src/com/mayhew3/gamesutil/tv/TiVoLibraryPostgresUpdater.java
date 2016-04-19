@@ -55,11 +55,11 @@ public class TiVoLibraryPostgresUpdater {
         TiVoCommunicatorPostgres tiVoCommunicator = new TiVoCommunicatorPostgres(connection);
         tiVoCommunicator.runUpdate(lookAtAllShows);
       } catch (BadlyFormattedXMLException e) {
-        e.printStackTrace();
         debug("Error parsing TiVo XML.");
-      } catch (SQLException e) {
         e.printStackTrace();
+      } catch (SQLException e) {
         debug("SQL error during TiVo update.");
+        e.printStackTrace();
       }
     }
 
@@ -68,9 +68,19 @@ public class TiVoLibraryPostgresUpdater {
         TVDBPostgresUpdateRunner tvdbUpdateRunner = new TVDBPostgresUpdateRunner(connection);
         tvdbUpdateRunner.runUpdate();
       } catch (SQLException e) {
-        e.printStackTrace();
         debug("Error downloading info from TVDB service.");
+        e.printStackTrace();
       }
+    }
+
+    try {
+      debug("Updating denorms...");
+      SeriesPostgresDenormUpdater denormUpdater = new SeriesPostgresDenormUpdater(connection);
+      denormUpdater.updateFields();
+      debug("Denorms updated.");
+    } catch (Exception e) {
+      debug("Error updating series denorms.");
+      e.printStackTrace();
     }
 
     logger.logConnectionEnd();
