@@ -386,8 +386,10 @@ public class TVDBSeriesPostgresUpdater {
 
       // todo: Add log entry for when TVDB values change.
 
+      String absoluteNumber = nodeReader.getValueOfSimpleStringNode(episodeNode, "absoute_number");
+
       tvdbEpisode.tvdbId.changeValue(tvdbRemoteId);
-      tvdbEpisode.absoluteNumber.changeValueFromString(nodeReader.getValueOfSimpleStringNode(episodeNode, "absoute_number"));
+      tvdbEpisode.absoluteNumber.changeValueFromString(absoluteNumber);
       tvdbEpisode.seasonNumber.changeValueFromString(seasonnumber);
       tvdbEpisode.episodeNumber.changeValueFromString(episodenumber);
       tvdbEpisode.name.changeValueFromString(episodename);
@@ -415,7 +417,8 @@ public class TVDBSeriesPostgresUpdater {
       episode.tvdbEpisodeId.changeValue(tvdbEpisode.id.getValue());
       episode.title.changeValue(episodename);
       episode.season.changeValueFromString(seasonnumber);
-      episode.episodeNumber.changeValueFromString(episodenumber);
+      episode.episodeNumber.changeValueFromString(absoluteNumber);
+      episode.seasonEpisodeNumber.changeValueFromString(episodenumber);
       episode.airDate.changeValueFromString(firstaired);
 
       // todo: add or get season object
