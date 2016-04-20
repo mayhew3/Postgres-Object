@@ -7,6 +7,8 @@ import com.sun.istack.internal.Nullable;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SeriesPostgres extends DataObject {
 
@@ -186,5 +188,22 @@ public class SeriesPostgres extends DataObject {
     }
 
     return seasonPostgres;
+  }
+
+  @NotNull
+  public List<EpisodePostgres> getEpisodes(SQLConnection connection) throws SQLException {
+    List<EpisodePostgres> episodes = new ArrayList<>();
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
+        "SELECT e.* " +
+            "FROM episode e " +
+            "WHERE e.seriesid = ? " +
+            "AND e.retired = ?", id.getValue(), 0);
+
+    while (resultSet.next()) {
+      EpisodePostgres episode = new EpisodePostgres();
+      episode.initializeFromDBObject(resultSet);
+      episodes.add(episode);
+    }
+    return episodes;
   }
 }

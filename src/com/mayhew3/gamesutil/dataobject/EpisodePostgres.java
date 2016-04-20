@@ -1,6 +1,7 @@
 package com.mayhew3.gamesutil.dataobject;
 
 import com.mayhew3.gamesutil.db.SQLConnection;
+import com.mayhew3.gamesutil.tv.ShowFailedException;
 import com.sun.istack.internal.NotNull;
 
 import java.sql.ResultSet;
@@ -44,7 +45,7 @@ public class EpisodePostgres extends DataObject {
 
   @Override
   public String toString() {
-    return seriesTitle.getValue() + " " + episodeNumber.getValue() + ": " + title.getValue();
+    return seriesTitle.getValue() + " " + season.getValue() + "x" + seasonEpisodeNumber.getValue() + ": " + title.getValue();
   }
 
   public void addToTiVoEpisodes(SQLConnection connection, @NotNull Integer tivoLocalEpisodeId) throws SQLException {
@@ -88,5 +89,35 @@ public class EpisodePostgres extends DataObject {
     }
 
     return tiVoEpisodePostgresList;
+  }
+
+  public TVDBEpisodePostgres getTVDBEpisode(SQLConnection connection) throws SQLException, ShowFailedException {
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch("SELECT * FROM tvdb_episode WHERE id = ? AND retired = ?", tvdbEpisodeId.getValue(), 0);
+
+    if (resultSet.next()) {
+      TVDBEpisodePostgres tvdbEpisode = new TVDBEpisodePostgres();
+      tvdbEpisode.initializeFromDBObject(resultSet);
+      return tvdbEpisode;
+    } else {
+      throw new ShowFailedException("Episode " + id.getValue() + " has tvdb_episode_id " + tvdbEpisodeId.getValue() + " that wasn't found.");
+    }
+  }
+
+  public SeriesPostgres getSeries(SQLConnection connection) throws SQLException, ShowFailedException {
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch("SELECT * FROM series WHERE id = ?", seriesId.getValue());
+
+    if (resultSet.next()) {
+      SeriesPostgres series = new SeriesPostgres();
+      series.initializeFromDBObject(resultSet);
+      return series;
+    } else {
+      throw new ShowFailedException("Episode " + id.getValue() + " has seriesid " + seriesId.getValue() + " that wasn't found.");
+    }
+  }
+
+
+
+  public Boolean getWatched() {
+    return watched.getValue();
   }
 }

@@ -1,5 +1,12 @@
 package com.mayhew3.gamesutil.dataobject;
 
+import com.mayhew3.gamesutil.db.SQLConnection;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 public class TiVoEpisodePostgres extends DataObject {
 
   public FieldValue<Boolean> suggestion = registerBooleanField("suggestion");
@@ -37,5 +44,24 @@ public class TiVoEpisodePostgres extends DataObject {
   @Override
   public String toString() {
     return seriesTitle.getValue() + " " + episodeNumber.getValue() + ": " + title.getValue();
+  }
+
+  public List<EpisodePostgres> getEpisodes(SQLConnection connection) throws SQLException {
+    List<EpisodePostgres> episodes = new ArrayList<>();
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
+        "SELECT e.* " +
+            "FROM episode e " +
+            "INNER JOIN edge_tivo_episode ete " +
+            " ON ete.episode_id = e.id " +
+            "WHERE ete.tivo_episode_id = ? " +
+            "AND ete.retired = ? " +
+            "AND e.retired = ? ", id.getValue(), 0, 0);
+
+    while (resultSet.next()) {
+      EpisodePostgres episode = new EpisodePostgres();
+      episode.initializeFromDBObject(resultSet);
+      episodes.add(episode);
+    }
+    return episodes;
   }
 }
