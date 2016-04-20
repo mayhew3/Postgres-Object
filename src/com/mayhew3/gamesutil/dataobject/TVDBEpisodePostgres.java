@@ -13,6 +13,7 @@ public class TVDBEpisodePostgres extends DataObject {
   public FieldValue<Integer> airsBeforeEpisode = registerIntegerField("airs_before_episode");
   public FieldValue<Integer> thumbHeight = registerIntegerField("thumb_height");
   public FieldValue<Integer> thumbWidth = registerIntegerField("thumb_width");
+  public FieldValue<Integer> tvdbSeriesId = registerIntegerField("tvdb_series_id");
 
   public FieldValueInteger retired = registerIntegerField("retired");
 
