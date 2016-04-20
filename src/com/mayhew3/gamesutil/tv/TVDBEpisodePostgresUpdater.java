@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.Objects;
 
 class TVDBEpisodePostgresUpdater {
+  public enum EPISODE_RESULT {ADDED, UPDATED, NONE}
+
   private SeriesPostgres series;
   private NodeList episodeNode;
   private SQLConnection connection;
@@ -35,7 +37,7 @@ class TVDBEpisodePostgresUpdater {
    * @throws SQLException If DB query error
    * @throws ShowFailedException If multiple episodes were found to update
    */
-  public Boolean updateSingleEpisode() throws SQLException, ShowFailedException {
+  public EPISODE_RESULT updateSingleEpisode() throws SQLException, ShowFailedException {
     Integer tvdbRemoteId = Integer.valueOf(nodeReader.getValueOfSimpleStringNode(episodeNode, "id"));
 
     Integer seriesId = series.id.getValue();
@@ -52,6 +54,7 @@ class TVDBEpisodePostgresUpdater {
 
     Boolean matched = false;
     Boolean added = false;
+    Boolean changed = false;
 
     TVDBEpisodePostgres tvdbEpisode = new TVDBEpisodePostgres();
     EpisodePostgres episode = new EpisodePostgres();
@@ -110,7 +113,9 @@ class TVDBEpisodePostgresUpdater {
     tvdbEpisode.thumbHeight.changeValueFromString(nodeReader.getValueOfSimpleStringNode(episodeNode, "thumb_height"));
     tvdbEpisode.thumbWidth.changeValueFromString(nodeReader.getValueOfSimpleStringNode(episodeNode, "thumb_width"));
 
-
+    if (tvdbEpisode.hasChanged()) {
+      changed = true;
+    }
     tvdbEpisode.commit(connection);
 
     episode.seriesId.changeValue(seriesId);
@@ -124,7 +129,9 @@ class TVDBEpisodePostgresUpdater {
 
     // todo: add or get season object
 
-
+    if (episode.hasChanged()) {
+      changed = true;
+    }
     episode.commit(connection);
 
     Integer episodeId = tvdbEpisode.id.getValue();
@@ -139,7 +146,13 @@ class TVDBEpisodePostgresUpdater {
       series.commit(connection);
     }
 
-    return added;
+    if (added) {
+      return EPISODE_RESULT.ADDED;
+    } else if (changed) {
+      return EPISODE_RESULT.UPDATED;
+    } else {
+      return EPISODE_RESULT.NONE;
+    }
   }
 
   private ResultSet findExistingTVDBEpisode(Integer episodenumber, Integer seasonnumber, Integer tvdbSeriesId) throws SQLException {

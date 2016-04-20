@@ -346,11 +346,11 @@ public class TVDBSeriesPostgresUpdater {
 
       try {
         TVDBEpisodePostgresUpdater tvdbEpisodePostgresUpdater = new TVDBEpisodePostgresUpdater(series, episodeNode, connection, nodeReader);
-        Boolean added = tvdbEpisodePostgresUpdater.updateSingleEpisode();
+        TVDBEpisodePostgresUpdater.EPISODE_RESULT episodeResult = tvdbEpisodePostgresUpdater.updateSingleEpisode();
 
-        if (added) {
+        if (episodeResult == TVDBEpisodePostgresUpdater.EPISODE_RESULT.ADDED) {
           seriesEpisodesAdded++;
-        } else {
+        } else if (episodeResult == TVDBEpisodePostgresUpdater.EPISODE_RESULT.UPDATED) {
           seriesEpisodesUpdated++;
         }
       } catch (ShowFailedException e) {

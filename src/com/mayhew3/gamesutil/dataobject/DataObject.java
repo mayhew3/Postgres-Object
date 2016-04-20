@@ -52,6 +52,14 @@ public abstract class DataObject {
     editMode = EditMode.UPDATE;
   }
 
+  public Boolean hasChanged() {
+    return !isForInsert() && !getChangedFields().isEmpty();
+  }
+
+  public List<FieldValue> getChangedFields() {
+    return allFieldValues.stream().filter(FieldValue::isChanged).collect(Collectors.toList());
+  }
+
   @NotNull
   public boolean isInitialized() {
     return initialized;
