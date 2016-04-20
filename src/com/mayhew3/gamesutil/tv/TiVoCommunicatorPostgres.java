@@ -272,10 +272,6 @@ public class TiVoCommunicatorPostgres {
     TiVoEpisodePostgres tivoEpisode = getOrCreateTiVoEpisode(showDetails, tivoInfo, existingEpisode, tivoEpisodeExists);
     TVDBEpisodePostgres tvdbEpisode = findTVDBEpisodeMatch(tivoEpisode, series.id.getValue());
 
-    if (tvdbEpisode == null) {
-      tvdbEpisode = retryMatchWithUpdatedTVDB(series, tivoEpisode);
-    }
-
     Boolean tvdb_matched = false;
 
 
