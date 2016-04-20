@@ -6,8 +6,6 @@ import com.mayhew3.gamesutil.xml.BadlyFormattedXMLException;
 import com.mayhew3.gamesutil.xml.NodeReader;
 import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeComparator;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -16,7 +14,6 @@ import org.xml.sax.SAXException;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -284,7 +281,6 @@ public class TVDBSeriesPostgresUpdater {
     Integer tvdbID = series.tvdbId.getValue();
     String tivoSeriesId = series.tivoSeriesId.getValue();
     String seriesTitle = series.seriesTitle.getValue();
-    Integer seriesId = series.id.getValue();
 
     String apiKey = "04DBA547465DC136";
     String url = "http://thetvdb.com/api/" + apiKey + "/series/" + tvdbID + "/all/en.xml";
@@ -347,108 +343,21 @@ public class TVDBSeriesPostgresUpdater {
 
     for (Node episodeParent : episodes) {
       NodeList episodeNode = episodeParent.getChildNodes();
-      Integer tvdbRemoteId = Integer.valueOf(nodeReader.getValueOfSimpleStringNode(episodeNode, "id"));
 
-      String episodenumber = nodeReader.getValueOfSimpleStringNode(episodeNode, "episodenumber");
-      String episodename = nodeReader.getValueOfSimpleStringNode(episodeNode, "episodename");
-      String seasonnumber = nodeReader.getValueOfSimpleStringNode(episodeNode, "seasonnumber");
-      String firstaired = nodeReader.getValueOfSimpleStringNode(episodeNode, "firstaired");
+      try {
+        TVDBEpisodePostgresUpdater tvdbEpisodePostgresUpdater = new TVDBEpisodePostgresUpdater(series, episodeNode, connection, nodeReader);
+        Boolean added = tvdbEpisodePostgresUpdater.updateSingleEpisode();
 
-      ResultSet existingTVDBRow = findExistingTVDBEpisode(tvdbRemoteId);
-      Boolean matched = false;
-      Boolean added = false;
-
-      TVDBEpisodePostgres tvdbEpisode = new TVDBEpisodePostgres();
-      EpisodePostgres episode = new EpisodePostgres();
-
-      if (!existingTVDBRow.next()) {
-        tvdbEpisode.initializeForInsert();
-
-        // todo: Optimization: skip looking for match when firstAired is future. Obviously it's not on the TiVo yet.
-        TiVoEpisodePostgres tivoEpisode = findTiVoMatch(episodename, seasonnumber, episodenumber, firstaired, seriesId);
-
-        if (tivoEpisode == null) {
-          episode.initializeForInsert();
-          added = true;
+        if (added) {
+          seriesEpisodesAdded++;
         } else {
-
-          // todo: handle multiple rows returned
-          ResultSet episodeRow = getEpisodeFromTiVoEpisodeID(tivoEpisode.id.getValue());
-          episode.initializeFromDBObject(episodeRow);
-          matched = true;
+          seriesEpisodesUpdated++;
         }
-
-      } else {
-        tvdbEpisode.initializeFromDBObject(existingTVDBRow);
-        ResultSet episodeRow = getEpisodeFromTVDBEpisodeID(tvdbEpisode.id.getValue());
-        episode.initializeFromDBObject(episodeRow);
-      }
-
-      // todo: Add log entry for when TVDB values change.
-
-      String absoluteNumber = nodeReader.getValueOfSimpleStringNode(episodeNode, "absoute_number");
-
-      tvdbEpisode.tvdbId.changeValue(tvdbRemoteId);
-      tvdbEpisode.absoluteNumber.changeValueFromString(absoluteNumber);
-      tvdbEpisode.seasonNumber.changeValueFromString(seasonnumber);
-      tvdbEpisode.episodeNumber.changeValueFromString(episodenumber);
-      tvdbEpisode.name.changeValueFromString(episodename);
-      tvdbEpisode.firstAired.changeValueFromString(firstaired);
-      tvdbEpisode.overview.changeValueFromString(nodeReader.getValueOfSimpleStringNode(episodeNode, "overview"));
-      tvdbEpisode.productionCode.changeValueFromString(nodeReader.getValueOfSimpleStringNode(episodeNode, "ProductionCode"));
-      tvdbEpisode.rating.changeValueFromString(nodeReader.getValueOfSimpleStringNode(episodeNode, "Rating"));
-      tvdbEpisode.ratingCount.changeValueFromString(nodeReader.getValueOfSimpleStringNode(episodeNode, "RatingCount"));
-      tvdbEpisode.director.changeValueFromString(nodeReader.getValueOfSimpleStringNode(episodeNode, "Director"));
-      tvdbEpisode.writer.changeValueFromString(nodeReader.getValueOfSimpleStringNode(episodeNode, "Writer"));
-      tvdbEpisode.lastUpdated.changeValueFromString(nodeReader.getValueOfSimpleStringNode(episodeNode, "lastupdated"));
-      tvdbEpisode.seasonId.changeValueFromString(nodeReader.getValueOfSimpleStringNode(episodeNode, "seasonid"));
-      tvdbEpisode.filename.changeValueFromString(nodeReader.getValueOfSimpleStringNode(episodeNode, "filename"));
-      tvdbEpisode.airsAfterSeason.changeValueFromString(nodeReader.getValueOfSimpleStringNode(episodeNode, "airsafter_season"));
-      tvdbEpisode.airsBeforeSeason.changeValueFromString(nodeReader.getValueOfSimpleStringNode(episodeNode, "airsbefore_season"));
-      tvdbEpisode.airsBeforeEpisode.changeValueFromString(nodeReader.getValueOfSimpleStringNode(episodeNode, "airsbefore_episode"));
-      tvdbEpisode.thumbHeight.changeValueFromString(nodeReader.getValueOfSimpleStringNode(episodeNode, "thumb_height"));
-      tvdbEpisode.thumbWidth.changeValueFromString(nodeReader.getValueOfSimpleStringNode(episodeNode, "thumb_width"));
-
-
-      tvdbEpisode.commit(connection);
-
-      episode.seriesId.changeValue(seriesId);
-      episode.seriesTitle.changeValueFromString(seriesTitle);
-      episode.tvdbEpisodeId.changeValue(tvdbEpisode.id.getValue());
-      episode.title.changeValue(episodename);
-      episode.season.changeValueFromString(seasonnumber);
-      episode.episodeNumber.changeValueFromString(absoluteNumber);
-      episode.seasonEpisodeNumber.changeValueFromString(episodenumber);
-      episode.airDate.changeValueFromString(firstaired);
-
-      // todo: add or get season object
-
-
-      episode.commit(connection);
-
-      if (added) {
-        _episodesAdded++;
-        seriesEpisodesAdded++;
-      } else {
-        _episodesUpdated++;
-        seriesEpisodesUpdated++;
-      }
-
-      Integer episodeId = tvdbEpisode.id.getValue();
-
-      if (episodeId == null) {
-        throw new RuntimeException("_id wasn't populated on Episode with tvdbEpisodeId " + tvdbRemoteId + " after insert.");
-      } else {
-        // add manual reference to episode to episodes array.
-
-        updateSeriesDenorms(added, matched, series);
-
-        series.commit(connection);
+      } catch (ShowFailedException e) {
+        debug("TVDB update of episode failed: ");
+        e.printStackTrace();
       }
     }
-
-//    series = findSingleMatch(_db.getCollection("series"), "_id", seriesId);
-//    verifyEpisodesArray(series);
 
     debug(seriesTitle + ": Update complete! Added: " + seriesEpisodesAdded + "; Updated: " + seriesEpisodesUpdated);
 
@@ -462,191 +371,6 @@ public class TVDBSeriesPostgresUpdater {
         tvdbRemoteId
     );
   }
-
-  private ResultSet findExistingTVDBEpisode(Integer tvdbRemoteId) throws SQLException {
-    return connection.prepareAndExecuteStatementFetch(
-        "SELECT * " +
-            "FROM tvdb_episode " +
-            "WHERE tvdb_id = ?",
-        tvdbRemoteId
-    );
-  }
-
-  private ResultSet getEpisodeFromTiVoEpisodeID(Integer tivoEpisodeID) throws SQLException {
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
-        "SELECT e.* " +
-            "FROM episode e " +
-            "INNER edge_tivo_episode ete " +
-            "  ON ete.episode_id = e.id " +
-            "WHERE ete.tivo_episode_id = ?",
-        tivoEpisodeID
-    );
-    if (!resultSet.next()) {
-      throw new RuntimeException("No row in episode matching tivo_episode_id " + tivoEpisodeID);
-    }
-
-    return resultSet;
-  }
-
-  private ResultSet getEpisodeFromTVDBEpisodeID(Integer tvdbEpisodeID) throws SQLException {
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
-        "SELECT * " +
-            "FROM episode " +
-            "WHERE tvdb_episode_id = ?",
-        tvdbEpisodeID
-    );
-    if (!resultSet.next()) {
-      throw new RuntimeException("No row in episode matching tvdb_episode_id " + tvdbEpisodeID);
-    }
-
-    return resultSet;
-  }
-
-
-  private void updateSeriesDenorms(Boolean added, Boolean matched, SeriesPostgres series) {
-    if (added) {
-      series.tvdbOnlyEpisodes.increment(1);
-      series.unwatchedUnrecorded.increment(1);
-    }
-    if (matched) {
-      series.matchedEpisodes.increment(1);
-      series.unmatchedEpisodes.increment(-1);
-    }
-  }
-
-
-
-  // todo: Handle finding two TiVo matches.
-  private TiVoEpisodePostgres findTiVoMatch(String episodeTitle, String tvdbSeasonStr, String tvdbEpisodeNumberStr, String firstAiredStr, Integer seriesId) throws SQLException {
-    List<TiVoEpisodePostgres> matchingEpisodes = new ArrayList<>();
-
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
-        "SELECT te.* " +
-            "FROM tivo_episode te " +
-            "INNER JOIN edge_tivo_episode ete " +
-            "  ON ete.tivo_episode_id = te.id " +
-            "INNER JOIN episode e " +
-            "  ON ete.episode_id = e.id " +
-            "WHERE e.seriesid = ? " +
-            "AND e.tvdb_episode_id IS NULL " +
-            "AND e.retired = ?",
-        seriesId,
-        0
-    );
-
-    List<TiVoEpisodePostgres> episodes = new ArrayList<>();
-
-    while(resultSet.next()) {
-      TiVoEpisodePostgres episode = new TiVoEpisodePostgres();
-      episode.initializeFromDBObject(resultSet);
-      episodes.add(episode);
-    }
-
-    if (episodeTitle != null) {
-      for (TiVoEpisodePostgres episode : episodes) {
-        String tivoTitleObject = episode.title.getValue();
-        if (episodeTitle.equalsIgnoreCase(tivoTitleObject)) {
-          matchingEpisodes.add(episode);
-        }
-      }
-    }
-
-    if (matchingEpisodes.size() == 1) {
-      return matchingEpisodes.get(0);
-    } else if (matchingEpisodes.size() > 1) {
-      debug("Found " + matchingEpisodes.size() + " matching episodes for " +
-          tvdbSeasonStr + "x" + tvdbEpisodeNumberStr + " " +
-          "'" + episodeTitle + "'.");
-      return null;
-    }
-
-    // no match found on episode title. Try episode number.
-
-
-    if (tvdbEpisodeNumberStr != null && tvdbSeasonStr != null) {
-      Integer tvdbSeason = Integer.valueOf(tvdbSeasonStr);
-      Integer tvdbEpisodeNumber = Integer.valueOf(tvdbEpisodeNumberStr);
-
-      for (TiVoEpisodePostgres episode : episodes) {
-
-        Integer tivoEpisodeNumber = episode.episodeNumber.getValue();
-
-        if (tivoEpisodeNumber != null) {
-
-          Integer tivoSeasonNumber = 1;
-
-          if (tivoEpisodeNumber < 100) {
-            if (Objects.equals(tivoSeasonNumber, tvdbSeason) && Objects.equals(tivoEpisodeNumber, tvdbEpisodeNumber)) {
-              matchingEpisodes.add(episode);
-            }
-          } else {
-            String tiVoEpisodeNumberStr = tivoEpisodeNumber.toString();
-            int seasonLength = tiVoEpisodeNumberStr.length() / 2;
-
-            String tivoSeasonStr = tiVoEpisodeNumberStr.substring(0, seasonLength);
-            String tivoEpisodeNumberStr = tiVoEpisodeNumberStr.substring(seasonLength, tiVoEpisodeNumberStr.length());
-
-            tivoEpisodeNumber = Integer.valueOf(tivoEpisodeNumberStr);
-            tivoSeasonNumber = Integer.valueOf(tivoSeasonStr);
-
-            if (Objects.equals(tivoSeasonNumber, tvdbSeason) && Objects.equals(tivoEpisodeNumber, tvdbEpisodeNumber)) {
-              matchingEpisodes.add(episode);
-            }
-          }
-        }
-      }
-
-    }
-
-
-    if (matchingEpisodes.size() == 1) {
-      return matchingEpisodes.get(0);
-    } else if (matchingEpisodes.size() > 1) {
-      debug("Found " + matchingEpisodes.size() + " matching episodes for " +
-          tvdbSeasonStr + "x" + tvdbEpisodeNumberStr + " " +
-          "'" + episodeTitle + "'.");
-      return null;
-    }
-
-
-    // no match on episode number. Try air date.
-
-    if (firstAiredStr != null) {
-      DateTime firstAired = new DateTime(firstAiredStr);
-
-      for (TiVoEpisodePostgres episode : episodes) {
-        Date showingStartTimeObj = episode.showingStartTime.getValue();
-
-        if (showingStartTimeObj != null) {
-          DateTime showingStartTime = new DateTime(showingStartTimeObj);
-
-          DateTimeComparator comparator = DateTimeComparator.getDateOnlyInstance();
-
-          if (comparator.compare(firstAired, showingStartTime) == 0) {
-            matchingEpisodes.add(episode);
-          }
-        }
-      }
-
-    }
-
-
-    if (matchingEpisodes.size() == 1) {
-      return matchingEpisodes.get(0);
-    } else if (matchingEpisodes.size() > 1) {
-      debug("Found " + matchingEpisodes.size() + " matching episodes for " +
-          tvdbSeasonStr + "x" + tvdbEpisodeNumberStr + " " +
-          "'" + episodeTitle + "'.");
-      return null;
-    } else {
-      debug("Found no matches for " +
-          tvdbSeasonStr + "x" + tvdbEpisodeNumberStr + " " +
-          "'" + episodeTitle + "'.");
-      return null;
-    }
-
-  }
-
 
 
   private void addShowNotFoundErrorLog(SeriesPostgres series, String formattedName, String context) throws SQLException {
