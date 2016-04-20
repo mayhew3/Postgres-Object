@@ -133,10 +133,6 @@ public class TVDBDuplicateDataFixer {
       }
     }
 
-    if (tivoEpisodes.size() > 1) {
-      throw new ShowFailedException("Multiple tivo_episodes associated with various duplicate episode rows!");
-    }
-
     Boolean watched = WATCHED.max(olderEpisodes).watched.getValue();
     Timestamp watchedDate = WATCHEDDATE.max(olderEpisodes).watchedDate.getValue();
     Boolean onTivo = ONTIVO.max(olderEpisodes).onTiVo.getValue();
@@ -147,7 +143,7 @@ public class TVDBDuplicateDataFixer {
     EpisodePostgres mostRecentEpisode = DATEADDED.max(olderEpisodes);
 
     if (dateAdded == null) {
-      throw new ShowFailedException("No episodes with DateAdded field: SeriesID " + seriesid + ", Season " + season + ", Episode " + seasonEpisodeNumber);
+      mostRecentEpisode = getTieBreakLastUpdated(olderEpisodes);
     }
 
     debug("  - Episode " + mostRecentEpisode.id.getValue() + " chosen with DateAdded " + mostRecentEpisode.dateAdded.getValue());
@@ -182,6 +178,30 @@ public class TVDBDuplicateDataFixer {
     TVDBEpisodePostgres mostRecentTVDBEpisode = mostRecentEpisode.getTVDBEpisode(connection);
     mostRecentTVDBEpisode.dateAdded.changeValue(dateAdded);
     mostRecentTVDBEpisode.commit(connection);
+  }
+
+  private EpisodePostgres getTieBreakLastUpdated(List<EpisodePostgres> episodes) throws ShowFailedException, SQLException {
+
+    final Ordering<TVDBEpisodePostgres> LASTUPDATED = new Ordering<TVDBEpisodePostgres>() {
+      @Override
+      public int compare(@NotNull TVDBEpisodePostgres episode1, @NotNull TVDBEpisodePostgres episode2) {
+        return Objects.compare(episode1.lastUpdated.getValue(), episode2.lastUpdated.getValue(),
+            (o1, o2) -> ObjectUtils.compare(o1, o2, false));
+      }
+    };
+
+    Map<TVDBEpisodePostgres, EpisodePostgres> tvdbEpisodes = new HashMap<>();
+    for (EpisodePostgres episode : episodes) {
+      TVDBEpisodePostgres tvdbEpisode = episode.getTVDBEpisode(connection);
+      tvdbEpisodes.put(tvdbEpisode, episode);
+    }
+
+    TVDBEpisodePostgres mostUpdated = LASTUPDATED.max(tvdbEpisodes.keySet());
+    if (mostUpdated.lastUpdated.getValue() == null) {
+      throw new ShowFailedException("No LastUpdated field on TVDBEpisodes.");
+    }
+
+    return tvdbEpisodes.get(mostUpdated);
   }
 
   private void unlinkAllTiVoEpisodes(EpisodePostgres episode) throws SQLException {
