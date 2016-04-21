@@ -356,6 +356,9 @@ public class TVDBSeriesPostgresUpdater {
       } catch (ShowFailedException e) {
         debug("TVDB update of episode failed: ");
         e.printStackTrace();
+      } catch (SQLException e) {
+        debug("SQL exception occured updating single episode for series " + seriesTitle);
+        e.printStackTrace();
       }
     }
 
