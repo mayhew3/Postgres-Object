@@ -353,11 +353,8 @@ public class TVDBSeriesPostgresUpdater {
         } else if (episodeResult == TVDBEpisodePostgresUpdater.EPISODE_RESULT.UPDATED) {
           seriesEpisodesUpdated++;
         }
-      } catch (ShowFailedException e) {
+      } catch (Exception e) {
         debug("TVDB update of episode failed: ");
-        e.printStackTrace();
-      } catch (SQLException e) {
-        debug("SQL exception occured updating single episode for series " + seriesTitle);
         e.printStackTrace();
       }
     }
