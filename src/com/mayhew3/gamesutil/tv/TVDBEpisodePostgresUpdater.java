@@ -98,6 +98,7 @@ class TVDBEpisodePostgresUpdater {
     tvdbEpisode.episodeNumber.changeValueFromString(episodenumber);
     tvdbEpisode.name.changeValueFromString(episodename);
     tvdbEpisode.firstAired.changeValueFromString(firstaired);
+    tvdbEpisode.tvdbSeriesId.changeValue(series.tvdbSeriesId.getValue());
     tvdbEpisode.overview.changeValueFromString(nodeReader.getValueOfSimpleStringNode(episodeNode, "overview"));
     tvdbEpisode.productionCode.changeValueFromString(nodeReader.getValueOfSimpleStringNode(episodeNode, "ProductionCode"));
     tvdbEpisode.rating.changeValueFromString(nodeReader.getValueOfSimpleStringNode(episodeNode, "Rating"));
