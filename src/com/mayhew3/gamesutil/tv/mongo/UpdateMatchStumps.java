@@ -1,6 +1,6 @@
 package com.mayhew3.gamesutil.tv.mongo;
 
-import com.mayhew3.gamesutil.dataobject.EpisodeMongo;
+import com.mayhew3.gamesutil.dataobject.mongo.EpisodeMongo;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;

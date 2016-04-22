@@ -1,6 +1,10 @@
 package com.mayhew3.gamesutil.tv;
 
 import com.google.common.collect.Lists;
+import com.mayhew3.gamesutil.dataobject.mongo.ConnectLogMongo;
+import com.mayhew3.gamesutil.dataobject.mongo.EpisodeMongo;
+import com.mayhew3.gamesutil.dataobject.mongo.ErrorLogMongo;
+import com.mayhew3.gamesutil.dataobject.mongo.SeriesMongo;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.games.MongoConnection;

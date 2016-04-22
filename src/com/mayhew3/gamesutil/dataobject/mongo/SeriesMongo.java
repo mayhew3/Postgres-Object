@@ -1,5 +1,6 @@
-package com.mayhew3.gamesutil.dataobject;
+package com.mayhew3.gamesutil.dataobject.mongo;
 
+import com.mayhew3.gamesutil.dataobject.*;
 import com.mongodb.BasicDBList;
 
 import java.util.Date;

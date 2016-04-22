@@ -1,6 +1,6 @@
 package com.mayhew3.gamesutil.tv.mongo;
 
-import com.mayhew3.gamesutil.dataobject.SeriesMongo;
+import com.mayhew3.gamesutil.dataobject.mongo.SeriesMongo;
 import com.mayhew3.gamesutil.tv.ShowFailedException;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;

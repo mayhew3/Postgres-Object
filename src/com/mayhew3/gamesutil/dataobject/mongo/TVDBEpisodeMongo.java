@@ -1,5 +1,7 @@
-package com.mayhew3.gamesutil.dataobject;
+package com.mayhew3.gamesutil.dataobject.mongo;
 
+import com.mayhew3.gamesutil.dataobject.FieldValue;
+import com.mayhew3.gamesutil.dataobject.MediaObjectMongoDB;
 import org.bson.types.ObjectId;
 
 import java.util.Date;

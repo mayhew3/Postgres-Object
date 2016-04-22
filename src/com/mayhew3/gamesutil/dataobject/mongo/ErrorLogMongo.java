@@ -1,4 +1,9 @@
-package com.mayhew3.gamesutil.dataobject;
+package com.mayhew3.gamesutil.dataobject.mongo;
+
+import com.mayhew3.gamesutil.dataobject.FieldValue;
+import com.mayhew3.gamesutil.dataobject.FieldValueBoolean;
+import com.mayhew3.gamesutil.dataobject.FieldValueDate;
+import com.mayhew3.gamesutil.dataobject.MediaObjectMongoDB;
 
 public class ErrorLogMongo extends MediaObjectMongoDB {
 
