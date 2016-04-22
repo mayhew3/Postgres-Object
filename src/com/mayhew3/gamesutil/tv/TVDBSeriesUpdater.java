@@ -18,7 +18,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-public class TVDBSeriesPostgresUpdater {
+public class TVDBSeriesUpdater {
 
   SeriesPostgres series;
 
@@ -28,9 +28,9 @@ public class TVDBSeriesPostgresUpdater {
   Integer _episodesAdded = 0;
   Integer _episodesUpdated = 0;
 
-  public TVDBSeriesPostgresUpdater(SQLConnection connection,
-                                   @NotNull SeriesPostgres series,
-                                   @NotNull NodeReader nodeReader) {
+  public TVDBSeriesUpdater(SQLConnection connection,
+                           @NotNull SeriesPostgres series,
+                           @NotNull NodeReader nodeReader) {
     this.series = series;
     this.connection = connection;
     this.nodeReader = nodeReader;
@@ -336,12 +336,12 @@ public class TVDBSeriesPostgresUpdater {
       NodeList episodeNode = episodeParent.getChildNodes();
 
       try {
-        TVDBEpisodePostgresUpdater tvdbEpisodePostgresUpdater = new TVDBEpisodePostgresUpdater(series, episodeNode, connection, nodeReader);
-        TVDBEpisodePostgresUpdater.EPISODE_RESULT episodeResult = tvdbEpisodePostgresUpdater.updateSingleEpisode();
+        TVDBEpisodeUpdater tvdbEpisodeUpdater = new TVDBEpisodeUpdater(series, episodeNode, connection, nodeReader);
+        TVDBEpisodeUpdater.EPISODE_RESULT episodeResult = tvdbEpisodeUpdater.updateSingleEpisode();
 
-        if (episodeResult == TVDBEpisodePostgresUpdater.EPISODE_RESULT.ADDED) {
+        if (episodeResult == TVDBEpisodeUpdater.EPISODE_RESULT.ADDED) {
           seriesEpisodesAdded++;
-        } else if (episodeResult == TVDBEpisodePostgresUpdater.EPISODE_RESULT.UPDATED) {
+        } else if (episodeResult == TVDBEpisodeUpdater.EPISODE_RESULT.UPDATED) {
           seriesEpisodesUpdated++;
         }
       } catch (Exception e) {

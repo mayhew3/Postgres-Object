@@ -6,18 +6,18 @@ import com.mayhew3.gamesutil.db.SQLConnection;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
 
-public class SeriesPostgresDenormUpdater {
+public class SeriesDenormUpdater {
 
   private SQLConnection connection;
 
-  public SeriesPostgresDenormUpdater(SQLConnection connection) {
+  public SeriesDenormUpdater(SQLConnection connection) {
     this.connection = connection;
   }
 
   public static void main(String[] args) throws URISyntaxException, SQLException {
     SQLConnection connection = new PostgresConnectionFactory().createLocalConnection();
 
-    SeriesPostgresDenormUpdater updater = new SeriesPostgresDenormUpdater(connection);
+    SeriesDenormUpdater updater = new SeriesDenormUpdater(connection);
     updater.updateFields();
   }
 

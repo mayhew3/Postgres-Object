@@ -14,12 +14,12 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class MetacriticTVPostgresUpdater {
+public class MetacriticTVUpdater {
 
   private SeriesPostgres series;
   private SQLConnection connection;
 
-  public MetacriticTVPostgresUpdater(SeriesPostgres series, SQLConnection connection) {
+  public MetacriticTVUpdater(SeriesPostgres series, SQLConnection connection) {
     this.series = series;
     this.connection = connection;
   }

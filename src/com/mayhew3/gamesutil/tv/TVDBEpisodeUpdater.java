@@ -17,7 +17,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-class TVDBEpisodePostgresUpdater {
+class TVDBEpisodeUpdater {
   public enum EPISODE_RESULT {ADDED, UPDATED, NONE}
 
   private SeriesPostgres series;
@@ -25,7 +25,7 @@ class TVDBEpisodePostgresUpdater {
   private SQLConnection connection;
   private NodeReader nodeReader;
 
-  public TVDBEpisodePostgresUpdater(SeriesPostgres series, NodeList episodeNode, SQLConnection connection, NodeReader nodeReader) {
+  public TVDBEpisodeUpdater(SeriesPostgres series, NodeList episodeNode, SQLConnection connection, NodeReader nodeReader) {
     this.series = series;
     this.connection = connection;
     this.nodeReader = nodeReader;

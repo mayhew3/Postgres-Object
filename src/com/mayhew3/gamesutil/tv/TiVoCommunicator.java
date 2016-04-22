@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class TiVoCommunicatorPostgres {
+public class TiVoCommunicator {
 
   private Boolean lookAtAllShows = false;
   private List<String> episodesOnTiVo;
@@ -42,7 +42,7 @@ public class TiVoCommunicatorPostgres {
 
   private static SQLConnection sqlConnection;
 
-  public TiVoCommunicatorPostgres(SQLConnection connection) {
+  public TiVoCommunicator(SQLConnection connection) {
     episodesOnTiVo = new ArrayList<>();
     nodeReader = new NodeReaderImpl();
     sqlConnection = connection;
@@ -55,13 +55,13 @@ public class TiVoCommunicatorPostgres {
 
     SQLConnection connection = new PostgresConnectionFactory().createConnection();
 
-    TiVoCommunicatorPostgres tiVoCommunicatorPostgres = new TiVoCommunicatorPostgres(connection);
+    TiVoCommunicator tiVoCommunicator = new TiVoCommunicator(connection);
 
     if (dev) {
-      tiVoCommunicatorPostgres.truncatePostgresTables();
+      tiVoCommunicator.truncatePostgresTables();
     }
 
-    tiVoCommunicatorPostgres.runUpdate(lookAtAllShows);
+    tiVoCommunicator.runUpdate(lookAtAllShows);
   }
 
   public void runUpdate(Boolean updateAllShows) throws SQLException, BadlyFormattedXMLException {
@@ -329,7 +329,7 @@ public class TiVoCommunicatorPostgres {
   }
 
   private TVDBEpisodePostgres retryMatchWithUpdatedTVDB(SeriesPostgres series, TiVoEpisodePostgres tivoEpisode) throws SQLException, BadlyFormattedXMLException {
-    TVDBSeriesPostgresUpdater updater = new TVDBSeriesPostgresUpdater(sqlConnection, series, new NodeReaderImpl());
+    TVDBSeriesUpdater updater = new TVDBSeriesUpdater(sqlConnection, series, new NodeReaderImpl());
     try {
       updater.updateSeries();
     } catch (ShowFailedException e) {

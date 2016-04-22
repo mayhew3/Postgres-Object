@@ -10,13 +10,12 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.net.URISyntaxException;
-import java.net.UnknownHostException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class TiVoLibraryPostgresUpdater {
+public class TiVoLibraryUpdater {
 
   public static void main(String[] args) throws FileNotFoundException, URISyntaxException, SQLException {
     List<String> argList = Lists.newArrayList(args);
@@ -45,14 +44,14 @@ public class TiVoLibraryPostgresUpdater {
     SQLConnection connection = runLocal ? new PostgresConnectionFactory().createLocalConnection() :
         new PostgresConnectionFactory().createConnection();
 
-    ConnectionPostgresLogger logger = new ConnectionPostgresLogger(connection);
+    ConnectionLogger logger = new ConnectionLogger(connection);
     logger.initialize();
 
     logger.logConnectionStart(lookAtAllShows);
 
     if (!tvdbOnly) {
       try {
-        TiVoCommunicatorPostgres tiVoCommunicator = new TiVoCommunicatorPostgres(connection);
+        TiVoCommunicator tiVoCommunicator = new TiVoCommunicator(connection);
         tiVoCommunicator.runUpdate(lookAtAllShows);
       } catch (BadlyFormattedXMLException e) {
         debug("Error parsing TiVo XML.");
@@ -65,7 +64,7 @@ public class TiVoLibraryPostgresUpdater {
 
     if (!tiVoOnly) {
       try {
-        TVDBPostgresUpdateRunner tvdbUpdateRunner = new TVDBPostgresUpdateRunner(connection);
+        TVDBUpdateRunner tvdbUpdateRunner = new TVDBUpdateRunner(connection);
         tvdbUpdateRunner.runUpdate();
       } catch (SQLException e) {
         debug("Error downloading info from TVDB service.");
@@ -75,7 +74,7 @@ public class TiVoLibraryPostgresUpdater {
 
     try {
       debug("Updating denorms...");
-      SeriesPostgresDenormUpdater denormUpdater = new SeriesPostgresDenormUpdater(connection);
+      SeriesDenormUpdater denormUpdater = new SeriesDenormUpdater(connection);
       denormUpdater.updateFields();
       debug("Denorms updated.");
     } catch (Exception e) {

@@ -10,12 +10,12 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Date;
 
-public class ConnectionPostgresLogger {
+public class ConnectionLogger {
 
   private SQLConnection connection;
   private Integer connectionID;
 
-  public ConnectionPostgresLogger(SQLConnection connection) {
+  public ConnectionLogger(SQLConnection connection) {
     this.connection = connection;
   }
 

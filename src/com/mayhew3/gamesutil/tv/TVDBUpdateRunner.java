@@ -10,7 +10,7 @@ import java.net.URISyntaxException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class TVDBPostgresUpdateRunner {
+public class TVDBUpdateRunner {
 
   private Integer seriesUpdates = 0;
   private Integer episodesAdded = 0;
@@ -18,13 +18,13 @@ public class TVDBPostgresUpdateRunner {
 
   private SQLConnection connection;
 
-  public TVDBPostgresUpdateRunner(SQLConnection connection) {
+  public TVDBUpdateRunner(SQLConnection connection) {
     this.connection = connection;
   }
 
   public static void main(String[] args) throws URISyntaxException, SQLException {
     SQLConnection connection = new PostgresConnectionFactory().createConnection();
-    TVDBPostgresUpdateRunner tvdbUpdateRunner = new TVDBPostgresUpdateRunner(connection);
+    TVDBUpdateRunner tvdbUpdateRunner = new TVDBUpdateRunner(connection);
     tvdbUpdateRunner.runUpdate();
   }
 
@@ -65,7 +65,7 @@ public class TVDBPostgresUpdateRunner {
   }
 
   private void updateTVDB(SeriesPostgres series) throws SQLException, BadlyFormattedXMLException, ShowFailedException {
-    TVDBSeriesPostgresUpdater updater = new TVDBSeriesPostgresUpdater(connection, series, new NodeReaderImpl());
+    TVDBSeriesUpdater updater = new TVDBSeriesUpdater(connection, series, new NodeReaderImpl());
     updater.updateSeries();
 
     episodesAdded += updater.getEpisodesAdded();
@@ -73,7 +73,7 @@ public class TVDBPostgresUpdateRunner {
   }
 
   private void updateMetacritic(SeriesPostgres series) throws ShowFailedException {
-    MetacriticTVPostgresUpdater metacriticUpdater = new MetacriticTVPostgresUpdater(series, connection);
+    MetacriticTVUpdater metacriticUpdater = new MetacriticTVUpdater(series, connection);
     metacriticUpdater.runUpdater();
   }
 
