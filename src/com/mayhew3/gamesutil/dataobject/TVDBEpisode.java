@@ -1,5 +1,12 @@
 package com.mayhew3.gamesutil.dataobject;
 
+import com.google.common.base.Optional;
+import com.mayhew3.gamesutil.db.SQLConnection;
+import com.sun.istack.internal.NotNull;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public class TVDBEpisode extends DataObject {
 
   public FieldValue<Integer> seasonNumber = registerIntegerField("season_number");
@@ -43,5 +50,24 @@ public class TVDBEpisode extends DataObject {
   @Override
   public String toString() {
     return seriesName.getValue() + " " + episodeNumber.getValue() + ": " + name.getValue();
+  }
+
+  @NotNull
+  public Episode getEpisode(SQLConnection connection) throws SQLException {
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
+        "SELECT * " +
+            "FROM episode " +
+            "WHERE tvdb_episode_id = ? " +
+            "AND retired = ?",
+        id.getValue(),
+        0
+    );
+
+    if (!resultSet.next()) {
+      throw new IllegalStateException("No episode found with tvdb_episode_id of " + id.getValue());
+    }
+    Episode episode = new Episode();
+    episode.initializeFromDBObject(resultSet);
+    return episode;
   }
 }

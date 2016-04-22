@@ -1,5 +1,6 @@
 package com.mayhew3.gamesutil.dataobject;
 
+import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.sun.istack.internal.NotNull;
@@ -207,8 +208,7 @@ public class Series extends DataObject {
     return episodes;
   }
 
-  @NotNull
-  public TVDBSeries getTVDBSeries(SQLConnection connection) throws SQLException {
+  public Optional<TVDBSeries> getTVDBSeries(SQLConnection connection) throws SQLException {
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
         "SELECT * " +
             "FROM tvdb_series " +
@@ -216,12 +216,12 @@ public class Series extends DataObject {
             "AND retired = ?", tvdbSeriesId.getValue(), 0
     );
 
-    if (!resultSet.next()) {
-      throw new IllegalStateException("No tvdb_series found with ID " + tvdbSeriesId.getValue());
+    if (resultSet.next()) {
+      TVDBSeries tvdbSeries = new TVDBSeries();
+      tvdbSeries.initializeFromDBObject(resultSet);
+      return Optional.of(tvdbSeries);
+    } else {
+      return Optional.absent();
     }
-
-    TVDBSeries tvdbSeries = new TVDBSeries();
-    tvdbSeries.initializeFromDBObject(resultSet);
-    return tvdbSeries;
   }
 }

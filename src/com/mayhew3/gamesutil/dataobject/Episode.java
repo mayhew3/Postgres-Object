@@ -61,6 +61,9 @@ public class Episode extends DataObject {
 
       edgeTiVoEpisode.commit(connection);
     }
+
+    onTiVo.changeValue(true);
+    commit(connection);
   }
 
   private Boolean hasMatch(List<TiVoEpisode> tiVoEpisodes, Integer tivoLocalEpisodeId) {

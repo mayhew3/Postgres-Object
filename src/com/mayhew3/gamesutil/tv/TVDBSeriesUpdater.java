@@ -14,6 +14,7 @@ import org.xml.sax.SAXException;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -67,7 +68,7 @@ public class TVDBSeriesUpdater {
         }
 
         updateShowData(series);
-
+        tryToMatchUnmatchedEpisodes(series);
       }
     }
   }
@@ -85,6 +86,41 @@ public class TVDBSeriesUpdater {
       // todo: add error log
       throw new ShowFailedException("Error downloading XML from TVDB.");
     }
+  }
+
+  private void tryToMatchUnmatchedEpisodes(Series series) throws SQLException {
+    List<TiVoEpisode> unmatchedEpisodes = findUnmatchedEpisodes(series);
+
+    debug(unmatchedEpisodes.size() + " unmatched episodes found.");
+
+    for (TiVoEpisode tivoEpisode : unmatchedEpisodes) {
+      TVDBEpisodeMatcher matcher = new TVDBEpisodeMatcher(connection, tivoEpisode, series.id.getValue());
+      TVDBEpisode tvdbEpisode = matcher.findTVDBEpisodeMatch();
+
+      if (tvdbEpisode != null) {
+        Episode episode = tvdbEpisode.getEpisode(connection);
+        episode.addToTiVoEpisodes(connection, tivoEpisode.id.getValue());
+      }
+    }
+  }
+
+  private List<TiVoEpisode> findUnmatchedEpisodes(Series series) throws SQLException {
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
+        "SELECT te.* " +
+            "FROM tivo_episode te " +
+            "WHERE te.tivo_series_id = ? " +
+            "AND NOT EXISTS (SELECT 1 " +
+                            "FROM edge_tivo_episode ete " +
+                            "WHERE ete.tivo_episode_id = te.id)",
+        series.tivoSeriesId.getValue()
+    );
+    List<TiVoEpisode> tiVoEpisodes = new ArrayList<>();
+    while (resultSet.next()) {
+      TiVoEpisode tiVoEpisode = new TiVoEpisode();
+      tiVoEpisode.initializeFromDBObject(resultSet);
+      tiVoEpisodes.add(tiVoEpisode);
+    }
+    return tiVoEpisodes;
   }
 
   private void unlinkAndRemoveEpisodes(Integer seriesId) throws SQLException {

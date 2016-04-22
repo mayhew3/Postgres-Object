@@ -3,6 +3,7 @@ package com.mayhew3.gamesutil.tv;
 import com.mayhew3.gamesutil.dataobject.TVDBEpisode;
 import com.mayhew3.gamesutil.dataobject.TiVoEpisode;
 import com.mayhew3.gamesutil.db.SQLConnection;
+import com.sun.istack.internal.Nullable;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeComparator;
 
@@ -23,7 +24,7 @@ public class TVDBEpisodeMatcher {
     this.seriesId = seriesId;
   }
 
-
+  @Nullable
   public TVDBEpisode findTVDBEpisodeMatch() throws SQLException {
     String episodeTitle = tiVoEpisode.title.getValue();
     Integer episodeNumber = tiVoEpisode.episodeNumber.getValue();
