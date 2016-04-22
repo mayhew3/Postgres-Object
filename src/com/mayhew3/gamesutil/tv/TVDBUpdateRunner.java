@@ -31,6 +31,12 @@ public class TVDBUpdateRunner {
     new SeriesDenormUpdater(connection).updateFields();
   }
 
+  /**
+   * Go to theTVDB and update all series in my DB with the ones from theirs.
+   * 
+   * @throws SQLException if query to get series to update fails. Any one series update will not halt operation of the
+   *                    script, but if the query to find all the serieses fails, the operation can't continue.
+   */
   public void runUpdate() throws SQLException {
 
     String sql = "select *\n" +
