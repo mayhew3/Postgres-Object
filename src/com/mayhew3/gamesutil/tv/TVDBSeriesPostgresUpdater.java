@@ -48,7 +48,7 @@ public class TVDBSeriesPostgresUpdater {
       resolveError(errorLog);
     } else {
 
-      Boolean matchedWrong = Boolean.TRUE.equals(series.matchedWrong.getValue());
+      Boolean matchedWrong = series.matchedWrong.getValue();
       Integer existingId = series.tvdbId.getValue();
 
       Integer tvdbId = getTVDBID(errorLog, matchedWrong, existingId);
@@ -59,10 +59,9 @@ public class TVDBSeriesPostgresUpdater {
         debug(seriesTitle + ": ID found, getting show data.");
         series.tvdbId.changeValue(tvdbId);
 
-        if (matchedWrong) {
+        if (matchedWrong || series.needsTVDBRedo.getValue()) {
           Integer seriesId = series.id.getValue();
-          removeTVDBOnlyEpisodes(seriesId);
-          clearTVDBIds(seriesId);
+          unlinkAndRemoveEpisodes(seriesId);
           series.needsTVDBRedo.changeValue(false);
           series.matchedWrong.changeValue(false);
         }
@@ -88,37 +87,29 @@ public class TVDBSeriesPostgresUpdater {
     }
   }
 
-  private void removeTVDBOnlyEpisodes(Integer seriesId) throws SQLException {
+  private void unlinkAndRemoveEpisodes(Integer seriesId) throws SQLException {
+
+    connection.prepareAndExecuteStatementUpdate(
+        "UPDATE edge_tivo_episode " +
+            "SET retired = id " +
+            "WHERE episode_id IN (SELECT id " +
+            "                     FROM episode " +
+            "                     WHERE seriesid = ?)", seriesId
+    );
+
+    connection.prepareAndExecuteStatementUpdate(
+        "UPDATE episode " +
+            "SET on_tivo = ?, retired = id " +
+            "WHERE seriesid = ?", false, seriesId
+    );
 
     connection.prepareAndExecuteStatementUpdate(
         "UPDATE tvdb_episode " +
             "SET retired = id " +
             "WHERE id IN (SELECT tvdb_episode_id " +
             "           FROM episode " +
-            "           WHERE series_id = ?)",
+            "           WHERE seriesid = ?)",
         seriesId
-    );
-
-    connection.prepareAndExecuteStatementUpdate(
-        "UPDATE episode " +
-            "SET retired = id " +
-            "WHERE series_id = ? " +
-            "AND on_tivo <> ?",
-        seriesId,
-        true
-    );
-
-  }
-
-  private void clearTVDBIds(Integer seriesId) throws SQLException {
-
-    connection.prepareAndExecuteStatementUpdate(
-        "UPDATE episode " +
-            "SET tvdb_episode_id = NULL " +
-            "WHERE series_id = ? " +
-            "AND on_tivo = ?",
-        seriesId,
-        true
     );
 
   }

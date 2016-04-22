@@ -206,4 +206,22 @@ public class SeriesPostgres extends DataObject {
     }
     return episodes;
   }
+
+  @NotNull
+  public TVDBSeriesPostgres getTVDBSeries(SQLConnection connection) throws SQLException {
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
+        "SELECT * " +
+            "FROM tvdb_series " +
+            "WHERE id = ? " +
+            "AND retired = ?", tvdbSeriesId.getValue(), 0
+    );
+
+    if (!resultSet.next()) {
+      throw new IllegalStateException("No tvdb_series found with ID " + tvdbSeriesId.getValue());
+    }
+
+    TVDBSeriesPostgres tvdbSeriesPostgres = new TVDBSeriesPostgres();
+    tvdbSeriesPostgres.initializeFromDBObject(resultSet);
+    return tvdbSeriesPostgres;
+  }
 }
