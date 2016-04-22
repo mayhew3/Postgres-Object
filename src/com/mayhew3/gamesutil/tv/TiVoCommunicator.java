@@ -58,7 +58,7 @@ public class TiVoCommunicator {
     TiVoCommunicator tiVoCommunicator = new TiVoCommunicator(connection);
 
     if (dev) {
-      tiVoCommunicator.truncatePostgresTables();
+      tiVoCommunicator.truncateTables();
     }
 
     tiVoCommunicator.runUpdate(lookAtAllShows);
@@ -84,7 +84,7 @@ public class TiVoCommunicator {
 
   }
 
-  private void truncatePostgresTables() throws SQLException {
+  private void truncateTables() throws SQLException {
     sqlConnection.executeUpdate("TRUNCATE TABLE tvdb_series CASCADE");
     sqlConnection.executeUpdate("TRUNCATE TABLE tvdb_episode CASCADE");
     sqlConnection.executeUpdate("TRUNCATE TABLE tivo_episode CASCADE");
