@@ -2,15 +2,16 @@ package com.mayhew3.gamesutil.tv;
 
 import com.google.common.collect.Lists;
 import com.mayhew3.gamesutil.SSLTool;
+import com.mayhew3.gamesutil.dataobject.Episode;
+import com.mayhew3.gamesutil.dataobject.Series;
+import com.mayhew3.gamesutil.dataobject.TVDBEpisode;
+import com.mayhew3.gamesutil.dataobject.TiVoEpisode;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
-import com.mayhew3.gamesutil.dataobject.*;
 import com.mayhew3.gamesutil.xml.BadlyFormattedXMLException;
 import com.mayhew3.gamesutil.xml.NodeReader;
 import com.mayhew3.gamesutil.xml.NodeReaderImpl;
 import com.sun.istack.internal.NotNull;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeComparator;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -269,11 +270,12 @@ public class TiVoCommunicator {
       return true;
     }
 
+
     TiVoEpisode tivoEpisode = getOrCreateTiVoEpisode(showDetails, tivoInfo, existingEpisode, tivoEpisodeExists);
-    TVDBEpisode tvdbEpisode = findTVDBEpisodeMatch(tivoEpisode, series.id.getValue());
+    TVDBEpisodeMatcher matcher = new TVDBEpisodeMatcher(sqlConnection, tivoEpisode, series.id.getValue());
+    TVDBEpisode tvdbEpisode = matcher.findTVDBEpisodeMatch();
 
     Boolean tvdb_matched = false;
-
 
     Episode episode = new Episode();
 
@@ -326,18 +328,6 @@ public class TiVoCommunicator {
     updateSeriesDenorms(tivoEpisode, episode, series, matched);
 
     series.commit(sqlConnection);
-  }
-
-  private TVDBEpisode retryMatchWithUpdatedTVDB(Series series, TiVoEpisode tivoEpisode) throws SQLException, BadlyFormattedXMLException {
-    TVDBSeriesUpdater updater = new TVDBSeriesUpdater(sqlConnection, series, new NodeReaderImpl());
-    try {
-      updater.updateSeries();
-    } catch (ShowFailedException e) {
-      e.printStackTrace();
-      debug("Failed to parse TVDB data with updated ID.");
-    }
-
-    return findTVDBEpisodeMatch(tivoEpisode, series.id.getValue());
   }
 
   private TiVoEpisode getOrCreateTiVoEpisode(NodeList showDetails, TiVoInfo tivoInfo, ResultSet existingEpisode, Boolean tivoEpisodeExists) throws SQLException {
@@ -477,103 +467,6 @@ public class TiVoCommunicator {
     episode.url.changeValue(url);
 
     return episode;
-  }
-
-  private TVDBEpisode findTVDBEpisodeMatch(TiVoEpisode tivoEpisode, Integer seriesId) throws SQLException {
-    String episodeTitle = tivoEpisode.title.getValue();
-    Integer episodeNumber = tivoEpisode.episodeNumber.getValue();
-    Date startTime = tivoEpisode.showingStartTime.getValue();
-
-    ResultSet resultSet = sqlConnection.prepareAndExecuteStatementFetch(
-        "SELECT te.* " +
-            "FROM episode e " +
-            "INNER JOIN tvdb_episode te " +
-            "  ON e.tvdb_episode_id = te.id " +
-            "WHERE NOT EXISTS (SELECT 1 FROM edge_tivo_episode ete WHERE ete.episode_id = e.id) " +
-            "AND e.seriesid = ?",
-        seriesId
-    );
-
-    List<TVDBEpisode> tvdbEpisodes = new ArrayList<>();
-
-    while(resultSet.next()) {
-      TVDBEpisode tvdbEpisode = new TVDBEpisode();
-      tvdbEpisode.initializeFromDBObject(resultSet);
-      tvdbEpisodes.add(tvdbEpisode);
-    }
-
-    if (episodeTitle != null) {
-      for (TVDBEpisode tvdbEpisode : tvdbEpisodes) {
-        String tvdbTitleObject = tvdbEpisode.name.getValue();
-
-        if (episodeTitle.equalsIgnoreCase(tvdbTitleObject)) {
-          return tvdbEpisode;
-        }
-      }
-    }
-
-    // no match found on episode title. Try episode number.
-
-    if (episodeNumber != null) {
-      Integer seasonNumber = 1;
-
-      if (episodeNumber < 100) {
-        TVDBEpisode match = checkForNumberMatch(seasonNumber, episodeNumber, tvdbEpisodes);
-        if (match != null) {
-          return match;
-        }
-      } else {
-        String episodeNumberString = episodeNumber.toString();
-        int seasonLength = episodeNumberString.length() / 2;
-
-        String seasonString = episodeNumberString.substring(0, seasonLength);
-        String episodeString = episodeNumberString.substring(seasonLength, episodeNumberString.length());
-
-        TVDBEpisode match = checkForNumberMatch(Integer.valueOf(seasonString), Integer.valueOf(episodeString), tvdbEpisodes);
-
-        if (match != null) {
-          return match;
-        }
-      }
-    }
-
-    // no match on episode number. Try air date.
-
-    if (startTime != null) {
-      DateTime showingStartTime = new DateTime(startTime);
-
-      for (TVDBEpisode tvdbEpisode : tvdbEpisodes) {
-        Date firstAiredValue = tvdbEpisode.firstAired.getValue();
-        if (firstAiredValue != null) {
-          DateTime firstAired = new DateTime(firstAiredValue);
-
-          DateTimeComparator comparator = DateTimeComparator.getDateOnlyInstance();
-
-          if (comparator.compare(showingStartTime, firstAired) == 0) {
-            return tvdbEpisode;
-          }
-        }
-      }
-    }
-
-    return null;
-  }
-
-
-  private TVDBEpisode checkForNumberMatch(Integer seasonNumber, Integer episodeNumber, List<TVDBEpisode> tvdbEpisodes) {
-    for (TVDBEpisode tvdbEpisode : tvdbEpisodes) {
-      Integer tvdbSeason = tvdbEpisode.seasonNumber.getValue();
-      Integer tvdbEpisodeNumber = tvdbEpisode.episodeNumber.getValue();
-
-      if (tvdbSeason == null || tvdbEpisodeNumber == null) {
-        return null;
-      }
-
-      if (tvdbSeason.equals(seasonNumber) && tvdbEpisodeNumber.equals(episodeNumber)) {
-        return tvdbEpisode;
-      }
-    }
-    return null;
   }
 
 
