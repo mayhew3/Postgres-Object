@@ -103,6 +103,11 @@ public class MetacriticTVUpdater {
 
     debug("Updating Season " + season + " (" + metaCritic + ")");
 
+    metacriticSeason.metacritic.changeValue(metaCritic);
+    metacriticSeason.season.changeValue(season);
+    metacriticSeason.seriesId.changeValue(series.id.getValue());
+    metacriticSeason.commit(connection);
+
     series.metacritic.changeValue(metaCritic);
     series.commit(connection);
   }

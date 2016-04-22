@@ -114,9 +114,9 @@ public class SeriesDenormUpdater {
         "update series\n" +
             "set unmatched_episodes = (select count(1)\n" +
             "                            from tivo_episode te\n" +
-            "                            where not exists (select 1 from edge_tivo_episode ete where ete.tivo_episode_id = te.id)\n" +
+            "                            where not exists (select 1 from edge_tivo_episode ete where ete.tivo_episode_id = te.id and retired = ?)\n" +
             "                            and te.tivo_series_id = series.tivo_series_id\n" +
-            "                            and te.retired = ?)", 0);
+            "                            and te.retired = ?)", 0, 0);
   }
 
 }

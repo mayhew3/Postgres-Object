@@ -93,6 +93,8 @@ public class TVDBSeriesUpdater {
 
     debug(unmatchedEpisodes.size() + " unmatched episodes found.");
 
+    List<String> newlyMatched = new ArrayList<>();
+
     for (TiVoEpisode tivoEpisode : unmatchedEpisodes) {
       TVDBEpisodeMatcher matcher = new TVDBEpisodeMatcher(connection, tivoEpisode, series.id.getValue());
       TVDBEpisode tvdbEpisode = matcher.findTVDBEpisodeMatch();
@@ -100,6 +102,8 @@ public class TVDBSeriesUpdater {
       if (tvdbEpisode != null) {
         Episode episode = tvdbEpisode.getEpisode(connection);
         episode.addToTiVoEpisodes(connection, tivoEpisode.id.getValue());
+
+        newlyMatched.add(episode.season.getValue() + "x" + episode.seasonEpisodeNumber.getValue());
       }
     }
   }
@@ -111,8 +115,10 @@ public class TVDBSeriesUpdater {
             "WHERE te.tivo_series_id = ? " +
             "AND NOT EXISTS (SELECT 1 " +
                             "FROM edge_tivo_episode ete " +
-                            "WHERE ete.tivo_episode_id = te.id)",
-        series.tivoSeriesId.getValue()
+                            "WHERE ete.tivo_episode_id = te.id " +
+                            "AND ete.retired = ?)",
+        series.tivoSeriesId.getValue(),
+        0
     );
     List<TiVoEpisode> tiVoEpisodes = new ArrayList<>();
     while (resultSet.next()) {
@@ -335,6 +341,7 @@ public class TVDBSeriesUpdater {
       tvdbSeries.initializeFromDBObject(existingTVDBSeries);
     } else {
       tvdbSeries.initializeForInsert();
+      tvdbSeries.dateAdded.changeValue(new Date());
     }
 
     String tvdbSeriesName = nodeReader.getValueOfSimpleStringNode(seriesNode, "seriesname");

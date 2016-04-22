@@ -61,12 +61,14 @@ class TVDBEpisodeUpdater {
 
     if (!existingTVDBRow.next()) {
       tvdbEpisode.initializeForInsert();
+      tvdbEpisode.dateAdded.changeValue(new Date());
 
       // todo: Optimization: skip looking for match when firstAired is future. Obviously it's not on the TiVo yet.
       TiVoEpisode tivoEpisode = findTiVoMatch(episodename, seasonnumber, episodenumber, firstaired, seriesId);
 
       if (tivoEpisode == null) {
         episode.initializeForInsert();
+        episode.dateAdded.changeValue(new Date());
         added = true;
       } else {
 

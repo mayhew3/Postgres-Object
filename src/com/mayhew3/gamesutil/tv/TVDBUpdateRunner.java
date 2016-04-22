@@ -26,6 +26,9 @@ public class TVDBUpdateRunner {
     SQLConnection connection = new PostgresConnectionFactory().createConnection();
     TVDBUpdateRunner tvdbUpdateRunner = new TVDBUpdateRunner(connection);
     tvdbUpdateRunner.runUpdate();
+
+    // update denorms after changes.
+    new SeriesDenormUpdater(connection).updateFields();
   }
 
   public void runUpdate() throws SQLException {
