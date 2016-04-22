@@ -1,5 +1,6 @@
 package com.mayhew3.gamesutil.tv;
 
+import com.google.common.collect.Lists;
 import com.mayhew3.gamesutil.dataobject.Series;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
@@ -9,6 +10,7 @@ import com.mayhew3.gamesutil.xml.NodeReaderImpl;
 import java.net.URISyntaxException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 public class TVDBUpdateRunner {
 
@@ -22,10 +24,18 @@ public class TVDBUpdateRunner {
     this.connection = connection;
   }
 
-  public static void main(String[] args) throws URISyntaxException, SQLException {
+  public static void main(String... args) throws URISyntaxException, SQLException {
+    List<String> argList = Lists.newArrayList(args);
+    Boolean singleSeries = argList.contains("SingleSeries");
+
     SQLConnection connection = new PostgresConnectionFactory().createConnection();
     TVDBUpdateRunner tvdbUpdateRunner = new TVDBUpdateRunner(connection);
-    tvdbUpdateRunner.runUpdate();
+
+    if (singleSeries) {
+      tvdbUpdateRunner.runUpdateSingle();
+    } else {
+      tvdbUpdateRunner.runUpdate();
+    }
 
     // update denorms after changes.
     new SeriesDenormUpdater(connection).updateFields();
@@ -33,43 +43,68 @@ public class TVDBUpdateRunner {
 
   /**
    * Go to theTVDB and update all series in my DB with the ones from theirs.
-   * 
+   *
    * @throws SQLException if query to get series to update fails. Any one series update will not halt operation of the
    *                    script, but if the query to find all the serieses fails, the operation can't continue.
    */
   public void runUpdate() throws SQLException {
+    String sql = "select *\n" +
+        "from series\n" +
+        "where ignore_tvdb = ? ";
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, false);
+
+    runUpdateOnResultSet(resultSet);
+  }
+
+
+  private void runUpdateSingle() throws SQLException {
+    String singleSeriesTitle = "Idiotsitter"; // update for testing on a single series
 
     String sql = "select *\n" +
         "from series\n" +
-        "where ignore_tvdb = ?";
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, false);
+        "where ignore_tvdb = ? " +
+        "and title = ? ";
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, false, singleSeriesTitle);
 
-    int totalRows = resultSet.getFetchSize();
-    debug(totalRows + " series found for update. Starting.");
+    runUpdateOnResultSet(resultSet);
+  }
+
+
+  private void runUpdateOnResultSet(ResultSet resultSet) throws SQLException {
+    debug("Starting update.");
 
     int i = 0;
 
     while (resultSet.next()) {
       i++;
       Series series = new Series();
-      series.initializeFromDBObject(resultSet);
 
       try {
-        updateMetacritic(series);
-      } catch (RuntimeException | ShowFailedException e) {
-        e.printStackTrace();
-        debug("Show failed metacritic: " + series.seriesTitle.getValue());
-      }
-
-      try {
-        updateTVDB(series);
-      } catch (ShowFailedException | BadlyFormattedXMLException e) {
-        e.printStackTrace();
-        debug("Show failed TVDB: " + series.seriesTitle.getValue());
+        processSingleSeries(resultSet, series);
+      } catch (Exception e) {
+        debug("Show failed on initialization from DB.");
       }
 
       seriesUpdates++;
       debug(i + " processed.");
+    }
+  }
+
+  private void processSingleSeries(ResultSet resultSet, Series series) throws SQLException {
+    series.initializeFromDBObject(resultSet);
+
+    try {
+      updateMetacritic(series);
+    } catch (Exception e) {
+      e.printStackTrace();
+      debug("Show failed metacritic: " + series.seriesTitle.getValue());
+    }
+
+    try {
+      updateTVDB(series);
+    } catch (Exception e) {
+      e.printStackTrace();
+      debug("Show failed TVDB: " + series.seriesTitle.getValue());
     }
   }
 

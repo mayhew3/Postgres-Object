@@ -17,7 +17,7 @@ import java.util.List;
 
 public class TiVoLibraryUpdater {
 
-  public static void main(String[] args) throws FileNotFoundException, URISyntaxException, SQLException {
+  public static void main(String... args) throws FileNotFoundException, URISyntaxException, SQLException {
     List<String> argList = Lists.newArrayList(args);
     Boolean lookAtAllShows = argList.contains("FullMode");
     Boolean tvdbOnly = argList.contains("TVDBOnly");

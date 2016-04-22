@@ -1,5 +1,6 @@
 package com.mayhew3.gamesutil.tv;
 
+import com.google.common.base.Joiner;
 import com.mayhew3.gamesutil.dataobject.*;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.xml.BadlyFormattedXMLException;
@@ -106,6 +107,11 @@ public class TVDBSeriesUpdater {
         newlyMatched.add(episode.season.getValue() + "x" + episode.seasonEpisodeNumber.getValue());
       }
     }
+
+    if (!newlyMatched.isEmpty()) {
+      String join = Joiner.on(", ").join(newlyMatched);
+      debug(newlyMatched.size() + " episodes matched: " + join);
+    }
   }
 
   private List<TiVoEpisode> findUnmatchedEpisodes(Series series) throws SQLException {
@@ -116,7 +122,8 @@ public class TVDBSeriesUpdater {
             "AND NOT EXISTS (SELECT 1 " +
                             "FROM edge_tivo_episode ete " +
                             "WHERE ete.tivo_episode_id = te.id " +
-                            "AND ete.retired = ?)",
+                            "AND ete.retired = ?) " +
+            "ORDER BY te.episode_number, te.showing_start_time",
         series.tivoSeriesId.getValue(),
         0
     );
