@@ -1,7 +1,8 @@
-package com.mayhew3.gamesutil.tv;
+package com.mayhew3.gamesutil.tv.mongo;
 
 import com.mayhew3.gamesutil.dataobject.EpisodeMongo;
 import com.mayhew3.gamesutil.dataobject.SeriesMongo;
+import com.mayhew3.gamesutil.tv.mongo.TVDatabaseUtility;
 import com.mongodb.*;
 import com.sun.istack.internal.NotNull;
 import org.bson.types.ObjectId;

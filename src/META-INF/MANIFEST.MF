@@ -20,5 +20,5 @@ Class-Path: selenium-server-2.47.1.jar bcprov-jdk15on-1.48.jar bcpkix-
  on-20140107.jar log4j-core-2.3.jar log4j-api-2.3.jar org.osgi.core-4.
  3.1.jar mongo-java-driver-2.12.3.jar postgresql-9.4-1201-jdbc41.jar j
  soup-1.8.1.jar joda-time-2.6.jar cotta-3.0.jar commons-codec-1.2.jar
-Main-Class: com.mayhew3.gamesutil.tv.TiVoLibraryUpdater
+Main-Class: com.mayhew3.gamesutil.tv.mongo.TiVoLibraryUpdater
 
