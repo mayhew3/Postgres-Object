@@ -1,9 +1,9 @@
 package com.mayhew3.gamesutil.tv;
 
-import com.mayhew3.gamesutil.dataobject.EpisodePostgres;
-import com.mayhew3.gamesutil.dataobject.SeriesPostgres;
-import com.mayhew3.gamesutil.dataobject.TVDBEpisodePostgres;
-import com.mayhew3.gamesutil.dataobject.TiVoEpisodePostgres;
+import com.mayhew3.gamesutil.dataobject.Episode;
+import com.mayhew3.gamesutil.dataobject.Series;
+import com.mayhew3.gamesutil.dataobject.TVDBEpisode;
+import com.mayhew3.gamesutil.dataobject.TiVoEpisode;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.xml.NodeReader;
 import org.joda.time.DateTime;
@@ -20,12 +20,12 @@ import java.util.Objects;
 class TVDBEpisodeUpdater {
   public enum EPISODE_RESULT {ADDED, UPDATED, NONE}
 
-  private SeriesPostgres series;
+  private Series series;
   private NodeList episodeNode;
   private SQLConnection connection;
   private NodeReader nodeReader;
 
-  public TVDBEpisodeUpdater(SeriesPostgres series, NodeList episodeNode, SQLConnection connection, NodeReader nodeReader) {
+  public TVDBEpisodeUpdater(Series series, NodeList episodeNode, SQLConnection connection, NodeReader nodeReader) {
     this.series = series;
     this.connection = connection;
     this.nodeReader = nodeReader;
@@ -56,14 +56,14 @@ class TVDBEpisodeUpdater {
     Boolean added = false;
     Boolean changed = false;
 
-    TVDBEpisodePostgres tvdbEpisode = new TVDBEpisodePostgres();
-    EpisodePostgres episode = new EpisodePostgres();
+    TVDBEpisode tvdbEpisode = new TVDBEpisode();
+    Episode episode = new Episode();
 
     if (!existingTVDBRow.next()) {
       tvdbEpisode.initializeForInsert();
 
       // todo: Optimization: skip looking for match when firstAired is future. Obviously it's not on the TiVo yet.
-      TiVoEpisodePostgres tivoEpisode = findTiVoMatch(episodename, seasonnumber, episodenumber, firstaired, seriesId);
+      TiVoEpisode tivoEpisode = findTiVoMatch(episodename, seasonnumber, episodenumber, firstaired, seriesId);
 
       if (tivoEpisode == null) {
         episode.initializeForInsert();
@@ -169,8 +169,8 @@ class TVDBEpisodeUpdater {
   }
 
   // todo: Handle finding two TiVo matches. MM-11
-  private TiVoEpisodePostgres findTiVoMatch(String episodeTitle, String tvdbSeasonStr, String tvdbEpisodeNumberStr, String firstAiredStr, Integer seriesId) throws SQLException {
-    List<TiVoEpisodePostgres> matchingEpisodes = new ArrayList<>();
+  private TiVoEpisode findTiVoMatch(String episodeTitle, String tvdbSeasonStr, String tvdbEpisodeNumberStr, String firstAiredStr, Integer seriesId) throws SQLException {
+    List<TiVoEpisode> matchingEpisodes = new ArrayList<>();
 
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
         "SELECT te.* " +
@@ -186,16 +186,16 @@ class TVDBEpisodeUpdater {
         0
     );
 
-    List<TiVoEpisodePostgres> episodes = new ArrayList<>();
+    List<TiVoEpisode> episodes = new ArrayList<>();
 
     while(resultSet.next()) {
-      TiVoEpisodePostgres episode = new TiVoEpisodePostgres();
+      TiVoEpisode episode = new TiVoEpisode();
       episode.initializeFromDBObject(resultSet);
       episodes.add(episode);
     }
 
     if (episodeTitle != null) {
-      for (TiVoEpisodePostgres episode : episodes) {
+      for (TiVoEpisode episode : episodes) {
         String tivoTitleObject = episode.title.getValue();
         if (episodeTitle.equalsIgnoreCase(tivoTitleObject)) {
           matchingEpisodes.add(episode);
@@ -219,7 +219,7 @@ class TVDBEpisodeUpdater {
       Integer tvdbSeason = Integer.valueOf(tvdbSeasonStr);
       Integer tvdbEpisodeNumber = Integer.valueOf(tvdbEpisodeNumberStr);
 
-      for (TiVoEpisodePostgres episode : episodes) {
+      for (TiVoEpisode episode : episodes) {
 
         Integer tivoEpisodeNumber = episode.episodeNumber.getValue();
 
@@ -266,7 +266,7 @@ class TVDBEpisodeUpdater {
     if (firstAiredStr != null) {
       DateTime firstAired = new DateTime(firstAiredStr);
 
-      for (TiVoEpisodePostgres episode : episodes) {
+      for (TiVoEpisode episode : episodes) {
         Date showingStartTimeObj = episode.showingStartTime.getValue();
 
         if (showingStartTimeObj != null) {
@@ -329,7 +329,7 @@ class TVDBEpisodeUpdater {
     return resultSet;
   }
 
-  private void updateSeriesDenorms(Boolean added, Boolean matched, SeriesPostgres series) {
+  private void updateSeriesDenorms(Boolean added, Boolean matched, Series series) {
     if (added) {
       series.tvdbOnlyEpisodes.increment(1);
       series.unwatchedUnrecorded.increment(1);

@@ -1,6 +1,6 @@
 package com.mayhew3.gamesutil.dataobject;
 
-public class MoviePostgres extends DataObject {
+public class Movie extends DataObject {
 
   public FieldValue<Boolean> onTiVo = registerBooleanField("on_tivo");
 

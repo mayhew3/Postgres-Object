@@ -20,7 +20,7 @@ import java.util.Objects;
 
 public class TVDBSeriesUpdater {
 
-  SeriesPostgres series;
+  Series series;
 
   private SQLConnection connection;
   private NodeReader nodeReader;
@@ -29,7 +29,7 @@ public class TVDBSeriesUpdater {
   Integer _episodesUpdated = 0;
 
   public TVDBSeriesUpdater(SQLConnection connection,
-                           @NotNull SeriesPostgres series,
+                           @NotNull Series series,
                            @NotNull NodeReader nodeReader) {
     this.series = series;
     this.connection = connection;
@@ -41,7 +41,7 @@ public class TVDBSeriesUpdater {
     String seriesTitle = series.seriesTitle.getValue();
     String seriesTiVoId = series.tivoSeriesId.getValue();
 
-    ErrorLogPostgres errorLog = getErrorLog(seriesTiVoId);
+    ErrorLog errorLog = getErrorLog(seriesTiVoId);
 
     if (shouldIgnoreShow(errorLog)) {
       markSeriesToIgnore(series);
@@ -73,7 +73,7 @@ public class TVDBSeriesUpdater {
   }
 
   // todo: never return null, just throw exception if failed to find
-  private Integer getTVDBID(ErrorLogPostgres errorLog, Boolean matchedWrong, Integer existingId) throws SQLException, ShowFailedException, BadlyFormattedXMLException {
+  private Integer getTVDBID(ErrorLog errorLog, Boolean matchedWrong, Integer existingId) throws SQLException, ShowFailedException, BadlyFormattedXMLException {
     if (existingId != null && !matchedWrong) {
       return existingId;
     }
@@ -115,7 +115,7 @@ public class TVDBSeriesUpdater {
   }
 
   @Nullable
-  private ErrorLogPostgres getErrorLog(String tivoId) throws SQLException {
+  private ErrorLog getErrorLog(String tivoId) throws SQLException {
     if (tivoId == null) {
       return null;
     }
@@ -126,7 +126,7 @@ public class TVDBSeriesUpdater {
             "AND resolved = ?", tivoId, false
     );
     if (resultSet.next()) {
-      ErrorLogPostgres errorLog = new ErrorLogPostgres();
+      ErrorLog errorLog = new ErrorLog();
       errorLog.initializeFromDBObject(resultSet);
       return errorLog;
     }
@@ -134,7 +134,7 @@ public class TVDBSeriesUpdater {
     return null;
   }
 
-  private Integer findTVDBMatch(SeriesPostgres series, ErrorLogPostgres errorLog) throws SQLException, BadlyFormattedXMLException, IOException, SAXException {
+  private Integer findTVDBMatch(Series series, ErrorLog errorLog) throws SQLException, BadlyFormattedXMLException, IOException, SAXException {
     String seriesTitle = series.seriesTitle.getValue();
     String tivoId = series.tivoSeriesId.getValue();
     String tvdbHint = series.tvdbHint.getValue();
@@ -202,7 +202,7 @@ public class TVDBSeriesUpdater {
     return nodeReader.getAllNodesWithTag(dataNode, "Series");
   }
 
-  private void attachPossibleSeries(SeriesPostgres series, List<Node> seriesNodes) throws SQLException {
+  private void attachPossibleSeries(Series series, List<Node> seriesNodes) throws SQLException {
     int possibleSeries = Math.min(5, seriesNodes.size());
     for (int i = 0; i < possibleSeries; i++) {
       NodeList seriesNode = seriesNodes.get(i).getChildNodes();
@@ -214,7 +214,7 @@ public class TVDBSeriesUpdater {
     }
   }
 
-  private String getTitleToCheck(String seriesTitle, ErrorLogPostgres errorLog) {
+  private String getTitleToCheck(String seriesTitle, ErrorLog errorLog) {
     if (errorLog != null && isNotFoundError(errorLog)) {
       String chosenName = errorLog.chosenName.getValue();
       if (chosenName == null) {
@@ -225,19 +225,19 @@ public class TVDBSeriesUpdater {
     return seriesTitle;
   }
 
-  private boolean isNotFoundError(@Nullable ErrorLogPostgres errorLog) {
+  private boolean isNotFoundError(@Nullable ErrorLog errorLog) {
     return errorLog != null && "NoMatchFound".equals(errorLog.errorType.getValue());
   }
 
-  private boolean isMismatchError(@Nullable ErrorLogPostgres errorLog) {
+  private boolean isMismatchError(@Nullable ErrorLog errorLog) {
     return errorLog != null && "NameMismatch".equals(errorLog.errorType.getValue());
   }
 
-  private boolean shouldIgnoreShow(@Nullable ErrorLogPostgres errorLog) {
+  private boolean shouldIgnoreShow(@Nullable ErrorLog errorLog) {
     return errorLog != null && Boolean.TRUE.equals(errorLog.ignoreError.getValue());
   }
 
-  private void updateSeriesTitle(SeriesPostgres series, ErrorLogPostgres errorLog) throws SQLException {
+  private void updateSeriesTitle(Series series, ErrorLog errorLog) throws SQLException {
     String chosenName = errorLog.chosenName.getValue();
     String seriesTitle = series.seriesTitle.getValue();
 
@@ -247,12 +247,12 @@ public class TVDBSeriesUpdater {
     }
   }
 
-  private void markSeriesToIgnore(SeriesPostgres series) throws SQLException {
+  private void markSeriesToIgnore(Series series) throws SQLException {
     series.ignoreTVDB.changeValue(true);
     series.commit(connection);
   }
 
-  private boolean shouldAcceptMismatch(ErrorLogPostgres errorLog) {
+  private boolean shouldAcceptMismatch(ErrorLog errorLog) {
     if (!isMismatchError(errorLog)) {
       return false;
     }
@@ -262,13 +262,13 @@ public class TVDBSeriesUpdater {
     return chosenName != null && !"".equals(chosenName);
   }
 
-  private void resolveError(ErrorLogPostgres errorLog) throws SQLException {
+  private void resolveError(ErrorLog errorLog) throws SQLException {
     errorLog.resolved.changeValue(true);
     errorLog.resolvedDate.changeValue(new Date());
     errorLog.commit(connection);
   }
 
-  private void updateShowData(SeriesPostgres series) throws SQLException, BadlyFormattedXMLException {
+  private void updateShowData(Series series) throws SQLException, BadlyFormattedXMLException {
     Integer tvdbID = series.tvdbId.getValue();
     String tivoSeriesId = series.tivoSeriesId.getValue();
     String seriesTitle = series.seriesTitle.getValue();
@@ -294,7 +294,7 @@ public class TVDBSeriesUpdater {
 
     ResultSet existingTVDBSeries = findExistingTVDBSeries(tvdbID);
 
-    TVDBSeriesPostgres tvdbSeries = new TVDBSeriesPostgres();
+    TVDBSeries tvdbSeries = new TVDBSeries();
     if (existingTVDBSeries.next()) {
       tvdbSeries.initializeFromDBObject(existingTVDBSeries);
     } else {
@@ -364,8 +364,8 @@ public class TVDBSeriesUpdater {
   }
 
 
-  private void addShowNotFoundErrorLog(SeriesPostgres series, String formattedName, String context) throws SQLException {
-    ErrorLogPostgres errorLog = new ErrorLogPostgres();
+  private void addShowNotFoundErrorLog(Series series, String formattedName, String context) throws SQLException {
+    ErrorLog errorLog = new ErrorLog();
     errorLog.initializeForInsert();
 
     errorLog.tivoName.changeValue(series.tivoName.getValue());
@@ -379,7 +379,7 @@ public class TVDBSeriesUpdater {
 
 
   private void addMismatchErrorLog(String tivoId, String tivoName, String formattedName, String tvdbName) throws SQLException {
-    ErrorLogPostgres errorLog = new ErrorLogPostgres();
+    ErrorLog errorLog = new ErrorLog();
     errorLog.initializeForInsert();
 
     errorLog.tivoName.changeValue(tivoName);
@@ -391,7 +391,7 @@ public class TVDBSeriesUpdater {
     addBasicErrorLog(tivoId, errorLog);
   }
 
-  private void addBasicErrorLog(String tivoId, ErrorLogPostgres errorLog) throws SQLException {
+  private void addBasicErrorLog(String tivoId, ErrorLog errorLog) throws SQLException {
     errorLog.tivoId.changeValue(tivoId);
     errorLog.eventDate.changeValue(new Date());
     errorLog.resolved.changeValue(false);
@@ -399,7 +399,7 @@ public class TVDBSeriesUpdater {
   }
 
   private void addErrorLog(String tivoId, String errorMessage) throws SQLException {
-    ErrorLogPostgres errorLog = new ErrorLogPostgres();
+    ErrorLog errorLog = new ErrorLog();
     errorLog.initializeForInsert();
 
     errorLog.tivoId.changeValue(tivoId);

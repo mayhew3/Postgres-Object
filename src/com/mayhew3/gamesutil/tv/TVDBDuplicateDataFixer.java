@@ -1,14 +1,13 @@
 package com.mayhew3.gamesutil.tv;
 
 import com.google.common.collect.Ordering;
-import com.mayhew3.gamesutil.dataobject.EpisodePostgres;
-import com.mayhew3.gamesutil.dataobject.SeriesPostgres;
-import com.mayhew3.gamesutil.dataobject.TVDBEpisodePostgres;
-import com.mayhew3.gamesutil.dataobject.TiVoEpisodePostgres;
+import com.mayhew3.gamesutil.dataobject.Episode;
+import com.mayhew3.gamesutil.dataobject.Series;
+import com.mayhew3.gamesutil.dataobject.TVDBEpisode;
+import com.mayhew3.gamesutil.dataobject.TiVoEpisode;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.sun.istack.internal.NotNull;
-import com.sun.istack.internal.Nullable;
 import org.apache.commons.lang3.ObjectUtils;
 
 import java.net.URISyntaxException;
@@ -20,41 +19,41 @@ import java.util.*;
 public class TVDBDuplicateDataFixer {
   private SQLConnection connection;
 
-  private final Ordering<EpisodePostgres> DATEADDED = new Ordering<EpisodePostgres>() {
+  private final Ordering<Episode> DATEADDED = new Ordering<Episode>() {
     @Override
-    public int compare(@NotNull EpisodePostgres episode1, @NotNull EpisodePostgres episode2) {
+    public int compare(@NotNull Episode episode1, @NotNull Episode episode2) {
       return Objects.compare(episode1.dateAdded.getValue(), episode2.dateAdded.getValue(),
           (o1, o2) -> ObjectUtils.compare(o1, o2, false));
     }
   };
 
-  private final Ordering<EpisodePostgres> DATEADDED_REVERSE = new Ordering<EpisodePostgres>() {
+  private final Ordering<Episode> DATEADDED_REVERSE = new Ordering<Episode>() {
     @Override
-    public int compare(@NotNull EpisodePostgres episode1, @NotNull EpisodePostgres episode2) {
+    public int compare(@NotNull Episode episode1, @NotNull Episode episode2) {
       return Objects.compare(episode1.dateAdded.getValue(), episode2.dateAdded.getValue(),
           (o1, o2) -> ObjectUtils.compare(o1, o2, true));
     }
   };
 
-  private final Ordering<EpisodePostgres> WATCHEDDATE = new Ordering<EpisodePostgres>() {
+  private final Ordering<Episode> WATCHEDDATE = new Ordering<Episode>() {
     @Override
-    public int compare(@NotNull EpisodePostgres episode1, @NotNull EpisodePostgres episode2) {
+    public int compare(@NotNull Episode episode1, @NotNull Episode episode2) {
       return Objects.compare(episode1.watchedDate.getValue(), episode2.watchedDate.getValue(),
           (o1, o2) -> ObjectUtils.compare(o1, o2, false));
     }
   };
 
-  private final Ordering<EpisodePostgres> ONTIVO = new Ordering<EpisodePostgres>() {
+  private final Ordering<Episode> ONTIVO = new Ordering<Episode>() {
     @Override
-    public int compare(@NotNull EpisodePostgres episode1, @NotNull EpisodePostgres episode2) {
+    public int compare(@NotNull Episode episode1, @NotNull Episode episode2) {
       return Objects.compare(episode1.onTiVo.getValue(), episode2.onTiVo.getValue(),
           (o1, o2) -> ObjectUtils.compare(o1, o2, false));
     }
   };
 
-  private final Ordering<EpisodePostgres> WATCHED = new Ordering<EpisodePostgres>() {
+  private final Ordering<Episode> WATCHED = new Ordering<Episode>() {
     @Override
-    public int compare(@NotNull EpisodePostgres episode1, @NotNull EpisodePostgres episode2) {
+    public int compare(@NotNull Episode episode1, @NotNull Episode episode2) {
       return Objects.compare(episode1.watched.getValue(), episode2.watched.getValue(),
           (o1, o2) -> ObjectUtils.compare(o1, o2, false));
     }
@@ -114,11 +113,11 @@ public class TVDBDuplicateDataFixer {
             "AND season_episode_number = ? " +
             "AND retired = ? ", seriesid, season, seasonEpisodeNumber, 0);
 
-    List<EpisodePostgres> olderEpisodes = new ArrayList<>();
-    Set<TiVoEpisodePostgres> tivoEpisodes = new HashSet<>();
+    List<Episode> olderEpisodes = new ArrayList<>();
+    Set<TiVoEpisode> tivoEpisodes = new HashSet<>();
 
     while (resultSet.next()) {
-      EpisodePostgres episode = new EpisodePostgres();
+      Episode episode = new Episode();
       episode.initializeFromDBObject(resultSet);
 
       olderEpisodes.add(episode);
@@ -126,7 +125,7 @@ public class TVDBDuplicateDataFixer {
     }
 
     if (tivoEpisodes.size() > 1) {
-      for (TiVoEpisodePostgres tivoEpisode : tivoEpisodes) {
+      for (TiVoEpisode tivoEpisode : tivoEpisodes) {
         if (unlinkIncorrectEpisodes(tivoEpisode)) {
           tivoEpisodes.remove(tivoEpisode);
         }
@@ -140,7 +139,7 @@ public class TVDBDuplicateDataFixer {
 
     debug("  - " + olderEpisodes.size() + " duplicates.");
 
-    EpisodePostgres mostRecentEpisode = DATEADDED.max(olderEpisodes);
+    Episode mostRecentEpisode = DATEADDED.max(olderEpisodes);
 
     if (dateAdded == null) {
       mostRecentEpisode = getTieBreakLastUpdated(olderEpisodes);
@@ -150,7 +149,7 @@ public class TVDBDuplicateDataFixer {
 
     olderEpisodes.remove(mostRecentEpisode);
 
-    for (EpisodePostgres episode : olderEpisodes) {
+    for (Episode episode : olderEpisodes) {
       if (!tivoEpisodes.isEmpty()) {
         unlinkAllTiVoEpisodes(episode);
       }
@@ -158,7 +157,7 @@ public class TVDBDuplicateDataFixer {
       episode.retired.changeValue(episode.id.getValue());
       episode.commit(connection);
 
-      TVDBEpisodePostgres tvdbEpisode = episode.getTVDBEpisode(connection);
+      TVDBEpisode tvdbEpisode = episode.getTVDBEpisode(connection);
       tvdbEpisode.retired.changeValue(tvdbEpisode.id.getValue());
       tvdbEpisode.commit(connection);
     }
@@ -171,32 +170,32 @@ public class TVDBDuplicateDataFixer {
     mostRecentEpisode.dateAdded.changeValue(dateAdded);
     mostRecentEpisode.commit(connection);
 
-    for (TiVoEpisodePostgres tivoEpisode : tivoEpisodes) {
+    for (TiVoEpisode tivoEpisode : tivoEpisodes) {
       mostRecentEpisode.addToTiVoEpisodes(connection, tivoEpisode.id.getValue());
     }
 
-    TVDBEpisodePostgres mostRecentTVDBEpisode = mostRecentEpisode.getTVDBEpisode(connection);
+    TVDBEpisode mostRecentTVDBEpisode = mostRecentEpisode.getTVDBEpisode(connection);
     mostRecentTVDBEpisode.dateAdded.changeValue(dateAdded);
     mostRecentTVDBEpisode.commit(connection);
   }
 
-  private EpisodePostgres getTieBreakLastUpdated(List<EpisodePostgres> episodes) throws ShowFailedException, SQLException {
+  private Episode getTieBreakLastUpdated(List<Episode> episodes) throws ShowFailedException, SQLException {
 
-    final Ordering<TVDBEpisodePostgres> LASTUPDATED = new Ordering<TVDBEpisodePostgres>() {
+    final Ordering<TVDBEpisode> LASTUPDATED = new Ordering<TVDBEpisode>() {
       @Override
-      public int compare(@NotNull TVDBEpisodePostgres episode1, @NotNull TVDBEpisodePostgres episode2) {
+      public int compare(@NotNull TVDBEpisode episode1, @NotNull TVDBEpisode episode2) {
         return Objects.compare(episode1.lastUpdated.getValue(), episode2.lastUpdated.getValue(),
             (o1, o2) -> ObjectUtils.compare(o1, o2, false));
       }
     };
 
-    Map<TVDBEpisodePostgres, EpisodePostgres> tvdbEpisodes = new HashMap<>();
-    for (EpisodePostgres episode : episodes) {
-      TVDBEpisodePostgres tvdbEpisode = episode.getTVDBEpisode(connection);
+    Map<TVDBEpisode, Episode> tvdbEpisodes = new HashMap<>();
+    for (Episode episode : episodes) {
+      TVDBEpisode tvdbEpisode = episode.getTVDBEpisode(connection);
       tvdbEpisodes.put(tvdbEpisode, episode);
     }
 
-    TVDBEpisodePostgres mostUpdated = LASTUPDATED.max(tvdbEpisodes.keySet());
+    TVDBEpisode mostUpdated = LASTUPDATED.max(tvdbEpisodes.keySet());
     if (mostUpdated.lastUpdated.getValue() == null) {
       throw new ShowFailedException("No LastUpdated field on TVDBEpisodes.");
     }
@@ -204,22 +203,22 @@ public class TVDBDuplicateDataFixer {
     return tvdbEpisodes.get(mostUpdated);
   }
 
-  private void unlinkAllTiVoEpisodes(EpisodePostgres episode) throws SQLException {
+  private void unlinkAllTiVoEpisodes(Episode episode) throws SQLException {
     connection.prepareAndExecuteStatementUpdate("" +
         "UPDATE edge_tivo_episode " +
         "SET retired = id " +
         "WHERE episode_id = ?", episode.id.getValue());
   }
 
-  private Boolean unlinkIncorrectEpisodes(TiVoEpisodePostgres tiVoEpisode) throws SQLException, ShowFailedException {
-    List<EpisodePostgres> episodes = tiVoEpisode.getEpisodes(connection);
+  private Boolean unlinkIncorrectEpisodes(TiVoEpisode tiVoEpisode) throws SQLException, ShowFailedException {
+    List<Episode> episodes = tiVoEpisode.getEpisodes(connection);
     if (episodes.size() > 1) {
       throw new ShowFailedException("Don't know how to handle multi-episode recording yet: " +
           tiVoEpisode.seriesTitle.getValue() + ": " + tiVoEpisode.episodeNumber.getValue() + " " +
           tiVoEpisode.title.getValue());
     }
 
-    EpisodePostgres episode = episodes.get(0);
+    Episode episode = episodes.get(0);
 
     if (betterMatchExists(tiVoEpisode, episode)) {
       connection.prepareAndExecuteStatementUpdate(
@@ -232,16 +231,16 @@ public class TVDBDuplicateDataFixer {
     return false;
   }
 
-  private Boolean betterMatchExists(TiVoEpisodePostgres tiVoEpisodePostgres, EpisodePostgres currentlyMatched) throws ShowFailedException, SQLException {
-    if (tiVoEpisodePostgres.title.getValue().equals(currentlyMatched.title.getValue())) {
+  private Boolean betterMatchExists(TiVoEpisode tiVoEpisode, Episode currentlyMatched) throws ShowFailedException, SQLException {
+    if (tiVoEpisode.title.getValue().equals(currentlyMatched.title.getValue())) {
       return false;
     } else {
-      SeriesPostgres series = currentlyMatched.getSeries(connection);
-      List<EpisodePostgres> otherSeriesEpisodes = series.getEpisodes(connection);
+      Series series = currentlyMatched.getSeries(connection);
+      List<Episode> otherSeriesEpisodes = series.getEpisodes(connection);
       otherSeriesEpisodes.remove(currentlyMatched);
 
-      for (EpisodePostgres episode : otherSeriesEpisodes) {
-        if (tiVoEpisodePostgres.title.getValue().equals(episode.title.getValue())) {
+      for (Episode episode : otherSeriesEpisodes) {
+        if (tiVoEpisode.title.getValue().equals(episode.title.getValue())) {
           return true;
         }
       }

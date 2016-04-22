@@ -11,15 +11,15 @@ import java.util.List;
 import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
-public class EpisodePostgresTest {
+public class EpisodeTest {
 
-  private EpisodePostgres episodePostgres;
+  private Episode episode;
   private Integer INITIAL_ID = 5;
 
   @Before
   public void setUp() {
-    episodePostgres = new EpisodePostgres();
-    episodePostgres.id.initializeValue(INITIAL_ID);
+    episode = new Episode();
+    episode.id.initializeValue(INITIAL_ID);
   }
 
   @Test
@@ -35,16 +35,16 @@ public class EpisodePostgresTest {
     when(postgresConnection.prepareAndExecuteStatementFetch(anyString(), eq(INITIAL_ID))).thenReturn(resultSet);
     when(resultSet.next()).thenReturn(true).thenReturn(false);
 
-    List<TiVoEpisodePostgres> tiVoEpisodes = episodePostgres.getTiVoEpisodes(postgresConnection);
+    List<TiVoEpisode> tiVoEpisodes = episode.getTiVoEpisodes(postgresConnection);
 
     assertThat(tiVoEpisodes)
         .hasSize(1);
 
-    TiVoEpisodePostgres tiVoEpisodePostgres = tiVoEpisodes.get(0);
+    TiVoEpisode tiVoEpisode = tiVoEpisodes.get(0);
 
     verify(resultSet).getInt("id");
 
-    for (FieldValue fieldValue : tiVoEpisodePostgres.allFieldValues) {
+    for (FieldValue fieldValue : tiVoEpisode.allFieldValues) {
       if (fieldValue instanceof FieldValueString) {
         verify(resultSet).getString(fieldValue.getFieldName());
       } else if (fieldValue instanceof FieldValueInteger) {

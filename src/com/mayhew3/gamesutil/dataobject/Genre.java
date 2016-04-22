@@ -6,7 +6,7 @@ import com.sun.istack.internal.NotNull;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class GenrePostgres extends DataObject {
+public class Genre extends DataObject {
 
   /* Data */
   public FieldValueString genreName = registerStringField("name");
@@ -22,21 +22,21 @@ public class GenrePostgres extends DataObject {
   }
 
   @NotNull
-  public static GenrePostgres findOrCreate(SQLConnection connection, String genreName) throws SQLException {
-    GenrePostgres genrePostgres = new GenrePostgres();
+  public static Genre findOrCreate(SQLConnection connection, String genreName) throws SQLException {
+    Genre genre = new Genre();
 
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
-        "SELECT * FROM genre WHERE " + genrePostgres.genreName.getFieldName() + " = ?",
+        "SELECT * FROM genre WHERE " + genre.genreName.getFieldName() + " = ?",
         genreName);
 
     if (resultSet.next()) {
-      genrePostgres.initializeFromDBObject(resultSet);
+      genre.initializeFromDBObject(resultSet);
     } else {
-      genrePostgres.initializeForInsert();
-      genrePostgres.genreName.changeValue(genreName);
-      genrePostgres.commit(connection);
+      genre.initializeForInsert();
+      genre.genreName.changeValue(genreName);
+      genre.commit(connection);
     }
 
-    return genrePostgres;
+    return genre;
   }
 }

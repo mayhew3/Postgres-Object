@@ -1,6 +1,6 @@
 package com.mayhew3.gamesutil.dataobject;
 
-public class ErrorLogPostgres extends DataObject {
+public class ErrorLog extends DataObject {
 
   /* Data */
   public FieldValueString chosenName = registerStringField("chosen_name");

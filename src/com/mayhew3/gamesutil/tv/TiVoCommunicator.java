@@ -150,15 +150,15 @@ public class TiVoCommunicator {
     );
 
     while (resultSet.next()) {
-      TiVoEpisodePostgres tiVoEpisodePostgres = new TiVoEpisodePostgres();
-      tiVoEpisodePostgres.initializeFromDBObject(resultSet);
+      TiVoEpisode tiVoEpisode = new TiVoEpisode();
+      tiVoEpisode.initializeFromDBObject(resultSet);
 
-      deleteIfGone(tiVoEpisodePostgres);
+      deleteIfGone(tiVoEpisode);
     }
 
   }
 
-  private void deleteIfGone(TiVoEpisodePostgres episode) throws SQLException {
+  private void deleteIfGone(TiVoEpisode episode) throws SQLException {
     String programId = episode.programId.getValue();
 
     if (programId == null) {
@@ -244,7 +244,7 @@ public class TiVoCommunicator {
 
     ResultSet resultSet = sqlConnection.prepareAndExecuteStatementFetch("SELECT * FROM series WHERE tivo_series_id = ?", tivoInfo.tivoId);
 
-    SeriesPostgres series = new SeriesPostgres();
+    Series series = new Series();
 
     if (!resultSet.next()) {
       addNewSeries(series, tivoInfo);
@@ -261,7 +261,7 @@ public class TiVoCommunicator {
    * @return Whether the episode already exists in the database.
    * @throws SQLException
    */
-  private Boolean addEpisodeIfNotExists(NodeList showDetails, SeriesPostgres series, TiVoInfo tivoInfo) throws SQLException, BadlyFormattedXMLException {
+  private Boolean addEpisodeIfNotExists(NodeList showDetails, Series series, TiVoInfo tivoInfo) throws SQLException, BadlyFormattedXMLException {
     ResultSet existingEpisode = getExistingTiVoEpisodes(tivoInfo.programId);
     Boolean tivoEpisodeExists = existingEpisode.next();
 
@@ -269,13 +269,13 @@ public class TiVoCommunicator {
       return true;
     }
 
-    TiVoEpisodePostgres tivoEpisode = getOrCreateTiVoEpisode(showDetails, tivoInfo, existingEpisode, tivoEpisodeExists);
-    TVDBEpisodePostgres tvdbEpisode = findTVDBEpisodeMatch(tivoEpisode, series.id.getValue());
+    TiVoEpisode tivoEpisode = getOrCreateTiVoEpisode(showDetails, tivoInfo, existingEpisode, tivoEpisodeExists);
+    TVDBEpisode tvdbEpisode = findTVDBEpisodeMatch(tivoEpisode, series.id.getValue());
 
     Boolean tvdb_matched = false;
 
 
-    EpisodePostgres episode = new EpisodePostgres();
+    Episode episode = new Episode();
 
     if (tvdbEpisode != null) {
       if (tivoEpisodeExists) {
@@ -299,7 +299,7 @@ public class TiVoCommunicator {
     return false;
   }
 
-  private void updateEpisodeAndSeries(SeriesPostgres series, TiVoEpisodePostgres tivoEpisode, EpisodePostgres episode, Boolean matched) throws SQLException {
+  private void updateEpisodeAndSeries(Series series, TiVoEpisode tivoEpisode, Episode episode, Boolean matched) throws SQLException {
     Integer tivo_episode_id = tivoEpisode.id.getValue();
 
     episode.onTiVo.changeValue(true);
@@ -328,7 +328,7 @@ public class TiVoCommunicator {
     series.commit(sqlConnection);
   }
 
-  private TVDBEpisodePostgres retryMatchWithUpdatedTVDB(SeriesPostgres series, TiVoEpisodePostgres tivoEpisode) throws SQLException, BadlyFormattedXMLException {
+  private TVDBEpisode retryMatchWithUpdatedTVDB(Series series, TiVoEpisode tivoEpisode) throws SQLException, BadlyFormattedXMLException {
     TVDBSeriesUpdater updater = new TVDBSeriesUpdater(sqlConnection, series, new NodeReaderImpl());
     try {
       updater.updateSeries();
@@ -340,8 +340,8 @@ public class TiVoCommunicator {
     return findTVDBEpisodeMatch(tivoEpisode, series.id.getValue());
   }
 
-  private TiVoEpisodePostgres getOrCreateTiVoEpisode(NodeList showDetails, TiVoInfo tivoInfo, ResultSet existingEpisode, Boolean tivoEpisodeExists) throws SQLException {
-    TiVoEpisodePostgres tivoEpisode = new TiVoEpisodePostgres();
+  private TiVoEpisode getOrCreateTiVoEpisode(NodeList showDetails, TiVoInfo tivoInfo, ResultSet existingEpisode, Boolean tivoEpisodeExists) throws SQLException {
+    TiVoEpisode tivoEpisode = new TiVoEpisode();
     if (tivoEpisodeExists) {
       tivoEpisode.initializeFromDBObject(existingEpisode);
     } else {
@@ -360,7 +360,7 @@ public class TiVoCommunicator {
     return tivoEpisode;
   }
 
-  private void addNewSeries(SeriesPostgres series, TiVoInfo tivoInfo) throws SQLException {
+  private void addNewSeries(Series series, TiVoInfo tivoInfo) throws SQLException {
     series.initializeForInsert();
 
     debug("Adding series '" + tivoInfo.seriesTitle + "'  with TiVoID '" + tivoInfo.tivoId + "'");
@@ -384,7 +384,7 @@ public class TiVoCommunicator {
     addedShows++;
   }
 
-  private ResultSet getExistingEpisodeRow(TVDBEpisodePostgres tvdbMatch) throws SQLException {
+  private ResultSet getExistingEpisodeRow(TVDBEpisode tvdbMatch) throws SQLException {
     Integer tvdb_id = tvdbMatch.id.getValue();
     ResultSet resultSet = sqlConnection.prepareAndExecuteStatementFetch(
         "SELECT * " +
@@ -398,8 +398,8 @@ public class TiVoCommunicator {
     return resultSet;
   }
 
-  private ResultSet getExistingEpisodeRows(TiVoEpisodePostgres tiVoEpisodePostgres) throws SQLException {
-    Integer tivoEpisodeId = tiVoEpisodePostgres.id.getValue();
+  private ResultSet getExistingEpisodeRows(TiVoEpisode tiVoEpisode) throws SQLException {
+    Integer tivoEpisodeId = tiVoEpisode.id.getValue();
     ResultSet resultSet = sqlConnection.prepareAndExecuteStatementFetch(
         "SELECT e.* " +
             "FROM episode e " +
@@ -420,7 +420,7 @@ public class TiVoCommunicator {
   }
 
 
-  private void updateSeriesDenorms(TiVoEpisodePostgres tiVoEpisode, EpisodePostgres episode, SeriesPostgres series, Boolean matched) {
+  private void updateSeriesDenorms(TiVoEpisode tiVoEpisode, Episode episode, Series series, Boolean matched) {
 
     Boolean suggestion = tiVoEpisode.suggestion.getValue();
     Date showingStartTime = tiVoEpisode.showingStartTime.getValue();
@@ -457,7 +457,7 @@ public class TiVoCommunicator {
     return sqlConnection.prepareAndExecuteStatementFetch("SELECT * FROM tivo_episode WHERE program_id = ? AND retired = ?", programId, 0);
   }
 
-  private TiVoEpisodePostgres formatEpisodeObject(TiVoEpisodePostgres episode, String url, Boolean isSuggestion, NodeList showDetails) {
+  private TiVoEpisode formatEpisodeObject(TiVoEpisode episode, String url, Boolean isSuggestion, NodeList showDetails) {
     episode.captureDate.changeValueFromXMLString(nodeReader.getValueOfSimpleStringNode(showDetails, "CaptureDate"));
     episode.showingStartTime.changeValueFromXMLString(nodeReader.getValueOfSimpleStringNode(showDetails, "ShowingStartTime"));
 
@@ -479,7 +479,7 @@ public class TiVoCommunicator {
     return episode;
   }
 
-  private TVDBEpisodePostgres findTVDBEpisodeMatch(TiVoEpisodePostgres tivoEpisode, Integer seriesId) throws SQLException {
+  private TVDBEpisode findTVDBEpisodeMatch(TiVoEpisode tivoEpisode, Integer seriesId) throws SQLException {
     String episodeTitle = tivoEpisode.title.getValue();
     Integer episodeNumber = tivoEpisode.episodeNumber.getValue();
     Date startTime = tivoEpisode.showingStartTime.getValue();
@@ -494,16 +494,16 @@ public class TiVoCommunicator {
         seriesId
     );
 
-    List<TVDBEpisodePostgres> tvdbEpisodes = new ArrayList<>();
+    List<TVDBEpisode> tvdbEpisodes = new ArrayList<>();
 
     while(resultSet.next()) {
-      TVDBEpisodePostgres tvdbEpisode = new TVDBEpisodePostgres();
+      TVDBEpisode tvdbEpisode = new TVDBEpisode();
       tvdbEpisode.initializeFromDBObject(resultSet);
       tvdbEpisodes.add(tvdbEpisode);
     }
 
     if (episodeTitle != null) {
-      for (TVDBEpisodePostgres tvdbEpisode : tvdbEpisodes) {
+      for (TVDBEpisode tvdbEpisode : tvdbEpisodes) {
         String tvdbTitleObject = tvdbEpisode.name.getValue();
 
         if (episodeTitle.equalsIgnoreCase(tvdbTitleObject)) {
@@ -518,7 +518,7 @@ public class TiVoCommunicator {
       Integer seasonNumber = 1;
 
       if (episodeNumber < 100) {
-        TVDBEpisodePostgres match = checkForNumberMatch(seasonNumber, episodeNumber, tvdbEpisodes);
+        TVDBEpisode match = checkForNumberMatch(seasonNumber, episodeNumber, tvdbEpisodes);
         if (match != null) {
           return match;
         }
@@ -529,7 +529,7 @@ public class TiVoCommunicator {
         String seasonString = episodeNumberString.substring(0, seasonLength);
         String episodeString = episodeNumberString.substring(seasonLength, episodeNumberString.length());
 
-        TVDBEpisodePostgres match = checkForNumberMatch(Integer.valueOf(seasonString), Integer.valueOf(episodeString), tvdbEpisodes);
+        TVDBEpisode match = checkForNumberMatch(Integer.valueOf(seasonString), Integer.valueOf(episodeString), tvdbEpisodes);
 
         if (match != null) {
           return match;
@@ -542,7 +542,7 @@ public class TiVoCommunicator {
     if (startTime != null) {
       DateTime showingStartTime = new DateTime(startTime);
 
-      for (TVDBEpisodePostgres tvdbEpisode : tvdbEpisodes) {
+      for (TVDBEpisode tvdbEpisode : tvdbEpisodes) {
         Date firstAiredValue = tvdbEpisode.firstAired.getValue();
         if (firstAiredValue != null) {
           DateTime firstAired = new DateTime(firstAiredValue);
@@ -560,8 +560,8 @@ public class TiVoCommunicator {
   }
 
 
-  private TVDBEpisodePostgres checkForNumberMatch(Integer seasonNumber, Integer episodeNumber, List<TVDBEpisodePostgres> tvdbEpisodes) {
-    for (TVDBEpisodePostgres tvdbEpisode : tvdbEpisodes) {
+  private TVDBEpisode checkForNumberMatch(Integer seasonNumber, Integer episodeNumber, List<TVDBEpisode> tvdbEpisodes) {
+    for (TVDBEpisode tvdbEpisode : tvdbEpisodes) {
       Integer tvdbSeason = tvdbEpisode.seasonNumber.getValue();
       Integer tvdbEpisodeNumber = tvdbEpisode.episodeNumber.getValue();
 

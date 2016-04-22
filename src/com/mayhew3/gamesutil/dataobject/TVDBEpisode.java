@@ -1,6 +1,6 @@
 package com.mayhew3.gamesutil.dataobject;
 
-public class TVDBEpisodePostgres extends DataObject {
+public class TVDBEpisode extends DataObject {
 
   public FieldValue<Integer> seasonNumber = registerIntegerField("season_number");
   public FieldValue<Integer> seasonId = registerIntegerField("season_id");

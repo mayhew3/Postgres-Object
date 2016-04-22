@@ -180,11 +180,11 @@ public class TVPostgresMigration {
   }
 
   private void processSingleMovie(SeriesMongo seriesMongo) throws ShowFailedException {
-    MoviePostgres moviePostgres = new MoviePostgres();
-    moviePostgres.initializeForInsert();
+    Movie movie = new Movie();
+    movie.initializeForInsert();
 
-    moviePostgres.onTiVo.changeValue(true);
-    copySeriesFieldsToMovie(seriesMongo, moviePostgres);
+    movie.onTiVo.changeValue(true);
+    copySeriesFieldsToMovie(seriesMongo, movie);
 
     ObjectId mongoId = seriesMongo._id.getValue();
 
@@ -206,44 +206,44 @@ public class TVPostgresMigration {
       EpisodeMongo episodeMongo = new EpisodeMongo();
       episodeMongo.initializeFromDBObject(episodeDBObj);
 
-      copyEpisodeFieldsToMovie(episodeMongo, moviePostgres);
+      copyEpisodeFieldsToMovie(episodeMongo, movie);
 
       try {
-        moviePostgres.commit(sqlConnection);
+        movie.commit(sqlConnection);
       } catch (SQLException e) {
         e.printStackTrace();
-        throw new ShowFailedException("Insert failed for movie: " + moviePostgres.seriesTitle.getValue());
+        throw new ShowFailedException("Insert failed for movie: " + movie.seriesTitle.getValue());
       }
     }
   }
 
-  private void copySeriesFieldsToMovie(SeriesMongo seriesMongo, MoviePostgres moviePostgres) {
-    moviePostgres.title.changeValue(seriesMongo.seriesTitle.getValue());
-    moviePostgres.tier.changeValue(seriesMongo.tier.getValue());
-    moviePostgres.metacritic.changeValue(seriesMongo.metacritic.getValue());
-    moviePostgres.metacriticHint.changeValue(seriesMongo.metacriticHint.getValue());
-    moviePostgres.my_rating.changeValue(seriesMongo.myRating.getValue());
-    moviePostgres.tivoName.changeValue(seriesMongo.tivoName.getValue());
+  private void copySeriesFieldsToMovie(SeriesMongo seriesMongo, Movie movie) {
+    movie.title.changeValue(seriesMongo.seriesTitle.getValue());
+    movie.tier.changeValue(seriesMongo.tier.getValue());
+    movie.metacritic.changeValue(seriesMongo.metacritic.getValue());
+    movie.metacriticHint.changeValue(seriesMongo.metacriticHint.getValue());
+    movie.my_rating.changeValue(seriesMongo.myRating.getValue());
+    movie.tivoName.changeValue(seriesMongo.tivoName.getValue());
   }
 
-  private void copyEpisodeFieldsToMovie(EpisodeMongo episodeMongo, MoviePostgres moviePostgres) {
-    moviePostgres.isSuggestion.changeValue(episodeMongo.tivoSuggestion.getValue());
-    moviePostgres.showingStartTime.changeValue(episodeMongo.tivoShowingStartTime.getValue());
-    moviePostgres.deletedDate.changeValue(episodeMongo.tivoDeletedDate.getValue());
-    moviePostgres.captureDate.changeValue(episodeMongo.tivoCaptureDate.getValue());
-    moviePostgres.hd.changeValue(episodeMongo.tivoHD.getValue());
-    moviePostgres.duration.changeValue(episodeMongo.tivoDuration.getValue());
-    moviePostgres.showingDuration.changeValue(episodeMongo.tivoShowingDuration.getValue());
-    moviePostgres.channel.changeValue(episodeMongo.tivoChannel.getValue());
-    moviePostgres.rating.changeValue(episodeMongo.tivoRating.getValue());
-    moviePostgres.tivoSeriesId.changeValue(episodeMongo.tivoSeriesId.getValue());
-    moviePostgres.programId.changeValue(episodeMongo.tivoProgramId.getValue());
-    moviePostgres.seriesTitle.changeValue(episodeMongo.tivoSeriesTitle.getValue());
-    moviePostgres.description.changeValue(episodeMongo.tivoDescription.getValue());
-    moviePostgres.station.changeValue(episodeMongo.tivoStation.getValue());
-    moviePostgres.url.changeValue(episodeMongo.tivoUrl.getValue());
-    moviePostgres.watched.changeValue(episodeMongo.watched.getValue());
-    moviePostgres.watchedDate.changeValue(episodeMongo.watchedDate.getValue());
+  private void copyEpisodeFieldsToMovie(EpisodeMongo episodeMongo, Movie movie) {
+    movie.isSuggestion.changeValue(episodeMongo.tivoSuggestion.getValue());
+    movie.showingStartTime.changeValue(episodeMongo.tivoShowingStartTime.getValue());
+    movie.deletedDate.changeValue(episodeMongo.tivoDeletedDate.getValue());
+    movie.captureDate.changeValue(episodeMongo.tivoCaptureDate.getValue());
+    movie.hd.changeValue(episodeMongo.tivoHD.getValue());
+    movie.duration.changeValue(episodeMongo.tivoDuration.getValue());
+    movie.showingDuration.changeValue(episodeMongo.tivoShowingDuration.getValue());
+    movie.channel.changeValue(episodeMongo.tivoChannel.getValue());
+    movie.rating.changeValue(episodeMongo.tivoRating.getValue());
+    movie.tivoSeriesId.changeValue(episodeMongo.tivoSeriesId.getValue());
+    movie.programId.changeValue(episodeMongo.tivoProgramId.getValue());
+    movie.seriesTitle.changeValue(episodeMongo.tivoSeriesTitle.getValue());
+    movie.description.changeValue(episodeMongo.tivoDescription.getValue());
+    movie.station.changeValue(episodeMongo.tivoStation.getValue());
+    movie.url.changeValue(episodeMongo.tivoUrl.getValue());
+    movie.watched.changeValue(episodeMongo.watched.getValue());
+    movie.watchedDate.changeValue(episodeMongo.watchedDate.getValue());
   }
 
   private void updateErrorLogs() throws SQLException {
@@ -261,12 +261,12 @@ public class TVPostgresMigration {
       ErrorLogMongo errorLogMongo = new ErrorLogMongo();
       errorLogMongo.initializeFromDBObject(errorLogMongoObject);
 
-      ErrorLogPostgres errorLogPostgres = new ErrorLogPostgres();
-      errorLogPostgres.initializeForInsert();
+      ErrorLog errorLog = new ErrorLog();
+      errorLog.initializeForInsert();
 
-      copyAllErrorLogFields(errorLogMongo, errorLogPostgres);
+      copyAllErrorLogFields(errorLogMongo, errorLog);
 
-      errorLogPostgres.commit(sqlConnection);
+      errorLog.commit(sqlConnection);
 
       debug(i + " out of " + totalRows + " processed.");
       debug("");
@@ -291,12 +291,12 @@ public class TVPostgresMigration {
       ConnectLogMongo connectLogMongo = new ConnectLogMongo();
       connectLogMongo.initializeFromDBObject(connectLogMongoObject);
 
-      ConnectLogPostgres connectLogPostgres = new ConnectLogPostgres();
-      connectLogPostgres.initializeForInsert();
+      ConnectLog connectLog = new ConnectLog();
+      connectLog.initializeForInsert();
 
-      copyAllConnectLogFields(connectLogMongo, connectLogPostgres);
+      copyAllConnectLogFields(connectLogMongo, connectLog);
 
-      connectLogPostgres.commit(sqlConnection);
+      connectLog.commit(sqlConnection);
 
       debug(i + " out of " + totalRows + " processed.");
       debug("");
@@ -306,34 +306,34 @@ public class TVPostgresMigration {
 
   }
 
-  private void copyAllErrorLogFields(ErrorLogMongo errorLogMongo, ErrorLogPostgres errorLogPostgres) {
-    errorLogPostgres.chosenName.changeValue(errorLogMongo.chosenName.getValue());
-    errorLogPostgres.errorMessage.changeValue(errorLogMongo.errorMessage.getValue());
-    errorLogPostgres.errorType.changeValue(errorLogMongo.errorType.getValue());
-    errorLogPostgres.eventDate.changeValue(errorLogMongo.eventDate.getValue());
-    errorLogPostgres.formattedName.changeValue(errorLogMongo.formattedName.getValue());
-    errorLogPostgres.resolved.changeValue(errorLogMongo.resolved.getValue());
-    errorLogPostgres.resolvedDate.changeValue(errorLogMongo.resolvedDate.getValue());
-    errorLogPostgres.tvdbName.changeValue(errorLogMongo.tvdbName.getValue());
-    errorLogPostgres.tivoId.changeValue(errorLogMongo.tivoId.getValue());
-    errorLogPostgres.tivoName.changeValue(errorLogMongo.tivoName.getValue());
-    errorLogPostgres.context.changeValue(errorLogMongo.context.getValue());
-    errorLogPostgres.ignoreError.changeValue(errorLogMongo.ignoreError.getValue());
+  private void copyAllErrorLogFields(ErrorLogMongo errorLogMongo, ErrorLog errorLog) {
+    errorLog.chosenName.changeValue(errorLogMongo.chosenName.getValue());
+    errorLog.errorMessage.changeValue(errorLogMongo.errorMessage.getValue());
+    errorLog.errorType.changeValue(errorLogMongo.errorType.getValue());
+    errorLog.eventDate.changeValue(errorLogMongo.eventDate.getValue());
+    errorLog.formattedName.changeValue(errorLogMongo.formattedName.getValue());
+    errorLog.resolved.changeValue(errorLogMongo.resolved.getValue());
+    errorLog.resolvedDate.changeValue(errorLogMongo.resolvedDate.getValue());
+    errorLog.tvdbName.changeValue(errorLogMongo.tvdbName.getValue());
+    errorLog.tivoId.changeValue(errorLogMongo.tivoId.getValue());
+    errorLog.tivoName.changeValue(errorLogMongo.tivoName.getValue());
+    errorLog.context.changeValue(errorLogMongo.context.getValue());
+    errorLog.ignoreError.changeValue(errorLogMongo.ignoreError.getValue());
   }
 
 
-  private void copyAllConnectLogFields(ConnectLogMongo connectLogMongo, ConnectLogPostgres connectLogPostgres) {
-    connectLogPostgres.startTime.changeValue(connectLogMongo.startTime.getValue());
-    connectLogPostgres.endTime.changeValue(connectLogMongo.endTime.getValue());
-    connectLogPostgres.addedShows.changeValue(connectLogMongo.addedShows.getValue());
-    connectLogPostgres.connectionID.changeValue(connectLogMongo.connectionID.getValue());
-    connectLogPostgres.deletedShows.changeValue(connectLogMongo.deletedShows.getValue());
-    connectLogPostgres.tvdbEpisodesAdded.changeValue(connectLogMongo.tvdbEpisodesAdded.getValue());
-    connectLogPostgres.tvdbEpisodesUpdated.changeValue(connectLogMongo.tvdbEpisodesUpdated.getValue());
-    connectLogPostgres.tvdbSeriesUpdated.changeValue(connectLogMongo.tvdbSeriesUpdated.getValue());
-    connectLogPostgres.timeConnected.changeValue(connectLogMongo.timeConnected.getValue());
-    connectLogPostgres.updatedShows.changeValue(connectLogMongo.updatedShows.getValue());
-    connectLogPostgres.fastUpdate.changeValue(connectLogMongo.fastUpdate.getValue());
+  private void copyAllConnectLogFields(ConnectLogMongo connectLogMongo, ConnectLog connectLog) {
+    connectLog.startTime.changeValue(connectLogMongo.startTime.getValue());
+    connectLog.endTime.changeValue(connectLogMongo.endTime.getValue());
+    connectLog.addedShows.changeValue(connectLogMongo.addedShows.getValue());
+    connectLog.connectionID.changeValue(connectLogMongo.connectionID.getValue());
+    connectLog.deletedShows.changeValue(connectLogMongo.deletedShows.getValue());
+    connectLog.tvdbEpisodesAdded.changeValue(connectLogMongo.tvdbEpisodesAdded.getValue());
+    connectLog.tvdbEpisodesUpdated.changeValue(connectLogMongo.tvdbEpisodesUpdated.getValue());
+    connectLog.tvdbSeriesUpdated.changeValue(connectLogMongo.tvdbSeriesUpdated.getValue());
+    connectLog.timeConnected.changeValue(connectLogMongo.timeConnected.getValue());
+    connectLog.updatedShows.changeValue(connectLogMongo.updatedShows.getValue());
+    connectLog.fastUpdate.changeValue(connectLogMongo.fastUpdate.getValue());
   }
 
 
@@ -341,11 +341,11 @@ public class TVPostgresMigration {
     SeriesMongo seriesMongo = new SeriesMongo();
     seriesMongo.initializeFromDBObject(seriesMongoObject);
 
-    SeriesPostgres seriesPostgres = getOrCreateSeriesPostgres(seriesMongo);
+    Series series = getOrCreateSeriesPostgres(seriesMongo);
 
     String title = seriesMongo.seriesTitle.getValue();
 
-    if (seriesPostgres.id.getValue() != null) {
+    if (series.id.getValue() != null) {
       debug(title + ": Updating");
     } else {
       debug(title + ": Inserting");
@@ -353,20 +353,20 @@ public class TVPostgresMigration {
 
     Integer tvdbSeriesId = updateTVDBSeries(seriesMongo);
 
-    seriesPostgres.tvdbSeriesId.changeValue(tvdbSeriesId);
-    copyAllSeriesFields(seriesMongo, seriesPostgres);
-    seriesPostgres.commit(sqlConnection);
+    series.tvdbSeriesId.changeValue(tvdbSeriesId);
+    copyAllSeriesFields(seriesMongo, series);
+    series.commit(sqlConnection);
 
-    Integer seriesId = seriesPostgres.id.getValue();
+    Integer seriesId = series.id.getValue();
     if (seriesId == null) {
       throw new RuntimeException("No ID populated on series postgres object after insert or update.");
     }
 
-    updateGenres(seriesMongo, seriesPostgres);
-    updateViewingLocations(seriesMongo, seriesPostgres);
-    updateMetacriticSeasons(seriesMongo, seriesPostgres);
-    updatePossibleMatches(seriesMongo, seriesPostgres);
-    updateEpisodes(seriesMongo, seriesPostgres);
+    updateGenres(seriesMongo, series);
+    updateViewingLocations(seriesMongo, series);
+    updateMetacriticSeasons(seriesMongo, series);
+    updatePossibleMatches(seriesMongo, series);
+    updateEpisodes(seriesMongo, series);
   }
 
 
@@ -377,12 +377,12 @@ public class TVPostgresMigration {
 
     debug("   (also copying tvdb info...)");
 
-    TVDBSeriesPostgres tvdbSeriesPostgres = getOrCreateTVDBSeriesPostgres(seriesMongo.tvdbId.getValue());
+    TVDBSeries tvdbSeries = getOrCreateTVDBSeriesPostgres(seriesMongo.tvdbId.getValue());
 
-    copyAllTVDBSeriesFields(seriesMongo, tvdbSeriesPostgres);
-    tvdbSeriesPostgres.commit(sqlConnection);
+    copyAllTVDBSeriesFields(seriesMongo, tvdbSeries);
+    tvdbSeries.commit(sqlConnection);
 
-    Integer tvdbSeriesId = tvdbSeriesPostgres.id.getValue();
+    Integer tvdbSeriesId = tvdbSeries.id.getValue();
 
     if (tvdbSeriesId == null) {
       throw new RuntimeException("No ID populated on tvdb_series postgres object after insert or update.");
@@ -390,7 +390,7 @@ public class TVPostgresMigration {
     return tvdbSeriesId;
   }
 
-  private void updateMetacriticSeasons(SeriesMongo seriesMongo, SeriesPostgres seriesPostgres) throws SQLException {
+  private void updateMetacriticSeasons(SeriesMongo seriesMongo, Series series) throws SQLException {
     BasicDBList metacriticSeasons = seriesMongo.metacriticSeasons.getValue();
     if (metacriticSeasons != null) {
       for (Object obj : metacriticSeasons) {
@@ -400,48 +400,48 @@ public class TVPostgresMigration {
 
         debug(" - Add season " + seasonNumber + " with Metacritic " + seasonMetacritic);
 
-        SeasonPostgres season = seriesPostgres.getOrCreateSeason(sqlConnection, seasonNumber);
+        Season season = series.getOrCreateSeason(sqlConnection, seasonNumber);
         season.metacritic.changeValue(seasonMetacritic);
         season.commit(sqlConnection);
       }
     }
   }
 
-  private void updateViewingLocations(SeriesMongo seriesMongo, SeriesPostgres seriesPostgres) throws SQLException {
+  private void updateViewingLocations(SeriesMongo seriesMongo, Series series) throws SQLException {
     BasicDBList viewingLocations = seriesMongo.viewingLocations.getValue();
     if (viewingLocations != null) {
       for (Object obj : viewingLocations) {
         String viewingLocation = (String) obj;
         debug(" - Add viewing location '" + viewingLocation + "'");
-        seriesPostgres.addViewingLocation(sqlConnection, viewingLocation);
+        series.addViewingLocation(sqlConnection, viewingLocation);
       }
     }
   }
 
-  private void updateGenres(SeriesMongo seriesMongo, SeriesPostgres seriesPostgres) throws SQLException {
+  private void updateGenres(SeriesMongo seriesMongo, Series series) throws SQLException {
     BasicDBList tvdbGenre = seriesMongo.tvdbGenre.getValue();
     if (tvdbGenre != null) {
       for (Object obj : tvdbGenre) {
         String genreName = (String) obj;
         debug(" - Add genre '" + genreName + "'");
-        seriesPostgres.addGenre(sqlConnection, genreName);
+        series.addGenre(sqlConnection, genreName);
       }
     }
   }
 
-  private void updatePossibleMatches(SeriesMongo seriesMongo, SeriesPostgres seriesPostgres) throws SQLException {
+  private void updatePossibleMatches(SeriesMongo seriesMongo, Series series) throws SQLException {
     BasicDBList dbList = seriesMongo.possibleMatches.getValue();
     if (dbList != null) {
       for (Object obj : dbList) {
         DBObject possibleMatch = (DBObject) obj;
         Integer seriesID = (Integer) possibleMatch.get("SeriesID");
         String title = (String) possibleMatch.get("SeriesTitle");
-        seriesPostgres.addPossibleSeriesMatch(sqlConnection, seriesID, title);
+        series.addPossibleSeriesMatch(sqlConnection, seriesID, title);
       }
     }
   }
 
-  private SeriesPostgres getOrCreateSeriesPostgres(SeriesMongo seriesMongo) throws SQLException {
+  private Series getOrCreateSeriesPostgres(SeriesMongo seriesMongo) throws SQLException {
     String tivoSeriesId = seriesMongo.tivoSeriesId.getValue();
     Integer tvdbId = seriesMongo.tvdbId.getValue();
     if (tivoSeriesId != null) {
@@ -453,7 +453,7 @@ public class TVPostgresMigration {
     }
   }
 
-  private void updateEpisodes(SeriesMongo seriesMongo, SeriesPostgres seriesPostgres) throws SQLException {
+  private void updateEpisodes(SeriesMongo seriesMongo, Series series) throws SQLException {
     ObjectId mongoId = seriesMongo._id.getValue();
 
     BasicDBObject episodeQuery = new BasicDBObject()
@@ -468,7 +468,7 @@ public class TVPostgresMigration {
       DBObject episodeDBObj = cursor.next();
 
       try {
-        updateSingleEpisode(seriesPostgres, episodeDBObj);
+        updateSingleEpisode(series, episodeDBObj);
       } catch (ShowFailedException e) {
         debug("Failed!");
         //noinspection ThrowableResultOfMethodCallIgnored
@@ -477,7 +477,7 @@ public class TVPostgresMigration {
     }
   }
 
-  private void updateSingleEpisode(SeriesPostgres seriesPostgres, DBObject episodeDBObj) throws SQLException, ShowFailedException {
+  private void updateSingleEpisode(Series series, DBObject episodeDBObj) throws SQLException, ShowFailedException {
     EpisodeMongo episodeMongo = new EpisodeMongo();
     episodeMongo.initializeFromDBObject(episodeDBObj);
 
@@ -489,51 +489,51 @@ public class TVPostgresMigration {
     Integer tivoLocalEpisodeId = insertTiVoEpisodeAndReturnId(episodeMongo, tivoNativeEpisodeId);
 
     if (tvdbNativeEpisodeId != null) {
-      Integer tvdbLocalEpisodeId = insertTVDBEpisodeAndReturnId(episodeMongo, tvdbNativeEpisodeId, seriesPostgres.tvdbSeriesId.getValue());
+      Integer tvdbLocalEpisodeId = insertTVDBEpisodeAndReturnId(episodeMongo, tvdbNativeEpisodeId, series.tvdbSeriesId.getValue());
 
-      EpisodePostgres episodePostgres = new EpisodePostgres();
-      episodePostgres.initializeForInsert();
+      Episode episode = new Episode();
+      episode.initializeForInsert();
 
-      if (episodePostgres.id.getValue() == null) {
+      if (episode.id.getValue() == null) {
         debug("    * " + episodeMongo + " (INSERT)" + tvdbInfo + tivoInfo);
       } else {
         debug("    * " + episodeMongo + " (UPDATE)" + tvdbInfo + tivoInfo);
       }
 
-      episodePostgres.seriesId.changeValue(seriesPostgres.id.getValue());
-      episodePostgres.tvdbEpisodeId.changeValue(tvdbLocalEpisodeId);
+      episode.seriesId.changeValue(series.id.getValue());
+      episode.tvdbEpisodeId.changeValue(tvdbLocalEpisodeId);
 
-      updateSeasonNumber(seriesPostgres, episodeMongo, episodePostgres);
+      updateSeasonNumber(series, episodeMongo, episode);
 
-      copyAllEpisodeFields(episodeMongo, episodePostgres);
-      episodePostgres.commit(sqlConnection);
+      copyAllEpisodeFields(episodeMongo, episode);
+      episode.commit(sqlConnection);
 
       if (tivoLocalEpisodeId != null) {
-        episodePostgres.addToTiVoEpisodes(sqlConnection, tivoLocalEpisodeId);
+        episode.addToTiVoEpisodes(sqlConnection, tivoLocalEpisodeId);
       }
 
-      updateRetired(episodeMongo, episodePostgres);
+      updateRetired(episodeMongo, episode);
     }
 
   }
 
-  private void updateRetired(EpisodeMongo episodeMongo, EpisodePostgres episodePostgres) throws SQLException {
+  private void updateRetired(EpisodeMongo episodeMongo, Episode episode) throws SQLException {
     if (episodeMongo.matchingStump.getValue()) {
-      Integer id_after_insert = episodePostgres.id.getValue();
+      Integer id_after_insert = episode.id.getValue();
       if (id_after_insert == null) {
         throw new RuntimeException("Episode should have id after insert.");
       }
 
-      episodePostgres.retired.changeValue(id_after_insert);
-      episodePostgres.commit(sqlConnection);
+      episode.retired.changeValue(id_after_insert);
+      episode.commit(sqlConnection);
     }
   }
 
-  private void updateSeasonNumber(SeriesPostgres seriesPostgres, EpisodeMongo episodeMongo, EpisodePostgres episodePostgres) throws SQLException {
+  private void updateSeasonNumber(Series series, EpisodeMongo episodeMongo, Episode episode) throws SQLException {
     Integer seasonNumber = episodeMongo.tvdbSeason.getValue();
     if (seasonNumber != null) {
-      SeasonPostgres season = seriesPostgres.getOrCreateSeason(sqlConnection, seasonNumber);
-      episodePostgres.seasonId.changeValue(season.id.getValue());
+      Season season = series.getOrCreateSeason(sqlConnection, seasonNumber);
+      episode.seasonId.changeValue(season.id.getValue());
     }
   }
 
@@ -541,13 +541,13 @@ public class TVPostgresMigration {
     if (tvdbNativeEpisodeId == null) {
       return null;
     }
-    TVDBEpisodePostgres tvdbEpisodePostgres = getOrCreateTVDBEpisodePostgres(tvdbNativeEpisodeId);
+    TVDBEpisode tvdbEpisode = getOrCreateTVDBEpisodePostgres(tvdbNativeEpisodeId);
 
-    copyAllTVDBEpisodeFields(episodeMongo, tvdbEpisodePostgres);
-    tvdbEpisodePostgres.tvdbSeriesId.changeValue(tvdbSeriesId);
-    tvdbEpisodePostgres.commit(sqlConnection);
+    copyAllTVDBEpisodeFields(episodeMongo, tvdbEpisode);
+    tvdbEpisode.tvdbSeriesId.changeValue(tvdbSeriesId);
+    tvdbEpisode.commit(sqlConnection);
 
-    Integer tvdbLocalEpisodeId = tvdbEpisodePostgres.id.getValue();
+    Integer tvdbLocalEpisodeId = tvdbEpisode.id.getValue();
 
     if (tvdbLocalEpisodeId == null) {
       throw new RuntimeException("No ID populated on tvdb_episode postgres object after insert or update.");
@@ -560,147 +560,147 @@ public class TVPostgresMigration {
       return null;
     }
 
-    TiVoEpisodePostgres tiVoEpisodePostgres = getOrCreateTiVoEpisodePostgres(tivoNativeEpisodeId, episodeMongo.matchingStump.getValue() ? 1 : 0);
+    TiVoEpisode tiVoEpisode = getOrCreateTiVoEpisodePostgres(tivoNativeEpisodeId, episodeMongo.matchingStump.getValue() ? 1 : 0);
 
-    copyAllTiVoEpisodeFields(episodeMongo, tiVoEpisodePostgres);
-    tiVoEpisodePostgres.commit(sqlConnection);
+    copyAllTiVoEpisodeFields(episodeMongo, tiVoEpisode);
+    tiVoEpisode.commit(sqlConnection);
 
-    Integer tivoLocalEpisodeId = tiVoEpisodePostgres.id.getValue();
+    Integer tivoLocalEpisodeId = tiVoEpisode.id.getValue();
     if (tivoLocalEpisodeId == null) {
       throw new RuntimeException("No ID populated on tivo_episode postgres object after insert or update.");
     }
 
     if (episodeMongo.matchingStump.getValue()) {
-      tiVoEpisodePostgres.retired.changeValue(tivoLocalEpisodeId);
-      tiVoEpisodePostgres.commit(sqlConnection);
+      tiVoEpisode.retired.changeValue(tivoLocalEpisodeId);
+      tiVoEpisode.commit(sqlConnection);
     }
 
     return tivoLocalEpisodeId;
   }
 
-  private void copyAllEpisodeFields(EpisodeMongo episodeMongo, EpisodePostgres episodePostgres) {
-    episodePostgres.watchedDate.changeValueUnlessToNull(episodeMongo.watchedDate.getValue());
-    episodePostgres.onTiVo.changeValueUnlessToNull(episodeMongo.onTiVo.getValue());
-    episodePostgres.watched.changeValueUnlessToNull(episodeMongo.watched.getValue());
+  private void copyAllEpisodeFields(EpisodeMongo episodeMongo, Episode episode) {
+    episode.watchedDate.changeValueUnlessToNull(episodeMongo.watchedDate.getValue());
+    episode.onTiVo.changeValueUnlessToNull(episodeMongo.onTiVo.getValue());
+    episode.watched.changeValueUnlessToNull(episodeMongo.watched.getValue());
 
-    episodePostgres.seriesTitle.changeValueUnlessToNull(episodeMongo.tivoSeriesTitle.getValue());
+    episode.seriesTitle.changeValueUnlessToNull(episodeMongo.tivoSeriesTitle.getValue());
 
     String tivoTitle = episodeMongo.tivoEpisodeTitle.getValue();
     String tvdbTitle = episodeMongo.tvdbEpisodeName.getValue();
-    episodePostgres.title.changeValueUnlessToNull(tvdbTitle == null ? tivoTitle : tvdbTitle);
+    episode.title.changeValueUnlessToNull(tvdbTitle == null ? tivoTitle : tvdbTitle);
 
-    episodePostgres.season.changeValueUnlessToNull(episodeMongo.tvdbSeason.getValue());
-    episodePostgres.seasonEpisodeNumber.changeValueUnlessToNull(episodeMongo.tvdbEpisodeNumber.getValue());
-    episodePostgres.episodeNumber.changeValueUnlessToNull(episodeMongo.tvdbAbsoluteNumber.getValue());
-    episodePostgres.airDate.changeValueUnlessToNull(episodeMongo.tvdbFirstAired.getValue());
+    episode.season.changeValueUnlessToNull(episodeMongo.tvdbSeason.getValue());
+    episode.seasonEpisodeNumber.changeValueUnlessToNull(episodeMongo.tvdbEpisodeNumber.getValue());
+    episode.episodeNumber.changeValueUnlessToNull(episodeMongo.tvdbAbsoluteNumber.getValue());
+    episode.airDate.changeValueUnlessToNull(episodeMongo.tvdbFirstAired.getValue());
 
-    episodePostgres.dateAdded.changeValueUnlessToNull(episodeMongo.dateAdded.getValue());
+    episode.dateAdded.changeValueUnlessToNull(episodeMongo.dateAdded.getValue());
 
-    episodePostgres.retired.changeValueUnlessToNull(episodeMongo.matchingStump.getValue() ? 1 : 0);
+    episode.retired.changeValueUnlessToNull(episodeMongo.matchingStump.getValue() ? 1 : 0);
   }
 
-  private void copyAllTiVoEpisodeFields(EpisodeMongo episodeMongo, TiVoEpisodePostgres tiVoEpisodePostgres) {
-    tiVoEpisodePostgres.suggestion.changeValueUnlessToNull(episodeMongo.tivoSuggestion.getValue());
-    tiVoEpisodePostgres.title.changeValueUnlessToNull(episodeMongo.tivoEpisodeTitle.getValue());
-    tiVoEpisodePostgres.showingStartTime.changeValueUnlessToNull(episodeMongo.tivoShowingStartTime.getValue());
-    tiVoEpisodePostgres.showingDuration.changeValueUnlessToNull(episodeMongo.tivoShowingDuration.getValue());
-    tiVoEpisodePostgres.deletedDate.changeValueUnlessToNull(episodeMongo.tivoDeletedDate.getValue());
-    tiVoEpisodePostgres.captureDate.changeValueUnlessToNull(episodeMongo.tivoCaptureDate.getValue());
-    tiVoEpisodePostgres.hd.changeValueUnlessToNull(episodeMongo.tivoHD.getValue());
-    tiVoEpisodePostgres.episodeNumber.changeValueUnlessToNull(episodeMongo.tivoEpisodeNumber.getValue());
-    tiVoEpisodePostgres.duration.changeValueUnlessToNull(episodeMongo.tivoDuration.getValue());
-    tiVoEpisodePostgres.channel.changeValueUnlessToNull(episodeMongo.tivoChannel.getValue());
-    tiVoEpisodePostgres.rating.changeValueUnlessToNull(episodeMongo.tivoRating.getValue());
-    tiVoEpisodePostgres.tivoSeriesId.changeValueUnlessToNull(episodeMongo.tivoSeriesId.getValue());
-    tiVoEpisodePostgres.programId.changeValueUnlessToNull(episodeMongo.tivoProgramId.getValue());
-    tiVoEpisodePostgres.description.changeValueUnlessToNull(episodeMongo.tivoDescription.getValue());
-    tiVoEpisodePostgres.station.changeValueUnlessToNull(episodeMongo.tivoStation.getValue());
-    tiVoEpisodePostgres.url.changeValueUnlessToNull(episodeMongo.tivoUrl.getValue());
-    tiVoEpisodePostgres.seriesTitle.changeValueUnlessToNull(episodeMongo.tivoSeriesTitle.getValue());
-    tiVoEpisodePostgres.dateAdded.changeValueUnlessToNull(episodeMongo.dateAdded.getValue());
+  private void copyAllTiVoEpisodeFields(EpisodeMongo episodeMongo, TiVoEpisode tiVoEpisode) {
+    tiVoEpisode.suggestion.changeValueUnlessToNull(episodeMongo.tivoSuggestion.getValue());
+    tiVoEpisode.title.changeValueUnlessToNull(episodeMongo.tivoEpisodeTitle.getValue());
+    tiVoEpisode.showingStartTime.changeValueUnlessToNull(episodeMongo.tivoShowingStartTime.getValue());
+    tiVoEpisode.showingDuration.changeValueUnlessToNull(episodeMongo.tivoShowingDuration.getValue());
+    tiVoEpisode.deletedDate.changeValueUnlessToNull(episodeMongo.tivoDeletedDate.getValue());
+    tiVoEpisode.captureDate.changeValueUnlessToNull(episodeMongo.tivoCaptureDate.getValue());
+    tiVoEpisode.hd.changeValueUnlessToNull(episodeMongo.tivoHD.getValue());
+    tiVoEpisode.episodeNumber.changeValueUnlessToNull(episodeMongo.tivoEpisodeNumber.getValue());
+    tiVoEpisode.duration.changeValueUnlessToNull(episodeMongo.tivoDuration.getValue());
+    tiVoEpisode.channel.changeValueUnlessToNull(episodeMongo.tivoChannel.getValue());
+    tiVoEpisode.rating.changeValueUnlessToNull(episodeMongo.tivoRating.getValue());
+    tiVoEpisode.tivoSeriesId.changeValueUnlessToNull(episodeMongo.tivoSeriesId.getValue());
+    tiVoEpisode.programId.changeValueUnlessToNull(episodeMongo.tivoProgramId.getValue());
+    tiVoEpisode.description.changeValueUnlessToNull(episodeMongo.tivoDescription.getValue());
+    tiVoEpisode.station.changeValueUnlessToNull(episodeMongo.tivoStation.getValue());
+    tiVoEpisode.url.changeValueUnlessToNull(episodeMongo.tivoUrl.getValue());
+    tiVoEpisode.seriesTitle.changeValueUnlessToNull(episodeMongo.tivoSeriesTitle.getValue());
+    tiVoEpisode.dateAdded.changeValueUnlessToNull(episodeMongo.dateAdded.getValue());
 
-    tiVoEpisodePostgres.retired.changeValueUnlessToNull(episodeMongo.matchingStump.getValue() ? 1 : 0);
+    tiVoEpisode.retired.changeValueUnlessToNull(episodeMongo.matchingStump.getValue() ? 1 : 0);
   }
 
-  private void copyAllTVDBEpisodeFields(EpisodeMongo episodeMongo, TVDBEpisodePostgres tvdbEpisodePostgres) {
-    tvdbEpisodePostgres.seasonNumber.changeValue(episodeMongo.tvdbSeason.getValue());
-    tvdbEpisodePostgres.seasonId.changeValue(episodeMongo.tvdbSeasonId.getValue());
-    tvdbEpisodePostgres.tvdbId.changeValue(episodeMongo.tvdbEpisodeId.getValue());
-    tvdbEpisodePostgres.episodeNumber.changeValue(episodeMongo.tvdbEpisodeNumber.getValue());
-    tvdbEpisodePostgres.absoluteNumber.changeValue(episodeMongo.tvdbAbsoluteNumber.getValue());
-    tvdbEpisodePostgres.ratingCount.changeValue(episodeMongo.tvdbRatingCount.getValue());
-    tvdbEpisodePostgres.airsAfterSeason.changeValue(episodeMongo.tvdbAirsAfterSeason.getValue());
-    tvdbEpisodePostgres.airsBeforeSeason.changeValue(episodeMongo.tvdbAirsBeforeSeason.getValue());
-    tvdbEpisodePostgres.airsBeforeEpisode.changeValue(episodeMongo.tvdbAirsBeforeEpisode.getValue());
-    tvdbEpisodePostgres.thumbHeight.changeValue(episodeMongo.tvdbThumbHeight.getValue());
-    tvdbEpisodePostgres.thumbWidth.changeValue(episodeMongo.tvdbThumbWidth.getValue());
-    tvdbEpisodePostgres.firstAired.changeValue(episodeMongo.tvdbFirstAired.getValue());
-    tvdbEpisodePostgres.lastUpdated.changeValue(episodeMongo.tvdbLastUpdated.getValue());
-    tvdbEpisodePostgres.rating.changeValue(episodeMongo.tvdbRating.getValue());
-    tvdbEpisodePostgres.seriesName.changeValue(episodeMongo.tvdbSeriesName.getValue());
-    tvdbEpisodePostgres.name.changeValue(episodeMongo.tvdbEpisodeName.getValue());
-    tvdbEpisodePostgres.overview.changeValue(episodeMongo.tvdbOverview.getValue());
-    tvdbEpisodePostgres.productionCode.changeValue(episodeMongo.tvdbProductionCode.getValue());
-    tvdbEpisodePostgres.director.changeValue(episodeMongo.tvdbDirector.getValue());
-    tvdbEpisodePostgres.writer.changeValue(episodeMongo.tvdbWriter.getValue());
-    tvdbEpisodePostgres.filename.changeValue(episodeMongo.tvdbFilename.getValue());
-    tvdbEpisodePostgres.dateAdded.changeValue(episodeMongo.dateAdded.getValue());
+  private void copyAllTVDBEpisodeFields(EpisodeMongo episodeMongo, TVDBEpisode tvdbEpisode) {
+    tvdbEpisode.seasonNumber.changeValue(episodeMongo.tvdbSeason.getValue());
+    tvdbEpisode.seasonId.changeValue(episodeMongo.tvdbSeasonId.getValue());
+    tvdbEpisode.tvdbId.changeValue(episodeMongo.tvdbEpisodeId.getValue());
+    tvdbEpisode.episodeNumber.changeValue(episodeMongo.tvdbEpisodeNumber.getValue());
+    tvdbEpisode.absoluteNumber.changeValue(episodeMongo.tvdbAbsoluteNumber.getValue());
+    tvdbEpisode.ratingCount.changeValue(episodeMongo.tvdbRatingCount.getValue());
+    tvdbEpisode.airsAfterSeason.changeValue(episodeMongo.tvdbAirsAfterSeason.getValue());
+    tvdbEpisode.airsBeforeSeason.changeValue(episodeMongo.tvdbAirsBeforeSeason.getValue());
+    tvdbEpisode.airsBeforeEpisode.changeValue(episodeMongo.tvdbAirsBeforeEpisode.getValue());
+    tvdbEpisode.thumbHeight.changeValue(episodeMongo.tvdbThumbHeight.getValue());
+    tvdbEpisode.thumbWidth.changeValue(episodeMongo.tvdbThumbWidth.getValue());
+    tvdbEpisode.firstAired.changeValue(episodeMongo.tvdbFirstAired.getValue());
+    tvdbEpisode.lastUpdated.changeValue(episodeMongo.tvdbLastUpdated.getValue());
+    tvdbEpisode.rating.changeValue(episodeMongo.tvdbRating.getValue());
+    tvdbEpisode.seriesName.changeValue(episodeMongo.tvdbSeriesName.getValue());
+    tvdbEpisode.name.changeValue(episodeMongo.tvdbEpisodeName.getValue());
+    tvdbEpisode.overview.changeValue(episodeMongo.tvdbOverview.getValue());
+    tvdbEpisode.productionCode.changeValue(episodeMongo.tvdbProductionCode.getValue());
+    tvdbEpisode.director.changeValue(episodeMongo.tvdbDirector.getValue());
+    tvdbEpisode.writer.changeValue(episodeMongo.tvdbWriter.getValue());
+    tvdbEpisode.filename.changeValue(episodeMongo.tvdbFilename.getValue());
+    tvdbEpisode.dateAdded.changeValue(episodeMongo.dateAdded.getValue());
   }
 
-  private void copyAllTVDBSeriesFields(SeriesMongo seriesMongo, TVDBSeriesPostgres tvdbSeriesPostgres) {
-    tvdbSeriesPostgres.firstAired.changeValue(seriesMongo.tvdbFirstAired.getValue());
-    tvdbSeriesPostgres.tvdbId.changeValue(seriesMongo.tvdbId.getValue());
-    tvdbSeriesPostgres.tvdbSeriesId.changeValue(seriesMongo.tvdbSeriesId.getValue());
-    tvdbSeriesPostgres.ratingCount.changeValue(seriesMongo.tvdbRatingCount.getValue());
-    tvdbSeriesPostgres.runtime.changeValue(seriesMongo.tvdbRuntime.getValue());
-    tvdbSeriesPostgres.rating.changeValue(seriesMongo.tvdbRating.getValue());
-    tvdbSeriesPostgres.name.changeValue(seriesMongo.tvdbName.getValue());
-    tvdbSeriesPostgres.airsDayOfWeek.changeValue(seriesMongo.tvdbAirsDayOfWeek.getValue());
-    tvdbSeriesPostgres.airsTime.changeValue(seriesMongo.tvdbAirsTime.getValue());
-    tvdbSeriesPostgres.network.changeValue(seriesMongo.tvdbNetwork.getValue());
-    tvdbSeriesPostgres.overview.changeValue(seriesMongo.tvdbOverview.getValue());
-    tvdbSeriesPostgres.status.changeValue(seriesMongo.tvdbStatus.getValue());
-    tvdbSeriesPostgres.poster.changeValue(seriesMongo.tvdbPoster.getValue());
-    tvdbSeriesPostgres.banner.changeValue(seriesMongo.tvdbBanner.getValue());
-    tvdbSeriesPostgres.lastUpdated.changeValue(seriesMongo.tvdbLastUpdated.getValue());
-    tvdbSeriesPostgres.imdbId.changeValue(seriesMongo.imdbId.getValue());
-    tvdbSeriesPostgres.zap2it_id.changeValue(seriesMongo.zap2it_id.getValue());
-    tvdbSeriesPostgres.dateAdded.changeValue(seriesMongo.dateAdded.getValue());
+  private void copyAllTVDBSeriesFields(SeriesMongo seriesMongo, TVDBSeries tvdbSeries) {
+    tvdbSeries.firstAired.changeValue(seriesMongo.tvdbFirstAired.getValue());
+    tvdbSeries.tvdbId.changeValue(seriesMongo.tvdbId.getValue());
+    tvdbSeries.tvdbSeriesId.changeValue(seriesMongo.tvdbSeriesId.getValue());
+    tvdbSeries.ratingCount.changeValue(seriesMongo.tvdbRatingCount.getValue());
+    tvdbSeries.runtime.changeValue(seriesMongo.tvdbRuntime.getValue());
+    tvdbSeries.rating.changeValue(seriesMongo.tvdbRating.getValue());
+    tvdbSeries.name.changeValue(seriesMongo.tvdbName.getValue());
+    tvdbSeries.airsDayOfWeek.changeValue(seriesMongo.tvdbAirsDayOfWeek.getValue());
+    tvdbSeries.airsTime.changeValue(seriesMongo.tvdbAirsTime.getValue());
+    tvdbSeries.network.changeValue(seriesMongo.tvdbNetwork.getValue());
+    tvdbSeries.overview.changeValue(seriesMongo.tvdbOverview.getValue());
+    tvdbSeries.status.changeValue(seriesMongo.tvdbStatus.getValue());
+    tvdbSeries.poster.changeValue(seriesMongo.tvdbPoster.getValue());
+    tvdbSeries.banner.changeValue(seriesMongo.tvdbBanner.getValue());
+    tvdbSeries.lastUpdated.changeValue(seriesMongo.tvdbLastUpdated.getValue());
+    tvdbSeries.imdbId.changeValue(seriesMongo.imdbId.getValue());
+    tvdbSeries.zap2it_id.changeValue(seriesMongo.zap2it_id.getValue());
+    tvdbSeries.dateAdded.changeValue(seriesMongo.dateAdded.getValue());
   }
 
-  private void copyAllSeriesFields(SeriesMongo seriesMongo, SeriesPostgres seriesPostgres) {
-    seriesPostgres.tier.changeValue(seriesMongo.tier.getValue());
-    seriesPostgres.tivoSeriesId.changeValue(seriesMongo.tivoSeriesId.getValue());
-    seriesPostgres.tvdbId.changeValue(seriesMongo.tvdbId.getValue());
-    seriesPostgres.seriesTitle.changeValue(seriesMongo.seriesTitle.getValue());
-    seriesPostgres.tivoName.changeValue(seriesMongo.tivoName.getValue());
-    seriesPostgres.tvdbHint.changeValue(seriesMongo.tvdbHint.getValue());
-    seriesPostgres.ignoreTVDB.changeValue(seriesMongo.ignoreTVDB.getValue());
-    seriesPostgres.activeEpisodes.changeValue(seriesMongo.activeEpisodes.getValue());
-    seriesPostgres.deletedEpisodes.changeValue(seriesMongo.deletedEpisodes.getValue());
-    seriesPostgres.suggestionEpisodes.changeValue(seriesMongo.suggestionEpisodes.getValue());
-    seriesPostgres.unmatchedEpisodes.changeValue(seriesMongo.unmatchedEpisodes.getValue());
-    seriesPostgres.watchedEpisodes.changeValue(seriesMongo.watchedEpisodes.getValue());
-    seriesPostgres.unwatchedEpisodes.changeValue(seriesMongo.unwatchedEpisodes.getValue());
-    seriesPostgres.unwatchedUnrecorded.changeValue(seriesMongo.unwatchedUnrecorded.getValue());
-    seriesPostgres.tvdbOnlyEpisodes.changeValue(seriesMongo.tvdbOnlyEpisodes.getValue());
-    seriesPostgres.matchedEpisodes.changeValue(seriesMongo.matchedEpisodes.getValue());
-    seriesPostgres.metacritic.changeValue(seriesMongo.metacritic.getValue());
-    seriesPostgres.metacriticHint.changeValue(seriesMongo.metacriticHint.getValue());
-    seriesPostgres.lastUnwatched.changeValue(seriesMongo.lastUnwatched.getValue());
-    seriesPostgres.mostRecent.changeValue(seriesMongo.mostRecent.getValue());
-    seriesPostgres.isSuggestion.changeValue(seriesMongo.isSuggestion.getValue());
-    seriesPostgres.matchedWrong.changeValue(seriesMongo.matchedWrong.getValue());
-    seriesPostgres.needsTVDBRedo.changeValue(seriesMongo.needsTVDBRedo.getValue());
-    seriesPostgres.my_rating.changeValue(seriesMongo.myRating.getValue());
-    seriesPostgres.dateAdded.changeValue(seriesMongo.dateAdded.getValue());
+  private void copyAllSeriesFields(SeriesMongo seriesMongo, Series series) {
+    series.tier.changeValue(seriesMongo.tier.getValue());
+    series.tivoSeriesId.changeValue(seriesMongo.tivoSeriesId.getValue());
+    series.tvdbId.changeValue(seriesMongo.tvdbId.getValue());
+    series.seriesTitle.changeValue(seriesMongo.seriesTitle.getValue());
+    series.tivoName.changeValue(seriesMongo.tivoName.getValue());
+    series.tvdbHint.changeValue(seriesMongo.tvdbHint.getValue());
+    series.ignoreTVDB.changeValue(seriesMongo.ignoreTVDB.getValue());
+    series.activeEpisodes.changeValue(seriesMongo.activeEpisodes.getValue());
+    series.deletedEpisodes.changeValue(seriesMongo.deletedEpisodes.getValue());
+    series.suggestionEpisodes.changeValue(seriesMongo.suggestionEpisodes.getValue());
+    series.unmatchedEpisodes.changeValue(seriesMongo.unmatchedEpisodes.getValue());
+    series.watchedEpisodes.changeValue(seriesMongo.watchedEpisodes.getValue());
+    series.unwatchedEpisodes.changeValue(seriesMongo.unwatchedEpisodes.getValue());
+    series.unwatchedUnrecorded.changeValue(seriesMongo.unwatchedUnrecorded.getValue());
+    series.tvdbOnlyEpisodes.changeValue(seriesMongo.tvdbOnlyEpisodes.getValue());
+    series.matchedEpisodes.changeValue(seriesMongo.matchedEpisodes.getValue());
+    series.metacritic.changeValue(seriesMongo.metacritic.getValue());
+    series.metacriticHint.changeValue(seriesMongo.metacriticHint.getValue());
+    series.lastUnwatched.changeValue(seriesMongo.lastUnwatched.getValue());
+    series.mostRecent.changeValue(seriesMongo.mostRecent.getValue());
+    series.isSuggestion.changeValue(seriesMongo.isSuggestion.getValue());
+    series.matchedWrong.changeValue(seriesMongo.matchedWrong.getValue());
+    series.needsTVDBRedo.changeValue(seriesMongo.needsTVDBRedo.getValue());
+    series.my_rating.changeValue(seriesMongo.myRating.getValue());
+    series.dateAdded.changeValue(seriesMongo.dateAdded.getValue());
   }
 
-  private SeriesPostgres getOrCreateSeriesPostgresFromTiVoID(String tivoSeriesId) throws SQLException {
-    SeriesPostgres seriesPostgres = new SeriesPostgres();
+  private Series getOrCreateSeriesPostgresFromTiVoID(String tivoSeriesId) throws SQLException {
+    Series series = new Series();
     if (tivoSeriesId == null) {
-      seriesPostgres.initializeForInsert();
-      return seriesPostgres;
+      series.initializeForInsert();
+      return series;
     }
 
     String sql = "SELECT * FROM series WHERE tivo_series_id = ?";
@@ -710,18 +710,18 @@ public class TVPostgresMigration {
       if (devMode) {
         throw new RuntimeException("DEV MODE: Expect to never update. Found series already with existing TiVoSeriesID: " + tivoSeriesId);
       }
-      seriesPostgres.initializeFromDBObject(resultSet);
+      series.initializeFromDBObject(resultSet);
     } else {
-      seriesPostgres.initializeForInsert();
+      series.initializeForInsert();
     }
-    return seriesPostgres;
+    return series;
   }
 
-  private SeriesPostgres getOrCreateSeriesPostgresFromTVDBID(Integer tvdbId) throws SQLException {
-    SeriesPostgres seriesPostgres = new SeriesPostgres();
+  private Series getOrCreateSeriesPostgresFromTVDBID(Integer tvdbId) throws SQLException {
+    Series series = new Series();
     if (tvdbId == null) {
-      seriesPostgres.initializeForInsert();
-      return seriesPostgres;
+      series.initializeForInsert();
+      return series;
     }
 
     String sql = "SELECT * FROM series WHERE tvdb_id = ?";
@@ -731,71 +731,71 @@ public class TVPostgresMigration {
       if (devMode) {
         throw new RuntimeException("DEV MODE: Expect to never update. Found series already with existing TVDB ID: " + tvdbId);
       }
-      seriesPostgres.initializeFromDBObject(resultSet);
+      series.initializeFromDBObject(resultSet);
     } else {
-      seriesPostgres.initializeForInsert();
+      series.initializeForInsert();
     }
-    return seriesPostgres;
+    return series;
   }
 
-  private TiVoEpisodePostgres getOrCreateTiVoEpisodePostgres(String tivoProgramId, Integer retired) throws SQLException, ShowFailedException {
-    TiVoEpisodePostgres tiVoEpisodePostgres = new TiVoEpisodePostgres();
+  private TiVoEpisode getOrCreateTiVoEpisodePostgres(String tivoProgramId, Integer retired) throws SQLException, ShowFailedException {
+    TiVoEpisode tiVoEpisode = new TiVoEpisode();
 
     if (tivoProgramId == null) {
-      tiVoEpisodePostgres.initializeForInsert();
-      return tiVoEpisodePostgres;
+      tiVoEpisode.initializeForInsert();
+      return tiVoEpisode;
     }
 
     String sql = "SELECT * FROM tivo_episode WHERE program_id = ? and retired = ?";
     ResultSet resultSet = sqlConnection.prepareAndExecuteStatementFetch(sql, tivoProgramId, retired);
 
     if (resultSet.next()) {
-      tiVoEpisodePostgres.initializeFromDBObject(resultSet);
+      tiVoEpisode.initializeFromDBObject(resultSet);
     } else {
-      tiVoEpisodePostgres.initializeForInsert();
+      tiVoEpisode.initializeForInsert();
     }
-    return tiVoEpisodePostgres;
+    return tiVoEpisode;
   }
 
-  private TVDBEpisodePostgres getOrCreateTVDBEpisodePostgres(Integer tvdbEpisodeId) throws SQLException, ShowFailedException {
-    TVDBEpisodePostgres tvdbEpisodePostgres = new TVDBEpisodePostgres();
+  private TVDBEpisode getOrCreateTVDBEpisodePostgres(Integer tvdbEpisodeId) throws SQLException, ShowFailedException {
+    TVDBEpisode tvdbEpisode = new TVDBEpisode();
     if (tvdbEpisodeId == null) {
-      tvdbEpisodePostgres.initializeForInsert();
-      return tvdbEpisodePostgres;
+      tvdbEpisode.initializeForInsert();
+      return tvdbEpisode;
     }
 
     String sql = "SELECT * FROM tvdb_episode WHERE tvdb_id = ?";
     ResultSet resultSet = sqlConnection.prepareAndExecuteStatementFetch(sql, tvdbEpisodeId);
 
     if (resultSet.next()) {
-      tvdbEpisodePostgres.initializeFromDBObject(resultSet);
+      tvdbEpisode.initializeFromDBObject(resultSet);
       if (devMode) {
         throw new ShowFailedException("DEV MODE: Expect to never update. " +
             "Found tvdb_episode already with existing TVDB ID: " + tvdbEpisodeId +
-            ", " + tvdbEpisodePostgres);
+            ", " + tvdbEpisode);
       }
     } else {
-      tvdbEpisodePostgres.initializeForInsert();
+      tvdbEpisode.initializeForInsert();
     }
-    return tvdbEpisodePostgres;
+    return tvdbEpisode;
   }
 
-  private TVDBSeriesPostgres getOrCreateTVDBSeriesPostgres(Integer tvdbId) throws SQLException {
-    TVDBSeriesPostgres tvdbSeriesPostgres = new TVDBSeriesPostgres();
+  private TVDBSeries getOrCreateTVDBSeriesPostgres(Integer tvdbId) throws SQLException {
+    TVDBSeries tvdbSeries = new TVDBSeries();
     if (tvdbId == null) {
-      tvdbSeriesPostgres.initializeForInsert();
-      return tvdbSeriesPostgres;
+      tvdbSeries.initializeForInsert();
+      return tvdbSeries;
     }
 
     String sql = "SELECT * FROM tvdb_series WHERE tvdb_id = ?";
     ResultSet resultSet = sqlConnection.prepareAndExecuteStatementFetch(sql, tvdbId);
 
     if (resultSet.next()) {
-      tvdbSeriesPostgres.initializeFromDBObject(resultSet);
+      tvdbSeries.initializeFromDBObject(resultSet);
     } else {
-      tvdbSeriesPostgres.initializeForInsert();
+      tvdbSeries.initializeForInsert();
     }
-    return tvdbSeriesPostgres;
+    return tvdbSeries;
   }
 
   protected void debug(Object object) {

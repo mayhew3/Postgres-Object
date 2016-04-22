@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class EpisodePostgres extends DataObject {
+public class Episode extends DataObject {
 
   /* Foreign Keys */
   public FieldValue<Integer> tvdbEpisodeId = registerIntegerField("tvdb_episode_id");
@@ -49,22 +49,22 @@ public class EpisodePostgres extends DataObject {
   }
 
   public void addToTiVoEpisodes(SQLConnection connection, @NotNull Integer tivoLocalEpisodeId) throws SQLException {
-    List<TiVoEpisodePostgres> tiVoEpisodes = getTiVoEpisodes(connection);
+    List<TiVoEpisode> tiVoEpisodes = getTiVoEpisodes(connection);
     if (!hasMatch(tiVoEpisodes, tivoLocalEpisodeId)) {
-      EdgeTiVoEpisodePostgres edgeTiVoEpisodePostgres = new EdgeTiVoEpisodePostgres();
-      edgeTiVoEpisodePostgres.initializeForInsert();
+      EdgeTiVoEpisode edgeTiVoEpisode = new EdgeTiVoEpisode();
+      edgeTiVoEpisode.initializeForInsert();
 
-      edgeTiVoEpisodePostgres.tivoEpisodeId.changeValue(tivoLocalEpisodeId);
-      edgeTiVoEpisodePostgres.episodeId.changeValue(id.getValue());
-      edgeTiVoEpisodePostgres.retired.changeValue(0);
-      edgeTiVoEpisodePostgres.dateAdded.changeValue(new Date());
+      edgeTiVoEpisode.tivoEpisodeId.changeValue(tivoLocalEpisodeId);
+      edgeTiVoEpisode.episodeId.changeValue(id.getValue());
+      edgeTiVoEpisode.retired.changeValue(0);
+      edgeTiVoEpisode.dateAdded.changeValue(new Date());
 
-      edgeTiVoEpisodePostgres.commit(connection);
+      edgeTiVoEpisode.commit(connection);
     }
   }
 
-  private Boolean hasMatch(List<TiVoEpisodePostgres> tiVoEpisodes, Integer tivoLocalEpisodeId) {
-    for (TiVoEpisodePostgres tiVoEpisode : tiVoEpisodes) {
+  private Boolean hasMatch(List<TiVoEpisode> tiVoEpisodes, Integer tivoLocalEpisodeId) {
+    for (TiVoEpisode tiVoEpisode : tiVoEpisodes) {
       if (tivoLocalEpisodeId.equals(tiVoEpisode.id.getValue())) {
         return true;
       }
@@ -72,30 +72,30 @@ public class EpisodePostgres extends DataObject {
     return false;
   }
 
-  public List<TiVoEpisodePostgres> getTiVoEpisodes(SQLConnection connection) throws SQLException {
+  public List<TiVoEpisode> getTiVoEpisodes(SQLConnection connection) throws SQLException {
     String sql = "SELECT te.* " +
         "FROM tivo_episode te " +
         "INNER JOIN edge_tivo_episode e " +
         "  ON e.tivo_episode_id = te.id " +
         "WHERE e.episode_id = ?";
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, id.getValue());
-    List<TiVoEpisodePostgres> tiVoEpisodePostgresList = new ArrayList<>();
+    List<TiVoEpisode> tiVoEpisodeList = new ArrayList<>();
 
     while (resultSet.next()) {
-      TiVoEpisodePostgres tiVoEpisodePostgres = new TiVoEpisodePostgres();
-      tiVoEpisodePostgres.initializeFromDBObject(resultSet);
+      TiVoEpisode tiVoEpisode = new TiVoEpisode();
+      tiVoEpisode.initializeFromDBObject(resultSet);
 
-      tiVoEpisodePostgresList.add(tiVoEpisodePostgres);
+      tiVoEpisodeList.add(tiVoEpisode);
     }
 
-    return tiVoEpisodePostgresList;
+    return tiVoEpisodeList;
   }
 
-  public TVDBEpisodePostgres getTVDBEpisode(SQLConnection connection) throws SQLException, ShowFailedException {
+  public TVDBEpisode getTVDBEpisode(SQLConnection connection) throws SQLException, ShowFailedException {
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch("SELECT * FROM tvdb_episode WHERE id = ? AND retired = ?", tvdbEpisodeId.getValue(), 0);
 
     if (resultSet.next()) {
-      TVDBEpisodePostgres tvdbEpisode = new TVDBEpisodePostgres();
+      TVDBEpisode tvdbEpisode = new TVDBEpisode();
       tvdbEpisode.initializeFromDBObject(resultSet);
       return tvdbEpisode;
     } else {
@@ -103,11 +103,11 @@ public class EpisodePostgres extends DataObject {
     }
   }
 
-  public SeriesPostgres getSeries(SQLConnection connection) throws SQLException, ShowFailedException {
+  public Series getSeries(SQLConnection connection) throws SQLException, ShowFailedException {
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch("SELECT * FROM series WHERE id = ?", seriesId.getValue());
 
     if (resultSet.next()) {
-      SeriesPostgres series = new SeriesPostgres();
+      Series series = new Series();
       series.initializeFromDBObject(resultSet);
       return series;
     } else {

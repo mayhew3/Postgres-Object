@@ -1,6 +1,6 @@
 package com.mayhew3.gamesutil.tv;
 
-import com.mayhew3.gamesutil.dataobject.SeriesPostgres;
+import com.mayhew3.gamesutil.dataobject.Series;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.xml.BadlyFormattedXMLException;
@@ -42,7 +42,7 @@ public class TVDBUpdateRunner {
 
     while (resultSet.next()) {
       i++;
-      SeriesPostgres series = new SeriesPostgres();
+      Series series = new Series();
       series.initializeFromDBObject(resultSet);
 
       try {
@@ -64,7 +64,7 @@ public class TVDBUpdateRunner {
     }
   }
 
-  private void updateTVDB(SeriesPostgres series) throws SQLException, BadlyFormattedXMLException, ShowFailedException {
+  private void updateTVDB(Series series) throws SQLException, BadlyFormattedXMLException, ShowFailedException {
     TVDBSeriesUpdater updater = new TVDBSeriesUpdater(connection, series, new NodeReaderImpl());
     updater.updateSeries();
 
@@ -72,7 +72,7 @@ public class TVDBUpdateRunner {
     episodesUpdated += updater.getEpisodesUpdated();
   }
 
-  private void updateMetacritic(SeriesPostgres series) throws ShowFailedException {
+  private void updateMetacritic(Series series) throws ShowFailedException {
     MetacriticTVUpdater metacriticUpdater = new MetacriticTVUpdater(series, connection);
     metacriticUpdater.runUpdater();
   }

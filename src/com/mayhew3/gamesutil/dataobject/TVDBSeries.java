@@ -1,6 +1,6 @@
 package com.mayhew3.gamesutil.dataobject;
 
-public class TVDBSeriesPostgres extends DataObject {
+public class TVDBSeries extends DataObject {
 
   public FieldValueTimestamp firstAired = registerTimestampField("first_aired");
 

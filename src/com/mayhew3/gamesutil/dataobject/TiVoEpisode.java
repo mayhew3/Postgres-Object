@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TiVoEpisodePostgres extends DataObject {
+public class TiVoEpisode extends DataObject {
 
   public FieldValue<Boolean> suggestion = registerBooleanField("suggestion");
 
@@ -46,8 +46,8 @@ public class TiVoEpisodePostgres extends DataObject {
     return seriesTitle.getValue() + " " + episodeNumber.getValue() + ": " + title.getValue();
   }
 
-  public List<EpisodePostgres> getEpisodes(SQLConnection connection) throws SQLException {
-    List<EpisodePostgres> episodes = new ArrayList<>();
+  public List<Episode> getEpisodes(SQLConnection connection) throws SQLException {
+    List<Episode> episodes = new ArrayList<>();
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
         "SELECT e.* " +
             "FROM episode e " +
@@ -58,7 +58,7 @@ public class TiVoEpisodePostgres extends DataObject {
             "AND e.retired = ? ", id.getValue(), 0, 0);
 
     while (resultSet.next()) {
-      EpisodePostgres episode = new EpisodePostgres();
+      Episode episode = new Episode();
       episode.initializeFromDBObject(resultSet);
       episodes.add(episode);
     }

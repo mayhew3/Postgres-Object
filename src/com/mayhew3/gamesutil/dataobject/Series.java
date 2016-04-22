@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SeriesPostgres extends DataObject {
+public class Series extends DataObject {
 
   /* Foreign Keys */
   public FieldValueInteger tvdbSeriesId = registerIntegerField("tvdb_series_id");
@@ -83,34 +83,34 @@ public class SeriesPostgres extends DataObject {
    * @throws SQLException
    */
   @Nullable
-  public SeriesGenrePostgres addGenre(SQLConnection connection, String genreName) throws SQLException {
+  public SeriesGenre addGenre(SQLConnection connection, String genreName) throws SQLException {
     Preconditions.checkNotNull(id.getValue(), "Cannot insert join entity until Series object is committed (id is non-null)");
 
-    GenrePostgres genrePostgres = GenrePostgres.findOrCreate(connection, genreName);
+    Genre genre = Genre.findOrCreate(connection, genreName);
 
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
         "SELECT * FROM series_genre WHERE series_id = ? AND genre_id = ?",
         id.getValue(),
-        genrePostgres.id.getValue());
+        genre.id.getValue());
 
     if (!resultSet.next()) {
-      SeriesGenrePostgres seriesGenrePostgres = new SeriesGenrePostgres();
-      seriesGenrePostgres.initializeForInsert();
+      SeriesGenre seriesGenre = new SeriesGenre();
+      seriesGenre.initializeForInsert();
 
-      seriesGenrePostgres.seriesId.changeValue(id.getValue());
-      seriesGenrePostgres.genreId.changeValue(genrePostgres.id.getValue());
+      seriesGenre.seriesId.changeValue(id.getValue());
+      seriesGenre.genreId.changeValue(genre.id.getValue());
 
-      seriesGenrePostgres.commit(connection);
-      return seriesGenrePostgres;
+      seriesGenre.commit(connection);
+      return seriesGenre;
     }
 
     return null;
   }
 
-  public PossibleSeriesMatchPostgres addPossibleSeriesMatch(SQLConnection connection, Integer tvdbSeriesId, String title) throws SQLException {
+  public PossibleSeriesMatch addPossibleSeriesMatch(SQLConnection connection, Integer tvdbSeriesId, String title) throws SQLException {
     Preconditions.checkNotNull(id.getValue(), "Cannot insert join entity until Series object is committed (id is non-null)");
 
-    PossibleSeriesMatchPostgres matchPostgres = new PossibleSeriesMatchPostgres();
+    PossibleSeriesMatch matchPostgres = new PossibleSeriesMatch();
 
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
         "SELECT * FROM possible_series_match " +
@@ -138,61 +138,61 @@ public class SeriesPostgres extends DataObject {
    * @throws SQLException
    */
   @Nullable
-  public SeriesViewingLocationPostgres addViewingLocation(SQLConnection connection, String viewingLocationName) throws SQLException {
+  public SeriesViewingLocation addViewingLocation(SQLConnection connection, String viewingLocationName) throws SQLException {
     Preconditions.checkNotNull(id.getValue(), "Cannot insert join entity until Series object is committed (id is non-null)");
 
-    ViewingLocationPostgres viewingLocationPostgres = ViewingLocationPostgres.findOrCreate(connection, viewingLocationName);
+    ViewingLocation viewingLocation = ViewingLocation.findOrCreate(connection, viewingLocationName);
 
-    SeriesViewingLocationPostgres seriesViewingLocationPostgres = new SeriesViewingLocationPostgres();
+    SeriesViewingLocation seriesViewingLocation = new SeriesViewingLocation();
 
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
-        "SELECT * FROM " + seriesViewingLocationPostgres.getTableName() + " " +
-            "WHERE " + seriesViewingLocationPostgres.seriesId.getFieldName() + " = ? " +
-            "AND " + seriesViewingLocationPostgres.viewingLocationId.getFieldName() + " = ?",
+        "SELECT * FROM " + seriesViewingLocation.getTableName() + " " +
+            "WHERE " + seriesViewingLocation.seriesId.getFieldName() + " = ? " +
+            "AND " + seriesViewingLocation.viewingLocationId.getFieldName() + " = ?",
         id.getValue(),
-        viewingLocationPostgres.id.getValue());
+        viewingLocation.id.getValue());
 
     if (!resultSet.next()) {
-      seriesViewingLocationPostgres.initializeForInsert();
+      seriesViewingLocation.initializeForInsert();
 
-      seriesViewingLocationPostgres.seriesId.changeValue(id.getValue());
-      seriesViewingLocationPostgres.viewingLocationId.changeValue(viewingLocationPostgres.id.getValue());
+      seriesViewingLocation.seriesId.changeValue(id.getValue());
+      seriesViewingLocation.viewingLocationId.changeValue(viewingLocation.id.getValue());
 
-      seriesViewingLocationPostgres.commit(connection);
-      return seriesViewingLocationPostgres;
+      seriesViewingLocation.commit(connection);
+      return seriesViewingLocation;
     }
 
     return null;
   }
 
   @NotNull
-  public SeasonPostgres getOrCreateSeason(SQLConnection connection, Integer seasonNumber) throws SQLException {
+  public Season getOrCreateSeason(SQLConnection connection, Integer seasonNumber) throws SQLException {
     Preconditions.checkNotNull(id.getValue(), "Cannot insert join entity until Series object is committed (id is non-null)");
 
-    SeasonPostgres seasonPostgres = new SeasonPostgres();
+    Season season = new Season();
 
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
-        "SELECT * FROM " + seasonPostgres.getTableName() + " " +
-            "WHERE " + seasonPostgres.seriesId.getFieldName() + " = ? " +
-            "AND " + seasonPostgres.seasonNumber.getFieldName() + " = ?",
+        "SELECT * FROM " + season.getTableName() + " " +
+            "WHERE " + season.seriesId.getFieldName() + " = ? " +
+            "AND " + season.seasonNumber.getFieldName() + " = ?",
         id.getValue(),
         seasonNumber);
     if (resultSet.next()) {
-      seasonPostgres.initializeFromDBObject(resultSet);
+      season.initializeFromDBObject(resultSet);
     } else {
-      seasonPostgres.initializeForInsert();
-      seasonPostgres.seriesId.changeValue(id.getValue());
-      seasonPostgres.seasonNumber.changeValue(seasonNumber);
+      season.initializeForInsert();
+      season.seriesId.changeValue(id.getValue());
+      season.seasonNumber.changeValue(seasonNumber);
 
-      seasonPostgres.commit(connection);
+      season.commit(connection);
     }
 
-    return seasonPostgres;
+    return season;
   }
 
   @NotNull
-  public List<EpisodePostgres> getEpisodes(SQLConnection connection) throws SQLException {
-    List<EpisodePostgres> episodes = new ArrayList<>();
+  public List<Episode> getEpisodes(SQLConnection connection) throws SQLException {
+    List<Episode> episodes = new ArrayList<>();
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
         "SELECT e.* " +
             "FROM episode e " +
@@ -200,7 +200,7 @@ public class SeriesPostgres extends DataObject {
             "AND e.retired = ?", id.getValue(), 0);
 
     while (resultSet.next()) {
-      EpisodePostgres episode = new EpisodePostgres();
+      Episode episode = new Episode();
       episode.initializeFromDBObject(resultSet);
       episodes.add(episode);
     }
@@ -208,7 +208,7 @@ public class SeriesPostgres extends DataObject {
   }
 
   @NotNull
-  public TVDBSeriesPostgres getTVDBSeries(SQLConnection connection) throws SQLException {
+  public TVDBSeries getTVDBSeries(SQLConnection connection) throws SQLException {
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
         "SELECT * " +
             "FROM tvdb_series " +
@@ -220,8 +220,8 @@ public class SeriesPostgres extends DataObject {
       throw new IllegalStateException("No tvdb_series found with ID " + tvdbSeriesId.getValue());
     }
 
-    TVDBSeriesPostgres tvdbSeriesPostgres = new TVDBSeriesPostgres();
-    tvdbSeriesPostgres.initializeFromDBObject(resultSet);
-    return tvdbSeriesPostgres;
+    TVDBSeries tvdbSeries = new TVDBSeries();
+    tvdbSeries.initializeFromDBObject(resultSet);
+    return tvdbSeries;
   }
 }

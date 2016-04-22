@@ -1,9 +1,8 @@
 package com.mayhew3.gamesutil.tv;
 
 import com.mayhew3.gamesutil.dataobject.MetacriticSeason;
-import com.mayhew3.gamesutil.dataobject.SeriesPostgres;
+import com.mayhew3.gamesutil.dataobject.Series;
 import com.mayhew3.gamesutil.db.SQLConnection;
-import com.mongodb.BasicDBObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -16,10 +15,10 @@ import java.sql.SQLException;
 
 public class MetacriticTVUpdater {
 
-  private SeriesPostgres series;
+  private Series series;
   private SQLConnection connection;
 
-  public MetacriticTVUpdater(SeriesPostgres series, SQLConnection connection) {
+  public MetacriticTVUpdater(Series series, SQLConnection connection) {
     this.series = series;
     this.connection = connection;
   }

@@ -1,6 +1,6 @@
 package com.mayhew3.gamesutil.dataobject;
 
-public class SeriesGenrePostgres extends DataObject {
+public class SeriesGenre extends DataObject {
 
   /* Data */
   public FieldValueInteger seriesId = registerIntegerField("series_id");

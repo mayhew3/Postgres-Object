@@ -1,10 +1,8 @@
 package com.mayhew3.gamesutil.tv;
 
-import com.mayhew3.gamesutil.dataobject.ConnectLogPostgres;
+import com.mayhew3.gamesutil.dataobject.ConnectLog;
 import com.mayhew3.gamesutil.db.SQLConnection;
-import com.mongodb.*;
 
-import java.net.UnknownHostException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -38,7 +36,7 @@ public class ConnectionLogger {
       initialize();
     }
 
-    ConnectLogPostgres connectLog = new ConnectLogPostgres();
+    ConnectLog connectLog = new ConnectLog();
     connectLog.initializeForInsert();
 
     connectLog.startTime.changeValue(new Date());
@@ -56,7 +54,7 @@ public class ConnectionLogger {
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch("SELECT * FROM connect_log WHERE connection_id = ?", connectionID);
 
     if (resultSet.next()) {
-      ConnectLogPostgres connectLog = new ConnectLogPostgres();
+      ConnectLog connectLog = new ConnectLog();
       connectLog.initializeFromDBObject(resultSet);
 
       Timestamp startTime = connectLog.startTime.getValue();

@@ -1,6 +1,6 @@
 package com.mayhew3.gamesutil.dataobject;
 
-public class ConnectLogPostgres extends DataObject {
+public class ConnectLog extends DataObject {
 
   public FieldValueTimestamp startTime = registerTimestampField("start_time");
   public FieldValueTimestamp endTime = registerTimestampField("end_time");
