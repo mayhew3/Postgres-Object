@@ -69,6 +69,8 @@ public class TVDBDuplicateDataFixer {
     SQLConnection connection = new PostgresConnectionFactory().createLocalConnection();
     TVDBDuplicateDataFixer dataFixer = new TVDBDuplicateDataFixer(connection);
     dataFixer.runUpdate();
+
+    new SeriesDenormUpdater(connection).updateFields();
   }
 
   private void runUpdate() throws SQLException {
@@ -81,7 +83,8 @@ public class TVDBDuplicateDataFixer {
             "AND season <> ? " +
             "GROUP BY e.seriesid, e.series_title, e.season, e.season_episode_number\n" +
             "HAVING count(1) > ?\n" +
-            "ORDER BY e.series_title, e.season, e.season_episode_number", 0, 0, 1);
+            "ORDER BY e.series_title, e.season, e.season_episode_number",
+        0, 0, 1);
 
     while (resultSet.next()) {
       Integer seriesid = resultSet.getInt("seriesid");

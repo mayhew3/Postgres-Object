@@ -94,7 +94,7 @@ public abstract class DataObject {
         throw new IllegalStateException("Shouldn't find any original values on Insert object: '" + fieldValue.getFieldName() + "' field has value '"
             + fieldValue.getOriginalValue() + "', changed value '" + fieldValue.getChangedValue() + "'");
       }
-      if (fieldValue.isChanged()) {
+      if (fieldValue.isChanged() || fieldValue.getExplicitNull()) {
         changedFields.add(fieldValue);
       }
     }

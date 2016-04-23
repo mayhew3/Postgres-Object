@@ -10,6 +10,7 @@ public abstract class FieldValue<T> {
   private T originalValue;
   private T changedValue;
   private FieldConversion<T> converter;
+  private Boolean explicitNull = false;
 
   private Boolean wasText = false;
   protected Boolean isText = false;
@@ -63,6 +64,9 @@ public abstract class FieldValue<T> {
   }
 
   public void changeValue(T newValue) {
+    if (newValue == null) {
+      explicitNull = true;
+    }
     changedValue = newValue;
   }
 
@@ -106,4 +110,8 @@ public abstract class FieldValue<T> {
   }
 
   public abstract void updatePreparedStatement(PreparedStatement preparedStatement, int currentIndex) throws SQLException;
+
+  public Boolean getExplicitNull() {
+    return explicitNull;
+  }
 }

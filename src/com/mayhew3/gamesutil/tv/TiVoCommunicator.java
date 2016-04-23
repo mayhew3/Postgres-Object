@@ -63,6 +63,8 @@ public class TiVoCommunicator {
     }
 
     tiVoCommunicator.runUpdate(lookAtAllShows);
+
+    new SeriesDenormUpdater(connection).updateFields();
   }
 
   public void runUpdate(Boolean updateAllShows) throws SQLException, BadlyFormattedXMLException {

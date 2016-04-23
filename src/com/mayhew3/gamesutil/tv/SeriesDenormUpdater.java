@@ -22,6 +22,7 @@ public class SeriesDenormUpdater {
   }
 
   public void updateFields() throws SQLException {
+    debug("Updating denorms...");
     updateUnmatchedEpisodes();
     updateActiveEpisodes();
     updateUnwatchedEpisodes();
@@ -33,9 +34,11 @@ public class SeriesDenormUpdater {
     updateMatchedEpisodes();
     updateTVDBOnlyEpisodes();
     updateUnwatchedUnrecorded();
+    debug("Done updating denorms.");
   }
 
   private void updateUnwatchedUnrecorded() throws SQLException {
+    debug("- Unwatched Unrecorded");
     connection.prepareAndExecuteStatementUpdate(
         "update series\n" +
             "set unwatched_unrecorded = (select count(1)\n" +
@@ -50,6 +53,7 @@ public class SeriesDenormUpdater {
   }
 
   private void updateTVDBOnlyEpisodes() throws SQLException {
+    debug("- TVDB Only");
     connection.prepareAndExecuteStatementUpdate(
         "update series\n" +
             "set tvdb_only_episodes = (select count(1)\n" +
@@ -63,6 +67,7 @@ public class SeriesDenormUpdater {
   }
 
   private void updateMatchedEpisodes() throws SQLException {
+    debug("- Matched");
     connection.prepareAndExecuteStatementUpdate(
         "update series\n" +
             "set matched_episodes = (select count(1)\n" +
@@ -76,6 +81,7 @@ public class SeriesDenormUpdater {
   }
 
   private void updateWatchedEpisodes() throws SQLException {
+    debug("- Watched");
     connection.prepareAndExecuteStatementUpdate(
         "update series\n" +
             "set watched_episodes = (select count(1)\n" +
@@ -89,6 +95,7 @@ public class SeriesDenormUpdater {
   }
 
   private void updateSuggestionEpisodes() throws SQLException {
+    debug("- Suggestion");
     connection.prepareAndExecuteStatementUpdate(
         "update series\n" +
             "set suggestion_episodes = (select count(1)\n" +
@@ -111,6 +118,7 @@ public class SeriesDenormUpdater {
   }
 
   private void updateMostRecent() throws SQLException {
+    debug("- Most Recent");
     connection.prepareAndExecuteStatementUpdate(
         "update series\n" +
             "set most_recent = (select max(te.showing_start_time)\n" +
@@ -133,6 +141,7 @@ public class SeriesDenormUpdater {
   }
 
   private void updateLastUnwatched() throws SQLException {
+    debug("- Last Unwatched");
     connection.prepareAndExecuteStatementUpdate(
         "update series\n" +
             "set last_unwatched = (select max(te.showing_start_time)\n" +
@@ -156,6 +165,7 @@ public class SeriesDenormUpdater {
   }
 
   private void updateUnwatchedEpisodes() throws SQLException {
+    debug("- Unwatched");
     connection.prepareAndExecuteStatementUpdate(
         "update series s\n" +
             "set unwatched_episodes = (select count(1)\n" +
@@ -178,6 +188,7 @@ public class SeriesDenormUpdater {
   }
 
   private void updateActiveEpisodes() throws SQLException {
+    debug("- Active");
     connection.prepareAndExecuteStatementUpdate(
         "update series\n" +
             "set active_episodes = (select count(1)\n" +
@@ -199,6 +210,7 @@ public class SeriesDenormUpdater {
   }
 
   private void updateDeletedEpisodes() throws SQLException {
+    debug("- Deleted");
     connection.prepareAndExecuteStatementUpdate(
         "update series\n" +
             "set deleted_episodes = (select count(1)\n" +
@@ -219,6 +231,7 @@ public class SeriesDenormUpdater {
   }
 
   private void updateUnmatchedEpisodes() throws SQLException {
+    debug("- Unmatched");
     connection.prepareAndExecuteStatementUpdate(
         "update series\n" +
             "set unmatched_episodes = (select count(1)\n" +
@@ -227,6 +240,11 @@ public class SeriesDenormUpdater {
             "                            and te.tivo_series_id = series.tivo_series_id\n" +
             "                            and te.retired = ?)",
         0, 0);
+  }
+
+
+  protected void debug(Object object) {
+    System.out.println(object);
   }
 
 }

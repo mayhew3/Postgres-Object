@@ -43,11 +43,14 @@ public class TVPostgresMigration {
     List<String> argList = Lists.newArrayList(args);
     devMode = argList.contains("dev");
 
+    SQLConnection sqlConnection = new PostgresConnectionFactory().createConnection();
     TVPostgresMigration tvPostgresMigration = new TVPostgresMigration(
         new MongoConnection("tv"),
-        new PostgresConnectionFactory().createConnection());
+        sqlConnection);
 
     tvPostgresMigration.updatePostgresDatabase();
+
+    new SeriesDenormUpdater(sqlConnection).updateFields();
   }
 
   public void updatePostgresDatabase() throws SQLException {
@@ -244,6 +247,7 @@ public class TVPostgresMigration {
     movie.url.changeValue(episodeMongo.tivoUrl.getValue());
     movie.watched.changeValue(episodeMongo.watched.getValue());
     movie.watchedDate.changeValue(episodeMongo.watchedDate.getValue());
+    movie.dateAdded.changeValue(episodeMongo.dateAdded.getValue());
   }
 
   private void updateErrorLogs() throws SQLException {
@@ -594,7 +598,7 @@ public class TVPostgresMigration {
     episode.episodeNumber.changeValueUnlessToNull(episodeMongo.tvdbAbsoluteNumber.getValue());
     episode.airDate.changeValueUnlessToNull(episodeMongo.tvdbFirstAired.getValue());
 
-    episode.dateAdded.changeValueUnlessToNull(episodeMongo.dateAdded.getValue());
+    episode.dateAdded.changeValue(episodeMongo.dateAdded.getValue());
 
     episode.retired.changeValueUnlessToNull(episodeMongo.matchingStump.getValue() ? 1 : 0);
   }
@@ -617,7 +621,7 @@ public class TVPostgresMigration {
     tiVoEpisode.station.changeValueUnlessToNull(episodeMongo.tivoStation.getValue());
     tiVoEpisode.url.changeValueUnlessToNull(episodeMongo.tivoUrl.getValue());
     tiVoEpisode.seriesTitle.changeValueUnlessToNull(episodeMongo.tivoSeriesTitle.getValue());
-    tiVoEpisode.dateAdded.changeValueUnlessToNull(episodeMongo.dateAdded.getValue());
+    tiVoEpisode.dateAdded.changeValue(episodeMongo.dateAdded.getValue());
 
     tiVoEpisode.retired.changeValueUnlessToNull(episodeMongo.matchingStump.getValue() ? 1 : 0);
   }
