@@ -202,7 +202,7 @@ public class TiVoCommunicator {
 
         try {
           alreadyExists = parseAndUpdateSingleShow(showAttributes);
-        } catch (ShowFailedException e) {
+        } catch (Exception e) {
           e.printStackTrace();
           debug("Failed to parse TVDB data.");
         }
@@ -265,71 +265,36 @@ public class TiVoCommunicator {
    * @throws SQLException
    */
   private Boolean addEpisodeIfNotExists(NodeList showDetails, Series series, TiVoInfo tivoInfo) throws SQLException, BadlyFormattedXMLException {
-    ResultSet existingEpisode = getExistingTiVoEpisodes(tivoInfo.programId);
-    Boolean tivoEpisodeExists = existingEpisode.next();
+    ResultSet existingTiVoEpisode = getExistingTiVoEpisodes(tivoInfo.programId);
+    Boolean tivoEpisodeExists = existingTiVoEpisode.next();
 
     if (tivoEpisodeExists && !lookAtAllShows) {
       return true;
     }
 
+    TiVoEpisode tivoEpisode = getOrCreateTiVoEpisode(showDetails, tivoInfo, existingTiVoEpisode, tivoEpisodeExists);
 
-    TiVoEpisode tivoEpisode = getOrCreateTiVoEpisode(showDetails, tivoInfo, existingEpisode, tivoEpisodeExists);
-    TVDBEpisodeMatcher matcher = new TVDBEpisodeMatcher(sqlConnection, tivoEpisode, series.id.getValue());
-    TVDBEpisode tvdbEpisode = matcher.findTVDBEpisodeMatch();
+    List<Episode> linkedEpisodes = tivoEpisode.getEpisodes(sqlConnection);
 
-    Boolean tvdb_matched = false;
+    // if we already have any linked episodes, don't try to match again.
+    if (linkedEpisodes.isEmpty()) {
 
-    Episode episode = new Episode();
+      TVDBEpisodeMatcher matcher = new TVDBEpisodeMatcher(sqlConnection, tivoEpisode, series.id.getValue());
+      TVDBEpisode tvdbEpisode = matcher.findTVDBEpisodeMatch();
 
-    if (tvdbEpisode != null) {
-      if (tivoEpisodeExists) {
-
-        // todo: handle multiple rows returned
-        ResultSet existingEpisodeRow = getExistingEpisodeRows(tivoEpisode);
-        episode.initializeFromDBObject(existingEpisodeRow);
-
-      } else {
-        tvdb_matched = true;
-
-        ResultSet existingRow = getExistingEpisodeRow(tvdbEpisode);
-        episode.initializeFromDBObject(existingRow);
+      // if we found a good match for tivo episode, link it
+      if (tvdbEpisode != null) {
+        Episode episode = tvdbEpisode.getEpisode(sqlConnection);
 
         updatedShows++;
-      }
 
-      updateEpisodeAndSeries(series, tivoEpisode, episode, tvdb_matched);
+        episode.addToTiVoEpisodes(sqlConnection, tivoEpisode);
+        updateSeriesDenorms(tivoEpisode, episode, series);
+        series.commit(sqlConnection);
+      }
     }
 
     return false;
-  }
-
-  private void updateEpisodeAndSeries(Series series, TiVoEpisode tivoEpisode, Episode episode, Boolean matched) throws SQLException {
-    Integer tivo_episode_id = tivoEpisode.id.getValue();
-
-    episode.onTiVo.changeValue(true);
-    episode.seriesId.changeValue(series.id.getValue());
-
-    // use tivo info if there is no TVDB info.
-    if (episode.tvdbEpisodeId.getValue() == null) {
-      episode.title.changeValue(tivoEpisode.title.getValue());
-      episode.seriesTitle.changeValue(tivoEpisode.seriesTitle.getValue());
-    }
-
-    episode.commit(sqlConnection);
-
-    Integer episodeId = episode.id.getValue();
-
-    if (episodeId == null) {
-      throw new RuntimeException("Episode ID should never be null after insert or update!");
-    }
-
-    if (tivo_episode_id != null) {
-      episode.addToTiVoEpisodes(sqlConnection, tivo_episode_id);
-    }
-
-    updateSeriesDenorms(tivoEpisode, episode, series, matched);
-
-    series.commit(sqlConnection);
   }
 
   private TiVoEpisode getOrCreateTiVoEpisode(NodeList showDetails, TiVoInfo tivoInfo, ResultSet existingEpisode, Boolean tivoEpisodeExists) throws SQLException {
@@ -376,43 +341,13 @@ public class TiVoCommunicator {
     addedShows++;
   }
 
-  private ResultSet getExistingEpisodeRow(TVDBEpisode tvdbMatch) throws SQLException {
-    Integer tvdb_id = tvdbMatch.id.getValue();
-    ResultSet resultSet = sqlConnection.prepareAndExecuteStatementFetch(
-        "SELECT * " +
-            "FROM episode " +
-            "WHERE tvdb_episode_id = ?",
-        tvdb_id
-    );
-    if (!resultSet.next()) {
-      throw new RuntimeException("No episode row found pointing to existing TVDB_episode with ID " + tvdb_id);
-    }
-    return resultSet;
-  }
-
-  private ResultSet getExistingEpisodeRows(TiVoEpisode tiVoEpisode) throws SQLException {
-    Integer tivoEpisodeId = tiVoEpisode.id.getValue();
-    ResultSet resultSet = sqlConnection.prepareAndExecuteStatementFetch(
-        "SELECT e.* " +
-            "FROM episode e " +
-            "INNER JOIN edge_tivo_episode ete " +
-            "  ON ete.episode_id = e.id " +
-            "WHERE ete.tivo_episode_id = ?",
-        tivoEpisodeId
-    );
-    if (!resultSet.next()) {
-      throw new RuntimeException("No episode row found pointing to existing tivo_episode with ID " + tivoEpisodeId);
-    }
-    return resultSet;
-  }
-
 
   private Boolean isAfter(Date trackingDate, Date newDate) {
     return trackingDate == null || trackingDate.before(newDate);
   }
 
 
-  private void updateSeriesDenorms(TiVoEpisode tiVoEpisode, Episode episode, Series series, Boolean matched) {
+  private void updateSeriesDenorms(TiVoEpisode tiVoEpisode, Episode episode, Series series) {
 
     Boolean suggestion = tiVoEpisode.suggestion.getValue();
     Date showingStartTime = tiVoEpisode.showingStartTime.getValue();
@@ -425,14 +360,10 @@ public class TiVoCommunicator {
       series.unwatchedEpisodes.increment(1);
     }
 
-    if (matched) {
-      series.matchedEpisodes.increment(1);
-      series.tvdbOnlyEpisodes.increment(-1);
-      if (!watched) {
-        series.unwatchedUnrecorded.increment(-1);
-      }
-    } else {
-      series.unmatchedEpisodes.increment(1);
+    series.matchedEpisodes.increment(1);
+    series.tvdbOnlyEpisodes.increment(-1);
+    if (!watched) {
+      series.unwatchedUnrecorded.increment(-1);
     }
 
     if (isAfter(series.mostRecent.getValue(), showingStartTime)) {

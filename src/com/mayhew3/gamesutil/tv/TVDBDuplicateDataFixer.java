@@ -174,7 +174,7 @@ public class TVDBDuplicateDataFixer {
     mostRecentEpisode.commit(connection);
 
     for (TiVoEpisode tivoEpisode : tivoEpisodes) {
-      mostRecentEpisode.addToTiVoEpisodes(connection, tivoEpisode.id.getValue());
+      mostRecentEpisode.addToTiVoEpisodes(connection, tivoEpisode);
     }
 
     TVDBEpisode mostRecentTVDBEpisode = mostRecentEpisode.getTVDBEpisode(connection);
@@ -208,8 +208,7 @@ public class TVDBDuplicateDataFixer {
 
   private void unlinkAllTiVoEpisodes(Episode episode) throws SQLException {
     connection.prepareAndExecuteStatementUpdate("" +
-        "UPDATE edge_tivo_episode " +
-        "SET retired = id " +
+        "DELETE FROM edge_tivo_episode " +
         "WHERE episode_id = ?", episode.id.getValue());
   }
 
@@ -225,8 +224,7 @@ public class TVDBDuplicateDataFixer {
 
     if (betterMatchExists(tiVoEpisode, episode)) {
       connection.prepareAndExecuteStatementUpdate(
-          "UPDATE edge_tivo_episode " +
-              "SET retired = id " +
+          "DELETE FROM edge_tivo_episode " +
               "WHERE tivo_episode_id = ?", tiVoEpisode.id.getValue()
       );
       return true;

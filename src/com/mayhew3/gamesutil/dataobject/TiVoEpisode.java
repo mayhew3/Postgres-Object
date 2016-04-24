@@ -54,8 +54,7 @@ public class TiVoEpisode extends DataObject {
             "INNER JOIN edge_tivo_episode ete " +
             " ON ete.episode_id = e.id " +
             "WHERE ete.tivo_episode_id = ? " +
-            "AND ete.retired = ? " +
-            "AND e.retired = ? ", id.getValue(), 0, 0);
+            "AND e.retired = ? ", id.getValue(), 0);
 
     while (resultSet.next()) {
       Episode episode = new Episode();

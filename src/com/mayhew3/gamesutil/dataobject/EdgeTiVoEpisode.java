@@ -5,8 +5,6 @@ public class EdgeTiVoEpisode extends DataObject {
   public FieldValueInteger episodeId = registerIntegerField("episode_id");
   public FieldValueInteger tivoEpisodeId = registerIntegerField("tivo_episode_id");
 
-  public FieldValueInteger retired = registerIntegerField("retired");
-
   public FieldValueTimestamp dateAdded = registerTimestampField("date_added");
 
   @Override

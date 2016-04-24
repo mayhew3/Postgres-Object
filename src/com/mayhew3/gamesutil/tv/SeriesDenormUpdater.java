@@ -111,9 +111,8 @@ public class SeriesDenormUpdater {
             "                            and te.suggestion = ?\n" +
             "                            and te.deleted_date is null\n" +
             "                            and e.retired = ?\n" +
-            "                            and ete.retired = ?\n" +
             "                            and te.retired = ?)",
-        true, 0, true, 0, 0, 0
+        true, 0, true, 0, 0
     );
   }
 
@@ -134,9 +133,8 @@ public class SeriesDenormUpdater {
             "                            and te.deleted_date is null\n" +
             "                            and e.season <> ?\n" +
             "                            and e.retired = ?\n" +
-            "                            and te.retired = ? " +
-            "                            and ete.retired = ?)",
-        true, true, 0, 0, 0, 0
+            "                            and te.retired = ?)",
+        true, true, 0, 0, 0
     );
   }
 
@@ -158,9 +156,8 @@ public class SeriesDenormUpdater {
             "                            and e.watched <> ?\n" +
             "                            and e.season <> ?\n" +
             "                            and e.retired = ?\n" +
-            "                            and te.retired = ? " +
-            "                            and ete.retired = ? )",
-        true, true, true, 0, 0, 0, 0
+            "                            and te.retired = ?)",
+        true, true, true, 0, 0, 0
     );
   }
 
@@ -182,9 +179,8 @@ public class SeriesDenormUpdater {
             "                            and e.watched <> ?\n" +
             "                            and e.season <> ?\n" +
             "                            and e.retired = ?\n" +
-            "                            and ete.retired = ?\n" +
             "                            and te.retired = ?)",
-        true, true, true, 0, 0, 0, 0);
+        true, true, true, 0, 0, 0);
   }
 
   private void updateActiveEpisodes() throws SQLException {
@@ -204,9 +200,8 @@ public class SeriesDenormUpdater {
             "                            and e.season <> ?\n" +
             "                            and te.deleted_date is null\n" +
             "                            and e.retired = ?\n" +
-            "                            and ete.retired = ?\n" +
             "                            and te.retired = ?)",
-        true, false, 0, 0, 0, 0);
+        true, false, 0, 0, 0);
   }
 
   private void updateDeletedEpisodes() throws SQLException {
@@ -225,9 +220,8 @@ public class SeriesDenormUpdater {
             "                            and e.season <> ?\n" +
             "                            and te.deleted_date is not null\n" +
             "                            and e.retired = ?\n" +
-            "                            and ete.retired = ?\n" +
             "                            and te.retired = ?)",
-        true, 0, 0, 0, 0);
+        true, 0, 0, 0);
   }
 
   private void updateUnmatchedEpisodes() throws SQLException {
@@ -236,10 +230,10 @@ public class SeriesDenormUpdater {
         "update series\n" +
             "set unmatched_episodes = (select count(1)\n" +
             "                            from tivo_episode te\n" +
-            "                            where not exists (select 1 from edge_tivo_episode ete where ete.tivo_episode_id = te.id and retired = ?)\n" +
+            "                            where not exists (select 1 from edge_tivo_episode ete where ete.tivo_episode_id = te.id)\n" +
             "                            and te.tivo_series_id = series.tivo_series_id\n" +
             "                            and te.retired = ?)",
-        0, 0);
+        0);
   }
 
 

@@ -36,8 +36,10 @@ public class TVDBEpisodeMatcher {
             "INNER JOIN tvdb_episode te " +
             "  ON e.tvdb_episode_id = te.id " +
             "WHERE NOT EXISTS (SELECT 1 FROM edge_tivo_episode ete WHERE ete.episode_id = e.id) " +
-            "AND e.seriesid = ?",
-        seriesId
+            "AND e.seriesid = ? " +
+            "AND te.retired = ? " +
+            "AND e.retired = ? ",
+        seriesId, 0, 0
     );
 
     List<TVDBEpisode> tvdbEpisodes = new ArrayList<>();

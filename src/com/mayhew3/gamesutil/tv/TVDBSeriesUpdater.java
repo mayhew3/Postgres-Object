@@ -102,7 +102,7 @@ public class TVDBSeriesUpdater {
 
       if (tvdbEpisode != null) {
         Episode episode = tvdbEpisode.getEpisode(connection);
-        episode.addToTiVoEpisodes(connection, tivoEpisode.id.getValue());
+        episode.addToTiVoEpisodes(connection, tivoEpisode);
 
         newlyMatched.add(episode.season.getValue() + "x" + episode.seasonEpisodeNumber.getValue());
       }
@@ -121,11 +121,9 @@ public class TVDBSeriesUpdater {
             "WHERE te.tivo_series_id = ? " +
             "AND NOT EXISTS (SELECT 1 " +
                             "FROM edge_tivo_episode ete " +
-                            "WHERE ete.tivo_episode_id = te.id " +
-                            "AND ete.retired = ?) " +
+                            "WHERE ete.tivo_episode_id = te.id) " +
             "ORDER BY te.episode_number, te.showing_start_time",
-        series.tivoSeriesId.getValue(),
-        0
+        series.tivoSeriesId.getValue()
     );
     List<TiVoEpisode> tiVoEpisodes = new ArrayList<>();
     while (resultSet.next()) {
@@ -139,8 +137,7 @@ public class TVDBSeriesUpdater {
   private void unlinkAndRemoveEpisodes(Integer seriesId) throws SQLException {
 
     connection.prepareAndExecuteStatementUpdate(
-        "UPDATE edge_tivo_episode " +
-            "SET retired = id " +
+        "DELETE FROM edge_tivo_episode " +
             "WHERE episode_id IN (SELECT id " +
             "                     FROM episode " +
             "                     WHERE seriesid = ?)", seriesId

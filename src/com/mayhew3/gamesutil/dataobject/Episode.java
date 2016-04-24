@@ -48,15 +48,14 @@ public class Episode extends DataObject {
     return seriesTitle.getValue() + " " + season.getValue() + "x" + seasonEpisodeNumber.getValue() + ": " + title.getValue();
   }
 
-  public void addToTiVoEpisodes(SQLConnection connection, @NotNull Integer tivoLocalEpisodeId) throws SQLException {
+  public void addToTiVoEpisodes(SQLConnection connection, @NotNull TiVoEpisode tiVoEpisode) throws SQLException {
     List<TiVoEpisode> tiVoEpisodes = getTiVoEpisodes(connection);
-    if (!hasMatch(tiVoEpisodes, tivoLocalEpisodeId)) {
+    if (!hasMatch(tiVoEpisodes, tiVoEpisode.id.getValue())) {
       EdgeTiVoEpisode edgeTiVoEpisode = new EdgeTiVoEpisode();
       edgeTiVoEpisode.initializeForInsert();
 
-      edgeTiVoEpisode.tivoEpisodeId.changeValue(tivoLocalEpisodeId);
+      edgeTiVoEpisode.tivoEpisodeId.changeValue(tiVoEpisode.id.getValue());
       edgeTiVoEpisode.episodeId.changeValue(id.getValue());
-      edgeTiVoEpisode.retired.changeValue(0);
       edgeTiVoEpisode.dateAdded.changeValue(new Date());
 
       edgeTiVoEpisode.commit(connection);
@@ -80,8 +79,9 @@ public class Episode extends DataObject {
         "FROM tivo_episode te " +
         "INNER JOIN edge_tivo_episode e " +
         "  ON e.tivo_episode_id = te.id " +
-        "WHERE e.episode_id = ?";
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, id.getValue());
+        "WHERE e.episode_id = ? " +
+        "AND te.retired = ?";
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, id.getValue(), 0);
     List<TiVoEpisode> tiVoEpisodeList = new ArrayList<>();
 
     while (resultSet.next()) {

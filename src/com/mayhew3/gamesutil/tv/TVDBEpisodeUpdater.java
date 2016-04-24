@@ -72,7 +72,7 @@ class TVDBEpisodeUpdater {
         added = true;
       } else {
 
-        // todo: handle multiple rows returned
+        // todo: handle multiple rows returned MM-11
         ResultSet episodeRow = getEpisodeFromTiVoEpisodeID(tivoEpisode.id.getValue());
         episode.initializeFromDBObject(episodeRow);
         matched = true;
@@ -170,7 +170,6 @@ class TVDBEpisodeUpdater {
     );
   }
 
-  // todo: Handle finding two TiVo matches. MM-11
   private TiVoEpisode findTiVoMatch(String episodeTitle, String tvdbSeasonStr, String tvdbEpisodeNumberStr, String firstAiredStr, Integer seriesId) throws SQLException {
     List<TiVoEpisode> matchingEpisodes = new ArrayList<>();
 
@@ -183,9 +182,9 @@ class TVDBEpisodeUpdater {
             "  ON ete.episode_id = e.id " +
             "WHERE e.seriesid = ? " +
             "AND e.tvdb_episode_id IS NULL " +
-            "AND e.retired = ?",
-        seriesId,
-        0
+            "AND e.retired = ? " +
+            "AND te.retired = ? ",
+        seriesId, 0, 0
     );
 
     List<TiVoEpisode> episodes = new ArrayList<>();
@@ -301,14 +300,16 @@ class TVDBEpisodeUpdater {
 
   }
 
+  // todo: handle returning multiple episodes MM-11
   private ResultSet getEpisodeFromTiVoEpisodeID(Integer tivoEpisodeID) throws SQLException {
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
         "SELECT e.* " +
             "FROM episode e " +
             "INNER edge_tivo_episode ete " +
             "  ON ete.episode_id = e.id " +
-            "WHERE ete.tivo_episode_id = ?",
-        tivoEpisodeID
+            "WHERE ete.tivo_episode_id = ? " +
+            "AND e.retired = ? ",
+        tivoEpisodeID, 0
     );
     if (!resultSet.next()) {
       throw new RuntimeException("No row in episode matching tivo_episode_id " + tivoEpisodeID);

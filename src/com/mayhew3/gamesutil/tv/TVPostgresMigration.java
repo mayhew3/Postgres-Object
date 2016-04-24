@@ -13,6 +13,7 @@ import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
+import com.sun.istack.internal.Nullable;
 import org.bson.types.ObjectId;
 
 import java.net.URISyntaxException;
@@ -490,7 +491,7 @@ public class TVPostgresMigration {
     String tvdbInfo = (tvdbNativeEpisodeId == null) ? " (NO TVDB!)" : "";
     String tivoInfo = (tivoNativeEpisodeId == null) ? " (NO TiVo!)" : "";
 
-    Integer tivoLocalEpisodeId = insertTiVoEpisodeAndReturnId(episodeMongo, tivoNativeEpisodeId);
+    TiVoEpisode tiVoEpisode = insertTiVoEpisode(episodeMongo, tivoNativeEpisodeId);
 
     if (tvdbNativeEpisodeId != null) {
       Integer tvdbLocalEpisodeId = insertTVDBEpisodeAndReturnId(episodeMongo, tvdbNativeEpisodeId, series.tvdbSeriesId.getValue());
@@ -512,8 +513,8 @@ public class TVPostgresMigration {
       copyAllEpisodeFields(episodeMongo, episode);
       episode.commit(sqlConnection);
 
-      if (tivoLocalEpisodeId != null) {
-        episode.addToTiVoEpisodes(sqlConnection, tivoLocalEpisodeId);
+      if (tiVoEpisode != null) {
+        episode.addToTiVoEpisodes(sqlConnection, tiVoEpisode);
       }
 
       updateRetired(episodeMongo, episode);
@@ -559,7 +560,8 @@ public class TVPostgresMigration {
     return tvdbLocalEpisodeId;
   }
 
-  private Integer insertTiVoEpisodeAndReturnId(EpisodeMongo episodeMongo, String tivoNativeEpisodeId) throws SQLException, ShowFailedException {
+  @Nullable
+  private TiVoEpisode insertTiVoEpisode(EpisodeMongo episodeMongo, String tivoNativeEpisodeId) throws SQLException, ShowFailedException {
     if (tivoNativeEpisodeId == null) {
       return null;
     }
@@ -579,7 +581,7 @@ public class TVPostgresMigration {
       tiVoEpisode.commit(sqlConnection);
     }
 
-    return tivoLocalEpisodeId;
+    return tiVoEpisode;
   }
 
   private void copyAllEpisodeFields(EpisodeMongo episodeMongo, Episode episode) {
