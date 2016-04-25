@@ -1,7 +1,9 @@
 package com.mayhew3.gamesutil.tv;
 
+import com.google.common.collect.Lists;
 import com.mayhew3.gamesutil.dataobject.MetacriticSeason;
 import com.mayhew3.gamesutil.dataobject.Series;
+import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -10,25 +12,81 @@ import org.jsoup.nodes.Node;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 public class MetacriticTVUpdater {
 
-  private Series series;
   private SQLConnection connection;
 
-  public MetacriticTVUpdater(Series series, SQLConnection connection) {
-    this.series = series;
+  public MetacriticTVUpdater(SQLConnection connection) {
     this.connection = connection;
   }
 
-  public void runUpdater() throws ShowFailedException {
-    parseMetacritic();
+  public static void main(String... args) throws URISyntaxException, SQLException, MetacriticException {
+    List<String> argList = Lists.newArrayList(args);
+    Boolean singleSeries = argList.contains("SingleSeries");
+
+    SQLConnection connection = new PostgresConnectionFactory().createLocalConnection();
+    MetacriticTVUpdater metacriticTVUpdater = new MetacriticTVUpdater(connection);
+
+    if (singleSeries) {
+      metacriticTVUpdater.runUpdateSingle();
+    } else {
+      metacriticTVUpdater.runUpdater();
+    }
   }
 
-  private void parseMetacritic() throws ShowFailedException {
+  public void runUpdater() throws SQLException {
+    String sql = "select *\n" +
+        "from series\n" +
+        "where ignore_tvdb = ? ";
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, false);
+
+    runUpdateOnResultSet(resultSet);
+  }
+
+  private void runUpdateSingle() throws SQLException {
+    String singleSeriesTitle = "Idiotsitter"; // update for testing on a single series
+
+    String sql = "select *\n" +
+        "from series\n" +
+        "where ignore_tvdb = ? " +
+        "and title = ? ";
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, false, singleSeriesTitle);
+
+    runUpdateOnResultSet(resultSet);
+  }
+
+  private void runUpdateOnResultSet(ResultSet resultSet) throws SQLException {
+    debug("Starting update.");
+
+    int i = 0;
+
+    while (resultSet.next()) {
+      i++;
+      Series series = new Series();
+      series.initializeFromDBObject(resultSet);
+
+      try {
+        parseMetacritic(series);
+      } catch (MetacriticException e) {
+        debug("Unable to find metacritic for: " + series.seriesTitle.getValue());
+      } catch (Exception e) {
+        e.printStackTrace();
+        debug("Uncaught exception during metacritic fetch: " + series.seriesTitle.getValue());
+      }
+
+      debug(i + " processed.");
+    }
+  }
+
+  private void parseMetacritic(Series series) throws MetacriticException, SQLException {
     String title = series.seriesTitle.getValue();
+    debug("Metacritic update for: " + title);
+
     String hint = series.metacriticHint.getValue();
     String formattedTitle = hint == null ?
         title
@@ -43,18 +101,16 @@ public class MetacriticTVUpdater {
     Boolean failed = false;
 
     try {
-      findMetacriticForString(formattedTitle, 1);
+      findMetacriticForString(series, formattedTitle, 1);
     } catch (IOException e) {
-      throw new ShowFailedException("Couldn't find Metacritic page for series '" + title + "' with formatted '" + formattedTitle + "'");
-    } catch (SQLException e) {
-      throw new ShowFailedException("Error updating DB for series '" + title + "' with formatted '" + formattedTitle + "'");
+      throw new MetacriticException("Couldn't find Metacritic page for series '" + title + "' with formatted '" + formattedTitle + "'");
     }
 
     while (!failed) {
       seasonNumber++;
 
       try {
-        findMetacriticForString(formattedTitle + "/season-" + seasonNumber, seasonNumber);
+        findMetacriticForString(series, formattedTitle + "/season-" + seasonNumber, seasonNumber);
       } catch (Exception e) {
         failed = true;
         debug("Finished finding seasons after Season " + (seasonNumber-1));
@@ -63,7 +119,7 @@ public class MetacriticTVUpdater {
 
   }
 
-  private void findMetacriticForString(String formattedTitle, Integer season) throws IOException, ShowFailedException, SQLException {
+  private void findMetacriticForString(Series series, String formattedTitle, Integer season) throws IOException, SQLException, MetacriticException {
     Document document = Jsoup.connect("http://www.metacritic.com/tv/" + formattedTitle)
         .timeout(3000)
         .userAgent("Mozilla")
@@ -72,7 +128,7 @@ public class MetacriticTVUpdater {
     if (season > 1) {
       Elements select = document.select("[href=/tv/" + formattedTitle + "]");
       if (select.isEmpty()) {
-        throw new ShowFailedException("Current season doesn't exist.");
+        throw new MetacriticException("Current season doesn't exist.");
       }
     }
 
@@ -80,7 +136,7 @@ public class MetacriticTVUpdater {
     Element first = elements.first();
 
     if (first == null) {
-      throw new ShowFailedException("Page found, but no element found with 'ratingValue' id.");
+      throw new MetacriticException("Page found, but no element found with 'ratingValue' id.");
     }
 
     Node metacriticValue = first.childNodes().get(0);

@@ -54,7 +54,7 @@ public class TiVoCommunicator {
     Boolean lookAtAllShows = argList.contains("FullMode");
     Boolean dev = argList.contains("Dev");
 
-    SQLConnection connection = new PostgresConnectionFactory().createConnection();
+    SQLConnection connection = new PostgresConnectionFactory().createLocalConnection();
 
     TiVoCommunicator tiVoCommunicator = new TiVoCommunicator(connection);
 

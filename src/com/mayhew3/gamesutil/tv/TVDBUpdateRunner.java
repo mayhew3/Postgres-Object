@@ -28,7 +28,7 @@ public class TVDBUpdateRunner {
     List<String> argList = Lists.newArrayList(args);
     Boolean singleSeries = argList.contains("SingleSeries");
 
-    SQLConnection connection = new PostgresConnectionFactory().createConnection();
+    SQLConnection connection = new PostgresConnectionFactory().createLocalConnection();
     TVDBUpdateRunner tvdbUpdateRunner = new TVDBUpdateRunner(connection);
 
     if (singleSeries) {
@@ -94,13 +94,6 @@ public class TVDBUpdateRunner {
     series.initializeFromDBObject(resultSet);
 
     try {
-      updateMetacritic(series);
-    } catch (Exception e) {
-      e.printStackTrace();
-      debug("Show failed metacritic: " + series.seriesTitle.getValue());
-    }
-
-    try {
       updateTVDB(series);
     } catch (Exception e) {
       e.printStackTrace();
@@ -115,12 +108,6 @@ public class TVDBUpdateRunner {
     episodesAdded += updater.getEpisodesAdded();
     episodesUpdated += updater.getEpisodesUpdated();
   }
-
-  private void updateMetacritic(Series series) throws ShowFailedException {
-    MetacriticTVUpdater metacriticUpdater = new MetacriticTVUpdater(series, connection);
-    metacriticUpdater.runUpdater();
-  }
-
 
   public Integer getSeriesUpdates() {
     return seriesUpdates;

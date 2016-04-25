@@ -44,7 +44,7 @@ public class TVPostgresMigration {
     List<String> argList = Lists.newArrayList(args);
     devMode = argList.contains("dev");
 
-    SQLConnection sqlConnection = new PostgresConnectionFactory().createConnection();
+    SQLConnection sqlConnection = new PostgresConnectionFactory().createLocalConnection();
     TVPostgresMigration tvPostgresMigration = new TVPostgresMigration(
         new MongoConnection("tv"),
         sqlConnection);

@@ -72,6 +72,16 @@ public class TiVoLibraryUpdater {
       }
     }
 
+    if (!tiVoOnly && !tvdbOnly) {
+      try {
+        MetacriticTVUpdater metacriticTVUpdater = new MetacriticTVUpdater(connection);
+        metacriticTVUpdater.runUpdater();
+      } catch (Exception e) {
+        debug("Uncaught exception during metacritic update.");
+        e.printStackTrace();
+      }
+    }
+
     try {
       debug("Updating denorms...");
       SeriesDenormUpdater denormUpdater = new SeriesDenormUpdater(connection);
