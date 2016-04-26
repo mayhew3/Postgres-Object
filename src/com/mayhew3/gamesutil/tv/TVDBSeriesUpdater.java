@@ -22,13 +22,13 @@ import java.util.Objects;
 
 public class TVDBSeriesUpdater {
 
-  Series series;
+  private Series series;
 
   private SQLConnection connection;
   private NodeReader nodeReader;
 
-  Integer _episodesAdded = 0;
-  Integer _episodesUpdated = 0;
+  private Integer _episodesAdded = 0;
+  private Integer _episodesUpdated = 0;
 
   public TVDBSeriesUpdater(SQLConnection connection,
                            @NotNull Series series,
@@ -39,7 +39,7 @@ public class TVDBSeriesUpdater {
   }
 
 
-  public void updateSeries() throws SQLException, BadlyFormattedXMLException, ShowFailedException {
+  void updateSeries() throws SQLException, BadlyFormattedXMLException, ShowFailedException {
     String seriesTitle = series.seriesTitle.getValue();
     String seriesTiVoId = series.tivoSeriesId.getValue();
 
@@ -69,7 +69,10 @@ public class TVDBSeriesUpdater {
         }
 
         updateShowData(series);
-        tryToMatchUnmatchedEpisodes(series);
+
+        if (series.tivoSeriesId.getValue() != null) {
+          tryToMatchUnmatchedEpisodes(series);
+        }
       }
     }
   }
@@ -104,7 +107,7 @@ public class TVDBSeriesUpdater {
         Episode episode = tvdbEpisode.getEpisode(connection);
         episode.addToTiVoEpisodes(connection, tivoEpisode);
 
-        newlyMatched.add(episode.season.getValue() + "x" + episode.seasonEpisodeNumber.getValue());
+        newlyMatched.add(episode.getSeason() + "x" + episode.seasonEpisodeNumber.getValue());
       }
     }
 
@@ -461,11 +464,11 @@ public class TVDBSeriesUpdater {
   }
 
 
-  public Integer getEpisodesAdded() {
+  Integer getEpisodesAdded() {
     return _episodesAdded;
   }
 
-  public Integer getEpisodesUpdated() {
+  Integer getEpisodesUpdated() {
     return _episodesUpdated;
   }
 

@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Objects;
 
 class TVDBEpisodeUpdater {
-  public enum EPISODE_RESULT {ADDED, UPDATED, NONE}
+  enum EPISODE_RESULT {ADDED, UPDATED, NONE}
 
   private Series series;
   private NodeList episodeNode;
@@ -37,7 +37,7 @@ class TVDBEpisodeUpdater {
    * @throws SQLException If DB query error
    * @throws ShowFailedException If multiple episodes were found to update
    */
-  public EPISODE_RESULT updateSingleEpisode() throws SQLException, ShowFailedException {
+  EPISODE_RESULT updateSingleEpisode() throws SQLException, ShowFailedException {
     Integer tvdbRemoteId = Integer.valueOf(nodeReader.getValueOfSimpleStringNode(episodeNode, "id"));
 
     Integer seriesId = series.id.getValue();
@@ -125,12 +125,10 @@ class TVDBEpisodeUpdater {
     episode.seriesTitle.changeValueFromString(series.seriesTitle.getValue());
     episode.tvdbEpisodeId.changeValue(tvdbEpisode.id.getValue());
     episode.title.changeValue(episodename);
-    episode.season.changeValueFromString(seasonnumber);
+    episode.setSeasonFromString(seasonnumber, connection);
     episode.episodeNumber.changeValueFromString(absoluteNumber);
     episode.seasonEpisodeNumber.changeValueFromString(episodenumber);
     episode.airDate.changeValueFromString(firstaired);
-
-    // todo: add or get season object
 
     if (episode.hasChanged()) {
       changed = true;

@@ -1,8 +1,10 @@
 package com.mayhew3.gamesutil.dataobject;
 
+import com.google.common.base.Preconditions;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.tv.ShowFailedException;
 import com.sun.istack.internal.NotNull;
+import com.sun.istack.internal.Nullable;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,7 +19,7 @@ public class Episode extends DataObject {
   public FieldValueInteger seasonId = registerIntegerField("season_id");
 
   /* Data */
-  public FieldValue<Integer> season = registerIntegerField("season");
+  private FieldValue<Integer> season = registerIntegerField("season");
   public FieldValue<Integer> seasonEpisodeNumber = registerIntegerField("season_episode_number");
   public FieldValue<Integer> episodeNumber = registerIntegerField("episode_number");
 
@@ -118,6 +120,47 @@ public class Episode extends DataObject {
     }
   }
 
+  public Integer getSeason() {
+    return season.getValue();
+  }
+
+  public void changeSeasonUnlessToNull(@Nullable Integer seasonNumber, SQLConnection connection) throws SQLException {
+    season.changeValueUnlessToNull(seasonNumber);
+    updateSeasonRow(seasonNumber, connection);
+  }
+
+  public void setSeasonFromString(String seasonNumber, SQLConnection connection) throws SQLException {
+    season.changeValueFromString(seasonNumber);
+    updateSeasonRow(season.getValue(), connection);
+  }
+
+
+  private void updateSeasonRow(Integer seasonNumber, SQLConnection connection) throws SQLException {
+    Preconditions.checkState(seriesId.getValue() != null, "Can't update the season if there is no associated seriesid yet.");
+
+    if (seasonId.getValue() == null) {
+      ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
+          "SELECT * " +
+              "FROM season s " +
+              "WHERE s.series_id = ? " +
+              "AND s.season_number = ? ",
+          seriesId.getValue(), seasonNumber);
+
+      Season seasonObject = new Season();
+      if (resultSet.next()) {
+        seasonObject.initializeFromDBObject(resultSet);
+      } else {
+        seasonObject.initializeForInsert();
+        seasonObject.dateAdded.changeValue(new Date());
+        seasonObject.dateModified.changeValue(new Date());
+        seasonObject.seasonNumber.changeValue(seasonNumber);
+        seasonObject.seriesId.changeValue(seriesId.getValue());
+
+        seasonObject.commit(connection);
+      }
+      seasonId.changeValue(seasonObject.id.getValue());
+    }
+  }
 
 
   public Boolean getWatched() {

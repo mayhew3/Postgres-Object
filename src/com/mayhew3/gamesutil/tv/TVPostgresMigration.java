@@ -33,7 +33,7 @@ public class TVPostgresMigration {
   private Map<ObjectId, ShowFailedException> failedEpisodes;
   private Map<String, ShowFailedException> failedMovies;
 
-  public TVPostgresMigration(MongoConnection mongoConnection, SQLConnection sqlConnection) {
+  private TVPostgresMigration(MongoConnection mongoConnection, SQLConnection sqlConnection) {
     this.failedEpisodes = new HashMap<>();
     this.failedMovies = new HashMap<>();
     this.mongoConnection = mongoConnection;
@@ -54,7 +54,7 @@ public class TVPostgresMigration {
     new SeriesDenormUpdater(sqlConnection).updateFields();
   }
 
-  public void updatePostgresDatabase() throws SQLException {
+  private void updatePostgresDatabase() throws SQLException {
     if (devMode) {
       truncatePostgresTables();
     }
@@ -584,7 +584,7 @@ public class TVPostgresMigration {
     return tiVoEpisode;
   }
 
-  private void copyAllEpisodeFields(EpisodeMongo episodeMongo, Episode episode) {
+  private void copyAllEpisodeFields(EpisodeMongo episodeMongo, Episode episode) throws SQLException {
     episode.watchedDate.changeValueUnlessToNull(episodeMongo.watchedDate.getValue());
     episode.onTiVo.changeValueUnlessToNull(episodeMongo.onTiVo.getValue());
     episode.watched.changeValueUnlessToNull(episodeMongo.watched.getValue());
@@ -595,7 +595,7 @@ public class TVPostgresMigration {
     String tvdbTitle = episodeMongo.tvdbEpisodeName.getValue();
     episode.title.changeValueUnlessToNull(tvdbTitle == null ? tivoTitle : tvdbTitle);
 
-    episode.season.changeValueUnlessToNull(episodeMongo.tvdbSeason.getValue());
+    episode.changeSeasonUnlessToNull(episodeMongo.tvdbSeason.getValue(), sqlConnection);
     episode.seasonEpisodeNumber.changeValueUnlessToNull(episodeMongo.tvdbEpisodeNumber.getValue());
     episode.episodeNumber.changeValueUnlessToNull(episodeMongo.tvdbAbsoluteNumber.getValue());
     episode.airDate.changeValueUnlessToNull(episodeMongo.tvdbFirstAired.getValue());
