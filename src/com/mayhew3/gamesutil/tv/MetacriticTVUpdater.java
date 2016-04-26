@@ -1,7 +1,7 @@
 package com.mayhew3.gamesutil.tv;
 
 import com.google.common.collect.Lists;
-import com.mayhew3.gamesutil.dataobject.MetacriticSeason;
+import com.mayhew3.gamesutil.dataobject.Season;
 import com.mayhew3.gamesutil.dataobject.Series;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 public class MetacriticTVUpdater {
@@ -119,13 +120,13 @@ public class MetacriticTVUpdater {
 
   }
 
-  private void findMetacriticForString(Series series, String formattedTitle, Integer season) throws IOException, SQLException, MetacriticException {
+  private void findMetacriticForString(Series series, String formattedTitle, Integer seasonNumber) throws IOException, SQLException, MetacriticException {
     Document document = Jsoup.connect("http://www.metacritic.com/tv/" + formattedTitle)
         .timeout(3000)
         .userAgent("Mozilla")
         .get();
 
-    if (season > 1) {
+    if (seasonNumber > 1) {
       Elements select = document.select("[href=/tv/" + formattedTitle + "]");
       if (select.isEmpty()) {
         throw new MetacriticException("Current season doesn't exist.");
@@ -144,25 +145,32 @@ public class MetacriticTVUpdater {
     Integer metaCritic = Integer.valueOf(metacriticValue.toString());
 
     String sql = "SELECT * " +
-        "FROM metacritic_season " +
+        "FROM season " +
         "WHERE series_id = ? " +
-        "AND season = ?";
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, series.id.getValue(), season);
+        "AND season_number = ?";
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, series.id.getValue(), seasonNumber);
 
-    MetacriticSeason metacriticSeason = new MetacriticSeason();
+    Season season = new Season();
 
     if (resultSet.next()) {
-      metacriticSeason.initializeFromDBObject(resultSet);
+      season.initializeFromDBObject(resultSet);
     } else {
-      metacriticSeason.initializeForInsert();
+      season.initializeForInsert();
+      season.dateAdded.changeValue(new Date());
+      season.dateModified.changeValue(new Date());
     }
 
-    debug("Updating Season " + season + " (" + metaCritic + ")");
+    debug("Updating Season " + seasonNumber + " (" + metaCritic + ")");
 
-    metacriticSeason.metacritic.changeValue(metaCritic);
-    metacriticSeason.season.changeValue(season);
-    metacriticSeason.seriesId.changeValue(series.id.getValue());
-    metacriticSeason.commit(connection);
+    season.metacritic.changeValue(metaCritic);
+    season.seasonNumber.changeValue(seasonNumber);
+    season.seriesId.changeValue(series.id.getValue());
+
+    if (season.hasChanged()) {
+      season.dateModified.changeValue(new Date());
+    }
+
+    season.commit(connection);
 
     series.metacritic.changeValue(metaCritic);
     series.commit(connection);
