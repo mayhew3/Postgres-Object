@@ -23,6 +23,7 @@ public class PostgresConnectionFactory extends ConnectionFactory {
   }
 
   private Connection initiateDBConnect() throws URISyntaxException, SQLException {
+    debug("Connecting to: " + postgresURL);
     try {
       return DriverManager.getConnection(postgresURL);
     } catch (SQLException e) {
@@ -36,4 +37,9 @@ public class PostgresConnectionFactory extends ConnectionFactory {
       return DriverManager.getConnection(dbUrl);
     }
   }
+
+  private void debug(String msg) {
+    System.out.println(msg);
+  }
+
 }

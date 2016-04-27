@@ -58,7 +58,7 @@ public class TVDBUpdateRunner {
 
 
   private void runUpdateSingle() throws SQLException {
-    String singleSeriesTitle = "Idiotsitter"; // update for testing on a single series
+    String singleSeriesTitle = "Unbreakable Kimmy Schmidt"; // update for testing on a single series
 
     String sql = "select *\n" +
         "from series\n" +

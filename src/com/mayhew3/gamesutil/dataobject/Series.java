@@ -1,6 +1,5 @@
 package com.mayhew3.gamesutil.dataobject;
 
-import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.sun.istack.internal.NotNull;
@@ -10,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class Series extends DataObject {
 
@@ -166,6 +166,34 @@ public class Series extends DataObject {
     return null;
   }
 
+  private List<ViewingLocation> getViewingLocations(SQLConnection connection) throws SQLException {
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
+        "SELECT vl.* " +
+            "FROM viewing_location vl " +
+            "INNER JOIN series_viewing_location svl " +
+            " ON svl.viewing_location_id = vl.id " +
+            "WHERE svl.series_id = ?",
+        id.getValue()
+    );
+
+    List<ViewingLocation> viewingLocations = new ArrayList<>();
+    while (resultSet.next()) {
+      ViewingLocation viewingLocation = new ViewingLocation();
+      viewingLocation.initializeFromDBObject(resultSet);
+      viewingLocations.add(viewingLocation);
+    }
+    return viewingLocations;
+  }
+
+  public Boolean isStreaming(SQLConnection connection) throws SQLException {
+    for (ViewingLocation viewingLocation : getViewingLocations(connection)) {
+      if (viewingLocation.streaming.getValue()) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   @NotNull
   public Season getOrCreateSeason(SQLConnection connection, Integer seasonNumber) throws SQLException {
     Preconditions.checkNotNull(id.getValue(), "Cannot insert join entity until Series object is committed (id is non-null)");
@@ -221,7 +249,7 @@ public class Series extends DataObject {
       tvdbSeries.initializeFromDBObject(resultSet);
       return Optional.of(tvdbSeries);
     } else {
-      return Optional.absent();
+      return Optional.empty();
     }
   }
 }

@@ -129,6 +129,7 @@ class TVDBEpisodeUpdater {
     episode.episodeNumber.changeValueFromString(absoluteNumber);
     episode.seasonEpisodeNumber.changeValueFromString(episodenumber);
     episode.airDate.changeValueFromString(firstaired);
+    episode.streaming.changeValue(series.isStreaming(connection));
 
     if (episode.hasChanged()) {
       changed = true;

@@ -34,7 +34,44 @@ public class SeriesDenormUpdater {
     updateMatchedEpisodes();
     updateTVDBOnlyEpisodes();
     updateUnwatchedUnrecorded();
+
+    updateStreamingEpisodes();
+    updateUnwatchedStreaming();
+
     debug("Done updating denorms.");
+  }
+
+  private void updateUnwatchedStreaming() throws SQLException {
+    debug("- Unwatched Streaming");
+    connection.prepareAndExecuteStatementUpdate(
+        "update series\n" +
+            "set unwatched_streaming = (select count(1)\n" +
+            "                            from episode e                            \n" +
+            "                            where e.seriesid = series.id\n" +
+            "                            and e.on_tivo = ?\n" +
+            "                            and e.streaming = ?\n" +
+            "                            and e.watched = ?\n" +
+            "                            and e.season <> ?\n" +
+            "                           -- and e.air_date < now()\n" +
+            "                            and e.retired = ?)",
+        false, true, false, 0, 0
+    );
+  }
+
+  private void updateStreamingEpisodes() throws SQLException {
+    debug("- Streaming");
+    connection.prepareAndExecuteStatementUpdate(
+        "update series\n" +
+            "set streaming_episodes = (select count(1)\n" +
+            "                            from episode e                            \n" +
+            "                            where e.seriesid = series.id\n" +
+            "                            and e.on_tivo = ?\n" +
+            "                            and e.streaming = ?\n" +
+            "                            and e.season <> ?\n" +
+            "                           -- and e.air_date < now()\n" +
+            "                            and e.retired = ?)",
+        false, true, 0, 0
+    );
   }
 
   private void updateUnwatchedUnrecorded() throws SQLException {

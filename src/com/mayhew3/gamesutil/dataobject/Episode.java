@@ -37,6 +37,7 @@ public class Episode extends DataObject {
   /* User Data */
   public FieldValueTimestamp watchedDate = registerTimestampField("watched_date");
   public FieldValue<Boolean> watched = registerBooleanField("watched");
+  public FieldValueBoolean streaming = registerBooleanField("streaming");
 
   public FieldValueTimestamp dateAdded = registerTimestampField("date_added");
 
