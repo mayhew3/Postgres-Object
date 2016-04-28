@@ -52,7 +52,7 @@ public class SeriesDenormUpdater {
             "                            and e.streaming = ?\n" +
             "                            and e.watched = ?\n" +
             "                            and e.season <> ?\n" +
-            "                           -- and e.air_date < now()\n" +
+            "                            and e.air_date < now()\n" +
             "                            and e.retired = ?)",
         false, true, false, 0, 0
     );
@@ -68,7 +68,7 @@ public class SeriesDenormUpdater {
             "                            and e.on_tivo = ?\n" +
             "                            and e.streaming = ?\n" +
             "                            and e.season <> ?\n" +
-            "                           -- and e.air_date < now()\n" +
+            "                            and e.air_date < now()\n" +
             "                            and e.retired = ?)",
         false, true, 0, 0
     );
