@@ -1,6 +1,7 @@
 package com.mayhew3.gamesutil.tv;
 
 import com.google.common.collect.Lists;
+import com.mayhew3.gamesutil.ArgumentChecker;
 import com.mayhew3.gamesutil.SSLTool;
 import com.mayhew3.gamesutil.dataobject.*;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
@@ -53,7 +54,9 @@ public class TiVoCommunicator {
     Boolean lookAtAllShows = argList.contains("FullMode");
     Boolean dev = argList.contains("Dev");
 
-    SQLConnection connection = new PostgresConnectionFactory().createLocalConnection();
+    String identifier = new ArgumentChecker(args).getDBIdentifier();
+
+    SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
 
     TiVoCommunicator tiVoCommunicator = new TiVoCommunicator(connection);
 

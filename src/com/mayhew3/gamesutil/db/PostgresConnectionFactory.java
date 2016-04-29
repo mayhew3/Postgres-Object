@@ -5,20 +5,35 @@ import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.HashMap;
 
 public class PostgresConnectionFactory extends ConnectionFactory {
 
   private String postgresURL;
 
-  @Override
-  public SQLConnection createConnection() throws URISyntaxException, SQLException {
-    postgresURL = System.getenv("postgresURL");
-    return new PostgresConnection(initiateDBConnect());
+  private HashMap<String, String> programToEnv;
+
+  public PostgresConnectionFactory() {
+    programToEnv = new HashMap<>();
+    programToEnv.put("heroku", "postgresURL");
+    programToEnv.put("local", "postgresURL_local");
+    programToEnv.put("test", "postgresURL_local_test");
   }
 
   @Override
-  public SQLConnection createLocalConnection() throws URISyntaxException, SQLException {
-    postgresURL = System.getenv("postgresURL_local");
+  public SQLConnection createConnection(String identifier) throws URISyntaxException, SQLException {
+    String envName = programToEnv.get(identifier);
+
+    if (envName == null) {
+      throw new IllegalArgumentException("Unknown factory identifier: " + identifier);
+    }
+
+    postgresURL = System.getenv(envName);
+
+    if (postgresURL == null) {
+      throw new IllegalStateException("No environment variable found with name: " + envName);
+    }
+
     return new PostgresConnection(initiateDBConnect());
   }
 

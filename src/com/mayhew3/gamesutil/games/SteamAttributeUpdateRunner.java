@@ -1,6 +1,7 @@
 package com.mayhew3.gamesutil.games;
 
 import com.google.common.collect.Lists;
+import com.mayhew3.gamesutil.ArgumentChecker;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.dataobject.Game;
@@ -27,6 +28,7 @@ public class SteamAttributeUpdateRunner {
     List<String> argList = Lists.newArrayList(args);
     Boolean logToFile = argList.contains("LogToFile");
     Boolean redo = false;
+    String identifier = new ArgumentChecker(args).getDBIdentifier();
 
     if (logToFile) {
       File file = new File("D:\\Projects\\mean_projects\\GamesDBUtil\\logs\\SteamAttributeUpdater.log");
@@ -36,7 +38,7 @@ public class SteamAttributeUpdateRunner {
       System.setOut(ps);
     }
 
-    SQLConnection connection = new PostgresConnectionFactory().createConnection();
+    SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
 
     // don't do this.
     if (redo) {

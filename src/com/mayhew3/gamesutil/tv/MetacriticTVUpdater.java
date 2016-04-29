@@ -1,6 +1,7 @@
 package com.mayhew3.gamesutil.tv;
 
 import com.google.common.collect.Lists;
+import com.mayhew3.gamesutil.ArgumentChecker;
 import com.mayhew3.gamesutil.dataobject.Season;
 import com.mayhew3.gamesutil.dataobject.Series;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
@@ -29,8 +30,9 @@ public class MetacriticTVUpdater {
   public static void main(String... args) throws URISyntaxException, SQLException, MetacriticException {
     List<String> argList = Lists.newArrayList(args);
     Boolean singleSeries = argList.contains("SingleSeries");
+    String identifier = new ArgumentChecker(args).getDBIdentifier();
 
-    SQLConnection connection = new PostgresConnectionFactory().createLocalConnection();
+    SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
     MetacriticTVUpdater metacriticTVUpdater = new MetacriticTVUpdater(connection);
 
     if (singleSeries) {

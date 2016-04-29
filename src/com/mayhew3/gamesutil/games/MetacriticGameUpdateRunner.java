@@ -1,6 +1,7 @@
 package com.mayhew3.gamesutil.games;
 
 import com.google.common.collect.Lists;
+import com.mayhew3.gamesutil.ArgumentChecker;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.dataobject.Game;
@@ -23,6 +24,7 @@ public class MetacriticGameUpdateRunner {
     List<String> argList = Lists.newArrayList(args);
     Boolean allGames = argList.contains("AllGames");
     Boolean logToFile = argList.contains("LogToFile");
+    String identifier = new ArgumentChecker(args).getDBIdentifier();
 
     if (logToFile) {
       File file = new File("D:\\Projects\\mean_projects\\GamesDBUtil\\logs\\MetacriticGameUpdater.log");
@@ -32,7 +34,7 @@ public class MetacriticGameUpdateRunner {
       System.setOut(ps);
     }
 
-    connection = new PostgresConnectionFactory().createConnection();
+    connection = new PostgresConnectionFactory().createConnection(identifier);
 
     MetacriticGameUpdateRunner updateRunner = new MetacriticGameUpdateRunner();
     updateRunner.runUpdate(allGames);

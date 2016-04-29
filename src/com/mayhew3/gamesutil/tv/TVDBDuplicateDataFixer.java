@@ -1,6 +1,7 @@
 package com.mayhew3.gamesutil.tv;
 
 import com.google.common.collect.Ordering;
+import com.mayhew3.gamesutil.ArgumentChecker;
 import com.mayhew3.gamesutil.dataobject.Episode;
 import com.mayhew3.gamesutil.dataobject.Series;
 import com.mayhew3.gamesutil.dataobject.TVDBEpisode;
@@ -65,8 +66,10 @@ public class TVDBDuplicateDataFixer {
     this.connection = connection;
   }
 
-  public static void main(String[] args) throws URISyntaxException, SQLException {
-    SQLConnection connection = new PostgresConnectionFactory().createLocalConnection();
+  public static void main(String... args) throws URISyntaxException, SQLException {
+    String identifier = new ArgumentChecker(args).getDBIdentifier();
+
+    SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
     TVDBDuplicateDataFixer dataFixer = new TVDBDuplicateDataFixer(connection);
     dataFixer.runUpdate();
 

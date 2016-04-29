@@ -5,6 +5,5 @@ import java.sql.SQLException;
 
 public abstract class ConnectionFactory {
 
-  abstract SQLConnection createConnection() throws URISyntaxException, SQLException;
-  abstract SQLConnection createLocalConnection() throws URISyntaxException, SQLException;
+  abstract SQLConnection createConnection(String indentifier) throws URISyntaxException, SQLException;
 }

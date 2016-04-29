@@ -2,6 +2,7 @@ package com.mayhew3.gamesutil.games;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
+import com.mayhew3.gamesutil.ArgumentChecker;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mongodb.DBCollection;
@@ -21,10 +22,10 @@ public class GamePostgresMongoSyncer {
   private static SQLConnection postgresConnection;
 
   public static void main(String[] args) throws SQLException, URISyntaxException {
-
+    String identifier = new ArgumentChecker(args).getDBIdentifier();
     mongoConnection = new MongoConnection("games");
 
-    postgresConnection = new PostgresConnectionFactory().createConnection();
+    postgresConnection = new PostgresConnectionFactory().createConnection(identifier);
 
     eraseAndCopyGames();
 

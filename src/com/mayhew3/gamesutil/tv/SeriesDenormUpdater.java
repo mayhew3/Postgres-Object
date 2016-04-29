@@ -1,5 +1,6 @@
 package com.mayhew3.gamesutil.tv;
 
+import com.mayhew3.gamesutil.ArgumentChecker;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
 
@@ -14,8 +15,9 @@ public class SeriesDenormUpdater {
     this.connection = connection;
   }
 
-  public static void main(String[] args) throws URISyntaxException, SQLException {
-    SQLConnection connection = new PostgresConnectionFactory().createLocalConnection();
+  public static void main(String... args) throws URISyntaxException, SQLException {
+    String identifier = new ArgumentChecker(args).getDBIdentifier();
+    SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
 
     SeriesDenormUpdater updater = new SeriesDenormUpdater(connection);
     updater.updateFields();

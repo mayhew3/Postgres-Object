@@ -1,6 +1,7 @@
 package com.mayhew3.gamesutil.tv;
 
 import com.google.common.collect.Lists;
+import com.mayhew3.gamesutil.ArgumentChecker;
 import com.mayhew3.gamesutil.dataobject.Series;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
@@ -27,8 +28,9 @@ public class TVDBUpdateRunner {
   public static void main(String... args) throws URISyntaxException, SQLException {
     List<String> argList = Lists.newArrayList(args);
     Boolean singleSeries = argList.contains("SingleSeries");
+    String identifier = new ArgumentChecker(args).getDBIdentifier();
 
-    SQLConnection connection = new PostgresConnectionFactory().createLocalConnection();
+    SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
     TVDBUpdateRunner tvdbUpdateRunner = new TVDBUpdateRunner(connection);
 
     if (singleSeries) {

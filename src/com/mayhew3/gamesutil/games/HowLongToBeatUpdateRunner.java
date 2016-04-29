@@ -1,6 +1,7 @@
 package com.mayhew3.gamesutil.games;
 
 import com.google.common.collect.Lists;
+import com.mayhew3.gamesutil.ArgumentChecker;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.dataobject.Game;
@@ -30,6 +31,7 @@ public class HowLongToBeatUpdateRunner {
   public static void main(String[] args) throws FileNotFoundException, SQLException, URISyntaxException {
     List<String> argList = Lists.newArrayList(args);
     Boolean logToFile = argList.contains("LogToFile");
+    String identifier = new ArgumentChecker(args).getDBIdentifier();
 
     if (logToFile) {
       File file = new File("D:\\Projects\\mean_projects\\GamesDBUtil\\logs\\HowLongToBeatUpdater.log");
@@ -39,7 +41,7 @@ public class HowLongToBeatUpdateRunner {
       System.setOut(ps);
     }
 
-    SQLConnection connection = new PostgresConnectionFactory().createConnection();
+    SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
 
     HowLongToBeatUpdateRunner updateRunner = new HowLongToBeatUpdateRunner(connection);
 

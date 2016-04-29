@@ -1,6 +1,7 @@
 package com.mayhew3.gamesutil.games;
 
 import com.google.common.collect.Lists;
+import com.mayhew3.gamesutil.ArgumentChecker;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.dataobject.Game;
@@ -38,6 +39,7 @@ public class GiantBombUpdater {
   public static void main(String[] args) throws SQLException, FileNotFoundException, URISyntaxException, InterruptedException {
     List<String> argList = Lists.newArrayList(args);
     Boolean logToFile = argList.contains("LogToFile");
+    String identifier = new ArgumentChecker(args).getDBIdentifier();
 
     if (logToFile) {
       File file = new File("D:\\Projects\\mean_projects\\GamesDBUtil\\logs\\SteamUpdaterErrors.log");
@@ -48,7 +50,7 @@ public class GiantBombUpdater {
       System.err.println("Starting run on " + new Date());
     }
 
-    GiantBombUpdater giantBombUpdater = new GiantBombUpdater(new PostgresConnectionFactory().createConnection());
+    GiantBombUpdater giantBombUpdater = new GiantBombUpdater(new PostgresConnectionFactory().createConnection(identifier));
 
     giantBombUpdater.updateFields();
 

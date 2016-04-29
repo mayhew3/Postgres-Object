@@ -1,6 +1,7 @@
 package com.mayhew3.gamesutil.tv;
 
 import com.google.common.collect.Lists;
+import com.mayhew3.gamesutil.ArgumentChecker;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.xml.BadlyFormattedXMLException;
@@ -23,8 +24,8 @@ public class TiVoLibraryUpdater {
     Boolean tvdbOnly = argList.contains("TVDBOnly");
     Boolean tiVoOnly = argList.contains("TiVoOnly");
     Boolean logToFile = argList.contains("LogToFile");
-    Boolean runLocal = true;
 
+    String identifier = new ArgumentChecker(args).getDBIdentifier();
 
     if (logToFile) {
       SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMM");
@@ -41,8 +42,7 @@ public class TiVoLibraryUpdater {
     debug("SESSION START! Date: " + new Date());
     debug("");
 
-    SQLConnection connection = runLocal ? new PostgresConnectionFactory().createLocalConnection() :
-        new PostgresConnectionFactory().createConnection();
+    SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
 
     ConnectionLogger logger = new ConnectionLogger(connection);
     logger.initialize();

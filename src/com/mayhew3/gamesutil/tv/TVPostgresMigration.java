@@ -1,6 +1,7 @@
 package com.mayhew3.gamesutil.tv;
 
 import com.google.common.collect.Lists;
+import com.mayhew3.gamesutil.ArgumentChecker;
 import com.mayhew3.gamesutil.dataobject.mongo.ConnectLogMongo;
 import com.mayhew3.gamesutil.dataobject.mongo.EpisodeMongo;
 import com.mayhew3.gamesutil.dataobject.mongo.ErrorLogMongo;
@@ -43,8 +44,9 @@ public class TVPostgresMigration {
   public static void main(String[] args) throws SQLException, URISyntaxException {
     List<String> argList = Lists.newArrayList(args);
     devMode = argList.contains("dev");
+    String identifier = new ArgumentChecker(args).getDBIdentifier();
 
-    SQLConnection sqlConnection = new PostgresConnectionFactory().createLocalConnection();
+    SQLConnection sqlConnection = new PostgresConnectionFactory().createConnection(identifier);
     TVPostgresMigration tvPostgresMigration = new TVPostgresMigration(
         new MongoConnection("tv"),
         sqlConnection);
