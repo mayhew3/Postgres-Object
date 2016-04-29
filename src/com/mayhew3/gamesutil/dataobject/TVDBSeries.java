@@ -22,8 +22,6 @@ public class TVDBSeries extends DataObject {
   public FieldValue<String> imdbId = registerStringField("imdb_id");
   public FieldValue<String> zap2it_id = registerStringField("zap2it_id");
 
-  public FieldValueTimestamp dateAdded = registerTimestampField("date_added");
-
   @Override
   protected String getTableName() {
     return "tvdb_series";

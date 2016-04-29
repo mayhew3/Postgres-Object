@@ -9,6 +9,7 @@ import com.sun.istack.internal.NotNull;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,6 +24,7 @@ public abstract class DataObject {
 
   public FieldValueInteger id = new FieldValueInteger("id", new FieldConversionInteger());
 
+  public FieldValueTimestamp dateAdded = registerTimestampField("date_added");
 
   public void initializeFromDBObject(ResultSet resultSet) throws SQLException {
     editMode = EditMode.UPDATE;
@@ -87,6 +89,8 @@ public abstract class DataObject {
 
   private void insert(SQLConnection connection) throws SQLException {
 
+    initializeDateAdded();
+
     List<FieldValue> changedFields = new ArrayList<>();
 
     for (FieldValue fieldValue : allFieldValues) {
@@ -99,14 +103,19 @@ public abstract class DataObject {
       }
     }
 
-    if (!changedFields.isEmpty()) {
-      Integer resultingID = insertIntoDatabaseAndGetID(connection, changedFields);
-      updateObjects(changedFields);
-      id.initializeValue(resultingID);
-    }
+    Integer resultingID = insertIntoDatabaseAndGetID(connection, changedFields);
+    updateObjects(changedFields);
+    id.initializeValue(resultingID);
 
     // INSERT COMPLETE. Subsequent changes should be updates.
     changeToUpdateObject();
+  }
+
+
+  private void initializeDateAdded() {
+    if (dateAdded.getValue() == null) {
+      dateAdded.changeValue(new Date());
+    }
   }
 
   private void update(SQLConnection db) throws SQLException {

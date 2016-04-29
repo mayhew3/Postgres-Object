@@ -373,7 +373,6 @@ public class TiVoCommunicator {
       tivoEpisode.initializeFromDBObject(existingEpisode);
     } else {
       tivoEpisode.initializeForInsert();
-      tivoEpisode.dateAdded.changeValue(new Date());
     }
 
     formatEpisodeObject(tivoEpisode, tivoInfo.url, tivoInfo.isSuggestion, showDetails);
@@ -393,7 +392,6 @@ public class TiVoCommunicator {
       movie.initializeFromDBObject(existingMovie);
     } else {
       movie.initializeForInsert();
-      movie.dateAdded.changeValue(new Date());
     }
 
     formatMovieObject(movie, tivoInfo.url, tivoInfo.isSuggestion, showDetails);
@@ -420,7 +418,6 @@ public class TiVoCommunicator {
     series.isSuggestion.changeValue(tivoInfo.isSuggestion);
     series.tier.changeValue(tier);
     series.matchedWrong.changeValue(false);
-    series.dateAdded.changeValue(new Date());
 
     series.initializeDenorms();
 

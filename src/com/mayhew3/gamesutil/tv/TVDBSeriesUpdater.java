@@ -348,7 +348,6 @@ public class TVDBSeriesUpdater {
       tvdbSeries.initializeFromDBObject(existingTVDBSeries);
     } else {
       tvdbSeries.initializeForInsert();
-      tvdbSeries.dateAdded.changeValue(new Date());
     }
 
     String tvdbSeriesName = nodeReader.getValueOfSimpleStringNode(seriesNode, "seriesname");

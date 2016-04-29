@@ -156,7 +156,6 @@ public class MetacriticTVUpdater {
       season.initializeFromDBObject(resultSet);
     } else {
       season.initializeForInsert();
-      season.dateAdded.changeValue(new Date());
       season.dateModified.changeValue(new Date());
     }
 

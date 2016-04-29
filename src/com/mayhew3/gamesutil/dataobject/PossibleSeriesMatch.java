@@ -9,8 +9,6 @@ public class PossibleSeriesMatch extends DataObject {
   public FieldValueInteger tvdbSeriesId = registerIntegerField("tvdb_series_id");
   public FieldValueString tvdbSeriesTitle = registerStringField("tvdb_series_title");
 
-  public FieldValueTimestamp dateAdded = registerTimestampField("date_added");
-
   @Override
   protected String getTableName() {
     return "possible_series_match";

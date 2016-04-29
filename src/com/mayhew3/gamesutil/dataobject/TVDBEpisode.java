@@ -39,8 +39,6 @@ public class TVDBEpisode extends DataObject {
   public FieldValue<String> writer = registerStringField("writer");
   public FieldValue<String> filename = registerStringField("filename");
 
-  public FieldValueTimestamp dateAdded = registerTimestampField("date_added");
-
 
   @Override
   protected String getTableName() {

@@ -10,8 +10,6 @@ public class Movie extends DataObject {
   public FieldValueTimestamp watchedDate = registerTimestampField("watched_date");
   public FieldValue<Boolean> watched = registerBooleanField("watched");
 
-  public FieldValueTimestamp dateAdded = registerTimestampField("date_added");
-
   public FieldValueInteger tier = registerIntegerField("tier");
   public FieldValueInteger metacritic = registerIntegerField("metacritic");
   public FieldValueInteger my_rating = registerIntegerField("my_rating");

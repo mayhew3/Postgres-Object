@@ -39,8 +39,6 @@ public class Episode extends DataObject {
   public FieldValue<Boolean> watched = registerBooleanField("watched");
   public FieldValueBoolean streaming = registerBooleanField("streaming");
 
-  public FieldValueTimestamp dateAdded = registerTimestampField("date_added");
-
   @Override
   protected String getTableName() {
     return "episode";
@@ -59,7 +57,6 @@ public class Episode extends DataObject {
 
       edgeTiVoEpisode.tivoEpisodeId.changeValue(tiVoEpisode.id.getValue());
       edgeTiVoEpisode.episodeId.changeValue(id.getValue());
-      edgeTiVoEpisode.dateAdded.changeValue(new Date());
 
       edgeTiVoEpisode.commit(connection);
     }
@@ -152,7 +149,6 @@ public class Episode extends DataObject {
         seasonObject.initializeFromDBObject(resultSet);
       } else {
         seasonObject.initializeForInsert();
-        seasonObject.dateAdded.changeValue(new Date());
         seasonObject.dateModified.changeValue(new Date());
         seasonObject.seasonNumber.changeValue(seasonNumber);
         seasonObject.seriesId.changeValue(seriesId.getValue());

@@ -6,8 +6,6 @@ public class SeasonViewingLocation extends DataObject {
   public FieldValueInteger seasonId = registerIntegerField("season_id");
   public FieldValueInteger viewingLocationId = registerIntegerField("viewing_location_id");
 
-  public FieldValueTimestamp dateAdded = registerTimestampField("date_added");
-
   @Override
   protected String getTableName() {
     return "season_viewing_location";

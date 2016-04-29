@@ -48,8 +48,6 @@ public class Series extends DataObject {
   public FieldValueTimestamp mostRecent = registerTimestampField("most_recent");
   public FieldValueBoolean isSuggestion = registerBooleanField("suggestion");
 
-  public FieldValueTimestamp dateAdded = registerTimestampField("date_added");
-
   @Override
   protected String getTableName() {
     return "series";
@@ -125,7 +123,6 @@ public class Series extends DataObject {
       matchPostgres.seriesId.changeValue(id.getValue());
       matchPostgres.tvdbSeriesId.changeValue(tvdbSeriesId);
       matchPostgres.tvdbSeriesTitle.changeValue(title);
-      matchPostgres.dateAdded.changeValue(dateAdded.getValue());
       matchPostgres.commit(connection);
     }
 

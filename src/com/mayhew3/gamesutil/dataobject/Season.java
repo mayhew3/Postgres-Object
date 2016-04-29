@@ -9,7 +9,6 @@ public class Season extends DataObject {
   public FieldValueInteger seasonNumber = registerIntegerField("season_number");
   public FieldValueInteger metacritic = registerIntegerField("metacritic");
 
-  public FieldValueTimestamp dateAdded = registerTimestampField("date_added");
   public FieldValueTimestamp dateModified = registerTimestampField("date_modified");
 
   @Override

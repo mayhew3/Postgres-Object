@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 public class PostgresConnectionFactory extends ConnectionFactory {
 
-  String postgresURL;
+  private String postgresURL;
 
   @Override
   public SQLConnection createConnection() throws URISyntaxException, SQLException {

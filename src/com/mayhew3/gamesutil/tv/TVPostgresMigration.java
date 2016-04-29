@@ -441,7 +441,11 @@ public class TVPostgresMigration {
         DBObject possibleMatch = (DBObject) obj;
         Integer seriesID = (Integer) possibleMatch.get("SeriesID");
         String title = (String) possibleMatch.get("SeriesTitle");
-        series.addPossibleSeriesMatch(sqlConnection, seriesID, title);
+        PossibleSeriesMatch possibleSeriesMatch = series.addPossibleSeriesMatch(sqlConnection, seriesID, title);
+
+        // instead of using the default value of today, use the original added date of series
+        possibleSeriesMatch.dateAdded.changeValue(series.dateAdded.getValue());
+        possibleSeriesMatch.commit(sqlConnection);
       }
     }
   }
