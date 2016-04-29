@@ -2,10 +2,7 @@ package com.mayhew3.gamesutil.tv;
 
 import com.google.common.collect.Lists;
 import com.mayhew3.gamesutil.SSLTool;
-import com.mayhew3.gamesutil.dataobject.Episode;
-import com.mayhew3.gamesutil.dataobject.Series;
-import com.mayhew3.gamesutil.dataobject.TVDBEpisode;
-import com.mayhew3.gamesutil.dataobject.TiVoEpisode;
+import com.mayhew3.gamesutil.dataobject.*;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.xml.BadlyFormattedXMLException;
@@ -35,6 +32,7 @@ public class TiVoCommunicator {
 
   private Boolean lookAtAllShows = false;
   private List<String> episodesOnTiVo;
+  private List<String> moviesOnTiVo;
   private NodeReader nodeReader;
 
   private Integer addedShows = 0;
@@ -45,6 +43,7 @@ public class TiVoCommunicator {
 
   public TiVoCommunicator(SQLConnection connection) {
     episodesOnTiVo = new ArrayList<>();
+    moviesOnTiVo = new ArrayList<>();
     nodeReader = new NodeReaderImpl();
     sqlConnection = connection;
   }
@@ -130,6 +129,7 @@ public class TiVoCommunicator {
 
       if (lookAtAllShows) {
         checkForDeletedShows();
+        checkForDeletedMovies();
         // todo: delete TiVo suggestions from DB completely if they're deleted. Don't need that noise.
       }
 
@@ -161,6 +161,22 @@ public class TiVoCommunicator {
 
   }
 
+  private void checkForDeletedMovies() throws SQLException {
+    ResultSet resultSet = sqlConnection.executeQuery(
+        "SELECT * " +
+            "FROM movie " +
+            "WHERE deleted_date IS NULL"
+    );
+
+    while (resultSet.next()) {
+      Movie movie = new Movie();
+      movie.initializeFromDBObject(resultSet);
+
+      deleteIfGone(movie);
+    }
+
+  }
+
   private void deleteIfGone(TiVoEpisode episode) throws SQLException {
     String programId = episode.programId.getValue();
 
@@ -180,6 +196,30 @@ public class TiVoCommunicator {
 
       episode.deletedDate.changeValue(new Date());
       episode.commit(sqlConnection);
+
+      deletedShows++;
+    }
+  }
+
+  private void deleteIfGone(Movie movie) throws SQLException {
+    String programId = movie.programId.getValue();
+
+    if (programId == null) {
+      throw new RuntimeException("TiVo Movie found with TiVoProgramId 'null'.");
+    }
+
+    if (!moviesOnTiVo.contains(programId)) {
+      Date showingTime = movie.showingStartTime.getValue();
+
+      if (showingTime == null) {
+        debug("Found movie in DB that is no longer on Tivo: '" + movie.title.getValue() + "' on UNKNOWN DATE. Updating deletion date.");
+      } else {
+        String formattedDate = new SimpleDateFormat("yyyy-MM-dd").format(showingTime);
+        debug("Found movie in DB that is no longer on Tivo: '" + movie.title.getValue() + "' on " + formattedDate + ". Updating deletion date.");
+      }
+
+      movie.deletedDate.changeValue(new Date());
+      movie.commit(sqlConnection);
 
       deletedShows++;
     }
@@ -230,21 +270,27 @@ public class TiVoCommunicator {
       return false;
     }
 
-    if (!isEpisodic(showAttributes)) {
-      debug("Skipping episode that is not episodic.");
-      return false;
-    }
-
     NodeList showDetails = nodeReader.getNodeWithTag(showAttributes, "Details").getChildNodes();
 
     TiVoInfo tivoInfo = new TiVoInfo(showDetails, nodeReader);
     tivoInfo.isSuggestion = isSuggestion(showAttributes);
     tivoInfo.url = getUrl(showAttributes);
 
-    if (lookAtAllShows) {
-      episodesOnTiVo.add(tivoInfo.programId);
-    }
+    if (isEpisodic(showAttributes)) {
 
+      Series series = getOrCreateSeries(tivoInfo);
+      return addEpisodeIfNotExists(showDetails, series, tivoInfo);
+    } else {
+      return addMovieIfNotExists(showDetails, tivoInfo);
+    }
+  }
+
+  /**
+   * @return New series object based on TiVo info, or existing series object in DB.
+   * @throws SQLException
+   */
+  @NotNull
+  private Series getOrCreateSeries(TiVoInfo tivoInfo) throws SQLException {
     ResultSet resultSet = sqlConnection.prepareAndExecuteStatementFetch("SELECT * FROM series WHERE tivo_series_id = ?", tivoInfo.tivoId);
 
     Series series = new Series();
@@ -255,10 +301,8 @@ public class TiVoCommunicator {
       series.initializeFromDBObject(resultSet);
       debug("Updating existing series '" + tivoInfo.seriesTitle + "'.");
     }
-
-    return addEpisodeIfNotExists(showDetails, series, tivoInfo);
+    return series;
   }
-
 
   /**
    * @return Whether the episode already exists in the database.
@@ -267,6 +311,10 @@ public class TiVoCommunicator {
   private Boolean addEpisodeIfNotExists(NodeList showDetails, Series series, TiVoInfo tivoInfo) throws SQLException, BadlyFormattedXMLException {
     ResultSet existingTiVoEpisode = getExistingTiVoEpisodes(tivoInfo.programId);
     Boolean tivoEpisodeExists = existingTiVoEpisode.next();
+
+    if (lookAtAllShows) {
+      episodesOnTiVo.add(tivoInfo.programId);
+    }
 
     if (tivoEpisodeExists && !lookAtAllShows) {
       return true;
@@ -297,6 +345,28 @@ public class TiVoCommunicator {
     return false;
   }
 
+
+  /**
+   * @return Whether the movie already exists in the database.
+   * @throws SQLException
+   */
+  private Boolean addMovieIfNotExists(NodeList showDetails, TiVoInfo tivoInfo) throws SQLException {
+    ResultSet resultSet = getExistingMovies(tivoInfo.programId);
+    boolean movieExists = resultSet.next();
+
+    if (lookAtAllShows) {
+      moviesOnTiVo.add(tivoInfo.programId);
+    }
+
+    if (movieExists && !lookAtAllShows) {
+      return true;
+    }
+
+    getOrCreateMovie(showDetails, tivoInfo, resultSet, movieExists);
+
+    return false;
+  }
+
   private TiVoEpisode getOrCreateTiVoEpisode(NodeList showDetails, TiVoInfo tivoInfo, ResultSet existingEpisode, Boolean tivoEpisodeExists) throws SQLException {
     TiVoEpisode tivoEpisode = new TiVoEpisode();
     if (tivoEpisodeExists) {
@@ -315,6 +385,26 @@ public class TiVoCommunicator {
     // todo: instead of insert.
     tivoEpisode.commit(sqlConnection);
     return tivoEpisode;
+  }
+
+  private Movie getOrCreateMovie(NodeList showDetails, TiVoInfo tivoInfo, ResultSet existingMovie, Boolean movieExists) throws SQLException {
+    Movie movie = new Movie();
+    if (movieExists) {
+      movie.initializeFromDBObject(existingMovie);
+    } else {
+      movie.initializeForInsert();
+      movie.dateAdded.changeValue(new Date());
+    }
+
+    formatMovieObject(movie, tivoInfo.url, tivoInfo.isSuggestion, showDetails);
+    movie.tivoSeriesId.changeValue(tivoInfo.tivoId);
+    movie.seriesTitle.changeValue(tivoInfo.seriesTitle);
+
+    // todo: check for duplicate (program_id, retired). Do some research. In these cases, are two episodes
+    // todo: on TiVo with same program_id, or is one deleted but not marked yet? Either way I think we should update
+    // todo: instead of insert.
+    movie.commit(sqlConnection);
+    return movie;
   }
 
   private void addNewSeries(Series series, TiVoInfo tivoInfo) throws SQLException {
@@ -380,6 +470,10 @@ public class TiVoCommunicator {
     return sqlConnection.prepareAndExecuteStatementFetch("SELECT * FROM tivo_episode WHERE program_id = ? AND retired = ?", programId, 0);
   }
 
+  private ResultSet getExistingMovies(String programId) throws SQLException {
+    return sqlConnection.prepareAndExecuteStatementFetch("SELECT * FROM movie WHERE program_id = ? AND retired = ?", programId, 0);
+  }
+
   private TiVoEpisode formatEpisodeObject(TiVoEpisode episode, String url, Boolean isSuggestion, NodeList showDetails) {
     episode.captureDate.changeValueFromXMLString(nodeReader.getValueOfSimpleStringNode(showDetails, "CaptureDate"));
     episode.showingStartTime.changeValueFromXMLString(nodeReader.getValueOfSimpleStringNode(showDetails, "ShowingStartTime"));
@@ -400,6 +494,27 @@ public class TiVoCommunicator {
     episode.url.changeValue(url);
 
     return episode;
+  }
+
+  private Movie formatMovieObject(Movie movie, String url, Boolean isSuggestion, NodeList showDetails) {
+    movie.captureDate.changeValueFromXMLString(nodeReader.getValueOfSimpleStringNode(showDetails, "CaptureDate"));
+    movie.showingStartTime.changeValueFromXMLString(nodeReader.getValueOfSimpleStringNode(showDetails, "ShowingStartTime"));
+
+    movie.description.changeValueFromString(nodeReader.getValueOfSimpleStringNode(showDetails, "Description"));
+    movie.title.changeValueFromString(nodeReader.getValueOfSimpleStringNode(showDetails, "Title"));
+    movie.hd.changeValueFromString(nodeReader.getValueOfSimpleStringNode(showDetails, "HighDefinition"));
+    movie.programId.changeValueFromString(nodeReader.getValueOfSimpleStringNode(showDetails, "ProgramId"));
+    movie.duration.changeValueFromString(nodeReader.getValueOfSimpleStringNode(showDetails, "Duration"));
+    movie.showingDuration.changeValueFromString(nodeReader.getValueOfSimpleStringNode(showDetails, "ShowingDuration"));
+    movie.channel.changeValueFromString(nodeReader.getValueOfSimpleStringNode(showDetails, "SourceChannel"));
+    movie.station.changeValueFromString(nodeReader.getValueOfSimpleStringNode(showDetails, "SourceStation"));
+    movie.rating.changeValueFromString(nodeReader.getValueOfSimpleStringNode(showDetails, "TvRating"));
+    movie.retired.changeValue(0);
+
+    movie.suggestion.changeValue(isSuggestion);
+    movie.url.changeValue(url);
+
+    return movie;
   }
 
 

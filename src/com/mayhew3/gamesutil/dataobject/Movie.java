@@ -19,7 +19,7 @@ public class Movie extends DataObject {
   public FieldValueString tivoName = registerStringField("tivo_name");
 
 
-  public FieldValueBoolean isSuggestion = registerBooleanField("suggestion");
+  public FieldValueBoolean suggestion = registerBooleanField("suggestion");
 
   public FieldValueTimestamp showingStartTime = registerTimestampField("showing_start_time");
   public FieldValueTimestamp deletedDate = registerTimestampField("deleted_date");

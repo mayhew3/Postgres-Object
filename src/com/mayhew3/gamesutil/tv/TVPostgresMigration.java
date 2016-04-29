@@ -231,7 +231,7 @@ public class TVPostgresMigration {
   }
 
   private void copyEpisodeFieldsToMovie(EpisodeMongo episodeMongo, Movie movie) {
-    movie.isSuggestion.changeValue(episodeMongo.tivoSuggestion.getValue());
+    movie.suggestion.changeValue(episodeMongo.tivoSuggestion.getValue());
     movie.showingStartTime.changeValue(episodeMongo.tivoShowingStartTime.getValue());
     movie.deletedDate.changeValue(episodeMongo.tivoDeletedDate.getValue());
     movie.captureDate.changeValue(episodeMongo.tivoCaptureDate.getValue());
