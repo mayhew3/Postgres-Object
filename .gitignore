@@ -1,5 +1,4 @@
 .idea/
 out/
-.idea.7z
-/lib
+lib/
 logs/

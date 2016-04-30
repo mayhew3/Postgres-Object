@@ -9,8 +9,11 @@ import org.mockito.MockitoAnnotations;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
+import static org.bouncycastle.asn1.x500.style.RFC4519Style.title;
 import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
@@ -125,20 +128,27 @@ public class DataObjectTest {
 
     mediaObject.commit(connection);
 
-    String sql = "INSERT INTO test (\"title\", \"kernels\") VALUES (?, ?)";
+    String sql = "INSERT INTO test (\"date_added\", \"title\", \"kernels\") VALUES (?, ?, ?)";
     verify(connection).prepareAndExecuteStatementInsertReturnId(eq(sql), fieldValueCaptor.capture());
 
     List<FieldValue> fieldValues = fieldValueCaptor.getValue();
     assertThat(fieldValues)
-        .hasSize(2);
+        .hasSize(3);
 
-    FieldValue titleField = fieldValues.get(0);
+    FieldValue dateAddedField = fieldValues.get(0);
+    assertThat(dateAddedField.getFieldName())
+        .isEqualTo("date_added");
+    assertThat(dateAddedField.getChangedValue())
+        .isInstanceOf(Date.class)
+        .isNotNull();
+
+    FieldValue titleField = fieldValues.get(1);
     assertThat(titleField.getFieldName())
         .isEqualTo("title");
     assertThat(titleField.getChangedValue())
         .isEqualTo(newTitle);
 
-    FieldValue kernelField = fieldValues.get(1);
+    FieldValue kernelField = fieldValues.get(2);
     assertThat(kernelField.getFieldName())
         .isEqualTo("kernels");
     assertThat(kernelField.getChangedValue())

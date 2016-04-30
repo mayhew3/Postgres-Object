@@ -32,7 +32,7 @@ public class EpisodeTest {
     PostgresConnection postgresConnection = mock(PostgresConnection.class);
     ResultSet resultSet = mock(ResultSet.class);
 
-    when(postgresConnection.prepareAndExecuteStatementFetch(anyString(), eq(INITIAL_ID))).thenReturn(resultSet);
+    when(postgresConnection.prepareAndExecuteStatementFetch(anyString(), eq(INITIAL_ID), anyInt())).thenReturn(resultSet);
     when(resultSet.next()).thenReturn(true).thenReturn(false);
 
     List<TiVoEpisode> tiVoEpisodes = episode.getTiVoEpisodes(postgresConnection);
