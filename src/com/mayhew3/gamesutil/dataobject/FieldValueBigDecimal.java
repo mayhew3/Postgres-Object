@@ -7,8 +7,13 @@ import java.sql.SQLException;
 import java.sql.Types;
 
 public class FieldValueBigDecimal extends FieldValue<BigDecimal> {
-  public FieldValueBigDecimal(String fieldName, FieldConversion<BigDecimal> converter) {
-    super(fieldName, converter);
+  public FieldValueBigDecimal(String fieldName, FieldConversion<BigDecimal> converter, Nullability nullability) {
+    super(fieldName, converter, nullability);
+  }
+
+  @Override
+  String getDDLType() {
+    return "NUMERIC";
   }
 
   @Override

@@ -5,7 +5,7 @@ import java.sql.ResultSet;
 
 public class FieldValueDouble extends FieldValue<Double> {
   public FieldValueDouble(String fieldName, FieldConversion<Double> converter) {
-    super(fieldName, converter);
+    super(fieldName, converter, Nullability.NULLABLE);
   }
 
   @Override

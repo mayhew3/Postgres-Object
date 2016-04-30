@@ -6,8 +6,8 @@ import java.sql.SQLException;
 import java.sql.Types;
 
 public class FieldValueLong extends FieldValue<Long> {
-  public FieldValueLong(String fieldName, FieldConversion<Long> converter) {
-    super(fieldName, converter);
+  public FieldValueLong(String fieldName, FieldConversion<Long> converter, Nullability nullability) {
+    super(fieldName, converter, nullability);
   }
 
   @Override

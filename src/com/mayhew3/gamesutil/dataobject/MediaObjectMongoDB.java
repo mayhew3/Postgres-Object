@@ -166,7 +166,7 @@ public abstract class MediaObjectMongoDB {
   }
 
   protected final FieldValueBoolean registerBooleanField(String fieldName) {
-    FieldValueBoolean fieldBooleanValue = new FieldValueBoolean(fieldName, new FieldConversionBoolean());
+    FieldValueBoolean fieldBooleanValue = new FieldValueBoolean(fieldName, new FieldConversionBoolean(), Nullability.NULLABLE);
     allFieldValues.add(fieldBooleanValue);
     return fieldBooleanValue;
   }
@@ -178,7 +178,7 @@ public abstract class MediaObjectMongoDB {
   }
 
   protected final FieldValueInteger registerIntegerField(String fieldName) {
-    FieldValueInteger fieldIntegerValue = new FieldValueInteger(fieldName, new FieldConversionInteger());
+    FieldValueInteger fieldIntegerValue = new FieldValueInteger(fieldName, new FieldConversionInteger(), Nullability.NULLABLE);
     allFieldValues.add(fieldIntegerValue);
     return fieldIntegerValue;
   }
@@ -189,7 +189,7 @@ public abstract class MediaObjectMongoDB {
       Long parseFromString(String value) throws NumberFormatException {
         return Long.valueOf(value);
       }
-    });
+    }, Nullability.NULLABLE);
     allFieldValues.add(fieldLongValue);
     return fieldLongValue;
   }
@@ -213,7 +213,7 @@ public abstract class MediaObjectMongoDB {
   }
 
   protected final FieldValue<String> registerStringField(String fieldName) {
-    FieldValue<String> fieldBooleanValue = new FieldValueString(fieldName, new FieldConversionString());
+    FieldValue<String> fieldBooleanValue = new FieldValueString(fieldName, new FieldConversionString(), Nullability.NULLABLE);
     allFieldValues.add(fieldBooleanValue);
     return fieldBooleanValue;
   }

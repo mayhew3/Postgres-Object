@@ -6,23 +6,23 @@ import java.sql.SQLException;
 import java.sql.Types;
 
 public class FieldValueBoolean extends FieldValue<Boolean> {
-  private Boolean allowNulls = false;
 
-  public FieldValueBoolean(String fieldName, FieldConversion<Boolean> converter) {
-    super(fieldName, converter);
-  }
-  public FieldValueBoolean(String fieldName, FieldConversion<Boolean> converter, Boolean allowNulls) {
-    super(fieldName, converter);
-    this.allowNulls = allowNulls;
+  public FieldValueBoolean(String fieldName, FieldConversion<Boolean> converter, Nullability nullability) {
+    super(fieldName, converter, nullability);
   }
 
   @Override
   public void initializeValue(Boolean value) {
-    if (allowNulls) {
+    if (nullability.equals(Nullability.NULLABLE)) {
       super.initializeValue(value);
     } else {
       super.initializeValue((value == null) ? false : value);
     }
+  }
+
+  @Override
+  String getDDLType() {
+    return "BOOLEAN";
   }
 
   @Override

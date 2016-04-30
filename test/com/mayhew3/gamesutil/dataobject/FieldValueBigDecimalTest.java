@@ -17,7 +17,7 @@ public class FieldValueBigDecimalTest {
 
   @Before
   public void setUp() {
-    fieldValueBigDecimal = new FieldValueBigDecimal("testName", mock(FieldConversionBigDecimal.class));
+    fieldValueBigDecimal = new FieldValueBigDecimal("testName", mock(FieldConversionBigDecimal.class), Nullability.NOT_NULL);
     fieldValueBigDecimal.initializeValue(INITIAL_VALUE);
   }
 

@@ -237,8 +237,8 @@ public class DataObjectTest {
   }
 
   protected class DataObjectMock extends DataObject {
-    public FieldValueString title = registerStringField("title");
-    public FieldValueInteger kernels = registerIntegerField("kernels");
+    public FieldValueString title = registerStringField("title", Nullability.NOT_NULL);
+    public FieldValueInteger kernels = registerIntegerField("kernels", Nullability.NULLABLE);
 
     @Override
     protected String getTableName() {

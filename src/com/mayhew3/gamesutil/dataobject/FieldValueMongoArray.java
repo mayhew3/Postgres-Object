@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 
 public class FieldValueMongoArray extends FieldValue<BasicDBList> {
   public FieldValueMongoArray(String fieldName, FieldConversion<BasicDBList> converter) {
-    super(fieldName, converter);
+    super(fieldName, converter, Nullability.NULLABLE);
   }
 
   // todo: update code should really use $addToSet instead of sending the whole array in every time.

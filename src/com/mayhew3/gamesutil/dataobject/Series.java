@@ -14,39 +14,41 @@ import java.util.Optional;
 public class Series extends DataObject {
 
   /* Foreign Keys */
-  public FieldValueInteger tvdbSeriesId = registerIntegerField("tvdb_series_id");
+  public FieldValueInteger tvdbSeriesId = registerIntegerField("tvdb_series_id", Nullability.NULLABLE);
 
   /* Data */
-  public FieldValueString seriesTitle = registerStringField("title");
-  public FieldValueInteger tier = registerIntegerField("tier");
-  public FieldValueInteger metacritic = registerIntegerField("metacritic");
-  public FieldValueInteger my_rating = registerIntegerField("my_rating");
-  public FieldValueString tivoSeriesId = registerStringField("tivo_series_id");
-  public FieldValueInteger tvdbId = registerIntegerField("tvdb_id");
+  public FieldValueString seriesTitle = registerStringField("title", Nullability.NULLABLE);
+  public FieldValueInteger tier = registerIntegerField("tier", Nullability.NULLABLE);
+  public FieldValueInteger metacritic = registerIntegerField("metacritic", Nullability.NULLABLE);
+  public FieldValueInteger my_rating = registerIntegerField("my_rating", Nullability.NULLABLE);
+  public FieldValueString tivoSeriesId = registerStringField("tivo_series_id", Nullability.NULLABLE);
+  public FieldValueInteger tvdbId = registerIntegerField("tvdb_id", Nullability.NULLABLE);
 
   /* Matching Helpers */
-  public FieldValueString metacriticHint = registerStringField("metacritic_hint");
-  public FieldValueBoolean ignoreTVDB = registerBooleanField("ignore_tvdb");
-  public FieldValueBoolean matchedWrong = registerBooleanField("matched_wrong");
-  public FieldValueBoolean needsTVDBRedo = registerBooleanField("needs_tvdb_redo");
-  public FieldValueString tvdbHint = registerStringField("tvdb_hint");
-  public FieldValueString tivoName = registerStringField("tivo_name");
+  public FieldValueString metacriticHint = registerStringField("metacritic_hint", Nullability.NULLABLE);
+  public FieldValueBoolean ignoreTVDB = registerBooleanField("ignore_tvdb", Nullability.NULLABLE);
+  public FieldValueBoolean matchedWrong = registerBooleanField("matched_wrong", Nullability.NOT_NULL);
+  public FieldValueBoolean needsTVDBRedo = registerBooleanField("needs_tvdb_redo", Nullability.NOT_NULL);
+  public FieldValueString tvdbHint = registerStringField("tvdb_hint", Nullability.NULLABLE);
+  public FieldValueString tivoName = registerStringField("tivo_name", Nullability.NULLABLE);
 
 
   /* Denorms */
-  public FieldValueInteger activeEpisodes = registerIntegerField("active_episodes");
-  public FieldValueInteger deletedEpisodes = registerIntegerField("deleted_episodes");
-  public FieldValueInteger suggestionEpisodes = registerIntegerField("suggestion_episodes");
-  public FieldValueInteger unmatchedEpisodes = registerIntegerField("unmatched_episodes");
-  public FieldValueInteger watchedEpisodes = registerIntegerField("watched_episodes");
-  public FieldValueInteger unwatchedEpisodes = registerIntegerField("unwatched_episodes");
-  public FieldValueInteger unwatchedUnrecorded = registerIntegerField("unwatched_unrecorded");
-  public FieldValueInteger tvdbOnlyEpisodes = registerIntegerField("tvdb_only_episodes");
-  public FieldValueInteger matchedEpisodes = registerIntegerField("matched_episodes");
+  public FieldValueInteger activeEpisodes = registerIntegerField("active_episodes", Nullability.NOT_NULL);
+  public FieldValueInteger deletedEpisodes = registerIntegerField("deleted_episodes", Nullability.NOT_NULL);
+  public FieldValueInteger suggestionEpisodes = registerIntegerField("suggestion_episodes", Nullability.NOT_NULL);
+  public FieldValueInteger unmatchedEpisodes = registerIntegerField("unmatched_episodes", Nullability.NOT_NULL);
+  public FieldValueInteger watchedEpisodes = registerIntegerField("watched_episodes", Nullability.NOT_NULL);
+  public FieldValueInteger unwatchedEpisodes = registerIntegerField("unwatched_episodes", Nullability.NOT_NULL);
+  public FieldValueInteger unwatchedUnrecorded = registerIntegerField("unwatched_unrecorded", Nullability.NOT_NULL);
+  public FieldValueInteger tvdbOnlyEpisodes = registerIntegerField("tvdb_only_episodes", Nullability.NOT_NULL);
+  public FieldValueInteger matchedEpisodes = registerIntegerField("matched_episodes", Nullability.NOT_NULL);
+  public FieldValueInteger streamingEpisodes = registerIntegerField("streaming_episodes", Nullability.NOT_NULL);
+  public FieldValueInteger unwatchedStreaming = registerIntegerField("unwatched_streaming", Nullability.NOT_NULL);
 
-  public FieldValueTimestamp lastUnwatched = registerTimestampField("last_unwatched");
-  public FieldValueTimestamp mostRecent = registerTimestampField("most_recent");
-  public FieldValueBoolean isSuggestion = registerBooleanField("suggestion");
+  public FieldValueTimestamp lastUnwatched = registerTimestampField("last_unwatched", Nullability.NULLABLE);
+  public FieldValueTimestamp mostRecent = registerTimestampField("most_recent", Nullability.NULLABLE);
+  public FieldValueBoolean isSuggestion = registerBooleanField("suggestion", Nullability.NOT_NULL);
 
   @Override
   protected String getTableName() {

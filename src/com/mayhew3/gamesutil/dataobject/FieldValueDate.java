@@ -6,7 +6,7 @@ import java.util.Date;
 
 public class FieldValueDate extends FieldValue<Date> {
   public FieldValueDate(String fieldName, FieldConversion<Date> converter) {
-    super(fieldName, converter);
+    super(fieldName, converter, Nullability.NULLABLE);
   }
 
   @Override

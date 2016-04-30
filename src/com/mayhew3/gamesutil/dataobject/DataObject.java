@@ -22,9 +22,9 @@ public abstract class DataObject {
 
   List<FieldValue> allFieldValues = new ArrayList<>();
 
-  public FieldValueInteger id = new FieldValueInteger("id", new FieldConversionInteger());
+  public FieldValueInteger id = new FieldValueInteger("id", new FieldConversionInteger(), Nullability.NOT_NULL);
 
-  public FieldValueTimestamp dateAdded = registerTimestampField("date_added");
+  public FieldValueTimestamp dateAdded = registerTimestampField("date_added", Nullability.NULLABLE);
 
   public void initializeFromDBObject(ResultSet resultSet) throws SQLException {
     editMode = EditMode.UPDATE;
@@ -184,39 +184,49 @@ public abstract class DataObject {
 
   protected abstract String getTableName();
 
+  // todo: make abstract, and force all subtypes to implement.
+  protected String createDDLStatement() {
+    throw new UnsupportedOperationException("This method needs to be implemented on all subtypes that call it.");
+  }
 
-  protected final FieldValueBoolean registerBooleanField(String fieldName) {
-    FieldValueBoolean fieldBooleanValue = new FieldValueBoolean(fieldName, new FieldConversionBoolean());
+  protected final FieldValueBoolean registerBooleanField(String fieldName, Nullability nullability) {
+    FieldValueBoolean fieldBooleanValue = new FieldValueBoolean(fieldName, new FieldConversionBoolean(), nullability);
     allFieldValues.add(fieldBooleanValue);
     return fieldBooleanValue;
   }
 
-  protected final FieldValueBoolean registerBooleanFieldAllowingNulls(String fieldName) {
-    FieldValueBoolean fieldBooleanValue = new FieldValueBoolean(fieldName, new FieldConversionBoolean(), Boolean.TRUE);
+  protected final FieldValueBoolean registerBooleanFieldAllowingNulls(String fieldName, Nullability nullability) {
+    FieldValueBoolean fieldBooleanValue = new FieldValueBoolean(fieldName, new FieldConversionBoolean(), nullability);
     allFieldValues.add(fieldBooleanValue);
     return fieldBooleanValue;
   }
 
-  protected final FieldValueTimestamp registerTimestampField(String fieldName) {
-    FieldValueTimestamp fieldTimestampValue = new FieldValueTimestamp(fieldName, new FieldConversionTimestamp());
+  protected final FieldValueTimestamp registerTimestampField(String fieldName, Nullability nullability) {
+    FieldValueTimestamp fieldTimestampValue = new FieldValueTimestamp(fieldName, new FieldConversionTimestamp(), nullability);
     allFieldValues.add(fieldTimestampValue);
     return fieldTimestampValue;
   }
 
-  protected final FieldValueInteger registerIntegerField(String fieldName) {
-    FieldValueInteger fieldIntegerValue = new FieldValueInteger(fieldName, new FieldConversionInteger());
+  protected final FieldValueInteger registerIntegerField(String fieldName, Nullability nullability) {
+    FieldValueInteger fieldIntegerValue = new FieldValueInteger(fieldName, new FieldConversionInteger(), nullability);
     allFieldValues.add(fieldIntegerValue);
     return fieldIntegerValue;
   }
 
-  protected final FieldValueBigDecimal registerBigDecimalField(String fieldName) {
-    FieldValueBigDecimal fieldBigDecimalValue = new FieldValueBigDecimal(fieldName, new FieldConversionBigDecimal());
+  protected final FieldValueInteger registerIntegerField(String fieldName, Nullability nullability, IntegerSize integerSize) {
+    FieldValueInteger fieldIntegerValue = new FieldValueInteger(fieldName, new FieldConversionInteger(), nullability, integerSize);
+    allFieldValues.add(fieldIntegerValue);
+    return fieldIntegerValue;
+  }
+
+  protected final FieldValueBigDecimal registerBigDecimalField(String fieldName, Nullability nullability) {
+    FieldValueBigDecimal fieldBigDecimalValue = new FieldValueBigDecimal(fieldName, new FieldConversionBigDecimal(), nullability);
     allFieldValues.add(fieldBigDecimalValue);
     return fieldBigDecimalValue;
   }
 
-  protected final FieldValueString registerStringField(String fieldName) {
-    FieldValueString fieldBooleanValue = new FieldValueString(fieldName, new FieldConversionString());
+  protected final FieldValueString registerStringField(String fieldName, Nullability nullability) {
+    FieldValueString fieldBooleanValue = new FieldValueString(fieldName, new FieldConversionString(), nullability);
     allFieldValues.add(fieldBooleanValue);
     return fieldBooleanValue;
   }

@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 
 public class FieldValueDBObjectArray extends FieldValue<BasicDBList> {
   public FieldValueDBObjectArray(String fieldName, FieldConversion<BasicDBList> converter) {
-    super(fieldName, converter);
+    super(fieldName, converter, Nullability.NULLABLE);
   }
 
   // todo: update code should really use $addToSet instead of sending the whole array in every time.

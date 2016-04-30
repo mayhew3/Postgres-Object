@@ -15,33 +15,38 @@ import java.util.List;
 public class Episode extends DataObject {
 
   /* Foreign Keys */
-  public FieldValue<Integer> tvdbEpisodeId = registerIntegerField("tvdb_episode_id");
-  public FieldValueInteger seasonId = registerIntegerField("season_id");
+  public FieldValue<Integer> tvdbEpisodeId = registerIntegerField("tvdb_episode_id", Nullability.NOT_NULL);
+  public FieldValueInteger seasonId = registerIntegerField("season_id", Nullability.NULLABLE);
 
   /* Data */
-  private FieldValue<Integer> season = registerIntegerField("season");
-  public FieldValue<Integer> seasonEpisodeNumber = registerIntegerField("season_episode_number");
-  public FieldValue<Integer> episodeNumber = registerIntegerField("episode_number");
+  private FieldValue<Integer> season = registerIntegerField("season", Nullability.NOT_NULL);
+  public FieldValue<Integer> seasonEpisodeNumber = registerIntegerField("season_episode_number", Nullability.NOT_NULL);
+  public FieldValue<Integer> episodeNumber = registerIntegerField("episode_number", Nullability.NULLABLE);
 
-  public FieldValueTimestamp airDate = registerTimestampField("air_date");
+  public FieldValueTimestamp airDate = registerTimestampField("air_date", Nullability.NULLABLE);
 
-  public FieldValueInteger seriesId = registerIntegerField("seriesid");
+  public FieldValueInteger seriesId = registerIntegerField("seriesid", Nullability.NOT_NULL);
 
-  public FieldValue<Boolean> onTiVo = registerBooleanField("on_tivo");
+  public FieldValue<Boolean> onTiVo = registerBooleanField("on_tivo", Nullability.NOT_NULL);
 
-  public FieldValueString title = registerStringField("title");
-  public FieldValueString seriesTitle = registerStringField("series_title");
+  public FieldValueString title = registerStringField("title", Nullability.NULLABLE);
+  public FieldValueString seriesTitle = registerStringField("series_title", Nullability.NULLABLE);
 
-  public FieldValueInteger retired = registerIntegerField("retired");
+  public FieldValueInteger retired = registerIntegerField("retired", Nullability.NOT_NULL);
 
   /* User Data */
-  public FieldValueTimestamp watchedDate = registerTimestampField("watched_date");
-  public FieldValue<Boolean> watched = registerBooleanField("watched");
-  public FieldValueBoolean streaming = registerBooleanField("streaming");
+  public FieldValueTimestamp watchedDate = registerTimestampField("watched_date", Nullability.NULLABLE);
+  public FieldValue<Boolean> watched = registerBooleanField("watched", Nullability.NOT_NULL);
+  public FieldValueBoolean streaming = registerBooleanField("streaming", Nullability.NOT_NULL);
 
   @Override
   protected String getTableName() {
     return "episode";
+  }
+
+  @Override
+  protected String createDDLStatement() {
+    return super.createDDLStatement();
   }
 
   @Override

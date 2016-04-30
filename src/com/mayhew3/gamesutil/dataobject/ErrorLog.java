@@ -3,18 +3,18 @@ package com.mayhew3.gamesutil.dataobject;
 public class ErrorLog extends DataObject {
 
   /* Data */
-  public FieldValueString chosenName = registerStringField("chosen_name");
-  public FieldValueString errorMessage = registerStringField("error_message");
-  public FieldValueString errorType = registerStringField("error_type");
-  public FieldValueTimestamp eventDate = registerTimestampField("event_date");
-  public FieldValueString formattedName = registerStringField("formatted_name");
-  public FieldValueBoolean resolved = registerBooleanField("resolved");
-  public FieldValueTimestamp resolvedDate = registerTimestampField("resolved_date");
-  public FieldValueString tvdbName = registerStringField("tvdb_name");
-  public FieldValueString tivoId = registerStringField("tivo_id");
-  public FieldValueString tivoName = registerStringField("tivo_name");
-  public FieldValueString context = registerStringField("context");
-  public FieldValueBoolean ignoreError = registerBooleanField("ignore_error");
+  public FieldValueString chosenName = registerStringField("chosen_name", Nullability.NULLABLE);
+  public FieldValueString errorMessage = registerStringField("error_message", Nullability.NULLABLE);
+  public FieldValueString errorType = registerStringField("error_type", Nullability.NULLABLE);
+  public FieldValueTimestamp eventDate = registerTimestampField("event_date", Nullability.NULLABLE);
+  public FieldValueString formattedName = registerStringField("formatted_name", Nullability.NULLABLE);
+  public FieldValueBoolean resolved = registerBooleanField("resolved", Nullability.NULLABLE);
+  public FieldValueTimestamp resolvedDate = registerTimestampField("resolved_date", Nullability.NULLABLE);
+  public FieldValueString tvdbName = registerStringField("tvdb_name", Nullability.NULLABLE);
+  public FieldValueString tivoId = registerStringField("tivo_id", Nullability.NULLABLE);
+  public FieldValueString tivoName = registerStringField("tivo_name", Nullability.NULLABLE);
+  public FieldValueString context = registerStringField("context", Nullability.NULLABLE);
+  public FieldValueBoolean ignoreError = registerBooleanField("ignore_error", Nullability.NULLABLE);
 
   @Override
   protected String getTableName() {

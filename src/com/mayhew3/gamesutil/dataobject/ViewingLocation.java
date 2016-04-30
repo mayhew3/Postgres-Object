@@ -9,8 +9,8 @@ import java.sql.SQLException;
 public class ViewingLocation extends DataObject {
 
   /* Data */
-  public FieldValueString viewingLocationName = registerStringField("name");
-  public FieldValueBoolean streaming = registerBooleanField("streaming");
+  public FieldValueString viewingLocationName = registerStringField("name", Nullability.NOT_NULL);
+  public FieldValueBoolean streaming = registerBooleanField("streaming", Nullability.NOT_NULL);
 
   @Override
   protected String getTableName() {

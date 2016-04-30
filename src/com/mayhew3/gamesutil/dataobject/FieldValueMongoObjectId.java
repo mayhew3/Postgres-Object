@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 
 public class FieldValueMongoObjectId extends FieldValue<ObjectId> {
   public FieldValueMongoObjectId(String fieldName, FieldConversion<ObjectId> converter) {
-    super(fieldName, converter);
+    super(fieldName, converter, Nullability.NULLABLE);
   }
 
   @Override

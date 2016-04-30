@@ -3,8 +3,8 @@ package com.mayhew3.gamesutil.dataobject;
 public class SeasonViewingLocation extends DataObject {
 
   /* Data */
-  public FieldValueInteger seasonId = registerIntegerField("season_id");
-  public FieldValueInteger viewingLocationId = registerIntegerField("viewing_location_id");
+  public FieldValueInteger seasonId = registerIntegerField("season_id", Nullability.NOT_NULL);
+  public FieldValueInteger viewingLocationId = registerIntegerField("viewing_location_id", Nullability.NOT_NULL);
 
   @Override
   protected String getTableName() {

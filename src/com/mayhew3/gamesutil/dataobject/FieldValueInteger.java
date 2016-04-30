@@ -8,8 +8,25 @@ import java.sql.SQLException;
 import java.sql.Types;
 
 public class FieldValueInteger extends FieldValue<Integer> {
-  public FieldValueInteger(String fieldName, FieldConversion<Integer> converter) {
-    super(fieldName, converter);
+
+  private IntegerSize size = IntegerSize.INTEGER;
+
+  public FieldValueInteger(String fieldName, FieldConversion<Integer> converter, Nullability nullability) {
+    super(fieldName, converter, nullability);
+  }
+
+  public FieldValueInteger(String fieldName, FieldConversion<Integer> converter, Nullability nullability, IntegerSize size) {
+    super(fieldName, converter, nullability);
+    this.size = size;
+  }
+
+  public void setSize(IntegerSize size) {
+    this.size = size;
+  }
+
+  @Override
+  String getDDLType() {
+    return size.getDdlIdentifier();
   }
 
   @Override

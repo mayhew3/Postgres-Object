@@ -1,5 +1,8 @@
 package com.mayhew3.gamesutil.dataobject;
 
+import com.sun.istack.internal.NotNull;
+import org.apache.commons.lang3.ObjectUtils;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,12 +15,15 @@ public abstract class FieldValue<T> {
   private FieldConversion<T> converter;
   private Boolean explicitNull = false;
 
+  Nullability nullability = Nullability.NULLABLE;
+
   private Boolean wasText = false;
   protected Boolean isText = false;
 
-  public FieldValue(String fieldName, FieldConversion<T> converter) {
+  public FieldValue(String fieldName, FieldConversion<T> converter, @NotNull Nullability nullability) {
     this.fieldName = fieldName;
     this.converter = converter;
+    this.nullability = nullability;
   }
 
   public T getOriginalValue() {
@@ -38,6 +44,11 @@ public abstract class FieldValue<T> {
     initializeValue(convertedValue);
 
     this.wasText = true;
+  }
+
+  // todo: make abstract, and force all subtypes to implement.
+  String getDDLType() {
+    throw new UnsupportedOperationException("This method needs to be implemented on all subtypes that call it.");
   }
 
   abstract protected void initializeValue(ResultSet resultSet) throws SQLException;

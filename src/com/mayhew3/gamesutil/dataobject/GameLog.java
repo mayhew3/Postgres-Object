@@ -6,17 +6,17 @@ import java.sql.Timestamp;
 public class GameLog extends DataObject {
 
 
-  public FieldValue<Timestamp> eventdate = registerTimestampField("eventdate");
+  public FieldValue<Timestamp> eventdate = registerTimestampField("eventdate", Nullability.NOT_NULL);
 
-  public FieldValue<BigDecimal> previousPlaytime = registerBigDecimalField("previousplaytime");
-  public FieldValue<BigDecimal> updatedplaytime = registerBigDecimalField("updatedplaytime");
-  public FieldValue<BigDecimal> diff = registerBigDecimalField("diff");
+  public FieldValue<BigDecimal> previousPlaytime = registerBigDecimalField("previousplaytime", Nullability.NULLABLE);
+  public FieldValue<BigDecimal> updatedplaytime = registerBigDecimalField("updatedplaytime", Nullability.NULLABLE);
+  public FieldValue<BigDecimal> diff = registerBigDecimalField("diff", Nullability.NULLABLE);
 
-  public FieldValueInteger steamID = registerIntegerField("steamid");
+  public FieldValueInteger steamID = registerIntegerField("steamid", Nullability.NULLABLE);
 
-  public FieldValueString game = registerStringField("game");
-  public FieldValueString platform = registerStringField("platform");
-  public FieldValueString eventtype = registerStringField("eventtype");
+  public FieldValueString game = registerStringField("game", Nullability.NOT_NULL);
+  public FieldValueString platform = registerStringField("platform", Nullability.NOT_NULL);
+  public FieldValueString eventtype = registerStringField("eventtype", Nullability.NULLABLE);
 
 
   @Override

@@ -2,8 +2,8 @@ package com.mayhew3.gamesutil.dataobject;
 
 public class EdgeTiVoEpisode extends DataObject {
 
-  public FieldValueInteger episodeId = registerIntegerField("episode_id");
-  public FieldValueInteger tivoEpisodeId = registerIntegerField("tivo_episode_id");
+  public FieldValueInteger episodeId = registerIntegerField("episode_id", Nullability.NOT_NULL);
+  public FieldValueInteger tivoEpisodeId = registerIntegerField("tivo_episode_id", Nullability.NOT_NULL);
 
   @Override
   protected String getTableName() {

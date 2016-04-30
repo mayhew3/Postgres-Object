@@ -3,9 +3,9 @@ package com.mayhew3.gamesutil.dataobject;
 public class SteamAttribute extends DataObject {
 
 
-  public FieldValueInteger steamID = registerIntegerField("steamid");
+  public FieldValueInteger steamID = registerIntegerField("steamid", Nullability.NOT_NULL);
 
-  public FieldValueString attribute = registerStringField("attribute");
+  public FieldValueString attribute = registerStringField("attribute", Nullability.NOT_NULL);
 
 
   @Override

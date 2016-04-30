@@ -6,8 +6,13 @@ import java.sql.*;
 import java.util.Date;
 
 public class FieldValueTimestamp extends FieldValue<Timestamp> {
-  public FieldValueTimestamp(String fieldName, FieldConversion<Timestamp> converter) {
-    super(fieldName, converter);
+  public FieldValueTimestamp(String fieldName, FieldConversion<Timestamp> converter, Nullability nullability) {
+    super(fieldName, converter, nullability);
+  }
+
+  @Override
+  String getDDLType() {
+    return "TIMESTAMP(6) WITHOUT TIME ZONE";
   }
 
   @Override

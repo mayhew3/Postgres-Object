@@ -9,7 +9,7 @@ import java.sql.SQLException;
 public class Genre extends DataObject {
 
   /* Data */
-  public FieldValueString genreName = registerStringField("name");
+  public FieldValueString genreName = registerStringField("name", Nullability.NOT_NULL);
 
   @Override
   protected String getTableName() {

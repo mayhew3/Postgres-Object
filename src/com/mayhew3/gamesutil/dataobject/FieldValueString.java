@@ -6,8 +6,8 @@ import java.sql.SQLException;
 import java.sql.Types;
 
 public class FieldValueString extends FieldValue<String> {
-  public FieldValueString(String fieldName, FieldConversion<String> converter) {
-    super(fieldName, converter);
+  public FieldValueString(String fieldName, FieldConversion<String> converter, Nullability nullability) {
+    super(fieldName, converter, nullability);
   }
 
   @Override
@@ -20,6 +20,11 @@ public class FieldValueString extends FieldValue<String> {
   protected void initializeValueFromString(String valueString) {
     super.initializeValueFromString(valueString);
     this.isText = true;
+  }
+
+  @Override
+  String getDDLType() {
+    return "TEXT";
   }
 
   @Override
