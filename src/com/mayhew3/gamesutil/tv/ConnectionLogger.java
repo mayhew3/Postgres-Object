@@ -1,6 +1,6 @@
 package com.mayhew3.gamesutil.tv;
 
-import com.mayhew3.gamesutil.dataobject.ConnectLog;
+import com.mayhew3.gamesutil.model.tv.ConnectLog;
 import com.mayhew3.gamesutil.db.SQLConnection;
 
 import java.sql.ResultSet;

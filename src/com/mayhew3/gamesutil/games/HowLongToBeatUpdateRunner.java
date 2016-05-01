@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import com.mayhew3.gamesutil.ArgumentChecker;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
-import com.mayhew3.gamesutil.dataobject.Game;
+import com.mayhew3.gamesutil.model.games.Game;
 import org.joda.time.DateTime;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.chrome.ChromeDriver;

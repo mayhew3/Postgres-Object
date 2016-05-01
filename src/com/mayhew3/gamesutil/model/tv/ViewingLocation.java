@@ -1,5 +1,6 @@
-package com.mayhew3.gamesutil.dataobject;
+package com.mayhew3.gamesutil.model.tv;
 
+import com.mayhew3.gamesutil.dataobject.*;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.sun.istack.internal.NotNull;
 
@@ -13,7 +14,7 @@ public class ViewingLocation extends DataObject {
   public FieldValueBoolean streaming = registerBooleanField("streaming", Nullability.NOT_NULL).defaultValue(true);
 
   public ViewingLocation() {
-    id.setSize(IntegerSize.SMALLINT);
+    changeIdIntegerSize(IntegerSize.SMALLINT);
   }
 
   @Override

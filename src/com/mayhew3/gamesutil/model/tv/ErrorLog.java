@@ -1,4 +1,6 @@
-package com.mayhew3.gamesutil.dataobject;
+package com.mayhew3.gamesutil.model.tv;
+
+import com.mayhew3.gamesutil.dataobject.*;
 
 public class ErrorLog extends DataObject {
 

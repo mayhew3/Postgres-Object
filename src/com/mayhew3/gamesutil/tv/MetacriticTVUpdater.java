@@ -2,8 +2,8 @@ package com.mayhew3.gamesutil.tv;
 
 import com.google.common.collect.Lists;
 import com.mayhew3.gamesutil.ArgumentChecker;
-import com.mayhew3.gamesutil.dataobject.Season;
-import com.mayhew3.gamesutil.dataobject.Series;
+import com.mayhew3.gamesutil.model.tv.Season;
+import com.mayhew3.gamesutil.model.tv.Series;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import org.jsoup.Jsoup;

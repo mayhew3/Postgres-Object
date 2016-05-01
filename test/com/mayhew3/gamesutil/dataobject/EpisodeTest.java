@@ -1,6 +1,8 @@
 package com.mayhew3.gamesutil.dataobject;
 
 import com.mayhew3.gamesutil.db.PostgresConnection;
+import com.mayhew3.gamesutil.model.tv.Episode;
+import com.mayhew3.gamesutil.model.tv.TiVoEpisode;
 import org.junit.Before;
 import org.junit.Test;
 

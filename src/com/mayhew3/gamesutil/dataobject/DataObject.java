@@ -163,6 +163,10 @@ public abstract class DataObject {
     }
   }
 
+  protected void changeIdIntegerSize(IntegerSize integerSize) {
+    this.id.setSize(integerSize);
+  }
+
   private void updateObjects(List<FieldValue> changedFields) {
     changedFields.forEach(FieldValue::updateInternal);
   }
@@ -203,7 +207,7 @@ public abstract class DataObject {
     return connection.prepareAndExecuteStatementInsertReturnId(sql, fieldValues);
   }
 
-  void addUniqueConstraint(FieldValue... fieldValues) {
+  protected void addUniqueConstraint(FieldValue... fieldValues) {
     indices.add(new UniqueConstraint(Lists.newArrayList(fieldValues)));
   }
 

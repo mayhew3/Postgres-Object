@@ -1,5 +1,6 @@
-package com.mayhew3.gamesutil.dataobject;
+package com.mayhew3.gamesutil.model.tv;
 
+import com.mayhew3.gamesutil.dataobject.*;
 import com.mayhew3.gamesutil.db.SQLConnection;
 
 import java.sql.ResultSet;

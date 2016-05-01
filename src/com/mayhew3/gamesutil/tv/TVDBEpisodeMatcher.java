@@ -1,7 +1,7 @@
 package com.mayhew3.gamesutil.tv;
 
-import com.mayhew3.gamesutil.dataobject.TVDBEpisode;
-import com.mayhew3.gamesutil.dataobject.TiVoEpisode;
+import com.mayhew3.gamesutil.model.tv.TVDBEpisode;
+import com.mayhew3.gamesutil.model.tv.TiVoEpisode;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.sun.istack.internal.Nullable;
 import org.joda.time.DateTime;

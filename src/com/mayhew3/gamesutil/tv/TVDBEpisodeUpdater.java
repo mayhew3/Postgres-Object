@@ -1,9 +1,9 @@
 package com.mayhew3.gamesutil.tv;
 
-import com.mayhew3.gamesutil.dataobject.Episode;
-import com.mayhew3.gamesutil.dataobject.Series;
-import com.mayhew3.gamesutil.dataobject.TVDBEpisode;
-import com.mayhew3.gamesutil.dataobject.TiVoEpisode;
+import com.mayhew3.gamesutil.model.tv.Episode;
+import com.mayhew3.gamesutil.model.tv.Series;
+import com.mayhew3.gamesutil.model.tv.TVDBEpisode;
+import com.mayhew3.gamesutil.model.tv.TiVoEpisode;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.xml.NodeReader;
 import org.joda.time.DateTime;

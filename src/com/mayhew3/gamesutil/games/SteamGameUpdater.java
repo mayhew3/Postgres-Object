@@ -6,8 +6,8 @@ import com.mayhew3.gamesutil.ArgumentChecker;
 import com.mayhew3.gamesutil.DatabaseUtility;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
-import com.mayhew3.gamesutil.dataobject.Game;
-import com.mayhew3.gamesutil.dataobject.GameLog;
+import com.mayhew3.gamesutil.model.games.Game;
+import com.mayhew3.gamesutil.model.games.GameLog;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

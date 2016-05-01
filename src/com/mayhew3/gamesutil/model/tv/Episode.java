@@ -1,6 +1,7 @@
-package com.mayhew3.gamesutil.dataobject;
+package com.mayhew3.gamesutil.model.tv;
 
 import com.google.common.base.Preconditions;
+import com.mayhew3.gamesutil.dataobject.*;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.tv.ShowFailedException;
 import com.sun.istack.internal.NotNull;

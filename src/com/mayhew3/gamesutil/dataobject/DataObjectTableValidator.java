@@ -3,6 +3,7 @@ package com.mayhew3.gamesutil.dataobject;
 import com.google.common.base.Joiner;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
+import com.mayhew3.gamesutil.model.tv.TVDBEpisode;
 import com.sun.istack.internal.Nullable;
 
 import java.net.URISyntaxException;

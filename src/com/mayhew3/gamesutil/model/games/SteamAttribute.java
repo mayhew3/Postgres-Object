@@ -1,4 +1,9 @@
-package com.mayhew3.gamesutil.dataobject;
+package com.mayhew3.gamesutil.model.games;
+
+import com.mayhew3.gamesutil.dataobject.DataObject;
+import com.mayhew3.gamesutil.dataobject.FieldValueInteger;
+import com.mayhew3.gamesutil.dataobject.FieldValueString;
+import com.mayhew3.gamesutil.dataobject.Nullability;
 
 public class SteamAttribute extends DataObject {
 

@@ -1,6 +1,9 @@
 package com.mayhew3.gamesutil.dataobject;
 
 import com.mayhew3.gamesutil.db.PostgresConnection;
+import com.mayhew3.gamesutil.model.tv.Episode;
+import com.mayhew3.gamesutil.model.tv.Series;
+import com.mayhew3.gamesutil.model.tv.SeriesGenre;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -230,13 +233,13 @@ public class DataObjectTest {
 
   @Test
   public void testGenerateActualObject() {
-    Series series = new Series();
+    DataObject series = new Series();
     System.out.println(series.generateTableCreateStatement());
 
-    Episode episode = new Episode();
+    DataObject episode = new Episode();
     System.out.println(episode.generateTableCreateStatement());
 
-    SeriesGenre seriesGenre = new SeriesGenre();
+    DataObject seriesGenre = new SeriesGenre();
     System.out.println(seriesGenre.generateTableCreateStatement());
   }
 

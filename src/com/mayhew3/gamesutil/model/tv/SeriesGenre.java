@@ -1,4 +1,9 @@
-package com.mayhew3.gamesutil.dataobject;
+package com.mayhew3.gamesutil.model.tv;
+
+import com.mayhew3.gamesutil.dataobject.DataObject;
+import com.mayhew3.gamesutil.dataobject.FieldValueInteger;
+import com.mayhew3.gamesutil.dataobject.IntegerSize;
+import com.mayhew3.gamesutil.dataobject.Nullability;
 
 public class SeriesGenre extends DataObject {
 

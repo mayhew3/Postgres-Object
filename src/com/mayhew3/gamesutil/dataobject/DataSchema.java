@@ -3,6 +3,9 @@ package com.mayhew3.gamesutil.dataobject;
 import com.google.common.collect.Lists;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
+import com.mayhew3.gamesutil.model.games.Game;
+import com.mayhew3.gamesutil.model.games.GameLog;
+import com.mayhew3.gamesutil.model.tv.*;
 
 import java.net.URISyntaxException;
 import java.sql.SQLException;

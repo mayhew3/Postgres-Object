@@ -1,4 +1,6 @@
-package com.mayhew3.gamesutil.dataobject;
+package com.mayhew3.gamesutil.model.games;
+
+import com.mayhew3.gamesutil.dataobject.*;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;

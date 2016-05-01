@@ -1,6 +1,6 @@
-package com.mayhew3.gamesutil.dataobject;
+package com.mayhew3.gamesutil.model.tv;
 
-import com.google.common.base.Optional;
+import com.mayhew3.gamesutil.dataobject.*;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.sun.istack.internal.NotNull;
 
@@ -45,7 +45,7 @@ public class TVDBEpisode extends DataObject {
   }
 
   @Override
-  protected String getTableName() {
+  public String getTableName() {
     return "tvdb_episode";
   }
 

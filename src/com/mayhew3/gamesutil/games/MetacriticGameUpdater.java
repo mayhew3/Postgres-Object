@@ -2,8 +2,8 @@ package com.mayhew3.gamesutil.games;
 
 import com.google.common.collect.Maps;
 import com.mayhew3.gamesutil.db.SQLConnection;
-import com.mayhew3.gamesutil.dataobject.Game;
-import com.mayhew3.gamesutil.dataobject.GameLog;
+import com.mayhew3.gamesutil.model.games.Game;
+import com.mayhew3.gamesutil.model.games.GameLog;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;

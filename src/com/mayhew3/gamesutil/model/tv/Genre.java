@@ -1,5 +1,8 @@
-package com.mayhew3.gamesutil.dataobject;
+package com.mayhew3.gamesutil.model.tv;
 
+import com.mayhew3.gamesutil.dataobject.DataObject;
+import com.mayhew3.gamesutil.dataobject.FieldValueString;
+import com.mayhew3.gamesutil.dataobject.Nullability;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.sun.istack.internal.NotNull;
 
