@@ -62,6 +62,11 @@ public abstract class FieldValue<T> {
     throw new UnsupportedOperationException("This method needs to be implemented on all subtypes that call it.");
   }
 
+  // todo: make abstract, and force all subtypes to implement.
+  String getInformationSchemaType() {
+    throw new UnsupportedOperationException("This method needs to be implemented on all subtypes that call it.");
+  }
+
   abstract protected void initializeValue(ResultSet resultSet) throws SQLException;
 
   private T getConversion(String valueString) {

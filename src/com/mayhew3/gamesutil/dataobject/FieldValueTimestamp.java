@@ -30,6 +30,11 @@ public class FieldValueTimestamp extends FieldValue<Timestamp> {
   }
 
   @Override
+  String getInformationSchemaType() {
+    return "timestamp without time zone";
+  }
+
+  @Override
   protected void initializeValue(ResultSet resultSet) throws SQLException {
     initializeValue(resultSet.getTimestamp(getFieldName()));
   }

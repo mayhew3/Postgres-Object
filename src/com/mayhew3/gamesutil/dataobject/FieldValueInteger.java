@@ -39,6 +39,11 @@ public class FieldValueInteger extends FieldValue<Integer> {
   }
 
   @Override
+  String getInformationSchemaType() {
+    return size.getDdlIdentifier();
+  }
+
+  @Override
   protected void initializeValue(ResultSet resultSet) throws SQLException {
     Integer resultSetInt = resultSet.getInt(getFieldName());
     if (resultSet.wasNull()) {

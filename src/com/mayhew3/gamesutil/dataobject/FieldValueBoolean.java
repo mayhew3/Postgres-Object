@@ -31,6 +31,11 @@ public class FieldValueBoolean extends FieldValue<Boolean> {
   }
 
   @Override
+  String getInformationSchemaType() {
+    return "boolean";
+  }
+
+  @Override
   protected void initializeValue(ResultSet resultSet) throws SQLException {
     initializeValue(resultSet.getBoolean(getFieldName()));
   }

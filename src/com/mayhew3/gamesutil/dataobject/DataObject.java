@@ -20,7 +20,7 @@ public abstract class DataObject {
   private EditMode editMode;
   private Boolean initialized = false;
 
-  List<FieldValue> allFieldValues = new ArrayList<>();
+  private List<FieldValue> allFieldValues = new ArrayList<>();
   List<UniqueConstraint> indices = new ArrayList<>();
 
   public FieldValueInteger id = new FieldValueInteger("id", new FieldConversionInteger(), Nullability.NOT_NULL);
@@ -61,6 +61,10 @@ public abstract class DataObject {
 
   public List<FieldValue> getChangedFields() {
     return allFieldValues.stream().filter(FieldValue::isChanged).collect(Collectors.toList());
+  }
+
+  public List<FieldValue> getAllFieldValues() {
+    return allFieldValues;
   }
 
   @NotNull

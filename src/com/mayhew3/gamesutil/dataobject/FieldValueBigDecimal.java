@@ -17,6 +17,11 @@ public class FieldValueBigDecimal extends FieldValue<BigDecimal> {
   }
 
   @Override
+  String getInformationSchemaType() {
+    return "numeric";
+  }
+
+  @Override
   protected void initializeValue(ResultSet resultSet) throws SQLException {
     initializeValue(resultSet.getBigDecimal(getFieldName()));
   }

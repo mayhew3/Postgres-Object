@@ -44,7 +44,7 @@ public class EpisodeTest {
 
     verify(resultSet).getInt("id");
 
-    for (FieldValue fieldValue : tiVoEpisode.allFieldValues) {
+    for (FieldValue fieldValue : tiVoEpisode.getAllFieldValues()) {
       if (fieldValue instanceof FieldValueString) {
         verify(resultSet).getString(fieldValue.getFieldName());
       } else if (fieldValue instanceof FieldValueInteger) {

@@ -28,6 +28,11 @@ public class FieldValueString extends FieldValue<String> {
   }
 
   @Override
+  String getInformationSchemaType() {
+    return "text";
+  }
+
+  @Override
   protected void initializeValue(ResultSet resultSet) throws SQLException {
     initializeValue(resultSet.getString(getFieldName()));
   }
