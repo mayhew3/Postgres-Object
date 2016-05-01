@@ -9,18 +9,16 @@ import org.mockito.MockitoAnnotations;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
-import static org.bouncycastle.asn1.x500.style.RFC4519Style.title;
 import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 
 public class DataObjectTest {
 
-  private DataObjectMock mediaObject;
+  private DataObjectMock dataObject;
 
   @Captor
   ArgumentCaptor<List<Object>> listCaptor;
@@ -34,61 +32,61 @@ public class DataObjectTest {
 
   @Before
   public void setUp() {
-    mediaObject = new DataObjectMock();
+    dataObject = new DataObjectMock();
     MockitoAnnotations.initMocks(this);
   }
 
   @Test
   public void testInitializeForInsert() {
-    assertThat(mediaObject.isInitialized())
+    assertThat(dataObject.isInitialized())
         .as("SANITY: Expect initialized to be false before initialize method is called.")
         .isFalse();
-    assertThat(mediaObject.isForInsert())
+    assertThat(dataObject.isForInsert())
         .isFalse();
-    assertThat(mediaObject.isForUpdate())
+    assertThat(dataObject.isForUpdate())
         .isFalse();
 
-    mediaObject.initializeForInsert();
+    dataObject.initializeForInsert();
 
-    assertThat(mediaObject.isInitialized())
+    assertThat(dataObject.isInitialized())
         .as("Expect object to be initialized.")
         .isTrue();
-    assertThat(mediaObject.isForInsert())
+    assertThat(dataObject.isForInsert())
         .as("Initialized for insert.")
         .isTrue();
-    assertThat(mediaObject.isForUpdate())
+    assertThat(dataObject.isForUpdate())
         .isFalse();
   }
 
   @Test
   public void testChangeToUpdateObject() {
-    mediaObject.initializeForInsert();
+    dataObject.initializeForInsert();
 
-    assertThat(mediaObject.isInitialized())
+    assertThat(dataObject.isInitialized())
         .as("SANITY: Expect object to be initialized.")
         .isTrue();
-    assertThat(mediaObject.isForInsert())
+    assertThat(dataObject.isForInsert())
         .as("SANITY: Initialized for insert.")
         .isTrue();
-    assertThat(mediaObject.isForUpdate())
+    assertThat(dataObject.isForUpdate())
         .isFalse();
 
-    mediaObject.changeToUpdateObject();
+    dataObject.changeToUpdateObject();
 
-    assertThat(mediaObject.isInitialized())
+    assertThat(dataObject.isInitialized())
         .as("Expect object to still be initialized after change to 'update'.")
         .isTrue();
-    assertThat(mediaObject.isForInsert())
+    assertThat(dataObject.isForInsert())
         .as("Should no longer be for insert after change.")
         .isFalse();
-    assertThat(mediaObject.isForUpdate())
+    assertThat(dataObject.isForUpdate())
         .as("Should be an update object after change.")
         .isTrue();
   }
 
   @Test(expected = IllegalStateException.class)
   public void testChangeToUpdateObjectThrowsExceptionIfNotInitialized() {
-    mediaObject.changeToUpdateObject();
+    dataObject.changeToUpdateObject();
   }
 
   @Test
@@ -96,19 +94,19 @@ public class DataObjectTest {
 
     ResultSet resultSet = mockDBRow();
 
-    mediaObject.initializeFromDBObject(resultSet);
+    dataObject.initializeFromDBObject(resultSet);
 
-    assertThat(mediaObject.isInitialized())
+    assertThat(dataObject.isInitialized())
         .isTrue();
-    assertThat(mediaObject.isForUpdate())
+    assertThat(dataObject.isForUpdate())
         .isTrue();
-    assertThat(mediaObject.isForInsert())
+    assertThat(dataObject.isForInsert())
         .isFalse();
-    assertThat(mediaObject.id.getValue())
+    assertThat(dataObject.id.getValue())
         .isEqualTo(initial_id);
-    assertThat(mediaObject.title.getValue())
+    assertThat(dataObject.title.getValue())
         .isEqualTo(initial_title);
-    assertThat(mediaObject.kernels.getValue())
+    assertThat(dataObject.kernels.getValue())
         .isEqualTo(initial_kernels);
   }
 
@@ -119,14 +117,14 @@ public class DataObjectTest {
 
     when(connection.prepareAndExecuteStatementInsertReturnId(anyString(), anyList())).thenReturn(initial_id);
 
-    mediaObject.initializeForInsert();
+    dataObject.initializeForInsert();
 
     String newTitle = "Booty";
     Integer newKernels = 46;
-    mediaObject.title.changeValue(newTitle);
-    mediaObject.kernels.changeValue(newKernels);
+    dataObject.title.changeValue(newTitle);
+    dataObject.kernels.changeValue(newKernels);
 
-    mediaObject.commit(connection);
+    dataObject.commit(connection);
 
     String sql = "INSERT INTO test (\"date_added\", \"title\", \"kernels\") VALUES (?, ?, ?)";
     verify(connection).prepareAndExecuteStatementInsertReturnId(eq(sql), fieldValueCaptor.capture());
@@ -154,9 +152,9 @@ public class DataObjectTest {
     assertThat(kernelField.getChangedValue())
         .isEqualTo(newKernels);
 
-    assertThat(mediaObject.isForUpdate())
+    assertThat(dataObject.isForUpdate())
         .isTrue();
-    assertThat(mediaObject.isForInsert())
+    assertThat(dataObject.isForInsert())
         .isFalse();
   }
 
@@ -166,14 +164,14 @@ public class DataObjectTest {
 
     ResultSet resultSet = mockDBRow();
 
-    mediaObject.initializeFromDBObject(resultSet);
+    dataObject.initializeFromDBObject(resultSet);
 
     String newTitle = "Booty plz";
     Integer newKernels = 113;
-    mediaObject.title.changeValue(newTitle);
-    mediaObject.kernels.changeValue(newKernels);
+    dataObject.title.changeValue(newTitle);
+    dataObject.kernels.changeValue(newKernels);
 
-    mediaObject.commit(connection);
+    dataObject.commit(connection);
 
     verify(connection).prepareAndExecuteStatementUpdateWithFields(eq("UPDATE test SET \"title\" = ?, \"kernels\" = ? WHERE ID = ?"), fieldValueCaptor.capture());
 
@@ -199,9 +197,9 @@ public class DataObjectTest {
     assertThat(idField.getValue())
         .isEqualTo(initial_id);
 
-    assertThat(mediaObject.isForUpdate())
+    assertThat(dataObject.isForUpdate())
         .isTrue();
-    assertThat(mediaObject.isForInsert())
+    assertThat(dataObject.isForInsert())
         .isFalse();
   }
 
@@ -211,15 +209,23 @@ public class DataObjectTest {
 
     ResultSet resultSet = mockDBRow();
 
-    mediaObject.initializeFromDBObject(resultSet);
-    mediaObject.commit(connection);
+    dataObject.initializeFromDBObject(resultSet);
+    dataObject.commit(connection);
 
     verifyNoMoreInteractions(connection);
 
-    assertThat(mediaObject.isForUpdate())
+    assertThat(dataObject.isForUpdate())
         .isTrue();
-    assertThat(mediaObject.isForInsert())
+    assertThat(dataObject.isForInsert())
         .isFalse();
+  }
+
+  @Test
+  public void testGenerateTableCreateStatement() throws SQLException {
+    String ddl = dataObject.generateTableCreateStatement();
+
+    assertThat(ddl)
+        .isEqualTo("CREATE TABLE test (id serial NOT NULL, date_added TIMESTAMP(6) WITHOUT TIME ZONE, title TEXT NOT NULL, kernels INTEGER, PRIMARY KEY (id))");
   }
 
 

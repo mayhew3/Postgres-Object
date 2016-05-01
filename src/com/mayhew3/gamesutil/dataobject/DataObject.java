@@ -182,6 +182,46 @@ public abstract class DataObject {
     return connection.prepareAndExecuteStatementInsertReturnId(sql, fieldValues);
   }
 
+  String generateTableCreateStatement() {
+    String statement =
+        "CREATE TABLE " + getTableName() +
+            " (";
+
+    List<String> statementPieces = new ArrayList<>();
+
+    String idPiece = id.getFieldName() + " " + getSerialDDLType();
+    if (!id.nullability.getAllowNulls()) {
+      idPiece += " NOT NULL";
+    }
+    statementPieces.add(idPiece);
+
+    for (FieldValue fieldValue : allFieldValues) {
+      String statementPiece = fieldValue.getFieldName() + " " + fieldValue.getDDLType();
+      if (!fieldValue.nullability.getAllowNulls()) {
+        statementPiece += " NOT NULL";
+      }
+      statementPieces.add(statementPiece);
+    }
+
+    statementPieces.add("PRIMARY KEY (" + id.getFieldName() + ")");
+
+    String allFieldDeclarations = Joiner.on(", ").join(statementPieces);
+
+    statement += allFieldDeclarations;
+    statement += ")";
+
+    return statement;
+  }
+
+  private String getSerialDDLType() {
+    IntegerSize size = id.getSize();
+    if (size.equals(IntegerSize.BIGINT)) {
+      return "bigserial";
+    } else {
+      return "serial";
+    }
+  }
+
   protected abstract String getTableName();
 
   // todo: make abstract, and force all subtypes to implement.

@@ -20,7 +20,11 @@ public class FieldValueInteger extends FieldValue<Integer> {
     this.size = size;
   }
 
-  public void setSize(IntegerSize size) {
+  IntegerSize getSize() {
+    return size;
+  }
+
+  void setSize(IntegerSize size) {
     this.size = size;
   }
 
