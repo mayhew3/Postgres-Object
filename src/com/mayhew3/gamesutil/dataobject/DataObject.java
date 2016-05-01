@@ -21,6 +21,7 @@ public abstract class DataObject {
   private Boolean initialized = false;
 
   List<FieldValue> allFieldValues = new ArrayList<>();
+  List<UniqueConstraint> indices = new ArrayList<>();
 
   public FieldValueInteger id = new FieldValueInteger("id", new FieldConversionInteger(), Nullability.NOT_NULL);
 
@@ -182,6 +183,12 @@ public abstract class DataObject {
     return connection.prepareAndExecuteStatementInsertReturnId(sql, fieldValues);
   }
 
+  UniqueConstraint addUniqueConstraint() {
+    UniqueConstraint uniqueConstraint = new UniqueConstraint();
+    indices.add(uniqueConstraint);
+    return uniqueConstraint;
+  }
+
   String generateTableCreateStatement() {
     String statement =
         "CREATE TABLE " + getTableName() +
@@ -207,6 +214,12 @@ public abstract class DataObject {
     }
 
     statementPieces.add("PRIMARY KEY (" + id.getFieldName() + ")");
+
+    for (UniqueConstraint index : indices) {
+      List<String> fieldNames = index.getFields().stream().map(FieldValue::getFieldName).collect(Collectors.toList());
+      String join = Joiner.on(", ").join(fieldNames);
+      statementPieces.add("UNIQUE (" + join + ")");
+    }
 
     String allFieldDeclarations = Joiner.on(", ").join(statementPieces);
 

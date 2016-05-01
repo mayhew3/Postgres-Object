@@ -50,6 +50,10 @@ public class Series extends DataObject {
   public FieldValueTimestamp mostRecent = registerTimestampField("most_recent", Nullability.NULLABLE);
   public FieldValueBoolean isSuggestion = registerBooleanField("suggestion", Nullability.NOT_NULL).defaultValue(false);
 
+  public Series() {
+    addUniqueConstraint().addField(tvdbId);
+  }
+
   @Override
   protected String getTableName() {
     return "series";

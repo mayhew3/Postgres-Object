@@ -225,7 +225,7 @@ public class DataObjectTest {
     String ddl = dataObject.generateTableCreateStatement();
 
     assertThat(ddl)
-        .isEqualTo("CREATE TABLE test (id serial NOT NULL, date_added TIMESTAMP(6) WITHOUT TIME ZONE, title TEXT NOT NULL, kernels INTEGER, PRIMARY KEY (id))");
+        .isEqualTo("CREATE TABLE test (id serial NOT NULL, date_added TIMESTAMP(6) WITHOUT TIME ZONE DEFAULT now(), title TEXT NOT NULL, kernels INTEGER DEFAULT 0, PRIMARY KEY (id), UNIQUE (title), UNIQUE (kernels, date_added))");
   }
 
   @Test
@@ -235,6 +235,9 @@ public class DataObjectTest {
 
     Episode episode = new Episode();
     System.out.println(episode.generateTableCreateStatement());
+
+    SeriesGenre seriesGenre = new SeriesGenre();
+    System.out.println(seriesGenre.generateTableCreateStatement());
   }
 
   
@@ -253,6 +256,11 @@ public class DataObjectTest {
   private class DataObjectMock extends DataObject {
     FieldValueString title = registerStringField("title", Nullability.NOT_NULL);
     FieldValueInteger kernels = registerIntegerField("kernels", Nullability.NULLABLE).defaultValue(0);
+
+    private DataObjectMock() {
+      addUniqueConstraint().addField(title);
+      addUniqueConstraint().addField(kernels).addField(dateAdded);
+    }
 
     @Override
     protected String getTableName() {
