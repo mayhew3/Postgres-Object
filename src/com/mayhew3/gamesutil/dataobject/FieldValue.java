@@ -1,7 +1,7 @@
 package com.mayhew3.gamesutil.dataobject;
 
 import com.sun.istack.internal.NotNull;
-import org.apache.commons.lang3.ObjectUtils;
+import com.sun.istack.internal.Nullable;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,16 +14,27 @@ public abstract class FieldValue<T> {
   private T changedValue;
   private FieldConversion<T> converter;
   private Boolean explicitNull = false;
+  T defaultValue;
 
   Nullability nullability = Nullability.NULLABLE;
 
   private Boolean wasText = false;
-  protected Boolean isText = false;
+  Boolean isText = false;
 
   public FieldValue(String fieldName, FieldConversion<T> converter, @NotNull Nullability nullability) {
     this.fieldName = fieldName;
     this.converter = converter;
     this.nullability = nullability;
+  }
+
+  public FieldValue defaultValue(T defaultValue) {
+    this.defaultValue = defaultValue;
+    return this;
+  }
+
+  @Nullable
+  public String getDefaultValue() {
+    return defaultValue == null ? null : defaultValue.toString();
   }
 
   public T getOriginalValue() {
@@ -87,15 +98,17 @@ public abstract class FieldValue<T> {
     }
   }
 
-  public void nullValue() {
+  void nullValue() {
     changedValue = null;
   }
 
+  /*
   public void discardChange() {
     changedValue = originalValue;
   }
+*/
 
-  public Boolean isChanged() {
+  Boolean isChanged() {
     return shouldUpgradeText() || valueHasChanged();
   }
 
@@ -103,11 +116,11 @@ public abstract class FieldValue<T> {
     return !Objects.equals(originalValue, changedValue);
   }
 
-  protected boolean shouldUpgradeText() {
+  boolean shouldUpgradeText() {
     return (originalValue != null && wasText && !isText);
   }
 
-  public void updateInternal() {
+  void updateInternal() {
     originalValue = changedValue;
   }
 
@@ -122,7 +135,7 @@ public abstract class FieldValue<T> {
 
   public abstract void updatePreparedStatement(PreparedStatement preparedStatement, int currentIndex) throws SQLException;
 
-  public Boolean getExplicitNull() {
+  Boolean getExplicitNull() {
     return explicitNull;
   }
 }

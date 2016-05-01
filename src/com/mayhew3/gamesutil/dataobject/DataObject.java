@@ -24,7 +24,7 @@ public abstract class DataObject {
 
   public FieldValueInteger id = new FieldValueInteger("id", new FieldConversionInteger(), Nullability.NOT_NULL);
 
-  public FieldValueTimestamp dateAdded = registerTimestampField("date_added", Nullability.NULLABLE);
+  public FieldValueTimestamp dateAdded = registerTimestampField("date_added", Nullability.NULLABLE).defaultValueNow();
 
   public void initializeFromDBObject(ResultSet resultSet) throws SQLException {
     editMode = EditMode.UPDATE;
@@ -199,6 +199,9 @@ public abstract class DataObject {
       String statementPiece = fieldValue.getFieldName() + " " + fieldValue.getDDLType();
       if (!fieldValue.nullability.getAllowNulls()) {
         statementPiece += " NOT NULL";
+      }
+      if (fieldValue.getDefaultValue() != null) {
+        statementPiece += " DEFAULT " + fieldValue.getDefaultValue();
       }
       statementPieces.add(statementPiece);
     }

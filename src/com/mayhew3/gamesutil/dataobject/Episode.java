@@ -27,17 +27,17 @@ public class Episode extends DataObject {
 
   public FieldValueInteger seriesId = registerIntegerField("seriesid", Nullability.NOT_NULL);
 
-  public FieldValue<Boolean> onTiVo = registerBooleanField("on_tivo", Nullability.NOT_NULL);
+  public FieldValue<Boolean> onTiVo = registerBooleanField("on_tivo", Nullability.NOT_NULL).defaultValue(false);
 
   public FieldValueString title = registerStringField("title", Nullability.NULLABLE);
   public FieldValueString seriesTitle = registerStringField("series_title", Nullability.NULLABLE);
 
-  public FieldValueInteger retired = registerIntegerField("retired", Nullability.NOT_NULL);
+  public FieldValueInteger retired = registerIntegerField("retired", Nullability.NOT_NULL).defaultValue(0);
 
   /* User Data */
   public FieldValueTimestamp watchedDate = registerTimestampField("watched_date", Nullability.NULLABLE);
-  public FieldValue<Boolean> watched = registerBooleanField("watched", Nullability.NOT_NULL);
-  public FieldValueBoolean streaming = registerBooleanField("streaming", Nullability.NOT_NULL);
+  public FieldValue<Boolean> watched = registerBooleanField("watched", Nullability.NOT_NULL).defaultValue(false);
+  public FieldValueBoolean streaming = registerBooleanField("streaming", Nullability.NOT_NULL).defaultValue(false);
 
   @Override
   protected String getTableName() {

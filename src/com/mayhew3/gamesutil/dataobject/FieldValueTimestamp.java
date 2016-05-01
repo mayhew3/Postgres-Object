@@ -6,8 +6,22 @@ import java.sql.*;
 import java.util.Date;
 
 public class FieldValueTimestamp extends FieldValue<Timestamp> {
+  private Boolean defaultNow = false;
+
   public FieldValueTimestamp(String fieldName, FieldConversion<Timestamp> converter, Nullability nullability) {
     super(fieldName, converter, nullability);
+  }
+
+  public FieldValueTimestamp defaultValueNow() {
+    defaultNow = true;
+    return this;
+  }
+
+  public String getDefaultValue() {
+    if (defaultNow) {
+      return "now()";
+    }
+    return null;
   }
 
   @Override

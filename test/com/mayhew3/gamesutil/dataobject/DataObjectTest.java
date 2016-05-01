@@ -242,9 +242,9 @@ public class DataObjectTest {
     return resultSet;
   }
 
-  protected class DataObjectMock extends DataObject {
-    public FieldValueString title = registerStringField("title", Nullability.NOT_NULL);
-    public FieldValueInteger kernels = registerIntegerField("kernels", Nullability.NULLABLE);
+  private class DataObjectMock extends DataObject {
+    FieldValueString title = registerStringField("title", Nullability.NOT_NULL);
+    FieldValueInteger kernels = registerIntegerField("kernels", Nullability.NULLABLE).defaultValue(0);
 
     @Override
     protected String getTableName() {

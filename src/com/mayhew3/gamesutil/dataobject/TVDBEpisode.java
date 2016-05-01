@@ -22,7 +22,7 @@ public class TVDBEpisode extends DataObject {
   public FieldValue<Integer> thumbWidth = registerIntegerField("thumb_width", Nullability.NULLABLE);
   public FieldValue<Integer> tvdbSeriesId = registerIntegerField("tvdb_series_id", Nullability.NOT_NULL);
 
-  public FieldValueInteger retired = registerIntegerField("retired", Nullability.NULLABLE);
+  public FieldValueInteger retired = registerIntegerField("retired", Nullability.NULLABLE).defaultValue(0);
 
 
   public FieldValueTimestamp firstAired = registerTimestampField("first_aired", Nullability.NULLABLE);

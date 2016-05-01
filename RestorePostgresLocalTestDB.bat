@@ -1,5 +1,5 @@
 setlocal
-set fullBackupPath=D:\Projects\mean_projects\backups_postgres_local_test\2016_04_28_22_28
+set fullBackupPath=D:\Projects\mean_projects\backups_postgres_local_test\2016_04_30_20_42
 
 set PGPASSFILE=%postgres_pgpass_local%
 echo %PGPASSFILE%

@@ -10,7 +10,7 @@ public class ViewingLocation extends DataObject {
 
   /* Data */
   public FieldValueString viewingLocationName = registerStringField("name", Nullability.NOT_NULL);
-  public FieldValueBoolean streaming = registerBooleanField("streaming", Nullability.NOT_NULL);
+  public FieldValueBoolean streaming = registerBooleanField("streaming", Nullability.NOT_NULL).defaultValue(true);
 
   @Override
   protected String getTableName() {

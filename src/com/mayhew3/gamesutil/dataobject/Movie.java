@@ -2,13 +2,13 @@ package com.mayhew3.gamesutil.dataobject;
 
 public class Movie extends DataObject {
 
-  public FieldValue<Boolean> onTiVo = registerBooleanField("on_tivo", Nullability.NOT_NULL);
+  public FieldValue<Boolean> onTiVo = registerBooleanField("on_tivo", Nullability.NOT_NULL).defaultValue(true);
 
   public FieldValueString title = registerStringField("title", Nullability.NOT_NULL);
-  public FieldValueInteger retired = registerIntegerField("retired", Nullability.NOT_NULL);
+  public FieldValueInteger retired = registerIntegerField("retired", Nullability.NOT_NULL).defaultValue(0);
 
   public FieldValueTimestamp watchedDate = registerTimestampField("watched_date", Nullability.NULLABLE);
-  public FieldValue<Boolean> watched = registerBooleanField("watched", Nullability.NOT_NULL);
+  public FieldValue<Boolean> watched = registerBooleanField("watched", Nullability.NOT_NULL).defaultValue(false);
 
   public FieldValueInteger tier = registerIntegerField("tier", Nullability.NULLABLE);
   public FieldValueInteger metacritic = registerIntegerField("metacritic", Nullability.NULLABLE);
@@ -17,7 +17,7 @@ public class Movie extends DataObject {
   public FieldValueString tivoName = registerStringField("tivo_name", Nullability.NULLABLE);
 
 
-  public FieldValueBoolean suggestion = registerBooleanField("suggestion", Nullability.NOT_NULL);
+  public FieldValueBoolean suggestion = registerBooleanField("suggestion", Nullability.NOT_NULL).defaultValue(false);
 
   public FieldValueTimestamp showingStartTime = registerTimestampField("showing_start_time", Nullability.NULLABLE);
   public FieldValueTimestamp deletedDate = registerTimestampField("deleted_date", Nullability.NULLABLE);

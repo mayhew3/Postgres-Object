@@ -11,6 +11,11 @@ public class FieldValueBoolean extends FieldValue<Boolean> {
     super(fieldName, converter, nullability);
   }
 
+  public FieldValueBoolean defaultValue(Boolean defaultValue) {
+    super.defaultValue(defaultValue);
+    return this;
+  }
+
   @Override
   public void initializeValue(Boolean value) {
     if (nullability.equals(Nullability.NULLABLE)) {

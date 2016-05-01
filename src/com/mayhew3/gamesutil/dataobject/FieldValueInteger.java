@@ -28,6 +28,11 @@ public class FieldValueInteger extends FieldValue<Integer> {
     this.size = size;
   }
 
+  public FieldValueInteger defaultValue(Integer defaultValue) {
+    super.defaultValue(defaultValue);
+    return this;
+  }
+
   @Override
   String getDDLType() {
     return size.getDdlIdentifier();

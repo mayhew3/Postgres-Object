@@ -14,7 +14,7 @@ public class ConnectLog extends DataObject {
   public FieldValueInteger timeConnected = registerIntegerField("time_connected", Nullability.NULLABLE);
   public FieldValueInteger updatedShows = registerIntegerField("updated_shows", Nullability.NULLABLE);
 
-  public FieldValueBoolean fastUpdate = registerBooleanField("fast_update", Nullability.NOT_NULL);
+  public FieldValueBoolean fastUpdate = registerBooleanField("fast_update", Nullability.NOT_NULL).defaultValue(true);
 
   @Override
   protected String getTableName() {
