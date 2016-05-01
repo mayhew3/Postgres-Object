@@ -12,6 +12,10 @@ public class ViewingLocation extends DataObject {
   public FieldValueString viewingLocationName = registerStringField("name", Nullability.NOT_NULL);
   public FieldValueBoolean streaming = registerBooleanField("streaming", Nullability.NOT_NULL).defaultValue(true);
 
+  public ViewingLocation() {
+    id.setSize(IntegerSize.SMALLINT);
+  }
+
   @Override
   protected String getTableName() {
     return "viewing_location";
