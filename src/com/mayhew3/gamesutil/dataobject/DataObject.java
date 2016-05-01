@@ -65,7 +65,7 @@ public abstract class DataObject {
   }
 
   List<FieldValue> getAllFieldValues() {
-    return allFieldValues;
+    return Lists.newArrayList(allFieldValues);
   }
 
   @NotNull
