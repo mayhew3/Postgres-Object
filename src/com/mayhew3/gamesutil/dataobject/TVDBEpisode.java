@@ -40,6 +40,10 @@ public class TVDBEpisode extends DataObject {
   public FieldValue<String> filename = registerStringField("filename", Nullability.NULLABLE);
 
 
+  public TVDBEpisode() {
+    addUniqueConstraint(tvdbId, retired);
+  }
+
   @Override
   protected String getTableName() {
     return "tvdb_episode";

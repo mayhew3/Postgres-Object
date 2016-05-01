@@ -51,7 +51,7 @@ public class Series extends DataObject {
   public FieldValueBoolean isSuggestion = registerBooleanField("suggestion", Nullability.NOT_NULL).defaultValue(false);
 
   public Series() {
-    addUniqueConstraint().addField(tvdbId);
+    addUniqueConstraint(tvdbId);
   }
 
   @Override

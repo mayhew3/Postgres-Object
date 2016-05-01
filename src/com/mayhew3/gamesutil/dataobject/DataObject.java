@@ -183,10 +183,8 @@ public abstract class DataObject {
     return connection.prepareAndExecuteStatementInsertReturnId(sql, fieldValues);
   }
 
-  UniqueConstraint addUniqueConstraint() {
-    UniqueConstraint uniqueConstraint = new UniqueConstraint();
-    indices.add(uniqueConstraint);
-    return uniqueConstraint;
+  void addUniqueConstraint(FieldValue... fieldValues) {
+    indices.add(new UniqueConstraint(Lists.newArrayList(fieldValues)));
   }
 
   String generateTableCreateStatement() {

@@ -7,7 +7,7 @@ public class SeriesGenre extends DataObject {
   public FieldValueInteger genreId = registerIntegerField("genre_id", Nullability.NOT_NULL, IntegerSize.SMALLINT);
 
   public SeriesGenre() {
-    addUniqueConstraint().addField(seriesId).addField(genreId);
+    addUniqueConstraint(seriesId, genreId);
   }
 
   @Override

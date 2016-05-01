@@ -23,7 +23,7 @@ public class TVDBSeries extends DataObject {
   public FieldValue<String> zap2it_id = registerStringField("zap2it_id", Nullability.NULLABLE);
 
   public TVDBSeries() {
-    addUniqueConstraint().addField(tvdbId);
+    addUniqueConstraint(tvdbId);
   }
 
   @Override

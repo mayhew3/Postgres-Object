@@ -34,6 +34,10 @@ public class TiVoEpisode extends DataObject {
 
   public FieldValueInteger retired = registerIntegerField("retired", Nullability.NOT_NULL);
 
+  public TiVoEpisode() {
+    addUniqueConstraint(programId, retired);
+  }
+
   @Override
   protected String getTableName() {
     return "tivo_episode";

@@ -11,6 +11,10 @@ public class Season extends DataObject {
 
   public FieldValueTimestamp dateModified = registerTimestampField("date_modified", Nullability.NULLABLE);
 
+  public Season() {
+    addUniqueConstraint(seasonNumber, seriesId);
+  }
+
   @Override
   protected String getTableName() {
     return "season";

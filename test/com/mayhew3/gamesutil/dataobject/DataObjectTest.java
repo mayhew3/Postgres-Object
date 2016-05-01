@@ -258,8 +258,8 @@ public class DataObjectTest {
     FieldValueInteger kernels = registerIntegerField("kernels", Nullability.NULLABLE).defaultValue(0);
 
     private DataObjectMock() {
-      addUniqueConstraint().addField(title);
-      addUniqueConstraint().addField(kernels).addField(dateAdded);
+      addUniqueConstraint(title);
+      addUniqueConstraint(kernels, dateAdded);
     }
 
     @Override
