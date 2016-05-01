@@ -56,7 +56,7 @@ public class DataObjectTableValidator {
     for (FieldValue fieldValue : dataObject.getAllFieldValues()) {
       matchField(fieldValue);
     }
-    
+
     // todo: check if any columns are missing from DataObject
 
     return mismatches;
