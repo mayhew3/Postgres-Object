@@ -18,7 +18,7 @@ public class DataObjectTableValidator {
 
   private List<DataObjectMismatch> mismatches;
 
-  public DataObjectTableValidator(DataObject dataObject, SQLConnection connection) {
+  DataObjectTableValidator(DataObject dataObject, SQLConnection connection) {
     this.dataObject = dataObject;
     this.connection = connection;
 
@@ -41,7 +41,7 @@ public class DataObjectTableValidator {
     }
   }
 
-  public List<DataObjectMismatch> matchSchema() throws SQLException {
+  List<DataObjectMismatch> matchSchema() throws SQLException {
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
         "SELECT COUNT(1) as num_tables " +
             "FROM information_schema.tables " +
@@ -82,8 +82,8 @@ public class DataObjectTableValidator {
         Boolean is_nullable = resultSet.getString("is_nullable").equals("YES");
         String data_type = resultSet.getString("data_type");
 
-        if (!matchesIgnoreCase(column_default, fieldValue.getDefaultValue())) {
-          addMismatch(fieldValue, "DEFAULT mismatch: DB value: " + column_default + ", Field value: " + fieldValue.getDefaultValue());
+        if (!matchesIgnoreCase(column_default, fieldValue.getInformationSchemaDefault())) {
+          addMismatch(fieldValue, "DEFAULT mismatch: DB value: " + column_default + ", Field value: " + fieldValue.getInformationSchemaDefault());
         }
         if (!is_nullable.equals(fieldValue.nullability.getAllowNulls())) {
           addMismatch(fieldValue, "is_nullable mismatch: DB value: " + is_nullable + ", Field value: " + fieldValue.nullability.getAllowNulls());

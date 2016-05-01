@@ -42,7 +42,7 @@ public class EpisodeTest {
     assertThat(tiVoEpisodes)
         .hasSize(1);
 
-    TiVoEpisode tiVoEpisode = tiVoEpisodes.get(0);
+    DataObject tiVoEpisode = tiVoEpisodes.get(0);
 
     verify(resultSet).getInt("id");
 

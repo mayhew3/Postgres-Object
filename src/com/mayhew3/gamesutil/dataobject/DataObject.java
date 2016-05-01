@@ -22,9 +22,9 @@ public abstract class DataObject {
   private Boolean initialized = false;
 
   private List<FieldValue> allFieldValues = new ArrayList<>();
-  List<UniqueConstraint> indices = new ArrayList<>();
+  private List<UniqueConstraint> indices = new ArrayList<>();
 
-  public FieldValueInteger id = new FieldValueInteger("id", new FieldConversionInteger(), Nullability.NOT_NULL);
+  public FieldValueSerial id = new FieldValueSerial("id", new FieldConversionInteger(), Nullability.NOT_NULL, (getTableName() + "_id_seq"));
 
   public FieldValueTimestamp dateAdded = registerTimestampField("date_added", Nullability.NULLABLE).defaultValueNow();
 
@@ -51,7 +51,7 @@ public abstract class DataObject {
     initialized = true;
   }
 
-  public void changeToUpdateObject() {
+  void changeToUpdateObject() {
     Preconditions.checkState(initialized, "Shouldn't call change to update object if uninitialized.");
     editMode = EditMode.UPDATE;
   }
@@ -60,26 +60,26 @@ public abstract class DataObject {
     return !isForInsert() && !getChangedFields().isEmpty();
   }
 
-  public List<FieldValue> getChangedFields() {
+  private List<FieldValue> getChangedFields() {
     return allFieldValues.stream().filter(FieldValue::isChanged).collect(Collectors.toList());
   }
 
-  public List<FieldValue> getAllFieldValues() {
+  List<FieldValue> getAllFieldValues() {
     return allFieldValues;
   }
 
   @NotNull
-  public boolean isInitialized() {
+  boolean isInitialized() {
     return initialized;
   }
 
   @NotNull
-  public Boolean isForInsert() {
+  Boolean isForInsert() {
     return EditMode.INSERT.equals(editMode);
   }
 
   @NotNull
-  public Boolean isForUpdate() {
+  Boolean isForUpdate() {
     return EditMode.UPDATE.equals(editMode);
   }
 
@@ -149,7 +149,7 @@ public abstract class DataObject {
   }
 
   @Nullable
-  public FieldValue getFieldValueWithName(String fieldName) {
+  FieldValue getFieldValueWithName(String fieldName) {
     if ("id".equals(fieldName)) {
       return id;
     }

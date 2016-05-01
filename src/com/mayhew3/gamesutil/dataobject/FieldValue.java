@@ -37,6 +37,10 @@ public abstract class FieldValue<T> {
     return defaultValue == null ? null : defaultValue.toString();
   }
 
+  public String getInformationSchemaDefault() {
+    return getDefaultValue();
+  }
+
   public T getOriginalValue() {
     return originalValue;
   }
