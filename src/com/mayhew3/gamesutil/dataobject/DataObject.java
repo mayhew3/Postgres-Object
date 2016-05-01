@@ -5,6 +5,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.sun.istack.internal.NotNull;
+import com.sun.istack.internal.Nullable;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -144,6 +145,21 @@ public abstract class DataObject {
       System.out.println(" - Changed: " + joiner.join(changedFieldNames));
       updateDatabase(db, changedFields);
       updateObjects(changedFields);
+    }
+  }
+
+  @Nullable
+  public FieldValue getFieldValueWithName(String fieldName) {
+    if ("id".equals(fieldName)) {
+      return id;
+    }
+    List<FieldValue> fieldValues = allFieldValues.stream().filter(f -> f.getFieldName().equals(fieldName)).collect(Collectors.toList());
+    if (fieldValues.size() > 1) {
+      throw new IllegalStateException("Found multiple field values with name '" + fieldName + "'.");
+    } else if (fieldValues.isEmpty()) {
+      return null;
+    } else {
+      return fieldValues.get(0);
     }
   }
 
