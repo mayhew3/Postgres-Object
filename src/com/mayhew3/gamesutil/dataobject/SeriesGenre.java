@@ -4,7 +4,7 @@ public class SeriesGenre extends DataObject {
 
   /* Data */
   public FieldValueInteger seriesId = registerIntegerField("series_id", Nullability.NOT_NULL);
-  public FieldValueInteger genreId = registerIntegerField("genre_id", Nullability.NOT_NULL);
+  public FieldValueInteger genreId = registerIntegerField("genre_id", Nullability.NOT_NULL, IntegerSize.SMALLINT);
 
   @Override
   protected String getTableName() {

@@ -221,13 +221,21 @@ public class DataObjectTest {
   }
 
   @Test
-  public void testGenerateTableCreateStatement() throws SQLException {
+  public void testGenerateTableCreateStatement() {
     String ddl = dataObject.generateTableCreateStatement();
 
     assertThat(ddl)
         .isEqualTo("CREATE TABLE test (id serial NOT NULL, date_added TIMESTAMP(6) WITHOUT TIME ZONE, title TEXT NOT NULL, kernels INTEGER, PRIMARY KEY (id))");
   }
 
+  @Test
+  public void testGenerateActualObject() {
+    Series series = new Series();
+    System.out.println(series.generateTableCreateStatement());
+
+    Episode episode = new Episode();
+    System.out.println(episode.generateTableCreateStatement());
+  }
 
   
   // utility methods

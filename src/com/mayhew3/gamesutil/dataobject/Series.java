@@ -18,9 +18,9 @@ public class Series extends DataObject {
 
   /* Data */
   public FieldValueString seriesTitle = registerStringField("title", Nullability.NULLABLE);
-  public FieldValueInteger tier = registerIntegerField("tier", Nullability.NULLABLE);
-  public FieldValueInteger metacritic = registerIntegerField("metacritic", Nullability.NULLABLE);
-  public FieldValueInteger my_rating = registerIntegerField("my_rating", Nullability.NULLABLE);
+  public FieldValueInteger tier = registerIntegerField("tier", Nullability.NULLABLE, IntegerSize.SMALLINT);
+  public FieldValueInteger metacritic = registerIntegerField("metacritic", Nullability.NULLABLE, IntegerSize.SMALLINT);
+  public FieldValueInteger my_rating = registerIntegerField("my_rating", Nullability.NULLABLE, IntegerSize.SMALLINT);
   public FieldValueString tivoSeriesId = registerStringField("tivo_series_id", Nullability.NULLABLE);
   public FieldValueInteger tvdbId = registerIntegerField("tvdb_id", Nullability.NULLABLE);
 
@@ -70,6 +70,8 @@ public class Series extends DataObject {
     unwatchedUnrecorded.changeValue(0);
     tvdbOnlyEpisodes.changeValue(0);
     matchedEpisodes.changeValue(0);
+    streamingEpisodes.changeValue(0);
+    unwatchedStreaming.changeValue(0);
 
     ignoreTVDB.changeValue(false);
     isSuggestion.changeValue(false);

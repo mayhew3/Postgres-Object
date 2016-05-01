@@ -197,11 +197,11 @@ public abstract class DataObject {
 
     for (FieldValue fieldValue : allFieldValues) {
       String statementPiece = fieldValue.getFieldName() + " " + fieldValue.getDDLType();
-      if (!fieldValue.nullability.getAllowNulls()) {
-        statementPiece += " NOT NULL";
-      }
       if (fieldValue.getDefaultValue() != null) {
         statementPiece += " DEFAULT " + fieldValue.getDefaultValue();
+      }
+      if (!fieldValue.nullability.getAllowNulls()) {
+        statementPiece += " NOT NULL";
       }
       statementPieces.add(statementPiece);
     }
