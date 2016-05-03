@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class DataObjectTableValidator {
   private DataObject dataObject;
@@ -56,6 +57,7 @@ public class DataObjectTableValidator {
     }
 
     matchFields();
+    matchForeignKeys();
 
     return mismatches;
   }
@@ -102,6 +104,63 @@ public class DataObjectTableValidator {
       }
     }
   }
+
+  private void matchForeignKeys() throws SQLException {
+    List<FieldValueForeignKey> unfoundForeignKeys = dataObject.getForeignKeys();
+
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
+        "SELECT " +
+            "  tc.constraint_name, " +
+            "  tc.table_name AS original_table, " +
+            "  tc.column_name AS original_column, " +
+            "  ccu.table_name AS referenced_table, " +
+            "  ccu.column_name AS referenced_column " +
+            "FROM information_schema.key_column_usage AS tc " +
+            "  INNER JOIN information_schema.constraint_column_usage AS ccu " +
+            "     ON tc.constraint_name = ccu.constraint_name " +
+            "WHERE tc.constraint_schema = ? " +
+            "AND tc.TABLE_NAME <> ccu.table_name " +
+            "AND tc.table_name = ? ",
+        "public", dataObject.getTableName()
+    );
+
+    while (resultSet.next()) {
+      String constraintName = resultSet.getString("constraint_name");
+      String originalColumn = resultSet.getString("original_column");
+      String referencedTable = resultSet.getString("referenced_table");
+      String referencedColumn = resultSet.getString("referenced_column");
+
+      if (!"id".equals(referencedColumn.toLowerCase())) {
+        addMismatch("Constraint pointing at a column that isn't 'id': '" + constraintName + "' pointing to table '" +
+            referencedTable + "', column '" + referencedColumn + "'");
+      }
+
+      List<FieldValueForeignKey> eligibleForeignKeys = unfoundForeignKeys
+          .stream()
+          .filter(fk -> fk.getTableName().equals(referencedTable))
+          .collect(Collectors.toList());
+
+      if (eligibleForeignKeys.size() == 1) {
+        FieldValueForeignKey foreignKey = eligibleForeignKeys.get(0);
+        if (!originalColumn.equalsIgnoreCase(foreignKey.getFieldName())) {
+          addMismatch(foreignKey, "DB constraint found to table '" + referencedTable + "', but column names don't match: '" +
+              originalColumn + "' in DB, '" + foreignKey.getFieldName() + "' in Schema.");
+        }
+        unfoundForeignKeys.remove(foreignKey);
+      } else {
+        addMismatch("DB constraint '" + constraintName + "' exists, but " + eligibleForeignKeys.size() +
+            " foreign keys exist in Schema pointing at table '" + referencedTable + "'. Expected exactly 1.");
+      }
+    }
+
+    if (!unfoundForeignKeys.isEmpty()) {
+      for (FieldValueForeignKey foreignKey : unfoundForeignKeys) {
+        addMismatch(foreignKey, "ForeignKey restraint not found in DB.");
+      }
+    }
+  }
+
+
 
   @SuppressWarnings("SimplifiableIfStatement")
   private Boolean matchesIgnoreCase(@Nullable String s1, @Nullable String s2) {
