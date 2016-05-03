@@ -24,8 +24,9 @@ public abstract class DataObject {
   private List<FieldValue> allFieldValues = new ArrayList<>();
   private List<UniqueConstraint> uniqueConstraints = new ArrayList<>();
   private List<FieldValueForeignKey> foreignKeys = new ArrayList<>();
+  private List<String> sequenceNames = new ArrayList<>();
 
-  public FieldValueSerial id = new FieldValueSerial("id", new FieldConversionInteger(), Nullability.NOT_NULL, (getTableName() + "_id_seq"));
+  public FieldValueSerial id = registerId();
 
   public FieldValueTimestamp dateAdded = registerTimestampField("date_added", Nullability.NULLABLE).defaultValueNow();
 
@@ -168,10 +169,6 @@ public abstract class DataObject {
     }
   }
 
-  protected void changeIdIntegerSize(IntegerSize integerSize) {
-    this.id.setSize(integerSize);
-  }
-
   private void updateObjects(List<FieldValue> changedFields) {
     changedFields.forEach(FieldValue::updateInternal);
   }
@@ -256,6 +253,27 @@ public abstract class DataObject {
     return statement;
   }
 
+  List<String> generateAddForeignKeyStatements() {
+    List<String> statements = new ArrayList<>();
+    Integer fkIndex = 1;
+    for (FieldValueForeignKey foreignKey : foreignKeys) {
+      String constraintName = getTableName() + "_fk" + fkIndex;
+      String statement =
+          "ALTER TABLE " + getTableName() + " " +
+              "ADD CONSTRAINT " + constraintName + " " +
+              "FOREIGN KEY (" + foreignKey.getFieldName() + ") " +
+              "REFERENCES " + foreignKey.getTableName() + " (id)";
+      statements.add(statement);
+
+      fkIndex++;
+    }
+    return statements;
+  }
+
+  List<String> getSequenceNames() {
+    return Lists.newArrayList(sequenceNames);
+  }
+
   private String getSerialDDLType() {
     IntegerSize size = id.getSize();
     if (size.equals(IntegerSize.BIGINT)) {
@@ -299,6 +317,13 @@ public abstract class DataObject {
   protected final FieldValueInteger registerIntegerField(String fieldName, Nullability nullability, IntegerSize integerSize) {
     FieldValueInteger fieldIntegerValue = new FieldValueInteger(fieldName, new FieldConversionInteger(), nullability, integerSize);
     allFieldValues.add(fieldIntegerValue);
+    return fieldIntegerValue;
+  }
+
+  private FieldValueSerial registerId() {
+    String sequenceName = getTableName() + "_id_seq";
+    FieldValueSerial fieldIntegerValue = new FieldValueSerial("id", new FieldConversionInteger(), Nullability.NOT_NULL, sequenceName);
+    sequenceNames.add(sequenceName);
     return fieldIntegerValue;
   }
 

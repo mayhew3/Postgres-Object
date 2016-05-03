@@ -15,6 +15,7 @@ public class TVSchema {
       new Season(),
       new SeasonViewingLocation(),
       new Series(),
+      new SeriesGenre(),
       new SeriesViewingLocation(),
       new TiVoEpisode(),
       new TVDBEpisode(),

@@ -15,10 +15,6 @@ public class Genre extends DataObject {
   /* Data */
   public FieldValueString genreName = registerStringField("name", Nullability.NOT_NULL);
 
-  public Genre() {
-    changeIdIntegerSize(IntegerSize.SMALLINT);
-  }
-
   @Override
   protected String getTableName() {
     return "genre";
