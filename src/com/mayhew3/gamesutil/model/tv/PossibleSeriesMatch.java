@@ -1,16 +1,14 @@
 package com.mayhew3.gamesutil.model.tv;
 
-import com.mayhew3.gamesutil.dataobject.DataObject;
-import com.mayhew3.gamesutil.dataobject.FieldValueInteger;
-import com.mayhew3.gamesutil.dataobject.FieldValueString;
-import com.mayhew3.gamesutil.dataobject.Nullability;
+import com.mayhew3.gamesutil.dataobject.*;
 
 public class PossibleSeriesMatch extends DataObject {
 
   /* FK */
-  public FieldValueInteger seriesId = registerIntegerField("series_id", Nullability.NOT_NULL);
+  public FieldValueForeignKey seriesId = registerForeignKey("series_id", new Series(), Nullability.NOT_NULL);
 
   /* Data */
+  // todo: change to tvdb_series_remote_id
   public FieldValueInteger tvdbSeriesId = registerIntegerField("tvdb_series_id", Nullability.NOT_NULL);
   public FieldValueString tvdbSeriesTitle = registerStringField("tvdb_series_title", Nullability.NOT_NULL);
 

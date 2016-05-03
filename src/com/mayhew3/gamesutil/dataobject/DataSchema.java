@@ -1,5 +1,6 @@
 package com.mayhew3.gamesutil.dataobject;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.mayhew3.gamesutil.db.SQLConnection;
 
@@ -22,4 +23,7 @@ public class DataSchema {
     return allResults;
   }
 
+  public List<DataObject> getAllTables() {
+    return ImmutableList.copyOf(allTables);
+  }
 }

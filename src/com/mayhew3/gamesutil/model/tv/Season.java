@@ -5,7 +5,7 @@ import com.mayhew3.gamesutil.dataobject.*;
 public class Season extends DataObject {
 
   /* FK */
-  public FieldValueInteger seriesId = registerIntegerField("series_id", Nullability.NOT_NULL);
+  public FieldValueForeignKey seriesId = registerForeignKey("series_id", new Series(), Nullability.NOT_NULL);
 
   /* Data */
   public FieldValueInteger seasonNumber = registerIntegerField("season_number", Nullability.NOT_NULL, IntegerSize.SMALLINT);

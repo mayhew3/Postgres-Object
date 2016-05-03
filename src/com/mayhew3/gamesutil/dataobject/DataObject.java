@@ -22,7 +22,8 @@ public abstract class DataObject {
   private Boolean initialized = false;
 
   private List<FieldValue> allFieldValues = new ArrayList<>();
-  private List<UniqueConstraint> indices = new ArrayList<>();
+  private List<UniqueConstraint> uniqueConstraints = new ArrayList<>();
+  private List<FieldValueForeignKey> foreignKeys = new ArrayList<>();
 
   public FieldValueSerial id = new FieldValueSerial("id", new FieldConversionInteger(), Nullability.NOT_NULL, (getTableName() + "_id_seq"));
 
@@ -66,6 +67,10 @@ public abstract class DataObject {
 
   List<FieldValue> getAllFieldValues() {
     return Lists.newArrayList(allFieldValues);
+  }
+
+  List<FieldValueForeignKey> getForeignKeys() {
+    return Lists.newArrayList(foreignKeys);
   }
 
   @NotNull
@@ -208,7 +213,7 @@ public abstract class DataObject {
   }
 
   protected void addUniqueConstraint(FieldValue... fieldValues) {
-    indices.add(new UniqueConstraint(Lists.newArrayList(fieldValues)));
+    uniqueConstraints.add(new UniqueConstraint(Lists.newArrayList(fieldValues)));
   }
 
   String generateTableCreateStatement() {
@@ -237,7 +242,7 @@ public abstract class DataObject {
 
     statementPieces.add("PRIMARY KEY (" + id.getFieldName() + ")");
 
-    for (UniqueConstraint index : indices) {
+    for (UniqueConstraint index : uniqueConstraints) {
       List<String> fieldNames = index.getFields().stream().map(FieldValue::getFieldName).collect(Collectors.toList());
       String join = Joiner.on(", ").join(fieldNames);
       statementPieces.add("UNIQUE (" + join + ")");
@@ -295,6 +300,20 @@ public abstract class DataObject {
     FieldValueInteger fieldIntegerValue = new FieldValueInteger(fieldName, new FieldConversionInteger(), nullability, integerSize);
     allFieldValues.add(fieldIntegerValue);
     return fieldIntegerValue;
+  }
+
+  protected final FieldValueForeignKey registerForeignKey(String fieldName, DataObject dataObject, Nullability nullability) {
+    FieldValueForeignKey fieldValueForeignKey = new FieldValueForeignKey(fieldName, new FieldConversionInteger(), nullability, dataObject);
+    allFieldValues.add(fieldValueForeignKey);
+    foreignKeys.add(fieldValueForeignKey);
+    return fieldValueForeignKey;
+  }
+
+  protected final FieldValueForeignKey registerForeignKey(String fieldName, DataObject dataObject, Nullability nullability, IntegerSize integerSize) {
+    FieldValueForeignKey fieldValueForeignKey = new FieldValueForeignKey(fieldName, new FieldConversionInteger(), nullability, dataObject, integerSize);
+    allFieldValues.add(fieldValueForeignKey);
+    foreignKeys.add(fieldValueForeignKey);
+    return fieldValueForeignKey;
   }
 
   protected final FieldValueBigDecimal registerBigDecimalField(String fieldName, Nullability nullability) {

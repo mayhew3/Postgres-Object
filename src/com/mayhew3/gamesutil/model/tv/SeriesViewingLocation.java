@@ -1,15 +1,12 @@
 package com.mayhew3.gamesutil.model.tv;
 
-import com.mayhew3.gamesutil.dataobject.DataObject;
-import com.mayhew3.gamesutil.dataobject.FieldValueInteger;
-import com.mayhew3.gamesutil.dataobject.IntegerSize;
-import com.mayhew3.gamesutil.dataobject.Nullability;
+import com.mayhew3.gamesutil.dataobject.*;
 
 public class SeriesViewingLocation extends DataObject {
 
   /* Data */
-  public FieldValueInteger seriesId = registerIntegerField("series_id", Nullability.NOT_NULL);
-  public FieldValueInteger viewingLocationId = registerIntegerField("viewing_location_id", Nullability.NOT_NULL, IntegerSize.SMALLINT);
+  public FieldValueForeignKey seriesId = registerForeignKey("series_id", new Series(), Nullability.NOT_NULL);
+  public FieldValueForeignKey viewingLocationId = registerForeignKey("viewing_location_id", new ViewingLocation(), Nullability.NOT_NULL, IntegerSize.SMALLINT);
 
   @Override
   protected String getTableName() {

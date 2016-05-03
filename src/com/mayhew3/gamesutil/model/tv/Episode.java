@@ -16,8 +16,8 @@ import java.util.List;
 public class Episode extends DataObject {
 
   /* Foreign Keys */
-  public FieldValue<Integer> tvdbEpisodeId = registerIntegerField("tvdb_episode_id", Nullability.NOT_NULL);
-  public FieldValueInteger seasonId = registerIntegerField("season_id", Nullability.NULLABLE);
+  public FieldValueForeignKey tvdbEpisodeId = registerForeignKey("tvdb_episode_id", new TVDBEpisode(), Nullability.NOT_NULL);
+  public FieldValueForeignKey seasonId = registerForeignKey("season_id", new Season(), Nullability.NULLABLE);
 
   /* Data */
   private FieldValue<Integer> season = registerIntegerField("season", Nullability.NOT_NULL);
@@ -26,7 +26,7 @@ public class Episode extends DataObject {
 
   public FieldValueTimestamp airDate = registerTimestampField("air_date", Nullability.NULLABLE);
 
-  public FieldValueInteger seriesId = registerIntegerField("seriesid", Nullability.NOT_NULL);
+  public FieldValueForeignKey seriesId = registerForeignKey("seriesid", new Series(), Nullability.NOT_NULL);
 
   public FieldValue<Boolean> onTiVo = registerBooleanField("on_tivo", Nullability.NOT_NULL).defaultValue(false);
 

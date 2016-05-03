@@ -32,6 +32,7 @@ public class Movie extends DataObject {
   public FieldValue<Integer> channel = registerIntegerField("channel", Nullability.NULLABLE);
   public FieldValue<Integer> rating = registerIntegerField("rating", Nullability.NULLABLE);
 
+  // todo: change to tivo_series_remote_id
   public FieldValue<String> tivoSeriesId = registerStringField("tivo_series_id", Nullability.NULLABLE);
   public FieldValue<String> programId = registerStringField("program_id", Nullability.NULLABLE);
   public FieldValue<String> seriesTitle = registerStringField("series_title", Nullability.NULLABLE);

@@ -15,7 +15,7 @@ import java.util.Optional;
 public class Series extends DataObject {
 
   /* Foreign Keys */
-  public FieldValueInteger tvdbSeriesId = registerIntegerField("tvdb_series_id", Nullability.NULLABLE);
+  public FieldValueForeignKey tvdbSeriesId = registerForeignKey("tvdb_series_id", new TVDBSeries(), Nullability.NULLABLE);
 
   /* Data */
   public FieldValueString seriesTitle = registerStringField("title", Nullability.NULLABLE);
@@ -23,6 +23,8 @@ public class Series extends DataObject {
   public FieldValueInteger metacritic = registerIntegerField("metacritic", Nullability.NULLABLE, IntegerSize.SMALLINT);
   public FieldValueInteger my_rating = registerIntegerField("my_rating", Nullability.NULLABLE, IntegerSize.SMALLINT);
   public FieldValueString tivoSeriesId = registerStringField("tivo_series_id", Nullability.NULLABLE);
+
+  // todo: change to tvdb_series_remote_id
   public FieldValueInteger tvdbId = registerIntegerField("tvdb_id", Nullability.NULLABLE);
 
   /* Matching Helpers */
