@@ -28,18 +28,4 @@ public class TVSchemaTest {
 
   }
 
-  @Test
-  public void testTestSchemaUpToDate() throws URISyntaxException, SQLException {
-    SQLConnection connection = new PostgresConnectionFactory().createConnection("test");
-    List<DataObjectMismatch> mismatches = TVSchema.tv_schema.validateSchemaAgainstDatabase(connection);
-
-    if (!mismatches.isEmpty()) {
-      System.out.println("Mismatches found: ");
-      for (DataObjectMismatch mismatch : mismatches) {
-        System.out.println(" - " + mismatch);
-      }
-      fail();
-    }
-
-  }
 }

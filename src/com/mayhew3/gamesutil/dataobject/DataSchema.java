@@ -15,6 +15,10 @@ public class DataSchema {
     allTables = Lists.newArrayList(dataObjects);
   }
 
+  DataSchema(List<DataObject> dataObjects) {
+    allTables = Lists.newArrayList(dataObjects);
+  }
+
   public List<DataObjectMismatch> validateSchemaAgainstDatabase(SQLConnection connection) throws SQLException {
     List<DataObjectMismatch> allResults = new ArrayList<>();
     for (DataObject dataObject : allTables) {
@@ -23,7 +27,12 @@ public class DataSchema {
     return allResults;
   }
 
-  public List<DataObject> getAllTables() {
+  DataSchema addDataObject(DataObject dataObject) {
+    allTables.add(dataObject);
+    return this;
+  }
+
+  List<DataObject> getAllTables() {
     return ImmutableList.copyOf(allTables);
   }
 }

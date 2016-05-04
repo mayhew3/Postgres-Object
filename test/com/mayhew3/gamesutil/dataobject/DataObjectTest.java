@@ -275,18 +275,4 @@ public class DataObjectTest {
     return resultSet;
   }
 
-  private class DataObjectMock extends DataObject {
-    FieldValueString title = registerStringField("title", Nullability.NOT_NULL);
-    FieldValueInteger kernels = registerIntegerField("kernels", Nullability.NULLABLE).defaultValue(0);
-
-    private DataObjectMock() {
-      addUniqueConstraint(title);
-      addUniqueConstraint(kernels, dateAdded);
-    }
-
-    @Override
-    protected String getTableName() {
-      return "test";
-    }
-  }
 }
