@@ -13,6 +13,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -26,16 +27,18 @@ public class TVDBSeriesUpdater {
 
   private SQLConnection connection;
   private NodeReader nodeReader;
+  private TVDBDataProvider tvdbDataProvider;
 
   private Integer _episodesAdded = 0;
   private Integer _episodesUpdated = 0;
 
   public TVDBSeriesUpdater(SQLConnection connection,
                            @NotNull Series series,
-                           @NotNull NodeReader nodeReader) {
+                           @NotNull NodeReader nodeReader, TVDBDataProvider tvdbWebProvider) {
     this.series = series;
     this.connection = connection;
     this.nodeReader = nodeReader;
+    this.tvdbDataProvider = tvdbWebProvider;
   }
 
 
@@ -243,8 +246,8 @@ public class TVDBSeriesUpdater {
   }
 
   private List<Node> getSeriesNodes(String formattedTitle) throws IOException, SAXException, BadlyFormattedXMLException {
-    String tvdbUrl = "http://thetvdb.com/api/GetSeries.php?seriesname=" + formattedTitle;
-    Document document = nodeReader.readXMLFromUrl(tvdbUrl);
+    InputStream inputStream = tvdbDataProvider.findSeriesMatches(formattedTitle);
+    Document document = nodeReader.recoverDocument(inputStream);
     NodeList nodeList = document.getChildNodes();
     NodeList dataNode = nodeReader.getNodeWithTag(nodeList, "Data").getChildNodes();
 
@@ -322,12 +325,10 @@ public class TVDBSeriesUpdater {
     String tivoSeriesId = series.tivoSeriesId.getValue();
     String seriesTitle = series.seriesTitle.getValue();
 
-    String apiKey = "04DBA547465DC136";
-    String url = "http://thetvdb.com/api/" + apiKey + "/series/" + tvdbID + "/all/en.xml";
-
     Document document;
     try {
-      document = nodeReader.readXMLFromUrl(url);
+      InputStream episodeData = tvdbDataProvider.getEpisodeData(tvdbID);
+      document = nodeReader.recoverDocument(episodeData);
     } catch (SAXException | IOException e) {
       e.printStackTrace();
       addErrorLog(tivoSeriesId, "Error calling API for TVDB ID " + tvdbID);

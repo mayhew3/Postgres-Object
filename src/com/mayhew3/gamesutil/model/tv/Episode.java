@@ -128,6 +128,10 @@ public class Episode extends DataObject {
     return season.getValue();
   }
 
+  public void setSeason(Integer seasonNumber) {
+    season.changeValue(seasonNumber);
+  }
+
   public void changeSeasonUnlessToNull(@Nullable Integer seasonNumber, SQLConnection connection) throws SQLException {
     season.changeValueUnlessToNull(seasonNumber);
     updateSeasonRow(seasonNumber, connection);
@@ -165,8 +169,4 @@ public class Episode extends DataObject {
     }
   }
 
-
-  public Boolean getWatched() {
-    return watched.getValue();
-  }
 }
