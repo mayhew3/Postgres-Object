@@ -1,125 +1,35 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<Data><Series>
-  <id>265374</id>
-  <Actors>|Amy Schumer|</Actors>
-  <Airs_DayOfWeek>Tuesday</Airs_DayOfWeek>
-  <Airs_Time>10:00 PM</Airs_Time>
-  <ContentRating>TV-MA</ContentRating>
-  <FirstAired>2013-04-30</FirstAired>
-  <Genre>|Comedy|</Genre>
-  <IMDB_ID>tt2578508</IMDB_ID>
-  <Language>en</Language>
-  <Network>Comedy Central</Network>
-  <NetworkID></NetworkID>
-  <Overview>Take a journey into the provocative and hilariously wicked mind of Amy Schumer as she explores topics revolving around sex, relationships, and the general clusterf*ck that is life in the new series &quot;Inside Amy Schumer.&quot; Through a series of scripted vignettes, stand-up comedy, and man-on-the street candid interviews, Schumer tackles various themes such as &quot;Denial,&quot; &quot;Getting Your Way,&quot; and &quot;Threesomes.&quot; </Overview>
-  <Rating>7.3</Rating>
-  <RatingCount>13</RatingCount>
-  <Runtime>25</Runtime>
-  <SeriesID>176009</SeriesID>
-  <SeriesName>Inside Amy Schumer</SeriesName>
-  <Status>Continuing</Status>
-  <added>2013-01-01 14:13:59</added>
-  <addedBy>367</addedBy>
-  <banner>graphical/265374-g4.jpg</banner>
-  <fanart>fanart/original/265374-1.jpg</fanart>
-  <lastupdated>1462220461</lastupdated>
-  <poster>posters/265374-5.jpg</poster>
-  <tms_wanted_old>1</tms_wanted_old>
-  <zap2it_id>SH01681673</zap2it_id>
-</Series>
+<Data>
+  <Series>
+    <id>265374</id>
+    <FirstAired>2013-04-30</FirstAired>
+    <SeriesID>176009</SeriesID>
+    <SeriesName>Inside Amy Schumer</SeriesName>
+  </Series>
 
-<Episode>
-  <id>5578415</id>
-  <Combined_episodenumber>1</Combined_episodenumber>
-  <Combined_season>4</Combined_season>
-  <DVD_chapter></DVD_chapter>
-  <DVD_discid></DVD_discid>
-  <DVD_episodenumber></DVD_episodenumber>
-  <DVD_season></DVD_season>
-  <Director>|Neal Brennan|Ryan McFaul|</Director>
-  <EpImgFlag>2</EpImgFlag>
-  <EpisodeName>The World's Most Interesting Woman in the World</EpisodeName>
-  <EpisodeNumber>1</EpisodeNumber>
-  <FirstAired>2016-04-21</FirstAired>
-  <GuestStars>|Lin-Manuel Miranda|Rachel Dratch|Reg E. Cathey|Chris Parnell|Ahmir-Khalib Thompson|</GuestStars>
-  <IMDB_ID>tt4844744</IMDB_ID>
-  <Language>en</Language>
-  <Overview>Amy raps for Lin-Manuel Miranda, avoids sex with her boyfriend and loses an eye.</Overview>
-  <ProductionCode></ProductionCode>
-  <Rating>7.0</Rating>
-  <RatingCount>1</RatingCount>
-  <SeasonNumber>4</SeasonNumber>
-  <Writer>|Jessi Klein|Kurt Metzger|Daniel Powell|Amy Schumer|Kyle Dunnigan|</Writer>
-  <absolute_number>31</absolute_number>
-  <filename>episodes/265374/5578415.jpg</filename>
-  <lastupdated>1461349310</lastupdated>
-  <seasonid>660327</seasonid>
-  <seriesid>265374</seriesid>
-  <thumb_added>2016-04-21 19:49:31</thumb_added>
-  <thumb_height>225</thumb_height>
-  <thumb_width>400</thumb_width>
-</Episode>
-<Episode>
-  <id>5580497</id>
-  <Combined_episodenumber>2</Combined_episodenumber>
-  <Combined_season>4</Combined_season>
-  <DVD_chapter></DVD_chapter>
-  <DVD_discid></DVD_discid>
-  <DVD_episodenumber></DVD_episodenumber>
-  <DVD_season></DVD_season>
-  <Director>|Ryan McFaul|Neal Brennan|</Director>
-  <EpImgFlag>2</EpImgFlag>
-  <EpisodeName>Welcome to the Gun Show</EpisodeName>
-  <EpisodeNumber>2</EpisodeNumber>
-  <FirstAired>2016-04-28</FirstAired>
-  <GuestStars>|Liam Neeson|David Spade|</GuestStars>
-  <IMDB_ID>tt5046600</IMDB_ID>
-  <Language>en</Language>
-  <Overview>Amy hosts a home shopping show for gun enthusiasts, faces the wrath of a new Twitter feature and lands a role on &quot;Game of Thrones.&quot;</Overview>
-  <ProductionCode></ProductionCode>
-  <Rating>10.0</Rating>
-  <RatingCount>1</RatingCount>
-  <SeasonNumber>4</SeasonNumber>
-  <Writer>|Jessi Klein|Kurt Metzger|Daniel Powell|Amy Schumer|Kyle Dunnigan|</Writer>
-  <absolute_number>33</absolute_number>
-  <filename>episodes/265374/5580497.jpg</filename>
-  <lastupdated>1462037407</lastupdated>
-  <seasonid>660327</seasonid>
-  <seriesid>265374</seriesid>
-  <thumb_added>2016-04-28 11:47:31</thumb_added>
-  <thumb_height>225</thumb_height>
-  <thumb_width>400</thumb_width>
-</Episode>
+  <Episode>
+    <id>5578415</id>
+    <EpisodeName>The World's Most Interesting Woman in the World</EpisodeName>
+    <EpisodeNumber>1</EpisodeNumber>
+    <FirstAired>2016-04-21</FirstAired>
+    <SeasonNumber>4</SeasonNumber>
+    <seriesid>265374</seriesid>
+  </Episode>
+  <Episode>
+    <id>5580497</id>
+    <EpisodeName>Welcome to the Gun Show</EpisodeName>
+    <EpisodeNumber>2</EpisodeNumber>
+    <FirstAired>2016-04-28</FirstAired>
+    <SeasonNumber>4</SeasonNumber>
+    <seriesid>265374</seriesid>
+  </Episode>
   <Episode>
     <id>5552985</id>
-    <Combined_episodenumber>3</Combined_episodenumber>
-    <Combined_season>4</Combined_season>
-    <DVD_chapter></DVD_chapter>
-    <DVD_discid></DVD_discid>
-    <DVD_episodenumber></DVD_episodenumber>
-    <DVD_season></DVD_season>
-    <Director></Director>
-    <EpImgFlag></EpImgFlag>
     <EpisodeName>Brave</EpisodeName>
     <EpisodeNumber>3</EpisodeNumber>
     <FirstAired>2016-05-05</FirstAired>
-    <GuestStars>Lulu Wilson</GuestStars>
-    <IMDB_ID>tt5361692</IMDB_ID>
-    <Language>en</Language>
-    <Overview>Amy wins an Oscar, finds out how to get what she wants and eats pasta from the garbage.</Overview>
-    <ProductionCode></ProductionCode>
-    <Rating>10.0</Rating>
-    <RatingCount>1</RatingCount>
     <SeasonNumber>4</SeasonNumber>
-    <Writer></Writer>
-    <absolute_number>32</absolute_number>
-    <filename></filename>
-    <lastupdated>1462037243</lastupdated>
-    <seasonid>660327</seasonid>
     <seriesid>265374</seriesid>
-    <thumb_added></thumb_added>
-    <thumb_height></thumb_height>
-    <thumb_width></thumb_width>
   </Episode>
 
 </Data>
