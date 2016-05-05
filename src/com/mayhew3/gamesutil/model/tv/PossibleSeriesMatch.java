@@ -8,7 +8,6 @@ public class PossibleSeriesMatch extends DataObject {
   public FieldValueForeignKey seriesId = registerForeignKey("series_id", new Series(), Nullability.NOT_NULL);
 
   /* Data */
-  // todo: change to tvdb_series_remote_id
   public FieldValueInteger tvdbSeriesExtId = registerIntegerField("tvdb_series_ext_id", Nullability.NOT_NULL);
   public FieldValueString tvdbSeriesTitle = registerStringField("tvdb_series_title", Nullability.NOT_NULL);
 

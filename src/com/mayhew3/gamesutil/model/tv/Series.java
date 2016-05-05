@@ -22,9 +22,8 @@ public class Series extends DataObject {
   public FieldValueInteger tier = registerIntegerField("tier", Nullability.NULLABLE, IntegerSize.SMALLINT);
   public FieldValueInteger metacritic = registerIntegerField("metacritic", Nullability.NULLABLE, IntegerSize.SMALLINT);
   public FieldValueInteger my_rating = registerIntegerField("my_rating", Nullability.NULLABLE, IntegerSize.SMALLINT);
-  public FieldValueString tivoSeriesId = registerStringField("tivo_series_id", Nullability.NULLABLE);
 
-  // todo: change to tvdb_series_remote_id
+  public FieldValueString tivoSeriesExtId = registerStringField("tivo_series_ext_id", Nullability.NULLABLE);
   public FieldValueInteger tvdbSeriesExtId = registerIntegerField("tvdb_series_ext_id", Nullability.NULLABLE);
 
   /* Matching Helpers */

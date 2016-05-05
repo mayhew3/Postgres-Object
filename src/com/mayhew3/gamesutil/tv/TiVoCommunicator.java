@@ -294,7 +294,7 @@ public class TiVoCommunicator {
    */
   @NotNull
   private Series getOrCreateSeries(TiVoInfo tivoInfo) throws SQLException {
-    ResultSet resultSet = sqlConnection.prepareAndExecuteStatementFetch("SELECT * FROM series WHERE tivo_series_id = ?", tivoInfo.tivoId);
+    ResultSet resultSet = sqlConnection.prepareAndExecuteStatementFetch("SELECT * FROM series WHERE tivo_series_ext_id = ?", tivoInfo.tivoId);
 
     Series series = new Series();
 
@@ -379,7 +379,7 @@ public class TiVoCommunicator {
     }
 
     formatEpisodeObject(tivoEpisode, tivoInfo.url, tivoInfo.isSuggestion, showDetails);
-    tivoEpisode.tivoSeriesId.changeValue(tivoInfo.tivoId);
+    tivoEpisode.tivoSeriesExtId.changeValue(tivoInfo.tivoId);
     tivoEpisode.seriesTitle.changeValue(tivoInfo.seriesTitle);
 
     // todo: check for duplicate (program_id, retired). Do some research. In these cases, are two episodes
@@ -398,7 +398,7 @@ public class TiVoCommunicator {
     }
 
     formatMovieObject(movie, tivoInfo.url, tivoInfo.isSuggestion, showDetails);
-    movie.tivoSeriesId.changeValue(tivoInfo.tivoId);
+    movie.tivoSeriesExtId.changeValue(tivoInfo.tivoId);
     movie.seriesTitle.changeValue(tivoInfo.seriesTitle);
 
     // todo: check for duplicate (program_id, retired). Do some research. In these cases, are two episodes
@@ -415,7 +415,7 @@ public class TiVoCommunicator {
 
     Integer tier = tivoInfo.isSuggestion ? 5 : 4;
 
-    series.tivoSeriesId.changeValue(tivoInfo.tivoId);
+    series.tivoSeriesExtId.changeValue(tivoInfo.tivoId);
     series.seriesTitle.changeValue(tivoInfo.seriesTitle);
     series.tivoName.changeValue(tivoInfo.seriesTitle);
     series.isSuggestion.changeValue(tivoInfo.isSuggestion);

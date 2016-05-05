@@ -13,10 +13,8 @@ public class TVDBEpisode extends DataObject {
 
   public FieldValue<Integer> seasonNumber = registerIntegerField("season_number", Nullability.NOT_NULL);
 
-  // todo: change to tvdb_season_remote_id
-  public FieldValue<Integer> seasonId = registerIntegerField("season_id", Nullability.NULLABLE);
+  public FieldValue<Integer> tvdbSeasonExtId = registerIntegerField("tvdb_season_ext_id", Nullability.NULLABLE);
 
-  // todo: change to tvdb_episode_remote_id
   public FieldValue<Integer> tvdbEpisodeExtId = registerIntegerField("tvdb_episode_ext_id", Nullability.NULLABLE);
   public FieldValue<Integer> episodeNumber = registerIntegerField("episode_number", Nullability.NOT_NULL);
   public FieldValue<Integer> absoluteNumber = registerIntegerField("absolute_number", Nullability.NULLABLE);
