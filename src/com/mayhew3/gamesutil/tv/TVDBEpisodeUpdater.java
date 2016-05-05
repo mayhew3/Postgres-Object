@@ -211,7 +211,7 @@ class TVDBEpisodeUpdater {
             "  ON ete.tivo_episode_id = te.id " +
             "INNER JOIN episode e " +
             "  ON ete.episode_id = e.id " +
-            "WHERE e.seriesid = ? " +
+            "WHERE e.series_id = ? " +
             "AND e.tvdb_episode_id IS NULL " +
             "AND e.retired = ? " +
             "AND te.retired = ? ",

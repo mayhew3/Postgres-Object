@@ -26,7 +26,7 @@ public class Episode extends DataObject {
 
   public FieldValueTimestamp airDate = registerTimestampField("air_date", Nullability.NULLABLE);
 
-  public FieldValueForeignKey seriesId = registerForeignKey("seriesid", new Series(), Nullability.NOT_NULL);
+  public FieldValueForeignKey seriesId = registerForeignKey("series_id", new Series(), Nullability.NOT_NULL);
 
   public FieldValue<Boolean> onTiVo = registerBooleanField("on_tivo", Nullability.NOT_NULL).defaultValue(false);
 
@@ -120,7 +120,7 @@ public class Episode extends DataObject {
       series.initializeFromDBObject(resultSet);
       return series;
     } else {
-      throw new ShowFailedException("Episode " + id.getValue() + " has seriesid " + seriesId.getValue() + " that wasn't found.");
+      throw new ShowFailedException("Episode " + id.getValue() + " has series_id " + seriesId.getValue() + " that wasn't found.");
     }
   }
 
@@ -144,7 +144,7 @@ public class Episode extends DataObject {
 
 
   private void updateSeasonRow(Integer seasonNumber, SQLConnection connection) throws SQLException {
-    Preconditions.checkState(seriesId.getValue() != null, "Can't update the season if there is no associated seriesid yet.");
+    Preconditions.checkState(seriesId.getValue() != null, "Can't update the season if there is no associated series_id yet.");
 
     if (seasonId.getValue() == null) {
       ResultSet resultSet = connection.prepareAndExecuteStatementFetch(

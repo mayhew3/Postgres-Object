@@ -146,13 +146,13 @@ public class TVDBSeriesUpdater {
         "DELETE FROM edge_tivo_episode " +
             "WHERE episode_id IN (SELECT id " +
             "                     FROM episode " +
-            "                     WHERE seriesid = ?)", seriesId
+            "                     WHERE series_id = ?)", seriesId
     );
 
     connection.prepareAndExecuteStatementUpdate(
         "UPDATE episode " +
             "SET on_tivo = ?, retired = id " +
-            "WHERE seriesid = ?", false, seriesId
+            "WHERE series_id = ?", false, seriesId
     );
 
     connection.prepareAndExecuteStatementUpdate(
@@ -160,7 +160,7 @@ public class TVDBSeriesUpdater {
             "SET retired = id " +
             "WHERE id IN (SELECT tvdb_episode_id " +
             "           FROM episode " +
-            "           WHERE seriesid = ?)",
+            "           WHERE series_id = ?)",
         seriesId
     );
 

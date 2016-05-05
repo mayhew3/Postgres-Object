@@ -49,7 +49,7 @@ public class SeriesDenormUpdater {
         "update series\n" +
             "set unwatched_streaming = (select count(1)\n" +
             "                            from episode e                            \n" +
-            "                            where e.seriesid = series.id\n" +
+            "                            where e.series_id = series.id\n" +
             "                            and e.on_tivo = ?\n" +
             "                            and e.streaming = ?\n" +
             "                            and e.watched = ?\n" +
@@ -66,7 +66,7 @@ public class SeriesDenormUpdater {
         "update series\n" +
             "set streaming_episodes = (select count(1)\n" +
             "                            from episode e                            \n" +
-            "                            where e.seriesid = series.id\n" +
+            "                            where e.series_id = series.id\n" +
             "                            and e.on_tivo = ?\n" +
             "                            and e.streaming = ?\n" +
             "                            and e.season <> ?\n" +
@@ -82,7 +82,7 @@ public class SeriesDenormUpdater {
         "update series\n" +
             "set unwatched_unrecorded = (select count(1)\n" +
             "                            from episode e                            \n" +
-            "                            where e.seriesid = series.id\n" +
+            "                            where e.series_id = series.id\n" +
             "                            and e.on_tivo = ?\n" +
             "                            and e.watched = ?\n" +
             "                            and e.season <> ?\n" +
@@ -97,7 +97,7 @@ public class SeriesDenormUpdater {
         "update series\n" +
             "set tvdb_only_episodes = (select count(1)\n" +
             "                            from episode e                            \n" +
-            "                            where e.seriesid = series.id\n" +
+            "                            where e.series_id = series.id\n" +
             "                            and e.on_tivo = ?\n" +
             "                            and e.season <> ?\n" +
             "                            and e.retired = ?)",
@@ -111,7 +111,7 @@ public class SeriesDenormUpdater {
         "update series\n" +
             "set matched_episodes = (select count(1)\n" +
             "                            from episode e                            \n" +
-            "                            where e.seriesid = series.id\n" +
+            "                            where e.series_id = series.id\n" +
             "                            and e.on_tivo = ?\n" +
             "                            and e.season <> ?\n" +
             "                            and e.retired = ?)",
@@ -125,7 +125,7 @@ public class SeriesDenormUpdater {
         "update series\n" +
             "set watched_episodes = (select count(1)\n" +
             "                            from episode e                            \n" +
-            "                            where e.seriesid = series.id\n" +
+            "                            where e.series_id = series.id\n" +
             "                            and e.watched = ?\n" +
             "                            and e.season <> ?\n" +
             "                            and e.retired = ?)",
@@ -143,7 +143,7 @@ public class SeriesDenormUpdater {
             "                             on ete.episode_id = e.id\n" +
             "                            left outer join tivo_episode te\n" +
             "                             on ete.tivo_episode_id = te.id\n" +
-            "                            where e.seriesid = series.id\n" +
+            "                            where e.series_id = series.id\n" +
             "                            and e.on_tivo = ?\n" +
             "                            and te.id is not null\n" +
             "                            and e.season <> ?\n" +
@@ -161,7 +161,7 @@ public class SeriesDenormUpdater {
         "update series\n" +
             "set most_recent = (select max(e.air_date)\n" +
             "                            from episode e\n" +
-            "                            where e.seriesid = series.id\n" +
+            "                            where e.series_id = series.id\n" +
             "                            and (e.on_tivo = ? or e.streaming = ?)\n" +
             "                            and e.air_date < now()\n" +
             "                            and e.season <> ?\n" +
@@ -176,7 +176,7 @@ public class SeriesDenormUpdater {
         "update series\n" +
             "set last_unwatched = (select max(e.air_date)\n" +
             "                            from episode e\n" +
-            "                            where e.seriesid = series.id\n" +
+            "                            where e.series_id = series.id\n" +
             "                            and (e.on_tivo = ? or e.streaming = ?)\n" +
             "                            and e.air_date < now()\n" +
             "                            and e.watched = ?\n" +
@@ -196,7 +196,7 @@ public class SeriesDenormUpdater {
             "                             on ete.episode_id = e.id\n" +
             "                            left outer join tivo_episode te\n" +
             "                             on ete.tivo_episode_id = te.id\n" +
-            "                            where e.seriesid = s.id\n" +
+            "                            where e.series_id = s.id\n" +
             "                            and e.on_tivo = ?\n" +
             "                            and te.suggestion <> ?\n" +
             "                            and te.id is not null\n" +
@@ -218,7 +218,7 @@ public class SeriesDenormUpdater {
             "                             on ete.episode_id = e.id\n" +
             "                            left outer join tivo_episode te\n" +
             "                             on ete.tivo_episode_id = te.id\n" +
-            "                            where e.seriesid = series.id\n" +
+            "                            where e.series_id = series.id\n" +
             "                            and e.on_tivo = ?\n" +
             "                            and te.suggestion = ?\n" +
             "                            and te.id is not null\n" +
@@ -239,7 +239,7 @@ public class SeriesDenormUpdater {
             "                             on ete.episode_id = e.id\n" +
             "                            left outer join tivo_episode te\n" +
             "                             on ete.tivo_episode_id = te.id\n" +
-            "                            where e.seriesid = series.id\n" +
+            "                            where e.series_id = series.id\n" +
             "                            and e.on_tivo = ?\n" +
             "                            and te.id is not null\n" +
             "                            and e.season <> ?\n" +

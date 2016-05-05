@@ -233,7 +233,7 @@ public class Series extends DataObject {
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
         "SELECT e.* " +
             "FROM episode e " +
-            "WHERE e.seriesid = ? " +
+            "WHERE e.series_id = ? " +
             "AND e.retired = ?", id.getValue(), 0);
 
     while (resultSet.next()) {
