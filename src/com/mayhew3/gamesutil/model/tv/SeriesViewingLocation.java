@@ -5,8 +5,8 @@ import com.mayhew3.gamesutil.dataobject.*;
 public class SeriesViewingLocation extends DataObject {
 
   /* Data */
-  public FieldValueForeignKey seriesId = registerForeignKey("series_id", new Series(), Nullability.NOT_NULL);
-  public FieldValueForeignKey viewingLocationId = registerForeignKey("viewing_location_id", new ViewingLocation(), Nullability.NOT_NULL, IntegerSize.SMALLINT);
+  public FieldValueForeignKey seriesId = registerForeignKey(new Series(), Nullability.NOT_NULL);
+  public FieldValueForeignKey viewingLocationId = registerForeignKey(new ViewingLocation(), Nullability.NOT_NULL);
 
   @Override
   protected String getTableName() {

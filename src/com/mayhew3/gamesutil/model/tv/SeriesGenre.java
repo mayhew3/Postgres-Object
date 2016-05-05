@@ -5,8 +5,8 @@ import com.mayhew3.gamesutil.dataobject.*;
 public class SeriesGenre extends DataObject {
 
   /* Data */
-  public FieldValueForeignKey seriesId = registerForeignKey("series_id", new Series(), Nullability.NOT_NULL);
-  public FieldValueForeignKey genreId = registerForeignKey("genre_id", new Genre(), Nullability.NOT_NULL, IntegerSize.SMALLINT);
+  public FieldValueForeignKey seriesId = registerForeignKey(new Series(), Nullability.NOT_NULL);
+  public FieldValueForeignKey genreId = registerForeignKey(new Genre(), Nullability.NOT_NULL);
 
   public SeriesGenre() {
     addUniqueConstraint(seriesId, genreId);

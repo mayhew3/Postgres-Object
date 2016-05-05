@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 public class TVDBEpisode extends DataObject {
   /* Foreign Keys */
-  public FieldValueForeignKey tvdbSeriesId = registerForeignKey("tvdb_series_id", new TVDBSeries(), Nullability.NOT_NULL);
+  public FieldValueForeignKey tvdbSeriesId = registerForeignKey(new TVDBSeries(), Nullability.NOT_NULL);
 
   public FieldValue<Integer> seasonNumber = registerIntegerField("season_number", Nullability.NOT_NULL);
 

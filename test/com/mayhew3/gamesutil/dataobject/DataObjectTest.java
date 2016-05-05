@@ -247,19 +247,19 @@ public class DataObjectTest {
   @Test
   public void testGetForeignKeys() throws SQLException {
     DataObjectMock dataObjectMock = new DataObjectMock();
-    FieldValueForeignKey butter = dataObjectMock.registerForeignKey("butter", new Series(), Nullability.NULLABLE);
+    FieldValueForeignKey butter = dataObjectMock.registerForeignKey(new Series(), Nullability.NULLABLE);
 
     assertThat(dataObjectMock.getForeignKeys())
         .as("Expect adding a foreign key to be included in the foreign key collection.")
         .contains(butter);
 
-    FieldValueForeignKey dogma = dataObjectMock.registerForeignKey("dogma", new Genre(), Nullability.NULLABLE, IntegerSize.SMALLINT);
+    FieldValueForeignKey genreFK = dataObjectMock.registerForeignKey(new Genre(), Nullability.NULLABLE);
 
     assertThat(dataObjectMock.getForeignKeys())
         .as("SANITY: Expect adding a foreign key still to be included in the foreign key collection.")
         .contains(butter)
         .as("Expect adding a foreign key using method variation with integer size to also add to collection.")
-        .contains(dogma);
+        .contains(genreFK);
 
   }
   

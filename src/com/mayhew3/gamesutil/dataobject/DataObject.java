@@ -327,15 +327,9 @@ public abstract class DataObject {
     return fieldIntegerValue;
   }
 
-  protected final FieldValueForeignKey registerForeignKey(String fieldName, DataObject dataObject, Nullability nullability) {
+  protected final FieldValueForeignKey registerForeignKey(DataObject dataObject, Nullability nullability) {
+    String fieldName = dataObject.getTableName() + "_id";
     FieldValueForeignKey fieldValueForeignKey = new FieldValueForeignKey(fieldName, new FieldConversionInteger(), nullability, dataObject);
-    allFieldValues.add(fieldValueForeignKey);
-    foreignKeys.add(fieldValueForeignKey);
-    return fieldValueForeignKey;
-  }
-
-  protected final FieldValueForeignKey registerForeignKey(String fieldName, DataObject dataObject, Nullability nullability, IntegerSize integerSize) {
-    FieldValueForeignKey fieldValueForeignKey = new FieldValueForeignKey(fieldName, new FieldConversionInteger(), nullability, dataObject, integerSize);
     allFieldValues.add(fieldValueForeignKey);
     foreignKeys.add(fieldValueForeignKey);
     return fieldValueForeignKey;

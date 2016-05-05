@@ -8,11 +8,6 @@ public class FieldValueForeignKey extends FieldValueInteger {
     this.tableName = dataObject.getTableName();
   }
 
-  public FieldValueForeignKey(String fieldName, FieldConversion<Integer> converter, Nullability nullability, DataObject dataObject, IntegerSize integerSize) {
-    super(fieldName, converter, nullability, integerSize);
-    this.tableName = dataObject.getTableName();
-  }
-
   public String getTableName() {
     return tableName;
   }

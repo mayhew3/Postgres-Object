@@ -15,7 +15,7 @@ import java.util.Optional;
 public class Series extends DataObject {
 
   /* Foreign Keys */
-  public FieldValueForeignKey tvdbSeriesId = registerForeignKey("tvdb_series_id", new TVDBSeries(), Nullability.NULLABLE);
+  public FieldValueForeignKey tvdbSeriesId = registerForeignKey(new TVDBSeries(), Nullability.NULLABLE);
 
   /* Data */
   public FieldValueString seriesTitle = registerStringField("title", Nullability.NULLABLE);
