@@ -25,7 +25,7 @@ public class Series extends DataObject {
   public FieldValueString tivoSeriesId = registerStringField("tivo_series_id", Nullability.NULLABLE);
 
   // todo: change to tvdb_series_remote_id
-  public FieldValueInteger tvdbId = registerIntegerField("tvdb_id", Nullability.NULLABLE);
+  public FieldValueInteger tvdbSeriesExtId = registerIntegerField("tvdb_series_ext_id", Nullability.NULLABLE);
 
   /* Matching Helpers */
   public FieldValueString metacriticHint = registerStringField("metacritic_hint", Nullability.NULLABLE);
@@ -54,7 +54,7 @@ public class Series extends DataObject {
   public FieldValueBoolean isSuggestion = registerBooleanField("suggestion", Nullability.NOT_NULL).defaultValue(false);
 
   public Series() {
-    addUniqueConstraint(tvdbId);
+    addUniqueConstraint(tvdbSeriesExtId);
   }
 
   @Override

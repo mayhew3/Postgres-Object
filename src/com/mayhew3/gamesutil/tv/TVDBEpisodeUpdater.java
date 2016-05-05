@@ -94,7 +94,7 @@ class TVDBEpisodeUpdater {
 
     String absoluteNumber = nodeReader.getValueOfSimpleStringNode(episodeNode, "absoute_number");
 
-    tvdbEpisode.tvdbId.changeValue(tvdbRemoteId);
+    tvdbEpisode.tvdbEpisodeExtId.changeValue(tvdbRemoteId);
     tvdbEpisode.absoluteNumber.changeValueFromString(absoluteNumber);
     tvdbEpisode.seasonNumber.changeValueFromString(seasonnumber);
     tvdbEpisode.episodeNumber.changeValueFromString(episodenumber);
@@ -162,7 +162,7 @@ class TVDBEpisodeUpdater {
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
         "SELECT * " +
             "FROM tvdb_episode " +
-            "WHERE tvdb_id = ? " +
+            "WHERE tvdb_episode_ext_id = ? " +
             "AND retired = ?",
         tvdbId, 0
     );

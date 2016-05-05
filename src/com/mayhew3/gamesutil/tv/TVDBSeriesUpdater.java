@@ -54,7 +54,7 @@ public class TVDBSeriesUpdater {
     } else {
 
       Boolean matchedWrong = series.matchedWrong.getValue();
-      Integer existingId = series.tvdbId.getValue();
+      Integer existingId = series.tvdbSeriesExtId.getValue();
 
       Integer tvdbId = getTVDBID(errorLog, matchedWrong, existingId);
 
@@ -62,7 +62,7 @@ public class TVDBSeriesUpdater {
 
       if (tvdbId != null && !usingOldWrongID) {
         debug(seriesTitle + ": ID found, getting show data.");
-        series.tvdbId.changeValue(tvdbId);
+        series.tvdbSeriesExtId.changeValue(tvdbId);
 
         if (matchedWrong || series.needsTVDBRedo.getValue()) {
           Integer seriesId = series.id.getValue();
@@ -321,7 +321,7 @@ public class TVDBSeriesUpdater {
   }
 
   private void updateShowData(Series series) throws SQLException, BadlyFormattedXMLException {
-    Integer tvdbID = series.tvdbId.getValue();
+    Integer tvdbID = series.tvdbSeriesExtId.getValue();
     String tivoSeriesId = series.tivoSeriesId.getValue();
     String seriesTitle = series.seriesTitle.getValue();
 
@@ -353,7 +353,7 @@ public class TVDBSeriesUpdater {
 
     String tvdbSeriesName = nodeReader.getValueOfSimpleStringNode(seriesNode, "seriesname");
 
-    tvdbSeries.tvdbId.changeValueFromString(nodeReader.getValueOfSimpleStringNode(seriesNode, "id"));
+    tvdbSeries.tvdbSeriesExtId.changeValueFromString(nodeReader.getValueOfSimpleStringNode(seriesNode, "id"));
     tvdbSeries.name.changeValueFromString(tvdbSeriesName);
     tvdbSeries.airsDayOfWeek.changeValueFromString(nodeReader.getValueOfSimpleStringNode(seriesNode, "airs_dayofweek"));
     tvdbSeries.airsTime.changeValueFromString(nodeReader.getValueOfSimpleStringNode(seriesNode, "airs_time"));
@@ -407,7 +407,7 @@ public class TVDBSeriesUpdater {
     return connection.prepareAndExecuteStatementFetch(
         "SELECT * " +
             "FROM tvdb_series " +
-            "WHERE tvdb_id = ?",
+            "WHERE tvdb_series_ext_id = ?",
         tvdbRemoteId
     );
   }

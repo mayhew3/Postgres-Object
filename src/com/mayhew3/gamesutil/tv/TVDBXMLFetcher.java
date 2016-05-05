@@ -52,7 +52,7 @@ public class TVDBXMLFetcher {
 
       NodeReader nodeReader = new NodeReaderImpl(filePath);
 
-      Integer tvdbID = series.tvdbId.getValue();
+      Integer tvdbID = series.tvdbSeriesExtId.getValue();
 
       String apiKey = System.getenv("TVDB_API_KEY");
       String url = "http://thetvdb.com/api/" + apiKey + "/series/" + tvdbID + "/all/en.xml";

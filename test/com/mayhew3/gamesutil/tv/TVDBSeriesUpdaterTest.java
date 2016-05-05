@@ -101,14 +101,14 @@ public class TVDBSeriesUpdaterTest extends TVDatabaseTest {
   private Series createSeries(String seriesName, Integer tvdbId) throws SQLException {
     TVDBSeries tvdbSeries = new TVDBSeries();
     tvdbSeries.initializeForInsert();
-    tvdbSeries.tvdbId.changeValue(tvdbId);
+    tvdbSeries.tvdbSeriesExtId.changeValue(tvdbId);
     tvdbSeries.name.changeValue(seriesName);
     tvdbSeries.commit(connection);
 
     Series series = new Series();
     series.initializeForInsert();
     series.seriesTitle.changeValue(seriesName);
-    series.tvdbId.changeValue(tvdbId);
+    series.tvdbSeriesExtId.changeValue(tvdbId);
     series.tvdbSeriesId.changeValue(tvdbSeries.id.getValue());
     series.commit(connection);
 
@@ -123,7 +123,7 @@ public class TVDBSeriesUpdaterTest extends TVDatabaseTest {
     tvdbEpisode.seasonNumber.changeValue(seasonNumber);
     tvdbEpisode.episodeNumber.changeValue(episodeNumber);
     tvdbEpisode.name.changeValue(episodeTitle);
-    tvdbEpisode.tvdbId.changeValue(tvdbEpisodeId);
+    tvdbEpisode.tvdbEpisodeExtId.changeValue(tvdbEpisodeId);
     tvdbEpisode.commit(connection);
 
     Episode episode = new Episode();
@@ -155,7 +155,7 @@ public class TVDBSeriesUpdaterTest extends TVDatabaseTest {
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
         "SELECT * " +
             "FROM tvdb_episode " +
-            "WHERE tvdb_id = ?", tvdbId
+            "WHERE tvdb_episode_ext_id = ?", tvdbId
     );
     if (resultSet.next()) {
       TVDBEpisode tvdbEpisode = new TVDBEpisode();

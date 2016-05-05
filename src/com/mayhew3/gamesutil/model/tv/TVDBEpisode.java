@@ -15,7 +15,7 @@ public class TVDBEpisode extends DataObject {
   public FieldValue<Integer> seasonId = registerIntegerField("season_id", Nullability.NULLABLE);
 
   // todo: change to tvdb_episode_remote_id
-  public FieldValue<Integer> tvdbId = registerIntegerField("tvdb_id", Nullability.NULLABLE);
+  public FieldValue<Integer> tvdbEpisodeExtId = registerIntegerField("tvdb_episode_ext_id", Nullability.NULLABLE);
   public FieldValue<Integer> episodeNumber = registerIntegerField("episode_number", Nullability.NOT_NULL);
   public FieldValue<Integer> absoluteNumber = registerIntegerField("absolute_number", Nullability.NULLABLE);
   public FieldValue<Integer> ratingCount = registerIntegerField("rating_count", Nullability.NULLABLE);
@@ -47,7 +47,7 @@ public class TVDBEpisode extends DataObject {
 
 
   public TVDBEpisode() {
-    addUniqueConstraint(tvdbId, retired);
+    addUniqueConstraint(tvdbEpisodeExtId, retired);
   }
 
   @Override
