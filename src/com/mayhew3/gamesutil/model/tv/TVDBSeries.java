@@ -8,7 +8,6 @@ public class TVDBSeries extends DataObject {
 
   // todo: what is the difference between tvdb_id and tvdb_series_id??
   public FieldValueInteger tvdbId = registerIntegerField("tvdb_id", Nullability.NULLABLE);
-  public FieldValue<String> tvdbSeriesId = registerStringField("tvdb_series_id", Nullability.NULLABLE);
 
   public FieldValueInteger ratingCount = registerIntegerField("rating_count", Nullability.NULLABLE);
   public FieldValueInteger runtime = registerIntegerField("runtime", Nullability.NULLABLE);
