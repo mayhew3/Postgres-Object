@@ -80,19 +80,19 @@ public class TVDBDuplicateDataFixer {
     List<ShowFailedException> exceptions = new ArrayList<>();
 
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
-        "SELECT e.seriesid, e.season, e.season_episode_number\n" +
+        "SELECT e.seriesid, e.season, e.episode_number\n" +
             "FROM episode e\n" +
             "WHERE retired = ? " +
             "AND season <> ? " +
-            "GROUP BY e.seriesid, e.series_title, e.season, e.season_episode_number\n" +
+            "GROUP BY e.seriesid, e.series_title, e.season, e.episode_number\n" +
             "HAVING count(1) > ?\n" +
-            "ORDER BY e.series_title, e.season, e.season_episode_number",
+            "ORDER BY e.series_title, e.season, e.episode_number",
         0, 0, 1);
 
     while (resultSet.next()) {
       Integer seriesid = resultSet.getInt("seriesid");
       Integer season = resultSet.getInt("season");
-      Integer seasonEpisodeNumber = resultSet.getInt("season_episode_number");
+      Integer seasonEpisodeNumber = resultSet.getInt("episode_number");
 
       try {
         resolveDuplicatesForEpisode(seriesid, season, seasonEpisodeNumber);
@@ -116,7 +116,7 @@ public class TVDBDuplicateDataFixer {
             "FROM episode " +
             "WHERE seriesid = ? " +
             "AND season = ? " +
-            "AND season_episode_number = ? " +
+            "AND episode_number = ? " +
             "AND retired = ? ", seriesid, season, seasonEpisodeNumber, 0);
 
     List<Episode> olderEpisodes = new ArrayList<>();

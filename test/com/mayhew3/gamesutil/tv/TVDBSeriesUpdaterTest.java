@@ -131,7 +131,7 @@ public class TVDBSeriesUpdaterTest extends TVDatabaseTest {
     episode.tvdbEpisodeId.changeValue(tvdbEpisode.id.getValue());
     episode.seriesTitle.changeValue(series.seriesTitle.getValue());
     episode.setSeason(seasonNumber);
-    episode.seasonEpisodeNumber.changeValue(episodeNumber);
+    episode.episodeNumber.changeValue(episodeNumber);
     episode.title.changeValue(episodeTitle);
     episode.seriesId.changeValue(series.id.getValue());
     episode.commit(connection);

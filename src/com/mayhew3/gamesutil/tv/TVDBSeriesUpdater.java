@@ -110,7 +110,7 @@ public class TVDBSeriesUpdater {
         Episode episode = tvdbEpisode.getEpisode(connection);
         episode.addToTiVoEpisodes(connection, tivoEpisode);
 
-        newlyMatched.add(episode.getSeason() + "x" + episode.seasonEpisodeNumber.getValue());
+        newlyMatched.add(episode.getSeason() + "x" + episode.episodeNumber.getValue());
       }
     }
 

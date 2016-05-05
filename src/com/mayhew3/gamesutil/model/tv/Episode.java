@@ -21,7 +21,7 @@ public class Episode extends DataObject {
 
   /* Data */
   private FieldValue<Integer> season = registerIntegerField("season", Nullability.NOT_NULL);
-  public FieldValue<Integer> seasonEpisodeNumber = registerIntegerField("season_episode_number", Nullability.NOT_NULL);
+  public FieldValue<Integer> episodeNumber = registerIntegerField("episode_number", Nullability.NOT_NULL);
   public FieldValue<Integer> absoluteNumber = registerIntegerField("absolute_number", Nullability.NULLABLE);
 
   public FieldValueTimestamp airDate = registerTimestampField("air_date", Nullability.NULLABLE);
@@ -52,7 +52,7 @@ public class Episode extends DataObject {
 
   @Override
   public String toString() {
-    return seriesTitle.getValue() + " " + season.getValue() + "x" + seasonEpisodeNumber.getValue() + ": " + title.getValue();
+    return seriesTitle.getValue() + " " + season.getValue() + "x" + episodeNumber.getValue() + ": " + title.getValue();
   }
 
   public void addToTiVoEpisodes(SQLConnection connection, @NotNull TiVoEpisode tiVoEpisode) throws SQLException {
