@@ -9,11 +9,11 @@ public class PossibleSeriesMatch extends DataObject {
 
   /* Data */
   // todo: change to tvdb_series_remote_id
-  public FieldValueInteger tvdbSeriesId = registerIntegerField("tvdb_series_id", Nullability.NOT_NULL);
+  public FieldValueInteger tvdbSeriesExtId = registerIntegerField("tvdb_series_ext_id", Nullability.NOT_NULL);
   public FieldValueString tvdbSeriesTitle = registerStringField("tvdb_series_title", Nullability.NOT_NULL);
 
   public PossibleSeriesMatch() {
-    addUniqueConstraint(seriesId, tvdbSeriesId);
+    addUniqueConstraint(seriesId, tvdbSeriesExtId);
   }
 
   @Override

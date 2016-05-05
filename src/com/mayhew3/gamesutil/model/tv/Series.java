@@ -124,7 +124,7 @@ public class Series extends DataObject {
 
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
         "SELECT * FROM possible_series_match " +
-            "WHERE " + matchPostgres.tvdbSeriesId.getFieldName() + " = ?",
+            "WHERE " + matchPostgres.tvdbSeriesExtId.getFieldName() + " = ?",
         tvdbSeriesId);
 
     if (resultSet.next()) {
@@ -132,7 +132,7 @@ public class Series extends DataObject {
     } else {
       matchPostgres.initializeForInsert();
       matchPostgres.seriesId.changeValue(id.getValue());
-      matchPostgres.tvdbSeriesId.changeValue(tvdbSeriesId);
+      matchPostgres.tvdbSeriesExtId.changeValue(tvdbSeriesId);
       matchPostgres.tvdbSeriesTitle.changeValue(title);
       matchPostgres.commit(connection);
     }
