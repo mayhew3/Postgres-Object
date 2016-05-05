@@ -6,6 +6,7 @@ import com.mayhew3.gamesutil.model.tv.TVDBEpisode;
 import com.mayhew3.gamesutil.model.tv.TiVoEpisode;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.xml.NodeReader;
+import com.sun.istack.internal.Nullable;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeComparator;
 import org.w3c.dom.NodeList;
@@ -42,15 +43,21 @@ class TVDBEpisodeUpdater {
 
     Integer seriesId = series.id.getValue();
 
+    TVDBEpisode existingTVDBEpisodeByTVDBID = findExistingTVDBEpisodeByTVDBID(tvdbRemoteId);
+
     String episodenumber = nodeReader.getValueOfSimpleStringNode(episodeNode, "episodenumber");
     String episodename = nodeReader.getValueOfSimpleStringNode(episodeNode, "episodename");
     String seasonnumber = nodeReader.getValueOfSimpleStringNode(episodeNode, "seasonnumber");
     String firstaired = nodeReader.getValueOfSimpleStringNode(episodeNode, "firstaired");
 
-    ResultSet existingTVDBRow = findExistingTVDBEpisode(
+    TVDBEpisode existingTVDBEpisodeByEpisodeNumber = findExistingTVDBEpisodeByEpisodeNumber(
         Integer.valueOf(episodenumber),
         Integer.valueOf(seasonnumber),
         series.tvdbSeriesId.getValue());
+
+    TVDBEpisode existingEpisode = existingTVDBEpisodeByTVDBID == null ?
+        existingTVDBEpisodeByEpisodeNumber :
+        existingTVDBEpisodeByTVDBID;
 
     Boolean matched = false;
     Boolean added = false;
@@ -59,7 +66,7 @@ class TVDBEpisodeUpdater {
     TVDBEpisode tvdbEpisode = new TVDBEpisode();
     Episode episode = new Episode();
 
-    if (!existingTVDBRow.next()) {
+    if (existingEpisode == null) {
       tvdbEpisode.initializeForInsert();
 
       // todo: Optimization: skip looking for match when firstAired is future. Obviously it's not on the TiVo yet.
@@ -77,12 +84,7 @@ class TVDBEpisodeUpdater {
       }
 
     } else {
-      tvdbEpisode.initializeFromDBObject(existingTVDBRow);
-
-      if (existingTVDBRow.next()) {
-        throw new ShowFailedException("Found multiple matches for Series '" + tvdbEpisode.seriesName.getValue() + "' (" +
-            tvdbEpisode.tvdbSeriesId.getValue() + "), " + tvdbEpisode.seasonNumber.getValue() + "x" + tvdbEpisode.episodeNumber.getValue());
-      }
+      tvdbEpisode = existingEpisode;
 
       ResultSet episodeRow = getEpisodeFromTVDBEpisodeID(tvdbEpisode.id.getValue());
       episode.initializeFromDBObject(episodeRow);
@@ -155,16 +157,48 @@ class TVDBEpisodeUpdater {
     }
   }
 
-  private ResultSet findExistingTVDBEpisode(Integer episodenumber, Integer seasonnumber, Integer tvdbSeriesId) throws SQLException {
-    return connection.prepareAndExecuteStatementFetch(
+  @Nullable
+  private TVDBEpisode findExistingTVDBEpisodeByTVDBID(Integer tvdbId) throws SQLException {
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
+        "SELECT * " +
+            "FROM tvdb_episode " +
+            "WHERE tvdb_id = ? " +
+            "AND retired = ?",
+        tvdbId, 0
+    );
+    if (resultSet.next()) {
+      TVDBEpisode tvdbEpisode = new TVDBEpisode();
+      tvdbEpisode.initializeFromDBObject(resultSet);
+      return tvdbEpisode;
+    } else {
+      return null;
+    }
+  }
+
+  @Nullable
+  private TVDBEpisode findExistingTVDBEpisodeByEpisodeNumber(Integer episodeNumber, Integer seasonNumber, Integer tvdbSeriesId) throws SQLException, ShowFailedException {
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
         "SELECT te.* " +
             "FROM tvdb_episode te " +
             "WHERE tvdb_series_id = ? " +
             "AND episode_number = ? " +
             "AND season_number = ? " +
             "AND retired = ?",
-        tvdbSeriesId, episodenumber, seasonnumber, 0
+        tvdbSeriesId, episodeNumber, seasonNumber, 0
     );
+    if (resultSet.next()) {
+      TVDBEpisode tvdbEpisode = new TVDBEpisode();
+      tvdbEpisode.initializeFromDBObject(resultSet);
+
+      if (resultSet.next()) {
+        throw new ShowFailedException("Found multiple matches for Series '" + tvdbEpisode.seriesName.getValue() + "' (" +
+            tvdbSeriesId + "), " + seasonNumber + "x" + episodeNumber);
+      }
+
+      return tvdbEpisode;
+    } else {
+      return null;
+    }
   }
 
   private TiVoEpisode findTiVoMatch(String episodeTitle, String tvdbSeasonStr, String tvdbEpisodeNumberStr, String firstAiredStr, Integer seriesId) throws SQLException {

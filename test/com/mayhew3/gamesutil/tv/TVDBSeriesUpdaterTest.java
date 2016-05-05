@@ -15,7 +15,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import static org.fest.assertions.Assertions.assertThat;
-import static org.junit.Assert.fail;
 
 public class TVDBSeriesUpdaterTest extends TVDatabaseTest {
 
@@ -27,6 +26,7 @@ public class TVDBSeriesUpdaterTest extends TVDatabaseTest {
 
     Series series = findSeriesWithTitle(seriesName);
 
+    // fake ID - use so that XML will find a different ID and change it and not add a new episode with same episode number.
     Integer originalID = 5;
     Integer expectedID = 5580497;
 
