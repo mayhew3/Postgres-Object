@@ -213,7 +213,7 @@ public abstract class DataObject {
     uniqueConstraints.add(new UniqueConstraint(Lists.newArrayList(fieldValues)));
   }
 
-  String generateTableCreateStatement() {
+  public String generateTableCreateStatement() {
     String statement =
         "CREATE TABLE " + getTableName() +
             " (";
@@ -253,7 +253,7 @@ public abstract class DataObject {
     return statement;
   }
 
-  List<String> generateAddForeignKeyStatements() {
+  public List<String> generateAddForeignKeyStatements() {
     List<String> statements = new ArrayList<>();
     Integer fkIndex = 1;
     for (FieldValueForeignKey foreignKey : foreignKeys) {
