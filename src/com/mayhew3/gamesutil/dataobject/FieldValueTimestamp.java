@@ -1,6 +1,6 @@
 package com.mayhew3.gamesutil.dataobject;
 
-import com.sun.istack.internal.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 import java.sql.*;
 import java.util.Date;
@@ -63,7 +63,7 @@ public class FieldValueTimestamp extends FieldValue<Timestamp> {
     }
   }
 
-  public void changeValueFromXMLString(String xmlString) {
+  public void changeValueFromXMLString(@Nullable String xmlString) {
     if (xmlString != null) {
       long numberOfSeconds = Long.decode(xmlString);
       changeValue(new Timestamp(numberOfSeconds * 1000));

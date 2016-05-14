@@ -4,8 +4,7 @@ import com.google.common.base.Preconditions;
 import com.mayhew3.gamesutil.dataobject.*;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.tv.ShowFailedException;
-import com.sun.istack.internal.NotNull;
-import com.sun.istack.internal.Nullable;
+import org.jetbrains.annotations.NotNull;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -129,11 +128,6 @@ public class Episode extends DataObject {
 
   public void setSeason(Integer seasonNumber) {
     season.changeValue(seasonNumber);
-  }
-
-  public void changeSeasonUnlessToNull(@Nullable Integer seasonNumber, SQLConnection connection) throws SQLException {
-    season.changeValueUnlessToNull(seasonNumber);
-    updateSeasonRow(seasonNumber, connection);
   }
 
   public void setSeasonFromString(String seasonNumber, SQLConnection connection) throws SQLException {

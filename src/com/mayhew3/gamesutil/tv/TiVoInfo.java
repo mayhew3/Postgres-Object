@@ -1,20 +1,20 @@
 package com.mayhew3.gamesutil.tv;
 
 import com.mayhew3.gamesutil.xml.NodeReader;
-import com.sun.istack.internal.NotNull;
+import org.jetbrains.annotations.NotNull;
 import org.w3c.dom.NodeList;
 
 public class TiVoInfo {
-  public String programId;
-  public String tivoId;
+  String programId;
+  String tivoId;
   public String seriesTitle;
-  public Boolean isSuggestion;
+  Boolean isSuggestion;
   public String url;
 
   public TiVoInfo(@NotNull NodeList showDetails, @NotNull NodeReader nodeReader) {
-    programId = nodeReader.getValueOfSimpleStringNode(showDetails, "ProgramId");
-    tivoId = nodeReader.getValueOfSimpleStringNode(showDetails, "SeriesId");
-    seriesTitle = nodeReader.getValueOfSimpleStringNode(showDetails, "Title");
+    programId = nodeReader.getValueOfSimpleStringNullableNode(showDetails, "ProgramId");
+    tivoId = nodeReader.getValueOfSimpleStringNullableNode(showDetails, "SeriesId");
+    seriesTitle = nodeReader.getValueOfSimpleStringNullableNode(showDetails, "Title");
 
     if (programId == null) {
       throw new RuntimeException("Episode found on TiVo with no ProgramId field!");

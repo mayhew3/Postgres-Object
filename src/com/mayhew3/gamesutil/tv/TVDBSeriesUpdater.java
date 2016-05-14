@@ -5,8 +5,8 @@ import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.model.tv.*;
 import com.mayhew3.gamesutil.xml.BadlyFormattedXMLException;
 import com.mayhew3.gamesutil.xml.NodeReader;
-import com.sun.istack.internal.NotNull;
-import com.sun.istack.internal.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -81,7 +81,8 @@ public class TVDBSeriesUpdater {
   }
 
   // todo: never return null, just throw exception if failed to find
-  private Integer getTVDBID(ErrorLog errorLog, Boolean matchedWrong, Integer existingId) throws SQLException, ShowFailedException, BadlyFormattedXMLException {
+  @Nullable
+  private Integer getTVDBID(@Nullable ErrorLog errorLog, Boolean matchedWrong, Integer existingId) throws SQLException, ShowFailedException, BadlyFormattedXMLException {
     if (existingId != null && !matchedWrong) {
       return existingId;
     }
@@ -186,7 +187,8 @@ public class TVDBSeriesUpdater {
     return null;
   }
 
-  private Integer findTVDBMatch(Series series, ErrorLog errorLog) throws SQLException, BadlyFormattedXMLException, IOException, SAXException {
+  @Nullable
+  private Integer findTVDBMatch(Series series, @Nullable ErrorLog errorLog) throws SQLException, BadlyFormattedXMLException, IOException, SAXException {
     String seriesTitle = series.seriesTitle.getValue();
     String tivoId = series.tivoSeriesExtId.getValue();
     String tvdbHint = series.tvdbHint.getValue();
@@ -241,7 +243,7 @@ public class TVDBSeriesUpdater {
       resolveError(errorLog);
     }
 
-    String id = nodeReader.getValueOfSimpleStringNode(firstSeries, "id");
+    String id = nodeReader.getValueOfSimpleStringNullableNode(firstSeries, "id");
     return id == null ? null : Integer.parseInt(id);
   }
 
@@ -254,7 +256,7 @@ public class TVDBSeriesUpdater {
     return nodeReader.getAllNodesWithTag(dataNode, "Series");
   }
 
-  private void attachPossibleSeries(Series series, List<Node> seriesNodes) throws SQLException {
+  private void attachPossibleSeries(Series series, List<Node> seriesNodes) throws SQLException, BadlyFormattedXMLException {
     int possibleSeries = Math.min(5, seriesNodes.size());
     for (int i = 0; i < possibleSeries; i++) {
       NodeList seriesNode = seriesNodes.get(i).getChildNodes();
@@ -266,7 +268,7 @@ public class TVDBSeriesUpdater {
     }
   }
 
-  private String getTitleToCheck(String seriesTitle, ErrorLog errorLog) {
+  private String getTitleToCheck(String seriesTitle, @Nullable ErrorLog errorLog) {
     if (errorLog != null && isNotFoundError(errorLog)) {
       String chosenName = errorLog.chosenName.getValue();
       if (chosenName == null) {
@@ -289,7 +291,7 @@ public class TVDBSeriesUpdater {
     return errorLog != null && Boolean.TRUE.equals(errorLog.ignoreError.getValue());
   }
 
-  private void updateSeriesTitle(Series series, ErrorLog errorLog) throws SQLException {
+  private void updateSeriesTitle(Series series, @NotNull ErrorLog errorLog) throws SQLException {
     String chosenName = errorLog.chosenName.getValue();
     String seriesTitle = series.seriesTitle.getValue();
 
@@ -304,7 +306,10 @@ public class TVDBSeriesUpdater {
     series.commit(connection);
   }
 
-  private boolean shouldAcceptMismatch(ErrorLog errorLog) {
+  private boolean shouldAcceptMismatch(@Nullable ErrorLog errorLog) {
+    if (errorLog == null) {
+      return false;
+    }
     if (!isMismatchError(errorLog)) {
       return false;
     }
@@ -351,24 +356,24 @@ public class TVDBSeriesUpdater {
       tvdbSeries.initializeForInsert();
     }
 
-    String tvdbSeriesName = nodeReader.getValueOfSimpleStringNode(seriesNode, "seriesname");
+    String tvdbSeriesName = nodeReader.getValueOfSimpleStringNullableNode(seriesNode, "seriesname");
 
-    tvdbSeries.tvdbSeriesExtId.changeValueFromString(nodeReader.getValueOfSimpleStringNode(seriesNode, "id"));
+    tvdbSeries.tvdbSeriesExtId.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(seriesNode, "id"));
     tvdbSeries.name.changeValueFromString(tvdbSeriesName);
-    tvdbSeries.airsDayOfWeek.changeValueFromString(nodeReader.getValueOfSimpleStringNode(seriesNode, "airs_dayofweek"));
-    tvdbSeries.airsTime.changeValueFromString(nodeReader.getValueOfSimpleStringNode(seriesNode, "airs_time"));
-    tvdbSeries.firstAired.changeValueFromString(nodeReader.getValueOfSimpleStringNode(seriesNode, "firstaired"));
-    tvdbSeries.network.changeValueFromString(nodeReader.getValueOfSimpleStringNode(seriesNode, "network"));
-    tvdbSeries.overview.changeValueFromString(nodeReader.getValueOfSimpleStringNode(seriesNode, "overview"));
-    tvdbSeries.rating.changeValueFromString(nodeReader.getValueOfSimpleStringNode(seriesNode, "rating"));
-    tvdbSeries.ratingCount.changeValueFromString(nodeReader.getValueOfSimpleStringNode(seriesNode, "ratingcount"));
-    tvdbSeries.runtime.changeValueFromString(nodeReader.getValueOfSimpleStringNode(seriesNode, "runtime"));
-    tvdbSeries.status.changeValueFromString(nodeReader.getValueOfSimpleStringNode(seriesNode, "status"));
-    tvdbSeries.poster.changeValueFromString(nodeReader.getValueOfSimpleStringNode(seriesNode, "poster"));
-    tvdbSeries.banner.changeValueFromString(nodeReader.getValueOfSimpleStringNode(seriesNode, "banner"));
-    tvdbSeries.lastUpdated.changeValueFromString(nodeReader.getValueOfSimpleStringNode(seriesNode, "lastupdated"));
-    tvdbSeries.imdbId.changeValueFromString(nodeReader.getValueOfSimpleStringNode(seriesNode, "IMDB_ID"));
-    tvdbSeries.zap2it_id.changeValueFromString(nodeReader.getValueOfSimpleStringNode(seriesNode, "zap2it_id"));
+    tvdbSeries.airsDayOfWeek.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(seriesNode, "airs_dayofweek"));
+    tvdbSeries.airsTime.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(seriesNode, "airs_time"));
+    tvdbSeries.firstAired.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(seriesNode, "firstaired"));
+    tvdbSeries.network.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(seriesNode, "network"));
+    tvdbSeries.overview.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(seriesNode, "overview"));
+    tvdbSeries.rating.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(seriesNode, "rating"));
+    tvdbSeries.ratingCount.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(seriesNode, "ratingcount"));
+    tvdbSeries.runtime.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(seriesNode, "runtime"));
+    tvdbSeries.status.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(seriesNode, "status"));
+    tvdbSeries.poster.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(seriesNode, "poster"));
+    tvdbSeries.banner.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(seriesNode, "banner"));
+    tvdbSeries.lastUpdated.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(seriesNode, "lastupdated"));
+    tvdbSeries.imdbId.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(seriesNode, "IMDB_ID"));
+    tvdbSeries.zap2it_id.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(seriesNode, "zap2it_id"));
 
     tvdbSeries.commit(connection);
 

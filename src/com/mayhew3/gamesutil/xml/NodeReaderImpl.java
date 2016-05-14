@@ -1,6 +1,7 @@
 package com.mayhew3.gamesutil.xml;
 
-import com.sun.istack.internal.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.apache.commons.io.FileUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -27,6 +28,7 @@ public class NodeReaderImpl implements NodeReader {
   }
 
   @Override
+  @NotNull
   public Document readXMLFromUrl(String urlString) throws IOException, SAXException {
     URL url = new URL(urlString);
 
@@ -39,6 +41,7 @@ public class NodeReaderImpl implements NodeReader {
     return recoverDocument(is);
   }
 
+  @NotNull
   @Override
   public Document readXMLFromFile(String filePath) throws IOException, SAXException {
     File source = new File(filePath);
@@ -46,6 +49,7 @@ public class NodeReaderImpl implements NodeReader {
     return recoverDocument(fileInputStream);
   }
 
+  @NotNull
   @Override
   public Node getNodeWithTag(NodeList nodeList, String tag) throws BadlyFormattedXMLException {
     for (int x = 0; x < nodeList.getLength(); x++) {
@@ -68,6 +72,7 @@ public class NodeReaderImpl implements NodeReader {
     return null;
   }
 
+  @NotNull
   @Override
   public List<Node> getAllNodesWithTag(NodeList nodeList, String tag) {
     List<Node> matchingNodes = new ArrayList<>();
@@ -82,15 +87,25 @@ public class NodeReaderImpl implements NodeReader {
 
   @Nullable
   @Override
-  public String getValueOfSimpleStringNode(NodeList nodeList, String tag) {
+  public String getValueOfSimpleStringNullableNode(NodeList nodeList, String tag) {
     Node nodeWithTag = getNullableNodeWithTag(nodeList, tag);
     return nodeWithTag == null ? null : parseSimpleStringFromNode(nodeWithTag);
   }
 
+  @Override
+  public @NotNull String getValueOfSimpleStringNode(NodeList nodeList, String tag) throws BadlyFormattedXMLException {
+    @NotNull Node nodeWithTag = getNodeWithTag(nodeList, tag);
+
+    @Nullable String nodeValue = parseSimpleStringFromNode(nodeWithTag);
+    if (nodeValue == null) {
+      throw new BadlyFormattedXMLException("No text children found for node '" + nodeWithTag.getNodeName() + "'");
+    }
+    return nodeValue;
+  }
 
 
-
-  String parseSimpleStringFromNode(Node nodeWithTag) {
+  @Nullable
+  private String parseSimpleStringFromNode(Node nodeWithTag) {
     NodeList childNodes = nodeWithTag.getChildNodes();
     if (childNodes.getLength() > 1) {
       throw new RuntimeException("Expect only one text child of node '" + nodeWithTag.getNodeName() + "'");
@@ -101,6 +116,7 @@ public class NodeReaderImpl implements NodeReader {
     return textNode.getNodeValue();
   }
 
+  @NotNull
   public Document recoverDocument(InputStream inputStream) throws SAXException, IOException {
     DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
     DocumentBuilder dBuilder = null;

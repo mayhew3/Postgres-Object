@@ -3,7 +3,7 @@ package com.mayhew3.gamesutil.tv;
 import com.mayhew3.gamesutil.model.tv.TVDBEpisode;
 import com.mayhew3.gamesutil.model.tv.TiVoEpisode;
 import com.mayhew3.gamesutil.db.SQLConnection;
-import com.sun.istack.internal.Nullable;
+import org.jetbrains.annotations.Nullable;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeComparator;
 
@@ -13,19 +13,18 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class TVDBEpisodeMatcher {
+class TVDBEpisodeMatcher {
   private SQLConnection connection;
   private TiVoEpisode tiVoEpisode;
   private Integer seriesId;
 
-  public TVDBEpisodeMatcher(SQLConnection connection, TiVoEpisode tiVoEpisode, Integer seriesId) {
+  TVDBEpisodeMatcher(SQLConnection connection, TiVoEpisode tiVoEpisode, Integer seriesId) {
     this.connection = connection;
     this.tiVoEpisode = tiVoEpisode;
     this.seriesId = seriesId;
   }
 
-  @Nullable
-  public TVDBEpisode findTVDBEpisodeMatch() throws SQLException {
+  @Nullable TVDBEpisode findTVDBEpisodeMatch() throws SQLException {
     String episodeTitle = tiVoEpisode.title.getValue();
     Integer episodeNumber = tiVoEpisode.episodeNumber.getValue();
     Date startTime = tiVoEpisode.showingStartTime.getValue();
@@ -107,6 +106,7 @@ public class TVDBEpisodeMatcher {
     return null;
   }
 
+  @Nullable
   private TVDBEpisode checkForNumberMatch(Integer seasonNumber, Integer episodeNumber, List<TVDBEpisode> tvdbEpisodes) {
     for (TVDBEpisode tvdbEpisode : tvdbEpisodes) {
       Integer tvdbSeason = tvdbEpisode.seasonNumber.getValue();

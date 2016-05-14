@@ -9,7 +9,8 @@ import com.mayhew3.gamesutil.model.tv.*;
 import com.mayhew3.gamesutil.xml.BadlyFormattedXMLException;
 import com.mayhew3.gamesutil.xml.NodeReader;
 import com.mayhew3.gamesutil.xml.NodeReaderImpl;
-import com.sun.istack.internal.NotNull;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -475,19 +476,19 @@ public class TiVoCommunicator {
   }
 
   private TiVoEpisode formatEpisodeObject(TiVoEpisode episode, String url, Boolean isSuggestion, NodeList showDetails) {
-    episode.captureDate.changeValueFromXMLString(nodeReader.getValueOfSimpleStringNode(showDetails, "CaptureDate"));
-    episode.showingStartTime.changeValueFromXMLString(nodeReader.getValueOfSimpleStringNode(showDetails, "ShowingStartTime"));
+    episode.captureDate.changeValueFromXMLString(nodeReader.getValueOfSimpleStringNullableNode(showDetails, "CaptureDate"));
+    episode.showingStartTime.changeValueFromXMLString(nodeReader.getValueOfSimpleStringNullableNode(showDetails, "ShowingStartTime"));
 
-    episode.description.changeValueFromString(nodeReader.getValueOfSimpleStringNode(showDetails, "Description"));
-    episode.title.changeValueFromString(nodeReader.getValueOfSimpleStringNode(showDetails, "EpisodeTitle"));
-    episode.episodeNumber.changeValueFromString(nodeReader.getValueOfSimpleStringNode(showDetails, "EpisodeNumber"));
-    episode.hd.changeValueFromString(nodeReader.getValueOfSimpleStringNode(showDetails, "HighDefinition"));
-    episode.programId.changeValueFromString(nodeReader.getValueOfSimpleStringNode(showDetails, "ProgramId"));
-    episode.duration.changeValueFromString(nodeReader.getValueOfSimpleStringNode(showDetails, "Duration"));
-    episode.showingDuration.changeValueFromString(nodeReader.getValueOfSimpleStringNode(showDetails, "ShowingDuration"));
-    episode.channel.changeValueFromString(nodeReader.getValueOfSimpleStringNode(showDetails, "SourceChannel"));
-    episode.station.changeValueFromString(nodeReader.getValueOfSimpleStringNode(showDetails, "SourceStation"));
-    episode.rating.changeValueFromString(nodeReader.getValueOfSimpleStringNode(showDetails, "TvRating"));
+    episode.description.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(showDetails, "Description"));
+    episode.title.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(showDetails, "EpisodeTitle"));
+    episode.episodeNumber.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(showDetails, "EpisodeNumber"));
+    episode.hd.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(showDetails, "HighDefinition"));
+    episode.programId.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(showDetails, "ProgramId"));
+    episode.duration.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(showDetails, "Duration"));
+    episode.showingDuration.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(showDetails, "ShowingDuration"));
+    episode.channel.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(showDetails, "SourceChannel"));
+    episode.station.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(showDetails, "SourceStation"));
+    episode.rating.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(showDetails, "TvRating"));
     episode.retired.changeValue(0);
 
     episode.suggestion.changeValue(isSuggestion);
@@ -497,18 +498,18 @@ public class TiVoCommunicator {
   }
 
   private Movie formatMovieObject(Movie movie, String url, Boolean isSuggestion, NodeList showDetails) {
-    movie.captureDate.changeValueFromXMLString(nodeReader.getValueOfSimpleStringNode(showDetails, "CaptureDate"));
-    movie.showingStartTime.changeValueFromXMLString(nodeReader.getValueOfSimpleStringNode(showDetails, "ShowingStartTime"));
+    movie.captureDate.changeValueFromXMLString(nodeReader.getValueOfSimpleStringNullableNode(showDetails, "CaptureDate"));
+    movie.showingStartTime.changeValueFromXMLString(nodeReader.getValueOfSimpleStringNullableNode(showDetails, "ShowingStartTime"));
 
-    movie.description.changeValueFromString(nodeReader.getValueOfSimpleStringNode(showDetails, "Description"));
-    movie.title.changeValueFromString(nodeReader.getValueOfSimpleStringNode(showDetails, "Title"));
-    movie.hd.changeValueFromString(nodeReader.getValueOfSimpleStringNode(showDetails, "HighDefinition"));
-    movie.programId.changeValueFromString(nodeReader.getValueOfSimpleStringNode(showDetails, "ProgramId"));
-    movie.duration.changeValueFromString(nodeReader.getValueOfSimpleStringNode(showDetails, "Duration"));
-    movie.showingDuration.changeValueFromString(nodeReader.getValueOfSimpleStringNode(showDetails, "ShowingDuration"));
-    movie.channel.changeValueFromString(nodeReader.getValueOfSimpleStringNode(showDetails, "SourceChannel"));
-    movie.station.changeValueFromString(nodeReader.getValueOfSimpleStringNode(showDetails, "SourceStation"));
-    movie.rating.changeValueFromString(nodeReader.getValueOfSimpleStringNode(showDetails, "TvRating"));
+    movie.description.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(showDetails, "Description"));
+    movie.title.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(showDetails, "Title"));
+    movie.hd.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(showDetails, "HighDefinition"));
+    movie.programId.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(showDetails, "ProgramId"));
+    movie.duration.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(showDetails, "Duration"));
+    movie.showingDuration.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(showDetails, "ShowingDuration"));
+    movie.channel.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(showDetails, "SourceChannel"));
+    movie.station.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(showDetails, "SourceStation"));
+    movie.rating.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(showDetails, "TvRating"));
     movie.retired.changeValue(0);
 
     movie.suggestion.changeValue(isSuggestion);
@@ -525,7 +526,7 @@ public class TiVoCommunicator {
       return false;
     } else {
       NodeList customIcons = customIcon.getChildNodes();
-      String iconUrl = nodeReader.getValueOfSimpleStringNode(customIcons, "Url");
+      String iconUrl = nodeReader.getValueOfSimpleStringNullableNode(customIcons, "Url");
 
       return iconUrl != null && iconUrl.endsWith("suggestion-recording");
     }
@@ -561,7 +562,7 @@ public class TiVoCommunicator {
     NodeList program = nodeReader.getNodeWithTag(showing, "program").getChildNodes();
     NodeList series = nodeReader.getNodeWithTag(program, "series").getChildNodes();
 
-    String isEpisodic = nodeReader.getValueOfSimpleStringNode(series, "isEpisodic");
+    String isEpisodic = nodeReader.getValueOfSimpleStringNullableNode(series, "isEpisodic");
     return Boolean.parseBoolean(isEpisodic);
   }
 
@@ -573,25 +574,27 @@ public class TiVoCommunicator {
       return false;
     } else {
       NodeList customIcons = customIcon.getChildNodes();
-      String iconUrl = nodeReader.getValueOfSimpleStringNode(customIcons, "Url");
+      String iconUrl = nodeReader.getValueOfSimpleStringNullableNode(customIcons, "Url");
 
       return iconUrl != null && iconUrl.endsWith("in-progress-recording");
     }
   }
 
+  @Nullable
   private String getUrl(NodeList showAttributes) throws BadlyFormattedXMLException {
     NodeList links = nodeReader.getNodeWithTag(showAttributes, "Links").getChildNodes();
     NodeList content = nodeReader.getNodeWithTag(links, "Content").getChildNodes();
-    return nodeReader.getValueOfSimpleStringNode(content, "Url");
+    return nodeReader.getValueOfSimpleStringNullableNode(content, "Url");
   }
 
+  @Nullable
   private String getDetailUrl(NodeList showAttributes) throws BadlyFormattedXMLException {
     NodeList links = nodeReader.getNodeWithTag(showAttributes, "Links").getChildNodes();
     NodeList content = nodeReader.getNodeWithTag(links, "TiVoVideoDetails").getChildNodes();
-    return nodeReader.getValueOfSimpleStringNode(content, "Url");
+    return nodeReader.getValueOfSimpleStringNullableNode(content, "Url");
   }
 
-  public Document readXMLFromTivoUrl(String urlString) throws IOException, SAXException {
+  private Document readXMLFromTivoUrl(String urlString) throws IOException, SAXException {
 
     Authenticator.setDefault (new Authenticator() {
       protected PasswordAuthentication getPasswordAuthentication() {
@@ -608,7 +611,7 @@ public class TiVoCommunicator {
   }
 
 
-  protected Document recoverDocument(InputStream inputStream) throws IOException, SAXException {
+  private Document recoverDocument(InputStream inputStream) throws IOException, SAXException {
     DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
     DocumentBuilder dBuilder = null;
     try {

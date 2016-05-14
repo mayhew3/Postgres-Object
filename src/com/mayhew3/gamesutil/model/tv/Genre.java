@@ -2,10 +2,9 @@ package com.mayhew3.gamesutil.model.tv;
 
 import com.mayhew3.gamesutil.dataobject.DataObject;
 import com.mayhew3.gamesutil.dataobject.FieldValueString;
-import com.mayhew3.gamesutil.dataobject.IntegerSize;
 import com.mayhew3.gamesutil.dataobject.Nullability;
 import com.mayhew3.gamesutil.db.SQLConnection;
-import com.sun.istack.internal.NotNull;
+import org.jetbrains.annotations.NotNull;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -26,7 +25,7 @@ public class Genre extends DataObject {
   }
 
   @NotNull
-  public static Genre findOrCreate(SQLConnection connection, String genreName) throws SQLException {
+  static Genre findOrCreate(SQLConnection connection, String genreName) throws SQLException {
     Genre genre = new Genre();
 
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(

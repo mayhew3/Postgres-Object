@@ -5,8 +5,10 @@ import com.mayhew3.gamesutil.model.tv.Series;
 import com.mayhew3.gamesutil.model.tv.TVDBEpisode;
 import com.mayhew3.gamesutil.model.tv.TiVoEpisode;
 import com.mayhew3.gamesutil.db.SQLConnection;
+import com.mayhew3.gamesutil.xml.BadlyFormattedXMLException;
 import com.mayhew3.gamesutil.xml.NodeReader;
-import com.sun.istack.internal.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeComparator;
 import org.w3c.dom.NodeList;
@@ -38,17 +40,17 @@ class TVDBEpisodeUpdater {
    * @throws SQLException If DB query error
    * @throws ShowFailedException If multiple episodes were found to update
    */
-  EPISODE_RESULT updateSingleEpisode() throws SQLException, ShowFailedException {
+  EPISODE_RESULT updateSingleEpisode() throws SQLException, ShowFailedException, BadlyFormattedXMLException {
     Integer tvdbRemoteId = Integer.valueOf(nodeReader.getValueOfSimpleStringNode(episodeNode, "id"));
 
     Integer seriesId = series.id.getValue();
 
     TVDBEpisode existingTVDBEpisodeByTVDBID = findExistingTVDBEpisodeByTVDBID(tvdbRemoteId);
 
-    String episodenumber = nodeReader.getValueOfSimpleStringNode(episodeNode, "episodenumber");
-    String episodename = nodeReader.getValueOfSimpleStringNode(episodeNode, "episodename");
-    String seasonnumber = nodeReader.getValueOfSimpleStringNode(episodeNode, "seasonnumber");
-    String firstaired = nodeReader.getValueOfSimpleStringNode(episodeNode, "firstaired");
+    @NotNull String episodenumber = nodeReader.getValueOfSimpleStringNode(episodeNode, "episodenumber");
+    @NotNull String episodename = nodeReader.getValueOfSimpleStringNode(episodeNode, "episodename");
+    @NotNull String seasonnumber = nodeReader.getValueOfSimpleStringNode(episodeNode, "seasonnumber");
+    @NotNull String firstaired = nodeReader.getValueOfSimpleStringNode(episodeNode, "firstaired");
 
     TVDBEpisode existingTVDBEpisodeByEpisodeNumber = findExistingTVDBEpisodeByEpisodeNumber(
         Integer.valueOf(episodenumber),
@@ -92,7 +94,7 @@ class TVDBEpisodeUpdater {
 
     // todo: Add log entry for when TVDB values change.
 
-    String absoluteNumber = nodeReader.getValueOfSimpleStringNode(episodeNode, "absoute_number");
+    String absoluteNumber = nodeReader.getValueOfSimpleStringNullableNode(episodeNode, "absoute_number");
 
     tvdbEpisode.tvdbEpisodeExtId.changeValue(tvdbRemoteId);
     tvdbEpisode.absoluteNumber.changeValueFromString(absoluteNumber);
@@ -101,20 +103,20 @@ class TVDBEpisodeUpdater {
     tvdbEpisode.name.changeValueFromString(episodename);
     tvdbEpisode.firstAired.changeValueFromString(firstaired);
     tvdbEpisode.tvdbSeriesId.changeValue(series.tvdbSeriesId.getValue());
-    tvdbEpisode.overview.changeValueFromString(nodeReader.getValueOfSimpleStringNode(episodeNode, "overview"));
-    tvdbEpisode.productionCode.changeValueFromString(nodeReader.getValueOfSimpleStringNode(episodeNode, "ProductionCode"));
-    tvdbEpisode.rating.changeValueFromString(nodeReader.getValueOfSimpleStringNode(episodeNode, "Rating"));
-    tvdbEpisode.ratingCount.changeValueFromString(nodeReader.getValueOfSimpleStringNode(episodeNode, "RatingCount"));
-    tvdbEpisode.director.changeValueFromString(nodeReader.getValueOfSimpleStringNode(episodeNode, "Director"));
-    tvdbEpisode.writer.changeValueFromString(nodeReader.getValueOfSimpleStringNode(episodeNode, "Writer"));
-    tvdbEpisode.lastUpdated.changeValueFromString(nodeReader.getValueOfSimpleStringNode(episodeNode, "lastupdated"));
-    tvdbEpisode.tvdbSeasonExtId.changeValueFromString(nodeReader.getValueOfSimpleStringNode(episodeNode, "seasonid"));
-    tvdbEpisode.filename.changeValueFromString(nodeReader.getValueOfSimpleStringNode(episodeNode, "filename"));
-    tvdbEpisode.airsAfterSeason.changeValueFromString(nodeReader.getValueOfSimpleStringNode(episodeNode, "airsafter_season"));
-    tvdbEpisode.airsBeforeSeason.changeValueFromString(nodeReader.getValueOfSimpleStringNode(episodeNode, "airsbefore_season"));
-    tvdbEpisode.airsBeforeEpisode.changeValueFromString(nodeReader.getValueOfSimpleStringNode(episodeNode, "airsbefore_episode"));
-    tvdbEpisode.thumbHeight.changeValueFromString(nodeReader.getValueOfSimpleStringNode(episodeNode, "thumb_height"));
-    tvdbEpisode.thumbWidth.changeValueFromString(nodeReader.getValueOfSimpleStringNode(episodeNode, "thumb_width"));
+    tvdbEpisode.overview.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(episodeNode, "overview"));
+    tvdbEpisode.productionCode.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(episodeNode, "ProductionCode"));
+    tvdbEpisode.rating.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(episodeNode, "Rating"));
+    tvdbEpisode.ratingCount.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(episodeNode, "RatingCount"));
+    tvdbEpisode.director.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(episodeNode, "Director"));
+    tvdbEpisode.writer.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(episodeNode, "Writer"));
+    tvdbEpisode.lastUpdated.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(episodeNode, "lastupdated"));
+    tvdbEpisode.tvdbSeasonExtId.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(episodeNode, "seasonid"));
+    tvdbEpisode.filename.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(episodeNode, "filename"));
+    tvdbEpisode.airsAfterSeason.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(episodeNode, "airsafter_season"));
+    tvdbEpisode.airsBeforeSeason.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(episodeNode, "airsbefore_season"));
+    tvdbEpisode.airsBeforeEpisode.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(episodeNode, "airsbefore_episode"));
+    tvdbEpisode.thumbHeight.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(episodeNode, "thumb_height"));
+    tvdbEpisode.thumbWidth.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(episodeNode, "thumb_width"));
 
     if (tvdbEpisode.hasChanged()) {
       changed = true;
@@ -201,6 +203,7 @@ class TVDBEpisodeUpdater {
     }
   }
 
+  @Nullable
   private TiVoEpisode findTiVoMatch(String episodeTitle, String tvdbSeasonStr, String tvdbEpisodeNumberStr, String firstAiredStr, Integer seriesId) throws SQLException {
     List<TiVoEpisode> matchingEpisodes = new ArrayList<>();
 

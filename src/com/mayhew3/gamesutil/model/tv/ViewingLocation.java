@@ -2,7 +2,7 @@ package com.mayhew3.gamesutil.model.tv;
 
 import com.mayhew3.gamesutil.dataobject.*;
 import com.mayhew3.gamesutil.db.SQLConnection;
-import com.sun.istack.internal.NotNull;
+import org.jetbrains.annotations.NotNull;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -25,7 +25,7 @@ public class ViewingLocation extends DataObject {
 
 
   @NotNull
-  public static ViewingLocation findOrCreate(SQLConnection connection, String viewingLocationName) throws SQLException {
+  static ViewingLocation findOrCreate(SQLConnection connection, String viewingLocationName) throws SQLException {
     ViewingLocation viewingLocation = new ViewingLocation();
 
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(

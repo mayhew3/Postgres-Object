@@ -2,14 +2,14 @@ package com.mayhew3.gamesutil.tv;
 
 import com.google.common.collect.Ordering;
 import com.mayhew3.gamesutil.ArgumentChecker;
+import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
+import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.model.tv.Episode;
 import com.mayhew3.gamesutil.model.tv.Series;
 import com.mayhew3.gamesutil.model.tv.TVDBEpisode;
 import com.mayhew3.gamesutil.model.tv.TiVoEpisode;
-import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
-import com.mayhew3.gamesutil.db.SQLConnection;
-import com.sun.istack.internal.NotNull;
 import org.apache.commons.lang3.ObjectUtils;
+import org.jetbrains.annotations.Nullable;
 
 import java.net.URISyntaxException;
 import java.sql.ResultSet;
@@ -22,7 +22,10 @@ public class TVDBDuplicateDataFixer {
 
   private final Ordering<Episode> DATEADDED = new Ordering<Episode>() {
     @Override
-    public int compare(@NotNull Episode episode1, @NotNull Episode episode2) {
+    public int compare(@Nullable Episode episode1, @Nullable Episode episode2) {
+      if (episode1 == null || episode2 == null) {
+        throw new IllegalStateException("Cannot order null episodes.");
+      }
       return Objects.compare(episode1.dateAdded.getValue(), episode2.dateAdded.getValue(),
           (o1, o2) -> ObjectUtils.compare(o1, o2, false));
     }
@@ -30,7 +33,10 @@ public class TVDBDuplicateDataFixer {
 
   private final Ordering<Episode> DATEADDED_REVERSE = new Ordering<Episode>() {
     @Override
-    public int compare(@NotNull Episode episode1, @NotNull Episode episode2) {
+    public int compare(@Nullable Episode episode1, @Nullable Episode episode2) {
+      if (episode1 == null || episode2 == null) {
+        throw new IllegalStateException("Cannot order null episodes.");
+      }
       return Objects.compare(episode1.dateAdded.getValue(), episode2.dateAdded.getValue(),
           (o1, o2) -> ObjectUtils.compare(o1, o2, true));
     }
@@ -38,7 +44,10 @@ public class TVDBDuplicateDataFixer {
 
   private final Ordering<Episode> WATCHEDDATE = new Ordering<Episode>() {
     @Override
-    public int compare(@NotNull Episode episode1, @NotNull Episode episode2) {
+    public int compare(@Nullable Episode episode1, @Nullable Episode episode2) {
+      if (episode1 == null || episode2 == null) {
+        throw new IllegalStateException("Cannot order null episodes.");
+      }
       return Objects.compare(episode1.watchedDate.getValue(), episode2.watchedDate.getValue(),
           (o1, o2) -> ObjectUtils.compare(o1, o2, false));
     }
@@ -46,7 +55,10 @@ public class TVDBDuplicateDataFixer {
 
   private final Ordering<Episode> ONTIVO = new Ordering<Episode>() {
     @Override
-    public int compare(@NotNull Episode episode1, @NotNull Episode episode2) {
+    public int compare(@Nullable Episode episode1, @Nullable Episode episode2) {
+      if (episode1 == null || episode2 == null) {
+        throw new IllegalStateException("Cannot order null episodes.");
+      }
       return Objects.compare(episode1.onTiVo.getValue(), episode2.onTiVo.getValue(),
           (o1, o2) -> ObjectUtils.compare(o1, o2, false));
     }
@@ -54,7 +66,10 @@ public class TVDBDuplicateDataFixer {
 
   private final Ordering<Episode> WATCHED = new Ordering<Episode>() {
     @Override
-    public int compare(@NotNull Episode episode1, @NotNull Episode episode2) {
+    public int compare(@Nullable Episode episode1, @Nullable Episode episode2) {
+      if (episode1 == null || episode2 == null) {
+        throw new IllegalStateException("Cannot order null episodes.");
+      }
       return Objects.compare(episode1.watched.getValue(), episode2.watched.getValue(),
           (o1, o2) -> ObjectUtils.compare(o1, o2, false));
     }
@@ -62,7 +77,7 @@ public class TVDBDuplicateDataFixer {
 
 
 
-  public TVDBDuplicateDataFixer(SQLConnection connection) {
+  private TVDBDuplicateDataFixer(SQLConnection connection) {
     this.connection = connection;
   }
 
@@ -189,7 +204,10 @@ public class TVDBDuplicateDataFixer {
 
     final Ordering<TVDBEpisode> LASTUPDATED = new Ordering<TVDBEpisode>() {
       @Override
-      public int compare(@NotNull TVDBEpisode episode1, @NotNull TVDBEpisode episode2) {
+      public int compare(@Nullable TVDBEpisode episode1, @Nullable TVDBEpisode episode2) {
+        if (episode1 == null || episode2 == null) {
+          throw new IllegalStateException("Cannot order null episodes.");
+        }
         return Objects.compare(episode1.lastUpdated.getValue(), episode2.lastUpdated.getValue(),
             (o1, o2) -> ObjectUtils.compare(o1, o2, false));
       }

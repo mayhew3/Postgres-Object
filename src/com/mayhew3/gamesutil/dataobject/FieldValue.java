@@ -1,7 +1,7 @@
 package com.mayhew3.gamesutil.dataobject;
 
-import com.sun.istack.internal.NotNull;
-import com.sun.istack.internal.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,7 +14,7 @@ public abstract class FieldValue<T> {
   private T changedValue;
   private FieldConversion<T> converter;
   private Boolean explicitNull = false;
-  T defaultValue;
+  private T defaultValue;
 
   Nullability nullability = Nullability.NULLABLE;
 
@@ -37,6 +37,7 @@ public abstract class FieldValue<T> {
     return defaultValue == null ? null : defaultValue.toString();
   }
 
+  @Nullable
   public String getInformationSchemaDefault() {
     return getDefaultValue();
   }
@@ -81,7 +82,7 @@ public abstract class FieldValue<T> {
     }
   }
 
-  public void changeValueFromString(String valueString) {
+  public void changeValueFromString(@Nullable String valueString) {
     changeValue(getConversion(valueString));
   }
 
@@ -94,14 +95,14 @@ public abstract class FieldValue<T> {
     return changedValue;
   }
 
-  public void changeValue(T newValue) {
+  public void changeValue(@Nullable T newValue) {
     if (newValue == null) {
       explicitNull = true;
     }
     changedValue = newValue;
   }
 
-  public void changeValueUnlessToNull(T newValue) {
+  public void changeValueUnlessToNull(@Nullable T newValue) {
     if (newValue != null) {
       changeValue(newValue);
     }

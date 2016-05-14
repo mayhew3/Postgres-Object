@@ -2,7 +2,7 @@ package com.mayhew3.gamesutil.db;
 
 import com.google.common.collect.Lists;
 import com.mayhew3.gamesutil.dataobject.FieldValue;
-import com.sun.istack.internal.NotNull;
+import org.jetbrains.annotations.NotNull;
 
 import java.math.BigDecimal;
 import java.sql.*;

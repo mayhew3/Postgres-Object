@@ -1,6 +1,6 @@
 package com.mayhew3.gamesutil.dataobject;
 
-import com.sun.istack.internal.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
