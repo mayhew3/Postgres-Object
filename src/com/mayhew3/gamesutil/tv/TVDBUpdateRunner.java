@@ -71,8 +71,8 @@ public class TVDBUpdateRunner {
     String sql = "select *\n" +
         "from series\n" +
         "where ignore_tvdb = ? " +
-        "and tvdb_new = ? ";
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, false, true);
+        "and (tvdb_new = ? or needs_tvdb_redo = ? or matched_wrong = ?) ";
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, false, true, true, true);
 
     runUpdateOnResultSet(resultSet);
   }
