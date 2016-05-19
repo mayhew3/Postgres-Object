@@ -404,6 +404,9 @@ public class TVDBSeriesUpdater {
       }
     }
 
+    series.tvdbNew.changeValue(false);
+    series.commit(connection);
+
     debug(seriesTitle + ": Update complete! Added: " + seriesEpisodesAdded + "; Updated: " + seriesEpisodesUpdated);
 
   }

@@ -28,6 +28,7 @@ public class TVDBUpdateRunner {
   public static void main(String... args) throws URISyntaxException, SQLException {
     List<String> argList = Lists.newArrayList(args);
     Boolean singleSeries = argList.contains("SingleSeries");
+    Boolean quickMode = argList.contains("Quick");
     String identifier = new ArgumentChecker(args).getDBIdentifier();
 
     SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
@@ -35,6 +36,8 @@ public class TVDBUpdateRunner {
 
     if (singleSeries) {
       tvdbUpdateRunner.runUpdateSingle();
+    } else if (quickMode) {
+      tvdbUpdateRunner.runQuickUpdate();
     } else {
       tvdbUpdateRunner.runUpdate();
     }
@@ -57,6 +60,23 @@ public class TVDBUpdateRunner {
 
     runUpdateOnResultSet(resultSet);
   }
+
+  /**
+   * Go to theTVDB and update new series.
+   *
+   * @throws SQLException if query to get series to update fails. Any one series update will not halt operation of the
+   *                    script, but if the query to find all the serieses fails, the operation can't continue.
+   */
+  public void runQuickUpdate() throws SQLException {
+    String sql = "select *\n" +
+        "from series\n" +
+        "where ignore_tvdb = ? " +
+        "and tvdb_new = ? ";
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, false, true);
+
+    runUpdateOnResultSet(resultSet);
+  }
+
 
 
   private void runUpdateSingle() throws SQLException {

@@ -52,6 +52,8 @@ public class Series extends DataObject {
   public FieldValueTimestamp mostRecent = registerTimestampField("most_recent", Nullability.NULLABLE);
   public FieldValueBoolean isSuggestion = registerBooleanField("suggestion", Nullability.NOT_NULL).defaultValue(false);
 
+  public FieldValueBoolean tvdbNew = registerBooleanField("tvdb_new", Nullability.NOT_NULL).defaultValue(true);
+  
   public Series() {
     addUniqueConstraint(tvdbSeriesExtId);
   }
