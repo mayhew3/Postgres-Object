@@ -422,6 +422,8 @@ public class TiVoCommunicator {
     series.isSuggestion.changeValue(tivoInfo.isSuggestion);
     series.tier.changeValue(tier);
     series.matchedWrong.changeValue(false);
+    series.tvdbNew.changeValue(true);
+    series.metacriticNew.changeValue(true);
 
     series.initializeDenorms();
 
