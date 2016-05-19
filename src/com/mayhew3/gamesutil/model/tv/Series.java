@@ -53,7 +53,8 @@ public class Series extends DataObject {
   public FieldValueBoolean isSuggestion = registerBooleanField("suggestion", Nullability.NOT_NULL).defaultValue(false);
 
   public FieldValueBoolean tvdbNew = registerBooleanField("tvdb_new", Nullability.NOT_NULL).defaultValue(true);
-  
+  public FieldValueBoolean metacriticNew = registerBooleanField("metacritic_new", Nullability.NOT_NULL).defaultValue(true);
+
   public Series() {
     addUniqueConstraint(tvdbSeriesExtId);
   }

@@ -30,6 +30,7 @@ public class MetacriticTVUpdater {
   public static void main(String... args) throws URISyntaxException, SQLException, MetacriticException {
     List<String> argList = Lists.newArrayList(args);
     Boolean singleSeries = argList.contains("SingleSeries");
+    Boolean quickMode = argList.contains("Quick");
     String identifier = new ArgumentChecker(args).getDBIdentifier();
 
     SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
@@ -37,6 +38,8 @@ public class MetacriticTVUpdater {
 
     if (singleSeries) {
       metacriticTVUpdater.runUpdateSingle();
+    } else if (quickMode) {
+      metacriticTVUpdater.runQuickUpdate();
     } else {
       metacriticTVUpdater.runUpdater();
     }
@@ -50,6 +53,17 @@ public class MetacriticTVUpdater {
 
     runUpdateOnResultSet(resultSet);
   }
+
+  public void runQuickUpdate() throws SQLException {
+    String sql = "select *\n" +
+            "from series\n" +
+            "where ignore_tvdb = ? " +
+            "and metacritic_new = ? ";
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, false, true);
+
+    runUpdateOnResultSet(resultSet);
+  }
+
 
   private void runUpdateSingle() throws SQLException {
     String singleSeriesTitle = "Idiotsitter"; // update for testing on a single series
@@ -75,8 +89,12 @@ public class MetacriticTVUpdater {
 
       try {
         parseMetacritic(series);
+        series.metacriticNew.changeValue(false);
+        series.commit(connection);
       } catch (MetacriticException e) {
         debug("Unable to find metacritic for: " + series.seriesTitle.getValue());
+        series.metacriticNew.changeValue(false);
+        series.commit(connection);
       } catch (Exception e) {
         e.printStackTrace();
         debug("Uncaught exception during metacritic fetch: " + series.seriesTitle.getValue());
