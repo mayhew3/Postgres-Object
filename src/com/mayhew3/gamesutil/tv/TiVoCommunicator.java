@@ -414,13 +414,10 @@ public class TiVoCommunicator {
 
     debug("Adding series '" + tivoInfo.seriesTitle + "'  with TiVoID '" + tivoInfo.tivoId + "'");
 
-    Integer tier = tivoInfo.isSuggestion ? 5 : 4;
-
     series.tivoSeriesExtId.changeValue(tivoInfo.tivoId);
     series.seriesTitle.changeValue(tivoInfo.seriesTitle);
     series.tivoName.changeValue(tivoInfo.seriesTitle);
     series.isSuggestion.changeValue(tivoInfo.isSuggestion);
-    series.tier.changeValue(tier);
     series.matchedWrong.changeValue(false);
     series.tvdbNew.changeValue(true);
     series.metacriticNew.changeValue(true);
