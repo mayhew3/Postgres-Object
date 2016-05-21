@@ -10,6 +10,7 @@ public class TiVoInfo {
   public String seriesTitle;
   Boolean isSuggestion;
   public String url;
+  Boolean recordingNow = false;
 
   public TiVoInfo(@NotNull NodeList showDetails, @NotNull NodeReader nodeReader) {
     programId = nodeReader.getValueOfSimpleStringNullableNode(showDetails, "ProgramId");

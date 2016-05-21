@@ -269,38 +269,49 @@ public class TiVoCommunicator {
    */
   private Boolean parseAndUpdateSingleShow(NodeList showAttributes) throws SQLException, BadlyFormattedXMLException, ShowFailedException {
 
-    if (isRecordingNow(showAttributes)) {
-      debug("Skipping episode that is currently recording.");
-      return false;
-    }
-
     NodeList showDetails = nodeReader.getNodeWithTag(showAttributes, "Details").getChildNodes();
 
     TiVoInfo tivoInfo = new TiVoInfo(showDetails, nodeReader);
-    tivoInfo.isSuggestion = isSuggestion(showAttributes);
+
+    if (isRecordingNow(showAttributes)) {
+      tivoInfo.recordingNow = true;
+    } else {
+      tivoInfo.recordingNow = false;
+      tivoInfo.isSuggestion = isSuggestion(showAttributes);
+    }
+
     tivoInfo.url = getUrl(showAttributes);
 
     if (isEpisodic(showAttributes)) {
 
       Series series = getOrCreateSeries(tivoInfo);
-      return addEpisodeIfNotExists(showDetails, series, tivoInfo);
+      if (series != null) {
+        return addEpisodeIfNotExists(showDetails, series, tivoInfo);
+      } else {
+        return false;
+      }
     } else {
       return addMovieIfNotExists(showDetails, tivoInfo);
     }
   }
 
   /**
-   * @return New series object based on TiVo info, or existing series object in DB.
+   * @return New series object based on TiVo info, or existing series object in DB, or null
+   *        if we chose not to create a new series, because the first episode is recording now,
+   *        and we don't know if it is a suggestion or not.
    * @throws SQLException
    */
-  @NotNull
+  @Nullable
   private Series getOrCreateSeries(TiVoInfo tivoInfo) throws SQLException {
     ResultSet resultSet = sqlConnection.prepareAndExecuteStatementFetch("SELECT * FROM series WHERE tivo_series_ext_id = ?", tivoInfo.tivoId);
 
     Series series = new Series();
 
     if (!resultSet.next()) {
-      addNewSeries(series, tivoInfo);
+      if (!tivoInfo.recordingNow) {
+        addNewSeries(series, tivoInfo);
+        return null;
+      }
     } else {
       series.initializeFromDBObject(resultSet);
       debug("Updating existing series '" + tivoInfo.seriesTitle + "'.");
@@ -382,6 +393,7 @@ public class TiVoCommunicator {
     formatEpisodeObject(tivoEpisode, tivoInfo.url, tivoInfo.isSuggestion, showDetails);
     tivoEpisode.tivoSeriesExtId.changeValue(tivoInfo.tivoId);
     tivoEpisode.seriesTitle.changeValue(tivoInfo.seriesTitle);
+    tivoEpisode.recordingNow.changeValue(tivoInfo.recordingNow);
 
     // todo: check for duplicate (program_id, retired). Do some research. In these cases, are two episodes
     // todo: on TiVo with same program_id, or is one deleted but not marked yet? Either way I think we should update
@@ -474,26 +486,26 @@ public class TiVoCommunicator {
     return sqlConnection.prepareAndExecuteStatementFetch("SELECT * FROM movie WHERE program_id = ? AND retired = ?", programId, 0);
   }
 
-  private TiVoEpisode formatEpisodeObject(TiVoEpisode episode, String url, Boolean isSuggestion, NodeList showDetails) {
-    episode.captureDate.changeValueFromXMLString(nodeReader.getValueOfSimpleStringNullableNode(showDetails, "CaptureDate"));
-    episode.showingStartTime.changeValueFromXMLString(nodeReader.getValueOfSimpleStringNullableNode(showDetails, "ShowingStartTime"));
+  private TiVoEpisode formatEpisodeObject(TiVoEpisode tiVoEpisode, String url, Boolean isSuggestion, NodeList showDetails) {
+    tiVoEpisode.captureDate.changeValueFromXMLString(nodeReader.getValueOfSimpleStringNullableNode(showDetails, "CaptureDate"));
+    tiVoEpisode.showingStartTime.changeValueFromXMLString(nodeReader.getValueOfSimpleStringNullableNode(showDetails, "ShowingStartTime"));
 
-    episode.description.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(showDetails, "Description"));
-    episode.title.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(showDetails, "EpisodeTitle"));
-    episode.episodeNumber.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(showDetails, "EpisodeNumber"));
-    episode.hd.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(showDetails, "HighDefinition"));
-    episode.programId.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(showDetails, "ProgramId"));
-    episode.duration.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(showDetails, "Duration"));
-    episode.showingDuration.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(showDetails, "ShowingDuration"));
-    episode.channel.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(showDetails, "SourceChannel"));
-    episode.station.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(showDetails, "SourceStation"));
-    episode.rating.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(showDetails, "TvRating"));
-    episode.retired.changeValue(0);
+    tiVoEpisode.description.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(showDetails, "Description"));
+    tiVoEpisode.title.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(showDetails, "EpisodeTitle"));
+    tiVoEpisode.episodeNumber.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(showDetails, "EpisodeNumber"));
+    tiVoEpisode.hd.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(showDetails, "HighDefinition"));
+    tiVoEpisode.programId.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(showDetails, "ProgramId"));
+    tiVoEpisode.duration.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(showDetails, "Duration"));
+    tiVoEpisode.showingDuration.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(showDetails, "ShowingDuration"));
+    tiVoEpisode.channel.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(showDetails, "SourceChannel"));
+    tiVoEpisode.station.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(showDetails, "SourceStation"));
+    tiVoEpisode.rating.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(showDetails, "TvRating"));
+    tiVoEpisode.retired.changeValue(0);
 
-    episode.suggestion.changeValue(isSuggestion);
-    episode.url.changeValue(url);
+    tiVoEpisode.suggestion.changeValue(isSuggestion);
+    tiVoEpisode.url.changeValue(url);
 
-    return episode;
+    return tiVoEpisode;
   }
 
   private Movie formatMovieObject(Movie movie, String url, Boolean isSuggestion, NodeList showDetails) {
