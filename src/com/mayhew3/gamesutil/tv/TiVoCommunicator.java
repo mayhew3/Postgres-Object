@@ -332,6 +332,10 @@ public class TiVoCommunicator {
     }
 
     if (tivoEpisodeExists && !lookAtAllShows) {
+      TiVoEpisode tiVoEpisode = new TiVoEpisode();
+      tiVoEpisode.initializeFromDBObject(existingTiVoEpisode);
+      tiVoEpisode.recordingNow.changeValue(tivoInfo.recordingNow);
+      tiVoEpisode.commit(sqlConnection);
       return true;
     }
 
@@ -606,10 +610,14 @@ public class TiVoCommunicator {
   }
 
   private Document readXMLFromTivoUrl(String urlString) throws IOException, SAXException {
+    String tivoApiKey = System.getenv("TIVO_API_KEY");
+    if (tivoApiKey == null) {
+      throw new IllegalStateException("No TIVO_API_KEY environment variable found!");
+    }
 
     Authenticator.setDefault (new Authenticator() {
       protected PasswordAuthentication getPasswordAuthentication() {
-        return new PasswordAuthentication("tivo", "4649000153".toCharArray());
+        return new PasswordAuthentication("tivo", tivoApiKey.toCharArray());
       }
     });
 

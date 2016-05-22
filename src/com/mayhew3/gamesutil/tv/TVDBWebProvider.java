@@ -21,11 +21,11 @@ public class TVDBWebProvider implements TVDBDataProvider {
 
   @Override
   public InputStream getEpisodeData(Integer tvdbId) throws IOException {
-    String apiKey = System.getenv("TVDB_API_KEY");
-    if (apiKey == null) {
+    String tvdbApiKey = System.getenv("TVDB_API_KEY");
+    if (tvdbApiKey == null) {
       throw new IllegalStateException("No TVDB_API_KEY environment variable found!");
     }
-    String urlString = "http://thetvdb.com/api/" + apiKey + "/series/" + tvdbId + "/all/en.xml";
+    String urlString = "http://thetvdb.com/api/" + tvdbApiKey + "/series/" + tvdbId + "/all/en.xml";
 
     URL url = new URL(urlString);
 
