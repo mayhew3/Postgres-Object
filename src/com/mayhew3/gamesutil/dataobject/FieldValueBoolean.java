@@ -1,5 +1,7 @@
 package com.mayhew3.gamesutil.dataobject;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,7 +19,7 @@ public class FieldValueBoolean extends FieldValue<Boolean> {
   }
 
   @Override
-  public void initializeValue(Boolean value) {
+  public void initializeValue(@Nullable Boolean value) {
     if (nullability.equals(Nullability.NULLABLE)) {
       super.initializeValue(value);
     } else {
@@ -37,7 +39,11 @@ public class FieldValueBoolean extends FieldValue<Boolean> {
 
   @Override
   protected void initializeValue(ResultSet resultSet) throws SQLException {
-    initializeValue(resultSet.getBoolean(getFieldName()));
+    Boolean maybeValue = resultSet.getBoolean(getFieldName());
+    if (resultSet.wasNull()) {
+      maybeValue = null;
+    }
+    initializeValue(maybeValue);
   }
 
   @Override

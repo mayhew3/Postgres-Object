@@ -335,6 +335,7 @@ public class TiVoCommunicator {
       TiVoEpisode tiVoEpisode = new TiVoEpisode();
       tiVoEpisode.initializeFromDBObject(existingTiVoEpisode);
       tiVoEpisode.recordingNow.changeValue(tivoInfo.recordingNow);
+      tiVoEpisode.suggestion.changeValue(tivoInfo.isSuggestion);
       tiVoEpisode.commit(sqlConnection);
       return true;
     }
@@ -459,7 +460,7 @@ public class TiVoCommunicator {
     Date showingStartTime = tiVoEpisode.showingStartTime.getValue();
     Boolean watched = episode.watched.getValue();
 
-    if (suggestion) {
+    if (Boolean.TRUE.equals(suggestion)) {
       series.suggestionEpisodes.increment(1);
     } else {
       series.activeEpisodes.increment(1);
@@ -534,6 +535,7 @@ public class TiVoCommunicator {
   }
 
 
+  @NotNull
   private Boolean isSuggestion(NodeList showAttributes) throws BadlyFormattedXMLException {
     NodeList links = nodeReader.getNodeWithTag(showAttributes, "Links").getChildNodes();
     Node customIcon = nodeReader.getNullableNodeWithTag(links, "CustomIcon");

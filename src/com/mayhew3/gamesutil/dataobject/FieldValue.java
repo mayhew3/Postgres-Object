@@ -50,7 +50,7 @@ public abstract class FieldValue<T> {
     return changedValue;
   }
 
-  protected void initializeValue(T value) {
+  protected void initializeValue(@Nullable T value) {
     this.originalValue = value;
     this.changedValue = value;
   }

@@ -198,7 +198,7 @@ public class SeriesDenormUpdater {
             "                             on ete.tivo_episode_id = te.id\n" +
             "                            where e.series_id = s.id\n" +
             "                            and e.on_tivo = ?\n" +
-            "                            and te.suggestion <> ?\n" +
+            "                            and te.suggestion is distinct from ?\n" +
             "                            and te.id is not null\n" +
             "                            and te.deleted_date is null\n" +
             "                            and e.watched <> ?\n" +
@@ -220,13 +220,13 @@ public class SeriesDenormUpdater {
             "                             on ete.tivo_episode_id = te.id\n" +
             "                            where e.series_id = series.id\n" +
             "                            and e.on_tivo = ?\n" +
-            "                            and te.suggestion = ?\n" +
+            "                            and te.suggestion is distinct from ?\n" +
             "                            and te.id is not null\n" +
             "                            and e.season <> ?\n" +
             "                            and te.deleted_date is null\n" +
             "                            and e.retired = ?\n" +
             "                            and te.retired = ?)",
-        true, false, 0, 0, 0);
+        true, true, 0, 0, 0);
   }
 
   private void updateDeletedEpisodes() throws SQLException {

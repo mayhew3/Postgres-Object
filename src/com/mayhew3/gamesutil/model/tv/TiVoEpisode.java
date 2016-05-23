@@ -10,7 +10,7 @@ import java.util.List;
 
 public class TiVoEpisode extends DataObject {
 
-  public FieldValue<Boolean> suggestion = registerBooleanField("suggestion", Nullability.NULLABLE);
+  public FieldValueBoolean suggestion = registerBooleanField("suggestion", Nullability.NULLABLE);
 
   public FieldValueString title = registerStringField("title", Nullability.NULLABLE);
 
