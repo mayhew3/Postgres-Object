@@ -309,14 +309,31 @@ public class TiVoCommunicator {
 
     if (!resultSet.next()) {
       if (!tivoInfo.recordingNow) {
-        addNewSeries(series, tivoInfo);
-        return null;
+        @NotNull ResultSet maybeMatch = sqlConnection.prepareAndExecuteStatementFetch("SELECT * FROM series WHERE title = ? and tivo_series_ext_id is null", tivoInfo.seriesTitle);
+        if (maybeMatch.next()) {
+          series.initializeFromDBObject(maybeMatch);
+          updateTiVoFieldsOnExistingSeries(tivoInfo, series);
+        } else {
+          addNewSeries(series, tivoInfo);
+          return null;
+        }
       }
     } else {
       series.initializeFromDBObject(resultSet);
       debug("Updating existing series '" + tivoInfo.seriesTitle + "'.");
     }
     return series;
+  }
+
+  private void updateTiVoFieldsOnExistingSeries(TiVoInfo tivoInfo, Series series) throws SQLException {
+    series.tivoSeriesExtId.changeValue(tivoInfo.tivoId);
+    series.tivoName.changeValue(tivoInfo.seriesTitle);
+    series.isSuggestion.changeValue(tivoInfo.isSuggestion);
+    series.matchedWrong.changeValue(false);
+
+    series.commit(sqlConnection);
+
+    series.addViewingLocation(sqlConnection, "TiVo");
   }
 
   /**
