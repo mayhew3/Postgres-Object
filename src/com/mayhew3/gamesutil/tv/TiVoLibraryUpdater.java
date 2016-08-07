@@ -24,6 +24,7 @@ public class TiVoLibraryUpdater {
     Boolean tvdbOnly = argList.contains("TVDBOnly");
     Boolean tiVoOnly = argList.contains("TiVoOnly");
     Boolean logToFile = argList.contains("LogToFile");
+    Boolean saveTiVoXML = argList.contains("SaveTiVoXML");
 
     String identifier = new ArgumentChecker(args).getDBIdentifier();
 
@@ -51,7 +52,7 @@ public class TiVoLibraryUpdater {
 
     if (!tvdbOnly) {
       try {
-        TiVoCommunicator tiVoCommunicator = new TiVoCommunicator(connection);
+        TiVoCommunicator tiVoCommunicator = new TiVoCommunicator(connection, saveTiVoXML);
         tiVoCommunicator.runUpdate(lookAtAllShows);
       } catch (BadlyFormattedXMLException e) {
         debug("Error parsing TiVo XML.");

@@ -36,6 +36,7 @@ public class TiVoCommunicator {
   private List<String> episodesOnTiVo;
   private List<String> moviesOnTiVo;
   private NodeReader nodeReader;
+  private Boolean saveTiVoXML = false;
 
   private Integer addedShows = 0;
   private Integer deletedShows = 0;
@@ -43,10 +44,11 @@ public class TiVoCommunicator {
 
   private static SQLConnection sqlConnection;
 
-  public TiVoCommunicator(SQLConnection connection) {
+  public TiVoCommunicator(SQLConnection connection, Boolean saveTiVoXML) {
     episodesOnTiVo = new ArrayList<>();
     moviesOnTiVo = new ArrayList<>();
     nodeReader = new NodeReaderImpl();
+    this.saveTiVoXML = saveTiVoXML;
     sqlConnection = connection;
   }
 
@@ -54,12 +56,13 @@ public class TiVoCommunicator {
     List<String> argList = Lists.newArrayList(args);
     Boolean lookAtAllShows = argList.contains("FullMode");
     Boolean dev = argList.contains("Dev");
+    Boolean saveTiVoXML = argList.contains("SaveTiVoXML");
 
     String identifier = new ArgumentChecker(args).getDBIdentifier();
 
     SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
 
-    TiVoCommunicator tiVoCommunicator = new TiVoCommunicator(connection);
+    TiVoCommunicator tiVoCommunicator = new TiVoCommunicator(connection, saveTiVoXML);
 
     if (dev) {
       tiVoCommunicator.truncateTables();
@@ -124,7 +127,7 @@ public class TiVoCommunicator {
       while (keepGoing) {
         debug("Downloading entries " + offset + " to " + (offset + 50) + "...");
 
-        Document document = readXMLFromTivoUrl(fullURL + "&AnchorOffset=" + offset);
+        Document document = readXMLFromTivoUrl(fullURL + "&AnchorOffset=" + offset, true);
 
         debug("Checking against DB...");
         keepGoing = parseShowsFromDocument(document);
@@ -309,7 +312,10 @@ public class TiVoCommunicator {
 
     if (!resultSet.next()) {
       if (!tivoInfo.recordingNow) {
-        @NotNull ResultSet maybeMatch = sqlConnection.prepareAndExecuteStatementFetch("SELECT * FROM series WHERE title = ? and tivo_series_ext_id is null", tivoInfo.seriesTitle);
+        @NotNull ResultSet maybeMatch = sqlConnection.prepareAndExecuteStatementFetch(
+            "SELECT * FROM series WHERE title = ? and tivo_series_ext_id is null",
+            tivoInfo.seriesTitle);
+
         if (maybeMatch.next()) {
           series.initializeFromDBObject(maybeMatch);
           updateTiVoFieldsOnExistingSeries(tivoInfo, series);
@@ -571,7 +577,7 @@ public class TiVoCommunicator {
     String detailUrl = getDetailUrl(showAttributes);
 
     try {
-      Document document = readXMLFromTivoUrl(detailUrl);
+      Document document = readXMLFromTivoUrl(detailUrl, false);
 
       debug("Checking against DB...");
       return parseDetailFromDocument(document);
@@ -628,24 +634,21 @@ public class TiVoCommunicator {
     return nodeReader.getValueOfSimpleStringNullableNode(content, "Url");
   }
 
-  private Document readXMLFromTivoUrl(String urlString) throws IOException, SAXException {
+  private Document readXMLFromTivoUrl(String urlString, Boolean saveXML) throws IOException, SAXException {
     String tivoApiKey = System.getenv("TIVO_API_KEY");
     if (tivoApiKey == null) {
       throw new IllegalStateException("No TIVO_API_KEY environment variable found!");
     }
 
-    Authenticator.setDefault (new Authenticator() {
-      protected PasswordAuthentication getPasswordAuthentication() {
-        return new PasswordAuthentication("tivo", tivoApiKey.toCharArray());
-      }
-    });
+    String localFilePath = "resources\\tivo_2016_07_20.xml";
+    RemoteFileDownloader remoteFileDownloader = new RemoteFileDownloader(urlString)
+        .withAuthentication("tivo", tivoApiKey);
 
-    URL url = new URL(urlString);
-
-    HttpsURLConnection conn = (HttpsURLConnection)url.openConnection();
-    try (InputStream is = conn.getInputStream()) {
-      return recoverDocument(is);
+    if (saveTiVoXML && saveXML) {
+      remoteFileDownloader.withCopySavedTo(localFilePath);
     }
+
+    return remoteFileDownloader.connectAndRetrieveDocument();
   }
 
 
