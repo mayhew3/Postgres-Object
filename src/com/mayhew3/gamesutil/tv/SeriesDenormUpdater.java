@@ -48,15 +48,19 @@ public class SeriesDenormUpdater {
     connection.prepareAndExecuteStatementUpdate(
         "update series\n" +
             "set unwatched_streaming = (select count(1)\n" +
-            "                            from episode e                            \n" +
+            "                            from episode e      \n" +
+            "                            left outer join edge_tivo_episode ete\n" +
+            "                             on ete.episode_id = e.id\n" +
+            "                            left outer join tivo_episode te\n" +
+            "                             on ete.tivo_episode_id = te.id                                           \n" +
             "                            where e.series_id = series.id\n" +
-            "                            and e.on_tivo = ?\n" +
+            "                            and (ete.id is null or te.deleted_date is not null)\n" +
             "                            and e.streaming = ?\n" +
             "                            and e.watched = ?\n" +
             "                            and e.season <> ?\n" +
             "                            and e.air_date < now()\n" +
             "                            and e.retired = ?)",
-        false, true, false, 0, 0
+        true, false, 0, 0
     );
   }
 
@@ -65,14 +69,18 @@ public class SeriesDenormUpdater {
     connection.prepareAndExecuteStatementUpdate(
         "update series\n" +
             "set streaming_episodes = (select count(1)\n" +
-            "                            from episode e                            \n" +
+            "                            from episode e\n" +
+            "                            left outer join edge_tivo_episode ete\n" +
+            "                             on ete.episode_id = e.id\n" +
+            "                            left outer join tivo_episode te\n" +
+            "                             on ete.tivo_episode_id = te.id                      \n" +
             "                            where e.series_id = series.id\n" +
-            "                            and e.on_tivo = ?\n" +
+            "                            and (ete.id is null or te.deleted_date is not null)\n" +
             "                            and e.streaming = ?\n" +
             "                            and e.season <> ?\n" +
             "                            and e.air_date < now()\n" +
             "                            and e.retired = ?)",
-        false, true, 0, 0
+        true, 0, 0
     );
   }
 
