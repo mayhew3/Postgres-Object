@@ -454,6 +454,8 @@ public class TiVoCommunicator {
 
     debug("Adding series '" + tivoInfo.seriesTitle + "'  with TiVoID '" + tivoInfo.tivoId + "'");
 
+    series.initializeDenorms();
+
     series.tivoSeriesExtId.changeValue(tivoInfo.tivoId);
     series.seriesTitle.changeValue(tivoInfo.seriesTitle);
     series.tivoName.changeValue(tivoInfo.seriesTitle);
@@ -461,8 +463,6 @@ public class TiVoCommunicator {
     series.matchedWrong.changeValue(false);
     series.tvdbNew.changeValue(true);
     series.metacriticNew.changeValue(true);
-
-    series.initializeDenorms();
 
     series.commit(sqlConnection);
 
