@@ -29,7 +29,7 @@ public class TiVoLibraryUpdater {
     String identifier = new ArgumentChecker(args).getDBIdentifier();
 
     if (logToFile) {
-      SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMM");
+      SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
       String dateFormatted = simpleDateFormat.format(new Date());
 
       File file = new File("D:\\Projects\\mean_projects\\GamesDBUtil\\logs\\TiVoUpdaterPostgres_" + dateFormatted + ".log");
