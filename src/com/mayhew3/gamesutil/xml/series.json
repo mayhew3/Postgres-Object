@@ -1,0 +1,38 @@
+{
+  "data": {
+    "id": 0,
+    "seriesName": "string",
+    "aliases": [
+      "string"
+    ],
+    "banner": "string",
+    "seriesId": 0,
+    "status": "string",
+    "firstAired": "string",
+    "network": "string",
+    "networkId": "string",
+    "runtime": "string",
+    "genre": [
+      "string"
+    ],
+    "overview": "string",
+    "lastUpdated": 0,
+    "airsDayOfWeek": "string",
+    "airsTime": "string",
+    "rating": "string",
+    "imdbId": "string",
+    "zap2itId": "string",
+    "added": "string",
+    "siteRating": 0,
+    "siteRatingCount": 0
+  },
+  "errors": {
+    "invalidFilters": [
+      "string"
+    ],
+    "invalidLanguage": "string",
+    "invalidQueryParams": [
+      "string"
+    ]
+  }
+}

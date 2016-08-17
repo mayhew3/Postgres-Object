@@ -1,5 +1,6 @@
 package com.mayhew3.gamesutil.tv;
 
+import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mayhew3.gamesutil.TVDatabaseTest;
 import com.mayhew3.gamesutil.model.tv.Episode;
 import com.mayhew3.gamesutil.model.tv.Series;
@@ -7,6 +8,7 @@ import com.mayhew3.gamesutil.model.tv.TVDBEpisode;
 import com.mayhew3.gamesutil.model.tv.TVDBSeries;
 import com.mayhew3.gamesutil.xml.BadlyFormattedXMLException;
 import com.mayhew3.gamesutil.xml.NodeReaderImpl;
+import org.jetbrains.annotations.Nullable;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -19,7 +21,7 @@ import static org.fest.assertions.Assertions.assertThat;
 public class TVDBSeriesUpdaterTest extends TVDatabaseTest {
 
   @Test
-  public void testIDChangedForTVDBEpisode() throws SQLException, ShowFailedException, BadlyFormattedXMLException {
+  public void testIDChangedForTVDBEpisode() throws SQLException, ShowFailedException, BadlyFormattedXMLException, UnirestException {
     String seriesName = "Inside Amy Schumer";
 
     createSeries(seriesName, 265374);
@@ -37,8 +39,9 @@ public class TVDBSeriesUpdaterTest extends TVDatabaseTest {
     NodeReaderImpl nodeReader = new NodeReaderImpl();
 
     TVDBLocalFileProvider provider = new TVDBLocalFileProvider("resources\\test_input_renumbering.xml");
+    TVDBJWTProvider tvdbjwtProvider = new TVDBJWTProvider();
 
-    TVDBSeriesUpdater tvdbSeriesUpdater = new TVDBSeriesUpdater(connection, series, nodeReader, provider);
+    TVDBSeriesUpdater tvdbSeriesUpdater = new TVDBSeriesUpdater(connection, series, tvdbjwtProvider);
     tvdbSeriesUpdater.updateSeries();
 
     TVDBEpisode retiredEpisode = findTVDBEpisodeWithTVDBID(originalID);
@@ -57,7 +60,7 @@ public class TVDBSeriesUpdaterTest extends TVDatabaseTest {
   }
 
   @Test
-  public void testEpisodeNumbersSwapped() throws SQLException, IOException, SAXException, ShowFailedException, BadlyFormattedXMLException {
+  public void testEpisodeNumbersSwapped() throws SQLException, IOException, SAXException, ShowFailedException, BadlyFormattedXMLException, UnirestException {
     String seriesName = "Inside Amy Schumer";
 
     createSeries(seriesName, 265374);
@@ -75,8 +78,9 @@ public class TVDBSeriesUpdaterTest extends TVDatabaseTest {
     NodeReaderImpl nodeReader = new NodeReaderImpl();
 
     TVDBLocalFileProvider provider = new TVDBLocalFileProvider("resources\\test_input_renumbering.xml");
+    TVDBJWTProvider tvdbjwtProvider = new TVDBJWTProvider();
 
-    TVDBSeriesUpdater tvdbSeriesUpdater = new TVDBSeriesUpdater(connection, series, nodeReader, provider);
+    TVDBSeriesUpdater tvdbSeriesUpdater = new TVDBSeriesUpdater(connection, series, tvdbjwtProvider);
     tvdbSeriesUpdater.updateSeries();
 
     TVDBEpisode tvdbEpisode = findTVDBEpisodeWithTVDBID(tvdbId_2);
@@ -130,13 +134,14 @@ public class TVDBSeriesUpdaterTest extends TVDatabaseTest {
     episode.initializeForInsert();
     episode.tvdbEpisodeId.changeValue(tvdbEpisode.id.getValue());
     episode.seriesTitle.changeValue(series.seriesTitle.getValue());
-    episode.setSeason(seasonNumber);
+    episode.setSeason(seasonNumber, connection);
     episode.episodeNumber.changeValue(episodeNumber);
     episode.title.changeValue(episodeTitle);
     episode.seriesId.changeValue(series.id.getValue());
     episode.commit(connection);
   }
 
+  @Nullable
   private Series findSeriesWithTitle(String title) throws SQLException {
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
         "SELECT * " +
@@ -151,6 +156,7 @@ public class TVDBSeriesUpdaterTest extends TVDatabaseTest {
       return null;
     }
   }
+  @Nullable
   private TVDBEpisode findTVDBEpisodeWithTVDBID(Integer tvdbId) throws SQLException {
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
         "SELECT * " +

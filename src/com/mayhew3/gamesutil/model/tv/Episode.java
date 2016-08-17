@@ -126,12 +126,8 @@ public class Episode extends DataObject {
     return season.getValue();
   }
 
-  public void setSeason(Integer seasonNumber) {
+  public void setSeason(Integer seasonNumber, SQLConnection connection) throws SQLException {
     season.changeValue(seasonNumber);
-  }
-
-  public void setSeasonFromString(String seasonNumber, SQLConnection connection) throws SQLException {
-    season.changeValueFromString(seasonNumber);
     updateSeasonRow(season.getValue(), connection);
   }
 

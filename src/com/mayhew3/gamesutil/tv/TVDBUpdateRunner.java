@@ -1,12 +1,12 @@
 package com.mayhew3.gamesutil.tv;
 
 import com.google.common.collect.Lists;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mayhew3.gamesutil.ArgumentChecker;
 import com.mayhew3.gamesutil.model.tv.Series;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.xml.BadlyFormattedXMLException;
-import com.mayhew3.gamesutil.xml.NodeReaderImpl;
 
 import java.net.URISyntaxException;
 import java.sql.ResultSet;
@@ -80,7 +80,7 @@ public class TVDBUpdateRunner {
 
 
   private void runUpdateSingle() throws SQLException {
-    String singleSeriesTitle = "Catastrophe"; // update for testing on a single series
+    String singleSeriesTitle = "Fawlty Towers"; // update for testing on a single series
 
     String sql = "select *\n" +
         "from series\n" +
@@ -123,8 +123,8 @@ public class TVDBUpdateRunner {
     }
   }
 
-  private void updateTVDB(Series series) throws SQLException, BadlyFormattedXMLException, ShowFailedException {
-    TVDBSeriesUpdater updater = new TVDBSeriesUpdater(connection, series, new NodeReaderImpl(), new TVDBWebProvider());
+  private void updateTVDB(Series series) throws SQLException, BadlyFormattedXMLException, ShowFailedException, UnirestException {
+    TVDBSeriesUpdater updater = new TVDBSeriesUpdater(connection, series, new TVDBJWTProvider());
     updater.updateSeries();
 
     episodesAdded += updater.getEpisodesAdded();
