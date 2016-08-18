@@ -1,5 +1,7 @@
 package com.mayhew3.gamesutil.dataobject;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -35,7 +37,7 @@ public class FieldValueBigDecimal extends FieldValue<BigDecimal> {
     }
   }
 
-  public void changeValue(Double newValue) {
+  public void changeValue(@Nullable Double newValue) {
     if (newValue == null) {
       changeValue((BigDecimal) null);
     } else {

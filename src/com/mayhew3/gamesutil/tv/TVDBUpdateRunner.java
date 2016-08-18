@@ -7,6 +7,7 @@ import com.mayhew3.gamesutil.model.tv.Series;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.xml.BadlyFormattedXMLException;
+import com.mayhew3.gamesutil.xml.JSONReaderImpl;
 
 import java.net.URISyntaxException;
 import java.sql.ResultSet;
@@ -124,7 +125,7 @@ public class TVDBUpdateRunner {
   }
 
   private void updateTVDB(Series series) throws SQLException, BadlyFormattedXMLException, ShowFailedException, UnirestException {
-    TVDBSeriesUpdater updater = new TVDBSeriesUpdater(connection, series, new TVDBJWTProvider());
+    TVDBSeriesUpdater updater = new TVDBSeriesUpdater(connection, series, new TVDBJWTProvider(), new JSONReaderImpl());
     updater.updateSeries();
 
     episodesAdded += updater.getEpisodesAdded();

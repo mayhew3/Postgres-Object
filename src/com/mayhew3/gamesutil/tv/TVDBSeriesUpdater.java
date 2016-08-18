@@ -5,6 +5,8 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.model.tv.*;
 import com.mayhew3.gamesutil.xml.BadlyFormattedXMLException;
+import com.mayhew3.gamesutil.xml.JSONReader;
+import com.mayhew3.gamesutil.xml.JSONReaderImpl;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.json.JSONArray;
@@ -26,16 +28,19 @@ public class TVDBSeriesUpdater {
 
   private SQLConnection connection;
   private TVDBJWTProvider tvdbDataProvider;
+  private JSONReader jsonReader;
 
   private Integer _episodesAdded = 0;
   private Integer _episodesUpdated = 0;
 
   public TVDBSeriesUpdater(SQLConnection connection,
                            @NotNull Series series,
-                           TVDBJWTProvider tvdbWebProvider) {
+                           TVDBJWTProvider tvdbWebProvider,
+                           JSONReader jsonReader) {
     this.series = series;
     this.connection = connection;
     this.tvdbDataProvider = tvdbWebProvider;
+    this.jsonReader = jsonReader;
   }
 
 
@@ -321,7 +326,7 @@ public class TVDBSeriesUpdater {
 
     debug(seriesTitle + ": Data found, updating.");
 
-    JSONObject data = seriesRoot.getJSONObject("data");
+    JSONObject seriesJson = seriesRoot.getJSONObject("data");
 
     ResultSet existingTVDBSeries = findExistingTVDBSeries(tvdbID);
 
@@ -332,31 +337,44 @@ public class TVDBSeriesUpdater {
       tvdbSeries.initializeForInsert();
     }
 
-    String tvdbSeriesName = data.getString("seriesName");
+    String tvdbSeriesName = jsonReader.getStringWithKey(seriesJson, "seriesName");
 
-    int id = data.getInt("id");
+    Integer id = jsonReader.getIntegerWithKey(seriesJson, "id");
 
     tvdbSeries.tvdbSeriesExtId.changeValue(id);
-    tvdbSeries.name.changeValueFromString(tvdbSeriesName);
-    tvdbSeries.airsDayOfWeek.changeValueFromString(data.getString("airsDayOfWeek"));
-    tvdbSeries.airsTime.changeValueFromString(data.getString("airsTime"));
-    tvdbSeries.firstAired.changeValueFromString(data.getString("firstAired"));
-    tvdbSeries.network.changeValueFromString(data.getString("network"));
-    tvdbSeries.overview.changeValueFromString(data.getString("overview"));
-    tvdbSeries.rating.changeValue(BigDecimal.valueOf(data.getDouble("siteRating")));
-    tvdbSeries.ratingCount.changeValue(data.getInt("siteRatingCount"));
-    tvdbSeries.runtime.changeValueFromString(data.getString("runtime"));
-    tvdbSeries.status.changeValueFromString(data.getString("status"));
+    tvdbSeries.name.changeValue(tvdbSeriesName);
+    tvdbSeries.airsDayOfWeek.changeValue(jsonReader.getNullableStringWithKey(seriesJson, "airsDayOfWeek"));
+    tvdbSeries.airsTime.changeValue(jsonReader.getNullableStringWithKey(seriesJson, "airsTime"));
+    tvdbSeries.firstAired.changeValueFromString(jsonReader.getNullableStringWithKey(seriesJson, "firstAired"));
+    tvdbSeries.network.changeValue(jsonReader.getNullableStringWithKey(seriesJson, "network"));
+    tvdbSeries.overview.changeValue(jsonReader.getNullableStringWithKey(seriesJson, "overview"));
+    tvdbSeries.rating.changeValue(jsonReader.getNullableDoubleWithKey(seriesJson, "siteRating"));
+    tvdbSeries.ratingCount.changeValue(jsonReader.getNullableIntegerWithKey(seriesJson, "siteRatingCount"));
+    tvdbSeries.runtime.changeValueFromString(jsonReader.getNullableStringWithKey(seriesJson, "runtime"));
+    tvdbSeries.status.changeValue(jsonReader.getNullableStringWithKey(seriesJson, "status"));
 
-    // todo: separate url for poster: /images
-//    tvdbSeries.poster.changeValueFromString(data.getString("poster"));
-    tvdbSeries.banner.changeValueFromString(data.getString("banner"));
-    tvdbSeries.lastUpdated.changeValueFromString(((Integer)data.getInt("lastUpdated")).toString());
-    tvdbSeries.imdbId.changeValueFromString(data.getString("imdbId"));
-    tvdbSeries.zap2it_id.changeValueFromString(data.getString("zap2itId"));
+    tvdbSeries.banner.changeValueFromString(jsonReader.getNullableStringWithKey(seriesJson, "banner"));
+
+    // todo: change to integer in data model
+    tvdbSeries.lastUpdated.changeValueFromString(((Integer)seriesJson.getInt("lastUpdated")).toString());
+    tvdbSeries.imdbId.changeValueFromString(jsonReader.getNullableStringWithKey(seriesJson, "imdbId"));
+    tvdbSeries.zap2it_id.changeValueFromString(jsonReader.getNullableStringWithKey(seriesJson, "zap2itId"));
 
     // todo: 'added' field
     // todo: 'networkid' field
+
+    // todo: add api_version column to tvdb_series and tvdb_episode, and change it when this finishes processing.
+    // todo: create api_change_log table and add a row for each change to series or episode
+    // todo: create tvdb_error_log table and log any json format issues where non-nullable are null, or values are wrong type.
+
+
+    // todo: create posters array
+    JSONObject imageData = tvdbDataProvider.getPosterData(tvdbID);
+    @NotNull JSONArray images = jsonReader.getArrayWithKey(imageData, "data");
+
+    JSONObject firstImage = images.getJSONObject(0);
+    @NotNull String imageName = jsonReader.getStringWithKey(firstImage, "fileName");
+    tvdbSeries.poster.changeValue(imageName);
 
     tvdbSeries.commit(connection);
 
@@ -376,7 +394,7 @@ public class TVDBSeriesUpdater {
       Integer episodeRemoteId = episode.getInt("id");
 
       try {
-        TVDBEpisodeUpdater tvdbEpisodeUpdater = new TVDBEpisodeUpdater(series, connection, tvdbDataProvider, episodeRemoteId);
+        TVDBEpisodeUpdater tvdbEpisodeUpdater = new TVDBEpisodeUpdater(series, connection, tvdbDataProvider, episodeRemoteId, new JSONReaderImpl());
         TVDBEpisodeUpdater.EPISODE_RESULT episodeResult = tvdbEpisodeUpdater.updateSingleEpisode();
 
         if (episodeResult == TVDBEpisodeUpdater.EPISODE_RESULT.ADDED) {

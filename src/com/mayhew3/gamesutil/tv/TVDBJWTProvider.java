@@ -12,6 +12,7 @@ import org.json.JSONObject;
 
 import java.util.Map;
 
+// todo: make this an impl and create an interface
 class TVDBJWTProvider {
   private String token = null;
 
@@ -56,6 +57,19 @@ class TVDBJWTProvider {
     String seriesUrl = "https://api.thetvdb.com/episodes/" + tvdbEpisodeId;
 
     HttpResponse<JsonNode> response = getData(seriesUrl);
+    JsonNode body = response.getBody();
+    return body.getObject();
+  }
+
+  JSONObject getPosterData(Integer tvdbId) throws UnirestException {
+    Preconditions.checkState(token != null);
+
+    String seriesUrl = "https://api.thetvdb.com/series/" + tvdbId + "/images/query";
+
+    Map<String, Object> queryParams = Maps.newHashMap();
+    queryParams.put("keyType", "poster");
+
+    HttpResponse<JsonNode> response = getData(seriesUrl, queryParams);
     JsonNode body = response.getBody();
     return body.getObject();
   }

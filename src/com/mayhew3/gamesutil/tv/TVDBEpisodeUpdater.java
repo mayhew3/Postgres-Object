@@ -6,6 +6,7 @@ import com.mayhew3.gamesutil.model.tv.Episode;
 import com.mayhew3.gamesutil.model.tv.Series;
 import com.mayhew3.gamesutil.model.tv.TVDBEpisode;
 import com.mayhew3.gamesutil.model.tv.TiVoEpisode;
+import com.mayhew3.gamesutil.xml.JSONReader;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joda.time.DateTime;
@@ -26,12 +27,18 @@ class TVDBEpisodeUpdater {
   private SQLConnection connection;
   private Integer tvdbRemoteId;
   private TVDBJWTProvider tvdbjwtProvider;
+  private JSONReader jsonReader;
 
-  public TVDBEpisodeUpdater(Series series, SQLConnection connection, TVDBJWTProvider tvdbjwtProvider, Integer tvdbEpisodeId) {
+  public TVDBEpisodeUpdater(Series series,
+                            SQLConnection connection,
+                            TVDBJWTProvider tvdbjwtProvider,
+                            Integer tvdbEpisodeId,
+                            JSONReader jsonReader) {
     this.series = series;
     this.connection = connection;
     this.tvdbRemoteId = tvdbEpisodeId;
     this.tvdbjwtProvider = tvdbjwtProvider;
+    this.jsonReader = jsonReader;
   }
 
   /**
@@ -52,10 +59,10 @@ class TVDBEpisodeUpdater {
 
     TVDBEpisode existingTVDBEpisodeByTVDBID = findExistingTVDBEpisodeByTVDBID(tvdbRemoteId);
 
-    @NotNull Integer episodenumber = episodeJson.getInt("airedEpisodeNumber");
-    @NotNull String episodename = episodeJson.getString("episodeName");
-    @NotNull Integer seasonnumber = episodeJson.getInt("airedSeason");
-    @Nullable String firstaired = getStringField(episodeJson, "firstAired");
+    @NotNull Integer episodenumber = jsonReader.getIntegerWithKey(episodeJson, "airedEpisodeNumber");
+    @NotNull String episodename = jsonReader.getStringWithKey(episodeJson, "episodeName");
+    @NotNull Integer seasonnumber = jsonReader.getIntegerWithKey(episodeJson, "airedSeason");
+    @Nullable String firstaired = jsonReader.getNullableStringWithKey(episodeJson, "firstAired");
 
     TVDBEpisode existingTVDBEpisodeByEpisodeNumber = findExistingTVDBEpisodeByEpisodeNumber(
         episodenumber,
@@ -99,7 +106,7 @@ class TVDBEpisodeUpdater {
 
     // todo: Add log entry for when TVDB values change.
 
-    Integer absoluteNumber = getIntegerField(episodeJson, "absoluteNumber");
+    Integer absoluteNumber = jsonReader.getNullableIntegerWithKey(episodeJson, "absoluteNumber");
 
     tvdbEpisode.tvdbEpisodeExtId.changeValue(tvdbRemoteId);
     tvdbEpisode.absoluteNumber.changeValue(absoluteNumber);
@@ -108,28 +115,28 @@ class TVDBEpisodeUpdater {
     tvdbEpisode.name.changeValue(episodename);
     tvdbEpisode.firstAired.changeValueFromString(firstaired);
     tvdbEpisode.tvdbSeriesId.changeValue(series.tvdbSeriesId.getValue());
-    tvdbEpisode.overview.changeValue(getStringField(episodeJson, "overview"));
-    tvdbEpisode.productionCode.changeValue(getStringField(episodeJson, "productionCode"));
+    tvdbEpisode.overview.changeValue(jsonReader.getNullableStringWithKey(episodeJson, "overview"));
+    tvdbEpisode.productionCode.changeValue(jsonReader.getNullableStringWithKey(episodeJson, "productionCode"));
     tvdbEpisode.rating.changeValue(episodeJson.getDouble("siteRating"));
-    tvdbEpisode.ratingCount.changeValue(episodeJson.getInt("siteRatingCount"));
-    tvdbEpisode.director.changeValue(getStringField(episodeJson, "director"));
+    tvdbEpisode.ratingCount.changeValue(jsonReader.getNullableIntegerWithKey(episodeJson, "siteRatingCount"));
+    tvdbEpisode.director.changeValue(jsonReader.getNullableStringWithKey(episodeJson, "director"));
 
     // todo: writers array
 //    tvdbEpisode.writer.changeValueFromString(episodeJson.getString("writers"));
 
-    tvdbEpisode.lastUpdated.changeValue(episodeJson.getInt("lastUpdated"));
+    tvdbEpisode.lastUpdated.changeValue(jsonReader.getIntegerWithKey(episodeJson, "lastUpdated"));
 
     // todo: confirm there is no longer a season id
 //    tvdbEpisode.tvdbSeasonExtId.changeValueFromString(episodeJson.getString("seasonid"));
 
-    tvdbEpisode.filename.changeValue(getStringField(episodeJson, "filename"));
+    tvdbEpisode.filename.changeValue(jsonReader.getNullableStringWithKey(episodeJson, "filename"));
 
-    tvdbEpisode.airsAfterSeason.changeValue(getIntegerField(episodeJson, "airsAfterSeason"));
-    tvdbEpisode.airsBeforeSeason.changeValue(getIntegerField(episodeJson, "airsAfterSeason"));
-    tvdbEpisode.airsBeforeEpisode.changeValue(getIntegerField(episodeJson, "airsAfterSeason"));
+    tvdbEpisode.airsAfterSeason.changeValue(jsonReader.getNullableIntegerWithKey(episodeJson, "airsAfterSeason"));
+    tvdbEpisode.airsBeforeSeason.changeValue(jsonReader.getNullableIntegerWithKey(episodeJson, "airsAfterSeason"));
+    tvdbEpisode.airsBeforeEpisode.changeValue(jsonReader.getNullableIntegerWithKey(episodeJson, "airsAfterSeason"));
 
-    tvdbEpisode.thumbHeight.changeValueFromString(getStringField(episodeJson, "thumbHeight"));
-    tvdbEpisode.thumbWidth.changeValueFromString(getStringField(episodeJson, "thumbWidth"));
+    tvdbEpisode.thumbHeight.changeValueFromString(jsonReader.getNullableStringWithKey(episodeJson, "thumbHeight"));
+    tvdbEpisode.thumbWidth.changeValueFromString(jsonReader.getNullableStringWithKey(episodeJson, "thumbWidth"));
 
     if (tvdbEpisode.hasChanged()) {
       changed = true;
@@ -217,7 +224,11 @@ class TVDBEpisodeUpdater {
   }
 
   @Nullable
-  private TiVoEpisode findTiVoMatch(String episodeTitle, Integer tvdbSeason, Integer tvdbEpisodeNumber, String firstAiredStr, Integer seriesId) throws SQLException {
+  private TiVoEpisode findTiVoMatch(String episodeTitle,
+                                    Integer tvdbSeason,
+                                    Integer tvdbEpisodeNumber,
+                                    @Nullable String firstAiredStr,
+                                    Integer seriesId) throws SQLException {
     List<TiVoEpisode> matchingEpisodes = new ArrayList<>();
 
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
@@ -384,29 +395,6 @@ class TVDBEpisodeUpdater {
     if (matched) {
       series.matchedEpisodes.increment(1);
       series.unmatchedEpisodes.increment(-1);
-    }
-  }
-
-  @Nullable
-  private Integer getIntegerField(JSONObject jsonObject, String key) {
-    if (JSONObject.NULL.equals(jsonObject.get(key))) {
-      return null;
-    } else {
-      return jsonObject.getInt(key);
-    }
-  }
-
-  @Nullable
-  private String getStringField(JSONObject jsonObject, String key) {
-    if (JSONObject.NULL.equals(jsonObject.get(key))) {
-      return null;
-    } else {
-      String objectString = jsonObject.getString(key);
-      if ("".equals(objectString)) {
-        return null;
-      } else {
-        return objectString;
-      }
     }
   }
 

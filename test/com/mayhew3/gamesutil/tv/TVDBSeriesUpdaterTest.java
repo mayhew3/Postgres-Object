@@ -7,6 +7,7 @@ import com.mayhew3.gamesutil.model.tv.Series;
 import com.mayhew3.gamesutil.model.tv.TVDBEpisode;
 import com.mayhew3.gamesutil.model.tv.TVDBSeries;
 import com.mayhew3.gamesutil.xml.BadlyFormattedXMLException;
+import com.mayhew3.gamesutil.xml.JSONReaderImpl;
 import com.mayhew3.gamesutil.xml.NodeReaderImpl;
 import org.jetbrains.annotations.Nullable;
 import org.junit.Test;
@@ -41,7 +42,7 @@ public class TVDBSeriesUpdaterTest extends TVDatabaseTest {
     TVDBLocalFileProvider provider = new TVDBLocalFileProvider("resources\\test_input_renumbering.xml");
     TVDBJWTProvider tvdbjwtProvider = new TVDBJWTProvider();
 
-    TVDBSeriesUpdater tvdbSeriesUpdater = new TVDBSeriesUpdater(connection, series, tvdbjwtProvider);
+    TVDBSeriesUpdater tvdbSeriesUpdater = new TVDBSeriesUpdater(connection, series, tvdbjwtProvider, new JSONReaderImpl());
     tvdbSeriesUpdater.updateSeries();
 
     TVDBEpisode retiredEpisode = findTVDBEpisodeWithTVDBID(originalID);
@@ -80,7 +81,7 @@ public class TVDBSeriesUpdaterTest extends TVDatabaseTest {
     TVDBLocalFileProvider provider = new TVDBLocalFileProvider("resources\\test_input_renumbering.xml");
     TVDBJWTProvider tvdbjwtProvider = new TVDBJWTProvider();
 
-    TVDBSeriesUpdater tvdbSeriesUpdater = new TVDBSeriesUpdater(connection, series, tvdbjwtProvider);
+    TVDBSeriesUpdater tvdbSeriesUpdater = new TVDBSeriesUpdater(connection, series, tvdbjwtProvider, new JSONReaderImpl());
     tvdbSeriesUpdater.updateSeries();
 
     TVDBEpisode tvdbEpisode = findTVDBEpisodeWithTVDBID(tvdbId_2);
