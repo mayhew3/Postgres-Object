@@ -58,6 +58,9 @@ public class TVDBJSONFetcher {
       tvdbjwtProvider.writeSeriesToFile(tvdbSeriesId);
 
       // NOTE: After every run, need to truncate the _episodes.json file to only include the episodes below.
+      // todo: figure out a way to update it automatically? Maybe use the query to get each episode and manually
+      // todo: concatenate each data json into a json array? Or can I manipulate the JSON object directly,
+      // todo: and remove the episodes I don't want?
 //      tvdbjwtProvider.writeEpisodeSummariesToFile(tvdbSeriesId);
 
       List<Pair<Integer, Integer>> episodeNumbers = new ArrayList<>();
