@@ -8,7 +8,7 @@ import com.mayhew3.gamesutil.model.tv.TVDBEpisode;
 import com.mayhew3.gamesutil.model.tv.TVDBSeries;
 import com.mayhew3.gamesutil.xml.BadlyFormattedXMLException;
 import com.mayhew3.gamesutil.xml.JSONReaderImpl;
-import com.mayhew3.gamesutil.xml.NodeReaderImpl;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.junit.Test;
 import org.xml.sax.SAXException;
@@ -37,10 +37,7 @@ public class TVDBSeriesUpdaterTest extends TVDatabaseTest {
     addEpisode(series, 4, 2, "Welcome to the Gun Show", originalID);
     addEpisode(series, 4, 3, "Brave", 5552985);
 
-    NodeReaderImpl nodeReader = new NodeReaderImpl();
-
-    TVDBLocalFileProvider provider = new TVDBLocalFileProvider("resources\\test_input_renumbering.xml");
-    TVDBJWTProvider tvdbjwtProvider = new TVDBJWTProvider();
+    TVDBJWTProvider tvdbjwtProvider = new TVDBLocalJSONProvider("resources\\TVDBTest\\");
 
     TVDBSeriesUpdater tvdbSeriesUpdater = new TVDBSeriesUpdater(connection, series, tvdbjwtProvider, new JSONReaderImpl());
     tvdbSeriesUpdater.updateSeries();
@@ -76,10 +73,7 @@ public class TVDBSeriesUpdaterTest extends TVDatabaseTest {
     addEpisode(series, 4, 2, "Brave", tvdbId_2);
     addEpisode(series, 4, 3, "Welcome to the Gun Show", tvdbId_3);
 
-    NodeReaderImpl nodeReader = new NodeReaderImpl();
-
-    TVDBLocalFileProvider provider = new TVDBLocalFileProvider("resources\\test_input_renumbering.xml");
-    TVDBJWTProvider tvdbjwtProvider = new TVDBJWTProvider();
+    TVDBJWTProvider tvdbjwtProvider = new TVDBLocalJSONProvider("resources\\TVDBTest\\");
 
     TVDBSeriesUpdater tvdbSeriesUpdater = new TVDBSeriesUpdater(connection, series, tvdbjwtProvider, new JSONReaderImpl());
     tvdbSeriesUpdater.updateSeries();
@@ -133,16 +127,16 @@ public class TVDBSeriesUpdaterTest extends TVDatabaseTest {
 
     Episode episode = new Episode();
     episode.initializeForInsert();
+    episode.seriesId.changeValue(series.id.getValue());
     episode.tvdbEpisodeId.changeValue(tvdbEpisode.id.getValue());
     episode.seriesTitle.changeValue(series.seriesTitle.getValue());
     episode.setSeason(seasonNumber, connection);
     episode.episodeNumber.changeValue(episodeNumber);
     episode.title.changeValue(episodeTitle);
-    episode.seriesId.changeValue(series.id.getValue());
     episode.commit(connection);
   }
 
-  @Nullable
+  @NotNull
   private Series findSeriesWithTitle(String title) throws SQLException {
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
         "SELECT * " +
@@ -154,9 +148,10 @@ public class TVDBSeriesUpdaterTest extends TVDatabaseTest {
       series.initializeFromDBObject(resultSet);
       return series;
     } else {
-      return null;
+      throw new IllegalStateException("Unable to find series.");
     }
   }
+
   @Nullable
   private TVDBEpisode findTVDBEpisodeWithTVDBID(Integer tvdbId) throws SQLException {
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(

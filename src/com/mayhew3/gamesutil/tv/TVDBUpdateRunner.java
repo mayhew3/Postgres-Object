@@ -125,7 +125,7 @@ public class TVDBUpdateRunner {
   }
 
   private void updateTVDB(Series series) throws SQLException, BadlyFormattedXMLException, ShowFailedException, UnirestException {
-    TVDBSeriesUpdater updater = new TVDBSeriesUpdater(connection, series, new TVDBJWTProvider(), new JSONReaderImpl());
+    TVDBSeriesUpdater updater = new TVDBSeriesUpdater(connection, series, new TVDBJWTProviderImpl(), new JSONReaderImpl());
     updater.updateSeries();
 
     episodesAdded += updater.getEpisodesAdded();
