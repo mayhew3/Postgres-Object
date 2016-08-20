@@ -41,6 +41,7 @@ public class TVDBEpisode extends DataObject {
   public FieldValue<String> writer = registerStringField("writer", Nullability.NULLABLE);
   public FieldValue<String> filename = registerStringField("filename", Nullability.NULLABLE);
 
+  public FieldValueInteger apiVersion = registerIntegerField("api_version", Nullability.NOT_NULL).defaultValue(1);
 
   public TVDBEpisode() {
     addUniqueConstraint(tvdbEpisodeExtId, retired);

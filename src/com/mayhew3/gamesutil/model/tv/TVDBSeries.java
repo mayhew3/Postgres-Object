@@ -24,6 +24,8 @@ public class TVDBSeries extends DataObject {
   public FieldValue<String> imdbId = registerStringField("imdb_id", Nullability.NULLABLE);
   public FieldValue<String> zap2it_id = registerStringField("zap2it_id", Nullability.NULLABLE);
 
+  public FieldValueInteger apiVersion = registerIntegerField("api_version", Nullability.NOT_NULL).defaultValue(1);
+
   public TVDBSeries() {
     addUniqueConstraint(tvdbSeriesExtId);
   }
