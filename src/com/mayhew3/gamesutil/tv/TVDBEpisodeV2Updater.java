@@ -1,17 +1,15 @@
 package com.mayhew3.gamesutil.tv;
 
-import com.mayhew3.gamesutil.model.tv.Episode;
-import com.mayhew3.gamesutil.model.tv.Series;
-import com.mayhew3.gamesutil.model.tv.TVDBEpisode;
-import com.mayhew3.gamesutil.model.tv.TiVoEpisode;
+import com.mashape.unirest.http.exceptions.UnirestException;
+import com.mayhew3.gamesutil.dataobject.FieldValue;
 import com.mayhew3.gamesutil.db.SQLConnection;
-import com.mayhew3.gamesutil.xml.BadlyFormattedXMLException;
-import com.mayhew3.gamesutil.xml.NodeReader;
+import com.mayhew3.gamesutil.model.tv.*;
+import com.mayhew3.gamesutil.xml.JSONReader;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeComparator;
-import org.w3c.dom.NodeList;
+import org.json.JSONObject;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,19 +18,25 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-class TVDBEpisodeUpdater {
+class TVDBEpisodeV2Updater {
   enum EPISODE_RESULT {ADDED, UPDATED, NONE}
 
   private Series series;
-  private NodeList episodeNode;
   private SQLConnection connection;
-  private NodeReader nodeReader;
+  private Integer tvdbRemoteId;
+  private TVDBJWTProvider tvdbjwtProvider;
+  private JSONReader jsonReader;
 
-  public TVDBEpisodeUpdater(Series series, NodeList episodeNode, SQLConnection connection, NodeReader nodeReader) {
+  public TVDBEpisodeV2Updater(Series series,
+                              SQLConnection connection,
+                              TVDBJWTProvider tvdbjwtProvider,
+                              Integer tvdbEpisodeId,
+                              JSONReader jsonReader) {
     this.series = series;
     this.connection = connection;
-    this.nodeReader = nodeReader;
-    this.episodeNode = episodeNode;
+    this.tvdbRemoteId = tvdbEpisodeId;
+    this.tvdbjwtProvider = tvdbjwtProvider;
+    this.jsonReader = jsonReader;
   }
 
   /**
@@ -40,21 +44,27 @@ class TVDBEpisodeUpdater {
    * @throws SQLException If DB query error
    * @throws ShowFailedException If multiple episodes were found to update
    */
-  EPISODE_RESULT updateSingleEpisode() throws SQLException, ShowFailedException, BadlyFormattedXMLException {
-    Integer tvdbRemoteId = Integer.valueOf(nodeReader.getValueOfSimpleStringNode(episodeNode, "id"));
+  EPISODE_RESULT updateSingleEpisode() throws SQLException, ShowFailedException, UnirestException {
+    JSONObject episodeData = tvdbjwtProvider.getEpisodeData(tvdbRemoteId);
+
+    if (!episodeData.has("data")) {
+      throw new ShowFailedException("Found episode id " + tvdbRemoteId + " with weird JSON.");
+    }
+
+    JSONObject episodeJson = episodeData.getJSONObject("data");
 
     Integer seriesId = series.id.getValue();
 
     TVDBEpisode existingTVDBEpisodeByTVDBID = findExistingTVDBEpisodeByTVDBID(tvdbRemoteId);
 
-    @NotNull String episodenumber = nodeReader.getValueOfSimpleStringNode(episodeNode, "episodenumber");
-    @NotNull String episodename = nodeReader.getValueOfSimpleStringNode(episodeNode, "episodename");
-    @NotNull String seasonnumber = nodeReader.getValueOfSimpleStringNode(episodeNode, "seasonnumber");
-    @NotNull String firstaired = nodeReader.getValueOfSimpleStringNode(episodeNode, "firstaired");
+    @NotNull Integer episodenumber = jsonReader.getIntegerWithKey(episodeJson, "airedEpisodeNumber");
+    @NotNull String episodename = jsonReader.getStringWithKey(episodeJson, "episodeName");
+    @NotNull Integer seasonnumber = jsonReader.getIntegerWithKey(episodeJson, "airedSeason");
+    @Nullable String firstaired = jsonReader.getNullableStringWithKey(episodeJson, "firstAired");
 
     TVDBEpisode existingTVDBEpisodeByEpisodeNumber = findExistingTVDBEpisodeByEpisodeNumber(
-        Integer.valueOf(episodenumber),
-        Integer.valueOf(seasonnumber),
+        episodenumber,
+        seasonnumber,
         series.tvdbSeriesId.getValue());
 
     TVDBEpisode existingEpisode = existingTVDBEpisodeByTVDBID == null ?
@@ -94,42 +104,53 @@ class TVDBEpisodeUpdater {
 
     // todo: Add log entry for when TVDB values change.
 
-    String absoluteNumber = nodeReader.getValueOfSimpleStringNullableNode(episodeNode, "absoute_number");
+    Integer absoluteNumber = jsonReader.getNullableIntegerWithKey(episodeJson, "absoluteNumber");
 
     tvdbEpisode.tvdbEpisodeExtId.changeValue(tvdbRemoteId);
-    tvdbEpisode.absoluteNumber.changeValueFromString(absoluteNumber);
-    tvdbEpisode.seasonNumber.changeValueFromString(seasonnumber);
-    tvdbEpisode.episodeNumber.changeValueFromString(episodenumber);
-    tvdbEpisode.name.changeValueFromString(episodename);
+    tvdbEpisode.absoluteNumber.changeValue(absoluteNumber);
+    tvdbEpisode.seasonNumber.changeValue(seasonnumber);
+    tvdbEpisode.episodeNumber.changeValue(episodenumber);
+    tvdbEpisode.name.changeValue(episodename);
     tvdbEpisode.firstAired.changeValueFromString(firstaired);
     tvdbEpisode.tvdbSeriesId.changeValue(series.tvdbSeriesId.getValue());
-    tvdbEpisode.overview.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(episodeNode, "overview"));
-    tvdbEpisode.productionCode.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(episodeNode, "ProductionCode"));
-    tvdbEpisode.rating.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(episodeNode, "Rating"));
-    tvdbEpisode.ratingCount.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(episodeNode, "RatingCount"));
-    tvdbEpisode.director.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(episodeNode, "Director"));
-    tvdbEpisode.writer.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(episodeNode, "Writer"));
-    tvdbEpisode.lastUpdated.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(episodeNode, "lastupdated"));
-    tvdbEpisode.tvdbSeasonExtId.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(episodeNode, "seasonid"));
-    tvdbEpisode.filename.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(episodeNode, "filename"));
-    tvdbEpisode.airsAfterSeason.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(episodeNode, "airsafter_season"));
-    tvdbEpisode.airsBeforeSeason.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(episodeNode, "airsbefore_season"));
-    tvdbEpisode.airsBeforeEpisode.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(episodeNode, "airsbefore_episode"));
-    tvdbEpisode.thumbHeight.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(episodeNode, "thumb_height"));
-    tvdbEpisode.thumbWidth.changeValueFromString(nodeReader.getValueOfSimpleStringNullableNode(episodeNode, "thumb_width"));
+    tvdbEpisode.overview.changeValue(jsonReader.getNullableStringWithKey(episodeJson, "overview"));
+    tvdbEpisode.productionCode.changeValue(jsonReader.getNullableStringWithKey(episodeJson, "productionCode"));
+    tvdbEpisode.rating.changeValue(episodeJson.getDouble("siteRating"));
+    tvdbEpisode.ratingCount.changeValue(jsonReader.getNullableIntegerWithKey(episodeJson, "siteRatingCount"));
+    tvdbEpisode.director.changeValue(jsonReader.getNullableStringWithKey(episodeJson, "director"));
+
+    // todo: writers array
+//    tvdbEpisode.writer.changeValueFromString(episodeJson.getString("writers"));
+
+    tvdbEpisode.lastUpdated.changeValue(jsonReader.getIntegerWithKey(episodeJson, "lastUpdated"));
+
+    tvdbEpisode.tvdbSeasonExtId.changeValue(jsonReader.getNullableIntegerWithKey(episodeJson, "airedSeasonID"));
+
+    tvdbEpisode.filename.changeValue(jsonReader.getNullableStringWithKey(episodeJson, "filename"));
+
+    tvdbEpisode.airsAfterSeason.changeValue(jsonReader.getNullableIntegerWithKey(episodeJson, "airsAfterSeason"));
+    tvdbEpisode.airsBeforeSeason.changeValue(jsonReader.getNullableIntegerWithKey(episodeJson, "airsAfterSeason"));
+    tvdbEpisode.airsBeforeEpisode.changeValue(jsonReader.getNullableIntegerWithKey(episodeJson, "airsAfterSeason"));
+
+    tvdbEpisode.thumbHeight.changeValueFromString(jsonReader.getNullableStringWithKey(episodeJson, "thumbHeight"));
+    tvdbEpisode.thumbWidth.changeValueFromString(jsonReader.getNullableStringWithKey(episodeJson, "thumbWidth"));
 
     if (tvdbEpisode.hasChanged()) {
       changed = true;
+      addChangeLogs(tvdbEpisode);
     }
+
+    tvdbEpisode.apiVersion.changeValue(2);
+
     tvdbEpisode.commit(connection);
 
     episode.seriesId.changeValue(seriesId);
     episode.seriesTitle.changeValueFromString(series.seriesTitle.getValue());
     episode.tvdbEpisodeId.changeValue(tvdbEpisode.id.getValue());
     episode.title.changeValue(episodename);
-    episode.setSeasonFromString(seasonnumber, connection);
-    episode.absoluteNumber.changeValueFromString(absoluteNumber);
-    episode.episodeNumber.changeValueFromString(episodenumber);
+    episode.setSeason(seasonnumber, connection);
+    episode.absoluteNumber.changeValue(absoluteNumber);
+    episode.episodeNumber.changeValue(episodenumber);
     episode.airDate.changeValueFromString(firstaired);
     episode.streaming.changeValue(series.isStreaming(connection));
 
@@ -156,6 +177,26 @@ class TVDBEpisodeUpdater {
       return EPISODE_RESULT.UPDATED;
     } else {
       return EPISODE_RESULT.NONE;
+    }
+  }
+
+  private void addChangeLogs(TVDBEpisode tvdbEpisode) throws SQLException {
+    for (FieldValue fieldValue : tvdbEpisode.getChangedFields()) {
+      TVDBMigrationLog tvdbMigrationLog = new TVDBMigrationLog();
+      tvdbMigrationLog.initializeForInsert();
+
+      tvdbMigrationLog.tvdbSeriesId.changeValue(tvdbEpisode.tvdbSeriesId.getValue());
+      tvdbMigrationLog.tvdbEpisodeId.changeValue(tvdbEpisode.id.getValue());
+
+      tvdbMigrationLog.tvdbFieldName.changeValue(fieldValue.getFieldName());
+      tvdbMigrationLog.oldValue.changeValue(fieldValue.getOriginalValue() == null ?
+          null :
+          fieldValue.getOriginalValue().toString());
+      tvdbMigrationLog.newValue.changeValue(fieldValue.getChangedValue() == null ?
+          null :
+          fieldValue.getChangedValue().toString());
+
+      tvdbMigrationLog.commit(connection);
     }
   }
 
@@ -204,7 +245,11 @@ class TVDBEpisodeUpdater {
   }
 
   @Nullable
-  private TiVoEpisode findTiVoMatch(String episodeTitle, String tvdbSeasonStr, String tvdbEpisodeNumberStr, String firstAiredStr, Integer seriesId) throws SQLException {
+  private TiVoEpisode findTiVoMatch(String episodeTitle,
+                                    Integer tvdbSeason,
+                                    Integer tvdbEpisodeNumber,
+                                    @Nullable String firstAiredStr,
+                                    Integer seriesId) throws SQLException {
     List<TiVoEpisode> matchingEpisodes = new ArrayList<>();
 
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
@@ -242,7 +287,7 @@ class TVDBEpisodeUpdater {
       return matchingEpisodes.get(0);
     } else if (matchingEpisodes.size() > 1) {
       debug("Found " + matchingEpisodes.size() + " matching episodes for " +
-          tvdbSeasonStr + "x" + tvdbEpisodeNumberStr + " " +
+          tvdbSeason + "x" + tvdbEpisodeNumber + " " +
           "'" + episodeTitle + "'.");
       return null;
     }
@@ -250,10 +295,7 @@ class TVDBEpisodeUpdater {
     // no match found on episode title. Try episode number.
 
 
-    if (tvdbEpisodeNumberStr != null && tvdbSeasonStr != null) {
-      Integer tvdbSeason = Integer.valueOf(tvdbSeasonStr);
-      Integer tvdbEpisodeNumber = Integer.valueOf(tvdbEpisodeNumberStr);
-
+    if (tvdbEpisodeNumber != null && tvdbSeason != null) {
       for (TiVoEpisode episode : episodes) {
 
         Integer tivoEpisodeNumber = episode.episodeNumber.getValue();
@@ -290,7 +332,7 @@ class TVDBEpisodeUpdater {
       return matchingEpisodes.get(0);
     } else if (matchingEpisodes.size() > 1) {
       debug("Found " + matchingEpisodes.size() + " matching episodes for " +
-          tvdbSeasonStr + "x" + tvdbEpisodeNumberStr + " " +
+          tvdbSeason + "x" + tvdbEpisodeNumber + " " +
           "'" + episodeTitle + "'.");
       return null;
     }
@@ -322,12 +364,12 @@ class TVDBEpisodeUpdater {
       return matchingEpisodes.get(0);
     } else if (matchingEpisodes.size() > 1) {
       debug("Found " + matchingEpisodes.size() + " matching episodes for " +
-          tvdbSeasonStr + "x" + tvdbEpisodeNumberStr + " " +
+          tvdbSeason + "x" + tvdbEpisodeNumber + " " +
           "'" + episodeTitle + "'.");
       return null;
     } else {
       debug("Found no matches for " +
-          tvdbSeasonStr + "x" + tvdbEpisodeNumberStr + " " +
+          tvdbSeason + "x" + tvdbEpisodeNumber + " " +
           "'" + episodeTitle + "'.");
       return null;
     }

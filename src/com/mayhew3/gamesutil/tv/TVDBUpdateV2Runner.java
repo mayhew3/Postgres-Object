@@ -1,19 +1,20 @@
 package com.mayhew3.gamesutil.tv;
 
 import com.google.common.collect.Lists;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mayhew3.gamesutil.ArgumentChecker;
-import com.mayhew3.gamesutil.model.tv.Series;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
+import com.mayhew3.gamesutil.model.tv.Series;
 import com.mayhew3.gamesutil.xml.BadlyFormattedXMLException;
-import com.mayhew3.gamesutil.xml.NodeReaderImpl;
+import com.mayhew3.gamesutil.xml.JSONReaderImpl;
 
 import java.net.URISyntaxException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class TVDBUpdateRunner {
+public class TVDBUpdateV2Runner {
 
   private Integer seriesUpdates = 0;
   private Integer episodesAdded = 0;
@@ -21,7 +22,7 @@ public class TVDBUpdateRunner {
 
   private SQLConnection connection;
 
-  public TVDBUpdateRunner(SQLConnection connection) {
+  public TVDBUpdateV2Runner(SQLConnection connection) {
     this.connection = connection;
   }
 
@@ -32,7 +33,7 @@ public class TVDBUpdateRunner {
     String identifier = new ArgumentChecker(args).getDBIdentifier();
 
     SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
-    TVDBUpdateRunner tvdbUpdateRunner = new TVDBUpdateRunner(connection);
+    TVDBUpdateV2Runner tvdbUpdateRunner = new TVDBUpdateV2Runner(connection);
 
     if (singleSeries) {
       tvdbUpdateRunner.runUpdateSingle();
@@ -80,7 +81,7 @@ public class TVDBUpdateRunner {
 
 
   private void runUpdateSingle() throws SQLException {
-    String singleSeriesTitle = "Catastrophe"; // update for testing on a single series
+    String singleSeriesTitle = "Fawlty Towers"; // update for testing on a single series
 
     String sql = "select *\n" +
         "from series\n" +
@@ -123,8 +124,8 @@ public class TVDBUpdateRunner {
     }
   }
 
-  private void updateTVDB(Series series) throws SQLException, BadlyFormattedXMLException, ShowFailedException {
-    TVDBSeriesUpdater updater = new TVDBSeriesUpdater(connection, series, new NodeReaderImpl(), new TVDBWebProvider());
+  private void updateTVDB(Series series) throws SQLException, BadlyFormattedXMLException, ShowFailedException, UnirestException {
+    TVDBSeriesV2Updater updater = new TVDBSeriesV2Updater(connection, series, new TVDBJWTProviderImpl(), new JSONReaderImpl());
     updater.updateSeries();
 
     episodesAdded += updater.getEpisodesAdded();

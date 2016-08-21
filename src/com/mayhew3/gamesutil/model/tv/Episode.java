@@ -131,6 +131,11 @@ public class Episode extends DataObject {
     updateSeasonRow(season.getValue(), connection);
   }
 
+  public void setSeasonFromString(String seasonNumber, SQLConnection connection) throws SQLException {
+    season.changeValueFromString(seasonNumber);
+    updateSeasonRow(season.getValue(), connection);
+  }
+
 
   private void updateSeasonRow(Integer seasonNumber, SQLConnection connection) throws SQLException {
     Preconditions.checkState(seriesId.getValue() != null, "Can't update the season if there is no associated series_id yet.");
