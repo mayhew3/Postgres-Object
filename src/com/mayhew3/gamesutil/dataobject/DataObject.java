@@ -62,7 +62,7 @@ public abstract class DataObject {
     return !isForInsert() && !getChangedFields().isEmpty();
   }
 
-  private List<FieldValue> getChangedFields() {
+  public List<FieldValue> getChangedFields() {
     return allFieldValues.stream().filter(FieldValue::isChanged).collect(Collectors.toList());
   }
 
@@ -75,7 +75,7 @@ public abstract class DataObject {
   }
 
   @NotNull
-  boolean isInitialized() {
+  Boolean isInitialized() {
     return initialized;
   }
 

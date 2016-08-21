@@ -1,11 +1,9 @@
 package com.mayhew3.gamesutil.tv;
 
 import com.mashape.unirest.http.exceptions.UnirestException;
+import com.mayhew3.gamesutil.dataobject.FieldValue;
 import com.mayhew3.gamesutil.db.SQLConnection;
-import com.mayhew3.gamesutil.model.tv.Episode;
-import com.mayhew3.gamesutil.model.tv.Series;
-import com.mayhew3.gamesutil.model.tv.TVDBEpisode;
-import com.mayhew3.gamesutil.model.tv.TiVoEpisode;
+import com.mayhew3.gamesutil.model.tv.*;
 import com.mayhew3.gamesutil.xml.JSONReader;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -126,8 +124,7 @@ class TVDBEpisodeUpdater {
 
     tvdbEpisode.lastUpdated.changeValue(jsonReader.getIntegerWithKey(episodeJson, "lastUpdated"));
 
-    // todo: confirm there is no longer a season id
-//    tvdbEpisode.tvdbSeasonExtId.changeValueFromString(episodeJson.getString("seasonid"));
+    tvdbEpisode.tvdbSeasonExtId.changeValue(jsonReader.getNullableIntegerWithKey(episodeJson, "airedSeasonID"));
 
     tvdbEpisode.filename.changeValue(jsonReader.getNullableStringWithKey(episodeJson, "filename"));
 
@@ -140,7 +137,11 @@ class TVDBEpisodeUpdater {
 
     if (tvdbEpisode.hasChanged()) {
       changed = true;
+      addChangeLogs(tvdbEpisode);
     }
+
+    tvdbEpisode.apiVersion.changeValue(2);
+
     tvdbEpisode.commit(connection);
 
     episode.seriesId.changeValue(seriesId);
@@ -176,6 +177,26 @@ class TVDBEpisodeUpdater {
       return EPISODE_RESULT.UPDATED;
     } else {
       return EPISODE_RESULT.NONE;
+    }
+  }
+
+  private void addChangeLogs(TVDBEpisode tvdbEpisode) throws SQLException {
+    for (FieldValue fieldValue : tvdbEpisode.getChangedFields()) {
+      TVDBMigrationLog tvdbMigrationLog = new TVDBMigrationLog();
+      tvdbMigrationLog.initializeForInsert();
+
+      tvdbMigrationLog.tvdbSeriesId.changeValue(tvdbEpisode.tvdbSeriesId.getValue());
+      tvdbMigrationLog.tvdbEpisodeId.changeValue(tvdbEpisode.id.getValue());
+
+      tvdbMigrationLog.tvdbFieldName.changeValue(fieldValue.getFieldName());
+      tvdbMigrationLog.oldValue.changeValue(fieldValue.getOriginalValue() == null ?
+          null :
+          fieldValue.getOriginalValue().toString());
+      tvdbMigrationLog.newValue.changeValue(fieldValue.getChangedValue() == null ?
+          null :
+          fieldValue.getChangedValue().toString());
+
+      tvdbMigrationLog.commit(connection);
     }
   }
 

@@ -2,6 +2,7 @@ package com.mayhew3.gamesutil.tv;
 
 import com.google.common.base.Joiner;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import com.mayhew3.gamesutil.dataobject.FieldValue;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.model.tv.*;
 import com.mayhew3.gamesutil.xml.BadlyFormattedXMLException;
@@ -375,6 +376,12 @@ public class TVDBSeriesUpdater {
     @NotNull String imageName = jsonReader.getStringWithKey(firstImage, "fileName");
     tvdbSeries.poster.changeValue(imageName);
 
+    if (tvdbSeries.hasChanged()) {
+      addChangeLogs(tvdbSeries);
+    }
+
+    tvdbSeries.apiVersion.changeValue(2);
+
     tvdbSeries.commit(connection);
 
     series.tvdbSeriesId.changeValue(tvdbSeries.id.getValue());
@@ -413,6 +420,27 @@ public class TVDBSeriesUpdater {
     debug(seriesTitle + ": Update complete! Added: " + seriesEpisodesAdded + "; Updated: " + seriesEpisodesUpdated);
 
   }
+
+
+  private void addChangeLogs(TVDBSeries tvdbSeries) throws SQLException {
+    for (FieldValue fieldValue : tvdbSeries.getChangedFields()) {
+      TVDBMigrationLog tvdbMigrationLog = new TVDBMigrationLog();
+      tvdbMigrationLog.initializeForInsert();
+
+      tvdbMigrationLog.tvdbSeriesId.changeValue(tvdbSeries.id.getValue());
+
+      tvdbMigrationLog.tvdbFieldName.changeValue(fieldValue.getFieldName());
+      tvdbMigrationLog.oldValue.changeValue(fieldValue.getOriginalValue() == null ?
+          null :
+          fieldValue.getOriginalValue().toString());
+      tvdbMigrationLog.newValue.changeValue(fieldValue.getChangedValue() == null ?
+          null :
+          fieldValue.getChangedValue().toString());
+
+      tvdbMigrationLog.commit(connection);
+    }
+  }
+
 
   private ResultSet findExistingTVDBSeries(Integer tvdbRemoteId) throws SQLException {
     return connection.prepareAndExecuteStatementFetch(
