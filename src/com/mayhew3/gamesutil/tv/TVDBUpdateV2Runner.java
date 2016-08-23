@@ -22,7 +22,7 @@ public class TVDBUpdateV2Runner {
 
   private SQLConnection connection;
 
-  public TVDBUpdateV2Runner(SQLConnection connection) {
+  private TVDBUpdateV2Runner(SQLConnection connection) {
     this.connection = connection;
   }
 
@@ -68,7 +68,7 @@ public class TVDBUpdateV2Runner {
    * @throws SQLException if query to get series to update fails. Any one series update will not halt operation of the
    *                    script, but if the query to find all the serieses fails, the operation can't continue.
    */
-  public void runQuickUpdate() throws SQLException {
+  private void runQuickUpdate() throws SQLException {
     String sql = "select *\n" +
         "from series\n" +
         "where ignore_tvdb = ? " +
@@ -81,7 +81,7 @@ public class TVDBUpdateV2Runner {
 
 
   private void runUpdateSingle() throws SQLException {
-    String singleSeriesTitle = "Fawlty Towers"; // update for testing on a single series
+    String singleSeriesTitle = "Halt and Catch Fire"; // update for testing on a single series
 
     String sql = "select *\n" +
         "from series\n" +

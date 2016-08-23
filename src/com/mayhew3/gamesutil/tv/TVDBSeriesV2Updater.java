@@ -373,7 +373,7 @@ public class TVDBSeriesV2Updater {
     JSONObject imageData = tvdbDataProvider.getPosterData(tvdbID);
     @NotNull JSONArray images = jsonReader.getArrayWithKey(imageData, "data");
 
-    JSONObject firstImage = images.getJSONObject(0);
+    JSONObject firstImage = images.getJSONObject(images.length()-1);
     @NotNull String imageName = jsonReader.getStringWithKey(firstImage, "fileName");
     tvdbSeries.poster.changeValue(imageName);
 
