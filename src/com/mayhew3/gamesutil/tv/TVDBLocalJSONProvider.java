@@ -22,16 +22,15 @@ class TVDBLocalJSONProvider implements TVDBJWTProvider {
   }
 
   @Override
-  public JSONObject getSeriesData(Integer tvdbId, String subpath) throws UnirestException {
-    if ("".equals(subpath)) {
-      String filepath = filePrefix + tvdbId + "_summary.json";
-      return parseJSONObject(filepath);
-    } else if ("/episodes".equals(subpath)) {
-      String filepath = filePrefix + tvdbId + "_episodes.json";
-      return parseJSONObject(filepath);
-    } else {
-      throw new IllegalArgumentException("Can only accept /episodes or no subpath.");
-    }
+  public JSONObject getSeriesData(Integer tvdbSeriesId) throws UnirestException {
+    String filepath = filePrefix + tvdbSeriesId + "_summary.json";
+    return parseJSONObject(filepath);
+  }
+
+  @Override
+  public JSONObject getEpisodeSummaries(Integer tvdbSeriesId, Integer pageNumber) {
+    String filepath = filePrefix + tvdbSeriesId + "_episodes.json";
+    return parseJSONObject(filepath);
   }
 
   @Override

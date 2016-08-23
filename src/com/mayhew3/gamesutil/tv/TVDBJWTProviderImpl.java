@@ -43,12 +43,26 @@ class TVDBJWTProviderImpl implements TVDBJWTProvider {
   }
 
   @Override
-  public JSONObject getSeriesData(Integer tvdbId, String subpath) throws UnirestException {
+  public JSONObject getSeriesData(Integer tvdbSeriesId) throws UnirestException {
     Preconditions.checkState(token != null);
 
-    String seriesUrl = "https://api.thetvdb.com/series/" + tvdbId + subpath;
+    String seriesUrl = "https://api.thetvdb.com/series/" + tvdbSeriesId;
 
     HttpResponse<JsonNode> response = getData(seriesUrl);
+    JsonNode body = response.getBody();
+    return body.getObject();
+  }
+
+  @Override
+  public JSONObject getEpisodeSummaries(Integer tvdbSeriesId, Integer pageNumber) throws UnirestException {
+    Preconditions.checkState(token != null);
+
+    String seriesUrl = "https://api.thetvdb.com/series/" + tvdbSeriesId + "/episodes";
+
+    Map<String, Object> queryParams = Maps.newHashMap();
+    queryParams.put("page", pageNumber);
+
+    HttpResponse<JsonNode> response = getData(seriesUrl, queryParams);
     JsonNode body = response.getBody();
     return body.getObject();
   }

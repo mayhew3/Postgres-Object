@@ -323,7 +323,7 @@ public class TVDBSeriesV2Updater {
     Integer tvdbID = series.tvdbSeriesExtId.getValue();
     String seriesTitle = series.seriesTitle.getValue();
 
-    JSONObject seriesRoot = tvdbDataProvider.getSeriesData(tvdbID, "");
+    JSONObject seriesRoot = tvdbDataProvider.getSeriesData(tvdbID);
 
     debug(seriesTitle + ": Data found, updating.");
 
@@ -389,31 +389,42 @@ public class TVDBSeriesV2Updater {
     Integer seriesEpisodesAdded = 0;
     Integer seriesEpisodesUpdated = 0;
 
-    JSONObject episodeData = tvdbDataProvider.getSeriesData(tvdbID, "/episodes");
+    Integer pageNumber = 1;
+    Integer lastPage;
 
-    JSONArray episodeArray = episodeData.getJSONArray("data");
+    do {
+      JSONObject episodeData = tvdbDataProvider.getEpisodeSummaries(tvdbID, pageNumber);
 
-    for (int i = 0; i < episodeArray.length(); i++) {
-      JSONObject episode = episodeArray.getJSONObject(i);
+      JSONObject links = episodeData.getJSONObject("links");
+      lastPage = jsonReader.getIntegerWithKey(links, "last");
 
-      Integer episodeRemoteId = episode.getInt("id");
+      JSONArray episodeArray = episodeData.getJSONArray("data");
 
-      try {
-        TVDBEpisodeV2Updater tvdbEpisodeUpdater = new TVDBEpisodeV2Updater(series, connection, tvdbDataProvider, episodeRemoteId, new JSONReaderImpl());
-        TVDBEpisodeV2Updater.EPISODE_RESULT episodeResult = tvdbEpisodeUpdater.updateSingleEpisode();
+      for (int i = 0; i < episodeArray.length(); i++) {
+        JSONObject episode = episodeArray.getJSONObject(i);
 
-        if (episodeResult == TVDBEpisodeV2Updater.EPISODE_RESULT.ADDED) {
-          seriesEpisodesAdded++;
-        } else if (episodeResult == TVDBEpisodeV2Updater.EPISODE_RESULT.UPDATED) {
-          seriesEpisodesUpdated++;
+        Integer episodeRemoteId = episode.getInt("id");
+
+        try {
+          TVDBEpisodeV2Updater tvdbEpisodeUpdater = new TVDBEpisodeV2Updater(series, connection, tvdbDataProvider, episodeRemoteId, new JSONReaderImpl());
+          TVDBEpisodeV2Updater.EPISODE_RESULT episodeResult = tvdbEpisodeUpdater.updateSingleEpisode();
+
+          if (episodeResult == TVDBEpisodeV2Updater.EPISODE_RESULT.ADDED) {
+            seriesEpisodesAdded++;
+          } else if (episodeResult == TVDBEpisodeV2Updater.EPISODE_RESULT.UPDATED) {
+            seriesEpisodesUpdated++;
+          }
+        } catch (Exception e) {
+          debug("TVDB update of episode failed: ");
+          e.printStackTrace();
+          episodesFailed++;
+          addMigrationError(series, episodeRemoteId, e);
         }
-      } catch (Exception e) {
-        debug("TVDB update of episode failed: ");
-        e.printStackTrace();
-        episodesFailed++;
-        addMigrationError(series, episodeRemoteId, e);
       }
-    }
+
+      pageNumber++;
+
+    } while (pageNumber <= lastPage);
 
     series.tvdbNew.changeValue(false);
     series.commit(connection);
