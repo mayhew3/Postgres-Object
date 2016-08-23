@@ -19,24 +19,27 @@ import java.util.List;
 import java.util.Objects;
 
 class TVDBEpisodeV2Updater {
-  enum EPISODE_RESULT {ADDED, UPDATED, NONE}
+  enum EPISODE_RESULT {ADDED, UPDATED, RETIRED, NONE}
 
   private Series series;
   private SQLConnection connection;
   private Integer tvdbRemoteId;
   private TVDBJWTProvider tvdbjwtProvider;
   private JSONReader jsonReader;
+  private Boolean retireUnfound;
 
   public TVDBEpisodeV2Updater(Series series,
                               SQLConnection connection,
                               TVDBJWTProvider tvdbjwtProvider,
                               Integer tvdbEpisodeId,
-                              JSONReader jsonReader) {
+                              JSONReader jsonReader,
+                              Boolean retireUnfound) {
     this.series = series;
     this.connection = connection;
     this.tvdbRemoteId = tvdbEpisodeId;
     this.tvdbjwtProvider = tvdbjwtProvider;
     this.jsonReader = jsonReader;
+    this.retireUnfound = retireUnfound;
   }
 
   /**
@@ -48,6 +51,20 @@ class TVDBEpisodeV2Updater {
     JSONObject episodeData = tvdbjwtProvider.getEpisodeData(tvdbRemoteId);
 
     if (!episodeData.has("data")) {
+      if (episodeData.has("Error") && retireUnfound) {
+        @NotNull String error = jsonReader.getStringWithKey(episodeData, "Error");
+        String unfoundError = "ID: " + tvdbRemoteId + " not found";
+        if (unfoundError.equals(error)) {
+          TVDBEpisode existingTVDBEpisodeByTVDBID = findExistingTVDBEpisodeByTVDBID(tvdbRemoteId);
+
+          if (existingTVDBEpisodeByTVDBID != null) {
+            debug("Episode no longer in TVDB. Retiring.");
+            existingTVDBEpisodeByTVDBID.retired.changeValue(existingTVDBEpisodeByTVDBID.id.getValue());
+            existingTVDBEpisodeByTVDBID.commit(connection);
+            return EPISODE_RESULT.RETIRED;
+          }
+        }
+      }
       throw new ShowFailedException("Found episode id " + tvdbRemoteId + " with weird JSON.");
     }
 

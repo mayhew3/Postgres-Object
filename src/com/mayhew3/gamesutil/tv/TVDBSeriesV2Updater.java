@@ -406,7 +406,7 @@ public class TVDBSeriesV2Updater {
         Integer episodeRemoteId = episode.getInt("id");
 
         try {
-          TVDBEpisodeV2Updater tvdbEpisodeUpdater = new TVDBEpisodeV2Updater(series, connection, tvdbDataProvider, episodeRemoteId, new JSONReaderImpl());
+          TVDBEpisodeV2Updater tvdbEpisodeUpdater = new TVDBEpisodeV2Updater(series, connection, tvdbDataProvider, episodeRemoteId, new JSONReaderImpl(), false);
           TVDBEpisodeV2Updater.EPISODE_RESULT episodeResult = tvdbEpisodeUpdater.updateSingleEpisode();
 
           if (episodeResult == TVDBEpisodeV2Updater.EPISODE_RESULT.ADDED) {

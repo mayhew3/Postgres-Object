@@ -6,8 +6,10 @@ import com.mayhew3.gamesutil.ArgumentChecker;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.model.tv.Series;
+import com.mayhew3.gamesutil.model.tv.TVDBEpisode;
 import com.mayhew3.gamesutil.model.tv.TVDBMigrationError;
 import com.mayhew3.gamesutil.xml.BadlyFormattedXMLException;
+import com.mayhew3.gamesutil.xml.JSONReader;
 import com.mayhew3.gamesutil.xml.JSONReaderImpl;
 import com.mayhew3.gamesutil.xml.NodeReaderImpl;
 
@@ -25,12 +27,16 @@ import java.util.List;
 public class TVDBFullMigrationRunner {
 
   private SQLConnection connection;
+  private TVDBJWTProvider tvdbjwtProvider;
+  private JSONReader jsonReader;
 
-  private TVDBFullMigrationRunner(SQLConnection connection) {
+  private TVDBFullMigrationRunner(SQLConnection connection) throws UnirestException {
     this.connection = connection;
+    this.tvdbjwtProvider = new TVDBJWTProviderImpl();
+    this.jsonReader = new JSONReaderImpl();
   }
 
-  public static void main(String... args) throws URISyntaxException, SQLException, FileNotFoundException {
+  public static void main(String... args) throws URISyntaxException, SQLException, FileNotFoundException, UnirestException {
     List<String> argList = Lists.newArrayList(args);
     Boolean singleSeries = argList.contains("SingleSeries");
     Boolean quickMode = argList.contains("Quick");
@@ -58,6 +64,8 @@ public class TVDBFullMigrationRunner {
     } else {
       tvdbUpdateRunner.runUpdate();
     }
+
+    tvdbUpdateRunner.checkUnmigratedEpisodes();
 
     // update denorms after changes.
     new SeriesDenormUpdater(connection).updateFields();
@@ -108,6 +116,55 @@ public class TVDBFullMigrationRunner {
     runUpdateOnResultSet(resultSet);
   }
 
+  private void checkUnmigratedEpisodes() throws SQLException {
+    String sql = "select *\n" +
+        "from tvdb_episode\n" +
+        "where api_version = ?\n" +
+//        "and series_name = 'It''s Always Sunny in Philadelphia'\n" +
+        "and retired = ?";
+
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, 1, 0);
+
+    debug("Starting update of un-migrated episodes.");
+
+    int i = 0;
+    int retired = 0;
+
+    while (resultSet.next()) {
+      i++;
+
+      TVDBEpisode tvdbEpisode = new TVDBEpisode();
+      tvdbEpisode.initializeFromDBObject(resultSet);
+
+      try {
+        Series series = tvdbEpisode.getEpisode(connection).getSeries(connection);
+
+        try {
+          TVDBEpisodeV2Updater v2Updater = new TVDBEpisodeV2Updater(series,
+              connection,
+              tvdbjwtProvider,
+              tvdbEpisode.tvdbEpisodeExtId.getValue(),
+              jsonReader,
+              true);
+          TVDBEpisodeV2Updater.EPISODE_RESULT result = v2Updater.updateSingleEpisode();
+          if (TVDBEpisodeV2Updater.EPISODE_RESULT.RETIRED.equals(result)) {
+            retired++;
+          }
+        } catch (Exception e) {
+          e.printStackTrace();
+          addMigrationError(series, tvdbEpisode.id.getValue(), e);
+        }
+
+        debug(i + " processed.");
+
+      } catch (ShowFailedException e) {
+        e.printStackTrace();
+      }
+
+    }
+
+    debug(retired + " of " + i + " rows retired.");
+  }
 
   private void runUpdateOnResultSet(ResultSet resultSet) throws SQLException {
     debug("Starting update.");
@@ -140,6 +197,19 @@ public class TVDBFullMigrationRunner {
     migrationError.commit(connection);
   }
 
+  private void addMigrationError(Series series, Integer tvdbEpisodeExtId, Exception e) throws SQLException {
+    TVDBMigrationError migrationError = new TVDBMigrationError();
+    migrationError.initializeForInsert();
+
+    migrationError.seriesId.changeValue(series.id.getValue());
+    migrationError.tvdbEpisodeExtId.changeValue(tvdbEpisodeExtId);
+    migrationError.exceptionType.changeValue(e.getClass().toString());
+    migrationError.exceptionMsg.changeValue(e.getMessage());
+
+    migrationError.commit(connection);
+  }
+
+
   private void processSingleSeries(ResultSet resultSet, Series series) throws SQLException {
     series.initializeFromDBObject(resultSet);
 
@@ -155,9 +225,8 @@ public class TVDBFullMigrationRunner {
     TVDBSeriesUpdater updater = new TVDBSeriesUpdater(connection, series, new NodeReaderImpl(), new TVDBWebProvider());
     updater.updateSeries();
 
-    TVDBSeriesV2Updater v2Updater = new TVDBSeriesV2Updater(connection, series, new TVDBJWTProviderImpl(), new JSONReaderImpl());
+    TVDBSeriesV2Updater v2Updater = new TVDBSeriesV2Updater(connection, series, tvdbjwtProvider, jsonReader);
     v2Updater.updateSeries();
-
   }
 
   protected void debug(Object object) {
