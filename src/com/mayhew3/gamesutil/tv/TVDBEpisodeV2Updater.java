@@ -58,7 +58,7 @@ class TVDBEpisodeV2Updater {
     TVDBEpisode existingTVDBEpisodeByTVDBID = findExistingTVDBEpisodeByTVDBID(tvdbRemoteId);
 
     @NotNull Integer episodenumber = jsonReader.getIntegerWithKey(episodeJson, "airedEpisodeNumber");
-    @NotNull String episodename = jsonReader.getStringWithKey(episodeJson, "episodeName");
+    @Nullable String episodename = jsonReader.getNullableStringWithKey(episodeJson, "episodeName");
     @NotNull Integer seasonnumber = jsonReader.getIntegerWithKey(episodeJson, "airedSeason");
     @Nullable String firstaired = jsonReader.getNullableStringWithKey(episodeJson, "firstAired");
 
@@ -245,7 +245,7 @@ class TVDBEpisodeV2Updater {
   }
 
   @Nullable
-  private TiVoEpisode findTiVoMatch(String episodeTitle,
+  private TiVoEpisode findTiVoMatch(@Nullable String episodeTitle,
                                     Integer tvdbSeason,
                                     Integer tvdbEpisodeNumber,
                                     @Nullable String firstAiredStr,
