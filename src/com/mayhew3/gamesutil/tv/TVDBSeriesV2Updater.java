@@ -32,6 +32,7 @@ public class TVDBSeriesV2Updater {
 
   private Integer _episodesAdded = 0;
   private Integer _episodesUpdated = 0;
+  private Integer episodesFailed = 0;
 
   public TVDBSeriesV2Updater(SQLConnection connection,
                              @NotNull Series series,
@@ -380,8 +381,6 @@ public class TVDBSeriesV2Updater {
       addChangeLogs(tvdbSeries);
     }
 
-    tvdbSeries.apiVersion.changeValue(2);
-
     tvdbSeries.commit(connection);
 
     series.tvdbSeriesId.changeValue(tvdbSeries.id.getValue());
@@ -411,16 +410,35 @@ public class TVDBSeriesV2Updater {
       } catch (Exception e) {
         debug("TVDB update of episode failed: ");
         e.printStackTrace();
+        episodesFailed++;
+        addMigrationError(series, episodeRemoteId, e);
       }
     }
 
     series.tvdbNew.changeValue(false);
     series.commit(connection);
 
+    // Change API version if no episodes failed.
+    if (episodesFailed == 0) {
+      tvdbSeries.apiVersion.changeValue(2);
+      tvdbSeries.commit(connection);
+    }
+
     debug(seriesTitle + ": Update complete! Added: " + seriesEpisodesAdded + "; Updated: " + seriesEpisodesUpdated);
 
   }
 
+  private void addMigrationError(Series series, Integer tvdbEpisodeExtId, Exception e) throws SQLException {
+    TVDBMigrationError migrationError = new TVDBMigrationError();
+    migrationError.initializeForInsert();
+
+    migrationError.seriesId.changeValue(series.id.getValue());
+    migrationError.tvdbEpisodeExtId.changeValue(tvdbEpisodeExtId);
+    migrationError.exceptionType.changeValue(e.getClass().toString());
+    migrationError.exceptionMsg.changeValue(e.getMessage());
+
+    migrationError.commit(connection);
+  }
 
   private void addChangeLogs(TVDBSeries tvdbSeries) throws SQLException {
     for (FieldValue fieldValue : tvdbSeries.getChangedFields()) {

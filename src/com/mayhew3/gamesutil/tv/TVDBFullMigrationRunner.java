@@ -6,32 +6,47 @@ import com.mayhew3.gamesutil.ArgumentChecker;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.model.tv.Series;
+import com.mayhew3.gamesutil.model.tv.TVDBMigrationError;
 import com.mayhew3.gamesutil.xml.BadlyFormattedXMLException;
 import com.mayhew3.gamesutil.xml.JSONReaderImpl;
 import com.mayhew3.gamesutil.xml.NodeReaderImpl;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 import java.net.URISyntaxException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class TVDBFullMigrationRunner {
 
-  private Integer seriesUpdates = 0;
-  private Integer episodesAdded = 0;
-  private Integer episodesUpdated = 0;
-
   private SQLConnection connection;
 
-  public TVDBFullMigrationRunner(SQLConnection connection) {
+  private TVDBFullMigrationRunner(SQLConnection connection) {
     this.connection = connection;
   }
 
-  public static void main(String... args) throws URISyntaxException, SQLException {
+  public static void main(String... args) throws URISyntaxException, SQLException, FileNotFoundException {
     List<String> argList = Lists.newArrayList(args);
     Boolean singleSeries = argList.contains("SingleSeries");
     Boolean quickMode = argList.contains("Quick");
+    Boolean logToFile = argList.contains("LogToFile");
     String identifier = new ArgumentChecker(args).getDBIdentifier();
+
+    if (logToFile) {
+      SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+      String dateFormatted = simpleDateFormat.format(new Date());
+
+      File file = new File("D:\\Projects\\mean_projects\\GamesDBUtil\\logs\\TVDBFullMigration_" + dateFormatted + ".log");
+      FileOutputStream fos = new FileOutputStream(file, true);
+      PrintStream ps = new PrintStream(fos);
+      System.setErr(ps);
+      System.setOut(ps);
+    }
 
     SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
     TVDBFullMigrationRunner tvdbUpdateRunner = new TVDBFullMigrationRunner(connection);
@@ -69,7 +84,7 @@ public class TVDBFullMigrationRunner {
    * @throws SQLException if query to get series to update fails. Any one series update will not halt operation of the
    *                    script, but if the query to find all the serieses fails, the operation can't continue.
    */
-  public void runQuickUpdate() throws SQLException {
+  private void runQuickUpdate() throws SQLException {
     String sql = "select *\n" +
         "from series\n" +
         "where ignore_tvdb = ? " +
@@ -107,11 +122,22 @@ public class TVDBFullMigrationRunner {
         processSingleSeries(resultSet, series);
       } catch (Exception e) {
         debug("Show failed on initialization from DB.");
+        addMigrationError(series, e);
       }
 
-      seriesUpdates++;
       debug(i + " processed.");
     }
+  }
+
+  private void addMigrationError(Series series, Exception e) throws SQLException {
+    TVDBMigrationError migrationError = new TVDBMigrationError();
+    migrationError.initializeForInsert();
+
+    migrationError.seriesId.changeValue(series.id.getValue());
+    migrationError.exceptionType.changeValue(e.getClass().toString());
+    migrationError.exceptionMsg.changeValue(e.getMessage());
+
+    migrationError.commit(connection);
   }
 
   private void processSingleSeries(ResultSet resultSet, Series series) throws SQLException {
@@ -129,29 +155,10 @@ public class TVDBFullMigrationRunner {
     TVDBSeriesUpdater updater = new TVDBSeriesUpdater(connection, series, new NodeReaderImpl(), new TVDBWebProvider());
     updater.updateSeries();
 
-    episodesAdded += updater.getEpisodesAdded();
-    episodesUpdated += updater.getEpisodesUpdated();
-
     TVDBSeriesV2Updater v2Updater = new TVDBSeriesV2Updater(connection, series, new TVDBJWTProviderImpl(), new JSONReaderImpl());
     v2Updater.updateSeries();
 
-    episodesAdded += updater.getEpisodesAdded();
-    episodesUpdated += updater.getEpisodesUpdated();
   }
-
-  public Integer getSeriesUpdates() {
-    return seriesUpdates;
-  }
-
-  public Integer getEpisodesAdded() {
-    return episodesAdded;
-  }
-
-  public Integer getEpisodesUpdated() {
-    return episodesUpdated;
-  }
-
-
 
   protected void debug(Object object) {
     System.out.println(object);
