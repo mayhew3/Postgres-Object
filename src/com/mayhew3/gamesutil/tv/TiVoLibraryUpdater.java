@@ -65,7 +65,7 @@ public class TiVoLibraryUpdater {
 
     if (!tiVoOnly) {
       try {
-        TVDBUpdateRunner tvdbUpdateRunner = new TVDBUpdateRunner(connection);
+        TVDBUpdateV2Runner tvdbUpdateRunner = new TVDBUpdateV2Runner(connection);
         tvdbUpdateRunner.runUpdate();
       } catch (SQLException e) {
         debug("Error downloading info from TVDB service.");

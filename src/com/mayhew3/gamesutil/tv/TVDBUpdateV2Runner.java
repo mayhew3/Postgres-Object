@@ -22,7 +22,7 @@ public class TVDBUpdateV2Runner {
 
   private SQLConnection connection;
 
-  private TVDBUpdateV2Runner(SQLConnection connection) {
+  TVDBUpdateV2Runner(SQLConnection connection) {
     this.connection = connection;
   }
 
