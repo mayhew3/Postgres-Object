@@ -384,6 +384,8 @@ public class TVDBSeriesV2Updater {
     tvdbSeries.commit(connection);
 
     series.tvdbSeriesId.changeValue(tvdbSeries.id.getValue());
+    series.lastTVDBUpdate.changeValue(new Date());
+
     series.commit(connection);
 
     Integer seriesEpisodesAdded = 0;
@@ -418,6 +420,7 @@ public class TVDBSeriesV2Updater {
           debug("TVDB update of episode failed: ");
           e.printStackTrace();
           episodesFailed++;
+          updateEpisodeLastError(episodeRemoteId);
           addMigrationError(series, episodeRemoteId, e);
         }
       }
@@ -437,6 +440,26 @@ public class TVDBSeriesV2Updater {
 
     debug(seriesTitle + ": Update complete! Added: " + seriesEpisodesAdded + "; Updated: " + seriesEpisodesUpdated);
 
+  }
+
+  private void updateEpisodeLastError(Integer tvdbEpisodeExtId) {
+    String sql = "SELECT e.* " +
+        "FROM episode e " +
+        "INNER JOIN tvdb_episode te " +
+        " ON te.id = e.tvdb_episode_id " +
+        "WHERE te.tvdb_episode_ext_id = ? " +
+        "AND te.retired = ?";
+    try {
+      @NotNull ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, tvdbEpisodeExtId, 0);
+      if (resultSet.next()) {
+        Episode episode = new Episode();
+        episode.initializeFromDBObject(resultSet);
+        episode.lastTVDBError.changeValue(new Date());
+        episode.commit(connection);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
 
   private void addMigrationError(Series series, Integer tvdbEpisodeExtId, Exception e) throws SQLException {

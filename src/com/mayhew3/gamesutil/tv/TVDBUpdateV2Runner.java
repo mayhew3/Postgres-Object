@@ -133,6 +133,8 @@ public class TVDBUpdateV2Runner {
         } catch (Exception e) {
           debug("Show failed on initialization from DB.");
         }
+      } else {
+        debug("Recently updated series not found: ID " + seriesId);
       }
     }
   }
@@ -166,6 +168,9 @@ public class TVDBUpdateV2Runner {
     } catch (Exception e) {
       e.printStackTrace();
       debug("Show failed TVDB: " + series.seriesTitle.getValue());
+
+      series.lastTVDBError.changeValue(new Date());
+      series.commit(connection);
     }
   }
 

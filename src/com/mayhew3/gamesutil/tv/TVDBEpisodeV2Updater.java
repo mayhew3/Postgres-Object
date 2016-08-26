@@ -174,6 +174,9 @@ class TVDBEpisodeV2Updater {
     if (episode.hasChanged()) {
       changed = true;
     }
+
+    episode.lastTVDBUpdate.changeValue(new Date());
+
     episode.commit(connection);
 
     Integer episodeId = tvdbEpisode.id.getValue();

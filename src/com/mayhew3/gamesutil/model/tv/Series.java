@@ -55,6 +55,12 @@ public class Series extends DataObject {
   public FieldValueBoolean tvdbNew = registerBooleanField("tvdb_new", Nullability.NOT_NULL).defaultValue(true);
   public FieldValueBoolean metacriticNew = registerBooleanField("metacritic_new", Nullability.NOT_NULL).defaultValue(true);
 
+
+  public FieldValueTimestamp lastTVDBUpdate = registerTimestampField("last_tvdb_update", Nullability.NULLABLE);
+  public FieldValueTimestamp lastTVDBError = registerTimestampField("last_tvdb_error", Nullability.NULLABLE);
+  public FieldValueTimestamp lastTVDBSanityCheck = registerTimestampField("last_tvdb_sanity_check", Nullability.NULLABLE);
+
+
   public Series() {
     addUniqueConstraint(tvdbSeriesExtId);
   }

@@ -38,6 +38,11 @@ public class Episode extends DataObject {
   public FieldValue<Boolean> watched = registerBooleanField("watched", Nullability.NOT_NULL).defaultValue(false);
   public FieldValueBoolean streaming = registerBooleanField("streaming", Nullability.NOT_NULL).defaultValue(false);
 
+  public FieldValueTimestamp lastTVDBUpdate = registerTimestampField("last_tvdb_update", Nullability.NULLABLE);
+  public FieldValueTimestamp lastTVDBError = registerTimestampField("last_tvdb_error", Nullability.NULLABLE);
+  public FieldValueTimestamp lastTVDBSanityCheck = registerTimestampField("last_tvdb_sanity_check", Nullability.NULLABLE);
+
+
   @Override
   protected String getTableName() {
     return "episode";
