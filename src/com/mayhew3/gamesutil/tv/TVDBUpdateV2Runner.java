@@ -7,12 +7,20 @@ import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.model.tv.Series;
 import com.mayhew3.gamesutil.xml.BadlyFormattedXMLException;
+import com.mayhew3.gamesutil.xml.JSONReader;
 import com.mayhew3.gamesutil.xml.JSONReaderImpl;
+import org.jetbrains.annotations.NotNull;
+import org.joda.time.DateTime;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.net.URISyntaxException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
+
+import static com.sun.xml.internal.bind.api.impl.NameConverter.smart;
 
 public class TVDBUpdateV2Runner {
 
@@ -22,23 +30,31 @@ public class TVDBUpdateV2Runner {
 
   private SQLConnection connection;
 
-  TVDBUpdateV2Runner(SQLConnection connection) {
+  private TVDBJWTProvider tvdbjwtProvider;
+  private JSONReader jsonReader;
+
+  TVDBUpdateV2Runner(SQLConnection connection, TVDBJWTProvider tvdbjwtProvider, JSONReader jsonReader) {
     this.connection = connection;
+    this.tvdbjwtProvider = tvdbjwtProvider;
+    this.jsonReader = jsonReader;
   }
 
-  public static void main(String... args) throws URISyntaxException, SQLException {
+  public static void main(String... args) throws URISyntaxException, SQLException, UnirestException {
     List<String> argList = Lists.newArrayList(args);
     Boolean singleSeries = argList.contains("SingleSeries");
     Boolean quickMode = argList.contains("Quick");
+    Boolean smartMode = argList.contains("Smart");
     String identifier = new ArgumentChecker(args).getDBIdentifier();
 
     SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
-    TVDBUpdateV2Runner tvdbUpdateRunner = new TVDBUpdateV2Runner(connection);
+    TVDBUpdateV2Runner tvdbUpdateRunner = new TVDBUpdateV2Runner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl());
 
     if (singleSeries) {
       tvdbUpdateRunner.runUpdateSingle();
     } else if (quickMode) {
       tvdbUpdateRunner.runQuickUpdate();
+    } else if (smartMode) {
+      tvdbUpdateRunner.runSmartUpdate();
     } else {
       tvdbUpdateRunner.runUpdate();
     }
@@ -92,6 +108,35 @@ public class TVDBUpdateV2Runner {
     runUpdateOnResultSet(resultSet);
   }
 
+  private void runSmartUpdate() throws SQLException, UnirestException {
+    DateTime now = new DateTime(new Date());
+    DateTime anHourAgo = now.minusHours(1);
+
+    JSONObject updatedSeries = tvdbjwtProvider.getUpdatedSeries(anHourAgo);
+    @NotNull JSONArray seriesArray = jsonReader.getArrayWithKey(updatedSeries, "data");
+
+    for (int i = 0; i < seriesArray.length(); i++) {
+      JSONObject seriesRow = seriesArray.getJSONObject(i);
+      @NotNull Integer seriesId = jsonReader.getIntegerWithKey(seriesRow, "id");
+
+      String sql = "select * " +
+          "from series " +
+          "where ignore_tvdb = ? " +
+          "and tvdb_series_ext_id = ?";
+
+      @NotNull ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, false, seriesId);
+      if (resultSet.next()) {
+        Series series = new Series();
+
+        try {
+          processSingleSeries(resultSet, series);
+        } catch (Exception e) {
+          debug("Show failed on initialization from DB.");
+        }
+      }
+    }
+  }
+
 
   private void runUpdateOnResultSet(ResultSet resultSet) throws SQLException {
     debug("Starting update.");
@@ -125,7 +170,7 @@ public class TVDBUpdateV2Runner {
   }
 
   private void updateTVDB(Series series) throws SQLException, BadlyFormattedXMLException, ShowFailedException, UnirestException {
-    TVDBSeriesV2Updater updater = new TVDBSeriesV2Updater(connection, series, new TVDBJWTProviderImpl(), new JSONReaderImpl());
+    TVDBSeriesV2Updater updater = new TVDBSeriesV2Updater(connection, series, tvdbjwtProvider, jsonReader);
     updater.updateSeries();
 
     episodesAdded += updater.getEpisodesAdded();

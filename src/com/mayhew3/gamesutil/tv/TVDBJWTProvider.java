@@ -1,6 +1,7 @@
 package com.mayhew3.gamesutil.tv;
 
 import com.mashape.unirest.http.exceptions.UnirestException;
+import org.joda.time.DateTime;
 import org.json.JSONObject;
 
 interface TVDBJWTProvider {
@@ -14,4 +15,6 @@ interface TVDBJWTProvider {
   JSONObject getEpisodeData(Integer tvdbEpisodeId) throws UnirestException;
 
   JSONObject getPosterData(Integer tvdbId) throws UnirestException;
+
+  JSONObject getUpdatedSeries(DateTime fromDate) throws UnirestException;
 }

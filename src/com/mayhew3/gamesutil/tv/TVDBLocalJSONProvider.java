@@ -1,6 +1,7 @@
 package com.mayhew3.gamesutil.tv;
 
 import com.mashape.unirest.http.exceptions.UnirestException;
+import org.joda.time.DateTime;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -42,6 +43,12 @@ class TVDBLocalJSONProvider implements TVDBJWTProvider {
   @Override
   public JSONObject getPosterData(Integer tvdbId) throws UnirestException {
     String filepath = filePrefix + tvdbId + "_posters.json";
+    return parseJSONObject(filepath);
+  }
+
+  @Override
+  public JSONObject getUpdatedSeries(DateTime fromDate) throws UnirestException {
+    String filepath = filePrefix + "_updated.json";
     return parseJSONObject(filepath);
   }
 

@@ -1,10 +1,12 @@
 package com.mayhew3.gamesutil.tv;
 
 import com.google.common.collect.Lists;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mayhew3.gamesutil.ArgumentChecker;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.xml.BadlyFormattedXMLException;
+import com.mayhew3.gamesutil.xml.JSONReaderImpl;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -65,10 +67,13 @@ public class TiVoLibraryUpdater {
 
     if (!tiVoOnly) {
       try {
-        TVDBUpdateV2Runner tvdbUpdateRunner = new TVDBUpdateV2Runner(connection);
+        TVDBUpdateV2Runner tvdbUpdateRunner = new TVDBUpdateV2Runner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl());
         tvdbUpdateRunner.runUpdate();
       } catch (SQLException e) {
         debug("Error downloading info from TVDB service.");
+        e.printStackTrace();
+      } catch (UnirestException e) {
+        debug("Error initiating TVDB credentials.");
         e.printStackTrace();
       }
     }
