@@ -6,6 +6,7 @@ import com.mayhew3.gamesutil.ArgumentChecker;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.model.tv.Series;
+import com.mayhew3.gamesutil.model.tv.TVDBConnectionLog;
 import com.mayhew3.gamesutil.xml.BadlyFormattedXMLException;
 import com.mayhew3.gamesutil.xml.JSONReader;
 import com.mayhew3.gamesutil.xml.JSONReaderImpl;
@@ -21,9 +22,9 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
-import static com.sun.xml.internal.bind.api.impl.NameConverter.smart;
-
 public class TVDBUpdateV2Runner {
+
+  private enum SeriesUpdateResult {UPDATE_SUCCESS, UPDATE_FAILED}
 
   private Integer seriesUpdates = 0;
   private Integer episodesAdded = 0;
@@ -33,6 +34,8 @@ public class TVDBUpdateV2Runner {
 
   private TVDBJWTProvider tvdbjwtProvider;
   private JSONReader jsonReader;
+
+  private TVDBConnectionLog tvdbConnectionLog;
 
   private final Integer ERROR_THRESHOLD = 3;
   private final Integer ERROR_FOLLOW_UP_THRESHOLD_IN_DAYS = 7;
@@ -57,23 +60,65 @@ public class TVDBUpdateV2Runner {
     TVDBUpdateV2Runner tvdbUpdateRunner = new TVDBUpdateV2Runner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl());
 
     if (singleSeries) {
-      tvdbUpdateRunner.runUpdateSingle();
+      tvdbUpdateRunner.runUpdate(TVDBUpdateType.SINGLE);
     } else if (quickMode) {
-      tvdbUpdateRunner.runQuickUpdate();
+      tvdbUpdateRunner.runUpdate(TVDBUpdateType.QUICK);
     } else if (smartMode) {
-      tvdbUpdateRunner.runSmartUpdate();
+      tvdbUpdateRunner.runUpdate(TVDBUpdateType.SMART);
     } else if (recentlyUpdatedOnly) {
-      tvdbUpdateRunner.runUpdateOnRecentlyUpdated();
+      tvdbUpdateRunner.runUpdate(TVDBUpdateType.RECENT);
     } else if (fewErrors) {
-      tvdbUpdateRunner.runUpdateOnRecentlyErrored();
+      tvdbUpdateRunner.runUpdate(TVDBUpdateType.FEW_ERRORS);
     } else if (oldErrors) {
-      tvdbUpdateRunner.runUpdateOnOldErrors();
+      tvdbUpdateRunner.runUpdate(TVDBUpdateType.OLD_ERRORS);
     } else {
-      tvdbUpdateRunner.runUpdate();
+      tvdbUpdateRunner.runUpdate(TVDBUpdateType.FULL);
     }
 
     // update denorms after changes.
     new SeriesDenormUpdater(connection).updateFields();
+  }
+
+  public void runUpdate(@NotNull TVDBUpdateType updateType) throws SQLException, UnirestException {
+
+    initializeConnectionLog(updateType);
+
+    try {
+      if (updateType.equals(TVDBUpdateType.FULL)) {
+        runUpdate();
+      } else if (updateType.equals(TVDBUpdateType.SMART)) {
+        runSmartUpdate();
+      } else if (updateType.equals(TVDBUpdateType.RECENT)) {
+        runUpdateOnRecentUpdateList();
+      } else if (updateType.equals(TVDBUpdateType.FEW_ERRORS)) {
+        runUpdateOnRecentlyErrored();
+      } else if (updateType.equals(TVDBUpdateType.OLD_ERRORS)) {
+        runUpdateOnOldErrors();
+      } else if (updateType.equals(TVDBUpdateType.SINGLE)) {
+        runUpdateSingle();
+      } else if (updateType.equals(TVDBUpdateType.QUICK)) {
+        runQuickUpdate();
+      }
+
+      tvdbConnectionLog.finishTime.changeValue(new Date());
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    } finally {
+      tvdbConnectionLog.commit(connection);
+      tvdbConnectionLog = null;
+    }
+
+  }
+
+  private void initializeConnectionLog(@NotNull TVDBUpdateType updateType) {
+    tvdbConnectionLog = new TVDBConnectionLog();
+    tvdbConnectionLog.initializeForInsert();
+
+    tvdbConnectionLog.startTime.changeValue(new Date());
+    tvdbConnectionLog.updatedShows.changeValue(0);
+    tvdbConnectionLog.failedShows.changeValue(0);
+    tvdbConnectionLog.updateType.changeValue(updateType.getTypekey());
   }
 
   /**
@@ -101,6 +146,8 @@ public class TVDBUpdateV2Runner {
     String sql = "select *\n" +
         "from series\n" +
         "where ignore_tvdb = ? " +
+        "and last_tvdb_error is null " +
+        "and last_tvdb_update is null " +
         "and (tvdb_new = ? or needs_tvdb_redo = ? or matched_wrong = ?) ";
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, false, true, true, true);
 
@@ -126,7 +173,7 @@ public class TVDBUpdateV2Runner {
     debug("-- STARTING UPDATE FOR TVDB RECENT UPDATE LIST -- ");
     debug("");
 
-    runUpdateOnRecentlyUpdated();
+    runUpdateOnRecentUpdateList();
 
     debug("");
     debug("-- STARTING UPDATE FOR RECENTLY FAILED SHOWS WITH FEW ERRORS -- ");
@@ -141,15 +188,27 @@ public class TVDBUpdateV2Runner {
     runUpdateOnOldErrors();
 
     debug("");
+    debug("-- STARTING UPDATE FOR NEWLY ADDED SHOWS -- ");
+    debug("");
+
+    runQuickUpdate();
+
+    debug("");
     debug("-- SMART UPDATE COMPLETE -- ");
     debug("");
   }
 
-  private void runUpdateOnRecentlyUpdated() throws UnirestException, SQLException {
-    DateTime now = new DateTime(new Date());
-    DateTime anHourAgo = now.minusHours(1);
+  private void runUpdateOnRecentUpdateList() throws UnirestException, SQLException {
 
-    JSONObject updatedSeries = tvdbjwtProvider.getUpdatedSeries(anHourAgo);
+    Timestamp mostRecentSuccessfulUpdate = getMostRecentSuccessfulUpdate();
+
+    JSONObject updatedSeries = tvdbjwtProvider.getUpdatedSeries(mostRecentSuccessfulUpdate);
+
+    if (updatedSeries.isNull("data")) {
+      debug("Empty list of TVDB updated.");
+      return;
+    }
+
     @NotNull JSONArray seriesArray = jsonReader.getArrayWithKey(updatedSeries, "data");
 
     for (int i = 0; i < seriesArray.length(); i++) {
@@ -166,7 +225,12 @@ public class TVDBUpdateV2Runner {
         Series series = new Series();
 
         try {
-          processSingleSeries(resultSet, series);
+          SeriesUpdateResult updateResult = processSingleSeries(resultSet, series);
+          if (SeriesUpdateResult.UPDATE_SUCCESS.equals(updateResult)) {
+            tvdbConnectionLog.updatedShows.increment(1);
+          } else {
+            tvdbConnectionLog.failedShows.increment(1);
+          }
         } catch (Exception e) {
           debug("Show failed on initialization from DB.");
         }
@@ -214,7 +278,12 @@ public class TVDBUpdateV2Runner {
       Series series = new Series();
 
       try {
-        processSingleSeries(resultSet, series);
+        @NotNull SeriesUpdateResult result = processSingleSeries(resultSet, series);
+        if (result.equals(SeriesUpdateResult.UPDATE_SUCCESS)) {
+          tvdbConnectionLog.updatedShows.increment(1);
+        } else {
+          tvdbConnectionLog.failedShows.increment(1);
+        }
       } catch (Exception e) {
         debug("Show failed on initialization from DB.");
       }
@@ -225,16 +294,41 @@ public class TVDBUpdateV2Runner {
     debug("Update complete for result set: " + i + " processed.");
   }
 
-  private void processSingleSeries(ResultSet resultSet, Series series) throws SQLException {
+  @NotNull
+  private SeriesUpdateResult processSingleSeries(ResultSet resultSet, Series series) throws SQLException {
     series.initializeFromDBObject(resultSet);
 
     try {
       updateTVDB(series);
       resetTVDBErrors(series);
+      return SeriesUpdateResult.UPDATE_SUCCESS;
     } catch (Exception e) {
       e.printStackTrace();
       debug("Show failed TVDB: " + series.seriesTitle.getValue());
       updateTVDBErrors(series);
+      return SeriesUpdateResult.UPDATE_FAILED;
+    }
+  }
+
+  private Timestamp getMostRecentSuccessfulUpdate() throws SQLException {
+    String sql = "select max(start_time) as max_start_time\n" +
+        "from tvdb_connection_log\n" +
+        "where update_type in (?, ?, ?)\n" +
+        "and finish_time is not null";
+    @NotNull ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql,
+        TVDBUpdateType.FULL.getTypekey(),
+        TVDBUpdateType.SMART.getTypekey(),
+        TVDBUpdateType.RECENT.getTypekey()
+    );
+    if (resultSet.next()) {
+      Timestamp maxStartTime = resultSet.getTimestamp("max_start_time");
+      if (maxStartTime == null) {
+        throw new IllegalStateException("Max start time should never be null.");
+      } else {
+        return maxStartTime;
+      }
+    } else {
+      throw new IllegalStateException("Max start time should never be an empty set.");
     }
   }
 

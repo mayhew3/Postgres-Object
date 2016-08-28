@@ -8,13 +8,13 @@ import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mashape.unirest.request.HttpRequest;
 import javafx.util.Pair;
-import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
@@ -94,10 +94,10 @@ class TVDBJWTProviderImpl implements TVDBJWTProvider {
   }
 
   @Override
-  public JSONObject getUpdatedSeries(DateTime fromDate) throws UnirestException {
+  public JSONObject getUpdatedSeries(Timestamp fromDate) throws UnirestException {
     Preconditions.checkState(token != null);
 
-    long epochTime = fromDate.toDate().getTime() / 1000L;
+    long epochTime = fromDate.getTime() / 1000L;
 
     String seriesUrl = "https://api.thetvdb.com/updated/query";
 

@@ -24,6 +24,7 @@ public class TVSchema {
       new TVDBSeries(),
       new TVDBMigrationError(),
       new TVDBMigrationLog(),
+      new TVDBConnectionLog(),
       new ViewingLocation()
   );
 

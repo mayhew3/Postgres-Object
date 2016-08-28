@@ -68,7 +68,7 @@ public class TiVoLibraryUpdater {
     if (!tiVoOnly) {
       try {
         TVDBUpdateV2Runner tvdbUpdateRunner = new TVDBUpdateV2Runner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl());
-        tvdbUpdateRunner.runUpdate();
+        tvdbUpdateRunner.runUpdate(TVDBUpdateType.SMART);
       } catch (SQLException e) {
         debug("Error downloading info from TVDB service.");
         e.printStackTrace();
@@ -78,7 +78,7 @@ public class TiVoLibraryUpdater {
       }
     }
 
-    if (!tiVoOnly && !tvdbOnly) {
+    if (lookAtAllShows) {
       try {
         MetacriticTVUpdater metacriticTVUpdater = new MetacriticTVUpdater(connection);
         metacriticTVUpdater.runUpdater();
