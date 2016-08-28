@@ -44,7 +44,7 @@ public class TVDBSeriesUpdater {
 
   void updateSeries() throws SQLException, BadlyFormattedXMLException, ShowFailedException {
     String seriesTitle = series.seriesTitle.getValue();
-    String seriesTiVoId = series.tivoSeriesExtId.getValue();
+    String seriesTiVoId = series.tivoSeriesV2ExtId.getValue();
 
     ErrorLog errorLog = getErrorLog(seriesTiVoId);
 
@@ -73,7 +73,7 @@ public class TVDBSeriesUpdater {
 
         updateShowData(series);
 
-        if (series.tivoSeriesExtId.getValue() != null) {
+        if (series.tivoSeriesV2ExtId.getValue() != null) {
           tryToMatchUnmatchedEpisodes(series);
         }
       }
@@ -125,12 +125,12 @@ public class TVDBSeriesUpdater {
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
         "SELECT te.* " +
             "FROM tivo_episode te " +
-            "WHERE te.tivo_series_ext_id = ? " +
+            "WHERE te.tivo_series_v2_ext_id = ? " +
             "AND NOT EXISTS (SELECT 1 " +
                             "FROM edge_tivo_episode ete " +
                             "WHERE ete.tivo_episode_id = te.id) " +
             "ORDER BY te.episode_number, te.showing_start_time",
-        series.tivoSeriesExtId.getValue()
+        series.tivoSeriesV2ExtId.getValue()
     );
     List<TiVoEpisode> tiVoEpisodes = new ArrayList<>();
     while (resultSet.next()) {
@@ -190,7 +190,7 @@ public class TVDBSeriesUpdater {
   @Nullable
   private Integer findTVDBMatch(Series series, @Nullable ErrorLog errorLog) throws SQLException, BadlyFormattedXMLException, IOException, SAXException {
     String seriesTitle = series.seriesTitle.getValue();
-    String tivoId = series.tivoSeriesExtId.getValue();
+    String tivoId = series.tivoSeriesV2ExtId.getValue();
     String tvdbHint = series.tvdbHint.getValue();
 
     String titleToCheck = (tvdbHint == null || "".equals(tvdbHint)) ?
@@ -327,7 +327,7 @@ public class TVDBSeriesUpdater {
 
   private void updateShowData(Series series) throws SQLException, BadlyFormattedXMLException {
     Integer tvdbID = series.tvdbSeriesExtId.getValue();
-    String tivoSeriesId = series.tivoSeriesExtId.getValue();
+    String tivoSeriesId = series.tivoSeriesV2ExtId.getValue();
     String seriesTitle = series.seriesTitle.getValue();
 
     Document document;
@@ -431,7 +431,7 @@ public class TVDBSeriesUpdater {
     errorLog.errorType.changeValue("NoMatchFound");
     errorLog.errorMessage.changeValue("Unable to find TVDB show with TiVo Name.");
 
-    addBasicErrorLog(series.tivoSeriesExtId.getValue(), errorLog);
+    addBasicErrorLog(series.tivoSeriesV2ExtId.getValue(), errorLog);
   }
 
 

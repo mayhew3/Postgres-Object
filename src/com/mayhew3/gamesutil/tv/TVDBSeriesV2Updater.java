@@ -47,7 +47,7 @@ public class TVDBSeriesV2Updater {
 
   void updateSeries() throws SQLException, ShowFailedException, UnirestException, BadlyFormattedXMLException {
     String seriesTitle = series.seriesTitle.getValue();
-    String seriesTiVoId = series.tivoSeriesExtId.getValue();
+    String seriesTiVoId = series.tivoSeriesV2ExtId.getValue();
 
     ErrorLog errorLog = getErrorLog(seriesTiVoId);
 
@@ -76,7 +76,7 @@ public class TVDBSeriesV2Updater {
 
         updateShowData(series);
 
-        if (series.tivoSeriesExtId.getValue() != null) {
+        if (series.tivoSeriesV2ExtId.getValue() != null) {
           tryToMatchUnmatchedEpisodes(series);
         }
       }
@@ -128,12 +128,12 @@ public class TVDBSeriesV2Updater {
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
         "SELECT te.* " +
             "FROM tivo_episode te " +
-            "WHERE te.tivo_series_ext_id = ? " +
+            "WHERE te.tivo_series_v2_ext_id = ? " +
             "AND NOT EXISTS (SELECT 1 " +
                             "FROM edge_tivo_episode ete " +
                             "WHERE ete.tivo_episode_id = te.id) " +
             "ORDER BY te.episode_number, te.showing_start_time",
-        series.tivoSeriesExtId.getValue()
+        series.tivoSeriesV2ExtId.getValue()
     );
     List<TiVoEpisode> tiVoEpisodes = new ArrayList<>();
     while (resultSet.next()) {
@@ -193,7 +193,7 @@ public class TVDBSeriesV2Updater {
   @Nullable
   private Integer findTVDBMatch(Series series, @Nullable ErrorLog errorLog) throws SQLException, IOException, SAXException, UnirestException {
     String seriesTitle = series.seriesTitle.getValue();
-    String tivoId = series.tivoSeriesExtId.getValue();
+    String tivoId = series.tivoSeriesV2ExtId.getValue();
     String tvdbHint = series.tvdbHint.getValue();
 
     String titleToCheck = (tvdbHint == null || "".equals(tvdbHint)) ?
@@ -514,7 +514,7 @@ public class TVDBSeriesV2Updater {
     errorLog.errorType.changeValue("NoMatchFound");
     errorLog.errorMessage.changeValue("Unable to find TVDB show with TiVo Name.");
 
-    addBasicErrorLog(series.tivoSeriesExtId.getValue(), errorLog);
+    addBasicErrorLog(series.tivoSeriesV2ExtId.getValue(), errorLog);
   }
 
 

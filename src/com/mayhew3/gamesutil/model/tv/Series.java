@@ -24,6 +24,7 @@ public class Series extends DataObject {
   public FieldValueInteger my_rating = registerIntegerField("my_rating", Nullability.NULLABLE, IntegerSize.SMALLINT);
 
   public FieldValueString tivoSeriesExtId = registerStringField("tivo_series_ext_id", Nullability.NULLABLE);
+  public FieldValueString tivoSeriesV2ExtId = registerStringField("tivo_series_v2_ext_id", Nullability.NULLABLE);
   public FieldValueInteger tvdbSeriesExtId = registerIntegerField("tvdb_series_ext_id", Nullability.NULLABLE);
 
   /* Matching Helpers */
@@ -54,6 +55,8 @@ public class Series extends DataObject {
 
   public FieldValueBoolean tvdbNew = registerBooleanField("tvdb_new", Nullability.NOT_NULL).defaultValue(true);
   public FieldValueBoolean metacriticNew = registerBooleanField("metacritic_new", Nullability.NOT_NULL).defaultValue(true);
+
+  public FieldValueInteger tivoVersion = registerIntegerField("tivo_version", Nullability.NOT_NULL).defaultValue(1);
 
 
   public FieldValueTimestamp lastTVDBUpdate = registerTimestampField("last_tvdb_update", Nullability.NULLABLE);

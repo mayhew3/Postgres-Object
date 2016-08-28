@@ -33,11 +33,17 @@ public class Movie extends DataObject {
   public FieldValue<Integer> rating = registerIntegerField("rating", Nullability.NULLABLE);
 
   public FieldValue<String> tivoSeriesExtId = registerStringField("tivo_series_ext_id", Nullability.NULLABLE);
+  public FieldValue<String> tivoSeriesV2ExtId = registerStringField("tivo_series_v2_ext_id", Nullability.NULLABLE);
   public FieldValue<String> programId = registerStringField("program_id", Nullability.NULLABLE);
+  public FieldValue<String> programV2Id = registerStringField("program_v2_id", Nullability.NULLABLE);
   public FieldValue<String> seriesTitle = registerStringField("series_title", Nullability.NULLABLE);
   public FieldValue<String> description = registerStringField("description", Nullability.NULLABLE);
   public FieldValue<String> station = registerStringField("station", Nullability.NULLABLE);
   public FieldValue<String> url = registerStringField("url", Nullability.NULLABLE);
+
+  public Movie() {
+    addUniqueConstraint(title, captureDate, retired);
+  }
 
   @Override
   protected String getTableName() {
