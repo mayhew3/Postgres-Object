@@ -97,7 +97,7 @@ public class TVDBUpdateV2Runner {
 
 
   private void runUpdateSingle() throws SQLException {
-    String singleSeriesTitle = "Halt and Catch Fire"; // update for testing on a single series
+    String singleSeriesTitle = "Reign"; // update for testing on a single series
 
     String sql = "select *\n" +
         "from series\n" +
@@ -165,13 +165,24 @@ public class TVDBUpdateV2Runner {
 
     try {
       updateTVDB(series);
+      resetTVDBErrors(series);
     } catch (Exception e) {
       e.printStackTrace();
       debug("Show failed TVDB: " + series.seriesTitle.getValue());
-
-      series.lastTVDBError.changeValue(new Date());
-      series.commit(connection);
+      updateTVDBErrors(series);
     }
+  }
+
+  private void updateTVDBErrors(Series series) throws SQLException {
+    series.lastTVDBError.changeValue(new Date());
+    series.consecutiveTVDBErrors.increment(1);
+    series.commit(connection);
+  }
+
+  private void resetTVDBErrors(Series series) throws SQLException {
+    series.lastTVDBError.changeValue(null);
+    series.consecutiveTVDBErrors.changeValue(0);
+    series.commit(connection);
   }
 
   private void updateTVDB(Series series) throws SQLException, BadlyFormattedXMLException, ShowFailedException, UnirestException {
