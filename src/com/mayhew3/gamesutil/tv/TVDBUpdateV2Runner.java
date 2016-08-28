@@ -202,6 +202,8 @@ public class TVDBUpdateV2Runner {
 
     Timestamp mostRecentSuccessfulUpdate = getMostRecentSuccessfulUpdate();
 
+    validateLastUpdate(mostRecentSuccessfulUpdate);
+
     JSONObject updatedSeries = tvdbjwtProvider.getUpdatedSeries(mostRecentSuccessfulUpdate);
 
     if (updatedSeries.isNull("data")) {
@@ -237,6 +239,14 @@ public class TVDBUpdateV2Runner {
       } else {
         debug("Recently updated series not found: ID " + seriesId);
       }
+    }
+  }
+
+  private void validateLastUpdate(Timestamp mostRecentSuccessfulUpdate) {
+    DateTime mostRecent = new DateTime(mostRecentSuccessfulUpdate);
+    DateTime sixDaysAgo = new DateTime().minusDays(6);
+    if (mostRecent.isBefore(sixDaysAgo)) {
+      throw new IllegalStateException("No updates in 6 days! Need to run a full update to catch up!");
     }
   }
 
