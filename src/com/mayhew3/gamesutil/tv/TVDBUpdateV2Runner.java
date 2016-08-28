@@ -17,6 +17,7 @@ import org.json.JSONObject;
 import java.net.URISyntaxException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -33,6 +34,9 @@ public class TVDBUpdateV2Runner {
   private TVDBJWTProvider tvdbjwtProvider;
   private JSONReader jsonReader;
 
+  private final Integer ERROR_THRESHOLD = 3;
+  private final Integer ERROR_FOLLOW_UP_THRESHOLD_IN_DAYS = 7;
+
   TVDBUpdateV2Runner(SQLConnection connection, TVDBJWTProvider tvdbjwtProvider, JSONReader jsonReader) {
     this.connection = connection;
     this.tvdbjwtProvider = tvdbjwtProvider;
@@ -44,6 +48,9 @@ public class TVDBUpdateV2Runner {
     Boolean singleSeries = argList.contains("SingleSeries");
     Boolean quickMode = argList.contains("Quick");
     Boolean smartMode = argList.contains("Smart");
+    Boolean recentlyUpdatedOnly = argList.contains("Recent");
+    Boolean fewErrors = argList.contains("FewErrors");
+    Boolean oldErrors = argList.contains("OldErrors");
     String identifier = new ArgumentChecker(args).getDBIdentifier();
 
     SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
@@ -55,6 +62,12 @@ public class TVDBUpdateV2Runner {
       tvdbUpdateRunner.runQuickUpdate();
     } else if (smartMode) {
       tvdbUpdateRunner.runSmartUpdate();
+    } else if (recentlyUpdatedOnly) {
+      tvdbUpdateRunner.runUpdateOnRecentlyUpdated();
+    } else if (fewErrors) {
+      tvdbUpdateRunner.runUpdateOnRecentlyErrored();
+    } else if (oldErrors) {
+      tvdbUpdateRunner.runUpdateOnOldErrors();
     } else {
       tvdbUpdateRunner.runUpdate();
     }
@@ -109,6 +122,30 @@ public class TVDBUpdateV2Runner {
   }
 
   private void runSmartUpdate() throws SQLException, UnirestException {
+    debug("");
+    debug("-- STARTING UPDATE FOR TVDB RECENT UPDATE LIST -- ");
+    debug("");
+
+    runUpdateOnRecentlyUpdated();
+
+    debug("");
+    debug("-- STARTING UPDATE FOR RECENTLY FAILED SHOWS WITH FEW ERRORS -- ");
+    debug("");
+
+    runUpdateOnRecentlyErrored();
+
+    debug("");
+    debug("-- STARTING UPDATE FOR OLD FAILED SHOWS WITH MANY ERRORS -- ");
+    debug("");
+
+    runUpdateOnOldErrors();
+
+    debug("");
+    debug("-- SMART UPDATE COMPLETE -- ");
+    debug("");
+  }
+
+  private void runUpdateOnRecentlyUpdated() throws UnirestException, SQLException {
     DateTime now = new DateTime(new Date());
     DateTime anHourAgo = now.minusHours(1);
 
@@ -139,6 +176,33 @@ public class TVDBUpdateV2Runner {
     }
   }
 
+  private void runUpdateOnRecentlyErrored() throws SQLException {
+    String sql = "select *\n" +
+        "from series\n" +
+        "where last_tvdb_error is not null\n" +
+        "and consecutive_tvdb_errors < ?\n" +
+        "and ignore_tvdb = ?";
+
+    @NotNull ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, ERROR_THRESHOLD, false);
+    runUpdateOnResultSet(resultSet);
+  }
+
+  private void runUpdateOnOldErrors() throws SQLException {
+    DateTime now = new DateTime(new Date());
+    DateTime aWeekAgo = now.minusDays(ERROR_FOLLOW_UP_THRESHOLD_IN_DAYS);
+    Timestamp timestamp = new Timestamp(aWeekAgo.toDate().getTime());
+
+    String sql = "select *\n" +
+        "from series\n" +
+        "where last_tvdb_error is not null\n" +
+        "and last_tvdb_error < ?\n" +
+        "and consecutive_tvdb_errors >= ?\n" +
+        "and ignore_tvdb = ?";
+
+    @NotNull ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, timestamp, ERROR_THRESHOLD, false);
+    runUpdateOnResultSet(resultSet);
+  }
+
 
   private void runUpdateOnResultSet(ResultSet resultSet) throws SQLException {
     debug("Starting update.");
@@ -156,8 +220,9 @@ public class TVDBUpdateV2Runner {
       }
 
       seriesUpdates++;
-      debug(i + " processed.");
     }
+
+    debug("Update complete for result set: " + i + " processed.");
   }
 
   private void processSingleSeries(ResultSet resultSet, Series series) throws SQLException {
