@@ -1,6 +1,13 @@
 package com.mayhew3.gamesutil.model.tv;
 
+import com.google.common.base.Preconditions;
 import com.mayhew3.gamesutil.dataobject.*;
+import com.mayhew3.gamesutil.db.SQLConnection;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class TVDBSeries extends DataObject {
 
@@ -40,4 +47,25 @@ public class TVDBSeries extends DataObject {
     return name.getValue();
   }
 
+  @Nullable
+  public TVDBPoster addPoster(String posterPath, @Nullable Integer season, SQLConnection connection) throws SQLException {
+    Preconditions.checkNotNull(id.getValue(), "Cannot insert join entity until TVDBSeries object is committed (id is non-null)");
+
+    @NotNull ResultSet resultSet = connection.prepareAndExecuteStatementFetch("SELECT 1 " +
+        "FROM tvdb_poster " +
+        "WHERE poster_path = ? " +
+        "AND tvdb_series_id = ?",
+        posterPath, id.getValue());
+    if (!resultSet.next()) {
+      TVDBPoster tvdbPoster = new TVDBPoster();
+      tvdbPoster.initializeForInsert();
+      tvdbPoster.posterPath.changeValue(posterPath);
+      tvdbPoster.tvdb_series_id.changeValue(id.getValue());
+      tvdbPoster.season.changeValue(season);
+      tvdbPoster.commit(connection);
+
+      return tvdbPoster;
+    }
+    return null;
+  }
 }

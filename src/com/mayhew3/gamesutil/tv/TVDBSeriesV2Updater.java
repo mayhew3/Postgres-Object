@@ -383,6 +383,12 @@ public class TVDBSeriesV2Updater {
 
     tvdbSeries.commit(connection);
 
+    for (int i = 0; i < images.length(); i++) {
+      JSONObject image = images.getJSONObject(i);
+      @NotNull String filename = jsonReader.getStringWithKey(image, "fileName");
+      tvdbSeries.addPoster(filename, null, connection);
+    }
+
     series.tvdbSeriesId.changeValue(tvdbSeries.id.getValue());
     series.lastTVDBUpdate.changeValue(new Date());
 

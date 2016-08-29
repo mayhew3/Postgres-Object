@@ -21,6 +21,7 @@ public class TVSchema {
       new TiVoEpisode(),
       new TmpRating(),
       new TVDBEpisode(),
+      new TVDBPoster(),
       new TVDBSeries(),
       new TVDBMigrationError(),
       new TVDBMigrationLog(),
