@@ -1,6 +1,7 @@
 package com.mayhew3.gamesutil.tv;
 
 import com.mashape.unirest.http.exceptions.UnirestException;
+import org.fest.util.VisibleForTesting;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -9,10 +10,11 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.Timestamp;
 
-class TVDBLocalJSONProvider implements TVDBJWTProvider {
+@VisibleForTesting
+public class TVDBLocalJSONProvider implements TVDBJWTProvider {
   private String filePrefix = "resources\\TVDBTest\\";
 
-  TVDBLocalJSONProvider(String localFilePath) {
+  public TVDBLocalJSONProvider(String localFilePath) {
     this.filePrefix = localFilePath;
   }
 

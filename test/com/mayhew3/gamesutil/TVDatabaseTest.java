@@ -8,7 +8,7 @@ import org.junit.Before;
 
 import java.net.URISyntaxException;
 import java.sql.SQLException;
-
+import java.sql.Timestamp;
 
 
 public abstract class TVDatabaseTest {

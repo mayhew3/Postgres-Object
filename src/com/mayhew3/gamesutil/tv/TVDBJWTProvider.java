@@ -5,7 +5,7 @@ import org.json.JSONObject;
 
 import java.sql.Timestamp;
 
-interface TVDBJWTProvider {
+public interface TVDBJWTProvider {
 
   JSONObject findSeriesMatches(String formattedTitle) throws UnirestException;
 

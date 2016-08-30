@@ -128,7 +128,9 @@ class TVDBEpisodeV2Updater {
     tvdbEpisode.seasonNumber.changeValue(seasonnumber);
     tvdbEpisode.episodeNumber.changeValue(episodenumber);
     tvdbEpisode.name.changeValue(episodename);
-    tvdbEpisode.firstAired.changeValueFromString(firstaired);
+
+    updateLinkedFieldsIfNotOverridden(episode.airDate, tvdbEpisode.firstAired, firstaired);
+
     tvdbEpisode.tvdbSeriesId.changeValue(series.tvdbSeriesId.getValue());
     tvdbEpisode.overview.changeValue(jsonReader.getNullableStringWithKey(episodeJson, "overview"));
     tvdbEpisode.productionCode.changeValue(jsonReader.getNullableStringWithKey(episodeJson, "productionCode"));
@@ -168,7 +170,6 @@ class TVDBEpisodeV2Updater {
     episode.setSeason(seasonnumber, connection);
     episode.absoluteNumber.changeValue(absoluteNumber);
     episode.episodeNumber.changeValue(episodenumber);
-    episode.airDate.changeValueFromString(firstaired);
     episode.streaming.changeValue(series.isStreaming(connection));
 
     if (episode.hasChanged()) {
@@ -216,6 +217,14 @@ class TVDBEpisodeV2Updater {
 
       tvdbMigrationLog.commit(connection);
     }
+  }
+
+  private <T> void updateLinkedFieldsIfNotOverridden(FieldValue<T> slaveField, FieldValue<T> masterField, @Nullable String newValue) {
+    if (slaveField.getValue() == null ||
+        slaveField.getValue().equals(masterField.getValue())) {
+      slaveField.changeValueFromString(newValue);
+    }
+    masterField.changeValueFromString(newValue);
   }
 
   @Nullable
