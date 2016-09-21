@@ -326,7 +326,9 @@ public class TiVoCommunicator {
   private void updateTiVoFieldsOnExistingSeries(TiVoInfo tivoInfo, Series series) throws SQLException {
     series.tivoSeriesV2ExtId.changeValue(tivoInfo.tivoId);
     series.tivoName.changeValue(tivoInfo.seriesTitle);
-    series.isSuggestion.changeValue(tivoInfo.isSuggestion);
+    if (!tivoInfo.isSuggestion) {
+      series.isSuggestion.changeValue(tivoInfo.isSuggestion);
+    }
     series.matchedWrong.changeValue(false);
     series.tivoVersion.changeValue(2);
 
