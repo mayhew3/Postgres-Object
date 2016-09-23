@@ -354,15 +354,6 @@ public class TiVoCommunicator {
       episodesOnTiVo.add(tivoInfo.programId);
     }
 
-    if (tivoEpisodeExists && !lookAtAllShows) {
-      TiVoEpisode tiVoEpisode = new TiVoEpisode();
-      tiVoEpisode.initializeFromDBObject(existingTiVoEpisode);
-      tiVoEpisode.recordingNow.changeValue(tivoInfo.recordingNow);
-      tiVoEpisode.suggestion.changeValue(tivoInfo.isSuggestion);
-      tiVoEpisode.commit(sqlConnection);
-      return true;
-    }
-
     TiVoEpisode tivoEpisode = getOrCreateTiVoEpisode(showDetails, tivoInfo, existingTiVoEpisode, tivoEpisodeExists);
 
     List<Episode> linkedEpisodes = tivoEpisode.getEpisodes(sqlConnection);
@@ -385,7 +376,7 @@ public class TiVoCommunicator {
       }
     }
 
-    return false;
+    return tivoEpisodeExists && !lookAtAllShows;
   }
 
   @NotNull

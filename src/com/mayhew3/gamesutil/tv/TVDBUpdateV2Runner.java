@@ -146,9 +146,8 @@ public class TVDBUpdateV2Runner {
     String sql = "select *\n" +
         "from series\n" +
         "where ignore_tvdb = ? " +
-        "and last_tvdb_error is null " +
-        "and last_tvdb_update is null " +
-        "and (tvdb_new = ? or needs_tvdb_redo = ? or matched_wrong = ?) ";
+        "and ((tvdb_new = ? and last_tvdb_error is null and last_tvdb_update is null) " +
+        "   or needs_tvdb_redo = ? or matched_wrong = ?) ";
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, false, true, true, true);
 
     runUpdateOnResultSet(resultSet);
@@ -157,7 +156,7 @@ public class TVDBUpdateV2Runner {
 
 
   private void runUpdateSingle() throws SQLException {
-    String singleSeriesTitle = "The Hunt"; // update for testing on a single series
+    String singleSeriesTitle = "The Good Place"; // update for testing on a single series
 
     String sql = "select *\n" +
         "from series\n" +
