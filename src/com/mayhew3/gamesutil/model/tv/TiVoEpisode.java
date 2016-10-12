@@ -43,7 +43,7 @@ public class TiVoEpisode extends DataObject {
 
 
   public TiVoEpisode() {
-    addUniqueConstraint(programId, programV2Id, retired);
+    addUniqueConstraint(programId, programV2Id, captureDate, retired);
     addUniqueConstraint(captureDate, seriesTitle, retired);
   }
 

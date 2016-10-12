@@ -21,7 +21,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.*;
+import java.net.URISyntaxException;
+import java.net.UnknownHostException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -29,6 +30,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class TiVoCommunicator {
 
@@ -79,14 +81,14 @@ public class TiVoCommunicator {
 
     SSLTool.disableCertificateValidation();
 
-    /**
-     * What I learned:
-     * - SSL is a pain in the butt.
-     * - There may be a magic combination of saving the certificate from the browser, running the keytool utility,
-     *   adding the right VM parameters to recognize it, create a Keystore, Trusting something, running it through
-     *   an SSL Factory and Https connection, but I was never able to get it to recognize the certificate.
-     * - Because I'm only running this over the local network, I'm just disabling the validation completely, which
-     *   is hacky, but seems to work. (After getting the Authorization popup to work. See DatabaseUtility#readXMLFromTivoUrl.
+    /*
+      What I learned:
+      - SSL is a pain in the butt.
+      - There may be a magic combination of saving the certificate from the browser, running the keytool utility,
+        adding the right VM parameters to recognize it, create a Keystore, Trusting something, running it through
+        an SSL Factory and Https connection, but I was never able to get it to recognize the certificate.
+      - Because I'm only running this over the local network, I'm just disabling the validation completely, which
+        is hacky, but seems to work. (After getting the Authorization popup to work. See DatabaseUtility#readXMLFromTivoUrl.
      */
 
     updateFields();
@@ -342,13 +344,14 @@ public class TiVoCommunicator {
    * @throws SQLException
    */
   private Boolean addEpisodeIfNotExists(NodeList showDetails, Series series, TiVoInfo tivoInfo) throws SQLException, BadlyFormattedXMLException {
-    ResultSet existingTiVoEpisode = getExistingTiVoEpisodes(tivoInfo.programId);
+    ResultSet existingTiVoEpisode = getExistingTiVoEpisodes(tivoInfo);
     Boolean tivoEpisodeExists = existingTiVoEpisode.next();
 
     if (!tivoEpisodeExists) {
       existingTiVoEpisode = getExistingV1Match(tivoInfo);
       tivoEpisodeExists = existingTiVoEpisode.next();
     }
+
 
     if (lookAtAllShows) {
       episodesOnTiVo.add(tivoInfo.programId);
@@ -360,23 +363,48 @@ public class TiVoCommunicator {
 
     // if we already have any linked episodes, don't try to match again.
     if (linkedEpisodes.isEmpty()) {
+      List<Episode> fromRepeats = getLinkedFromRepeats(tivoEpisode);
+      if (fromRepeats.isEmpty()) {
 
-      TVDBEpisodeMatcher matcher = new TVDBEpisodeMatcher(sqlConnection, tivoEpisode, series.id.getValue());
-      TVDBEpisode tvdbEpisode = matcher.findTVDBEpisodeMatch();
+        TVDBEpisodeMatcher matcher = new TVDBEpisodeMatcher(sqlConnection, tivoEpisode, series.id.getValue());
+        TVDBEpisode tvdbEpisode = matcher.findTVDBEpisodeMatch();
 
-      // if we found a good match for tivo episode, link it
-      if (tvdbEpisode != null) {
-        Episode episode = tvdbEpisode.getEpisode(sqlConnection);
+        // if we found a good match for tivo episode, link it
+        if (tvdbEpisode != null) {
+          Episode episode = tvdbEpisode.getEpisode(sqlConnection);
 
-        updatedShows++;
+          updatedShows++;
 
-        episode.addToTiVoEpisodes(sqlConnection, tivoEpisode);
-        updateSeriesDenorms(tivoEpisode, episode, series);
+          episode.addToTiVoEpisodes(sqlConnection, tivoEpisode);
+          updateSeriesDenorms(tivoEpisode, episode, series);
+          series.commit(sqlConnection);
+        }
+      } else {
+        for (Episode episode : fromRepeats) {
+          episode.addToTiVoEpisodes(sqlConnection, tivoEpisode);
+          updateSeriesDenorms(tivoEpisode, episode, series);
+        }
         series.commit(sqlConnection);
       }
     }
 
     return tivoEpisodeExists && !lookAtAllShows;
+  }
+
+  private List<Episode> getLinkedFromRepeats(TiVoEpisode tiVoEpisode) throws SQLException {
+    String programId = tiVoEpisode.programV2Id.getValue();
+    ResultSet resultSet = getExistingTiVoEpisodes(programId);
+
+    while (resultSet.next()) {
+      TiVoEpisode otherEpisode = new TiVoEpisode();
+      otherEpisode.initializeFromDBObject(resultSet);
+
+      if (!Objects.equals(otherEpisode.id.getValue(), tiVoEpisode.id.getValue())) {
+        return otherEpisode.getEpisodes(sqlConnection);
+      }
+    }
+
+    return new ArrayList<>();
   }
 
   @NotNull
@@ -454,9 +482,6 @@ public class TiVoCommunicator {
     tivoEpisode.seriesTitle.changeValue(tivoInfo.seriesTitle);
     tivoEpisode.recordingNow.changeValue(tivoInfo.recordingNow);
 
-    // todo: check for duplicate (program_v2_id, retired). Do some research. In these cases, are two episodes
-    // todo: on TiVo with same program_v2_id, or is one deleted but not marked yet? Either way I think we should update
-    // todo: instead of insert.
     tivoEpisode.commit(sqlConnection);
     return tivoEpisode;
   }
@@ -540,6 +565,19 @@ public class TiVoCommunicator {
 
   private ResultSet getExistingTiVoEpisodes(String programId) throws SQLException {
     return sqlConnection.prepareAndExecuteStatementFetch("SELECT * FROM tivo_episode WHERE program_v2_id = ? AND retired = ?", programId, 0);
+  }
+
+  private ResultSet getExistingTiVoEpisodes(TiVoInfo tiVoInfo) throws SQLException {
+    long numberOfSeconds = Long.decode(tiVoInfo.captureDate);
+    Timestamp captureDateTimestamp = new Timestamp(numberOfSeconds * 1000);
+
+    return sqlConnection.prepareAndExecuteStatementFetch(
+        "SELECT * " +
+            "FROM tivo_episode " +
+            "WHERE program_v2_id = ? " +
+            "AND capture_date = ? " +
+            "AND retired = ?",
+        tiVoInfo.programId, captureDateTimestamp, 0);
   }
 
   private ResultSet getExistingMovies(String programId) throws SQLException {
