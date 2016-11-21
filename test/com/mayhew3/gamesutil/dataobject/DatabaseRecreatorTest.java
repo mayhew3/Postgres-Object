@@ -28,4 +28,21 @@ public class DatabaseRecreatorTest {
       fail();
     }
   }
+/*
+  @Test
+  public void testRecreateDemoDatabase() throws URISyntaxException, SQLException {
+    SQLConnection connection = new PostgresConnectionFactory().createConnection("demo");
+    new DatabaseRecreator(connection).recreateDatabase(TVSchema.tv_schema);
+
+    List<DataObjectMismatch> mismatches = TVSchema.tv_schema.validateSchemaAgainstDatabase(connection);
+
+    if (!mismatches.isEmpty()) {
+      System.out.println("Mismatches found: ");
+      for (DataObjectMismatch mismatch : mismatches) {
+        System.out.println(" - " + mismatch);
+      }
+      fail();
+    }
+  }
+  */
 }

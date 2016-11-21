@@ -18,6 +18,7 @@ public class PostgresConnectionFactory extends ConnectionFactory {
     programToEnv.put("heroku", "postgresURL");
     programToEnv.put("local", "postgresURL_local");
     programToEnv.put("test", "postgresURL_local_test");
+    programToEnv.put("demo", "postgresURL_local_demo");
   }
 
   @Override

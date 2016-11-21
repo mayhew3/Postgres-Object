@@ -21,6 +21,9 @@ public class ArgumentChecker {
     if (argList.contains("Heroku")) {
       return "heroku";
     }
+    if (argList.contains("Demo")) {
+      return "demo";
+    }
     throw new IllegalArgumentException("Need to specify either Test or Local or Heroku in arguments.");
   }
 }
