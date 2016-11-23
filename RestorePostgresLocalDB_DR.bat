@@ -1,5 +1,5 @@
 setlocal
-set fullBackupPath=D:\Dropbox\Projects\MediaMogul\2016_11_20_16_19
+set fullBackupPath=D:\Dropbox\Projects\MediaMogul\Backups\TV\2016_11_22_19_01
 
 set PGPASSFILE=%postgres_pgpass_local%
 echo %PGPASSFILE%
