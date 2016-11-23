@@ -15,7 +15,7 @@ public class PostgresConnectionFactory extends ConnectionFactory {
 
   public PostgresConnectionFactory() {
     programToEnv = new HashMap<>();
-    programToEnv.put("heroku", "postgresURL");
+    programToEnv.put("heroku", "postgresURL_heroku");
     programToEnv.put("local", "postgresURL_local");
     programToEnv.put("test", "postgresURL_local_test");
     programToEnv.put("demo", "postgresURL_local_demo");
