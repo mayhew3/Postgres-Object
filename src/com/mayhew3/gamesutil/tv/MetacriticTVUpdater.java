@@ -6,6 +6,8 @@ import com.mayhew3.gamesutil.model.tv.Season;
 import com.mayhew3.gamesutil.model.tv.Series;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
+import org.jetbrains.annotations.Nullable;
+import org.joda.time.DateTime;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -16,6 +18,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -66,7 +69,7 @@ public class MetacriticTVUpdater {
 
 
   private void runUpdateSingle() throws SQLException {
-    String singleSeriesTitle = "Idiotsitter"; // update for testing on a single series
+    String singleSeriesTitle = "Prey"; // update for testing on a single series
 
     String sql = "select *\n" +
         "from series\n" +
@@ -108,36 +111,59 @@ public class MetacriticTVUpdater {
     String title = series.seriesTitle.getValue();
     debug("Metacritic update for: " + title);
 
+    List<String> stringsToTry = new ArrayList<>();
+
     String hint = series.metacriticHint.getValue();
-    String formattedTitle = hint == null ?
-        title
-        .toLowerCase()
-        .replaceAll(" ", "-")
-        .replaceAll("'", "")
-        .replaceAll("\\.", "") :
-        hint
-        ;
+
+    if (hint != null) {
+      stringsToTry.add(hint);
+    } else {
+      String formattedTitle =
+          title
+              .toLowerCase()
+              .replaceAll(" ", "-")
+              .replaceAll("'", "")
+              .replaceAll("\\.", "");
+
+      Integer year = new DateTime(new Date()).getYear();
+      String formattedTitleWithYear = formattedTitle + "-" + year;
+
+      stringsToTry.add(formattedTitleWithYear);
+      stringsToTry.add(formattedTitle);
+    }
 
     Integer seasonNumber = 1;
     Boolean failed = false;
 
-    try {
-      findMetacriticForString(series, formattedTitle, 1);
-    } catch (IOException e) {
-      throw new MetacriticException("Couldn't find Metacritic page for series '" + title + "' with formatted '" + formattedTitle + "'");
+    String matchedTitle = findMetacriticForStrings(series, stringsToTry);
+
+    if (matchedTitle == null) {
+      throw new MetacriticException("Couldn't find Metacritic page for series '" + title + "' with formatted '" + stringsToTry + "'");
     }
 
     while (!failed) {
       seasonNumber++;
 
       try {
-        findMetacriticForString(series, formattedTitle + "/season-" + seasonNumber, seasonNumber);
+        findMetacriticForString(series, matchedTitle + "/season-" + seasonNumber, seasonNumber);
       } catch (Exception e) {
         failed = true;
         debug("Finished finding seasons after Season " + (seasonNumber-1));
       }
     }
+  }
 
+  @Nullable
+  private String findMetacriticForStrings(Series series, List<String> stringsToTry) {
+    for (String stringToTry : stringsToTry) {
+      try {
+        findMetacriticForString(series, stringToTry, 1);
+        return stringToTry;
+      } catch (Exception e) {
+        debug("Unable to find metacritic page for string: " + stringToTry);
+      }
+    }
+    return null;
   }
 
   private void findMetacriticForString(Series series, String formattedTitle, Integer seasonNumber) throws IOException, SQLException, MetacriticException {
