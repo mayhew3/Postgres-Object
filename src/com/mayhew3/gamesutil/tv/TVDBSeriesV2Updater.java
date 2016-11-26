@@ -10,6 +10,7 @@ import com.mayhew3.gamesutil.xml.JSONReader;
 import com.mayhew3.gamesutil.xml.JSONReaderImpl;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.xml.sax.SAXException;
@@ -208,17 +209,22 @@ public class TVDBSeriesV2Updater {
         .toLowerCase()
         .replaceAll(" ", "_");
 
-    debug("Update for: " + seriesTitle + ", formatted as '" + formattedTitle + "'");
+    Integer year = new DateTime(new Date()).getYear();
+    String formattedTitleWithYear = formattedTitle + "_(" + year + ")";
 
-    JSONObject seriesMatches = tvdbDataProvider.findSeriesMatches(formattedTitle);
-    JSONArray seriesNodes = seriesMatches.getJSONArray("data");
+    JSONArray seriesNodes = findMatchesFor(seriesTitle, formattedTitleWithYear);
 
     if (seriesNodes.length() == 0) {
-      debug("Show not found!");
-      if (!isNotFoundError(errorLog)) {
-        addShowNotFoundErrorLog(series, formattedTitle, "Empty result found.");
+      debug("Show not found with year! Trying without year.");
+
+      seriesNodes = findMatchesFor(seriesTitle, formattedTitle);
+
+      if (seriesNodes.length() == 0) {
+        if (!isNotFoundError(errorLog)) {
+          addShowNotFoundErrorLog(series, formattedTitle, "Empty result found.");
+        }
+        return null;
       }
-      return null;
     }
 
     if (isNotFoundError(errorLog)) {
@@ -230,7 +236,11 @@ public class TVDBSeriesV2Updater {
 
     attachPossibleSeries(series, seriesNodes);
 
-    if (!seriesTitle.equalsIgnoreCase(seriesName) && !titleToCheck.equalsIgnoreCase(seriesName)) {
+    String seriesTitleWithYear = seriesTitle + " (" + year + ")";
+
+    if (!seriesTitle.equalsIgnoreCase(seriesName) &&
+        !titleToCheck.equalsIgnoreCase(seriesName) &&
+        !seriesTitleWithYear.equalsIgnoreCase(seriesName)) {
       if (shouldAcceptMismatch(errorLog)) {
         updateSeriesTitle(series, errorLog);
       } else {
@@ -248,6 +258,13 @@ public class TVDBSeriesV2Updater {
     }
 
     return firstSeries.getInt("id");
+  }
+
+  private JSONArray findMatchesFor(String seriesTitle, String formattedTitle) throws UnirestException {
+    debug("Update for: " + seriesTitle + ", formatted as '" + formattedTitle + "'");
+
+    JSONObject seriesMatches = tvdbDataProvider.findSeriesMatches(formattedTitle);
+    return seriesMatches.getJSONArray("data");
   }
 
   private void attachPossibleSeries(Series series, JSONArray seriesNodes) throws SQLException {
