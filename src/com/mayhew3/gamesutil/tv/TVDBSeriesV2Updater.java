@@ -64,7 +64,7 @@ public class TVDBSeriesV2Updater {
 
       Boolean usingOldWrongID = matchedWrong && Objects.equals(existingId, tvdbId);
 
-      if (tvdbId != null && !usingOldWrongID) {
+      if (!usingOldWrongID) {
         debug(seriesTitle + ": ID found, getting show data.");
         series.tvdbSeriesExtId.changeValue(tvdbId);
 
@@ -84,8 +84,7 @@ public class TVDBSeriesV2Updater {
     }
   }
 
-  // todo: never return null, just throw exception if failed to find
-  @Nullable
+  @NotNull
   private Integer getTVDBID(@Nullable ErrorLog errorLog, Boolean matchedWrong, Integer existingId) throws SQLException, ShowFailedException, UnirestException {
     if (existingId != null && !matchedWrong) {
       return existingId;
@@ -191,8 +190,8 @@ public class TVDBSeriesV2Updater {
     return null;
   }
 
-  @Nullable
-  private Integer findTVDBMatch(Series series, @Nullable ErrorLog errorLog) throws SQLException, IOException, SAXException, UnirestException {
+  @NotNull
+  private Integer findTVDBMatch(Series series, @Nullable ErrorLog errorLog) throws SQLException, IOException, SAXException, UnirestException, ShowFailedException {
     String seriesTitle = series.seriesTitle.getValue();
     String tivoId = series.tivoSeriesV2ExtId.getValue();
     String tvdbHint = series.tvdbHint.getValue();
@@ -214,16 +213,16 @@ public class TVDBSeriesV2Updater {
 
     JSONArray seriesNodes = findMatchesFor(seriesTitle, formattedTitleWithYear);
 
-    if (seriesNodes.length() == 0) {
+    if (seriesNodes == null || seriesNodes.length() == 0) {
       debug("Show not found with year! Trying without year.");
 
       seriesNodes = findMatchesFor(seriesTitle, formattedTitle);
 
-      if (seriesNodes.length() == 0) {
+      if (seriesNodes == null || seriesNodes.length() == 0) {
         if (!isNotFoundError(errorLog)) {
           addShowNotFoundErrorLog(series, formattedTitle, "Empty result found.");
         }
-        return null;
+        throw new ShowFailedException("Unable to find series: " + seriesTitle);
       }
     }
 
@@ -249,7 +248,7 @@ public class TVDBSeriesV2Updater {
         if (!isMismatchError(errorLog)) {
           addMismatchErrorLog(tivoId, seriesTitle, formattedTitle, seriesName);
         }
-        return null;
+        throw new ShowFailedException("Top result of search (" + seriesName + ") doesn't exactly match title: " + seriesTitle);
       }
     }
 
@@ -260,11 +259,12 @@ public class TVDBSeriesV2Updater {
     return firstSeries.getInt("id");
   }
 
+  @Nullable
   private JSONArray findMatchesFor(String seriesTitle, String formattedTitle) throws UnirestException {
     debug("Update for: " + seriesTitle + ", formatted as '" + formattedTitle + "'");
 
     JSONObject seriesMatches = tvdbDataProvider.findSeriesMatches(formattedTitle);
-    return seriesMatches.getJSONArray("data");
+    return seriesMatches.has("data") ? seriesMatches.getJSONArray("data") : null;
   }
 
   private void attachPossibleSeries(Series series, JSONArray seriesNodes) throws SQLException {
