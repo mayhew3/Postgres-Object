@@ -14,7 +14,7 @@ import static org.junit.Assert.fail;
 public class TVSchemaHerokuTest {
 
   @Test
-  public void testLocalSchemaUpToDate() throws URISyntaxException, SQLException {
+  public void testHerokuSchemaUpToDate() throws URISyntaxException, SQLException {
     SQLConnection connection = new PostgresConnectionFactory().createConnection("heroku");
     List<DataObjectMismatch> mismatches = TVSchema.tv_schema.validateSchemaAgainstDatabase(connection);
 
