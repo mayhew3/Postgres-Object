@@ -11,7 +11,6 @@
     <orderEntry type="library" exported="" name="org.mongodb:mongo-java-driver:2.12.3" level="project" />
     <orderEntry type="library" exported="" name="org.json:json:20140107" level="project" />
     <orderEntry type="library" exported="" name="net.sf.cotta.core:cotta:3.0" level="project" />
-    <orderEntry type="library" exported="" name="apache-codec:commons-codec:1.2" level="project" />
     <orderEntry type="library" name="joda-time:joda-time:2.6" level="project" />
     <orderEntry type="library" name="org.jsoup:jsoup:1.8.1" level="project" />
     <orderEntry type="library" name="org.postgresql:postgresql:9.4-1201-jdbc41" level="project" />
