@@ -200,6 +200,7 @@ public class TiVoCommunicator {
       }
 
       tiVoEpisode.deletedDate.changeValue(new Date());
+      tiVoEpisode.recordingNow.changeValue(false);
       tiVoEpisode.commit(sqlConnection);
 
       deletedShows++;
