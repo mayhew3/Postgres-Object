@@ -61,6 +61,13 @@ class TVDBEpisodeV2Updater {
             debug("Episode no longer in TVDB. Retiring.");
             existingTVDBEpisodeByTVDBID.retired.changeValue(existingTVDBEpisodeByTVDBID.id.getValue());
             existingTVDBEpisodeByTVDBID.commit(connection);
+
+            Episode episode = existingTVDBEpisodeByTVDBID.getEpisodeOrNull(connection);
+            if (episode != null && !episode.onTiVo.getValue()) {
+              episode.retired.changeValue(episode.id.getValue());
+              episode.commit(connection);
+            }
+
             return EPISODE_RESULT.RETIRED;
           }
         }

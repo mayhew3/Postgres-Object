@@ -3,6 +3,7 @@ package com.mayhew3.gamesutil.model.tv;
 import com.mayhew3.gamesutil.dataobject.*;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -70,6 +71,25 @@ public class TVDBEpisode extends DataObject {
 
     if (!resultSet.next()) {
       throw new IllegalStateException("No episode found with tvdb_episode_id of " + id.getValue());
+    }
+    Episode episode = new Episode();
+    episode.initializeFromDBObject(resultSet);
+    return episode;
+  }
+
+  @Nullable
+  public Episode getEpisodeOrNull(SQLConnection connection) throws SQLException {
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
+        "SELECT * " +
+            "FROM episode " +
+            "WHERE tvdb_episode_id = ? " +
+            "AND retired = ?",
+        id.getValue(),
+        0
+    );
+
+    if (!resultSet.next()) {
+      return null;
     }
     Episode episode = new Episode();
     episode.initializeFromDBObject(resultSet);
