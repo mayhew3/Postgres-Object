@@ -104,12 +104,13 @@ public class EpisodeGroupUpdater {
         "from episode\n" +
         "where air_date between ? and ?\n" +
         "and series_id = ?\n" +
+        "and season <> ? \n" +
         "and retired = ?\n" +
         "order by air_date";
 
     List<Episode> episodes = new ArrayList<>();
 
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, groupRating.startDate.getValue(), groupRating.endDate.getValue(), groupRating.seriesId.getValue(), 0);
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, groupRating.startDate.getValue(), groupRating.endDate.getValue(), groupRating.seriesId.getValue(), 0, 0);
 
     while (resultSet.next()) {
       Episode episode = new Episode();

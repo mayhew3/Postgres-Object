@@ -22,6 +22,7 @@ public class EpisodeGroupRating extends DataObject {
 
   public FieldValueBigDecimal rating = registerBigDecimalField("rating", Nullability.NULLABLE);
 
+  public FieldValueString review = registerStringField("review", Nullability.NULLABLE);
 
   @Override
   protected String getTableName() {
