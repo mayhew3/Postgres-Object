@@ -4,14 +4,23 @@ import com.mayhew3.gamesutil.dataobject.*;
 
 public class EpisodeGroupRating extends DataObject {
 
-  FieldValueForeignKey seriesId = registerForeignKey(new Series(), Nullability.NOT_NULL);
+  public FieldValueForeignKey seriesId = registerForeignKey(new Series(), Nullability.NOT_NULL);
 
-  FieldValueInteger year = registerIntegerField("year", Nullability.NOT_NULL);
+  public FieldValueInteger year = registerIntegerField("year", Nullability.NOT_NULL);
 
-  FieldValueTimestamp startDate = registerTimestampField("start_date", Nullability.NOT_NULL);
-  FieldValueTimestamp endDate = registerTimestampField("end_date", Nullability.NOT_NULL);
+  public FieldValueTimestamp startDate = registerTimestampField("start_date", Nullability.NOT_NULL);
+  public FieldValueTimestamp endDate = registerTimestampField("end_date", Nullability.NOT_NULL);
 
-  FieldValueBigDecimal rating = registerBigDecimalField("rating", Nullability.NULLABLE);
+  public FieldValueBigDecimal avgRating = registerBigDecimalField("avg_rating", Nullability.NULLABLE);
+  public FieldValueBigDecimal maxRating = registerBigDecimalField("max_rating", Nullability.NULLABLE);
+  public FieldValueBigDecimal lastRating = registerBigDecimalField("last_rating", Nullability.NULLABLE);
+  public FieldValueBigDecimal suggestedRating = registerBigDecimalField("suggested_rating", Nullability.NULLABLE);
+
+  public FieldValueInteger numEpisodes = registerIntegerField("num_episodes", Nullability.NOT_NULL);
+  public FieldValueInteger watched = registerIntegerField("watched", Nullability.NOT_NULL);
+  public FieldValueInteger rated = registerIntegerField("rated", Nullability.NOT_NULL);
+
+  public FieldValueBigDecimal rating = registerBigDecimalField("rating", Nullability.NULLABLE);
 
 
   @Override

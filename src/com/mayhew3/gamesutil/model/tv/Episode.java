@@ -5,6 +5,7 @@ import com.mayhew3.gamesutil.dataobject.*;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.tv.ShowFailedException;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -168,4 +169,22 @@ public class Episode extends DataObject {
     }
   }
 
+  @Nullable
+  public EpisodeRating getMostRecentRating(SQLConnection connection) throws SQLException {
+    String sql = "select *\n" +
+        "from episode_rating\n" +
+        "where episode_id = ?\n" +
+        "order by date_added desc";
+
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, id.getValue());
+
+    if (resultSet.next()) {
+      EpisodeRating episodeRating = new EpisodeRating();
+      episodeRating.initializeFromDBObject(resultSet);
+
+      return episodeRating;
+    }
+
+    return null;
+  }
 }
