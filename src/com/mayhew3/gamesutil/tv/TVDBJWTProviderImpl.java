@@ -99,6 +99,8 @@ class TVDBJWTProviderImpl implements TVDBJWTProvider {
 
     long epochTime = fromDate.getTime() / 1000L;
 
+    System.out.println("Epoch time: " + epochTime);
+
     String seriesUrl = "https://api.thetvdb.com/updated/query";
 
     Map<String, Object> queryParams = Maps.newHashMap();

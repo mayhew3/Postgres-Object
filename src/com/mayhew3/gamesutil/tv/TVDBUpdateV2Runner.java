@@ -19,8 +19,10 @@ import java.net.URISyntaxException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 public class TVDBUpdateV2Runner {
 
@@ -203,6 +205,8 @@ public class TVDBUpdateV2Runner {
 
     validateLastUpdate(mostRecentSuccessfulUpdate);
 
+    debug("Finding all episodes updated since: " + mostRecentSuccessfulUpdate);
+
     JSONObject updatedSeries = tvdbjwtProvider.getUpdatedSeries(mostRecentSuccessfulUpdate);
 
     if (updatedSeries.isNull("data")) {
@@ -211,6 +215,8 @@ public class TVDBUpdateV2Runner {
     }
 
     @NotNull JSONArray seriesArray = jsonReader.getArrayWithKey(updatedSeries, "data");
+
+    debug("Total series found: " + seriesArray.length());
 
     for (int i = 0; i < seriesArray.length(); i++) {
       JSONObject seriesRow = seriesArray.getJSONObject(i);
@@ -330,6 +336,8 @@ public class TVDBUpdateV2Runner {
         TVDBUpdateType.RECENT.getTypekey()
     );
     if (resultSet.next()) {
+      Calendar calendar = Calendar.getInstance();
+      calendar.setTimeZone(TimeZone.getTimeZone("America/Los_Angeles"));
       Timestamp maxStartTime = resultSet.getTimestamp("max_start_time");
       if (maxStartTime == null) {
         throw new IllegalStateException("Max start time should never be null.");
