@@ -8,6 +8,7 @@ public class TVSchema {
       new ConnectLog(),
       new EdgeTiVoEpisode(),
       new Episode(),
+      new EpisodeGroupRating(),
       new EpisodeRating(),
       new ErrorLog(),
       new Genre(),
