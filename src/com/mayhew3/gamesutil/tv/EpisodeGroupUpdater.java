@@ -1,6 +1,7 @@
 package com.mayhew3.gamesutil.tv;
 
 import com.mayhew3.gamesutil.ArgumentChecker;
+import com.mayhew3.gamesutil.dataobject.FieldValueTimestamp;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.model.tv.Episode;
@@ -31,11 +32,11 @@ public class EpisodeGroupUpdater {
     updater.updateEpisodeGroups(2016);
   }
 
-  private EpisodeGroupUpdater(SQLConnection connection) {
+  EpisodeGroupUpdater(SQLConnection connection) {
     this.connection = connection;
   }
 
-  private void updateEpisodeGroups(Integer year) throws SQLException {
+  void updateEpisodeGroups(Integer year) throws SQLException {
     String sql = "select s.*\n" +
         "from episode e\n" +
         "inner join series s\n" +
@@ -67,10 +68,17 @@ public class EpisodeGroupUpdater {
       groupRating.numEpisodes.changeValue(episodeInfos.size());
       groupRating.watched.changeValue(getNumberOfWatchedEpisodes(episodeInfos));
       groupRating.rated.changeValue(getNumberOfRatedEpisodes(episodeInfos));
+      groupRating.aired.changeValue(getNumberOfAiredEpisodes(episodeInfos));
+
+      groupRating.lastAired.changeValue(getLastAired(episodeInfos));
 
       groupRating.avgRating.changeValue(getAvgRating(episodeInfos));
       groupRating.maxRating.changeValue(getMaxRating(episodeInfos));
       groupRating.lastRating.changeValue(getLastRating(episodeInfos));
+
+      groupRating.avgFunny.changeValue(getAvgFunny(episodeInfos));
+      groupRating.avgCharacter.changeValue(getAvgCharacter(episodeInfos));
+      groupRating.avgStory.changeValue(getAvgStory(episodeInfos));
 
       groupRating.suggestedRating.changeValue(getSuggestedRating(episodeInfos, groupRating));
 
@@ -97,6 +105,25 @@ public class EpisodeGroupUpdater {
         .filter(episodeInfo -> episodeInfo.episode.watched.getValue())
         .collect(Collectors.toList())
         .size();
+  }
+
+  private Integer getNumberOfAiredEpisodes(List<EpisodeInfo> episodeInfos) {
+    Timestamp now = new Timestamp(new Date().getTime());
+    return episodeInfos.stream()
+        .filter(episodeInfo -> episodeInfo.episode.airDate.getValue().before(now))
+        .collect(Collectors.toList())
+        .size();
+  }
+
+
+  @Nullable
+  private Timestamp getLastAired(List<EpisodeInfo> episodeInfos) {
+    Comparator<EpisodeInfo> byAirDate = Comparator.comparing(a -> a.episode.airDate.getValue());
+    Optional<Timestamp> first = episodeInfos.stream()
+        .sorted(byAirDate.reversed())
+        .map(episodeInfo -> episodeInfo.episode.airDate.getValue())
+        .findFirst();
+    return first.isPresent() ? first.get() : null;
   }
 
   private List<EpisodeInfo> getEligibleEpisodeInfos(EpisodeGroupRating groupRating) throws SQLException {
@@ -147,6 +174,63 @@ public class EpisodeGroupUpdater {
         .map(episodeInfo -> episodeInfo.episodeRating)
         .filter(Objects::nonNull)
         .map(episodeRating -> episodeRating.ratingValue.getValue())
+        .collect(Collectors.toList());
+
+    if (ratings.isEmpty()) {
+      return null;
+    }
+
+    BigDecimal totalRating = ratings.stream()
+        .reduce(BigDecimal::add)
+        .get();
+    return totalRating.divide(BigDecimal.valueOf(ratings.size()), 1, BigDecimal.ROUND_HALF_UP);
+  }
+
+  @Nullable
+  private BigDecimal getAvgFunny(List<EpisodeInfo> episodeInfos) throws SQLException {
+    List<BigDecimal> ratings = episodeInfos.stream()
+        .map(episodeInfo -> episodeInfo.episodeRating)
+        .filter(Objects::nonNull)
+        .map(episodeRating -> episodeRating.ratingFunny.getValue())
+        .filter(Objects::nonNull)
+        .collect(Collectors.toList());
+
+    if (ratings.isEmpty()) {
+      return null;
+    }
+
+    BigDecimal totalRating = ratings.stream()
+        .reduce(BigDecimal::add)
+        .get();
+    return totalRating.divide(BigDecimal.valueOf(ratings.size()), 1, BigDecimal.ROUND_HALF_UP);
+  }
+
+  @Nullable
+  private BigDecimal getAvgCharacter(List<EpisodeInfo> episodeInfos) throws SQLException {
+    List<BigDecimal> ratings = episodeInfos.stream()
+        .map(episodeInfo -> episodeInfo.episodeRating)
+        .filter(Objects::nonNull)
+        .map(episodeRating -> episodeRating.ratingCharacter.getValue())
+        .filter(Objects::nonNull)
+        .collect(Collectors.toList());
+
+    if (ratings.isEmpty()) {
+      return null;
+    }
+
+    BigDecimal totalRating = ratings.stream()
+        .reduce(BigDecimal::add)
+        .get();
+    return totalRating.divide(BigDecimal.valueOf(ratings.size()), 1, BigDecimal.ROUND_HALF_UP);
+  }
+
+  @Nullable
+  private BigDecimal getAvgStory(List<EpisodeInfo> episodeInfos) throws SQLException {
+    List<BigDecimal> ratings = episodeInfos.stream()
+        .map(episodeInfo -> episodeInfo.episodeRating)
+        .filter(Objects::nonNull)
+        .map(episodeRating -> episodeRating.ratingStory.getValue())
+        .filter(Objects::nonNull)
         .collect(Collectors.toList());
 
     if (ratings.isEmpty()) {

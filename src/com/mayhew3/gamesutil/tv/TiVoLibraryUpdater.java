@@ -22,7 +22,7 @@ public class TiVoLibraryUpdater {
 
   public static void main(String... args) throws FileNotFoundException, URISyntaxException, SQLException {
     List<String> argList = Lists.newArrayList(args);
-    Boolean lookAtAllShows = argList.contains("FullMode");
+    Boolean nightly = argList.contains("FullMode");
     Boolean tvdbOnly = argList.contains("TVDBOnly");
     Boolean tiVoOnly = argList.contains("TiVoOnly");
     Boolean logToFile = argList.contains("LogToFile");
@@ -50,12 +50,12 @@ public class TiVoLibraryUpdater {
     ConnectionLogger logger = new ConnectionLogger(connection);
     logger.initialize();
 
-    logger.logConnectionStart(lookAtAllShows);
+    logger.logConnectionStart(nightly);
 
     if (!tvdbOnly) {
       try {
         TiVoCommunicator tiVoCommunicator = new TiVoCommunicator(connection, saveTiVoXML);
-        tiVoCommunicator.runUpdate(lookAtAllShows);
+        tiVoCommunicator.runUpdate(nightly);
       } catch (BadlyFormattedXMLException e) {
         debug("Error parsing TiVo XML.");
         e.printStackTrace();
@@ -78,12 +78,23 @@ public class TiVoLibraryUpdater {
       }
     }
 
-    if (lookAtAllShows) {
+    if (nightly) {
       try {
         MetacriticTVUpdater metacriticTVUpdater = new MetacriticTVUpdater(connection);
         metacriticTVUpdater.runUpdater();
       } catch (Exception e) {
         debug("Uncaught exception during metacritic update.");
+        e.printStackTrace();
+      }
+    }
+
+    if (nightly) {
+      try {
+        debug("Updating EpisodeGroupRatings...");
+        EpisodeGroupUpdater episodeGroupUpdater = new EpisodeGroupUpdater(connection);
+        episodeGroupUpdater.updateEpisodeGroups(2016);
+      } catch (Exception e) {
+        debug("Uncaught exception during episode group rating update.");
         e.printStackTrace();
       }
     }
