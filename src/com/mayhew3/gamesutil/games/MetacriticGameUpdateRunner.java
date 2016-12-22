@@ -23,6 +23,7 @@ public class MetacriticGameUpdateRunner {
   public static void main(String[] args) throws FileNotFoundException, SQLException, URISyntaxException {
     List<String> argList = Lists.newArrayList(args);
     Boolean allGames = argList.contains("AllGames");
+    Boolean singleGame = argList.contains("SingleGame");
     Boolean logToFile = argList.contains("LogToFile");
     String identifier = new ArgumentChecker(args).getDBIdentifier();
 
@@ -37,20 +38,42 @@ public class MetacriticGameUpdateRunner {
     connection = new PostgresConnectionFactory().createConnection(identifier);
 
     MetacriticGameUpdateRunner updateRunner = new MetacriticGameUpdateRunner();
-    updateRunner.runUpdate(allGames);
-  }
 
-  public void runUpdate(Boolean allGames) throws SQLException {
-    updateGames(allGames);
-  }
-
-  private void updateGames(Boolean allGames) throws SQLException {
-    String sql = "SELECT * FROM games";
-    if (!allGames) {
-      sql += " WHERE metacritic_matched IS NULL";
+    if (allGames) {
+      updateRunner.updateAllGames();
+    } else if (singleGame) {
+      updateRunner.updateSingleGame();
+    } else {
+      updateRunner.updateUnmatchedGames();
     }
+  }
+
+  private void updateSingleGame() throws SQLException {
+    String nameOfSingleGame = "DOOM";
+
+    String sql = "SELECT * FROM games"
+        + " WHERE title = ?";
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, nameOfSingleGame);
+
+    runUpdateOnResultSet(resultSet);
+  }
+
+  private void updateAllGames() throws SQLException {
+    String sql = "SELECT * FROM games";
     ResultSet resultSet = connection.executeQuery(sql);
 
+    runUpdateOnResultSet(resultSet);
+  }
+
+  private void updateUnmatchedGames() throws SQLException {
+    String sql = "SELECT * FROM games"
+     + " WHERE metacritic_matched IS NULL";
+    ResultSet resultSet = connection.executeQuery(sql);
+
+    runUpdateOnResultSet(resultSet);
+  }
+
+  private void runUpdateOnResultSet(ResultSet resultSet) throws SQLException {
     int i = 1;
     int failures = 0;
 

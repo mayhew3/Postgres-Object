@@ -59,7 +59,7 @@ public class SteamGameUpdater extends DatabaseUtility {
     debug(" --- ");
 
     GiantBombUpdater giantBombUpdater = new GiantBombUpdater(connection);
-    giantBombUpdater.updateFields();
+    giantBombUpdater.updateFieldsOnUnmatched();
 
     debug(" --- ");
     debug(" Full operation complete!");

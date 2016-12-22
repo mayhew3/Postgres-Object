@@ -30,6 +30,7 @@ public class HowLongToBeatUpdateRunner {
 
   public static void main(String[] args) throws FileNotFoundException, SQLException, URISyntaxException {
     List<String> argList = Lists.newArrayList(args);
+    Boolean fullMode = argList.contains("FullMode");
     Boolean logToFile = argList.contains("LogToFile");
     String identifier = new ArgumentChecker(args).getDBIdentifier();
 
@@ -45,11 +46,14 @@ public class HowLongToBeatUpdateRunner {
 
     HowLongToBeatUpdateRunner updateRunner = new HowLongToBeatUpdateRunner(connection);
 
-    updateRunner.runUpdate();
-
+    if (fullMode) {
+      updateRunner.runUpdateOnAllFailed();
+    } else {
+      updateRunner.runUpdate();
+    }
   }
 
-  public void runUpdate() throws SQLException {
+  void runUpdate() throws SQLException {
     Date date = new DateTime().minusDays(7).toDate();
     Timestamp timestamp = new Timestamp(date.getTime());
 
@@ -57,6 +61,20 @@ public class HowLongToBeatUpdateRunner {
         " AND (howlong_failed IS NULL OR howlong_failed < ?)";
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, timestamp);
 
+    runUpdateOnResultSet(resultSet);
+  }
+
+  private void runUpdateOnAllFailed() throws SQLException {
+    Date date = new DateTime().minusDays(7).toDate();
+    Timestamp timestamp = new Timestamp(date.getTime());
+
+    String sql = "SELECT * FROM games WHERE howlong_updated IS NULL ";
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, timestamp);
+
+    runUpdateOnResultSet(resultSet);
+  }
+
+  private void runUpdateOnResultSet(ResultSet resultSet) throws SQLException {
     int i = 1;
     int failures = 0;
 

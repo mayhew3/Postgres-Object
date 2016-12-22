@@ -38,6 +38,7 @@ public class GiantBombUpdater {
 
   public static void main(String[] args) throws SQLException, FileNotFoundException, URISyntaxException, InterruptedException {
     List<String> argList = Lists.newArrayList(args);
+    Boolean singleGame = argList.contains("SingleGame");
     Boolean logToFile = argList.contains("LogToFile");
     String identifier = new ArgumentChecker(args).getDBIdentifier();
 
@@ -52,15 +53,39 @@ public class GiantBombUpdater {
 
     GiantBombUpdater giantBombUpdater = new GiantBombUpdater(new PostgresConnectionFactory().createConnection(identifier));
 
-    giantBombUpdater.updateFields();
+    if (singleGame) {
+      giantBombUpdater.updateFieldsOnSingle();
+    } else {
+      giantBombUpdater.updateFieldsOnUnmatched();
+    }
+  }
+
+
+
+  private void updateFieldsOnSingle() throws SQLException, InterruptedException {
+    String singleGame = "DOOM";
+
+    String sql = "SELECT * FROM games WHERE title = ?";
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, singleGame);
+
+    runUpdateOnResultSet(resultSet);
+
+    debug("Operation finished!");
 
   }
 
-  public void updateFields() throws SQLException, InterruptedException {
+
+  void updateFieldsOnUnmatched() throws SQLException, InterruptedException {
     String sql = "SELECT * FROM games WHERE NOT (giantbomb_id IS NOT NULL and giantbomb_icon_url IS NOT NULL) and owned <> 'not owned'";
-//    String sql = "SELECT * FROM games WHERE giantbomb_id = 20238";
     ResultSet resultSet = connection.executeQuery(sql);
 
+    runUpdateOnResultSet(resultSet);
+
+    debug("Operation finished!");
+
+  }
+
+  private void runUpdateOnResultSet(ResultSet resultSet) throws SQLException, InterruptedException {
     while (resultSet.next()) {
       Game game = new Game();
       game.initializeFromDBObject(resultSet);
@@ -80,9 +105,6 @@ public class GiantBombUpdater {
         TimeUnit.SECONDS.sleep(2);
       }
     }
-
-    debug("Operation finished!");
-
   }
 
   @Nullable
