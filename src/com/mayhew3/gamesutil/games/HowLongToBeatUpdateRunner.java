@@ -24,7 +24,7 @@ public class HowLongToBeatUpdateRunner {
 
   private SQLConnection connection;
 
-  public HowLongToBeatUpdateRunner(SQLConnection connection) {
+  HowLongToBeatUpdateRunner(SQLConnection connection) {
     this.connection = connection;
   }
 
@@ -65,11 +65,8 @@ public class HowLongToBeatUpdateRunner {
   }
 
   private void runUpdateOnAllFailed() throws SQLException {
-    Date date = new DateTime().minusDays(7).toDate();
-    Timestamp timestamp = new Timestamp(date.getTime());
-
     String sql = "SELECT * FROM games WHERE howlong_updated IS NULL ";
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, timestamp);
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql);
 
     runUpdateOnResultSet(resultSet);
   }
