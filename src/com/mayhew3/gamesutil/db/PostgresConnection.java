@@ -42,10 +42,12 @@ public class PostgresConnection implements SQLConnection {
 
 
 
+  @NotNull
   public ResultSet prepareAndExecuteStatementFetch(String sql, Object... params) throws SQLException {
     return prepareAndExecuteStatementFetch(sql, Lists.newArrayList(params));
   }
 
+  @NotNull
   public ResultSet prepareAndExecuteStatementFetch(String sql, List<Object> params) throws SQLException {
     PreparedStatement preparedStatement = prepareStatementWithParams(sql, params);
     return preparedStatement.executeQuery();
@@ -69,17 +71,20 @@ public class PostgresConnection implements SQLConnection {
 
   // Operations with user handle on PreparedStatement
 
+  @NotNull
   public PreparedStatement prepareStatementWithParams(String sql, List<Object> params) throws SQLException {
     PreparedStatement preparedStatement = _connection.prepareStatement(sql);
     return plugParamsIntoStatement(preparedStatement, params);
   }
 
 
+  @NotNull
   public ResultSet executePreparedStatementWithParams(PreparedStatement preparedStatement, Object... params) throws SQLException {
     List<Object> paramList = Lists.newArrayList(params);
     return executePreparedStatementWithParams(preparedStatement, paramList);
   }
 
+  @NotNull
   public ResultSet executePreparedStatementWithParams(PreparedStatement preparedStatement, List<Object> params) throws SQLException {
     PreparedStatement statementWithParams = plugParamsIntoStatement(preparedStatement, params);
     return statementWithParams.executeQuery();
@@ -95,6 +100,7 @@ public class PostgresConnection implements SQLConnection {
   // Using FieldValue
 
 
+  @NotNull
   public PreparedStatement prepareStatementWithFields(String sql, List<FieldValue> fields) throws SQLException {
     PreparedStatement preparedStatement = _connection.prepareStatement(sql);
     return plugFieldsIntoStatement(preparedStatement, fields);
@@ -107,6 +113,7 @@ public class PostgresConnection implements SQLConnection {
     preparedStatement.close();
   }
 
+  @NotNull
   public Integer prepareAndExecuteStatementInsertReturnId(String sql, List<FieldValue> fieldValues) throws SQLException {
     PreparedStatement preparedStatement = prepareStatementForInsertId(sql);
     plugFieldsIntoStatement(preparedStatement, fieldValues);

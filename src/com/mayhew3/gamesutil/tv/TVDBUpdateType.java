@@ -7,7 +7,8 @@ enum TVDBUpdateType {
   OLD_ERRORS("OldErrors"),
   SINGLE("Single"),
   RECENT("Recent"),
-  QUICK("Quick");
+  QUICK("Quick"),
+  SERVICE("Service");
 
   private final String typekey;
 

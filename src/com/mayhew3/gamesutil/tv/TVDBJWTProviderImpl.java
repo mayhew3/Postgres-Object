@@ -97,7 +97,7 @@ class TVDBJWTProviderImpl implements TVDBJWTProvider {
   public JSONObject getUpdatedSeries(Timestamp fromDate) throws UnirestException {
     Preconditions.checkState(token != null);
 
-    long epochTime = fromDate.getTime() / 1000L;
+    long epochTime = getEpochTime(fromDate);
 
     System.out.println("Epoch time: " + epochTime);
 
@@ -107,8 +107,15 @@ class TVDBJWTProviderImpl implements TVDBJWTProvider {
     queryParams.put("fromTime", epochTime);
 
     HttpResponse<JsonNode> response = getData(seriesUrl, queryParams);
+
+    System.out.println("Response: " + response.getStatusText());
+
     JsonNode body = response.getBody();
     return body.getObject();
+  }
+
+  public long getEpochTime(Timestamp fromDate) {
+    return fromDate.getTime() / 1000L;
   }
 
   void writeSearchToFile(String formattedTitle) throws UnirestException, IOException {

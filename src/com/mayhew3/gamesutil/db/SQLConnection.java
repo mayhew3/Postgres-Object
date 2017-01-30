@@ -175,6 +175,5 @@ public interface SQLConnection {
    * @param fieldValues List of FieldValues that will be plugged in.
    * @throws SQLException
    */
-  @NotNull
   void executePreparedUpdateWithFields(PreparedStatement preparedStatement, List<FieldValue> fieldValues) throws SQLException;
 }

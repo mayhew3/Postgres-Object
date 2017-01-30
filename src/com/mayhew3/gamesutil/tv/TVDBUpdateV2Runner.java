@@ -383,8 +383,8 @@ public class TVDBUpdateV2Runner {
 
 
 
-  protected void debug(Object object) {
-    System.out.println(object);
+  protected void debug(Object message) {
+    System.out.println(message);
   }
 
 }
