@@ -200,6 +200,69 @@ public class TVDBSeriesV2UpdaterTest extends TVDatabaseTest {
 
   }
 
+  @Test
+  public void testEpisodeNumberOverride() throws SQLException, ShowFailedException, BadlyFormattedXMLException, UnirestException {
+    Series series = createSeries(SCHUMER_SERIES_NAME, SCHUMER_SERIES_ID);
+
+    addEpisode(series, 4, 1, SCHUMER_EPISODE_NAME1, SCHUMER_EPISODE_ID1);
+    Episode secondEpisode = addEpisode(series, 4, 2, SCHUMER_EPISODE_NAME2, SCHUMER_EPISODE_ID2);
+    addEpisode(series, 4, 3, SCHUMER_EPISODE_NAME3, SCHUMER_EPISODE_ID3);
+
+    Integer episodeID = secondEpisode.id.getValue();
+
+    Integer originalEpisodeNumber = 2;
+    Integer overriddenEpisodeNumber = 5;
+
+    secondEpisode.episodeNumber.changeValue(overriddenEpisodeNumber);
+    secondEpisode.commit(connection);
+
+    TVDBSeriesV2Updater tvdbSeriesUpdater = new TVDBSeriesV2Updater(connection, series, tvdbjwtProvider, new JSONReaderImpl());
+    tvdbSeriesUpdater.updateSeries();
+
+    @NotNull Episode episode = findEpisodeWithID(episodeID);
+    TVDBEpisode foundTVDBEpisode = episode.getTVDBEpisode(connection);
+
+    assertThat(foundTVDBEpisode.episodeNumber.getValue())
+            .isNotEqualTo(overriddenEpisodeNumber)
+            .isEqualTo(originalEpisodeNumber);
+
+    assertThat(episode.episodeNumber.getValue())
+            .isNotEqualTo(originalEpisodeNumber)
+            .isEqualTo(overriddenEpisodeNumber);
+  }
+
+  @Test
+  public void testSeasonNumberOverride() throws SQLException, ShowFailedException, BadlyFormattedXMLException, UnirestException {
+    Series series = createSeries(SCHUMER_SERIES_NAME, SCHUMER_SERIES_ID);
+
+    Episode firstEpisode = addEpisode(series, 4, 1, SCHUMER_EPISODE_NAME1, SCHUMER_EPISODE_ID1);
+    Episode secondEpisode = addEpisode(series, 4, 2, SCHUMER_EPISODE_NAME2, SCHUMER_EPISODE_ID2);
+    Episode thirdEpisode = addEpisode(series, 4, 3, SCHUMER_EPISODE_NAME3, SCHUMER_EPISODE_ID3);
+
+
+
+    Integer episodeID = secondEpisode.id.getValue();
+
+    Integer originalSeasonNumber = 4;
+    Integer overriddenSeasonNumber = 0;
+
+    secondEpisode.setSeason(overriddenSeasonNumber, connection);
+    secondEpisode.commit(connection);
+
+    TVDBSeriesV2Updater tvdbSeriesUpdater = new TVDBSeriesV2Updater(connection, series, tvdbjwtProvider, new JSONReaderImpl());
+    tvdbSeriesUpdater.updateSeries();
+
+    @NotNull Episode episode = findEpisodeWithID(episodeID);
+    TVDBEpisode foundTVDBEpisode = episode.getTVDBEpisode(connection);
+
+    assertThat(foundTVDBEpisode.seasonNumber.getValue())
+            .isNotEqualTo(overriddenSeasonNumber)
+            .isEqualTo(originalSeasonNumber);
+
+    assertThat(episode.getSeason())
+            .isNotEqualTo(originalSeasonNumber)
+            .isEqualTo(overriddenSeasonNumber);
+  }
 
 
   // private methods

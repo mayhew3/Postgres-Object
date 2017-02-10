@@ -3,7 +3,11 @@ package com.mayhew3.gamesutil.tv;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mayhew3.gamesutil.dataobject.FieldValue;
 import com.mayhew3.gamesutil.db.SQLConnection;
-import com.mayhew3.gamesutil.model.tv.*;
+import com.mayhew3.gamesutil.model.tv.Episode;
+import com.mayhew3.gamesutil.model.tv.Series;
+import com.mayhew3.gamesutil.model.tv.TVDBEpisode;
+import com.mayhew3.gamesutil.model.tv.TVDBMigrationLog;
+import com.mayhew3.gamesutil.model.tv.TiVoEpisode;
 import com.mayhew3.gamesutil.xml.JSONReader;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -28,12 +32,12 @@ class TVDBEpisodeV2Updater {
   private JSONReader jsonReader;
   private Boolean retireUnfound;
 
-  public TVDBEpisodeV2Updater(Series series,
-                              SQLConnection connection,
-                              TVDBJWTProvider tvdbjwtProvider,
-                              Integer tvdbEpisodeId,
-                              JSONReader jsonReader,
-                              Boolean retireUnfound) {
+  TVDBEpisodeV2Updater(Series series,
+                       SQLConnection connection,
+                       TVDBJWTProvider tvdbjwtProvider,
+                       Integer tvdbEpisodeId,
+                       JSONReader jsonReader,
+                       Boolean retireUnfound) {
     this.series = series;
     this.connection = connection;
     this.tvdbRemoteId = tvdbEpisodeId;
@@ -131,12 +135,15 @@ class TVDBEpisodeV2Updater {
     Integer absoluteNumber = jsonReader.getNullableIntegerWithKey(episodeJson, "absoluteNumber");
 
     tvdbEpisode.tvdbEpisodeExtId.changeValue(tvdbRemoteId);
+    episode.seriesId.changeValue(seriesId);
+
+    updateLinkedFieldsIfNotOverridden(episode.episodeNumber, tvdbEpisode.episodeNumber, episodenumber);
+    updateSeasonIfNotOverridden(episode, tvdbEpisode, seasonnumber);
+
     tvdbEpisode.absoluteNumber.changeValue(absoluteNumber);
-    tvdbEpisode.seasonNumber.changeValue(seasonnumber);
-    tvdbEpisode.episodeNumber.changeValue(episodenumber);
     tvdbEpisode.name.changeValue(episodename);
 
-    updateLinkedFieldsIfNotOverridden(episode.airDate, tvdbEpisode.firstAired, firstaired);
+    updateLinkedFieldsFromStringIfNotOverridden(episode.airDate, tvdbEpisode.firstAired, firstaired);
 
     tvdbEpisode.tvdbSeriesId.changeValue(series.tvdbSeriesId.getValue());
     tvdbEpisode.overview.changeValue(jsonReader.getNullableStringWithKey(episodeJson, "overview"));
@@ -170,13 +177,11 @@ class TVDBEpisodeV2Updater {
 
     tvdbEpisode.commit(connection);
 
-    episode.seriesId.changeValue(seriesId);
+
     episode.seriesTitle.changeValueFromString(series.seriesTitle.getValue());
     episode.tvdbEpisodeId.changeValue(tvdbEpisode.id.getValue());
     episode.title.changeValue(episodename);
-    episode.setSeason(seasonnumber, connection);
     episode.absoluteNumber.changeValue(absoluteNumber);
-    episode.episodeNumber.changeValue(episodenumber);
     episode.streaming.changeValue(series.isStreaming(connection));
 
     if (episode.hasChanged()) {
@@ -226,12 +231,28 @@ class TVDBEpisodeV2Updater {
     }
   }
 
-  private <T> void updateLinkedFieldsIfNotOverridden(FieldValue<T> slaveField, FieldValue<T> masterField, @Nullable String newValue) {
+  private <T> void updateLinkedFieldsIfNotOverridden(FieldValue<T> slaveField, FieldValue<T> masterField, @Nullable T newValue) {
+    if (slaveField.getValue() == null ||
+        slaveField.getValue().equals(masterField.getValue())) {
+      slaveField.changeValue(newValue);
+    }
+    masterField.changeValue(newValue);
+  }
+
+  private <T> void updateLinkedFieldsFromStringIfNotOverridden(FieldValue<T> slaveField, FieldValue<T> masterField, @Nullable String newValue) {
     if (slaveField.getValue() == null ||
         slaveField.getValue().equals(masterField.getValue())) {
       slaveField.changeValueFromString(newValue);
     }
     masterField.changeValueFromString(newValue);
+  }
+
+  private void updateSeasonIfNotOverridden(Episode episode, TVDBEpisode tvdbEpisode, Integer season) throws SQLException {
+    if (episode.getSeason() == null ||
+            episode.getSeason().equals(tvdbEpisode.seasonNumber.getValue())) {
+      episode.setSeason(season, connection);
+    }
+    tvdbEpisode.seasonNumber.changeValue(season);
   }
 
   @Nullable
