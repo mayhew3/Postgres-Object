@@ -98,6 +98,9 @@ public class PostgresConnectionTest {
     BigDecimal bigDecimal = BigDecimal.valueOf(12.34);
     Boolean ohBoolean = true;
 
+    ResultSet resultSet = mock(ResultSet.class);
+    when(preparedStatement.executeQuery()).thenReturn(resultSet);
+
     List<Object> params = Lists.newArrayList((Object) timestamp, integer, string, bigDecimal, ohBoolean);
 
     postgresConnection.executePreparedStatementWithParams(preparedStatement, params);
@@ -121,6 +124,9 @@ public class PostgresConnectionTest {
     String string = "Test!";
     BigDecimal bigDecimal = BigDecimal.valueOf(12.34);
     Boolean ohBoolean = true;
+
+    ResultSet resultSet = mock(ResultSet.class);
+    when(preparedStatement.executeQuery()).thenReturn(resultSet);
 
     postgresConnection.executePreparedStatementWithParams(preparedStatement, timestamp, integer, string, bigDecimal, ohBoolean);
 
