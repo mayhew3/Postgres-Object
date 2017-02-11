@@ -16,10 +16,12 @@ import org.joda.time.Seconds;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.*;
 import java.net.URISyntaxException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -33,6 +35,11 @@ public class TVDBUpdateFinder {
 
   private Timestamp lastUpdated;
 
+  private static PrintStream originalStream = System.out;
+
+  private static Boolean logToFile = false;
+  private static PrintStream logOutput = null;
+
   // TVDB doesn't seem to work right with a timestamp less than 120 seconds ago, always returns nothing.
   private Integer SECONDS = 120;
 
@@ -42,7 +49,18 @@ public class TVDBUpdateFinder {
     this.jsonReader = jsonReader;
   }
 
-  public static void main(String... args) throws UnirestException, URISyntaxException, SQLException, InterruptedException {
+  public static void main(String... args) throws UnirestException, URISyntaxException, SQLException, InterruptedException, FileNotFoundException {
+    List<String> argList = Lists.newArrayList(args);
+    logToFile = argList.contains("LogToFile");
+
+    if (logToFile) {
+      openLogStream();
+    }
+
+
+    debug("");
+    debug("SESSION START! Date: " + new Date());
+    debug("");
 
     String identifier = new ArgumentChecker(args).getDBIdentifier();
 
@@ -53,13 +71,44 @@ public class TVDBUpdateFinder {
 //    tvdbUpdateRunner.testUpdaterWorksSameWithPeriod(90);
   }
 
-  private void runUpdater() throws SQLException, UnirestException, InterruptedException {
+  private static void openLogStream() throws FileNotFoundException {
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+    String dateFormatted = simpleDateFormat.format(new Date());
+
+    File file = new File("D:\\Projects\\mean_projects\\GamesDBUtil\\logs\\TVDBUpdateFinder_" + dateFormatted + ".log");
+    FileOutputStream fos = new FileOutputStream(file, true);
+    logOutput = new PrintStream(fos);
+
+    System.setErr(logOutput);
+    System.setOut(logOutput);
+  }
+
+  private static void closeLogStream() {
+    System.setErr(originalStream);
+    System.setOut(originalStream);
+
+    logOutput.close();
+    logOutput = null;
+  }
+
+  private void runUpdater() throws SQLException, UnirestException, InterruptedException, FileNotFoundException {
 
     while (true) {
+      if (logToFile && logOutput == null) {
+        openLogStream();
+      }
+
+      debug(new Date());
       debug("Starting periodic update...");
+
       runPeriodicUpdate();
 
       debug("Finished run. Waiting " + SECONDS + " seconds...");
+
+      if (logToFile && logOutput != null) {
+        closeLogStream();
+      }
+
       sleep(1000 * SECONDS);
     }
   }
@@ -293,7 +342,7 @@ public class TVDBUpdateFinder {
     return new Timestamp(epochTime * 1000L);
   }
 
-  protected void debug(Object message) {
+  protected static void debug(Object message) {
     System.out.println(message);
   }
 

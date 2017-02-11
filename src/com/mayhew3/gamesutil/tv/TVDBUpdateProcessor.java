@@ -13,10 +13,15 @@ import com.mayhew3.gamesutil.xml.JSONReader;
 import com.mayhew3.gamesutil.xml.JSONReaderImpl;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 import java.net.URISyntaxException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -33,6 +38,11 @@ public class TVDBUpdateProcessor {
 
   private TVDBConnectionLog tvdbConnectionLog;
 
+  private static PrintStream originalStream = System.out;
+
+  private static Boolean logToFile = false;
+  private static PrintStream logOutput = null;
+
   @SuppressWarnings("FieldCanBeLocal")
   private Integer SECONDS = 57;
 
@@ -46,7 +56,17 @@ public class TVDBUpdateProcessor {
     this.jsonReader = jsonReader;
   }
 
-  public static void main(String... args) throws UnirestException, URISyntaxException, SQLException, InterruptedException {
+  public static void main(String... args) throws UnirestException, URISyntaxException, SQLException, InterruptedException, FileNotFoundException {
+    List<String> argList = Lists.newArrayList(args);
+    logToFile = argList.contains("LogToFile");
+
+    if (logToFile) {
+      openLogStream();
+    }
+
+    debug("");
+    debug("SESSION START! Date: " + new Date());
+    debug("");
 
     String identifier = new ArgumentChecker(args).getDBIdentifier();
 
@@ -57,14 +77,24 @@ public class TVDBUpdateProcessor {
   }
 
   @SuppressWarnings("InfiniteLoopStatement")
-  private void runUpdater() throws SQLException, UnirestException, InterruptedException {
+  private void runUpdater() throws SQLException, UnirestException, InterruptedException, FileNotFoundException {
 
     while (true) {
+      if (logToFile && logOutput == null) {
+        openLogStream();
+      }
+
+      debug(new Date());
       debug("Starting periodic update...");
 
       List<TVDBWorkItem> workItems = getUnprocessedWorkItems();
       if (workItems.isEmpty()) {
         debug("No series in queue. Waiting " + SECONDS + " seconds...");
+
+        if (logToFile && logOutput != null) {
+          closeLogStream();
+        }
+
         sleep(1000 * SECONDS);
       } else {
         runPeriodicUpdate(workItems);
@@ -80,6 +110,7 @@ public class TVDBUpdateProcessor {
 
     try {
       for (WorkItemGroup workItemGroup : workItemGroups) {
+        debug(new Date());
         try {
           SeriesUpdateResult updateResult = processWorkItemGroup(workItemGroup);
           if (SeriesUpdateResult.UPDATE_SUCCESS.equals(updateResult)) {
@@ -182,6 +213,27 @@ public class TVDBUpdateProcessor {
     updater.updateSeries();
   }
 
+  private static void openLogStream() throws FileNotFoundException {
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+    String dateFormatted = simpleDateFormat.format(new Date());
+
+    File file = new File("D:\\Projects\\mean_projects\\GamesDBUtil\\logs\\TVDBUpdateProcessor_" + dateFormatted + ".log");
+    FileOutputStream fos = new FileOutputStream(file, true);
+    logOutput = new PrintStream(fos);
+
+    System.setErr(logOutput);
+    System.setOut(logOutput);
+  }
+
+  private static void closeLogStream() {
+    System.setErr(originalStream);
+    System.setOut(originalStream);
+
+    logOutput.close();
+    logOutput = null;
+  }
+
+
   private List<TVDBWorkItem> getUnprocessedWorkItems() throws SQLException {
     List<TVDBWorkItem> workItems = new ArrayList<>();
 
@@ -234,7 +286,7 @@ public class TVDBUpdateProcessor {
     }
   }
 
-  protected void debug(Object message) {
+  protected static void debug(Object message) {
     System.out.println(message);
   }
 
