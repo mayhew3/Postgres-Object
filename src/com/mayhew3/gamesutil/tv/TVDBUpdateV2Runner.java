@@ -170,11 +170,17 @@ public class TVDBUpdateV2Runner {
   }
 
   private void runSmartUpdate() throws SQLException, UnirestException {
+
+    // todo: delete this after Feb 25 2017
+
+    /*
+
     debug("");
     debug("-- STARTING UPDATE FOR TVDB RECENT UPDATE LIST -- ");
     debug("");
 
     runUpdateOnRecentUpdateList();
+*/
 
     debug("");
     debug("-- STARTING UPDATE FOR RECENTLY FAILED SHOWS WITH FEW ERRORS -- ");
