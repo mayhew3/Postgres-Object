@@ -11,6 +11,7 @@ import java.io.*;
 import java.net.Authenticator;
 import java.net.PasswordAuthentication;
 import java.net.URL;
+import java.net.URLConnection;
 import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
 import java.nio.channels.ReadableByteChannel;
@@ -37,7 +38,11 @@ public class RemoteFileDownloader {
   public Document connectAndRetrieveDocument() throws IOException, SAXException {
     URL url = new URL(urlString);
 
-    try (InputStream is = url.openStream()) {
+    URLConnection urlConnection = url.openConnection();
+    urlConnection.setConnectTimeout(15000);
+    urlConnection.setReadTimeout(30000);
+
+    try (InputStream is = urlConnection.getInputStream()) {
 
       if (localFilePath != null) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy_MM_dd_hh_mm_ss");
