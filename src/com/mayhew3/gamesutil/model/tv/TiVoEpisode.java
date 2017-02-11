@@ -38,6 +38,7 @@ public class TiVoEpisode extends DataObject {
   public FieldValueInteger retired = registerIntegerField("retired", Nullability.NOT_NULL);
 
   public FieldValueBoolean recordingNow = registerBooleanField("recording_now", Nullability.NOT_NULL);
+  public FieldValueBoolean ignoreMatching = registerBooleanField("ignore_matching", Nullability.NOT_NULL).defaultValue(false);
 
   public FieldValueInteger tivoVersion = registerIntegerField("tivo_version", Nullability.NOT_NULL).defaultValue(1);
 
