@@ -1,6 +1,5 @@
 package com.mayhew3.gamesutil;
 
-import com.mongodb.*;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Document;
@@ -17,16 +16,6 @@ import java.util.Date;
 
 public class DatabaseUtility {
 
-  protected static MongoClient _mongoClient;
-  protected static DB _db;
-  protected static DBCollection _collection;
-
-  protected static void connect(String dbName) throws UnknownHostException {
-    _mongoClient = new MongoClient("localhost");
-    _db = _mongoClient.getDB(dbName);
-    _collection = _db.getCollection(dbName);
-  }
-
   protected static void debug(Object object) {
     System.out.println(object);
   }
@@ -38,21 +27,6 @@ public class DatabaseUtility {
         "&steamid=76561197970763625" +
         "&format=json" +
         "&include_appinfo=1";
-  }
-
-  protected static void addGame(Integer steamID, String gameName) {
-    try {
-      BasicDBObject gameObject = new BasicDBObject("Game", gameName)
-          .append("SteamID", steamID)
-          .append("Platform", "Steam")
-          .append("Owned", true)
-          .append("Started", false)
-          .append("Added", new Date());
-      _collection.insert(gameObject);
-    } catch (MongoException e) {
-      debug("Error inserting game '" + gameName + "' (" + steamID + "). Exception: ");
-      e.printStackTrace();
-    }
   }
 
 
@@ -112,37 +86,4 @@ public class DatabaseUtility {
 
 
 
-  protected static void closeDatabase() {
-    _mongoClient.close();
-  }
-
-  protected static DBObject findSingleMatch(DBCollection collection, String key, Object value) {
-    BasicDBObject query = new BasicDBObject(key, value);
-
-    DBCursor cursor = collection.find(query);
-
-    if (cursor.count() == 1) {
-      return cursor.next();
-    } else if (cursor.count() == 0) {
-      return null;
-    } else {
-      throw new IllegalStateException("Multiple matches found with " + key + " field with value '" + value + "'");
-    }
-  }
-
-  protected static void singleFieldUpdateWithId(String collectionName, Object id, String fieldName, Object value) {
-    BasicDBObject updateQuery = new BasicDBObject(fieldName, value);
-
-    updateObjectWithId(collectionName, id, updateQuery);
-  }
-
-  protected static void updateObjectWithId(String collectionName, Object id, DBObject updateQuery) {
-    BasicDBObject queryObject = new BasicDBObject("_id", id);
-
-    updateCollectionWithQuery(collectionName, queryObject, updateQuery);
-  }
-
-  protected static WriteResult updateCollectionWithQuery(String collectionName, BasicDBObject queryObject, DBObject updateObject) {
-    return _db.getCollection(collectionName).update(queryObject, new BasicDBObject("$set", updateObject));
-  }
 }

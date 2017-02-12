@@ -7,7 +7,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.HashMap;
 
-public class PostgresConnectionFactory extends ConnectionFactory {
+public class PostgresConnectionFactory {
 
   private String postgresURL;
 
@@ -21,7 +21,6 @@ public class PostgresConnectionFactory extends ConnectionFactory {
     programToEnv.put("demo", "postgresURL_local_demo");
   }
 
-  @Override
   public SQLConnection createConnection(String identifier) throws URISyntaxException, SQLException {
     String envName = programToEnv.get(identifier);
 
