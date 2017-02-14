@@ -1,21 +1,22 @@
 package com.mayhew3.gamesutil.tv;
 
 import com.mashape.unirest.http.exceptions.UnirestException;
+import org.apache.http.auth.AuthenticationException;
 import org.json.JSONObject;
 
 import java.sql.Timestamp;
 
 public interface TVDBJWTProvider {
 
-  JSONObject findSeriesMatches(String formattedTitle) throws UnirestException;
+  JSONObject findSeriesMatches(String formattedTitle) throws UnirestException, AuthenticationException;
 
-  JSONObject getSeriesData(Integer tvdbSeriesId) throws UnirestException;
+  JSONObject getSeriesData(Integer tvdbSeriesId) throws UnirestException, AuthenticationException;
 
-  JSONObject getEpisodeSummaries(Integer tvdbSeriesId, Integer pageNumber) throws UnirestException;
+  JSONObject getEpisodeSummaries(Integer tvdbSeriesId, Integer pageNumber) throws UnirestException, AuthenticationException;
 
-  JSONObject getEpisodeData(Integer tvdbEpisodeId) throws UnirestException;
+  JSONObject getEpisodeData(Integer tvdbEpisodeId) throws UnirestException, AuthenticationException;
 
-  JSONObject getPosterData(Integer tvdbId) throws UnirestException;
+  JSONObject getPosterData(Integer tvdbId) throws UnirestException, AuthenticationException;
 
-  JSONObject getUpdatedSeries(Timestamp fromDate) throws UnirestException;
+  JSONObject getUpdatedSeries(Timestamp fromDate) throws UnirestException, AuthenticationException;
 }

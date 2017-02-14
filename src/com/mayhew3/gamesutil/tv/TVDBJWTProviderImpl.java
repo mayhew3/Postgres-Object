@@ -8,6 +8,7 @@ import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mashape.unirest.request.HttpRequest;
 import javafx.util.Pair;
+import org.apache.http.auth.AuthenticationException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -30,7 +31,7 @@ class TVDBJWTProviderImpl implements TVDBJWTProvider {
 
 
   @Override
-  public JSONObject findSeriesMatches(String formattedTitle) throws UnirestException {
+  public JSONObject findSeriesMatches(String formattedTitle) throws UnirestException, AuthenticationException {
     Preconditions.checkState(token != null);
 
     String seriesUrl = "https://api.thetvdb.com/search/series";
@@ -44,7 +45,7 @@ class TVDBJWTProviderImpl implements TVDBJWTProvider {
   }
 
   @Override
-  public JSONObject getSeriesData(Integer tvdbSeriesId) throws UnirestException {
+  public JSONObject getSeriesData(Integer tvdbSeriesId) throws UnirestException, AuthenticationException {
     Preconditions.checkState(token != null);
 
     String seriesUrl = "https://api.thetvdb.com/series/" + tvdbSeriesId;
@@ -55,7 +56,7 @@ class TVDBJWTProviderImpl implements TVDBJWTProvider {
   }
 
   @Override
-  public JSONObject getEpisodeSummaries(Integer tvdbSeriesId, Integer pageNumber) throws UnirestException {
+  public JSONObject getEpisodeSummaries(Integer tvdbSeriesId, Integer pageNumber) throws UnirestException, AuthenticationException {
     Preconditions.checkState(token != null);
 
     String seriesUrl = "https://api.thetvdb.com/series/" + tvdbSeriesId + "/episodes";
@@ -69,7 +70,7 @@ class TVDBJWTProviderImpl implements TVDBJWTProvider {
   }
 
   @Override
-  public JSONObject getEpisodeData(Integer tvdbEpisodeId) throws UnirestException {
+  public JSONObject getEpisodeData(Integer tvdbEpisodeId) throws UnirestException, AuthenticationException {
     Preconditions.checkState(token != null);
 
     String seriesUrl = "https://api.thetvdb.com/episodes/" + tvdbEpisodeId;
@@ -80,7 +81,7 @@ class TVDBJWTProviderImpl implements TVDBJWTProvider {
   }
 
   @Override
-  public JSONObject getPosterData(Integer tvdbId) throws UnirestException {
+  public JSONObject getPosterData(Integer tvdbId) throws UnirestException, AuthenticationException {
     Preconditions.checkState(token != null);
 
     String seriesUrl = "https://api.thetvdb.com/series/" + tvdbId + "/images/query";
@@ -94,7 +95,7 @@ class TVDBJWTProviderImpl implements TVDBJWTProvider {
   }
 
   @Override
-  public JSONObject getUpdatedSeries(Timestamp fromDate) throws UnirestException {
+  public JSONObject getUpdatedSeries(Timestamp fromDate) throws UnirestException, AuthenticationException {
     Preconditions.checkState(token != null);
 
     long epochTime = getEpochTime(fromDate);
@@ -118,7 +119,7 @@ class TVDBJWTProviderImpl implements TVDBJWTProvider {
     return fromDate.getTime() / 1000L;
   }
 
-  void writeSearchToFile(String formattedTitle) throws UnirestException, IOException {
+  void writeSearchToFile(String formattedTitle) throws UnirestException, IOException, AuthenticationException {
     Preconditions.checkState(token != null);
 
     String seriesUrl = "https://api.thetvdb.com/search/series";
@@ -133,7 +134,7 @@ class TVDBJWTProviderImpl implements TVDBJWTProvider {
     writeResultToFile(filePath, jsonObject);
   }
 
-  void writeSeriesToFile(Integer tvdbId) throws UnirestException, IOException {
+  void writeSeriesToFile(Integer tvdbId) throws UnirestException, IOException, AuthenticationException {
     Preconditions.checkState(token != null);
 
     String seriesUrl = "https://api.thetvdb.com/series/" + tvdbId;
@@ -145,7 +146,7 @@ class TVDBJWTProviderImpl implements TVDBJWTProvider {
     writeResultToFile(filePath, jsonObject);
   }
 
-  void writePostersToFile(Integer tvdbSeriesId) throws UnirestException, IOException {
+  void writePostersToFile(Integer tvdbSeriesId) throws UnirestException, IOException, AuthenticationException {
     Preconditions.checkState(token != null);
 
     String seriesUrl = "https://api.thetvdb.com/series/" + tvdbSeriesId + "/images/query";
@@ -162,13 +163,13 @@ class TVDBJWTProviderImpl implements TVDBJWTProvider {
   }
 
 
-  void writeEpisodeDetailsToFiles(Integer tvdbSeriesId, List<Pair<Integer, Integer>> episodeNumbers) throws IOException, UnirestException {
+  void writeEpisodeDetailsToFiles(Integer tvdbSeriesId, List<Pair<Integer, Integer>> episodeNumbers) throws IOException, UnirestException, AuthenticationException {
     for (Pair<Integer, Integer> episodeNumber : episodeNumbers) {
       writeEpisodeDetailToFile(tvdbSeriesId, episodeNumber.getKey(), episodeNumber.getValue());
     }
   }
 
-  private void writeEpisodeDetailToFile(Integer tvdbSeriesId, Integer seasonNumber, Integer episodeNumber) throws UnirestException, IOException {
+  private void writeEpisodeDetailToFile(Integer tvdbSeriesId, Integer seasonNumber, Integer episodeNumber) throws UnirestException, IOException, AuthenticationException {
     Preconditions.checkState(token != null);
 
     String seriesUrl = "https://api.thetvdb.com/series/" + tvdbSeriesId + "/episodes/query";
@@ -225,17 +226,37 @@ class TVDBJWTProviderImpl implements TVDBJWTProvider {
     return object.getString("token");
   }
 
-  private HttpResponse<JsonNode> getData(String url, Map<String, Object> queryParams) throws UnirestException {
+  private HttpResponse<JsonNode> getData(String url, Map<String, Object> queryParams) throws UnirestException, AuthenticationException {
+    HttpResponse<JsonNode> response = getDataInternal(url, queryParams);
+
+    if ("Unauthorized".equals(response.getStatusText())) {
+      System.out.println("Refreshing token...");
+
+      token = getToken();
+      response = getDataInternal(url, queryParams);
+
+      if ("Unauthorized".equals(response.getStatusText())) {
+        throw new AuthenticationException("Invalid authentication.");
+      }
+    }
+
+
+    return response;
+
+
+  }
+
+  private HttpResponse<JsonNode> getDataInternal(String url, Map<String, Object> queryParams) throws UnirestException {
     return Unirest.get(url)
         .header("Content-Type", "application/json")
         .header("Accept", "application/json")
         .header("Authorization", "Bearer " + token)
         .header("Accept-Language", "en")
         .queryString(queryParams)
-          .asJson();
+        .asJson();
   }
 
-  private HttpResponse<JsonNode> getData(String url) throws UnirestException {
+  private HttpResponse<JsonNode> getData(String url) throws UnirestException, AuthenticationException {
     return getData(url, Maps.newHashMap());
   }
 }

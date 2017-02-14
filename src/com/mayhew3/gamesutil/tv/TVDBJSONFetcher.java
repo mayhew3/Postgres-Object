@@ -6,6 +6,7 @@ import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.model.tv.Series;
 import javafx.util.Pair;
+import org.apache.http.auth.AuthenticationException;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -25,7 +26,7 @@ public class TVDBJSONFetcher {
     this.connection = connection;
   }
 
-  public static void main(String... args) throws URISyntaxException, SQLException, IOException, UnirestException {
+  public static void main(String... args) throws URISyntaxException, SQLException, IOException, UnirestException, AuthenticationException {
     String identifier = new ArgumentChecker(args).getDBIdentifier();
 
     SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
@@ -34,7 +35,7 @@ public class TVDBJSONFetcher {
     tvdbJsonFetcher.downloadJSONForSeries();
   }
 
-  private void downloadJSONForSeries() throws SQLException, IOException, UnirestException {
+  private void downloadJSONForSeries() throws SQLException, IOException, UnirestException, AuthenticationException {
 
     String sql = "select *\n" +
         "from series\n" +

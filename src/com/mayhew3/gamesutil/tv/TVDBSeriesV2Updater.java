@@ -8,6 +8,7 @@ import com.mayhew3.gamesutil.model.tv.*;
 import com.mayhew3.gamesutil.xml.BadlyFormattedXMLException;
 import com.mayhew3.gamesutil.xml.JSONReader;
 import com.mayhew3.gamesutil.xml.JSONReaderImpl;
+import org.apache.http.auth.AuthenticationException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joda.time.DateTime;
@@ -46,7 +47,7 @@ public class TVDBSeriesV2Updater {
   }
 
 
-  void updateSeries() throws SQLException, ShowFailedException, UnirestException, BadlyFormattedXMLException {
+  void updateSeries() throws SQLException, ShowFailedException, UnirestException, BadlyFormattedXMLException, AuthenticationException {
     String seriesTitle = series.seriesTitle.getValue();
     String seriesTiVoId = series.tivoSeriesV2ExtId.getValue();
 
@@ -92,7 +93,7 @@ public class TVDBSeriesV2Updater {
 
     try {
       return findTVDBMatch(series, errorLog);
-    } catch (IOException | SAXException e) {
+    } catch (IOException | SAXException | AuthenticationException e) {
       e.printStackTrace();
       // todo: add error log
       throw new ShowFailedException("Error downloading XML from TVDB.");
@@ -191,7 +192,7 @@ public class TVDBSeriesV2Updater {
   }
 
   @NotNull
-  private Integer findTVDBMatch(Series series, @Nullable ErrorLog errorLog) throws SQLException, IOException, SAXException, UnirestException, ShowFailedException {
+  private Integer findTVDBMatch(Series series, @Nullable ErrorLog errorLog) throws SQLException, IOException, SAXException, UnirestException, ShowFailedException, AuthenticationException {
     String seriesTitle = series.seriesTitle.getValue();
     String tivoId = series.tivoSeriesV2ExtId.getValue();
     String tvdbHint = series.tvdbHint.getValue();
@@ -260,7 +261,7 @@ public class TVDBSeriesV2Updater {
   }
 
   @Nullable
-  private JSONArray findMatchesFor(String seriesTitle, String formattedTitle) throws UnirestException {
+  private JSONArray findMatchesFor(String seriesTitle, String formattedTitle) throws UnirestException, AuthenticationException {
     debug("Update for: " + seriesTitle + ", formatted as '" + formattedTitle + "'");
 
     JSONObject seriesMatches = tvdbDataProvider.findSeriesMatches(formattedTitle);
@@ -336,7 +337,7 @@ public class TVDBSeriesV2Updater {
     errorLog.commit(connection);
   }
 
-  private void updateShowData(Series series) throws SQLException,  UnirestException {
+  private void updateShowData(Series series) throws SQLException, UnirestException, AuthenticationException {
     Integer tvdbID = series.tvdbSeriesExtId.getValue();
     String seriesTitle = series.seriesTitle.getValue();
 

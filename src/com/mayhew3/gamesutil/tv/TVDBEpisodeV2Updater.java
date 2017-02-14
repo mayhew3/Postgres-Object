@@ -9,6 +9,7 @@ import com.mayhew3.gamesutil.model.tv.TVDBEpisode;
 import com.mayhew3.gamesutil.model.tv.TVDBMigrationLog;
 import com.mayhew3.gamesutil.model.tv.TiVoEpisode;
 import com.mayhew3.gamesutil.xml.JSONReader;
+import org.apache.http.auth.AuthenticationException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joda.time.DateTime;
@@ -51,7 +52,7 @@ class TVDBEpisodeV2Updater {
    * @throws SQLException If DB query error
    * @throws ShowFailedException If multiple episodes were found to update
    */
-  EPISODE_RESULT updateSingleEpisode() throws SQLException, ShowFailedException, UnirestException {
+  EPISODE_RESULT updateSingleEpisode() throws SQLException, ShowFailedException, UnirestException, AuthenticationException {
     JSONObject episodeData = tvdbjwtProvider.getEpisodeData(tvdbRemoteId);
 
     if (!episodeData.has("data")) {

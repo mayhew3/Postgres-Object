@@ -9,6 +9,7 @@ import com.mayhew3.gamesutil.model.tv.Series;
 import com.mayhew3.gamesutil.model.tv.TVDBWorkItem;
 import com.mayhew3.gamesutil.xml.JSONReader;
 import com.mayhew3.gamesutil.xml.JSONReaderImpl;
+import org.apache.http.auth.AuthenticationException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joda.time.DateTime;
@@ -101,9 +102,14 @@ public class TVDBUpdateFinder {
       debug(new Date());
       debug("Starting periodic update...");
 
-      runPeriodicUpdate();
+      try {
+        runPeriodicUpdate();
+        debug("Finished run. Waiting " + SECONDS + " seconds...");
+      } catch (AuthenticationException e) {
+        debug("Authentication failure with TVDB! Trying again in " + SECONDS + " seconds...");
+        e.printStackTrace();
+      }
 
-      debug("Finished run. Waiting " + SECONDS + " seconds...");
 
       if (logToFile && logOutput != null) {
         closeLogStream();
@@ -113,7 +119,7 @@ public class TVDBUpdateFinder {
     }
   }
 
-  private void testUpdaterWorksSameWithPeriod(Integer seconds) throws SQLException, UnirestException, InterruptedException {
+  private void testUpdaterWorksSameWithPeriod(Integer seconds) throws SQLException, UnirestException, InterruptedException, AuthenticationException {
     DateTime now = DateTime.now();
     DateTime tenMinutesFromNow = now.plusMinutes(10);
 
@@ -170,7 +176,7 @@ public class TVDBUpdateFinder {
         .findFirst();
   }
 
-  private List<TVDBUpdate> runPeriodicUpdate() throws SQLException, UnirestException {
+  private List<TVDBUpdate> runPeriodicUpdate() throws SQLException, UnirestException, AuthenticationException {
     Timestamp lastUpdateTime = getLastUpdateTime();
     if (lastUpdateTime != null) {
       Timestamp startTime = createStartTimeWithBuffer(lastUpdateTime);
@@ -186,7 +192,7 @@ public class TVDBUpdateFinder {
   }
 
   @NotNull
-  private List<TVDBUpdate> runPeriodicUpdate(@NotNull Timestamp startTime) throws UnirestException, SQLException {
+  private List<TVDBUpdate> runPeriodicUpdate(@NotNull Timestamp startTime) throws UnirestException, SQLException, AuthenticationException {
     Timestamp now = now();
 
     Seconds secondsDiff = Seconds.secondsBetween(new DateTime(startTime), new DateTime(now));

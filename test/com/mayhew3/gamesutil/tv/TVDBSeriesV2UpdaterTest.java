@@ -8,6 +8,7 @@ import com.mayhew3.gamesutil.model.tv.TVDBEpisode;
 import com.mayhew3.gamesutil.model.tv.TVDBSeries;
 import com.mayhew3.gamesutil.xml.BadlyFormattedXMLException;
 import com.mayhew3.gamesutil.xml.JSONReaderImpl;
+import org.apache.http.auth.AuthenticationException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joda.time.LocalDate;
@@ -43,7 +44,7 @@ public class TVDBSeriesV2UpdaterTest extends TVDatabaseTest {
   }
 
   @Test
-  public void testIDChangedForTVDBEpisode() throws SQLException, ShowFailedException, BadlyFormattedXMLException, UnirestException {
+  public void testIDChangedForTVDBEpisode() throws SQLException, ShowFailedException, BadlyFormattedXMLException, UnirestException, AuthenticationException {
     createSeries(SCHUMER_SERIES_NAME, SCHUMER_SERIES_ID);
 
     Series series = findSeriesWithTitle(SCHUMER_SERIES_NAME);
@@ -74,7 +75,7 @@ public class TVDBSeriesV2UpdaterTest extends TVDatabaseTest {
   }
 
   @Test
-  public void testEpisodeNumbersSwapped() throws SQLException, IOException, SAXException, ShowFailedException, BadlyFormattedXMLException, UnirestException {
+  public void testEpisodeNumbersSwapped() throws SQLException, IOException, SAXException, ShowFailedException, BadlyFormattedXMLException, UnirestException, AuthenticationException {
     createSeries(SCHUMER_SERIES_NAME, SCHUMER_SERIES_ID);
 
     Series series = findSeriesWithTitle(SCHUMER_SERIES_NAME);
@@ -104,7 +105,7 @@ public class TVDBSeriesV2UpdaterTest extends TVDatabaseTest {
 
 
   @Test
-  public void testAirDateDatesLinked() throws SQLException, ShowFailedException, BadlyFormattedXMLException, UnirestException {
+  public void testAirDateDatesLinked() throws SQLException, ShowFailedException, BadlyFormattedXMLException, UnirestException, AuthenticationException {
     Series series = createSeries(SCHUMER_SERIES_NAME, SCHUMER_SERIES_ID);
 
     addEpisode(series, 4, 1, SCHUMER_EPISODE_NAME1, SCHUMER_EPISODE_ID1);
@@ -143,7 +144,7 @@ public class TVDBSeriesV2UpdaterTest extends TVDatabaseTest {
 
 
   @Test
-  public void testAirDateNew() throws SQLException, ShowFailedException, BadlyFormattedXMLException, UnirestException {
+  public void testAirDateNew() throws SQLException, ShowFailedException, BadlyFormattedXMLException, UnirestException, AuthenticationException {
     Series series = createSeries(SCHUMER_SERIES_NAME, SCHUMER_SERIES_ID);
 
     Date xmlDate = new LocalDate(2016, 4, 28).toDate();
@@ -163,7 +164,7 @@ public class TVDBSeriesV2UpdaterTest extends TVDatabaseTest {
 
 
   @Test
-  public void testAirDateOverride() throws SQLException, ShowFailedException, BadlyFormattedXMLException, UnirestException {
+  public void testAirDateOverride() throws SQLException, ShowFailedException, BadlyFormattedXMLException, UnirestException, AuthenticationException {
     Series series = createSeries(SCHUMER_SERIES_NAME, SCHUMER_SERIES_ID);
 
     addEpisode(series, 4, 1, SCHUMER_EPISODE_NAME1, SCHUMER_EPISODE_ID1);
@@ -201,7 +202,7 @@ public class TVDBSeriesV2UpdaterTest extends TVDatabaseTest {
   }
 
   @Test
-  public void testEpisodeNumberOverride() throws SQLException, ShowFailedException, BadlyFormattedXMLException, UnirestException {
+  public void testEpisodeNumberOverride() throws SQLException, ShowFailedException, BadlyFormattedXMLException, UnirestException, AuthenticationException {
     Series series = createSeries(SCHUMER_SERIES_NAME, SCHUMER_SERIES_ID);
 
     addEpisode(series, 4, 1, SCHUMER_EPISODE_NAME1, SCHUMER_EPISODE_ID1);
@@ -232,7 +233,7 @@ public class TVDBSeriesV2UpdaterTest extends TVDatabaseTest {
   }
 
   @Test
-  public void testSeasonNumberOverride() throws SQLException, ShowFailedException, BadlyFormattedXMLException, UnirestException {
+  public void testSeasonNumberOverride() throws SQLException, ShowFailedException, BadlyFormattedXMLException, UnirestException, AuthenticationException {
     Series series = createSeries(SCHUMER_SERIES_NAME, SCHUMER_SERIES_ID);
 
     Episode firstEpisode = addEpisode(series, 4, 1, SCHUMER_EPISODE_NAME1, SCHUMER_EPISODE_ID1);

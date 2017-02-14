@@ -11,6 +11,7 @@ import com.mayhew3.gamesutil.model.tv.TVDBWorkItem;
 import com.mayhew3.gamesutil.xml.BadlyFormattedXMLException;
 import com.mayhew3.gamesutil.xml.JSONReader;
 import com.mayhew3.gamesutil.xml.JSONReaderImpl;
+import org.apache.http.auth.AuthenticationException;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -208,7 +209,7 @@ public class TVDBUpdateProcessor {
     series.commit(connection);
   }
 
-  private void updateTVDB(Series series) throws SQLException, BadlyFormattedXMLException, ShowFailedException, UnirestException {
+  private void updateTVDB(Series series) throws SQLException, BadlyFormattedXMLException, ShowFailedException, UnirestException, AuthenticationException {
     TVDBSeriesV2Updater updater = new TVDBSeriesV2Updater(connection, series, tvdbjwtProvider, jsonReader);
     updater.updateSeries();
   }
