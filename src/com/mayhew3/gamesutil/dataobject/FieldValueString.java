@@ -1,5 +1,7 @@
 package com.mayhew3.gamesutil.dataobject;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,6 +16,18 @@ public class FieldValueString extends FieldValue<String> {
   protected void initializeValue(String value) {
     super.initializeValue(value);
     this.isText = true;
+  }
+
+  @Override
+  public FieldValueString defaultValue(String defaultValue) {
+    super.defaultValue(defaultValue);
+    return this;
+  }
+
+  @Nullable
+  @Override
+  public String getInformationSchemaDefault() {
+    return super.getInformationSchemaDefault() == null ? null : "'" + super.getInformationSchemaDefault() + "'::text";
   }
 
   @Override

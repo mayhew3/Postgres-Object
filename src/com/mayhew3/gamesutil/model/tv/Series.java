@@ -63,6 +63,8 @@ public class Series extends DataObject {
   public FieldValueTimestamp lastTVDBError = registerTimestampField("last_tvdb_error", Nullability.NULLABLE);
   public FieldValueTimestamp lastTVDBSanityCheck = registerTimestampField("last_tvdb_sanity_check", Nullability.NULLABLE);
 
+  public FieldValueString tvdbMatchStatus = registerStringField("tvdb_match_status", Nullability.NOT_NULL).defaultValue("Needs First Pass");
+
   public FieldValueInteger consecutiveTVDBErrors = registerIntegerField("consecutive_tvdb_errors", Nullability.NOT_NULL).defaultValue(0);
 
   public Series() {

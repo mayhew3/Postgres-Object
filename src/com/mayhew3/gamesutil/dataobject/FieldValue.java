@@ -27,7 +27,7 @@ public abstract class FieldValue<T> {
     this.nullability = nullability;
   }
 
-  public FieldValue defaultValue(T defaultValue) {
+  public FieldValue<T> defaultValue(T defaultValue) {
     this.defaultValue = defaultValue;
     return this;
   }
