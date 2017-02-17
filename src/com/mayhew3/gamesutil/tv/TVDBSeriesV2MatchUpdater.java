@@ -1,0 +1,167 @@
+package com.mayhew3.gamesutil.tv;
+
+import com.mashape.unirest.http.exceptions.UnirestException;
+import com.mayhew3.gamesutil.db.SQLConnection;
+import com.mayhew3.gamesutil.model.tv.PossibleSeriesMatch;
+import com.mayhew3.gamesutil.model.tv.Series;
+import com.mayhew3.gamesutil.xml.BadlyFormattedXMLException;
+import org.apache.http.auth.AuthenticationException;
+import org.jetbrains.annotations.NotNull;
+import org.joda.time.DateTime;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.xml.sax.SAXException;
+
+import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+
+public class TVDBSeriesV2MatchUpdater {
+
+  private Series series;
+
+  private SQLConnection connection;
+  private TVDBJWTProvider tvdbDataProvider;
+
+  public TVDBSeriesV2MatchUpdater(SQLConnection connection,
+                                  @NotNull Series series,
+                                  TVDBJWTProvider tvdbWebProvider) {
+    this.series = series;
+    this.connection = connection;
+    this.tvdbDataProvider = tvdbWebProvider;
+  }
+
+  void updateSeries() throws SQLException, ShowFailedException, UnirestException, BadlyFormattedXMLException, AuthenticationException {
+    try {
+      findTVDBMatch(series);
+    } catch (IOException | SAXException | AuthenticationException e) {
+      e.printStackTrace();
+      // todo: add error log
+      throw new ShowFailedException("Error downloading XML from TVDB.");
+    }
+  }
+
+  private void findTVDBMatch(Series series) throws SQLException, IOException, SAXException, UnirestException, ShowFailedException, AuthenticationException {
+    String seriesTitle = series.seriesTitle.getValue();
+    String tivoId = series.tivoSeriesV2ExtId.getValue();
+    String tvdbHint = series.tvdbHint.getValue();
+
+    String titleToCheck = (tvdbHint == null || "".equals(tvdbHint)) ? seriesTitle : tvdbHint;
+
+    if (titleToCheck == null) {
+      throw new RuntimeException("Title to check is null. TiVoSeriesId: " + tivoId);
+    }
+
+    String formattedTitle = titleToCheck
+        .toLowerCase()
+        .replaceAll(" ", "_");
+
+    List<PossibleSeriesMatch> orderedMatches = getOrderedMatches(seriesTitle, formattedTitle);
+
+    if (orderedMatches.isEmpty()) {
+      if (tvdbHint != null) {
+        series.tvdbMatchStatus.changeValue("Hint Rejected");
+      } else {
+        series.tvdbMatchStatus.changeValue("Needs Hint");
+      }
+    } else {
+      for (PossibleSeriesMatch possibleSeriesMatch : orderedMatches) {
+        series.addPossibleSeriesMatch(connection, possibleSeriesMatch);
+      }
+
+      PossibleSeriesMatch bestMatch = orderedMatches.get(0);
+
+      Optional<Series> differentSeriesWithSameTVDBID = findDifferentSeriesWithSameTVDBID(series.id.getValue(), bestMatch.tvdbSeriesExtId.getValue());
+      if (differentSeriesWithSameTVDBID.isPresent()) {
+        debug("Duplicate series found with TVDB ID " + bestMatch.tvdbSeriesExtId.getValue() + ": " + differentSeriesWithSameTVDBID.get());
+        series.tvdbMatchStatus.changeValue("Duplicate");
+      } else {
+        series.tvdbSeriesExtId.changeValue(bestMatch.tvdbSeriesExtId.getValue());
+        series.tvdbMatchStatus.changeValue("Match Pending");
+      }
+    }
+
+    series.commit(connection);
+  }
+
+  private Optional<Series> findDifferentSeriesWithSameTVDBID(Integer seriesId, Integer tvdbSeriesExtId) throws SQLException {
+    String sql = "SELECT * " +
+        "FROM series " +
+        "WHERE id <> ? " +
+        "AND tvdb_series_ext_id = ? ";
+
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, seriesId, tvdbSeriesExtId);
+
+    if (resultSet.next()) {
+      Series series = new Series();
+      series.initializeFromDBObject(resultSet);
+      return Optional.of(series);
+    } else {
+      return Optional.empty();
+    }
+  }
+
+  private List<PossibleSeriesMatch> getOrderedMatches(String seriesTitle, String formattedTitle) throws AuthenticationException, UnirestException {
+    List<PossibleSeriesMatch> possibleMatches = new ArrayList<>();
+
+    Optional<PossibleSeriesMatch> exactMatchWithYear = findExactMatchWithYear(seriesTitle, formattedTitle);
+    exactMatchWithYear.ifPresent(possibleMatches::add);
+
+    JSONArray otherMatches = findMatchesFor(seriesTitle, formattedTitle);
+
+    Integer maximumCapacity = exactMatchWithYear.isPresent() ? 4 : 5;
+    Integer possibleSeries = Math.min(maximumCapacity, otherMatches.length());
+    for (int i = 0; i < possibleSeries; i++) {
+      JSONObject seriesNode = otherMatches.getJSONObject(i);
+      possibleMatches.add(createPossibleSeriesMatchFromObject(seriesNode));
+    }
+
+    return possibleMatches;
+  }
+
+  private Optional<PossibleSeriesMatch> findExactMatchWithYear(String seriesTitle, String formattedTitle) throws AuthenticationException, UnirestException {
+    Integer year = new DateTime(new Date()).getYear();
+    String formattedTitleWithYear = formattedTitle + "_(" + year + ")";
+
+    JSONArray seriesNodes = findMatchesFor(seriesTitle, formattedTitleWithYear);
+
+    if (seriesNodes.length() == 0) {
+      return Optional.empty();
+    }
+
+    JSONObject firstSeries = seriesNodes.getJSONObject(0);
+
+    return Optional.of(createPossibleSeriesMatchFromObject(firstSeries));
+  }
+
+  @NotNull
+  private PossibleSeriesMatch createPossibleSeriesMatchFromObject(JSONObject firstSeries) {
+    PossibleSeriesMatch possibleSeriesMatch = new PossibleSeriesMatch();
+    possibleSeriesMatch.initializeForInsert();
+
+    String tvdbSeriesName = firstSeries.getString("seriesName");
+    Integer tvdbSeriesId = firstSeries.getInt("id");
+
+    possibleSeriesMatch.tvdbSeriesTitle.changeValue(tvdbSeriesName);
+    possibleSeriesMatch.tvdbSeriesExtId.changeValue(tvdbSeriesId);
+    return possibleSeriesMatch;
+  }
+
+  @NotNull
+  private JSONArray findMatchesFor(String seriesTitle, String formattedTitle) throws UnirestException, AuthenticationException {
+    debug("Update for: " + seriesTitle + ", formatted as '" + formattedTitle + "'");
+
+    JSONObject seriesMatches = tvdbDataProvider.findSeriesMatches(formattedTitle);
+    return seriesMatches.has("data") ? seriesMatches.getJSONArray("data") : new JSONArray();
+  }
+
+  protected void debug(Object object) {
+    System.out.println(object);
+  }
+
+
+}

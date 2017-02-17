@@ -1,7 +1,6 @@
 package com.mayhew3.gamesutil.tv;
 
 import com.mayhew3.gamesutil.ArgumentChecker;
-import com.mayhew3.gamesutil.dataobject.FieldValueTimestamp;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.model.tv.Episode;

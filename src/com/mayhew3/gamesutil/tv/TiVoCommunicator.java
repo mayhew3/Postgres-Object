@@ -521,6 +521,7 @@ public class TiVoCommunicator {
     series.tvdbNew.changeValue(true);
     series.metacriticNew.changeValue(true);
     series.tivoVersion.changeValue(2);
+    series.tvdbMatchStatus.changeValue("Needs First Pass");
 
     series.commit(sqlConnection);
 

@@ -80,7 +80,8 @@ public class Series extends DataObject {
 
   @Override
   public String toString() {
-    return seriesTitle.getValue();
+    String idString = id.getValue() == null ? "" : id.getValue().toString();
+    return seriesTitle.getValue() + " (" + idString + ")";
   }
 
   public void initializeDenorms() {
@@ -131,6 +132,20 @@ public class Series extends DataObject {
     }
 
     return null;
+  }
+
+  public void addPossibleSeriesMatch(SQLConnection connection, PossibleSeriesMatch possibleSeriesMatch) throws SQLException {
+    Preconditions.checkNotNull(id.getValue(), "Cannot insert child entity until Series object is committed (id is non-null)");
+
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
+        "SELECT * FROM possible_series_match " +
+            "WHERE " + possibleSeriesMatch.tvdbSeriesExtId.getFieldName() + " = ?",
+        possibleSeriesMatch.tvdbSeriesExtId.getValue());
+
+    if (!resultSet.next()) {
+      possibleSeriesMatch.seriesId.changeValue(id.getValue());
+      possibleSeriesMatch.commit(connection);
+    }
   }
 
   public PossibleSeriesMatch addPossibleSeriesMatch(SQLConnection connection, Integer tvdbSeriesId, String title) throws SQLException {
