@@ -10,19 +10,14 @@ import com.mayhew3.gamesutil.xml.JSONReader;
 import com.mayhew3.gamesutil.xml.JSONReaderImpl;
 import org.apache.http.auth.AuthenticationException;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.xml.sax.SAXException;
 
-import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 public class TVDBSeriesV2Updater {
 
@@ -32,8 +27,8 @@ public class TVDBSeriesV2Updater {
   private TVDBJWTProvider tvdbDataProvider;
   private JSONReader jsonReader;
 
-  private Integer _episodesAdded = 0;
-  private Integer _episodesUpdated = 0;
+  private Integer episodesAdded = 0;
+  private Integer episodesUpdated = 0;
   private Integer episodesFailed = 0;
 
   public TVDBSeriesV2Updater(SQLConnection connection,
@@ -49,59 +44,18 @@ public class TVDBSeriesV2Updater {
 
   void updateSeries() throws SQLException, ShowFailedException, UnirestException, BadlyFormattedXMLException, AuthenticationException {
     String seriesTitle = series.seriesTitle.getValue();
-    String seriesTiVoId = series.tivoSeriesV2ExtId.getValue();
 
-    ErrorLog errorLog = getErrorLog(seriesTiVoId);
+    debug(seriesTitle + ": ID found, getting show data.");
 
-    if (shouldIgnoreShow(errorLog)) {
-      markSeriesToIgnore(series);
-      resolveError(errorLog);
-    } else {
+    updateShowData();
 
-      Boolean matchedWrong = series.matchedWrong.getValue();
-      Integer existingId = series.tvdbSeriesExtId.getValue();
-
-      Integer tvdbId = getTVDBID(errorLog, matchedWrong, existingId);
-
-      Boolean usingOldWrongID = matchedWrong && Objects.equals(existingId, tvdbId);
-
-      if (!usingOldWrongID) {
-        debug(seriesTitle + ": ID found, getting show data.");
-        series.tvdbSeriesExtId.changeValue(tvdbId);
-
-        if (matchedWrong || series.needsTVDBRedo.getValue()) {
-          Integer seriesId = series.id.getValue();
-          unlinkAndRemoveEpisodes(seriesId);
-          series.needsTVDBRedo.changeValue(false);
-          series.matchedWrong.changeValue(false);
-        }
-
-        updateShowData(series);
-
-        if (series.tivoSeriesV2ExtId.getValue() != null) {
-          tryToMatchUnmatchedEpisodes(series);
-        }
-      }
+    if (series.tivoSeriesV2ExtId.getValue() != null) {
+      tryToMatchUnmatchedEpisodes();
     }
   }
 
-  @NotNull
-  private Integer getTVDBID(@Nullable ErrorLog errorLog, Boolean matchedWrong, Integer existingId) throws SQLException, ShowFailedException, UnirestException {
-    if (existingId != null && !matchedWrong) {
-      return existingId;
-    }
-
-    try {
-      return findTVDBMatch(series, errorLog);
-    } catch (IOException | SAXException | AuthenticationException e) {
-      e.printStackTrace();
-      // todo: add error log
-      throw new ShowFailedException("Error downloading XML from TVDB.");
-    }
-  }
-
-  private void tryToMatchUnmatchedEpisodes(Series series) throws SQLException {
-    List<TiVoEpisode> unmatchedEpisodes = findUnmatchedEpisodes(series);
+  private void tryToMatchUnmatchedEpisodes() throws SQLException {
+    List<TiVoEpisode> unmatchedEpisodes = findUnmatchedEpisodes();
 
     debug(unmatchedEpisodes.size() + " unmatched episodes found.");
 
@@ -125,7 +79,7 @@ public class TVDBSeriesV2Updater {
     }
   }
 
-  private List<TiVoEpisode> findUnmatchedEpisodes(Series series) throws SQLException {
+  private List<TiVoEpisode> findUnmatchedEpisodes() throws SQLException {
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
         "SELECT te.* " +
             "FROM tivo_episode te " +
@@ -145,200 +99,13 @@ public class TVDBSeriesV2Updater {
     return tiVoEpisodes;
   }
 
-  private void unlinkAndRemoveEpisodes(Integer seriesId) throws SQLException {
-
-    connection.prepareAndExecuteStatementUpdate(
-        "DELETE FROM edge_tivo_episode " +
-            "WHERE episode_id IN (SELECT id " +
-            "                     FROM episode " +
-            "                     WHERE series_id = ?)", seriesId
-    );
-
-    connection.prepareAndExecuteStatementUpdate(
-        "UPDATE episode " +
-            "SET on_tivo = ?, retired = id " +
-            "WHERE series_id = ?", false, seriesId
-    );
-
-    connection.prepareAndExecuteStatementUpdate(
-        "UPDATE tvdb_episode " +
-            "SET retired = id " +
-            "WHERE id IN (SELECT tvdb_episode_id " +
-            "           FROM episode " +
-            "           WHERE series_id = ?)",
-        seriesId
-    );
-
-  }
-
-  @Nullable
-  private ErrorLog getErrorLog(String tivoId) throws SQLException {
-    if (tivoId == null) {
-      return null;
-    }
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
-        "SELECT *" +
-            "FROM error_log " +
-            "WHERE tivo_id = ? " +
-            "AND resolved = ?", tivoId, false
-    );
-    if (resultSet.next()) {
-      ErrorLog errorLog = new ErrorLog();
-      errorLog.initializeFromDBObject(resultSet);
-      return errorLog;
-    }
-
-    return null;
-  }
-
-  @NotNull
-  private Integer findTVDBMatch(Series series, @Nullable ErrorLog errorLog) throws SQLException, IOException, SAXException, UnirestException, ShowFailedException, AuthenticationException {
-    String seriesTitle = series.seriesTitle.getValue();
-    String tivoId = series.tivoSeriesV2ExtId.getValue();
-    String tvdbHint = series.tvdbHint.getValue();
-
-    String titleToCheck = (tvdbHint == null || "".equals(tvdbHint)) ?
-        getTitleToCheck(seriesTitle, errorLog) :
-        tvdbHint;
-
-    if (titleToCheck == null) {
-      throw new RuntimeException("Title to check is null. TiVoSeriesId: " + tivoId);
-    }
-
-    String formattedTitle = titleToCheck
-        .toLowerCase()
-        .replaceAll(" ", "_");
-
-    Integer year = new DateTime(new Date()).getYear();
-    String formattedTitleWithYear = formattedTitle + "_(" + year + ")";
-
-    JSONArray seriesNodes = findMatchesFor(seriesTitle, formattedTitleWithYear);
-
-    if (seriesNodes == null || seriesNodes.length() == 0) {
-      debug("Show not found with year! Trying without year.");
-
-      seriesNodes = findMatchesFor(seriesTitle, formattedTitle);
-
-      if (seriesNodes == null || seriesNodes.length() == 0) {
-        if (!isNotFoundError(errorLog)) {
-          addShowNotFoundErrorLog(series, formattedTitle, "Empty result found.");
-        }
-        throw new ShowFailedException("Unable to find series: " + seriesTitle);
-      }
-    }
-
-    if (isNotFoundError(errorLog)) {
-      resolveError(errorLog);
-    }
-
-    JSONObject firstSeries = seriesNodes.getJSONObject(0);
-    String seriesName = firstSeries.getString("seriesName");
-
-    attachPossibleSeries(series, seriesNodes);
-
-    String seriesTitleWithYear = seriesTitle + " (" + year + ")";
-
-    if (!seriesTitle.equalsIgnoreCase(seriesName) &&
-        !titleToCheck.equalsIgnoreCase(seriesName) &&
-        !seriesTitleWithYear.equalsIgnoreCase(seriesName)) {
-      if (shouldAcceptMismatch(errorLog)) {
-        updateSeriesTitle(series, errorLog);
-      } else {
-        debug("Discrepency between TiVo and TVDB names!");
-
-        if (!isMismatchError(errorLog)) {
-          addMismatchErrorLog(tivoId, seriesTitle, formattedTitle, seriesName);
-        }
-        throw new ShowFailedException("Top result of search (" + seriesName + ") doesn't exactly match title: " + seriesTitle);
-      }
-    }
-
-    if (isMismatchError(errorLog)) {
-      resolveError(errorLog);
-    }
-
-    return firstSeries.getInt("id");
-  }
-
-  @Nullable
-  private JSONArray findMatchesFor(String seriesTitle, String formattedTitle) throws UnirestException, AuthenticationException {
-    debug("Update for: " + seriesTitle + ", formatted as '" + formattedTitle + "'");
-
-    JSONObject seriesMatches = tvdbDataProvider.findSeriesMatches(formattedTitle);
-    return seriesMatches.has("data") ? seriesMatches.getJSONArray("data") : null;
-  }
-
-  private void attachPossibleSeries(Series series, JSONArray seriesNodes) throws SQLException {
-    int possibleSeries = Math.min(5, seriesNodes.length());
-    for (int i = 0; i < possibleSeries; i++) {
-      JSONObject seriesNode = seriesNodes.getJSONObject(i);
-
-      String tvdbSeriesName = seriesNode.getString("seriesName");
-      Integer tvdbSeriesId = seriesNode.getInt("id");
-
-      series.addPossibleSeriesMatch(connection, tvdbSeriesId, tvdbSeriesName);
-    }
-  }
-
-  private String getTitleToCheck(String seriesTitle, @Nullable ErrorLog errorLog) {
-    if (errorLog != null && isNotFoundError(errorLog)) {
-      String chosenName = errorLog.chosenName.getValue();
-      if (chosenName == null) {
-        return seriesTitle;
-      }
-      return chosenName;
-    }
-    return seriesTitle;
-  }
-
-  private boolean isNotFoundError(@Nullable ErrorLog errorLog) {
-    return errorLog != null && "NoMatchFound".equals(errorLog.errorType.getValue());
-  }
-
-  private boolean isMismatchError(@Nullable ErrorLog errorLog) {
-    return errorLog != null && "NameMismatch".equals(errorLog.errorType.getValue());
-  }
-
-  private boolean shouldIgnoreShow(@Nullable ErrorLog errorLog) {
-    return errorLog != null && Boolean.TRUE.equals(errorLog.ignoreError.getValue());
-  }
-
-  private void updateSeriesTitle(Series series, @NotNull ErrorLog errorLog) throws SQLException {
-    String chosenName = errorLog.chosenName.getValue();
-    String seriesTitle = series.seriesTitle.getValue();
-
-    if (!seriesTitle.equalsIgnoreCase(chosenName)) {
-      series.seriesTitle.changeValue(chosenName);
-      series.commit(connection);
-    }
-  }
-
-  private void markSeriesToIgnore(Series series) throws SQLException {
-    series.ignoreTVDB.changeValue(true);
-    series.commit(connection);
-  }
-
-  private boolean shouldAcceptMismatch(@Nullable ErrorLog errorLog) {
-    if (errorLog == null) {
-      return false;
-    }
-    if (!isMismatchError(errorLog)) {
-      return false;
-    }
-
-    String chosenName = errorLog.chosenName.getValue();
-
-    return chosenName != null && !"".equals(chosenName);
-  }
-
-  private void resolveError(ErrorLog errorLog) throws SQLException {
-    errorLog.resolved.changeValue(true);
-    errorLog.resolvedDate.changeValue(new Date());
-    errorLog.commit(connection);
-  }
-
-  private void updateShowData(Series series) throws SQLException, UnirestException, AuthenticationException {
+  private void updateShowData() throws SQLException, UnirestException, AuthenticationException, ShowFailedException {
     Integer tvdbID = series.tvdbSeriesExtId.getValue();
+
+    if (tvdbID == null) {
+      throw new ShowFailedException("Updater trying to process series with null TVDB ID: " + series);
+    }
+
     String seriesTitle = series.seriesTitle.getValue();
 
     JSONObject seriesRoot = tvdbDataProvider.getSeriesData(tvdbID);
@@ -347,15 +114,99 @@ public class TVDBSeriesV2Updater {
 
     JSONObject seriesJson = seriesRoot.getJSONObject("data");
 
-    ResultSet existingTVDBSeries = findExistingTVDBSeries(tvdbID);
+    TVDBSeries tvdbSeries = getTVDBSeries(tvdbID);
 
-    TVDBSeries tvdbSeries = new TVDBSeries();
-    if (existingTVDBSeries.next()) {
-      tvdbSeries.initializeFromDBObject(existingTVDBSeries);
-    } else {
-      tvdbSeries.initializeForInsert();
+    updateTVDBSeries(tvdbID, seriesJson, tvdbSeries);
+
+    series.tvdbSeriesId.changeValue(tvdbSeries.id.getValue());
+    series.lastTVDBUpdate.changeValue(new Date());
+    series.tvdbMatchStatus.changeValue("Match Completed");
+
+    series.commit(connection);
+
+    updateAllEpisodes(tvdbID);
+
+    series.tvdbNew.changeValue(false);
+    series.commit(connection);
+
+    // Change API version if no episodes failed.
+    if (episodesFailed == 0) {
+      tvdbSeries.apiVersion.changeValue(2);
+      tvdbSeries.commit(connection);
     }
 
+    debug(seriesTitle + ": Update complete! Added: " + episodesAdded + "; Updated: " + episodesUpdated);
+
+  }
+
+  private void updateAllEpisodes(Integer tvdbID) throws UnirestException, AuthenticationException, SQLException {
+    Integer pageNumber = 1;
+    Integer lastPage;
+
+    do {
+      JSONObject episodeData = tvdbDataProvider.getEpisodeSummaries(tvdbID, pageNumber);
+
+      JSONObject links = episodeData.getJSONObject("links");
+      lastPage = jsonReader.getIntegerWithKey(links, "last");
+
+      JSONArray episodeArray = episodeData.getJSONArray("data");
+
+      for (int i = 0; i < episodeArray.length(); i++) {
+        JSONObject episode = episodeArray.getJSONObject(i);
+        updateEpisode(episode);
+      }
+
+      pageNumber++;
+
+    } while (pageNumber <= lastPage);
+  }
+
+  @NotNull
+  private TVDBSeries getTVDBSeries(Integer tvdbID) throws SQLException, ShowFailedException {
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
+        "SELECT * " +
+            "FROM tvdb_series " +
+            "WHERE tvdb_series_ext_id = ?",
+        tvdbID
+    );
+
+    TVDBSeries tvdbSeries = new TVDBSeries();
+
+    if (resultSet.next()) {
+      tvdbSeries.initializeFromDBObject(resultSet);
+    } else {
+      if ("Match Completed".equals(series.tvdbMatchStatus.getValue())) {
+        throw new ShowFailedException("All 'Match Completed' shows should have a corresponding tvdb_series object.");
+      } else {
+        tvdbSeries.initializeForInsert();
+      }
+    }
+
+    return tvdbSeries;
+  }
+
+  private void updateEpisode(JSONObject episode) throws SQLException {
+    Integer episodeRemoteId = episode.getInt("id");
+
+    try {
+      TVDBEpisodeV2Updater tvdbEpisodeUpdater = new TVDBEpisodeV2Updater(series, connection, tvdbDataProvider, episodeRemoteId, new JSONReaderImpl(), false);
+      TVDBEpisodeV2Updater.EPISODE_RESULT episodeResult = tvdbEpisodeUpdater.updateSingleEpisode();
+
+      if (episodeResult == TVDBEpisodeV2Updater.EPISODE_RESULT.ADDED) {
+        episodesAdded++;
+      } else if (episodeResult == TVDBEpisodeV2Updater.EPISODE_RESULT.UPDATED) {
+        episodesUpdated++;
+      }
+    } catch (Exception e) {
+      debug("TVDB update of episode failed: ");
+      e.printStackTrace();
+      episodesFailed++;
+      updateEpisodeLastError(episodeRemoteId);
+      addMigrationError(episodeRemoteId, e);
+    }
+  }
+
+  private void updateTVDBSeries(Integer tvdbID, JSONObject seriesJson, TVDBSeries tvdbSeries) throws UnirestException, AuthenticationException, SQLException {
     String tvdbSeriesName = jsonReader.getStringWithKey(seriesJson, "seriesName");
 
     Integer id = jsonReader.getIntegerWithKey(seriesJson, "id");
@@ -386,20 +237,31 @@ public class TVDBSeriesV2Updater {
     // todo: create api_change_log table and add a row for each change to series or episode
     // todo: create tvdb_error_log table and log any json format issues where non-nullable are null, or values are wrong type.
 
+    Boolean isForInsert = tvdbSeries.isForInsert();
 
+    // if we are inserting, need to commit before adding posters, which will reference tvdb_series.id
+    if (isForInsert) {
+      tvdbSeries.commit(connection);
+    }
+
+    String primaryPoster = updatePosters(tvdbID, tvdbSeries);
+    tvdbSeries.poster.changeValue(primaryPoster);
+
+    // only add change log if an existing series is changing, not for a new one.
+    if (!isForInsert && tvdbSeries.hasChanged()) {
+      addChangeLogs(tvdbSeries);
+    }
+
+    tvdbSeries.commit(connection);
+  }
+
+  private @NotNull String updatePosters(Integer tvdbID, TVDBSeries tvdbSeries) throws UnirestException, AuthenticationException, SQLException {
     // todo: create posters array
     JSONObject imageData = tvdbDataProvider.getPosterData(tvdbID);
     @NotNull JSONArray images = jsonReader.getArrayWithKey(imageData, "data");
 
     JSONObject firstImage = images.getJSONObject(images.length()-1);
     @NotNull String imageName = jsonReader.getStringWithKey(firstImage, "fileName");
-    tvdbSeries.poster.changeValue(imageName);
-
-    if (tvdbSeries.hasChanged()) {
-      addChangeLogs(tvdbSeries);
-    }
-
-    tvdbSeries.commit(connection);
 
     for (int i = 0; i < images.length(); i++) {
       JSONObject image = images.getJSONObject(i);
@@ -407,63 +269,7 @@ public class TVDBSeriesV2Updater {
       tvdbSeries.addPoster(filename, null, connection);
     }
 
-    series.tvdbSeriesId.changeValue(tvdbSeries.id.getValue());
-    series.lastTVDBUpdate.changeValue(new Date());
-
-    series.commit(connection);
-
-    Integer seriesEpisodesAdded = 0;
-    Integer seriesEpisodesUpdated = 0;
-
-    Integer pageNumber = 1;
-    Integer lastPage;
-
-    do {
-      JSONObject episodeData = tvdbDataProvider.getEpisodeSummaries(tvdbID, pageNumber);
-
-      JSONObject links = episodeData.getJSONObject("links");
-      lastPage = jsonReader.getIntegerWithKey(links, "last");
-
-      JSONArray episodeArray = episodeData.getJSONArray("data");
-
-      for (int i = 0; i < episodeArray.length(); i++) {
-        JSONObject episode = episodeArray.getJSONObject(i);
-
-        Integer episodeRemoteId = episode.getInt("id");
-
-        try {
-          TVDBEpisodeV2Updater tvdbEpisodeUpdater = new TVDBEpisodeV2Updater(series, connection, tvdbDataProvider, episodeRemoteId, new JSONReaderImpl(), false);
-          TVDBEpisodeV2Updater.EPISODE_RESULT episodeResult = tvdbEpisodeUpdater.updateSingleEpisode();
-
-          if (episodeResult == TVDBEpisodeV2Updater.EPISODE_RESULT.ADDED) {
-            seriesEpisodesAdded++;
-          } else if (episodeResult == TVDBEpisodeV2Updater.EPISODE_RESULT.UPDATED) {
-            seriesEpisodesUpdated++;
-          }
-        } catch (Exception e) {
-          debug("TVDB update of episode failed: ");
-          e.printStackTrace();
-          episodesFailed++;
-          updateEpisodeLastError(episodeRemoteId);
-          addMigrationError(series, episodeRemoteId, e);
-        }
-      }
-
-      pageNumber++;
-
-    } while (pageNumber <= lastPage);
-
-    series.tvdbNew.changeValue(false);
-    series.commit(connection);
-
-    // Change API version if no episodes failed.
-    if (episodesFailed == 0) {
-      tvdbSeries.apiVersion.changeValue(2);
-      tvdbSeries.commit(connection);
-    }
-
-    debug(seriesTitle + ": Update complete! Added: " + seriesEpisodesAdded + "; Updated: " + seriesEpisodesUpdated);
-
+    return imageName;
   }
 
   private void updateEpisodeLastError(Integer tvdbEpisodeExtId) {
@@ -486,7 +292,7 @@ public class TVDBSeriesV2Updater {
     }
   }
 
-  private void addMigrationError(Series series, Integer tvdbEpisodeExtId, Exception e) throws SQLException {
+  private void addMigrationError(Integer tvdbEpisodeExtId, Exception e) throws SQLException {
     TVDBMigrationError migrationError = new TVDBMigrationError();
     migrationError.initializeForInsert();
 
@@ -518,72 +324,17 @@ public class TVDBSeriesV2Updater {
   }
 
 
-  private ResultSet findExistingTVDBSeries(Integer tvdbRemoteId) throws SQLException {
-    return connection.prepareAndExecuteStatementFetch(
-        "SELECT * " +
-            "FROM tvdb_series " +
-            "WHERE tvdb_series_ext_id = ?",
-        tvdbRemoteId
-    );
-  }
-
-
-  private void addShowNotFoundErrorLog(Series series, String formattedName, String context) throws SQLException {
-    ErrorLog errorLog = new ErrorLog();
-    errorLog.initializeForInsert();
-
-    errorLog.tivoName.changeValue(series.tivoName.getValue());
-    errorLog.formattedName.changeValue(formattedName);
-    errorLog.context.changeValue(context);
-    errorLog.errorType.changeValue("NoMatchFound");
-    errorLog.errorMessage.changeValue("Unable to find TVDB show with TiVo Name.");
-
-    addBasicErrorLog(series.tivoSeriesV2ExtId.getValue(), errorLog);
-  }
-
-
-  private void addMismatchErrorLog(String tivoId, String tivoName, String formattedName, String tvdbName) throws SQLException {
-    ErrorLog errorLog = new ErrorLog();
-    errorLog.initializeForInsert();
-
-    errorLog.tivoName.changeValue(tivoName);
-    errorLog.formattedName.changeValue(formattedName);
-    errorLog.tvdbName.changeValue(tvdbName);
-    errorLog.errorType.changeValue("NameMismatch");
-    errorLog.errorMessage.changeValue("Mismatch between TiVo and TVDB names.");
-
-    addBasicErrorLog(tivoId, errorLog);
-  }
-
-  private void addBasicErrorLog(String tivoId, ErrorLog errorLog) throws SQLException {
-    errorLog.tivoId.changeValue(tivoId);
-    errorLog.eventDate.changeValue(new Date());
-    errorLog.resolved.changeValue(false);
-    errorLog.commit(connection);
-  }
-
-  private void addErrorLog(String tivoId, String errorMessage) throws SQLException {
-    ErrorLog errorLog = new ErrorLog();
-    errorLog.initializeForInsert();
-
-    errorLog.tivoId.changeValue(tivoId);
-    errorLog.eventDate.changeValue(new Date());
-    errorLog.errorMessage.changeValue(errorMessage);
-    errorLog.resolved.changeValue(false);
-    errorLog.commit(connection);
-  }
-
   protected void debug(Object object) {
     System.out.println(object);
   }
 
 
   Integer getEpisodesAdded() {
-    return _episodesAdded;
+    return episodesAdded;
   }
 
   Integer getEpisodesUpdated() {
-    return _episodesUpdated;
+    return episodesUpdated;
   }
 
 }

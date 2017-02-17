@@ -80,7 +80,7 @@ public abstract class DataObject {
   }
 
   @NotNull
-  Boolean isForInsert() {
+  public Boolean isForInsert() {
     return EditMode.INSERT.equals(editMode);
   }
 

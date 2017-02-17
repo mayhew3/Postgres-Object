@@ -27,6 +27,10 @@ import java.util.TimeZone;
 
 public class TVDBUpdateV2Runner {
 
+  @SuppressWarnings("FieldCanBeLocal")
+  private final String MATCH_CONFIRMED = "Match Confirmed";
+  private final String MATCH_COMPLETED = "Match Completed";
+
   private enum SeriesUpdateResult {UPDATE_SUCCESS, UPDATE_FAILED}
 
   private Integer seriesUpdates = 0;
@@ -40,8 +44,9 @@ public class TVDBUpdateV2Runner {
 
   private TVDBConnectionLog tvdbConnectionLog;
 
-  private final Integer ERROR_THRESHOLD = 3;
+  @SuppressWarnings("FieldCanBeLocal")
   private final Integer ERROR_FOLLOW_UP_THRESHOLD_IN_DAYS = 7;
+  private final Integer ERROR_THRESHOLD = 3;
 
   TVDBUpdateV2Runner(SQLConnection connection, TVDBJWTProvider tvdbjwtProvider, JSONReader jsonReader) {
     this.connection = connection;
@@ -125,7 +130,7 @@ public class TVDBUpdateV2Runner {
   }
 
   /**
-   * Go to theTVDB and update all series in my DB with the ones from theirs.
+   * Go to theTVDB and update all matched series in my DB with the ones from theirs.
    *
    * @throws SQLException if query to get series to update fails. Any one series update will not halt operation of the
    *                    script, but if the query to find all the serieses fails, the operation can't continue.
@@ -133,25 +138,24 @@ public class TVDBUpdateV2Runner {
   public void runUpdate() throws SQLException {
     String sql = "select *\n" +
         "from series\n" +
-        "where ignore_tvdb = ? ";
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, false);
+        "where tvdb_match_status = ? ";
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, MATCH_COMPLETED);
 
     runUpdateOnResultSet(resultSet);
   }
 
   /**
-   * Go to theTVDB and update new series.
+   * Go to theTVDB and only update series that recently had their match confirmed by a user, but haven't yet updated their
+   * episodes or series data.
    *
    * @throws SQLException if query to get series to update fails. Any one series update will not halt operation of the
    *                    script, but if the query to find all the serieses fails, the operation can't continue.
    */
   private void runQuickUpdate() throws SQLException {
-    String sql = "select *\n" +
-        "from series\n" +
-        "where ignore_tvdb = ? " +
-        "and ((tvdb_new = ? and last_tvdb_error is null and last_tvdb_update is null) " +
-        "   or needs_tvdb_redo = ? or matched_wrong = ?) ";
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, false, true, true, true);
+    String sql = "select * " +
+        "from series " +
+        "where tvdb_match_status = ? ";
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, MATCH_CONFIRMED);
 
     runUpdateOnResultSet(resultSet);
   }
@@ -163,9 +167,8 @@ public class TVDBUpdateV2Runner {
 
     String sql = "select *\n" +
         "from series\n" +
-        "where ignore_tvdb = ? " +
-        "and title = ? ";
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, false, singleSeriesTitle);
+        "where title = ? ";
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, singleSeriesTitle);
 
     runUpdateOnResultSet(resultSet);
   }
@@ -267,9 +270,9 @@ public class TVDBUpdateV2Runner {
         "from series\n" +
         "where last_tvdb_error is not null\n" +
         "and consecutive_tvdb_errors < ?\n" +
-        "and ignore_tvdb = ?";
+        "and tvdb_match_status = ? ";
 
-    @NotNull ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, ERROR_THRESHOLD, false);
+    @NotNull ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, ERROR_THRESHOLD, MATCH_COMPLETED);
     runUpdateOnResultSet(resultSet);
   }
 
@@ -283,9 +286,9 @@ public class TVDBUpdateV2Runner {
         "where last_tvdb_error is not null\n" +
         "and last_tvdb_error < ?\n" +
         "and consecutive_tvdb_errors >= ?\n" +
-        "and ignore_tvdb = ?";
+        "and tvdb_match_status = ? ";
 
-    @NotNull ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, timestamp, ERROR_THRESHOLD, false);
+    @NotNull ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, timestamp, ERROR_THRESHOLD, MATCH_COMPLETED);
     runUpdateOnResultSet(resultSet);
   }
 
