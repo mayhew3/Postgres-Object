@@ -64,7 +64,7 @@ public class TVDBSeriesV2MatchUpdater {
 
     if (orderedMatches.isEmpty()) {
       if (tvdbHint != null) {
-        series.tvdbMatchStatus.changeValue("Hint Rejected");
+        series.tvdbMatchStatus.changeValue("Needs Better Hint");
       } else {
         series.tvdbMatchStatus.changeValue("Needs Hint");
       }
@@ -81,7 +81,7 @@ public class TVDBSeriesV2MatchUpdater {
         series.tvdbMatchStatus.changeValue("Duplicate");
       } else {
         series.tvdbSeriesExtId.changeValue(bestMatch.tvdbSeriesExtId.getValue());
-        series.tvdbMatchStatus.changeValue("Match Pending");
+        series.tvdbMatchStatus.changeValue("Needs Confirmation");
       }
     }
 

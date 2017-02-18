@@ -113,7 +113,7 @@ public class TVDBSeriesV2MatchRunner {
         "from series\n" +
         "where tvdb_match_status = ? " +
         "and last_tvdb_error is null ";
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, "Needs First Pass");
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, "Match First Pass");
 
     runUpdateOnResultSet(resultSet);
   }
@@ -127,7 +127,7 @@ public class TVDBSeriesV2MatchRunner {
         "from series\n" +
         "where tvdb_match_status = ? " +
         "and title = ? ";
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, "Needs First Pass", singleSeriesTitle);
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, "Match First Pass", singleSeriesTitle);
 
     runUpdateOnResultSet(resultSet);
   }
@@ -161,7 +161,7 @@ public class TVDBSeriesV2MatchRunner {
         "and last_tvdb_error is not null " +
         "and consecutive_tvdb_errors < ? ";
 
-    @NotNull ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, "Needs First Pass", ERROR_THRESHOLD);
+    @NotNull ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, "Match First Pass", ERROR_THRESHOLD);
     runUpdateOnResultSet(resultSet);
   }
 
