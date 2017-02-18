@@ -238,10 +238,10 @@ public class TVDBUpdateFinder {
   private void maybeUpdateSeries(Timestamp now, Integer tvdbSeriesExtId, Timestamp tvdbLastUpdated) throws SQLException {
     String sql = "select * " +
         "from series " +
-        "where ignore_tvdb = ? " +
-        "and tvdb_series_ext_id = ?";
+        "where tvdb_series_ext_id = ? " +
+        "and tvdb_match_status = ? ";
 
-    @NotNull ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, false, tvdbSeriesExtId);
+    @NotNull ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, false, tvdbSeriesExtId, "Match Completed");
     if (resultSet.next()) {
       if (hasWorkItemAlready(tvdbSeriesExtId, tvdbLastUpdated)) {
         debug("Work item already exists for TVDB ID " + tvdbSeriesExtId + " and update time of " + tvdbLastUpdated);

@@ -83,8 +83,10 @@ public class TVDBUpdateV2Runner {
       tvdbUpdateRunner.runUpdate(TVDBUpdateType.FULL);
     }
 
-    // update denorms after changes.
-    new SeriesDenormUpdater(connection).updateFields();
+    if (tvdbUpdateRunner.getSeriesUpdates() > 0) {
+      // update denorms after changes.
+      new SeriesDenormUpdater(connection).updateFields();
+    }
   }
 
   public void runUpdate(@NotNull TVDBUpdateType updateType) throws SQLException, UnirestException {
