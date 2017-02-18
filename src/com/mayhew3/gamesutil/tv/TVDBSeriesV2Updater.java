@@ -256,12 +256,12 @@ public class TVDBSeriesV2Updater {
   }
 
   private @NotNull String updatePosters(Integer tvdbID, TVDBSeries tvdbSeries) throws UnirestException, AuthenticationException, SQLException {
-    // todo: create posters array
+
     JSONObject imageData = tvdbDataProvider.getPosterData(tvdbID);
     @NotNull JSONArray images = jsonReader.getArrayWithKey(imageData, "data");
 
-    JSONObject firstImage = images.getJSONObject(images.length()-1);
-    @NotNull String imageName = jsonReader.getStringWithKey(firstImage, "fileName");
+    JSONObject mostRecentImageObj = images.getJSONObject(images.length()-1);
+    @NotNull String mostRecentImage = jsonReader.getStringWithKey(mostRecentImageObj, "fileName");
 
     for (int i = 0; i < images.length(); i++) {
       JSONObject image = images.getJSONObject(i);
@@ -269,7 +269,7 @@ public class TVDBSeriesV2Updater {
       tvdbSeries.addPoster(filename, null, connection);
     }
 
-    return imageName;
+    return mostRecentImage;
   }
 
   private void updateEpisodeLastError(Integer tvdbEpisodeExtId) {

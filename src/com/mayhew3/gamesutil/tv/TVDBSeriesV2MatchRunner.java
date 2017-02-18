@@ -8,6 +8,8 @@ import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.model.tv.Series;
 import com.mayhew3.gamesutil.model.tv.TVDBConnectionLog;
 import com.mayhew3.gamesutil.xml.BadlyFormattedXMLException;
+import com.mayhew3.gamesutil.xml.JSONReader;
+import com.mayhew3.gamesutil.xml.JSONReaderImpl;
 import org.apache.http.auth.AuthenticationException;
 import org.jetbrains.annotations.NotNull;
 import org.joda.time.DateTime;
@@ -26,6 +28,7 @@ public class TVDBSeriesV2MatchRunner {
   private SQLConnection connection;
 
   private TVDBJWTProvider tvdbjwtProvider;
+  private JSONReader jsonReader;
 
   private TVDBConnectionLog tvdbConnectionLog;
 
@@ -34,9 +37,10 @@ public class TVDBSeriesV2MatchRunner {
   @SuppressWarnings("FieldCanBeLocal")
   private final Integer ERROR_FOLLOW_UP_THRESHOLD_IN_DAYS = 7;
 
-  private TVDBSeriesV2MatchRunner(SQLConnection connection, TVDBJWTProvider tvdbjwtProvider) {
+  private TVDBSeriesV2MatchRunner(SQLConnection connection, TVDBJWTProvider tvdbjwtProvider, JSONReader jsonReader) {
     this.connection = connection;
     this.tvdbjwtProvider = tvdbjwtProvider;
+    this.jsonReader = jsonReader;
   }
 
   public static void main(String... args) throws URISyntaxException, SQLException, UnirestException {
@@ -48,7 +52,7 @@ public class TVDBSeriesV2MatchRunner {
     String identifier = new ArgumentChecker(args).getDBIdentifier();
 
     SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
-    TVDBSeriesV2MatchRunner tvdbUpdateRunner = new TVDBSeriesV2MatchRunner(connection, new TVDBJWTProviderImpl());
+    TVDBSeriesV2MatchRunner tvdbUpdateRunner = new TVDBSeriesV2MatchRunner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl());
 
     if (singleSeries) {
       tvdbUpdateRunner.runUpdate(TVDBUpdateType.SINGLE);
@@ -121,7 +125,7 @@ public class TVDBSeriesV2MatchRunner {
 
 
   private void runUpdateSingle() throws SQLException {
-    String singleSeriesTitle = "Sherlock on Masterpiece"; // update for testing on a single series
+    String singleSeriesTitle = "Taken"; // update for testing on a single series
 
     String sql = "select *\n" +
         "from series\n" +
@@ -234,7 +238,7 @@ public class TVDBSeriesV2MatchRunner {
   }
 
   private void updateTVDB(Series series) throws SQLException, BadlyFormattedXMLException, ShowFailedException, UnirestException, AuthenticationException {
-    TVDBSeriesV2MatchUpdater updater = new TVDBSeriesV2MatchUpdater(connection, series, tvdbjwtProvider);
+    TVDBSeriesV2MatchUpdater updater = new TVDBSeriesV2MatchUpdater(connection, series, tvdbjwtProvider, jsonReader);
     updater.updateSeries();
   }
 

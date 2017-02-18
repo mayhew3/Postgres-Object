@@ -23,7 +23,11 @@ public class JSONReaderImpl implements JSONReader {
 
   @Override
   public @NotNull JSONArray getArrayWithKey(JSONObject jsonObject, String key) {
-    return jsonObject.getJSONArray(key);
+    if (!jsonObject.has(key) || JSONObject.NULL.equals(jsonObject.get(key))) {
+      return new JSONArray();
+    } else {
+      return jsonObject.getJSONArray(key);
+    }
   }
 
   @Override

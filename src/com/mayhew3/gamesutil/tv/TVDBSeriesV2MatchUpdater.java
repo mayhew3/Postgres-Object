@@ -4,7 +4,9 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.model.tv.PossibleSeriesMatch;
 import com.mayhew3.gamesutil.model.tv.Series;
+import com.mayhew3.gamesutil.model.tv.TVDBSeries;
 import com.mayhew3.gamesutil.xml.BadlyFormattedXMLException;
+import com.mayhew3.gamesutil.xml.JSONReader;
 import org.apache.http.auth.AuthenticationException;
 import org.jetbrains.annotations.NotNull;
 import org.joda.time.DateTime;
@@ -26,13 +28,15 @@ public class TVDBSeriesV2MatchUpdater {
 
   private SQLConnection connection;
   private TVDBJWTProvider tvdbDataProvider;
+  private JSONReader jsonReader;
 
   public TVDBSeriesV2MatchUpdater(SQLConnection connection,
                                   @NotNull Series series,
-                                  TVDBJWTProvider tvdbWebProvider) {
+                                  TVDBJWTProvider tvdbWebProvider, JSONReader jsonReader) {
     this.series = series;
     this.connection = connection;
     this.tvdbDataProvider = tvdbWebProvider;
+    this.jsonReader = jsonReader;
   }
 
   void updateSeries() throws SQLException, ShowFailedException, UnirestException, BadlyFormattedXMLException, AuthenticationException {
@@ -123,6 +127,20 @@ public class TVDBSeriesV2MatchUpdater {
     return possibleMatches;
   }
 
+  private Optional<String> getTopPosterFor(Integer tvdbID) throws UnirestException, AuthenticationException {
+
+    JSONObject imageData = tvdbDataProvider.getPosterData(tvdbID);
+    JSONArray images = jsonReader.getArrayWithKey(imageData, "data");
+
+    if (images.length() == 0) {
+      return Optional.empty();
+    } else {
+      JSONObject firstImage = images.getJSONObject(0);
+
+      return Optional.of(jsonReader.getStringWithKey(firstImage, "fileName"));
+    }
+  }
+
   private Optional<PossibleSeriesMatch> findExactMatchWithYear(String seriesTitle, String formattedTitle) throws AuthenticationException, UnirestException {
     Integer year = new DateTime(new Date()).getYear();
     String formattedTitleWithYear = formattedTitle + "_(" + year + ")";
@@ -139,7 +157,7 @@ public class TVDBSeriesV2MatchUpdater {
   }
 
   @NotNull
-  private PossibleSeriesMatch createPossibleSeriesMatchFromObject(JSONObject firstSeries) {
+  private PossibleSeriesMatch createPossibleSeriesMatchFromObject(JSONObject firstSeries) throws UnirestException, AuthenticationException {
     PossibleSeriesMatch possibleSeriesMatch = new PossibleSeriesMatch();
     possibleSeriesMatch.initializeForInsert();
 
@@ -148,6 +166,10 @@ public class TVDBSeriesV2MatchUpdater {
 
     possibleSeriesMatch.tvdbSeriesTitle.changeValue(tvdbSeriesName);
     possibleSeriesMatch.tvdbSeriesExtId.changeValue(tvdbSeriesId);
+
+    Optional<String> topPoster = getTopPosterFor(tvdbSeriesId);
+    topPoster.ifPresent(s -> possibleSeriesMatch.poster.changeValue(s));
+
     return possibleSeriesMatch;
   }
 
