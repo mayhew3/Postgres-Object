@@ -27,13 +27,19 @@ public class FieldValueString extends FieldValue<String> {
   @Nullable
   @Override
   public String getInformationSchemaDefault() {
-    return super.getInformationSchemaDefault() == null ? null : "'" + super.getInformationSchemaDefault() + "'::text";
+    return super.getInformationSchemaDefault() == null ? null : super.getInformationSchemaDefault() + "::text";
   }
 
   @Override
   protected void initializeValueFromString(String valueString) {
     super.initializeValueFromString(valueString);
     this.isText = true;
+  }
+
+  @Nullable
+  @Override
+  public String getDefaultValue() {
+    return super.getDefaultValue() == null ? null : "'" + super.getDefaultValue() + "'";
   }
 
   @Override
