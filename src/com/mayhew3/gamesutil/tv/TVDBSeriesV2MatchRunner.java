@@ -37,7 +37,7 @@ public class TVDBSeriesV2MatchRunner {
   @SuppressWarnings("FieldCanBeLocal")
   private final Integer ERROR_FOLLOW_UP_THRESHOLD_IN_DAYS = 7;
 
-  private TVDBSeriesV2MatchRunner(SQLConnection connection, TVDBJWTProvider tvdbjwtProvider, JSONReader jsonReader) {
+  TVDBSeriesV2MatchRunner(SQLConnection connection, TVDBJWTProvider tvdbjwtProvider, JSONReader jsonReader) {
     this.connection = connection;
     this.tvdbjwtProvider = tvdbjwtProvider;
     this.jsonReader = jsonReader;
@@ -125,7 +125,7 @@ public class TVDBSeriesV2MatchRunner {
 
 
   private void runUpdateSingle() throws SQLException {
-    String singleSeriesTitle = "Taken"; // update for testing on a single series
+    String singleSeriesTitle = "Fresh"; // update for testing on a single series
 
     String sql = "select *\n" +
         "from series\n" +

@@ -78,6 +78,19 @@ public class TiVoLibraryUpdater {
       }
     }
 
+    if (!tiVoOnly) {
+      try {
+        TVDBSeriesV2MatchRunner tvdbUpdateRunner = new TVDBSeriesV2MatchRunner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl());
+        tvdbUpdateRunner.runUpdate(TVDBUpdateType.SMART);
+      } catch (SQLException e) {
+        debug("Error trying to match series with TVDB.");
+        e.printStackTrace();
+      } catch (UnirestException e) {
+        debug("Error initiating TVDB credentials.");
+        e.printStackTrace();
+      }
+    }
+
     if (nightly) {
       try {
         MetacriticTVUpdater metacriticTVUpdater = new MetacriticTVUpdater(connection);
