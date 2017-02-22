@@ -67,9 +67,10 @@ public interface SQLConnection {
    *
    * @param sql SQL query that should be run. Should be INSERT or UPDATE query.
    * @param params Vararg of parameters that should be plugged into query.
+   * @return Number of rows affected by update.
    * @throws SQLException
    */
-  void prepareAndExecuteStatementUpdate(String sql, Object... params) throws SQLException;
+  Integer prepareAndExecuteStatementUpdate(String sql, Object... params) throws SQLException;
 
   /**
    * - Create PreparedStatement using given SQL.
@@ -79,9 +80,10 @@ public interface SQLConnection {
    *
    * @param sql SQL query that should be run. Should be INSERT or UPDATE query.
    * @param params List of parameters that should be plugged into query.
+   * @return Number of rows affected by update.
    * @throws SQLException
    */
-  void prepareAndExecuteStatementUpdate(String sql, List<Object> params) throws SQLException;
+  Integer prepareAndExecuteStatementUpdate(String sql, List<Object> params) throws SQLException;
 
 
 

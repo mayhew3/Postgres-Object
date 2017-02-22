@@ -103,6 +103,22 @@ public class Series extends DataObject {
     matchedWrong.changeValue(false);
   }
 
+  public static Optional<Series> findSeries(String seriesTitle, SQLConnection connection) throws SQLException {
+    String sql = "SELECT * " +
+        "FROM series " +
+        "WHERE title = ? ";
+
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, seriesTitle);
+
+    if (resultSet.next()) {
+      Series series = new Series();
+      series.initializeFromDBObject(resultSet);
+      return Optional.of(series);
+    } else {
+      return Optional.empty();
+    }
+  }
+
   /**
    * @param connection DB connection to use
    * @param genreName Name of new or existing genre

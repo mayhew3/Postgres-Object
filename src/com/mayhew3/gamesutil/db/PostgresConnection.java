@@ -54,15 +54,17 @@ public class PostgresConnection implements SQLConnection {
   }
 
 
-  public void prepareAndExecuteStatementUpdate(String sql, Object... params) throws SQLException {
-    prepareAndExecuteStatementUpdate(sql, Lists.newArrayList(params));
+  public Integer prepareAndExecuteStatementUpdate(String sql, Object... params) throws SQLException {
+    return prepareAndExecuteStatementUpdate(sql, Lists.newArrayList(params));
   }
 
-  public void prepareAndExecuteStatementUpdate(String sql, List<Object> params) throws SQLException {
+
+  public Integer prepareAndExecuteStatementUpdate(String sql, List<Object> params) throws SQLException {
     PreparedStatement preparedStatement = prepareStatementWithParams(sql, params);
 
-    preparedStatement.executeUpdate();
+    int rowsAffected = preparedStatement.executeUpdate();
     preparedStatement.close();
+    return rowsAffected;
   }
 
 
