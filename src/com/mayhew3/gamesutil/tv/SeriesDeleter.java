@@ -7,6 +7,7 @@ import com.mayhew3.gamesutil.model.tv.Series;
 
 import java.net.URISyntaxException;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.Optional;
 
 public class SeriesDeleter {
@@ -20,7 +21,7 @@ public class SeriesDeleter {
   }
 
   public static void main(String... args) throws URISyntaxException, SQLException {
-    String seriesTitle = "HUMANS";
+    String seriesTitle = "Family Feud";
 
     String dbIdentifier = new ArgumentChecker(args).getDBIdentifier();
 
@@ -37,17 +38,20 @@ public class SeriesDeleter {
   }
 
   public void executeDelete() throws SQLException {
+
+    debug("Beginning full retiring of series: " + series.seriesTitle.getValue());
+
     /*
       - series
       |-- episode_group_rating
       |-- tvdb_series
+        |-- tvdb_episode
         |-- tvdb_migration_log
         |-- tvdb_poster
       |-- season
         |-- season_viewing_location
       |-- possible_series_match
       |-- episode
-        |-- tvdb_episode
         |-- edge_tivo_episode
           |-- tivo_episode
         |-- episode_rating
@@ -56,101 +60,114 @@ public class SeriesDeleter {
       |-- tvdb_migration_error
       |-- tvdb_work_item
      */
-/*
 
-    deleteRowsWithFKToSeries("episode_group_rating");
-    deleteRowsWithFKToSeries("error_log");
-    deleteRowsWithFKToSeries("metacritic_season");
-    deleteRowsWithFKToSeries("possible_series_match");
-    deleteRowsWithFKToSeries("series_genre");
-    deleteRowsWithFKToSeries("series_viewing_location");
-    deleteRowsWithFKToSeries("tvdb_migration_error");
-    deleteRowsWithFKToSeries("tvdb_work_item");
+    retireSeries();
+    retireAllTVDBSeriesRows();
 
+    retireRowsWithFKToSeries("episode_group_rating");
+    retireRowsWithFKToSeries("possible_series_match");
+    retireRowsWithFKToSeries("series_genre");
+    retireRowsWithFKToSeries("series_viewing_location");
+    retireRowsWithFKToSeries("tvdb_migration_error");
+    retireRowsWithFKToSeries("tvdb_work_item");
 
-    // NOTE: has another dependency on episode. Must do after episodes are deleted.
-    deleteSeasons();
-*/
+    retireSeasons();
+    retireEpisodes();
 
-    Integer tvdbSeriesId = series.tvdbSeriesId.getValue();
-    if (tvdbSeriesId == null) {
-      Integer rowsDeleted = connection.prepareAndExecuteStatementUpdate("DELETE FROM series WHERE id = ?", series.id.getValue());
-      debug(rowsDeleted + " rows deleted from series");
-    } else {
-      Integer rowsDeleted = connection.prepareAndExecuteStatementUpdate("DELETE FROM tvdb_series WHERE id = ?", tvdbSeriesId);
-      debug(rowsDeleted + " rows deleted from tvdb_series");
+    debug("Full retire complete.");
+  }
+
+  private void retireSeries() throws SQLException {
+    Integer updatedRows = connection.prepareAndExecuteStatementUpdate("UPDATE series SET retired = id WHERE id = ?", series.id.getValue());
+    if (updatedRows != 1) {
+      throw new RuntimeException("Expected exactly one row updated.");
     }
-//    deleteTVDBSeries();
+    debug("1 series retired with ID " + series.id.getValue());
   }
 
-  private void deleteEpisodes() throws SQLException {
-
-    deleteRowsWithFKToSeries("episode");
+  private void retireTVDBSeries() throws SQLException {
+    Integer updatedRows = connection.prepareAndExecuteStatementUpdate("UPDATE tvdb_series SET retired = id WHERE id = ?", series.tvdbSeriesId.getValue());
+    if (updatedRows != 1) {
+      throw new RuntimeException("Expected exactly one row updated.");
+    }
+    debug("1 tvdb_series retired with ID " + series.tvdbSeriesId.getValue());
   }
 
-  // todo: delete if we end up not needing it.
-  private void deleteTVDBEpisodes() throws SQLException {
-    String sql = "delete from tvdb_episode te " +
-        "using tvdb_series ts " +
-        "inner join series s " +
-        " on s.tvdb_series_id = ts.id " +
-        "where te.tvdb_series_id = ts.id " +
-        "and s.id = ?";
-    Integer rowsDeleted = connection.prepareAndExecuteStatementUpdate(sql, series.id.getValue());
-
-    debug("Deleted " + rowsDeleted + " rows from table tvdb_episode connected through tvdb_series.");
+  private void retireEpisodes() throws SQLException {
+    retireRowsWithFKToSeries("episode");
+    retireRowsWhereReferencedRowIsRetired("episode_rating", "episode");
+    deleteTiVoEdgeRows();
+    retiredOrphanedTivoEpisodes();
   }
 
-  private void deleteSeasons() throws SQLException {
-    deleteSeasonViewingLocations();
-    deleteRowsWithFKToSeries("season");
+  // todo: investigate why this isn't showing all rows deleted.
+  private void deleteTiVoEdgeRows() throws SQLException {
+    Integer deletedRows = connection.prepareAndExecuteStatementUpdate(
+        "DELETE FROM edge_tivo_episode ete " +
+            "USING episode e " +
+            "WHERE ete.episode_id = e.id " +
+            "AND e.retired <> ? ",
+        0);
+    debug(deletedRows + " rows deleted from edge_tivo_episode related to retired episodes.");
   }
 
-  private void deleteTVDBSeries() throws SQLException {
-//    deleteTVDBSeriesChildRows("tvdb_migration_log");
-//    deleteTVDBSeriesChildRows("tvdb_poster");
-//    deleteTVDBSeriesChildRows("tvdb_episode");
-    deleteRowsWithFKToSeries("tvdb_series");
+  // todo: I think there were already a bunch of orphaned episodes before my first run.
+  private void retiredOrphanedTivoEpisodes() throws SQLException {
+    Integer retiredRows = connection.prepareAndExecuteStatementUpdate(
+        "UPDATE tivo_episode te " +
+            "SET retired = te.id " +
+            "WHERE te.id NOT IN (SELECT tivo_episode_id FROM edge_tivo_episode)"
+    );
+    debug(retiredRows + " rows retired from tivo_episode related to deleted edge rows.");
   }
 
-  private void deleteTVDBSeriesChildRows(String tableName) throws SQLException {
-    String sql = "DELETE FROM " + tableName + " tml " +
-        "USING series s " +
-        "WHERE tml.tvdb_series_id = s.tvdb_series_id " +
-        "AND s.id = ?";
-    Integer rowsDeleted = connection.prepareAndExecuteStatementUpdate(sql, series.id.getValue());
-
-    debug("Deleted " + rowsDeleted + " rows from table " + tableName + " connected through tvdb_series.");
+  private void retireSeasons() throws SQLException {
+    retireRowsWithFKToSeries("season");
+    retireRowsWhereReferencedRowIsRetired("season_viewing_location", "season");
   }
 
-  private void deleteSeasonViewingLocations() throws SQLException {
-    String sql = "DELETE FROM season_viewing_location svl " +
-        "USING season s " +
-        "WHERE svl.season_id = s.id " +
-        "AND s.series_id = ?";
-    Integer rowsDeleted = connection.prepareAndExecuteStatementUpdate(sql, series.id.getValue());
+  private void retireAllTVDBSeriesRows() throws SQLException {
+    Integer tvdbSeriesId = series.tvdbSeriesId.getValue();
+    if (tvdbSeriesId != null) {
+      retireTVDBSeries();
 
-    debug("Deleted " + rowsDeleted + " rows from table season_viewing_location connected through season.");
+      retireRowsWhereReferencedRowIsRetired("tvdb_migration_log", "tvdb_series");
+      retireRowsWhereReferencedRowIsRetired("tvdb_poster", "tvdb_series");
+      retireRowsWhereReferencedRowIsRetired("tvdb_episode", "tvdb_series");
+    }
   }
 
-  private void deleteRowsWithFKToSeries(String tableName) throws SQLException {
-    Integer series_id = series.id.getValue();
-    Integer rowsDeleted = deleteRowsFromTableMatchingColumn(tableName, "series_id", series_id);
 
-    debug("Deleted " + rowsDeleted + " rows from table " + tableName + " with series_id " + series_id);
-  }
 
-  private Integer deleteRowsFromTableMatchingColumn(String tableName, String columnName, Integer id) throws SQLException {
+  private void retireRowsWhereReferencedRowIsRetired(String tableName, String referencedTable) throws SQLException {
     String sql =
-        "DELETE FROM " + tableName + " " +
-        "WHERE " + columnName + " = ? " +
-        "RETURNING * ";
+        "UPDATE " + tableName + " tn " +
+            "SET retired = tn.id " +
+            "FROM " + referencedTable + " rt " +
+            "WHERE tn." + referencedTable + "_id = rt.id " +
+            "AND rt.retired <> ?";
+    Integer retiredRows = connection.prepareAndExecuteStatementUpdate(sql, 0);
+    debug("Retired " + retiredRows + " rows from table '" + tableName + "' referencing retired rows in table '" + referencedTable + "'");
+  }
+
+  private void retireRowsWithFKToSeries(String tableName) throws SQLException {
+    Integer series_id = series.id.getValue();
+    Integer rowsRetired = retireRowsFromTableMatchingColumn(tableName, "series_id", series_id);
+
+    debug("Retired " + rowsRetired + " rows from table " + tableName + " with series_id " + series_id);
+  }
+
+  private Integer retireRowsFromTableMatchingColumn(String tableName, String columnName, Integer id) throws SQLException {
+    String sql =
+        "UPDATE " + tableName + " " +
+            "SET retired = id " +
+            "WHERE " + columnName + " = ? ";
     return connection.prepareAndExecuteStatementUpdate(sql, id);
   }
 
 
-  protected void debug(Object object) {
-    System.out.println(object);
+  protected void debug(String msg) {
+    System.out.println(new Date() + " " + msg);
   }
 
 }

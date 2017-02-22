@@ -106,9 +106,10 @@ public class Series extends DataObject {
   public static Optional<Series> findSeries(String seriesTitle, SQLConnection connection) throws SQLException {
     String sql = "SELECT * " +
         "FROM series " +
-        "WHERE title = ? ";
+        "WHERE title = ? " +
+        "AND retired = ? ";
 
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, seriesTitle);
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, seriesTitle, 0);
 
     if (resultSet.next()) {
       Series series = new Series();
