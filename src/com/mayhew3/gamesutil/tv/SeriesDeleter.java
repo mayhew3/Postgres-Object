@@ -21,7 +21,7 @@ public class SeriesDeleter {
   }
 
   public static void main(String... args) throws URISyntaxException, SQLException {
-    String seriesTitle = "Family Feud";
+    String seriesTitle = "Colony";
 
     String dbIdentifier = new ArgumentChecker(args).getDBIdentifier();
 
@@ -105,11 +105,10 @@ public class SeriesDeleter {
   private void retireEpisodes() throws SQLException {
     retireRowsWithFKToSeries("episode");
     retireRowsWhereReferencedRowIsRetired("episode_rating", "episode");
+    retireTivoEpisodes();
     deleteTiVoEdgeRows();
-    retiredOrphanedTivoEpisodes();
   }
 
-  // todo: investigate why this isn't showing all rows deleted.
   private void deleteTiVoEdgeRows() throws SQLException {
     Integer deletedRows = connection.prepareAndExecuteStatementUpdate(
         "DELETE FROM edge_tivo_episode ete " +
@@ -120,13 +119,17 @@ public class SeriesDeleter {
     debug(deletedRows + " rows deleted from edge_tivo_episode related to retired episodes.");
   }
 
-  // todo: I think there were already a bunch of orphaned episodes before my first run.
-  private void retiredOrphanedTivoEpisodes() throws SQLException {
+  private void retireTivoEpisodes() throws SQLException {
     Integer retiredRows = connection.prepareAndExecuteStatementUpdate(
         "UPDATE tivo_episode te " +
             "SET retired = te.id," +
             "    retired_date = now() " +
-            "WHERE te.id NOT IN (SELECT tivo_episode_id FROM edge_tivo_episode)"
+            "FROM edge_tivo_episode ete " +
+            "INNER JOIN episode e " +
+            "  ON ete.episode_id = e.id " +
+            "WHERE ete.tivo_episode_id = te.id " +
+            "AND e.retired <> ? ",
+        0
     );
     debug(retiredRows + " rows retired from tivo_episode related to deleted edge rows.");
   }
