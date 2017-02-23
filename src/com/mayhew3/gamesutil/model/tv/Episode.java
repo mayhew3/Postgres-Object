@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Episode extends DataObject {
+public class Episode extends RetireableDataObject {
 
   /* Foreign Keys */
   public FieldValueForeignKey tvdbEpisodeId = registerForeignKey(new TVDBEpisode(), Nullability.NOT_NULL);
@@ -31,8 +31,6 @@ public class Episode extends DataObject {
 
   public FieldValueString title = registerStringField("title", Nullability.NULLABLE);
   public FieldValueString seriesTitle = registerStringField("series_title", Nullability.NULLABLE);
-
-  public FieldValueInteger retired = registerIntegerField("retired", Nullability.NOT_NULL).defaultValue(0);
 
   /* User Data */
   public FieldValueTimestamp watchedDate = registerTimestampField("watched_date", Nullability.NULLABLE);

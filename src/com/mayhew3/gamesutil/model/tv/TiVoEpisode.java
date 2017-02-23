@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TiVoEpisode extends DataObject {
+public class TiVoEpisode extends RetireableDataObject {
 
   public FieldValueBoolean suggestion = registerBooleanField("suggestion", Nullability.NULLABLE);
 
@@ -34,8 +34,6 @@ public class TiVoEpisode extends DataObject {
   public FieldValue<String> description = registerStringField("description", Nullability.NULLABLE);
   public FieldValue<String> station = registerStringField("station", Nullability.NULLABLE);
   public FieldValue<String> url = registerStringField("url", Nullability.NULLABLE);
-
-  public FieldValueInteger retired = registerIntegerField("retired", Nullability.NOT_NULL);
 
   public FieldValueBoolean recordingNow = registerBooleanField("recording_now", Nullability.NOT_NULL);
   public FieldValueBoolean ignoreMatching = registerBooleanField("ignore_matching", Nullability.NOT_NULL).defaultValue(false);

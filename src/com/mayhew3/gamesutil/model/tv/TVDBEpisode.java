@@ -8,7 +8,7 @@ import org.jetbrains.annotations.Nullable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class TVDBEpisode extends DataObject {
+public class TVDBEpisode extends RetireableDataObject {
   /* Foreign Keys */
   public FieldValueForeignKey tvdbSeriesId = registerForeignKey(new TVDBSeries(), Nullability.NOT_NULL);
 
@@ -25,8 +25,6 @@ public class TVDBEpisode extends DataObject {
   public FieldValue<Integer> airsBeforeEpisode = registerIntegerField("airs_before_episode", Nullability.NULLABLE);
   public FieldValue<Integer> thumbHeight = registerIntegerField("thumb_height", Nullability.NULLABLE);
   public FieldValue<Integer> thumbWidth = registerIntegerField("thumb_width", Nullability.NULLABLE);
-
-  public FieldValueInteger retired = registerIntegerField("retired", Nullability.NULLABLE).defaultValue(0);
 
   public FieldValueTimestamp firstAired = registerTimestampField("first_aired", Nullability.NULLABLE);
   public FieldValue<Integer> lastUpdated = registerIntegerField("last_updated", Nullability.NULLABLE);

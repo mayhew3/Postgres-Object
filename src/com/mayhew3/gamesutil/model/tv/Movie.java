@@ -2,12 +2,11 @@ package com.mayhew3.gamesutil.model.tv;
 
 import com.mayhew3.gamesutil.dataobject.*;
 
-public class Movie extends DataObject {
+public class Movie extends RetireableDataObject {
 
   public FieldValue<Boolean> onTiVo = registerBooleanField("on_tivo", Nullability.NOT_NULL).defaultValue(true);
 
   public FieldValueString title = registerStringField("title", Nullability.NOT_NULL);
-  public FieldValueInteger retired = registerIntegerField("retired", Nullability.NOT_NULL).defaultValue(0);
 
   public FieldValueTimestamp watchedDate = registerTimestampField("watched_date", Nullability.NULLABLE);
   public FieldValue<Boolean> watched = registerBooleanField("watched", Nullability.NOT_NULL).defaultValue(false);
