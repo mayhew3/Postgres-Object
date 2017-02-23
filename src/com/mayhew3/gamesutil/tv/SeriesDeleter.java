@@ -78,7 +78,12 @@ public class SeriesDeleter {
   }
 
   private void retireSeries() throws SQLException {
-    Integer updatedRows = connection.prepareAndExecuteStatementUpdate("UPDATE series SET retired = id WHERE id = ?", series.id.getValue());
+    Integer updatedRows = connection.prepareAndExecuteStatementUpdate(
+        "UPDATE series " +
+            "SET retired = id," +
+            "    retired_date = now() " +
+            "WHERE id = ?",
+        series.id.getValue());
     if (updatedRows != 1) {
       throw new RuntimeException("Expected exactly one row updated.");
     }
@@ -86,7 +91,11 @@ public class SeriesDeleter {
   }
 
   private void retireTVDBSeries() throws SQLException {
-    Integer updatedRows = connection.prepareAndExecuteStatementUpdate("UPDATE tvdb_series SET retired = id WHERE id = ?", series.tvdbSeriesId.getValue());
+    Integer updatedRows = connection.prepareAndExecuteStatementUpdate(
+        "UPDATE tvdb_series " +
+            "SET retired = id, " +
+            "    retired_date = now() " +
+            "WHERE id = ?", series.tvdbSeriesId.getValue());
     if (updatedRows != 1) {
       throw new RuntimeException("Expected exactly one row updated.");
     }
@@ -115,7 +124,8 @@ public class SeriesDeleter {
   private void retiredOrphanedTivoEpisodes() throws SQLException {
     Integer retiredRows = connection.prepareAndExecuteStatementUpdate(
         "UPDATE tivo_episode te " +
-            "SET retired = te.id " +
+            "SET retired = te.id," +
+            "    retired_date = now() " +
             "WHERE te.id NOT IN (SELECT tivo_episode_id FROM edge_tivo_episode)"
     );
     debug(retiredRows + " rows retired from tivo_episode related to deleted edge rows.");
@@ -142,7 +152,8 @@ public class SeriesDeleter {
   private void retireRowsWhereReferencedRowIsRetired(String tableName, String referencedTable) throws SQLException {
     String sql =
         "UPDATE " + tableName + " tn " +
-            "SET retired = tn.id " +
+            "SET retired = tn.id, " +
+            "    retired_date = now() " +
             "FROM " + referencedTable + " rt " +
             "WHERE tn." + referencedTable + "_id = rt.id " +
             "AND rt.retired <> ?";
@@ -160,7 +171,8 @@ public class SeriesDeleter {
   private Integer retireRowsFromTableMatchingColumn(String tableName, String columnName, Integer id) throws SQLException {
     String sql =
         "UPDATE " + tableName + " " +
-            "SET retired = id " +
+            "SET retired = id," +
+            "    retired_date = now() " +
             "WHERE " + columnName + " = ? ";
     return connection.prepareAndExecuteStatementUpdate(sql, id);
   }
