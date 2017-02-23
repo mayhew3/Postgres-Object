@@ -178,8 +178,9 @@ public class TVRatingSpreadsheetCopier {
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
         "SELECT * " +
             "FROM series " +
-            "WHERE title = ?",
-        tmpRating.seriesTitle.getValue()
+            "WHERE title = ? " +
+            "and retired = ? ",
+        tmpRating.seriesTitle.getValue(), 0
     );
     if (resultSet.next()) {
       Series series = new Series();

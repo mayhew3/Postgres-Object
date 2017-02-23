@@ -38,9 +38,9 @@ public class TVDBXMLFetcher {
 
     String sql = "select *\n" +
         "from series\n" +
-        "where ignore_tvdb = ? " +
+        "where tvdb_match_status = ? " +
         "and title = ? ";
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, false, singleSeriesTitle);
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, "Match Completed", singleSeriesTitle);
 
     debug("Starting update.");
 

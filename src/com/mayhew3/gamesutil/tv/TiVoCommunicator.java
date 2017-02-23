@@ -301,15 +301,24 @@ public class TiVoCommunicator {
    */
   @Nullable
   private Series getOrCreateSeries(TiVoInfo tivoInfo) throws SQLException {
-    ResultSet resultSet = sqlConnection.prepareAndExecuteStatementFetch("SELECT * FROM series WHERE tivo_series_v2_ext_id = ?", tivoInfo.tivoId);
+    ResultSet resultSet = sqlConnection.prepareAndExecuteStatementFetch(
+        "SELECT * " +
+            "FROM series " +
+            "WHERE tivo_series_v2_ext_id = ? " +
+            "and retired = ? ",
+        tivoInfo.tivoId, 0);
 
     Series series = new Series();
 
     if (!resultSet.next()) {
       if (!tivoInfo.recordingNow) {
         @NotNull ResultSet maybeMatch = sqlConnection.prepareAndExecuteStatementFetch(
-            "SELECT * FROM series WHERE title = ? and (tivo_series_v2_ext_id is null or tivo_version = ?)",
-            tivoInfo.seriesTitle, 1);
+            "SELECT * " +
+                "FROM series " +
+                "WHERE title = ? " +
+                "AND (tivo_series_v2_ext_id is null OR tivo_version = ?) " +
+                "AND retired = ? ",
+            tivoInfo.seriesTitle, 1, 0);
 
         if (maybeMatch.next()) {
           series.initializeFromDBObject(maybeMatch);

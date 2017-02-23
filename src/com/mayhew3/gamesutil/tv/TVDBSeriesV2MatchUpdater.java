@@ -96,9 +96,10 @@ public class TVDBSeriesV2MatchUpdater {
     String sql = "SELECT * " +
         "FROM series " +
         "WHERE id <> ? " +
-        "AND tvdb_series_ext_id = ? ";
+        "AND tvdb_series_ext_id = ? " +
+        "and retired = ? ";
 
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, seriesId, tvdbSeriesExtId);
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, seriesId, tvdbSeriesExtId, 0);
 
     if (resultSet.next()) {
       Series series = new Series();

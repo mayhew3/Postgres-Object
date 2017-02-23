@@ -239,9 +239,10 @@ public class TVDBUpdateFinder {
     String sql = "select * " +
         "from series " +
         "where tvdb_series_ext_id = ? " +
-        "and tvdb_match_status = ? ";
+        "and tvdb_match_status = ? " +
+        "and retired = ? ";
 
-    @NotNull ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, false, tvdbSeriesExtId, "Match Completed");
+    @NotNull ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, false, tvdbSeriesExtId, "Match Completed", 0);
     if (resultSet.next()) {
       if (hasWorkItemAlready(tvdbSeriesExtId, tvdbLastUpdated)) {
         debug("Work item already exists for TVDB ID " + tvdbSeriesExtId + " and update time of " + tvdbLastUpdated);

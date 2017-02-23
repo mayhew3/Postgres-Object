@@ -51,8 +51,9 @@ public class MetacriticTVUpdater {
   public void runUpdater() throws SQLException {
     String sql = "select *\n" +
         "from series\n" +
-        "where ignore_tvdb = ? ";
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, false);
+        "where tvdb_match_status = ? " +
+        "and retired = ? ";
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, "Match Completed", 0);
 
     runUpdateOnResultSet(resultSet);
   }
@@ -60,9 +61,10 @@ public class MetacriticTVUpdater {
   public void runQuickUpdate() throws SQLException {
     String sql = "select *\n" +
             "from series\n" +
-            "where ignore_tvdb = ? " +
-            "and metacritic_new = ? ";
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, false, true);
+            "where tvdb_match_status = ? " +
+            "and metacritic_new = ? " +
+        "and retired = ? ";
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, "Match Completed", true, 0);
 
     runUpdateOnResultSet(resultSet);
   }
@@ -73,9 +75,10 @@ public class MetacriticTVUpdater {
 
     String sql = "select *\n" +
         "from series\n" +
-        "where ignore_tvdb = ? " +
-        "and title = ? ";
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, false, singleSeriesTitle);
+        "where tvdb_match_status = ? " +
+        "and title = ? " +
+        "and retired = ? ";
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, "Match Completed", singleSeriesTitle, 0);
 
     runUpdateOnResultSet(resultSet);
   }

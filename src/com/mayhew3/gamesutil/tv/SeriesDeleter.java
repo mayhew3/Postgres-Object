@@ -27,7 +27,7 @@ public class SeriesDeleter {
 
     SQLConnection connection = new PostgresConnectionFactory().createConnection(dbIdentifier);
 
-    Optional<Series> series = Series.findSeries(seriesTitle, connection);
+    Optional<Series> series = Series.findSeriesFromTitle(seriesTitle, connection);
 
     if (series.isPresent()) {
       SeriesDeleter seriesDeleter = new SeriesDeleter(series.get(), connection);

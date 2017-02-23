@@ -316,7 +316,9 @@ public class TVDBSeriesV2UpdaterTest extends TVDatabaseTest {
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
         "SELECT * " +
             "FROM series " +
-            "WHERE title = ?", title
+            "WHERE title = ? " +
+            "and retired = ? ",
+        title, 0
     );
     if (resultSet.next()) {
       Series series = new Series();

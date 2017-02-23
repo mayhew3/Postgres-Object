@@ -105,7 +105,11 @@ public class Episode extends DataObject {
   }
 
   public TVDBEpisode getTVDBEpisode(SQLConnection connection) throws SQLException, ShowFailedException {
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch("SELECT * FROM tvdb_episode WHERE id = ? AND retired = ?", tvdbEpisodeId.getValue(), 0);
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
+        "SELECT * " +
+            "FROM tvdb_episode " +
+            "WHERE id = ? " +
+            "AND retired = ?", tvdbEpisodeId.getValue(), 0);
 
     if (resultSet.next()) {
       TVDBEpisode tvdbEpisode = new TVDBEpisode();

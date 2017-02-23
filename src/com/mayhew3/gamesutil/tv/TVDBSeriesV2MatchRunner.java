@@ -116,8 +116,9 @@ public class TVDBSeriesV2MatchRunner {
     String sql = "select *\n" +
         "from series\n" +
         "where tvdb_match_status = ? " +
-        "and last_tvdb_error is null ";
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, "Match First Pass");
+        "and last_tvdb_error is null " +
+        "and retired = ? ";
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, "Match First Pass", 0);
 
     runUpdateOnResultSet(resultSet);
   }
@@ -130,8 +131,9 @@ public class TVDBSeriesV2MatchRunner {
     String sql = "select *\n" +
         "from series\n" +
         "where tvdb_match_status = ? " +
-        "and title = ? ";
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, "Match First Pass", singleSeriesTitle);
+        "and title = ? " +
+        "and retired = ? ";
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, "Match First Pass", singleSeriesTitle, 0);
 
     runUpdateOnResultSet(resultSet);
   }
@@ -163,9 +165,10 @@ public class TVDBSeriesV2MatchRunner {
         "from series\n" +
         "where tvdb_match_status = ? " +
         "and last_tvdb_error is not null " +
-        "and consecutive_tvdb_errors < ? ";
+        "and consecutive_tvdb_errors < ? " +
+        "and retired = ? ";
 
-    @NotNull ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, "Match First Pass", ERROR_THRESHOLD);
+    @NotNull ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, "Match First Pass", ERROR_THRESHOLD, 0);
     runUpdateOnResultSet(resultSet);
   }
 
@@ -178,9 +181,10 @@ public class TVDBSeriesV2MatchRunner {
         "from series\n" +
         "where last_tvdb_error is not null\n" +
         "and last_tvdb_error < ?\n" +
-        "and consecutive_tvdb_errors >= ? ";
+        "and consecutive_tvdb_errors >= ? " +
+        "and retired = ? ";
 
-    @NotNull ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, timestamp, ERROR_THRESHOLD);
+    @NotNull ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, timestamp, ERROR_THRESHOLD, 0);
     runUpdateOnResultSet(resultSet);
   }
 

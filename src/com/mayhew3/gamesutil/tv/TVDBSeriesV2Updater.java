@@ -166,8 +166,9 @@ public class TVDBSeriesV2Updater {
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
         "SELECT * " +
             "FROM tvdb_series " +
-            "WHERE tvdb_series_ext_id = ?",
-        tvdbID
+            "WHERE tvdb_series_ext_id = ? " +
+            "and retired = ? ",
+        tvdbID, 0
     );
 
     TVDBSeries tvdbSeries = new TVDBSeries();

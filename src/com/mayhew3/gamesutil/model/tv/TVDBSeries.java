@@ -52,10 +52,11 @@ public class TVDBSeries extends DataObject {
     Preconditions.checkNotNull(id.getValue(), "Cannot insert join entity until TVDBSeries object is committed (id is non-null)");
 
     @NotNull ResultSet resultSet = connection.prepareAndExecuteStatementFetch("SELECT 1 " +
-        "FROM tvdb_poster " +
-        "WHERE poster_path = ? " +
-        "AND tvdb_series_id = ?",
-        posterPath, id.getValue());
+            "FROM tvdb_poster " +
+            "WHERE poster_path = ? " +
+            "AND tvdb_series_id = ? " +
+            "AND retired = ? ",
+        posterPath, id.getValue(), 0);
     if (!resultSet.next()) {
       TVDBPoster tvdbPoster = new TVDBPoster();
       tvdbPoster.initializeForInsert();

@@ -236,10 +236,10 @@ public class TVDBUpdateV2Runner {
 
       String sql = "select * " +
           "from series " +
-          "where ignore_tvdb = ? " +
+          "where tvdb_match_status = ? " +
           "and tvdb_series_ext_id = ?";
 
-      @NotNull ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, false, seriesId);
+      @NotNull ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, "Match Completed", seriesId);
       if (resultSet.next()) {
         Series series = new Series();
 

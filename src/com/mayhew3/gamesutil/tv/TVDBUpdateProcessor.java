@@ -187,8 +187,9 @@ public class TVDBUpdateProcessor {
 
     String sql = "select * " +
         "from series " +
-        "where id = ? ";
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, seriesId);
+        "where id = ? " +
+        "and retired = ? ";
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, seriesId, 0);
     if (resultSet.next()) {
       Series series = new Series();
       series.initializeFromDBObject(resultSet);

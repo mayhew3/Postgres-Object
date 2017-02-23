@@ -103,7 +103,7 @@ public class Series extends DataObject {
     matchedWrong.changeValue(false);
   }
 
-  public static Optional<Series> findSeries(String seriesTitle, SQLConnection connection) throws SQLException {
+  public static Optional<Series> findSeriesFromTitle(String seriesTitle, SQLConnection connection) throws SQLException {
     String sql = "SELECT * " +
         "FROM series " +
         "WHERE title = ? " +
@@ -156,8 +156,9 @@ public class Series extends DataObject {
 
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
         "SELECT * FROM possible_series_match " +
-            "WHERE " + possibleSeriesMatch.tvdbSeriesExtId.getFieldName() + " = ?",
-        possibleSeriesMatch.tvdbSeriesExtId.getValue());
+            "WHERE " + possibleSeriesMatch.tvdbSeriesExtId.getFieldName() + " = ? " +
+            "and retired = ? ",
+        possibleSeriesMatch.tvdbSeriesExtId.getValue(), 0);
 
     if (!resultSet.next()) {
       possibleSeriesMatch.seriesId.changeValue(id.getValue());
