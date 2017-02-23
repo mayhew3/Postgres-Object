@@ -2,7 +2,7 @@ package com.mayhew3.gamesutil.model.tv;
 
 import com.mayhew3.gamesutil.dataobject.*;
 
-public class SeriesViewingLocation extends DataObject {
+public class SeriesViewingLocation extends RetireableDataObject {
 
   /* Data */
   public FieldValueForeignKey seriesId = registerForeignKey(new Series(), Nullability.NOT_NULL);

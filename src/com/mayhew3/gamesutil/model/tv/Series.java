@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class Series extends DataObject {
+public class Series extends RetireableDataObject {
 
   /* Foreign Keys */
   public FieldValueForeignKey tvdbSeriesId = registerForeignKey(new TVDBSeries(), Nullability.NULLABLE);
@@ -57,7 +57,6 @@ public class Series extends DataObject {
   public FieldValueBoolean metacriticNew = registerBooleanField("metacritic_new", Nullability.NOT_NULL).defaultValue(true);
 
   public FieldValueInteger tivoVersion = registerIntegerField("tivo_version", Nullability.NOT_NULL).defaultValue(1);
-
 
   public FieldValueTimestamp lastTVDBUpdate = registerTimestampField("last_tvdb_update", Nullability.NULLABLE);
   public FieldValueTimestamp lastTVDBError = registerTimestampField("last_tvdb_error", Nullability.NULLABLE);

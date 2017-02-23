@@ -1,10 +1,9 @@
 package com.mayhew3.gamesutil.model.tv;
 
-import com.mayhew3.gamesutil.dataobject.DataObject;
 import com.mayhew3.gamesutil.dataobject.FieldValueForeignKey;
 import com.mayhew3.gamesutil.dataobject.Nullability;
 
-public class SeasonViewingLocation extends DataObject {
+public class SeasonViewingLocation extends RetireableDataObject {
 
   /* Data */
   public FieldValueForeignKey seasonId = registerForeignKey(new Season(), Nullability.NOT_NULL);

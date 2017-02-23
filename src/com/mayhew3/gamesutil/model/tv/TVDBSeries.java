@@ -9,7 +9,7 @@ import org.jetbrains.annotations.Nullable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class TVDBSeries extends DataObject {
+public class TVDBSeries extends RetireableDataObject {
 
   public FieldValueTimestamp firstAired = registerTimestampField("first_aired", Nullability.NULLABLE);
 

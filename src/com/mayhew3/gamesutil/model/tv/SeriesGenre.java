@@ -1,8 +1,9 @@
 package com.mayhew3.gamesutil.model.tv;
 
-import com.mayhew3.gamesutil.dataobject.*;
+import com.mayhew3.gamesutil.dataobject.FieldValueForeignKey;
+import com.mayhew3.gamesutil.dataobject.Nullability;
 
-public class SeriesGenre extends DataObject {
+public class SeriesGenre extends RetireableDataObject {
 
   /* Data */
   public FieldValueForeignKey seriesId = registerForeignKey(new Series(), Nullability.NOT_NULL);

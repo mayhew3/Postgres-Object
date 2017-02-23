@@ -2,7 +2,7 @@ package com.mayhew3.gamesutil.model.tv;
 
 import com.mayhew3.gamesutil.dataobject.*;
 
-public class EpisodeGroupRating extends DataObject {
+public class EpisodeGroupRating extends RetireableDataObject {
 
   public FieldValueForeignKey seriesId = registerForeignKey(new Series(), Nullability.NOT_NULL);
 

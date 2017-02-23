@@ -1,8 +1,11 @@
 package com.mayhew3.gamesutil.model.tv;
 
-import com.mayhew3.gamesutil.dataobject.*;
+import com.mayhew3.gamesutil.dataobject.FieldValueForeignKey;
+import com.mayhew3.gamesutil.dataobject.FieldValueInteger;
+import com.mayhew3.gamesutil.dataobject.FieldValueTimestamp;
+import com.mayhew3.gamesutil.dataobject.Nullability;
 
-public class TVDBWorkItem extends DataObject {
+public class TVDBWorkItem extends RetireableDataObject {
 
   public FieldValueInteger tvdbSeriesExtId = registerIntegerField("tvdb_series_ext_id", Nullability.NOT_NULL);
   public FieldValueForeignKey seriesId = registerForeignKey(new Series(), Nullability.NOT_NULL);
