@@ -20,7 +20,7 @@ public class SeriesMerger {
   private Series baseSeries;
   private SQLConnection connection;
 
-  public SeriesMerger(Series unmatchedSeries, Series baseSeries, SQLConnection connection) {
+  SeriesMerger(Series unmatchedSeries, Series baseSeries, SQLConnection connection) {
     this.unmatchedSeries = unmatchedSeries;
     this.baseSeries = baseSeries;
     this.connection = connection;
@@ -48,8 +48,9 @@ public class SeriesMerger {
     new SeriesDenormUpdater(connection).updateFields();
   }
 
-  public void executeMerge() throws SQLException, ShowFailedException {
+  void executeMerge() throws SQLException, ShowFailedException {
     List<TiVoEpisode> tiVoEpisodes = unmatchedSeries.getTiVoEpisodes(connection);
+    validateNoOtherEpisodes(tiVoEpisodes);
 
     if (unmatchedSeries.tivoSeriesV2ExtId.getValue() == null || baseSeries.tivoSeriesV2ExtId.getValue() != null) {
       throw new RuntimeException("Currently only supports merging TiVo show into Non-TiVo show.");

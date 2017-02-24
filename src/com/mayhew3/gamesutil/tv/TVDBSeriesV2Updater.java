@@ -18,6 +18,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 public class TVDBSeriesV2Updater {
 
@@ -47,11 +48,29 @@ public class TVDBSeriesV2Updater {
 
     debug(seriesTitle + ": ID found, getting show data.");
 
-    updateShowData();
+    Boolean duplicateSeriesMatched = duplicateSeriesMatched();
 
-    if (series.tivoSeriesV2ExtId.getValue() != null) {
-      tryToMatchUnmatchedEpisodes();
+    if (!duplicateSeriesMatched) {
+      updateShowData();
+
+      if (series.tivoSeriesV2ExtId.getValue() != null) {
+        tryToMatchUnmatchedEpisodes();
+      }
     }
+  }
+
+  private Boolean duplicateSeriesMatched() throws SQLException, ShowFailedException {
+    Integer matchId = series.tvdbMatchId.getValue();
+    if (matchId != null && "Match Confirmed".equals(series.tvdbMatchStatus.getValue())) {
+      Optional<Series> existingSeries = Series.findSeriesFromTVDBExtID(matchId, connection);
+
+      if (existingSeries.isPresent()) {
+        SeriesMerger seriesMerger = new SeriesMerger(series, existingSeries.get(), connection);
+        seriesMerger.executeMerge();
+      }
+      return existingSeries.isPresent();
+    }
+    return false;
   }
 
   private void tryToMatchUnmatchedEpisodes() throws SQLException {
