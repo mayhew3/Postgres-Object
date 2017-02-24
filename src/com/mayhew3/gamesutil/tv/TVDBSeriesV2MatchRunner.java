@@ -126,14 +126,13 @@ public class TVDBSeriesV2MatchRunner {
 
 
   private void runUpdateSingle() throws SQLException {
-    String singleSeriesTitle = "Fresh"; // update for testing on a single series
+    String singleSeriesTitle = "HUMANS"; // update for testing on a single series
 
     String sql = "select *\n" +
         "from series\n" +
-        "where tvdb_match_status = ? " +
-        "and title = ? " +
+        "where title = ? " +
         "and retired = ? ";
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, "Match First Pass", singleSeriesTitle, 0);
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, singleSeriesTitle, 0);
 
     runUpdateOnResultSet(resultSet);
   }

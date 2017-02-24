@@ -27,6 +27,8 @@ public class Series extends RetireableDataObject {
   public FieldValueString tivoSeriesV2ExtId = registerStringField("tivo_series_v2_ext_id", Nullability.NULLABLE);
   public FieldValueInteger tvdbSeriesExtId = registerIntegerField("tvdb_series_ext_id", Nullability.NULLABLE);
 
+  public FieldValueInteger tvdbMatchId = registerIntegerField("tvdb_match_id", Nullability.NULLABLE);
+
   /* Matching Helpers */
   public FieldValueString metacriticHint = registerStringField("metacritic_hint", Nullability.NULLABLE);
   public FieldValueBoolean ignoreTVDB = registerBooleanField("ignore_tvdb", Nullability.NOT_NULL).defaultValue(false);
@@ -67,6 +69,8 @@ public class Series extends RetireableDataObject {
   public FieldValueTimestamp tvdbIgnoreDate = registerTimestampField("tvdb_ignore_date", Nullability.NULLABLE);
 
   public FieldValueInteger consecutiveTVDBErrors = registerIntegerField("consecutive_tvdb_errors", Nullability.NOT_NULL).defaultValue(0);
+
+  public FieldValueString addedBy = registerStringField("added_by", Nullability.NOT_NULL).defaultValue("Manual");
 
   public Series() {
     addUniqueConstraint(tvdbSeriesExtId);
@@ -109,6 +113,23 @@ public class Series extends RetireableDataObject {
         "AND retired = ? ";
 
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, seriesTitle, 0);
+
+    if (resultSet.next()) {
+      Series series = new Series();
+      series.initializeFromDBObject(resultSet);
+      return Optional.of(series);
+    } else {
+      return Optional.empty();
+    }
+  }
+
+  public static Optional<Series> findSeriesFromTVDBExtID(Integer tvdbSeriesExtId, SQLConnection connection) throws SQLException {
+    String sql = "SELECT * " +
+        "FROM series " +
+        "WHERE tvdb_series_ext_id = ? " +
+        "AND retired = ? ";
+
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, tvdbSeriesExtId, 0);
 
     if (resultSet.next()) {
       Series series = new Series();
@@ -284,5 +305,26 @@ public class Series extends RetireableDataObject {
     } else {
       return Optional.empty();
     }
+  }
+
+  @NotNull
+  public List<TiVoEpisode> getTiVoEpisodes(SQLConnection connection) throws SQLException {
+    List<TiVoEpisode> tiVoEpisodes = new ArrayList<>();
+
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
+        "SELECT te.* " +
+            "FROM tivo_episode te " +
+            "WHERE te.series_title = ? " +
+            "AND te.retired = ? ",
+        tivoName.getValue(), 0
+    );
+
+    while (resultSet.next()) {
+      TiVoEpisode tiVoEpisode = new TiVoEpisode();
+      tiVoEpisode.initializeFromDBObject(resultSet);
+      tiVoEpisodes.add(tiVoEpisode);
+    }
+
+    return tiVoEpisodes;
   }
 }

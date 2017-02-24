@@ -120,6 +120,10 @@ public class TVDBSeriesV2Updater {
 
     series.tvdbSeriesId.changeValue(tvdbSeries.id.getValue());
     series.lastTVDBUpdate.changeValue(new Date());
+
+    if (series.tvdbMatchId.getValue() != null && "Match Confirmed".equals(series.tvdbMatchStatus.getValue())) {
+      series.tvdbSeriesExtId.changeValue(series.tvdbMatchId.getValue());
+    }
     series.tvdbMatchStatus.changeValue("Match Completed");
 
     series.commit(connection);

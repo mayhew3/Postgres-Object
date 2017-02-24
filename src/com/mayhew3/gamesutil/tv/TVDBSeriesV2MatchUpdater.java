@@ -80,11 +80,11 @@ public class TVDBSeriesV2MatchUpdater {
       PossibleSeriesMatch bestMatch = orderedMatches.get(0);
 
       Optional<Series> differentSeriesWithSameTVDBID = findDifferentSeriesWithSameTVDBID(series.id.getValue(), bestMatch.tvdbSeriesExtId.getValue());
+      series.tvdbMatchId.changeValue(bestMatch.tvdbSeriesExtId.getValue());
       if (differentSeriesWithSameTVDBID.isPresent()) {
         debug("Duplicate series found with TVDB ID " + bestMatch.tvdbSeriesExtId.getValue() + ": " + differentSeriesWithSameTVDBID.get());
         series.tvdbMatchStatus.changeValue("Duplicate");
       } else {
-        series.tvdbSeriesExtId.changeValue(bestMatch.tvdbSeriesExtId.getValue());
         series.tvdbMatchStatus.changeValue("Needs Confirmation");
       }
     }
@@ -110,7 +110,7 @@ public class TVDBSeriesV2MatchUpdater {
     }
   }
 
-  private List<PossibleSeriesMatch> getOrderedMatches(String seriesTitle, String formattedTitle) throws AuthenticationException, UnirestException {
+  private List<PossibleSeriesMatch> getOrderedMatches(String seriesTitle, String formattedTitle) throws AuthenticationException, UnirestException, SQLException {
     List<PossibleSeriesMatch> possibleMatches = new ArrayList<>();
 
     Optional<PossibleSeriesMatch> exactMatchWithYear = findExactMatchWithYear(seriesTitle, formattedTitle);
@@ -142,7 +142,7 @@ public class TVDBSeriesV2MatchUpdater {
     }
   }
 
-  private Optional<PossibleSeriesMatch> findExactMatchWithYear(String seriesTitle, String formattedTitle) throws AuthenticationException, UnirestException {
+  private Optional<PossibleSeriesMatch> findExactMatchWithYear(String seriesTitle, String formattedTitle) throws AuthenticationException, UnirestException, SQLException {
     Integer year = new DateTime(new Date()).getYear();
     String formattedTitleWithYear = formattedTitle + "_(" + year + ")";
 
@@ -158,7 +158,7 @@ public class TVDBSeriesV2MatchUpdater {
   }
 
   @NotNull
-  private PossibleSeriesMatch createPossibleSeriesMatchFromObject(JSONObject firstSeries) throws UnirestException, AuthenticationException {
+  private PossibleSeriesMatch createPossibleSeriesMatchFromObject(JSONObject firstSeries) throws UnirestException, AuthenticationException, SQLException {
     PossibleSeriesMatch possibleSeriesMatch = new PossibleSeriesMatch();
     possibleSeriesMatch.initializeForInsert();
 
@@ -170,6 +170,9 @@ public class TVDBSeriesV2MatchUpdater {
 
     Optional<String> topPoster = getTopPosterFor(tvdbSeriesId);
     topPoster.ifPresent(s -> possibleSeriesMatch.poster.changeValue(s));
+
+    Optional<Series> existing = Series.findSeriesFromTVDBExtID(tvdbSeriesId, connection);
+    possibleSeriesMatch.alreadyExists.changeValue(existing.isPresent());
 
     return possibleSeriesMatch;
   }
