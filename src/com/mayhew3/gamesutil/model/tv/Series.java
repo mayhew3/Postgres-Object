@@ -27,7 +27,7 @@ public class Series extends RetireableDataObject {
   public FieldValueString tivoSeriesV2ExtId = registerStringField("tivo_series_v2_ext_id", Nullability.NULLABLE);
   public FieldValueInteger tvdbSeriesExtId = registerIntegerField("tvdb_series_ext_id", Nullability.NULLABLE);
 
-  public FieldValueInteger tvdbMatchId = registerIntegerField("tvdb_match_id", Nullability.NULLABLE);
+  public FieldValueString poster = registerStringField("poster", Nullability.NULLABLE);
 
   /* Matching Helpers */
   public FieldValueString metacriticHint = registerStringField("metacritic_hint", Nullability.NULLABLE);
@@ -36,6 +36,7 @@ public class Series extends RetireableDataObject {
   public FieldValueBoolean needsTVDBRedo = registerBooleanField("needs_tvdb_redo", Nullability.NOT_NULL).defaultValue(false);
   public FieldValueString tvdbHint = registerStringField("tvdb_hint", Nullability.NULLABLE);
   public FieldValueString tivoName = registerStringField("tivo_name", Nullability.NULLABLE);
+  public FieldValueInteger tvdbMatchId = registerIntegerField("tvdb_match_id", Nullability.NULLABLE);
 
 
   /* Denorms */

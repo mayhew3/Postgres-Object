@@ -10,6 +10,7 @@ import com.mayhew3.gamesutil.xml.JSONReader;
 import com.mayhew3.gamesutil.xml.JSONReaderImpl;
 import org.apache.http.auth.AuthenticationException;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -162,6 +163,14 @@ public class TVDBSeriesV2Updater {
 
   }
 
+  private <T> void updateLinkedFieldsIfNotOverridden(FieldValue<T> slaveField, FieldValue<T> masterField, @Nullable T newValue) {
+    if (slaveField.getValue() == null ||
+        slaveField.getValue().equals(masterField.getValue())) {
+      slaveField.changeValue(newValue);
+    }
+    masterField.changeValue(newValue);
+  }
+
   private void updateAllEpisodes(Integer tvdbID) throws UnirestException, AuthenticationException, SQLException {
     Integer pageNumber = 1;
     Integer lastPage;
@@ -269,7 +278,7 @@ public class TVDBSeriesV2Updater {
     }
 
     String primaryPoster = updatePosters(tvdbID, tvdbSeries);
-    tvdbSeries.poster.changeValue(primaryPoster);
+    updateLinkedFieldsIfNotOverridden(series.poster, tvdbSeries.lastPoster, primaryPoster);
 
     // only add change log if an existing series is changing, not for a new one.
     if (!isForInsert && tvdbSeries.hasChanged()) {

@@ -20,10 +20,12 @@ import java.net.URISyntaxException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.Optional;
 
 import static org.fest.assertions.Assertions.assertThat;
 import static org.junit.Assert.fail;
 
+@SuppressWarnings({"SameParameterValue", "OptionalGetWithoutIsPresent"})
 public class TVDBSeriesV2UpdaterTest extends TVDatabaseTest {
 
   private final String SCHUMER_EPISODE_NAME1 = "The World's Most Interesting Woman in the World";
@@ -66,6 +68,7 @@ public class TVDBSeriesV2UpdaterTest extends TVDatabaseTest {
     TVDBEpisode updatedEpisode = findTVDBEpisodeWithTVDBID(SCHUMER_EPISODE_ID2);
     assertThat(updatedEpisode)
         .isNotNull();
+    //noinspection ConstantConditions
     assertThat(updatedEpisode.retired.getValue())
         .isEqualTo(0);
     assertThat(updatedEpisode.seasonNumber.getValue())
@@ -91,6 +94,7 @@ public class TVDBSeriesV2UpdaterTest extends TVDatabaseTest {
 
     assertThat(tvdbEpisode)
         .isNotNull();
+    //noinspection ConstantConditions
     assertThat(tvdbEpisode.episodeNumber.getValue())
         .isEqualTo(3);
 
@@ -98,6 +102,7 @@ public class TVDBSeriesV2UpdaterTest extends TVDatabaseTest {
 
     assertThat(thirdEpisode)
         .isNotNull();
+    //noinspection ConstantConditions
     assertThat(thirdEpisode.episodeNumber.getValue())
         .isEqualTo(2);
   }
@@ -236,9 +241,9 @@ public class TVDBSeriesV2UpdaterTest extends TVDatabaseTest {
   public void testSeasonNumberOverride() throws SQLException, ShowFailedException, BadlyFormattedXMLException, UnirestException, AuthenticationException {
     Series series = createSeries(SCHUMER_SERIES_NAME, SCHUMER_SERIES_ID);
 
-    Episode firstEpisode = addEpisode(series, 4, 1, SCHUMER_EPISODE_NAME1, SCHUMER_EPISODE_ID1);
+    addEpisode(series, 4, 1, SCHUMER_EPISODE_NAME1, SCHUMER_EPISODE_ID1);
     Episode secondEpisode = addEpisode(series, 4, 2, SCHUMER_EPISODE_NAME2, SCHUMER_EPISODE_ID2);
-    Episode thirdEpisode = addEpisode(series, 4, 3, SCHUMER_EPISODE_NAME3, SCHUMER_EPISODE_ID3);
+    addEpisode(series, 4, 3, SCHUMER_EPISODE_NAME3, SCHUMER_EPISODE_ID3);
 
 
 
@@ -265,6 +270,43 @@ public class TVDBSeriesV2UpdaterTest extends TVDatabaseTest {
             .isEqualTo(overriddenSeasonNumber);
   }
 
+  @Test
+  public void testPosterOverride() throws SQLException, ShowFailedException, BadlyFormattedXMLException, UnirestException, AuthenticationException {
+
+    String originalPoster =   "posters/override.jpg";
+    String overriddenPoster = "posters/original.jpg";
+
+    // this is the filename of the last poster in 265374_posters.json, so it is used by default.
+    String changedPoster =    "posters/265374-9.jpg";
+
+    Series series = createSeries(SCHUMER_SERIES_NAME, SCHUMER_SERIES_ID);
+
+    addEpisode(series, 4, 1, SCHUMER_EPISODE_NAME1, SCHUMER_EPISODE_ID1);
+    addEpisode(series, 4, 2, SCHUMER_EPISODE_NAME2, SCHUMER_EPISODE_ID2);
+    addEpisode(series, 4, 3, SCHUMER_EPISODE_NAME3, SCHUMER_EPISODE_ID3);
+
+    TVDBSeries tvdbSeries = series.getTVDBSeries(connection).get();
+    tvdbSeries.lastPoster.changeValue(originalPoster);
+    tvdbSeries.commit(connection);
+
+    series.poster.changeValue(overriddenPoster);
+    series.commit(connection);
+
+    TVDBSeriesV2Updater tvdbSeriesUpdater = new TVDBSeriesV2Updater(connection, series, tvdbjwtProvider, new JSONReaderImpl());
+    tvdbSeriesUpdater.updateSeries();
+
+    Series foundSeries = findSeriesWithTitle("Inside Amy Schumer");
+    assertThat(foundSeries.poster.getValue())
+        .as("Expected series poster to remain unchanged because it was overridden.")
+        .isEqualTo(overriddenPoster);
+
+    TVDBSeries foundTVDBSeries = foundSeries.getTVDBSeries(connection).get();
+    assertThat(foundTVDBSeries.lastPoster.getValue())
+        .as("Expected change to tvdb_series with new value from XML.")
+        .isNotEqualTo(originalPoster)
+        .isEqualTo(changedPoster);
+  }
+
 
   // private methods
 
@@ -273,6 +315,7 @@ public class TVDBSeriesV2UpdaterTest extends TVDatabaseTest {
     tvdbSeries.initializeForInsert();
     tvdbSeries.tvdbSeriesExtId.changeValue(tvdbId);
     tvdbSeries.name.changeValue(seriesName);
+    tvdbSeries.lastPoster.changeValue("graphical/265374-g4.jpg");
     tvdbSeries.commit(connection);
 
     Series series = new Series();
@@ -282,6 +325,7 @@ public class TVDBSeriesV2UpdaterTest extends TVDatabaseTest {
     series.tvdbSeriesId.changeValue(tvdbSeries.id.getValue());
     series.matchedWrong.changeValue(false);
     series.needsTVDBRedo.changeValue(false);
+    series.poster.changeValue("graphical/265374-g4.jpg");
     series.commit(connection);
 
     return series;

@@ -25,7 +25,7 @@ public class TVDBSeries extends RetireableDataObject {
   public FieldValue<String> network = registerStringField("network", Nullability.NULLABLE);
   public FieldValue<String> overview = registerStringField("overview", Nullability.NULLABLE);
   public FieldValue<String> status = registerStringField("status", Nullability.NULLABLE);
-  public FieldValue<String> poster = registerStringField("poster", Nullability.NULLABLE);
+  public FieldValue<String> lastPoster = registerStringField("last_poster", Nullability.NULLABLE);
   public FieldValue<String> banner = registerStringField("banner", Nullability.NULLABLE);
   public FieldValue<String> lastUpdated = registerStringField("last_updated", Nullability.NULLABLE);
   public FieldValue<String> imdbId = registerStringField("imdb_id", Nullability.NULLABLE);
