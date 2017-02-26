@@ -60,9 +60,9 @@ public class MetacriticTVUpdater {
 
   public void runQuickUpdate() throws SQLException {
     String sql = "select *\n" +
-            "from series\n" +
-            "where tvdb_match_status = ? " +
-            "and metacritic_new = ? " +
+        "from series\n" +
+        "where tvdb_match_status = ? " +
+        "and metacritic_new = ? " +
         "and retired = ? ";
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, "Match Completed", true, 0);
 

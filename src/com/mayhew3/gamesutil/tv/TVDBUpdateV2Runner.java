@@ -140,8 +140,9 @@ public class TVDBUpdateV2Runner {
   public void runUpdate() throws SQLException {
     String sql = "select *\n" +
         "from series\n" +
-        "where tvdb_match_status = ? ";
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, MATCH_COMPLETED);
+        "where tvdb_match_status = ? " +
+        "and retired = ? ";
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, MATCH_COMPLETED, 0);
 
     runUpdateOnResultSet(resultSet);
   }
@@ -156,8 +157,10 @@ public class TVDBUpdateV2Runner {
   private void runQuickUpdate() throws SQLException {
     String sql = "select * " +
         "from series " +
-        "where tvdb_match_status = ? ";
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, MATCH_CONFIRMED);
+        "where tvdb_match_status = ? " +
+        "and last_tvdb_error is null " +
+        "and retired = ? ";
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, MATCH_CONFIRMED, 0);
 
     runUpdateOnResultSet(resultSet);
   }
@@ -169,8 +172,9 @@ public class TVDBUpdateV2Runner {
 
     String sql = "select *\n" +
         "from series\n" +
-        "where title = ? ";
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, singleSeriesTitle);
+        "where title = ? " +
+        "and retired = ? ";
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, singleSeriesTitle, 0);
 
     runUpdateOnResultSet(resultSet);
   }
@@ -237,9 +241,10 @@ public class TVDBUpdateV2Runner {
       String sql = "select * " +
           "from series " +
           "where tvdb_match_status = ? " +
-          "and tvdb_series_ext_id = ?";
+          "and tvdb_series_ext_id = ? " +
+          "and retired = ? ";
 
-      @NotNull ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, "Match Completed", seriesId);
+      @NotNull ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, "Match Completed", seriesId, 0);
       if (resultSet.next()) {
         Series series = new Series();
 
@@ -272,9 +277,10 @@ public class TVDBUpdateV2Runner {
         "from series\n" +
         "where last_tvdb_error is not null\n" +
         "and consecutive_tvdb_errors < ?\n" +
-        "and tvdb_match_status = ? ";
+        "and tvdb_match_status = ? " +
+        "and retired = ? ";
 
-    @NotNull ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, ERROR_THRESHOLD, MATCH_COMPLETED);
+    @NotNull ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, ERROR_THRESHOLD, MATCH_COMPLETED, 0);
     runUpdateOnResultSet(resultSet);
   }
 
@@ -288,9 +294,10 @@ public class TVDBUpdateV2Runner {
         "where last_tvdb_error is not null\n" +
         "and last_tvdb_error < ?\n" +
         "and consecutive_tvdb_errors >= ?\n" +
-        "and tvdb_match_status = ? ";
+        "and tvdb_match_status = ? " +
+        "and retired = ? ";
 
-    @NotNull ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, timestamp, ERROR_THRESHOLD, MATCH_COMPLETED);
+    @NotNull ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, timestamp, ERROR_THRESHOLD, MATCH_COMPLETED, 0);
     runUpdateOnResultSet(resultSet);
   }
 
