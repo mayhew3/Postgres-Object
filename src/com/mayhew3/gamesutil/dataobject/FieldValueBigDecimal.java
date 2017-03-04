@@ -14,12 +14,12 @@ public class FieldValueBigDecimal extends FieldValue<BigDecimal> {
   }
 
   @Override
-  String getDDLType() {
+  public String getDDLType() {
     return "NUMERIC";
   }
 
   @Override
-  String getInformationSchemaType() {
+  public String getInformationSchemaType() {
     return "numeric";
   }
 

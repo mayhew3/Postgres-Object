@@ -32,7 +32,7 @@ public class DataSchema {
     return this;
   }
 
-  List<DataObject> getAllTables() {
+  public List<DataObject> getAllTables() {
     return ImmutableList.copyOf(allTables);
   }
 }

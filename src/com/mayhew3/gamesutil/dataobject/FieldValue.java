@@ -68,7 +68,7 @@ public abstract class FieldValue<T> {
   }
 
   // todo: make abstract, and force all subtypes to implement.
-  String getInformationSchemaType() {
+  public String getInformationSchemaType() {
     throw new UnsupportedOperationException("This method needs to be implemented on all subtypes that call it.");
   }
 

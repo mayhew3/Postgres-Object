@@ -14,7 +14,7 @@ public class SteamAttribute extends DataObject {
 
 
   @Override
-  protected String getTableName() {
+  public String getTableName() {
     return "steam_attributes";
   }
 

@@ -9,7 +9,7 @@ public class SeriesViewingLocation extends RetireableDataObject {
   public FieldValueForeignKey viewingLocationId = registerForeignKey(new ViewingLocation(), Nullability.NOT_NULL);
 
   @Override
-  protected String getTableName() {
+  public String getTableName() {
     return "series_viewing_location";
   }
 

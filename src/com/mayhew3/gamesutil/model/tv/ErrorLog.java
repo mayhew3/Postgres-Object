@@ -19,7 +19,7 @@ public class ErrorLog extends DataObject {
   public FieldValueBoolean ignoreError = registerBooleanField("ignore_error", Nullability.NULLABLE);
 
   @Override
-  protected String getTableName() {
+  public String getTableName() {
     return "error_log";
   }
 

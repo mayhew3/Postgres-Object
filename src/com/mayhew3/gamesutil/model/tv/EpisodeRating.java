@@ -17,7 +17,7 @@ public class EpisodeRating extends RetireableDataObject {
   public FieldValueString review = registerStringField("review", Nullability.NULLABLE);
 
   @Override
-  protected String getTableName() {
+  public String getTableName() {
     return "episode_rating";
   }
 }

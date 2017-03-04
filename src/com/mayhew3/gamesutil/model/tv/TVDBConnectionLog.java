@@ -13,7 +13,7 @@ public class TVDBConnectionLog extends DataObject {
   public FieldValueInteger failedShows = registerIntegerField("failed_shows", Nullability.NOT_NULL).defaultValue(0);
 
   @Override
-  protected String getTableName() {
+  public String getTableName() {
     return "tvdb_connection_log";
   }
 }

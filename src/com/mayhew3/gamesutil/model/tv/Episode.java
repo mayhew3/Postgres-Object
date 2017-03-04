@@ -43,7 +43,7 @@ public class Episode extends RetireableDataObject {
 
 
   @Override
-  protected String getTableName() {
+  public String getTableName() {
     return "episode";
   }
 

@@ -15,7 +15,7 @@ public class TVDBWorkItem extends RetireableDataObject {
   public FieldValueTimestamp processedTime = registerTimestampField("processed_time", Nullability.NULLABLE);
 
   @Override
-  protected String getTableName() {
+  public String getTableName() {
     return "tvdb_work_item";
   }
 }

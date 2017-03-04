@@ -10,7 +10,7 @@ class DataObjectMock extends DataObject {
   }
 
   @Override
-  protected String getTableName() {
+  public String getTableName() {
     return "test";
   }
 }

@@ -34,12 +34,12 @@ public class FieldValueInteger extends FieldValue<Integer> {
   }
 
   @Override
-  String getDDLType() {
+  public String getDDLType() {
     return size.getDdlIdentifier();
   }
 
   @Override
-  String getInformationSchemaType() {
+  public String getInformationSchemaType() {
     return size.getDdlIdentifier();
   }
 

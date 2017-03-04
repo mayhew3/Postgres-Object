@@ -28,12 +28,12 @@ public class FieldValueBoolean extends FieldValue<Boolean> {
   }
 
   @Override
-  String getDDLType() {
+  public String getDDLType() {
     return "BOOLEAN";
   }
 
   @Override
-  String getInformationSchemaType() {
+  public String getInformationSchemaType() {
     return "boolean";
   }
 

@@ -10,7 +10,7 @@ public class EdgeTiVoEpisode extends DataObject {
   public FieldValueForeignKey tivoEpisodeId = registerForeignKey(new TiVoEpisode(), Nullability.NOT_NULL);
 
   @Override
-  protected String getTableName() {
+  public String getTableName() {
     return "edge_tivo_episode";
   }
 

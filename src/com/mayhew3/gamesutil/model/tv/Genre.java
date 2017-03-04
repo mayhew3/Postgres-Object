@@ -15,7 +15,7 @@ public class Genre extends DataObject {
   public FieldValueString genreName = registerStringField("name", Nullability.NOT_NULL);
 
   @Override
-  protected String getTableName() {
+  public String getTableName() {
     return "genre";
   }
 

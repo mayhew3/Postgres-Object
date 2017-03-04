@@ -25,13 +25,13 @@ public class FieldValueTimestamp extends FieldValue<Timestamp> {
   }
 
   @Override
-  String getDDLType() {
-    return "TIMESTAMP(6) WITHOUT TIME ZONE";
+  public String getDDLType() {
+    return "TIMESTAMP(6) WITH TIME ZONE";
   }
 
   @Override
-  String getInformationSchemaType() {
-    return "timestamp without time zone";
+  public String getInformationSchemaType() {
+    return "timestamp with time zone";
   }
 
   @Override

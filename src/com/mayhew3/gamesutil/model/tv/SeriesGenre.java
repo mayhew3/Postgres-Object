@@ -14,7 +14,7 @@ public class SeriesGenre extends RetireableDataObject {
   }
 
   @Override
-  protected String getTableName() {
+  public String getTableName() {
     return "series_genre";
   }
 

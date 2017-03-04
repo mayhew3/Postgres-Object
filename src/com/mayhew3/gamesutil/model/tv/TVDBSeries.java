@@ -38,7 +38,7 @@ public class TVDBSeries extends RetireableDataObject {
   }
 
   @Override
-  protected String getTableName() {
+  public String getTableName() {
     return "tvdb_series";
   }
 

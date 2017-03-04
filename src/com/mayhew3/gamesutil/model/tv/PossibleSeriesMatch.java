@@ -18,7 +18,7 @@ public class PossibleSeriesMatch extends RetireableDataObject {
   }
 
   @Override
-  protected String getTableName() {
+  public String getTableName() {
     return "possible_series_match";
   }
 

@@ -14,7 +14,7 @@ public class SeasonViewingLocation extends RetireableDataObject {
   }
 
   @Override
-  protected String getTableName() {
+  public String getTableName() {
     return "season_viewing_location";
   }
 

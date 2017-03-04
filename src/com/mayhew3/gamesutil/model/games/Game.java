@@ -88,7 +88,7 @@ public class Game extends DataObject {
   public FieldValueBoolean include = registerBooleanFieldAllowingNulls("include", Nullability.NULLABLE);
 
   @Override
-  protected String getTableName() {
+  public String getTableName() {
     return "games";
   }
 

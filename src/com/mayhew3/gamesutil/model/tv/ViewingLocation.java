@@ -14,7 +14,7 @@ public class ViewingLocation extends DataObject {
   public FieldValueBoolean streaming = registerBooleanField("streaming", Nullability.NOT_NULL).defaultValue(true);
 
   @Override
-  protected String getTableName() {
+  public String getTableName() {
     return "viewing_location";
   }
 

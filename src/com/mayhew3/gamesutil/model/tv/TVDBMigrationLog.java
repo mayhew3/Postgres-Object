@@ -16,7 +16,7 @@ public class TVDBMigrationLog extends RetireableDataObject {
 
 
   @Override
-  protected String getTableName() {
+  public String getTableName() {
     return "tvdb_migration_log";
   }
 }

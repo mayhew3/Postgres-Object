@@ -78,7 +78,7 @@ public class Series extends RetireableDataObject {
   }
 
   @Override
-  protected String getTableName() {
+  public String getTableName() {
     return "series";
   }
 

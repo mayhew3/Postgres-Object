@@ -43,12 +43,12 @@ public class FieldValueString extends FieldValue<String> {
   }
 
   @Override
-  String getDDLType() {
+  public String getDDLType() {
     return "TEXT";
   }
 
   @Override
-  String getInformationSchemaType() {
+  public String getInformationSchemaType() {
     return "text";
   }
 

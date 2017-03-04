@@ -23,7 +23,7 @@ public class TmpRating extends DataObject {
 
 
   @Override
-  protected String getTableName() {
+  public String getTableName() {
     return "tmp_rating";
   }
 

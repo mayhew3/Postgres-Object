@@ -66,7 +66,7 @@ public abstract class DataObject {
     return allFieldValues.stream().filter(FieldValue::isChanged).collect(Collectors.toList());
   }
 
-  List<FieldValue> getAllFieldValues() {
+  public List<FieldValue> getAllFieldValues() {
     return Lists.newArrayList(allFieldValues);
   }
 
@@ -283,7 +283,7 @@ public abstract class DataObject {
     }
   }
 
-  protected abstract String getTableName();
+  public abstract String getTableName();
 
   // todo: make abstract, and force all subtypes to implement.
   protected String createDDLStatement() {

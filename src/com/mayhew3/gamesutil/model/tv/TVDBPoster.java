@@ -11,7 +11,7 @@ public class TVDBPoster extends RetireableDataObject {
   public FieldValueInteger season = registerIntegerField("season", Nullability.NULLABLE);
 
   @Override
-  protected String getTableName() {
+  public String getTableName() {
     return "tvdb_poster";
   }
 }
