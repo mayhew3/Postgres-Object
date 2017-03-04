@@ -17,7 +17,10 @@ import org.joda.time.Seconds;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 import java.net.URISyntaxException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -42,6 +45,7 @@ public class TVDBUpdateFinder {
   private static PrintStream logOutput = null;
 
   // TVDB doesn't seem to work right with a timestamp less than 120 seconds ago, always returns nothing.
+  @SuppressWarnings("FieldCanBeLocal")
   private Integer SECONDS = 120;
 
   public TVDBUpdateFinder(SQLConnection connection, TVDBJWTProvider tvdbjwtProvider, JSONReader jsonReader) {
@@ -50,9 +54,11 @@ public class TVDBUpdateFinder {
     this.jsonReader = jsonReader;
   }
 
-  public static void main(String... args) throws UnirestException, URISyntaxException, SQLException, InterruptedException, FileNotFoundException {
+  public static void main(String... args) throws UnirestException, URISyntaxException, SQLException, InterruptedException, FileNotFoundException, AuthenticationException {
     List<String> argList = Lists.newArrayList(args);
     logToFile = argList.contains("LogToFile");
+    boolean lastWeek = argList.contains("LastWeek");
+    boolean healthCheck = argList.contains("HealthCheck");
 
     if (logToFile) {
       openLogStream();
@@ -68,8 +74,13 @@ public class TVDBUpdateFinder {
     SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
     TVDBUpdateFinder tvdbUpdateRunner = new TVDBUpdateFinder(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl());
 
-    tvdbUpdateRunner.runUpdater();
-//    tvdbUpdateRunner.testUpdaterWorksSameWithPeriod(90);
+    if (lastWeek) {
+      tvdbUpdateRunner.fillInGapsFromPastWeek();
+    } else if (healthCheck) {
+      tvdbUpdateRunner.testUpdaterWorksSameWithPeriod(90);
+    } else {
+      tvdbUpdateRunner.runUpdater();
+    }
   }
 
   private static void openLogStream() throws FileNotFoundException {
@@ -92,7 +103,8 @@ public class TVDBUpdateFinder {
     logOutput = null;
   }
 
-  private void runUpdater() throws SQLException, UnirestException, InterruptedException, FileNotFoundException {
+  @SuppressWarnings("InfiniteLoopStatement")
+  private void runUpdater() throws InterruptedException, FileNotFoundException {
 
     while (true) {
       if (logToFile && logOutput == null) {
@@ -105,11 +117,10 @@ public class TVDBUpdateFinder {
       try {
         runPeriodicUpdate();
         debug("Finished run. Waiting " + SECONDS + " seconds...");
-      } catch (AuthenticationException e) {
-        debug("Authentication failure with TVDB! Trying again in " + SECONDS + " seconds...");
+      } catch (AuthenticationException | UnirestException | SQLException e) {
+        debug("Exception thrown with TVDB! Trying again in " + SECONDS + " seconds...");
         e.printStackTrace();
       }
-
 
       if (logToFile && logOutput != null) {
         closeLogStream();
@@ -119,6 +130,7 @@ public class TVDBUpdateFinder {
     }
   }
 
+  @SuppressWarnings("SameParameterValue")
   private void testUpdaterWorksSameWithPeriod(Integer seconds) throws SQLException, UnirestException, InterruptedException, AuthenticationException {
     DateTime now = DateTime.now();
     DateTime tenMinutesFromNow = now.plusMinutes(10);
@@ -154,6 +166,11 @@ public class TVDBUpdateFinder {
     } else {
       debug("No last update time. Aborting.");
     }
+  }
+
+  private void fillInGapsFromPastWeek() throws AuthenticationException, UnirestException, SQLException {
+    DateTime sixDaysAgo = new DateTime().minusDays(6);
+    runPeriodicUpdate(new Timestamp(sixDaysAgo.toDate().getTime()));
   }
 
   private void validatePeriodicUpdates(List<TVDBUpdate> updatesFromPeriodic, List<TVDBUpdate> updatesFromFull, Timestamp maxUpdateTime) {
@@ -242,7 +259,7 @@ public class TVDBUpdateFinder {
         "and tvdb_match_status = ? " +
         "and retired = ? ";
 
-    @NotNull ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, false, tvdbSeriesExtId, "Match Completed", 0);
+    @NotNull ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, tvdbSeriesExtId, "Match Completed", 0);
     if (resultSet.next()) {
       if (hasWorkItemAlready(tvdbSeriesExtId, tvdbLastUpdated)) {
         debug("Work item already exists for TVDB ID " + tvdbSeriesExtId + " and update time of " + tvdbLastUpdated);
@@ -258,7 +275,7 @@ public class TVDBUpdateFinder {
     String sql = "select * " +
         "from tvdb_work_item " +
         "where tvdb_series_ext_id = ? " +
-        "and last_updated = ?";
+        "and last_updated <= ?";
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, tvdbSeriesExtId, tvdbLastUpdated);
     return resultSet.next();
   }

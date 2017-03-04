@@ -530,6 +530,7 @@ public class TiVoCommunicator {
     series.tvdbNew.changeValue(true);
     series.metacriticNew.changeValue(true);
     series.tivoVersion.changeValue(2);
+    series.addedBy.changeValue("TiVo");
     series.tvdbMatchStatus.changeValue("Match First Pass");
 
     series.commit(sqlConnection);

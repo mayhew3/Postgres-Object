@@ -165,10 +165,21 @@ public class TVDBUpdateV2Runner {
     runUpdateOnResultSet(resultSet);
   }
 
+  // todo: run on shows that haven't been updated in the past week. Test first: queries to see how many this is.
+  private void runSafetyUpdateOnShowsThatHaventBeenUpdatedInAWhile() throws SQLException {
+    String sql = "select * " +
+        "from series " +
+        "where tvdb_match_status = ? " +
+        "and last_tvdb_error is null " +
+        "and retired = ? ";
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, MATCH_COMPLETED, 0);
+
+    runUpdateOnResultSet(resultSet);
+  }
 
 
   private void runUpdateSingle() throws SQLException {
-    String singleSeriesTitle = "The Good Place"; // update for testing on a single series
+    String singleSeriesTitle = "Conan"; // update for testing on a single series
 
     String sql = "select *\n" +
         "from series\n" +
