@@ -3,13 +3,14 @@ package com.mayhew3.gamesutil.tv;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
 import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mashape.unirest.request.HttpRequest;
 import javafx.util.Pair;
 import org.apache.http.auth.AuthenticationException;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -39,9 +40,7 @@ class TVDBJWTProviderImpl implements TVDBJWTProvider {
     Map<String, Object> queryParams = Maps.newHashMap();
     queryParams.put("name", formattedTitle);
 
-    HttpResponse<JsonNode> response = getData(seriesUrl, queryParams);
-    JsonNode body = response.getBody();
-    return body.getObject();
+    return getData(seriesUrl, queryParams);
   }
 
   @Override
@@ -50,9 +49,7 @@ class TVDBJWTProviderImpl implements TVDBJWTProvider {
 
     String seriesUrl = "https://api.thetvdb.com/series/" + tvdbSeriesId;
 
-    HttpResponse<JsonNode> response = getData(seriesUrl);
-    JsonNode body = response.getBody();
-    return body.getObject();
+    return getData(seriesUrl);
   }
 
   @Override
@@ -64,9 +61,7 @@ class TVDBJWTProviderImpl implements TVDBJWTProvider {
     Map<String, Object> queryParams = Maps.newHashMap();
     queryParams.put("page", pageNumber);
 
-    HttpResponse<JsonNode> response = getData(seriesUrl, queryParams);
-    JsonNode body = response.getBody();
-    return body.getObject();
+    return getData(seriesUrl, queryParams);
   }
 
   @Override
@@ -75,9 +70,7 @@ class TVDBJWTProviderImpl implements TVDBJWTProvider {
 
     String seriesUrl = "https://api.thetvdb.com/episodes/" + tvdbEpisodeId;
 
-    HttpResponse<JsonNode> response = getData(seriesUrl);
-    JsonNode body = response.getBody();
-    return body.getObject();
+    return getData(seriesUrl);
   }
 
   @Override
@@ -89,9 +82,7 @@ class TVDBJWTProviderImpl implements TVDBJWTProvider {
     Map<String, Object> queryParams = Maps.newHashMap();
     queryParams.put("keyType", "poster");
 
-    HttpResponse<JsonNode> response = getData(seriesUrl, queryParams);
-    JsonNode body = response.getBody();
-    return body.getObject();
+    return getData(seriesUrl, queryParams);
   }
 
   @Override
@@ -107,12 +98,7 @@ class TVDBJWTProviderImpl implements TVDBJWTProvider {
     Map<String, Object> queryParams = Maps.newHashMap();
     queryParams.put("fromTime", epochTime);
 
-    HttpResponse<JsonNode> response = getData(seriesUrl, queryParams);
-
-    System.out.println("Response: " + response.getStatusText());
-
-    JsonNode body = response.getBody();
-    return body.getObject();
+    return getData(seriesUrl, queryParams);
   }
 
   public long getEpochTime(Timestamp fromDate) {
@@ -127,7 +113,7 @@ class TVDBJWTProviderImpl implements TVDBJWTProvider {
     Map<String, Object> queryParams = Maps.newHashMap();
     queryParams.put("name", formattedTitle);
 
-    JSONObject jsonObject = getData(seriesUrl, queryParams).getBody().getObject();
+    JSONObject jsonObject = getData(seriesUrl, queryParams);
 
     String filePath = "resources\\TVDBTest\\search_" + formattedTitle + ".json";
 
@@ -139,7 +125,7 @@ class TVDBJWTProviderImpl implements TVDBJWTProvider {
 
     String seriesUrl = "https://api.thetvdb.com/series/" + tvdbId;
 
-    JSONObject jsonObject = getData(seriesUrl).getBody().getObject();
+    JSONObject jsonObject = getData(seriesUrl);
 
     String filePath = "resources\\TVDBTest\\" + tvdbId + "_summary.json";
 
@@ -154,8 +140,7 @@ class TVDBJWTProviderImpl implements TVDBJWTProvider {
     Map<String, Object> queryParams = Maps.newHashMap();
     queryParams.put("keyType", "poster");
 
-    JsonNode body = getData(seriesUrl, queryParams).getBody();
-    JSONObject jsonObject = body.getObject();
+    JSONObject jsonObject = getData(seriesUrl, queryParams);
 
     String filePath = "resources\\TVDBTest\\" + tvdbSeriesId + "_posters.json";
 
@@ -177,7 +162,7 @@ class TVDBJWTProviderImpl implements TVDBJWTProvider {
     params.put("airedSeason", seasonNumber);
     params.put("airedEpisode", episodeNumber);
 
-    JSONObject jsonObject = getData(seriesUrl, params).getBody().getObject();
+    JSONObject jsonObject = getData(seriesUrl, params);
 
     JSONArray jsonArray = jsonObject.getJSONArray("data");
     JSONObject episodeSummary = jsonArray.getJSONObject(0);
@@ -186,7 +171,7 @@ class TVDBJWTProviderImpl implements TVDBJWTProvider {
 
     String episodeUrl = "https://api.thetvdb.com/episodes/" + tvdbEpisodeId;
 
-    JSONObject episodeObject = getData(episodeUrl).getBody().getObject();
+    JSONObject episodeObject = getData(episodeUrl);
 
     String filePath = "resources\\TVDBTest\\" + "E" + tvdbEpisodeId + ".json";
     writeResultToFile(filePath, episodeObject);
@@ -219,15 +204,33 @@ class TVDBJWTProviderImpl implements TVDBJWTProvider {
         .header("Accept", "application/json")
         .body(new JSONObject().put("apikey", tvdbApiKey))
         .getHttpRequest();
-    HttpResponse<JsonNode> response = httpRequest
-        .asJson();
-    JsonNode body = response.getBody();
-    JSONObject object = body.getObject();
-    return object.getString("token");
+
+    HttpResponse<String> responseAsString = httpRequest.asString();
+
+    return parseResponse(responseAsString);
   }
 
-  private HttpResponse<JsonNode> getData(String url, Map<String, Object> queryParams) throws UnirestException, AuthenticationException {
-    HttpResponse<JsonNode> response = getDataInternal(url, queryParams);
+  private String parseResponse(HttpResponse<String> responseAsString) throws UnirestException {
+    try {
+      JSONObject jsonObject = new JSONObject(responseAsString.getBody());
+
+      if (jsonObject.has("token")) {
+        return jsonObject.getString("token");
+      } else {
+        System.out.println("Error fetching token. Response: ");
+        System.out.println(responseAsString.getBody());
+        throw new UnirestException("Unable to fetch token.");
+      }
+
+    } catch (JSONException e) {
+      System.out.println("Unable to parse JSON response: ");
+      System.out.println(responseAsString.getBody());
+      throw e;
+    }
+  }
+
+  private HttpResponse<String> getStringData(String url, Map<String, Object> queryParams) throws UnirestException, AuthenticationException {
+    HttpResponse<String> response = getDataInternal(url, queryParams);
 
     if ("Unauthorized".equals(response.getStatusText())) {
       System.out.println("Refreshing token...");
@@ -239,24 +242,42 @@ class TVDBJWTProviderImpl implements TVDBJWTProvider {
         throw new AuthenticationException("Invalid authentication.");
       }
     }
-
-
     return response;
-
-
   }
 
-  private HttpResponse<JsonNode> getDataInternal(String url, Map<String, Object> queryParams) throws UnirestException {
+  private HttpResponse<String> getDataInternal(String url, Map<String, Object> queryParams) throws UnirestException {
     return Unirest.get(url)
         .header("Content-Type", "application/json")
         .header("Accept", "application/json")
         .header("Authorization", "Bearer " + token)
         .header("Accept-Language", "en")
         .queryString(queryParams)
-        .asJson();
+        .asString();
   }
 
-  private HttpResponse<JsonNode> getData(String url) throws UnirestException, AuthenticationException {
-    return getData(url, Maps.newHashMap());
+  private JSONObject getData(String url) throws UnirestException, AuthenticationException {
+    HttpResponse<String> stringData = getStringData(url);
+    return getJsonObject(stringData);
+  }
+
+  @NotNull
+  private JSONObject getJsonObject(HttpResponse<String> stringData) {
+    String body = stringData.getBody();
+    try {
+      return new JSONObject(body);
+    } catch (JSONException e) {
+      System.out.println("Unable to parse response: ");
+      System.out.println(body);
+      throw e;
+    }
+  }
+
+  private JSONObject getData(String url, Map<String, Object> queryParams) throws UnirestException, AuthenticationException {
+    HttpResponse<String> stringData = getStringData(url, queryParams);
+    return getJsonObject(stringData);
+  }
+
+  private HttpResponse<String> getStringData(String url) throws UnirestException, AuthenticationException {
+    return getStringData(url, Maps.newHashMap());
   }
 }

@@ -15,6 +15,7 @@ import org.jetbrains.annotations.Nullable;
 import org.joda.time.DateTime;
 import org.joda.time.Seconds;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -117,7 +118,7 @@ public class TVDBUpdateFinder {
       try {
         runPeriodicUpdate();
         debug("Finished run. Waiting " + SECONDS + " seconds...");
-      } catch (AuthenticationException | UnirestException | SQLException e) {
+      } catch (AuthenticationException | UnirestException | SQLException | JSONException e) {
         debug("Exception thrown with TVDB! Trying again in " + SECONDS + " seconds...");
         e.printStackTrace();
       }
@@ -351,14 +352,13 @@ public class TVDBUpdateFinder {
     Timestamp mostRecentSuccessfulUpdate = getMostRecentSuccessfulUpdate();
     Timestamp mostRecentPeriodicCheck = getMostRecentPeriodicCheck();
 
-    if (mostRecentPeriodicCheck == null) {
+    // todo: after series match is found, check that we haven't updated it more recently.
+    if (mostRecentPeriodicCheck != null) {
+      return mostRecentPeriodicCheck;
+    } else if (mostRecentSuccessfulUpdate != null) {
       return mostRecentSuccessfulUpdate;
-    } else if (mostRecentSuccessfulUpdate == null) {
-      return mostRecentPeriodicCheck;
-    } else if (mostRecentPeriodicCheck.after(mostRecentSuccessfulUpdate)) {
-      return mostRecentPeriodicCheck;
     } else {
-      return mostRecentSuccessfulUpdate;
+      throw new IllegalStateException("No update time found in tvdb_connection_log or tvdb_work_item.");
     }
   }
 
