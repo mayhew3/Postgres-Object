@@ -28,6 +28,7 @@ public class Series extends RetireableDataObject {
   public FieldValueInteger tvdbSeriesExtId = registerIntegerField("tvdb_series_ext_id", Nullability.NULLABLE);
 
   public FieldValueString poster = registerStringField("poster", Nullability.NULLABLE);
+  public FieldValueString airTime = registerStringField("air_time", Nullability.NULLABLE);
 
   /* Matching Helpers */
   public FieldValueString metacriticHint = registerStringField("metacritic_hint", Nullability.NULLABLE);

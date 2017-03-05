@@ -247,7 +247,9 @@ public class TVDBSeriesV2Updater {
     tvdbSeries.tvdbSeriesExtId.changeValue(id);
     tvdbSeries.name.changeValue(tvdbSeriesName);
     tvdbSeries.airsDayOfWeek.changeValue(jsonReader.getNullableStringWithKey(seriesJson, "airsDayOfWeek"));
-    tvdbSeries.airsTime.changeValue(jsonReader.getNullableStringWithKey(seriesJson, "airsTime"));
+
+    updateLinkedFieldsIfNotOverridden(series.airTime, tvdbSeries.airsTime, jsonReader.getNullableStringWithKey(seriesJson, "airsTime"));
+
     tvdbSeries.firstAired.changeValueFromString(jsonReader.getNullableStringWithKey(seriesJson, "firstAired"));
     tvdbSeries.network.changeValue(jsonReader.getNullableStringWithKey(seriesJson, "network"));
     tvdbSeries.overview.changeValue(jsonReader.getNullableStringWithKey(seriesJson, "overview"));

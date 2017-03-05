@@ -26,6 +26,7 @@ public class Episode extends RetireableDataObject {
   public FieldValue<Integer> absoluteNumber = registerIntegerField("absolute_number", Nullability.NULLABLE);
 
   public FieldValueTimestamp airDate = registerTimestampField("air_date", Nullability.NULLABLE);
+  public FieldValueTimestamp airTime = registerTimestampField("air_time", Nullability.NULLABLE);
 
   public FieldValue<Boolean> onTiVo = registerBooleanField("on_tivo", Nullability.NOT_NULL).defaultValue(false);
 

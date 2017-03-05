@@ -62,6 +62,7 @@ public class TVDBUpdateV2Runner {
     Boolean recentlyUpdatedOnly = argList.contains("Recent");
     Boolean fewErrors = argList.contains("FewErrors");
     Boolean oldErrors = argList.contains("OldErrors");
+    Boolean updateOnlyAirTimes = argList.contains("AirTimes");
     String identifier = new ArgumentChecker(args).getDBIdentifier();
 
     SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
@@ -79,6 +80,8 @@ public class TVDBUpdateV2Runner {
       tvdbUpdateRunner.runUpdate(TVDBUpdateType.FEW_ERRORS);
     } else if (oldErrors) {
       tvdbUpdateRunner.runUpdate(TVDBUpdateType.OLD_ERRORS);
+    } else if (updateOnlyAirTimes) {
+      tvdbUpdateRunner.runUpdate(TVDBUpdateType.AIRTIMES);
     } else {
       tvdbUpdateRunner.runUpdate(TVDBUpdateType.FULL);
     }
@@ -106,6 +109,8 @@ public class TVDBUpdateV2Runner {
         runUpdateOnOldErrors();
       } else if (updateType.equals(TVDBUpdateType.SINGLE)) {
         runUpdateSingle();
+      } else if (updateType.equals(TVDBUpdateType.AIRTIMES)) {
+        runAirTimesUpdate();
       } else if (updateType.equals(TVDBUpdateType.QUICK)) {
         runQuickUpdate();
       }
@@ -188,6 +193,26 @@ public class TVDBUpdateV2Runner {
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, singleSeriesTitle, 0);
 
     runUpdateOnResultSet(resultSet);
+  }
+
+  private void runAirTimesUpdate() throws SQLException {
+    String singleSeriesTitle = "Detroit Steel"; // update for testing on a single series
+
+    String sql = "select *\n" +
+        "from series\n" +
+        "where title = ? " +
+        "and retired = ? ";
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, singleSeriesTitle, 0);
+
+    while (resultSet.next()) {
+      Series series = new Series();
+      series.initializeFromDBObject(resultSet);
+
+      debug("Updating series '" + series.seriesTitle.getValue() + "'");
+
+      TVDBEpisodeV2Updater tvdbEpisodeV2Updater = new TVDBEpisodeV2Updater(series, connection, tvdbjwtProvider, 1, jsonReader, false);
+      tvdbEpisodeV2Updater.updateOnlyAirTimes();
+    }
   }
 
   private void runSmartUpdate() throws SQLException, UnirestException {

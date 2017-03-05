@@ -1,27 +1,24 @@
 package com.mayhew3.gamesutil.tv;
 
+import com.google.common.collect.Lists;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mayhew3.gamesutil.dataobject.FieldValue;
 import com.mayhew3.gamesutil.db.SQLConnection;
-import com.mayhew3.gamesutil.model.tv.Episode;
-import com.mayhew3.gamesutil.model.tv.Series;
-import com.mayhew3.gamesutil.model.tv.TVDBEpisode;
-import com.mayhew3.gamesutil.model.tv.TVDBMigrationLog;
-import com.mayhew3.gamesutil.model.tv.TiVoEpisode;
+import com.mayhew3.gamesutil.model.tv.*;
 import com.mayhew3.gamesutil.xml.JSONReader;
 import org.apache.http.auth.AuthenticationException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeComparator;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.json.JSONObject;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.sql.Timestamp;
+import java.util.*;
 
 class TVDBEpisodeV2Updater {
   enum EPISODE_RESULT {ADDED, UPDATED, RETIRED, NONE}
@@ -185,6 +182,8 @@ class TVDBEpisodeV2Updater {
     episode.absoluteNumber.changeValue(absoluteNumber);
     episode.streaming.changeValue(series.isStreaming(connection));
 
+    updateAirTime(episode);
+
     if (episode.hasChanged()) {
       changed = true;
     }
@@ -210,6 +209,73 @@ class TVDBEpisodeV2Updater {
     } else {
       return EPISODE_RESULT.NONE;
     }
+  }
+
+  void updateOnlyAirTimes() throws SQLException {
+    List<Episode> episodes = series.getEpisodes(connection);
+    for (Episode episode : episodes) {
+      updateAirTime(episode);
+    }
+  }
+
+  private void updateAirTime(Episode episode) throws SQLException {
+    Timestamp airDate = episode.airDate.getValue();
+    String seriesAirTime = series.airTime.getValue();
+
+    if (seriesAirTime == null) {
+      seriesAirTime = "00:00";
+    }
+
+    // my first-time update populated this for ALL rows with air date, but periodic updates
+    // should only populate new episodes with future dates using series time. Because most
+    // commonly the air time will refer to CURRENT episodes, not past ones.
+    if (airDate != null && isInFuture(airDate)) {
+
+      DateTimeFormatter dateOnlyFormatter = DateTimeFormat.forPattern("yyyy-MM-dd");
+      String dateOnly = dateOnlyFormatter.print(airDate.getTime());
+
+      String stringWithTime = dateOnly + " " + seriesAirTime;
+
+      List<String> possibleTimeFormats = Lists.newArrayList(
+          "hh:mm aa",
+          "hh:mmaa",
+          "HH:mm",
+          "h aa",
+          "haa",
+          "HHmm",
+          "h.mmaa",
+          "hh:mm aa zzz"
+      );
+
+      Optional<Date> airTime = tryToParse(stringWithTime, possibleTimeFormats);
+      if (airTime.isPresent()) {
+        episode.airTime.changeValue(airTime.get());
+        episode.commit(connection);
+      }
+    }
+  }
+
+  private Boolean isInFuture(Timestamp airDate) {
+    Date date = new Date(airDate.getTime());
+    Date today = trimToMidnight(new Date());
+
+    return !today.after(trimToMidnight(date));
+  }
+
+  private Date trimToMidnight(Date date) {
+    return new DateTime(date).withTimeAtStartOfDay().toDate();
+  }
+
+  private Optional<Date> tryToParse(String stringWithTime, List<String> minuteFormats) {
+    for (String minuteFormat : minuteFormats) {
+      DateTimeFormatter simpleDateFormat = DateTimeFormat.forPattern("yyyy-MM-dd " + minuteFormat);
+       try {
+         DateTime dateTime = simpleDateFormat.parseDateTime(stringWithTime);
+         return Optional.of(dateTime.toDate());
+       } catch (IllegalArgumentException ignored) {
+       }
+    }
+    return Optional.empty();
   }
 
   private void addChangeLogs(TVDBEpisode tvdbEpisode) throws SQLException {
