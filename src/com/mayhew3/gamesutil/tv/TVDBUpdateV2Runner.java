@@ -63,6 +63,7 @@ public class TVDBUpdateV2Runner {
     Boolean fewErrors = argList.contains("FewErrors");
     Boolean oldErrors = argList.contains("OldErrors");
     Boolean updateOnlyAirTimes = argList.contains("AirTimes");
+    Boolean sanityCheck = argList.contains("SanityCheck");
     String identifier = new ArgumentChecker(args).getDBIdentifier();
 
     SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
@@ -82,6 +83,8 @@ public class TVDBUpdateV2Runner {
       tvdbUpdateRunner.runUpdate(TVDBUpdateType.OLD_ERRORS);
     } else if (updateOnlyAirTimes) {
       tvdbUpdateRunner.runUpdate(TVDBUpdateType.AIRTIMES);
+    } else if (sanityCheck) {
+      tvdbUpdateRunner.runUpdate(TVDBUpdateType.SANITY);
     } else {
       tvdbUpdateRunner.runUpdate(TVDBUpdateType.FULL);
     }
@@ -113,6 +116,8 @@ public class TVDBUpdateV2Runner {
         runAirTimesUpdate();
       } else if (updateType.equals(TVDBUpdateType.QUICK)) {
         runQuickUpdate();
+      } else if (updateType.equals(TVDBUpdateType.SANITY)) {
+        runSanityUpdateOnShowsThatHaventBeenUpdatedInAWhile();
       }
 
       tvdbConnectionLog.finishTime.changeValue(new Date());
@@ -171,7 +176,7 @@ public class TVDBUpdateV2Runner {
   }
 
   // todo: run on shows that haven't been updated in the past week. Test first: queries to see how many this is.
-  private void runSafetyUpdateOnShowsThatHaventBeenUpdatedInAWhile() throws SQLException {
+  private void runSanityUpdateOnShowsThatHaventBeenUpdatedInAWhile() throws SQLException {
     DateTime today = new DateTime();
     DateTime sevenDaysAgo = today.minusDays(7);
     DateTime threeMonthsAgo = today.minusMonths(3);
@@ -191,7 +196,7 @@ public class TVDBUpdateV2Runner {
 
 
   private void runUpdateSingle() throws SQLException {
-    String singleSeriesTitle = "Conan"; // update for testing on a single series
+    String singleSeriesTitle = "Love"; // update for testing on a single series
 
     String sql = "select *\n" +
         "from series\n" +

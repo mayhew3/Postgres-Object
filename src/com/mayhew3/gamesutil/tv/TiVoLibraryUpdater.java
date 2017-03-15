@@ -100,6 +100,17 @@ public class TiVoLibraryUpdater {
         e.printStackTrace();
       }
     }
+    
+    // update any shows that haven't been run in a while
+    if (nightly) {
+      try {
+        TVDBUpdateV2Runner tvdbUpdateV2Runner = new TVDBUpdateV2Runner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl());
+        tvdbUpdateV2Runner.runUpdate(TVDBUpdateType.SANITY);
+      } catch (UnirestException e) {
+        debug("Uncaught exception during TVDB sanity check.");
+        e.printStackTrace();
+      }
+    }
 
     if (nightly) {
       try {

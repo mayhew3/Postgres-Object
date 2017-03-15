@@ -9,6 +9,7 @@ enum TVDBUpdateType {
   RECENT("Recent"),
   QUICK("Quick"),
   AIRTIMES("AirTimes"),
+  SANITY("Sanity"),
   SERVICE("Service");
 
   private final String typekey;
