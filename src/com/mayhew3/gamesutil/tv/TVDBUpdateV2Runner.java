@@ -172,12 +172,19 @@ public class TVDBUpdateV2Runner {
 
   // todo: run on shows that haven't been updated in the past week. Test first: queries to see how many this is.
   private void runSafetyUpdateOnShowsThatHaventBeenUpdatedInAWhile() throws SQLException {
-    String sql = "select * " +
-        "from series " +
+    DateTime today = new DateTime();
+    DateTime sevenDaysAgo = today.minusDays(7);
+    DateTime threeMonthsAgo = today.minusMonths(3);
+
+    String sql = "select *\n" +
+        "from series\n" +
         "where tvdb_match_status = ? " +
-        "and last_tvdb_error is null " +
-        "and retired = ? ";
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, MATCH_COMPLETED, 0);
+        "and last_tvdb_update is not null\n" +
+        "and last_tvdb_update < ?\n" +
+        "and suggestion = ?\n" +
+        "and retired = ?\n" +
+        "and most_recent > ?;";
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, MATCH_COMPLETED, sevenDaysAgo, false, 0, threeMonthsAgo);
 
     runUpdateOnResultSet(resultSet);
   }
