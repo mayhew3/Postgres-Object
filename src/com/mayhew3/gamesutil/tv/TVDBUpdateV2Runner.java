@@ -46,7 +46,7 @@ public class TVDBUpdateV2Runner {
 
   @SuppressWarnings("FieldCanBeLocal")
   private final Integer ERROR_FOLLOW_UP_THRESHOLD_IN_DAYS = 7;
-  private final Integer ERROR_THRESHOLD = 3;
+  private final Integer ERROR_THRESHOLD = 5;
 
   TVDBUpdateV2Runner(SQLConnection connection, TVDBJWTProvider tvdbjwtProvider, JSONReader jsonReader) {
     this.connection = connection;
@@ -168,9 +168,9 @@ public class TVDBUpdateV2Runner {
     String sql = "select * " +
         "from series " +
         "where tvdb_match_status = ? " +
-        "and last_tvdb_error is null " +
+        "and consecutive_tvdb_errors < ? " +
         "and retired = ? ";
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, MATCH_CONFIRMED, 0);
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, MATCH_CONFIRMED, ERROR_THRESHOLD, 0);
 
     runUpdateOnResultSet(resultSet);
   }
@@ -196,7 +196,7 @@ public class TVDBUpdateV2Runner {
 
 
   private void runUpdateSingle() throws SQLException {
-    String singleSeriesTitle = "Love"; // update for testing on a single series
+    String singleSeriesTitle = "Marvel's Iron Fist"; // update for testing on a single series
 
     String sql = "select *\n" +
         "from series\n" +
