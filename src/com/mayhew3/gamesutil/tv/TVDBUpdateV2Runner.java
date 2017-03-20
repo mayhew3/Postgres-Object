@@ -178,8 +178,8 @@ public class TVDBUpdateV2Runner {
   // todo: run on shows that haven't been updated in the past week. Test first: queries to see how many this is.
   private void runSanityUpdateOnShowsThatHaventBeenUpdatedInAWhile() throws SQLException {
     DateTime today = new DateTime();
-    DateTime sevenDaysAgo = today.minusDays(7);
-    DateTime threeMonthsAgo = today.minusMonths(3);
+    Timestamp sevenDaysAgo = new Timestamp(today.minusDays(7).getMillis());
+    Timestamp threeMonthsAgo = new Timestamp(today.minusMonths(3).getMillis());
 
     String sql = "select *\n" +
         "from series\n" +
