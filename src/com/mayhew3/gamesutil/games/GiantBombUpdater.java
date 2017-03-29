@@ -63,7 +63,7 @@ public class GiantBombUpdater {
 
 
   private void updateFieldsOnSingle() throws SQLException, InterruptedException {
-    String singleGame = "DOOM";
+    String singleGame = "The Legend of Zelda: Breath of the Wild";
 
     String sql = "SELECT * FROM games WHERE title = ?";
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, singleGame);
@@ -282,7 +282,7 @@ public class GiantBombUpdater {
     if (api_key == null) {
       throw new RuntimeException("Environment variable with name 'giantbomb_api' not found!");
     }
-    return "http://www.giantbomb.com/api/search/" +
+    return "https://www.giantbomb.com/api/search/" +
         "?api_key=" + api_key +
         "&format=json" +
         "&query=\"" + encoded + "\"" +
@@ -298,7 +298,7 @@ public class GiantBombUpdater {
 
   protected String getIdUrl(Integer id) throws UnsupportedEncodingException {
     String api_key = System.getenv("giantbomb_api");
-    return "http://www.giantbomb.com/api/game/3030-" + id + "/" +
+    return "https://www.giantbomb.com/api/game/3030-" + id + "/" +
         "?api_key=" + api_key +
         "&format=json" +
         "&resources=game" +
