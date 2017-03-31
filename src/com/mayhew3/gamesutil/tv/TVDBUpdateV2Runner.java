@@ -25,6 +25,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
+@SuppressWarnings("Guava")
 public class TVDBUpdateV2Runner {
 
   @SuppressWarnings("FieldCanBeLocal")
@@ -103,7 +104,7 @@ public class TVDBUpdateV2Runner {
       if (updateType.equals(TVDBUpdateType.FULL)) {
         runUpdate();
       } else if (updateType.equals(TVDBUpdateType.SMART)) {
-        runSmartUpdate();
+        runSmartUpdateSingleQuery();
       } else if (updateType.equals(TVDBUpdateType.RECENT)) {
         runUpdateOnRecentUpdateList();
       } else if (updateType.equals(TVDBUpdateType.FEW_ERRORS)) {
@@ -227,41 +228,6 @@ public class TVDBUpdateV2Runner {
     }
   }
 
-  private void runSmartUpdate() throws SQLException, UnirestException {
-
-    // todo: delete this after Feb 25 2017
-
-    /*
-
-    debug("");
-    debug("-- STARTING UPDATE FOR TVDB RECENT UPDATE LIST -- ");
-    debug("");
-
-    runUpdateOnRecentUpdateList();
-*/
-
-    debug("");
-    debug("-- STARTING UPDATE FOR RECENTLY FAILED SHOWS WITH FEW ERRORS -- ");
-    debug("");
-
-    runUpdateOnRecentlyErrored();
-
-    debug("");
-    debug("-- STARTING UPDATE FOR OLD FAILED SHOWS WITH MANY ERRORS -- ");
-    debug("");
-
-    runUpdateOnOldErrors();
-
-    debug("");
-    debug("-- STARTING UPDATE FOR NEWLY ADDED SHOWS -- ");
-    debug("");
-
-    runQuickUpdate();
-
-    debug("");
-    debug("-- SMART UPDATE COMPLETE -- ");
-    debug("");
-  }
 
   private void runUpdateOnRecentUpdateList() throws UnirestException, SQLException, AuthenticationException {
 
@@ -349,7 +315,6 @@ public class TVDBUpdateV2Runner {
     runUpdateOnResultSet(resultSet);
   }
 
-
   private void runUpdateOnResultSet(ResultSet resultSet) throws SQLException {
     debug("Starting update.");
 
@@ -376,9 +341,104 @@ public class TVDBUpdateV2Runner {
     debug("Update complete for result set: " + i + " processed.");
   }
 
+  private void runSmartUpdateSingleQuery() throws SQLException {
+
+    debug("Starting update.");
+
+    String sql = "select * " +
+        "from series " +
+        "where retired = ? ";
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, 0);
+
+    int i = 0;
+
+    while (resultSet.next()) {
+      i++;
+      Series series = new Series();
+      series.initializeFromDBObject(resultSet);
+
+      if (shouldUpdateSeries(series)) {
+
+        try {
+          @NotNull SeriesUpdateResult result = processSingleSeries(resultSet, series);
+          if (result.equals(SeriesUpdateResult.UPDATE_SUCCESS)) {
+            tvdbConnectionLog.updatedShows.increment(1);
+          } else {
+            tvdbConnectionLog.failedShows.increment(1);
+          }
+        } catch (Exception e) {
+          debug("Show failed on initialization from DB.");
+        }
+
+        seriesUpdates++;
+      }
+    }
+
+    debug("Update complete for series: " + i + " processed.");
+  }
+
+  private Boolean shouldUpdateSeries(Series series) {
+    return isRecentlyErrored(series) ||
+        isOldErrored(series) ||
+        matchReadyToComplete(series) ||
+        hasUnmatchedEpisodes(series);
+  }
+
+  private Boolean isRecentlyErrored(Series series) {
+    return hasError(series) &&
+        withinConsecutiveErrorThreshold(series) &&
+        hasMatchStatus(series, MATCH_COMPLETED);
+  }
+
+  private Boolean isOldErrored(Series series) {
+    DateTime now = new DateTime(new Date());
+    DateTime aWeekAgo = now.minusDays(ERROR_FOLLOW_UP_THRESHOLD_IN_DAYS);
+    Timestamp timestamp = new Timestamp(aWeekAgo.toDate().getTime());
+
+    return hasError(series) &&
+        withinErrorDateThreshold(series, timestamp) &&
+        hasMatchStatus(series, MATCH_COMPLETED);
+  }
+
+  private Boolean matchReadyToComplete(Series series) {
+    return hasMatchStatus(series, MATCH_CONFIRMED) &&
+        withinConsecutiveErrorThreshold(series);
+  }
+
+
+
+  private Boolean withinConsecutiveErrorThreshold(Series series) {
+    return series.consecutiveTVDBErrors.getValue() < ERROR_THRESHOLD;
+  }
+
+  private Boolean hasMatchStatus(Series series, String matchStatus) {
+    return matchStatus.equals(series.tvdbMatchStatus.getValue());
+  }
+
+  private Boolean hasError(Series series) {
+    return series.lastTVDBError.getValue() != null;
+  }
+
+  private Boolean withinErrorDateThreshold(Series series, Timestamp timestamp) {
+    return series.lastTVDBError.getValue().before(timestamp);
+  }
+
+  private Boolean hasUnmatchedEpisodes(Series series) {
+    DateTime now = new DateTime(new Date());
+    DateTime aDayAgo = now.minusDays(1);
+    Timestamp timestamp = new Timestamp(aDayAgo.toDate().getTime());
+
+    return series.lastTVDBUpdate.getValue() != null &&
+        series.lastTVDBUpdate.getValue().before(timestamp) &&
+        !series.isSuggestion.getValue() &&
+        series.unmatchedEpisodes.getValue() > 0;
+  }
+
   @NotNull
   private SeriesUpdateResult processSingleSeries(ResultSet resultSet, Series series) throws SQLException {
-    series.initializeFromDBObject(resultSet);
+    if (!series.isInitialized()) {
+      series.initializeFromDBObject(resultSet);
+    }
 
     try {
       updateTVDB(series);

@@ -75,7 +75,7 @@ public abstract class DataObject {
   }
 
   @NotNull
-  Boolean isInitialized() {
+  public Boolean isInitialized() {
     return initialized;
   }
 
