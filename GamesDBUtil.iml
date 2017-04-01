@@ -29,5 +29,6 @@
     </orderEntry>
     <orderEntry type="library" name="annotations-java8" level="project" />
     <orderEntry type="library" name="com.mashape.unirest:unirest-java:1.4.9" level="project" />
+    <orderEntry type="library" name="info.debatty:java-string-similarity:0.23" level="project" />
   </component>
 </module>
