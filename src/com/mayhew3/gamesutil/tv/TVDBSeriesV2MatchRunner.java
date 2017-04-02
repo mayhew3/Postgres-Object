@@ -49,6 +49,7 @@ public class TVDBSeriesV2MatchRunner {
     Boolean smartMode = argList.contains("Smart");
     Boolean fewErrors = argList.contains("FewErrors");
     Boolean oldErrors = argList.contains("OldErrors");
+    Boolean episodeMatch = argList.contains("EpisodeMatch");
     String identifier = new ArgumentChecker(args).getDBIdentifier();
 
     SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
@@ -62,6 +63,8 @@ public class TVDBSeriesV2MatchRunner {
       tvdbUpdateRunner.runUpdate(TVDBUpdateType.FEW_ERRORS);
     } else if (oldErrors) {
       tvdbUpdateRunner.runUpdate(TVDBUpdateType.OLD_ERRORS);
+    } else if (episodeMatch) {
+      tvdbUpdateRunner.runUpdate(TVDBUpdateType.EPISODE_MATCH);
     } else {
       tvdbUpdateRunner.runUpdate(TVDBUpdateType.FULL);
     }
@@ -83,6 +86,8 @@ public class TVDBSeriesV2MatchRunner {
         runUpdateOnOldErrors();
       } else if (updateType.equals(TVDBUpdateType.SINGLE)) {
         runUpdateSingle();
+      } else if (updateType.equals(TVDBUpdateType.EPISODE_MATCH)) {
+        tryToMatchTiVoEpisodes();
       }
 
       tvdbConnectionLog.finishTime.changeValue(new Date());
@@ -196,7 +201,7 @@ public class TVDBSeriesV2MatchRunner {
     String sql =
         "SELECT * " +
             "FROM tivo_episode " +
-            "WHERE tvdb_match_status = ? " +
+            "WHERE (tvdb_match_status IS NULL OR tvdb_match_status = ?) " +
             "AND retired = ? ";
 
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, TVDBMatchStatus.MATCH_FIRST_PASS, 0);
@@ -223,25 +228,54 @@ public class TVDBSeriesV2MatchRunner {
       } catch (ShowFailedException e) {
         e.printStackTrace();
         debug("Error finding series associated with TiVoEpisode: " + tiVoEpisode);
+        // todo: add series if it doesn't exist.
       }
     }
   }
 
   private Series getSeries(TiVoEpisode tiVoEpisode) throws SQLException, ShowFailedException {
+    String tivoSeriesExtId = tiVoEpisode.tivoSeriesV2ExtId.getValue();
+    if (tivoSeriesExtId == null) {
+      return getSeriesFromV1(tiVoEpisode);
+    }
+
     String sql =
         "SELECT * " +
             "FROM series " +
             "WHERE tivo_series_v2_ext_id = ? " +
             "AND retired = ? ";
 
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, tiVoEpisode.tivoSeriesV2ExtId.getValue(), 0);
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, tivoSeriesExtId, 0);
 
     if (resultSet.next()) {
       Series series = new Series();
       series.initializeFromDBObject(resultSet);
       return series;
     } else {
-      throw new ShowFailedException("No series found with tivo ID '" + tiVoEpisode.tivoSeriesV2ExtId.getValue() + "'");
+      throw new ShowFailedException("No series found with tivo ID '" + tivoSeriesExtId + "'");
+    }
+  }
+
+  private Series getSeriesFromV1(TiVoEpisode tiVoEpisode) throws ShowFailedException, SQLException {
+    String tivoSeriesExtId = tiVoEpisode.tivoSeriesExtId.getValue();
+    if (tivoSeriesExtId == null) {
+      throw new ShowFailedException("TiVo Episode with no V2 or V1 series id: " + tiVoEpisode);
+    }
+
+    String sql =
+        "SELECT * " +
+            "FROM series " +
+            "WHERE tivo_series_ext_id = ? " +
+            "AND retired = ? ";
+
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, tivoSeriesExtId, 0);
+
+    if (resultSet.next()) {
+      Series series = new Series();
+      series.initializeFromDBObject(resultSet);
+      return series;
+    } else {
+      throw new ShowFailedException("No series found with tivo V1 ID '" + tivoSeriesExtId + "'");
     }
   }
 

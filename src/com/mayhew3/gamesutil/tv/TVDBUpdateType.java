@@ -10,7 +10,8 @@ enum TVDBUpdateType {
   QUICK("Quick"),
   AIRTIMES("AirTimes"),
   SANITY("Sanity"),
-  SERVICE("Service");
+  SERVICE("Service"),
+  EPISODE_MATCH("EpisodeMatch");
 
   private final String typekey;
 
