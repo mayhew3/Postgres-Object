@@ -83,13 +83,11 @@ public class TVDBSeriesV2Updater {
 
     for (TiVoEpisode tivoEpisode : unmatchedEpisodes) {
       TVDBEpisodeMatcher matcher = new TVDBEpisodeMatcher(connection, tivoEpisode, series.id.getValue());
-      TVDBEpisode tvdbEpisode = matcher.findTVDBEpisodeMatchWithPossibleMatches();
+      Optional<TVDBEpisode> tvdbEpisodeOptional = matcher.matchAndLinkEpisode();
 
-      if (tvdbEpisode != null) {
-        Episode episode = tvdbEpisode.getEpisode(connection);
-        episode.addToTiVoEpisodes(connection, tivoEpisode);
-
-        newlyMatched.add(episode.getSeason() + "x" + episode.episodeNumber.getValue());
+      if (tvdbEpisodeOptional.isPresent()) {
+        TVDBEpisode tvdbEpisode = tvdbEpisodeOptional.get();
+        newlyMatched.add(tvdbEpisode.seasonNumber.getValue() + "x" + tvdbEpisode.episodeNumber.getValue());
       }
     }
 

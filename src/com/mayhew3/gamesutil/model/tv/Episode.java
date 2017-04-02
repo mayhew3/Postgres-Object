@@ -79,7 +79,7 @@ public class Episode extends RetireableDataObject {
     commit(connection);
   }
 
-  private Boolean hasMatch(List<TiVoEpisode> tiVoEpisodes, Integer tivoLocalEpisodeId) {
+  public Boolean hasMatch(List<TiVoEpisode> tiVoEpisodes, Integer tivoLocalEpisodeId) {
     for (TiVoEpisode tiVoEpisode : tiVoEpisodes) {
       if (tivoLocalEpisodeId.equals(tiVoEpisode.id.getValue())) {
         return true;

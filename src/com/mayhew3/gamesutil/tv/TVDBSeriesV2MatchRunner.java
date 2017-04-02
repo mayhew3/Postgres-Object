@@ -19,6 +19,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 public class TVDBSeriesV2MatchRunner {
 
@@ -210,13 +211,11 @@ public class TVDBSeriesV2MatchRunner {
         debug("Looking for match for TiVo Episode: " + tiVoEpisode);
 
         TVDBEpisodeMatcher tvdbEpisodeMatcher = new TVDBEpisodeMatcher(connection, tiVoEpisode, series.id.getValue());
-        TVDBEpisode tvdbEpisode = tvdbEpisodeMatcher.findTVDBEpisodeMatchWithPossibleMatches();
+        Optional<TVDBEpisode> tvdbEpisodeOptional = tvdbEpisodeMatcher.matchAndLinkEpisode();
 
-        if (tvdbEpisode != null) {
-          debug("- Match Found! Linking to episode: " + tvdbEpisode);
-
-          Episode episode = tvdbEpisode.getEpisode(connection);
-          episode.addToTiVoEpisodes(connection, tiVoEpisode);
+        if (tvdbEpisodeOptional.isPresent()) {
+          TVDBEpisode tvdbEpisode = tvdbEpisodeOptional.get();
+          debug("- Match Found! Linked to episode: " + tvdbEpisode);
         } else {
           debug("- No Match Found.");
         }

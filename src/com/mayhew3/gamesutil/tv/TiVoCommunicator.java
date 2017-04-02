@@ -27,10 +27,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class TiVoCommunicator {
 
@@ -377,15 +374,13 @@ public class TiVoCommunicator {
       if (fromRepeats.isEmpty()) {
 
         TVDBEpisodeMatcher matcher = new TVDBEpisodeMatcher(sqlConnection, tivoEpisode, series.id.getValue());
-        TVDBEpisode tvdbEpisode = matcher.findTVDBEpisodeMatchWithPossibleMatches();
+        Optional<TVDBEpisode> tvdbEpisodeOptional = matcher.matchAndLinkEpisode();
 
         // if we found a good match for tivo episode, link it
-        if (tvdbEpisode != null) {
+        if (tvdbEpisodeOptional.isPresent()) {
+          TVDBEpisode tvdbEpisode = tvdbEpisodeOptional.get();
           Episode episode = tvdbEpisode.getEpisode(sqlConnection);
-
           updatedShows++;
-
-          episode.addToTiVoEpisodes(sqlConnection, tivoEpisode);
           updateSeriesDenorms(tivoEpisode, episode, series);
           series.commit(sqlConnection);
         }

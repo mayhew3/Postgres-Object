@@ -5,7 +5,6 @@ import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.model.tv.Episode;
 import com.mayhew3.gamesutil.model.tv.Series;
-import com.mayhew3.gamesutil.model.tv.TVDBEpisode;
 import com.mayhew3.gamesutil.model.tv.TiVoEpisode;
 
 import java.net.URISyntaxException;
@@ -60,12 +59,7 @@ public class SeriesMerger {
 
     for (TiVoEpisode tiVoEpisode : tiVoEpisodes) {
       TVDBEpisodeMatcher matcher = new TVDBEpisodeMatcher(connection, tiVoEpisode, baseSeries.id.getValue());
-      TVDBEpisode tvdbEpisode = matcher.findTVDBEpisodeMatchWithPossibleMatches();
-
-      if (tvdbEpisode != null) {
-        Episode episode = tvdbEpisode.getEpisode(connection);
-        episode.addToTiVoEpisodes(connection, tiVoEpisode);
-      }
+      matcher.matchAndLinkEpisode();
     }
 
     baseSeries.tivoName.changeValue(unmatchedSeries.seriesTitle.getValue());

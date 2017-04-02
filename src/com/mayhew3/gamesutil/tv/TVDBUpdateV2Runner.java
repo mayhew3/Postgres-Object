@@ -193,7 +193,7 @@ public class TVDBUpdateV2Runner {
 
 
   private void runUpdateSingle() throws SQLException {
-    String singleSeriesTitle = "Unsolved Mysteries"; // update for testing on a single series
+    String singleSeriesTitle = "Game of Thrones"; // update for testing on a single series
 
     String sql = "select *\n" +
         "from series\n" +
