@@ -4,8 +4,9 @@ import com.mayhew3.gamesutil.dataobject.FieldValueBigDecimal;
 import com.mayhew3.gamesutil.dataobject.FieldValueForeignKey;
 import com.mayhew3.gamesutil.dataobject.FieldValueString;
 import com.mayhew3.gamesutil.dataobject.Nullability;
+import org.jetbrains.annotations.NotNull;
 
-public class PossibleEpisodeMatch extends RetireableDataObject {
+public class PossibleEpisodeMatch extends RetireableDataObject implements Comparable<PossibleEpisodeMatch> {
 
   /* FK */
   public FieldValueForeignKey seriesId = registerForeignKey(new Series(), Nullability.NOT_NULL);
@@ -23,5 +24,10 @@ public class PossibleEpisodeMatch extends RetireableDataObject {
   @Override
   public String getTableName() {
     return "possible_episode_match";
+  }
+
+  @Override
+  public int compareTo(@NotNull PossibleEpisodeMatch otherMatch) {
+    return matchScore.getValue().compareTo(otherMatch.matchScore.getValue());
   }
 }
