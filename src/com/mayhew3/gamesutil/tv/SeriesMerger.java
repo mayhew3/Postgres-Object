@@ -60,7 +60,7 @@ public class SeriesMerger {
 
     for (TiVoEpisode tiVoEpisode : tiVoEpisodes) {
       TVDBEpisodeMatcher matcher = new TVDBEpisodeMatcher(connection, tiVoEpisode, baseSeries.id.getValue());
-      TVDBEpisode tvdbEpisode = matcher.findTVDBEpisodeMatch();
+      TVDBEpisode tvdbEpisode = matcher.findTVDBEpisodeMatchWithPossibleMatches();
 
       if (tvdbEpisode != null) {
         Episode episode = tvdbEpisode.getEpisode(connection);
@@ -72,7 +72,7 @@ public class SeriesMerger {
     baseSeries.isSuggestion.changeValue(unmatchedSeries.isSuggestion.getValue());
     baseSeries.tivoVersion.changeValue(unmatchedSeries.tivoVersion.getValue());
     baseSeries.tivoSeriesV2ExtId.changeValue(unmatchedSeries.tivoSeriesV2ExtId.getValue());
-    baseSeries.tvdbMatchStatus.changeValue("Match Completed");
+    baseSeries.tvdbMatchStatus.changeValue(TVDBMatchStatus.MATCH_COMPLETED);
 
     baseSeries.commit(connection);
 

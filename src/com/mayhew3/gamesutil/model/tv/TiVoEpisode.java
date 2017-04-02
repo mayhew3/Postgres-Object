@@ -19,6 +19,7 @@ public class TiVoEpisode extends RetireableDataObject {
   public FieldValueTimestamp captureDate = registerTimestampField("capture_date", Nullability.NULLABLE);
 
   public FieldValueInteger tvdbMatchId = registerIntegerField("tvdb_match_id", Nullability.NULLABLE);
+  public FieldValueString tvdbMatchStatus = registerStringField("tvdb_match_status", Nullability.NULLABLE);
 
   public FieldValue<Boolean> hd = registerBooleanField("hd", Nullability.NULLABLE);
 

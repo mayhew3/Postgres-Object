@@ -85,7 +85,7 @@ public class TVDBSeriesV2MatchUpdater {
         debug("Duplicate series found with TVDB ID " + bestMatch.tvdbSeriesExtId.getValue() + ": " + differentSeriesWithSameTVDBID.get());
         series.tvdbMatchStatus.changeValue("Duplicate");
       } else {
-        series.tvdbMatchStatus.changeValue("Needs Confirmation");
+        series.tvdbMatchStatus.changeValue(TVDBMatchStatus.NEEDS_CONFIRMATION);
       }
     }
 

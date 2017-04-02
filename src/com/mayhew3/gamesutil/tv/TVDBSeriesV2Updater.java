@@ -62,7 +62,7 @@ public class TVDBSeriesV2Updater {
 
   private Boolean duplicateSeriesMatched() throws SQLException, ShowFailedException {
     Integer matchId = series.tvdbMatchId.getValue();
-    if (matchId != null && "Match Confirmed".equals(series.tvdbMatchStatus.getValue())) {
+    if (matchId != null && TVDBMatchStatus.MATCH_CONFIRMED.equals(series.tvdbMatchStatus.getValue())) {
       Optional<Series> existingSeries = Series.findSeriesFromTVDBExtID(matchId, connection);
 
       if (existingSeries.isPresent()) {
@@ -83,7 +83,7 @@ public class TVDBSeriesV2Updater {
 
     for (TiVoEpisode tivoEpisode : unmatchedEpisodes) {
       TVDBEpisodeMatcher matcher = new TVDBEpisodeMatcher(connection, tivoEpisode, series.id.getValue());
-      TVDBEpisode tvdbEpisode = matcher.findTVDBEpisodeMatch();
+      TVDBEpisode tvdbEpisode = matcher.findTVDBEpisodeMatchWithPossibleMatches();
 
       if (tvdbEpisode != null) {
         Episode episode = tvdbEpisode.getEpisode(connection);
@@ -101,14 +101,15 @@ public class TVDBSeriesV2Updater {
 
   private List<TiVoEpisode> findUnmatchedEpisodes() throws SQLException {
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
-        "SELECT te.* " +
-            "FROM tivo_episode te " +
-            "WHERE te.tivo_series_v2_ext_id = ? " +
-            "AND NOT EXISTS (SELECT 1 " +
-                            "FROM edge_tivo_episode ete " +
-                            "WHERE ete.tivo_episode_id = te.id) " +
-            "ORDER BY te.episode_number, te.showing_start_time",
-        series.tivoSeriesV2ExtId.getValue()
+        "SELECT * " +
+            "FROM tivo_episode " +
+            "WHERE tivo_series_v2_ext_id = ? " +
+            "AND tvdb_match_status = ? " +
+            "AND retired = ? " +
+            "ORDER BY episode_number, showing_start_time",
+        series.tivoSeriesV2ExtId.getValue(),
+        TVDBMatchStatus.MATCH_FIRST_PASS,
+        0
     );
     List<TiVoEpisode> tiVoEpisodes = new ArrayList<>();
     while (resultSet.next()) {
@@ -120,7 +121,7 @@ public class TVDBSeriesV2Updater {
   }
 
   private void updateShowData() throws SQLException, UnirestException, AuthenticationException, ShowFailedException {
-    if (series.tvdbMatchId.getValue() != null && "Match Confirmed".equals(series.tvdbMatchStatus.getValue())) {
+    if (series.tvdbMatchId.getValue() != null && TVDBMatchStatus.MATCH_CONFIRMED.equals(series.tvdbMatchStatus.getValue())) {
       series.tvdbSeriesExtId.changeValue(series.tvdbMatchId.getValue());
     }
 
@@ -145,7 +146,7 @@ public class TVDBSeriesV2Updater {
     series.tvdbSeriesId.changeValue(tvdbSeries.id.getValue());
     series.lastTVDBUpdate.changeValue(new Date());
 
-    series.tvdbMatchStatus.changeValue("Match Completed");
+    series.tvdbMatchStatus.changeValue(TVDBMatchStatus.MATCH_COMPLETED);
 
     series.commit(connection);
 
@@ -209,7 +210,7 @@ public class TVDBSeriesV2Updater {
     if (resultSet.next()) {
       tvdbSeries.initializeFromDBObject(resultSet);
     } else {
-      if ("Match Completed".equals(series.tvdbMatchStatus.getValue())) {
+      if (TVDBMatchStatus.MATCH_COMPLETED.equals(series.tvdbMatchStatus.getValue())) {
         throw new ShowFailedException("All 'Match Completed' shows should have a corresponding tvdb_series object.");
       } else {
         tvdbSeries.initializeForInsert();

@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import com.mayhew3.gamesutil.dataobject.*;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.tv.ShowFailedException;
+import com.mayhew3.gamesutil.tv.TVDBMatchStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -69,6 +70,9 @@ public class Episode extends RetireableDataObject {
       edgeTiVoEpisode.episodeId.changeValue(id.getValue());
 
       edgeTiVoEpisode.commit(connection);
+
+      tiVoEpisode.tvdbMatchStatus.changeValue(TVDBMatchStatus.MATCH_COMPLETED);
+      tiVoEpisode.commit(connection);
     }
 
     onTiVo.changeValue(true);

@@ -5,8 +5,7 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mayhew3.gamesutil.ArgumentChecker;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
-import com.mayhew3.gamesutil.model.tv.Series;
-import com.mayhew3.gamesutil.model.tv.TVDBConnectionLog;
+import com.mayhew3.gamesutil.model.tv.*;
 import com.mayhew3.gamesutil.xml.BadlyFormattedXMLException;
 import com.mayhew3.gamesutil.xml.JSONReader;
 import com.mayhew3.gamesutil.xml.JSONReaderImpl;
@@ -118,7 +117,7 @@ public class TVDBSeriesV2MatchRunner {
         "where tvdb_match_status = ? " +
         "and last_tvdb_error is null " +
         "and retired = ? ";
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, "Match First Pass", 0);
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, TVDBMatchStatus.MATCH_FIRST_PASS, 0);
 
     runUpdateOnResultSet(resultSet);
   }
@@ -157,6 +156,11 @@ public class TVDBSeriesV2MatchRunner {
 
     runUpdateOnOldErrors();
 
+    debug("");
+    debug("-- STARTING UPDATE FOR ALL UNMATCHED EPISODES -- ");
+    debug("");
+
+    tryToMatchTiVoEpisodes();
   }
 
   private void runUpdateOnRecentlyErrored() throws SQLException {
@@ -167,7 +171,7 @@ public class TVDBSeriesV2MatchRunner {
         "and consecutive_tvdb_errors < ? " +
         "and retired = ? ";
 
-    @NotNull ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, "Match First Pass", ERROR_THRESHOLD, 0);
+    @NotNull ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, TVDBMatchStatus.MATCH_FIRST_PASS, ERROR_THRESHOLD, 0);
     runUpdateOnResultSet(resultSet);
   }
 
@@ -187,6 +191,60 @@ public class TVDBSeriesV2MatchRunner {
     runUpdateOnResultSet(resultSet);
   }
 
+  private void tryToMatchTiVoEpisodes() throws SQLException {
+    String sql =
+        "SELECT * " +
+            "FROM tivo_episode " +
+            "WHERE tvdb_match_status = ? " +
+            "AND retired = ? ";
+
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, TVDBMatchStatus.MATCH_FIRST_PASS, 0);
+
+    while (resultSet.next()) {
+      TiVoEpisode tiVoEpisode = new TiVoEpisode();
+      tiVoEpisode.initializeFromDBObject(resultSet);
+
+      try {
+        Series series = getSeries(tiVoEpisode);
+
+        debug("Looking for match for TiVo Episode: " + tiVoEpisode);
+
+        TVDBEpisodeMatcher tvdbEpisodeMatcher = new TVDBEpisodeMatcher(connection, tiVoEpisode, series.id.getValue());
+        TVDBEpisode tvdbEpisode = tvdbEpisodeMatcher.findTVDBEpisodeMatchWithPossibleMatches();
+
+        if (tvdbEpisode != null) {
+          debug("- Match Found! Linking to episode: " + tvdbEpisode);
+
+          Episode episode = tvdbEpisode.getEpisode(connection);
+          episode.addToTiVoEpisodes(connection, tiVoEpisode);
+        } else {
+          debug("- No Match Found.");
+        }
+
+      } catch (ShowFailedException e) {
+        e.printStackTrace();
+        debug("Error finding series associated with TiVoEpisode: " + tiVoEpisode);
+      }
+    }
+  }
+
+  private Series getSeries(TiVoEpisode tiVoEpisode) throws SQLException, ShowFailedException {
+    String sql =
+        "SELECT * " +
+            "FROM series " +
+            "WHERE tivo_series_v2_ext_id = ? " +
+            "AND retired = ? ";
+
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, tiVoEpisode.tivoSeriesV2ExtId.getValue(), 0);
+
+    if (resultSet.next()) {
+      Series series = new Series();
+      series.initializeFromDBObject(resultSet);
+      return series;
+    } else {
+      throw new ShowFailedException("No series found with tivo ID '" + tiVoEpisode.tivoSeriesV2ExtId.getValue() + "'");
+    }
+  }
 
   private void runUpdateOnResultSet(ResultSet resultSet) throws SQLException {
     debug("Starting update.");

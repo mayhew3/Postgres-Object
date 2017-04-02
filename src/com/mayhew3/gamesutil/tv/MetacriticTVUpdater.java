@@ -53,7 +53,7 @@ public class MetacriticTVUpdater {
         "from series\n" +
         "where tvdb_match_status = ? " +
         "and retired = ? ";
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, "Match Completed", 0);
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, TVDBMatchStatus.MATCH_COMPLETED, 0);
 
     runUpdateOnResultSet(resultSet);
   }
@@ -64,7 +64,7 @@ public class MetacriticTVUpdater {
         "where tvdb_match_status = ? " +
         "and metacritic_new = ? " +
         "and retired = ? ";
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, "Match Completed", true, 0);
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, TVDBMatchStatus.MATCH_COMPLETED, true, 0);
 
     runUpdateOnResultSet(resultSet);
   }
@@ -78,7 +78,7 @@ public class MetacriticTVUpdater {
         "where tvdb_match_status = ? " +
         "and title = ? " +
         "and retired = ? ";
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, "Match Completed", singleSeriesTitle, 0);
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, TVDBMatchStatus.MATCH_COMPLETED, singleSeriesTitle, 0);
 
     runUpdateOnResultSet(resultSet);
   }

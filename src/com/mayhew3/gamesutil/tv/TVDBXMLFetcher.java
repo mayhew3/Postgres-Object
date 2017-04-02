@@ -41,7 +41,7 @@ public class TVDBXMLFetcher {
         "where tvdb_match_status = ? " +
         "and title = ? " +
         "and retired = ? ";
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, "Match Completed", singleSeriesTitle, 0);
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, TVDBMatchStatus.MATCH_COMPLETED, singleSeriesTitle, 0);
 
     debug("Starting update.");
 

@@ -3,6 +3,7 @@ package com.mayhew3.gamesutil.model.tv;
 import com.google.common.base.Preconditions;
 import com.mayhew3.gamesutil.dataobject.*;
 import com.mayhew3.gamesutil.db.SQLConnection;
+import com.mayhew3.gamesutil.tv.TVDBMatchStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -66,7 +67,7 @@ public class Series extends RetireableDataObject {
   public FieldValueTimestamp lastTVDBError = registerTimestampField("last_tvdb_error", Nullability.NULLABLE);
   public FieldValueTimestamp lastTVDBSanityCheck = registerTimestampField("last_tvdb_sanity_check", Nullability.NULLABLE);
 
-  public FieldValueString tvdbMatchStatus = registerStringField("tvdb_match_status", Nullability.NOT_NULL).defaultValue("Match First Pass");
+  public FieldValueString tvdbMatchStatus = registerStringField("tvdb_match_status", Nullability.NOT_NULL).defaultValue(TVDBMatchStatus.MATCH_FIRST_PASS);
   public FieldValueTimestamp tvdbConfirmDate = registerTimestampField("tvdb_confirm_date", Nullability.NULLABLE);
   public FieldValueTimestamp tvdbIgnoreDate = registerTimestampField("tvdb_ignore_date", Nullability.NULLABLE);
 

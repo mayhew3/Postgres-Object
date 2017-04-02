@@ -28,10 +28,6 @@ import java.util.TimeZone;
 @SuppressWarnings("Guava")
 public class TVDBUpdateV2Runner {
 
-  @SuppressWarnings("FieldCanBeLocal")
-  private final String MATCH_CONFIRMED = "Match Confirmed";
-  private final String MATCH_COMPLETED = "Match Completed";
-
   private enum SeriesUpdateResult {UPDATE_SUCCESS, UPDATE_FAILED}
 
   private Integer seriesUpdates = 0;
@@ -153,7 +149,7 @@ public class TVDBUpdateV2Runner {
         "from series\n" +
         "where tvdb_match_status = ? " +
         "and retired = ? ";
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, MATCH_COMPLETED, 0);
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, TVDBMatchStatus.MATCH_COMPLETED, 0);
 
     runUpdateOnResultSet(resultSet);
   }
@@ -171,7 +167,7 @@ public class TVDBUpdateV2Runner {
         "where tvdb_match_status = ? " +
         "and consecutive_tvdb_errors < ? " +
         "and retired = ? ";
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, MATCH_CONFIRMED, ERROR_THRESHOLD, 0);
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, TVDBMatchStatus.MATCH_CONFIRMED, ERROR_THRESHOLD, 0);
 
     runUpdateOnResultSet(resultSet);
   }
@@ -190,14 +186,14 @@ public class TVDBUpdateV2Runner {
         "and suggestion = ?\n" +
         "and retired = ?\n" +
         "and most_recent > ?;";
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, MATCH_COMPLETED, sevenDaysAgo, false, 0, threeMonthsAgo);
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, TVDBMatchStatus.MATCH_COMPLETED, sevenDaysAgo, false, 0, threeMonthsAgo);
 
     runUpdateOnResultSet(resultSet);
   }
 
 
   private void runUpdateSingle() throws SQLException {
-    String singleSeriesTitle = "Marvel's Iron Fist"; // update for testing on a single series
+    String singleSeriesTitle = "Unsolved Mysteries"; // update for testing on a single series
 
     String sql = "select *\n" +
         "from series\n" +
@@ -258,7 +254,7 @@ public class TVDBUpdateV2Runner {
           "and tvdb_series_ext_id = ? " +
           "and retired = ? ";
 
-      @NotNull ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, "Match Completed", seriesId, 0);
+      @NotNull ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, TVDBMatchStatus.MATCH_COMPLETED, seriesId, 0);
       if (resultSet.next()) {
         Series series = new Series();
 
@@ -294,7 +290,7 @@ public class TVDBUpdateV2Runner {
         "and tvdb_match_status = ? " +
         "and retired = ? ";
 
-    @NotNull ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, ERROR_THRESHOLD, MATCH_COMPLETED, 0);
+    @NotNull ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, ERROR_THRESHOLD, TVDBMatchStatus.MATCH_COMPLETED, 0);
     runUpdateOnResultSet(resultSet);
   }
 
@@ -311,7 +307,7 @@ public class TVDBUpdateV2Runner {
         "and tvdb_match_status = ? " +
         "and retired = ? ";
 
-    @NotNull ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, timestamp, ERROR_THRESHOLD, MATCH_COMPLETED, 0);
+    @NotNull ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, timestamp, ERROR_THRESHOLD, TVDBMatchStatus.MATCH_COMPLETED, 0);
     runUpdateOnResultSet(resultSet);
   }
 
@@ -387,7 +383,7 @@ public class TVDBUpdateV2Runner {
   private Boolean isRecentlyErrored(Series series) {
     return hasError(series) &&
         withinConsecutiveErrorThreshold(series) &&
-        hasMatchStatus(series, MATCH_COMPLETED);
+        hasMatchStatus(series, TVDBMatchStatus.MATCH_COMPLETED);
   }
 
   private Boolean isOldErrored(Series series) {
@@ -397,11 +393,11 @@ public class TVDBUpdateV2Runner {
 
     return hasError(series) &&
         withinErrorDateThreshold(series, timestamp) &&
-        hasMatchStatus(series, MATCH_COMPLETED);
+        hasMatchStatus(series, TVDBMatchStatus.MATCH_COMPLETED);
   }
 
   private Boolean matchReadyToComplete(Series series) {
-    return hasMatchStatus(series, MATCH_CONFIRMED) &&
+    return hasMatchStatus(series, TVDBMatchStatus.MATCH_CONFIRMED) &&
         withinConsecutiveErrorThreshold(series);
   }
 

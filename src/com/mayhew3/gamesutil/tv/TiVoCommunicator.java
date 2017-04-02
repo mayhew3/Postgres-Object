@@ -377,7 +377,7 @@ public class TiVoCommunicator {
       if (fromRepeats.isEmpty()) {
 
         TVDBEpisodeMatcher matcher = new TVDBEpisodeMatcher(sqlConnection, tivoEpisode, series.id.getValue());
-        TVDBEpisode tvdbEpisode = matcher.findTVDBEpisodeMatch();
+        TVDBEpisode tvdbEpisode = matcher.findTVDBEpisodeMatchWithPossibleMatches();
 
         // if we found a good match for tivo episode, link it
         if (tvdbEpisode != null) {
@@ -491,6 +491,7 @@ public class TiVoCommunicator {
     tivoEpisode.tivoSeriesV2ExtId.changeValue(tivoInfo.tivoId);
     tivoEpisode.seriesTitle.changeValue(tivoInfo.seriesTitle);
     tivoEpisode.recordingNow.changeValue(tivoInfo.recordingNow);
+    tivoEpisode.tvdbMatchStatus.changeValue(TVDBMatchStatus.MATCH_FIRST_PASS);
 
     tivoEpisode.commit(sqlConnection);
     return tivoEpisode;
@@ -531,7 +532,7 @@ public class TiVoCommunicator {
     series.metacriticNew.changeValue(true);
     series.tivoVersion.changeValue(2);
     series.addedBy.changeValue("TiVo");
-    series.tvdbMatchStatus.changeValue("Match First Pass");
+    series.tvdbMatchStatus.changeValue(TVDBMatchStatus.MATCH_FIRST_PASS);
 
     series.commit(sqlConnection);
 
