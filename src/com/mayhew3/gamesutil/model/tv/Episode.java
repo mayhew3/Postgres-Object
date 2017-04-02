@@ -20,7 +20,6 @@ public class Episode extends RetireableDataObject {
   public FieldValueForeignKey seasonId = registerForeignKey(new Season(), Nullability.NULLABLE);
   public FieldValueForeignKey seriesId = registerForeignKey(new Series(), Nullability.NOT_NULL);
 
-  public FieldValueInteger tvdbMatchId = registerIntegerField("tvdb_match_id", Nullability.NULLABLE);
 
   /* Data */
   private FieldValue<Integer> season = registerIntegerField("season", Nullability.NOT_NULL);
