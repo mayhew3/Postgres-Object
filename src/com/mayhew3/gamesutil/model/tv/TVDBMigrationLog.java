@@ -3,6 +3,7 @@ package com.mayhew3.gamesutil.model.tv;
 import com.mayhew3.gamesutil.dataobject.FieldValueForeignKey;
 import com.mayhew3.gamesutil.dataobject.FieldValueString;
 import com.mayhew3.gamesutil.dataobject.Nullability;
+import com.mayhew3.gamesutil.dataobject.RetireableDataObject;
 
 public class TVDBMigrationLog extends RetireableDataObject {
 

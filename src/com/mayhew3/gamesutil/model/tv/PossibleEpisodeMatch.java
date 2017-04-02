@@ -1,9 +1,6 @@
 package com.mayhew3.gamesutil.model.tv;
 
-import com.mayhew3.gamesutil.dataobject.FieldValueBigDecimal;
-import com.mayhew3.gamesutil.dataobject.FieldValueForeignKey;
-import com.mayhew3.gamesutil.dataobject.FieldValueString;
-import com.mayhew3.gamesutil.dataobject.Nullability;
+import com.mayhew3.gamesutil.dataobject.*;
 import org.jetbrains.annotations.NotNull;
 
 public class PossibleEpisodeMatch extends RetireableDataObject implements Comparable<PossibleEpisodeMatch> {
