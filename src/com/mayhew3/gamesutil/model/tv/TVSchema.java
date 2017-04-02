@@ -14,6 +14,7 @@ public class TVSchema {
       new Genre(),
       new Movie(),
       new PossibleSeriesMatch(),
+      new PossibleEpisodeMatch(),
       new Season(),
       new SeasonViewingLocation(),
       new Series(),
