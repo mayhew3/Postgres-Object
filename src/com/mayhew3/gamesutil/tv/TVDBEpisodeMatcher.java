@@ -63,7 +63,7 @@ class TVDBEpisodeMatcher {
 
       Set<TVDBEpisode> uniqueMatches = collectAllMatches(exactTitleMatches, exactNumberMatches, exactDateMatches);
 
-      // todo: change logic a bit: match complete if there is exactly one title match. If there are multiple, use
+      // todo: MM-328 change logic a bit: match complete if there is exactly one title match. If there are multiple, use
       // todo: date match to choose one, maybe with a needs confirmation? Date match should boost match score?
       if (exactlyOneMatch(exactTitleMatches, uniqueMatches)) {
         TVDBEpisode match = exactTitleMatches.get(0);
@@ -102,10 +102,10 @@ class TVDBEpisodeMatcher {
       edgeTiVoEpisode.episodeId.changeValue(episode.id.getValue());
 
       edgeTiVoEpisode.commit(connection);
-
-      tiVoEpisode.tvdbMatchStatus.changeValue(TVDBMatchStatus.MATCH_COMPLETED);
-      tiVoEpisode.commit(connection);
     }
+
+    tiVoEpisode.tvdbMatchStatus.changeValue(TVDBMatchStatus.MATCH_COMPLETED);
+    tiVoEpisode.commit(connection);
 
     episode.onTiVo.changeValue(true);
     episode.commit(connection);

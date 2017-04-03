@@ -228,10 +228,46 @@ public class TVDBSeriesV2MatchRunner {
       } catch (ShowFailedException e) {
         e.printStackTrace();
         debug("Error finding series associated with TiVoEpisode: " + tiVoEpisode);
-        // todo: add series if it doesn't exist.
       }
     }
   }
+
+  private Series addNewSeries(TiVoEpisode tiVoEpisode) throws SQLException {
+    Series series = new Series();
+
+    series.initializeForInsert();
+
+    String tivoId = tiVoEpisode.tivoSeriesV2ExtId.getValue();
+    Integer tivoVersion = 2;
+    if (tivoId == null) {
+      tivoId = tiVoEpisode.tivoSeriesExtId.getValue();
+      tivoVersion = 1;
+    }
+
+    debug("Adding series '" + tiVoEpisode.seriesTitle.getValue() + "'  with TiVoID '" + tivoId + "'");
+
+    series.initializeDenorms();
+
+    series.tivoSeriesV2ExtId.changeValue(tivoId);
+    series.seriesTitle.changeValue(tiVoEpisode.seriesTitle.getValue());
+    series.tivoName.changeValue(tiVoEpisode.seriesTitle.getValue());
+    if (tiVoEpisode.suggestion.getValue() != null) {
+      series.isSuggestion.changeValue(tiVoEpisode.suggestion.getValue());
+    }
+    series.matchedWrong.changeValue(false);
+    series.tvdbNew.changeValue(true);
+    series.metacriticNew.changeValue(true);
+    series.tivoVersion.changeValue(tivoVersion);
+    series.addedBy.changeValue("TiVo");
+    series.tvdbMatchStatus.changeValue(TVDBMatchStatus.MATCH_FIRST_PASS);
+
+    series.commit(connection);
+
+    series.addViewingLocation(connection, "TiVo");
+
+    return series;
+  }
+
 
   private Series getSeries(TiVoEpisode tiVoEpisode) throws SQLException, ShowFailedException {
     String tivoSeriesExtId = tiVoEpisode.tivoSeriesV2ExtId.getValue();
@@ -252,7 +288,8 @@ public class TVDBSeriesV2MatchRunner {
       series.initializeFromDBObject(resultSet);
       return series;
     } else {
-      throw new ShowFailedException("No series found with tivo ID '" + tivoSeriesExtId + "'");
+      debug("Unable to find existing series with v2 ID: " + tivoSeriesExtId + ". Adding new series.");
+      return addNewSeries(tiVoEpisode);
     }
   }
 
@@ -275,7 +312,8 @@ public class TVDBSeriesV2MatchRunner {
       series.initializeFromDBObject(resultSet);
       return series;
     } else {
-      throw new ShowFailedException("No series found with tivo V1 ID '" + tivoSeriesExtId + "'");
+      debug("Unable to find series with V1 ID: " + tivoSeriesExtId + ". Adding new series.");
+      return addNewSeries(tiVoEpisode);
     }
   }
 
