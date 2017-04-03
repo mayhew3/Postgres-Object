@@ -480,13 +480,13 @@ public class TiVoCommunicator {
       tivoEpisode.initializeFromDBObject(existingEpisode);
     } else {
       tivoEpisode.initializeForInsert();
+      tivoEpisode.tvdbMatchStatus.changeValue(TVDBMatchStatus.MATCH_FIRST_PASS);
     }
 
     formatEpisodeObject(tivoEpisode, tivoInfo.url, tivoInfo.isSuggestion, showDetails);
     tivoEpisode.tivoSeriesV2ExtId.changeValue(tivoInfo.tivoId);
     tivoEpisode.seriesTitle.changeValue(tivoInfo.seriesTitle);
     tivoEpisode.recordingNow.changeValue(tivoInfo.recordingNow);
-    tivoEpisode.tvdbMatchStatus.changeValue(TVDBMatchStatus.MATCH_FIRST_PASS);
 
     tivoEpisode.commit(sqlConnection);
     return tivoEpisode;
