@@ -16,25 +16,30 @@ import java.net.URISyntaxException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.Year;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@SuppressWarnings({"OptionalIsPresent"})
 public class EpisodeGroupUpdater {
 
   private SQLConnection connection;
+
+  private Timestamp lastWatchDate;
 
   public static void main(String... args) throws URISyntaxException, SQLException {
     String identifier = new ArgumentChecker(args).getDBIdentifier();
     SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
 
     EpisodeGroupUpdater updater = new EpisodeGroupUpdater(connection);
-    updater.updateEpisodeGroups(2016);
+    updater.updateEpisodeGroups(2017);
   }
 
   EpisodeGroupUpdater(SQLConnection connection) {
     this.connection = connection;
   }
 
+  @SuppressWarnings("SameParameterValue")
   void updateEpisodeGroups(Integer year) throws SQLException {
     String sql = "select s.*\n" +
         "from episode e\n" +
@@ -49,8 +54,10 @@ public class EpisodeGroupUpdater {
 
 //    String startDate = year + "-01-01";
 //    String endDate =  year + "-12-31";
-    Timestamp startDate = new Timestamp(new DateTime(year, 1, 1, 0, 0, 0).toDate().getTime());
-    Timestamp endDate = new Timestamp(new DateTime(year, 12, 31, 0, 0, 0).toDate().getTime());
+    Timestamp startDate = new Timestamp(beginningOfYear(year).toDate().getTime());
+    Timestamp endDate = new Timestamp(endOfYear(year).toDate().getTime());
+
+    lastWatchDate = new Timestamp(new DateTime(2017, 1, 11, 0, 0, 0).toDate().getTime());
 
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, startDate, endDate, true, 0);
 
@@ -79,7 +86,7 @@ public class EpisodeGroupUpdater {
       groupRating.avgCharacter.changeValue(getAvgCharacter(episodeInfos));
       groupRating.avgStory.changeValue(getAvgStory(episodeInfos));
 
-      groupRating.suggestedRating.changeValue(getSuggestedRating(episodeInfos, groupRating));
+      groupRating.suggestedRating.changeValue(getSuggestedRating(groupRating));
 
       debug(" - " + groupRating.rated.getValue() + "/" + groupRating.numEpisodes.getValue() + " ratings found, AVG: " + groupRating.avgRating.getValue());
 
@@ -162,11 +169,12 @@ public class EpisodeGroupUpdater {
 
     EpisodeInfo(Episode episode) throws SQLException {
       this.episode = episode;
-      this.episodeRating = episode.getMostRecentRating(connection);
+      this.episodeRating = episode.getMostRecentRating(connection, Optional.empty());
     }
 
   }
 
+  @SuppressWarnings("ConstantConditions")
   @Nullable
   private BigDecimal getAvgRating(List<EpisodeInfo> episodeInfos) throws SQLException {
     List<BigDecimal> ratings = episodeInfos.stream()
@@ -185,6 +193,7 @@ public class EpisodeGroupUpdater {
     return totalRating.divide(BigDecimal.valueOf(ratings.size()), 1, BigDecimal.ROUND_HALF_UP);
   }
 
+  @SuppressWarnings("ConstantConditions")
   @Nullable
   private BigDecimal getAvgFunny(List<EpisodeInfo> episodeInfos) throws SQLException {
     List<BigDecimal> ratings = episodeInfos.stream()
@@ -204,6 +213,7 @@ public class EpisodeGroupUpdater {
     return totalRating.divide(BigDecimal.valueOf(ratings.size()), 1, BigDecimal.ROUND_HALF_UP);
   }
 
+  @SuppressWarnings("ConstantConditions")
   @Nullable
   private BigDecimal getAvgCharacter(List<EpisodeInfo> episodeInfos) throws SQLException {
     List<BigDecimal> ratings = episodeInfos.stream()
@@ -223,6 +233,7 @@ public class EpisodeGroupUpdater {
     return totalRating.divide(BigDecimal.valueOf(ratings.size()), 1, BigDecimal.ROUND_HALF_UP);
   }
 
+  @SuppressWarnings("ConstantConditions")
   @Nullable
   private BigDecimal getAvgStory(List<EpisodeInfo> episodeInfos) throws SQLException {
     List<BigDecimal> ratings = episodeInfos.stream()
@@ -265,7 +276,7 @@ public class EpisodeGroupUpdater {
   }
 
   @Nullable
-  private BigDecimal getSuggestedRating(List<EpisodeInfo> episodeInfos, EpisodeGroupRating groupRating) throws SQLException {
+  private BigDecimal getSuggestedRating(EpisodeGroupRating groupRating) throws SQLException {
     BigDecimal average = groupRating.avgRating.getValue();
     BigDecimal max = groupRating.maxRating.getValue();
     BigDecimal last = groupRating.lastRating.getValue();
@@ -292,6 +303,45 @@ public class EpisodeGroupUpdater {
 
   @NotNull
   private EpisodeGroupRating getOrCreateExistingRatingForSeriesAndYear(Series series, Integer year) throws SQLException {
+    Optional<EpisodeGroupRating> existingRating = findRatingForSeriesAndYear(series, year);
+
+    EpisodeGroupRating groupRating = new EpisodeGroupRating();
+    if (existingRating.isPresent()) {
+      return existingRating.get();
+    } else {
+      Integer previousYear = year - 1;
+      Optional<EpisodeGroupRating> previousYearRating = findRatingForSeriesAndYear(series, previousYear);
+
+      DateTime startDate = previousYearRating.isPresent() ?
+          nextDay(previousYearRating.get().endDate.getValue()) :
+          beginningOfYear(year);
+
+      DateTime endDate = endOfYear(year);
+
+      groupRating.initializeForInsert();
+      groupRating.seriesId.changeValue(series.id.getValue());
+      groupRating.year.changeValue(year);
+      groupRating.startDate.changeValue(new Timestamp(startDate.toDate().getTime()));
+      groupRating.endDate.changeValue(new Timestamp(endDate.toDate().getTime()));
+    }
+    return groupRating;
+  }
+
+  private DateTime nextDay(Timestamp day) {
+    return new DateTime(day).plusDays(1);
+  }
+
+  @NotNull
+  private DateTime endOfYear(Integer year) {
+    return new DateTime(year, 12, 31, 0, 0, 0);
+  }
+
+  @NotNull
+  private DateTime beginningOfYear(Integer year) {
+    return new DateTime(year, 1, 1, 0, 0, 0);
+  }
+
+  private Optional<EpisodeGroupRating> findRatingForSeriesAndYear(Series series, Integer year) throws SQLException {
     String sql = "select *\n" +
         "from episode_group_rating\n" +
         "where series_id = ?\n" +
@@ -302,17 +352,10 @@ public class EpisodeGroupUpdater {
     EpisodeGroupRating groupRating = new EpisodeGroupRating();
     if (resultSet.next()) {
       groupRating.initializeFromDBObject(resultSet);
+      return Optional.of(groupRating);
     } else {
-      DateTime startDate = new DateTime(year, 1, 1, 0, 0, 0);
-      DateTime endDate = new DateTime(year, 12, 31, 0, 0, 0);
-
-      groupRating.initializeForInsert();
-      groupRating.seriesId.changeValue(series.id.getValue());
-      groupRating.year.changeValue(year);
-      groupRating.startDate.changeValue(new Timestamp(startDate.toDate().getTime()));
-      groupRating.endDate.changeValue(new Timestamp(endDate.toDate().getTime()));
+      return Optional.empty();
     }
-    return groupRating;
   }
 
 }

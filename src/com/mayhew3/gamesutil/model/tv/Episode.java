@@ -10,10 +10,13 @@ import org.jetbrains.annotations.Nullable;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
+@SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 public class Episode extends RetireableDataObject {
 
   /* Foreign Keys */
@@ -178,13 +181,18 @@ public class Episode extends RetireableDataObject {
   }
 
   @Nullable
-  public EpisodeRating getMostRecentRating(SQLConnection connection) throws SQLException {
+  public EpisodeRating getMostRecentRating(SQLConnection connection, Optional<Timestamp> ratingCutoff) throws SQLException {
+    String cutoffClause = ratingCutoff.isPresent() ? "and date_added < ? " : "";
+
     String sql = "select *\n" +
         "from episode_rating\n" +
         "where episode_id = ?\n" +
+        cutoffClause +
         "order by date_added desc";
 
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, id.getValue());
+    ResultSet resultSet = ratingCutoff.isPresent() ?
+        connection.prepareAndExecuteStatementFetch(sql, id.getValue(), ratingCutoff.get()) :
+        connection.prepareAndExecuteStatementFetch(sql, id.getValue());
 
     if (resultSet.next()) {
       EpisodeRating episodeRating = new EpisodeRating();
