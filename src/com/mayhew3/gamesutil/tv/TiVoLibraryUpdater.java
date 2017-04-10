@@ -116,7 +116,7 @@ public class TiVoLibraryUpdater {
       try {
         debug("Updating EpisodeGroupRatings...");
         EpisodeGroupUpdater episodeGroupUpdater = new EpisodeGroupUpdater(connection);
-        episodeGroupUpdater.updateEpisodeGroups(2016);
+        episodeGroupUpdater.updateEpisodeGroups(EpisodeGroupUpdater.currentYear);
       } catch (Exception e) {
         debug("Uncaught exception during episode group rating update.");
         e.printStackTrace();

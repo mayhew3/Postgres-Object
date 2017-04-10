@@ -27,12 +27,14 @@ public class EpisodeGroupUpdater {
 
   private Timestamp lastWatchDate;
 
+  public static Integer currentYear = 2017;
+
   public static void main(String... args) throws URISyntaxException, SQLException {
     String identifier = new ArgumentChecker(args).getDBIdentifier();
     SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
 
     EpisodeGroupUpdater updater = new EpisodeGroupUpdater(connection);
-    updater.updateEpisodeGroups(2017);
+    updater.updateEpisodeGroups(currentYear);
   }
 
   EpisodeGroupUpdater(SQLConnection connection) {
