@@ -185,8 +185,8 @@ public class TVDBUpdateV2Runner {
         "and last_tvdb_update < ?\n" +
         "and suggestion = ?\n" +
         "and retired = ?\n" +
-        "and most_recent > ?;";
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, TVDBMatchStatus.MATCH_COMPLETED, sevenDaysAgo, false, 0, threeMonthsAgo);
+        "and (most_recent > ? or tier = ?);";
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, TVDBMatchStatus.MATCH_COMPLETED, sevenDaysAgo, false, 0, threeMonthsAgo, 1);
 
     runUpdateOnResultSet(resultSet);
   }

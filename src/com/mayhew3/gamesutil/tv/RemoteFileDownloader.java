@@ -18,24 +18,23 @@ import java.nio.channels.ReadableByteChannel;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class RemoteFileDownloader {
-  private String urlString;
+public class RemoteFileDownloader implements TiVoDataProvider {
   @Nullable private String localFilePath;
 
-  public RemoteFileDownloader(String url) {
-    this.urlString = url;
-  }
+  public RemoteFileDownloader() {
+    String tivoApiKey = System.getenv("TIVO_API_KEY");
+    if (tivoApiKey == null) {
+      throw new IllegalStateException("No TIVO_API_KEY environment variable found!");
+    }
 
-  public RemoteFileDownloader withAuthentication(String username, String password) {
     Authenticator.setDefault (new Authenticator() {
       protected PasswordAuthentication getPasswordAuthentication() {
-        return new PasswordAuthentication(username, password.toCharArray());
+        return new PasswordAuthentication("tivo", tivoApiKey.toCharArray());
       }
     });
-    return this;
   }
 
-  public Document connectAndRetrieveDocument() throws IOException, SAXException {
+  public Document connectAndRetrieveDocument(String urlString) throws IOException, SAXException {
     URL url = new URL(urlString);
 
     URLConnection urlConnection = url.openConnection();

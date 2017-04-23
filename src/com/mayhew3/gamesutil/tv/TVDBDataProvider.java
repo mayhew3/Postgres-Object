@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public interface TVDBDataProvider {
-  public InputStream getEpisodeData(Integer tvdbId) throws IOException, SAXException;
+  InputStream getEpisodeData(Integer tvdbId) throws IOException, SAXException;
 
-  public InputStream findSeriesMatches(String formattedTitle) throws IOException, SAXException;
+  InputStream findSeriesMatches(String formattedTitle) throws IOException, SAXException;
 }

@@ -54,7 +54,7 @@ public class TiVoLibraryUpdater {
 
     if (!tvdbOnly) {
       try {
-        TiVoCommunicator tiVoCommunicator = new TiVoCommunicator(connection, saveTiVoXML);
+        TiVoCommunicator tiVoCommunicator = new TiVoCommunicator(connection, new RemoteFileDownloader(), saveTiVoXML);
         tiVoCommunicator.runUpdate(nightly);
       } catch (BadlyFormattedXMLException e) {
         debug("Error parsing TiVo XML.");

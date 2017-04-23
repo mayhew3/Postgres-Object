@@ -42,13 +42,15 @@ public class TiVoCommunicator {
   private Integer updatedShows = 0;
 
   private static SQLConnection sqlConnection;
+  private TiVoDataProvider tiVoDataProvider;
 
-  public TiVoCommunicator(SQLConnection connection, Boolean saveTiVoXML) {
+  public TiVoCommunicator(SQLConnection connection, TiVoDataProvider tiVoDataProvider, Boolean saveTiVoXML) {
     episodesOnTiVo = new ArrayList<>();
     moviesOnTiVo = new ArrayList<>();
     nodeReader = new NodeReaderImpl();
     this.saveTiVoXML = saveTiVoXML;
     sqlConnection = connection;
+    this.tiVoDataProvider = tiVoDataProvider;
   }
 
   public static void main(String[] args) throws UnknownHostException, SQLException, URISyntaxException, BadlyFormattedXMLException {
@@ -61,7 +63,7 @@ public class TiVoCommunicator {
 
     SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
 
-    TiVoCommunicator tiVoCommunicator = new TiVoCommunicator(connection, saveTiVoXML);
+    TiVoCommunicator tiVoCommunicator = new TiVoCommunicator(connection, new RemoteFileDownloader(), saveTiVoXML);
 
     if (dev) {
       tiVoCommunicator.truncateTables();
@@ -714,20 +716,13 @@ public class TiVoCommunicator {
   }
 
   private Document readXMLFromTivoUrl(String urlString, Boolean saveXML) throws IOException, SAXException {
-    String tivoApiKey = System.getenv("TIVO_API_KEY");
-    if (tivoApiKey == null) {
-      throw new IllegalStateException("No TIVO_API_KEY environment variable found!");
-    }
-
     String localFilePath = "resources\\tivo_2016_07_20.xml";
-    RemoteFileDownloader remoteFileDownloader = new RemoteFileDownloader(urlString)
-        .withAuthentication("tivo", tivoApiKey);
 
     if (saveTiVoXML && saveXML) {
-      remoteFileDownloader.withCopySavedTo(localFilePath);
+      tiVoDataProvider.withCopySavedTo(localFilePath);
     }
 
-    return remoteFileDownloader.connectAndRetrieveDocument();
+    return tiVoDataProvider.connectAndRetrieveDocument(urlString);
   }
 
 

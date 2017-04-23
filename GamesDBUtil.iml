@@ -12,7 +12,6 @@
     <orderEntry type="library" exported="" name="net.sf.cotta.core:cotta:3.0" level="project" />
     <orderEntry type="library" name="joda-time:joda-time:2.6" level="project" />
     <orderEntry type="library" name="org.jsoup:jsoup:1.8.1" level="project" />
-    <orderEntry type="library" name="org.postgresql:postgresql:9.4-1201-jdbc41" level="project" />
     <orderEntry type="library" name="org.apache.logging.log4j:log4j-core:2.3" level="project" />
     <orderEntry type="library" name="org.seleniumhq.selenium:selenium-server:2.47.1" level="project" />
     <orderEntry type="library" name="org.easytesting:fest-assert:1.4" level="project" />
@@ -30,5 +29,6 @@
     <orderEntry type="library" name="annotations-java8" level="project" />
     <orderEntry type="library" name="com.mashape.unirest:unirest-java:1.4.9" level="project" />
     <orderEntry type="library" name="info.debatty:java-string-similarity:0.23" level="project" />
+    <orderEntry type="library" name="org.postgresql:postgresql:42.0.0" level="project" />
   </component>
 </module>

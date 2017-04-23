@@ -3,10 +3,13 @@ package com.mayhew3.gamesutil.dataobject;
 import org.jetbrains.annotations.Nullable;
 
 import java.sql.*;
+import java.time.OffsetDateTime;
 import java.util.Date;
 
 public class FieldValueTimestamp extends FieldValue<Timestamp> {
   private Boolean defaultNow = false;
+  private OffsetDateTime originalDateTime;
+  private OffsetDateTime offsetDateTime;
 
   public FieldValueTimestamp(String fieldName, FieldConversion<Timestamp> converter, Nullability nullability) {
     super(fieldName, converter, nullability);
@@ -37,6 +40,8 @@ public class FieldValueTimestamp extends FieldValue<Timestamp> {
   @Override
   protected void initializeValue(ResultSet resultSet) throws SQLException {
     initializeValue(resultSet.getTimestamp(getFieldName()));
+//    originalDateTime = resultSet.getObject(getFieldName(), OffsetDateTime.class);
+//    offsetDateTime = originalDateTime;
   }
 
   @Override
@@ -56,6 +61,15 @@ public class FieldValueTimestamp extends FieldValue<Timestamp> {
       changeValue(timestamp);
     }
   }
+/*
+
+  public void changeValueWithTimeZone(@Nullable OffsetDateTime offsetDateTime) {
+    Preconditions.checkNotNull(offsetDateTime);
+    this.offsetDateTime = offsetDateTime;
+    Timestamp timestamp = new Timestamp(offsetDateTime.toInstant().toEpochMilli());
+    changeValue(timestamp);
+  }
+*/
 
   public void changeValueUnlessToNull(@Nullable Date date) {
     if (date != null) {
