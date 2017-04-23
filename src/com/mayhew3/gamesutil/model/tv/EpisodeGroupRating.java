@@ -10,7 +10,7 @@ public class EpisodeGroupRating extends RetireableDataObject {
 
   public FieldValueTimestamp startDate = registerTimestampField("start_date", Nullability.NOT_NULL);
   public FieldValueTimestamp endDate = registerTimestampField("end_date", Nullability.NOT_NULL);
-  public FieldValueTimestamp lastAired = registerTimestampField("last_aired", Nullability.NOT_NULL);
+  public FieldValueTimestamp lastAired = registerTimestampField("last_aired", Nullability.NULLABLE);
 
   public FieldValueBigDecimal avgRating = registerBigDecimalField("avg_rating", Nullability.NULLABLE);
   public FieldValueBigDecimal maxRating = registerBigDecimalField("max_rating", Nullability.NULLABLE);
