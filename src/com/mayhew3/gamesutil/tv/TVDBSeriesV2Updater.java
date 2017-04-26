@@ -16,10 +16,7 @@ import org.json.JSONObject;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class TVDBSeriesV2Updater {
 
@@ -28,6 +25,9 @@ public class TVDBSeriesV2Updater {
   private SQLConnection connection;
   private TVDBJWTProvider tvdbDataProvider;
   private JSONReader jsonReader;
+
+  private Set<Integer> foundEpisodeIds;
+  private Set<Integer> erroredEpisodeIds;
 
   private Integer episodesAdded = 0;
   private Integer episodesUpdated = 0;
@@ -41,6 +41,8 @@ public class TVDBSeriesV2Updater {
     this.connection = connection;
     this.tvdbDataProvider = tvdbWebProvider;
     this.jsonReader = jsonReader;
+    this.foundEpisodeIds = new HashSet<>();
+    this.erroredEpisodeIds = new HashSet<>();
   }
 
 
@@ -123,32 +125,34 @@ public class TVDBSeriesV2Updater {
       series.tvdbSeriesExtId.changeValue(series.tvdbMatchId.getValue());
     }
 
-    Integer tvdbID = series.tvdbSeriesExtId.getValue();
+    Integer tvdbSeriesExtId = series.tvdbSeriesExtId.getValue();
 
-    if (tvdbID == null) {
+    if (tvdbSeriesExtId == null) {
       throw new ShowFailedException("Updater trying to process series with null TVDB ID: " + series);
     }
 
     String seriesTitle = series.seriesTitle.getValue();
 
-    JSONObject seriesRoot = tvdbDataProvider.getSeriesData(tvdbID);
+    JSONObject seriesRoot = tvdbDataProvider.getSeriesData(tvdbSeriesExtId);
 
     debug(seriesTitle + ": Data found, updating.");
 
     JSONObject seriesJson = seriesRoot.getJSONObject("data");
 
-    TVDBSeries tvdbSeries = getTVDBSeries(tvdbID);
+    TVDBSeries tvdbSeries = getTVDBSeries(tvdbSeriesExtId);
 
-    updateTVDBSeries(tvdbID, seriesJson, tvdbSeries);
+    updateTVDBSeries(tvdbSeriesExtId, seriesJson, tvdbSeries);
 
-    series.tvdbSeriesId.changeValue(tvdbSeries.id.getValue());
+    Integer tvdbSeriesId = tvdbSeries.id.getValue();
+    series.tvdbSeriesId.changeValue(tvdbSeriesId);
     series.lastTVDBUpdate.changeValue(new Date());
 
     series.tvdbMatchStatus.changeValue(TVDBMatchStatus.MATCH_COMPLETED);
 
     series.commit(connection);
 
-    updateAllEpisodes(tvdbID);
+    updateAllEpisodes(tvdbSeriesExtId);
+    retireOrphanedEpisodes(tvdbSeriesId);
 
     series.tvdbNew.changeValue(false);
     series.commit(connection);
@@ -161,6 +165,38 @@ public class TVDBSeriesV2Updater {
 
     debug(seriesTitle + ": Update complete! Added: " + episodesAdded + "; Updated: " + episodesUpdated);
 
+  }
+
+  private void retireOrphanedEpisodes(Integer tvdbSeriesId) throws SQLException {
+    String sql = "SELECT te.* " +
+        "FROM tvdb_episode te " +
+        "INNER JOIN episode e " +
+        " ON e.tvdb_episode_id = te.id " +
+        "LEFT OUTER JOIN edge_tivo_episode ete " +
+        " ON ete.episode_id = e.id " +
+        "LEFT OUTER JOIN episode_rating er " +
+        " ON er.episode_id = e.id " +
+        "WHERE ete.id IS NULL " +
+        "AND er.id IS NULL " +
+        "AND te.tvdb_series_id = ? " +
+        "AND te.retired = ? ";
+
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, tvdbSeriesId, 0);
+    while (resultSet.next()) {
+      TVDBEpisode tvdbEpisode = new TVDBEpisode();
+      tvdbEpisode.initializeFromDBObject(resultSet);
+
+      Integer tvdbEpisodeExtId = tvdbEpisode.tvdbEpisodeExtId.getValue();
+      if (!foundEpisodeIds.contains(tvdbEpisodeExtId) &&
+          !erroredEpisodeIds.contains(tvdbEpisodeExtId)) {
+        Episode episode = tvdbEpisode.getEpisode(connection);
+        episode.retire();
+        episode.commit(connection);
+
+        tvdbEpisode.retire();
+        tvdbEpisode.commit(connection);
+      }
+    }
   }
 
   private <T> void updateLinkedFieldsIfNotOverridden(FieldValue<T> slaveField, FieldValue<T> masterField, @Nullable T newValue) {
@@ -230,10 +266,15 @@ public class TVDBSeriesV2Updater {
       } else if (episodeResult == TVDBEpisodeV2Updater.EPISODE_RESULT.UPDATED) {
         episodesUpdated++;
       }
+
+      if (episodeResult != TVDBEpisodeV2Updater.EPISODE_RESULT.RETIRED) {
+        foundEpisodeIds.add(episodeRemoteId);
+      }
     } catch (Exception e) {
       debug("TVDB update of episode failed: ");
       e.printStackTrace();
       episodesFailed++;
+      erroredEpisodeIds.add(episodeRemoteId);
       updateEpisodeLastError(episodeRemoteId);
       addMigrationError(episodeRemoteId, e);
     }
