@@ -63,7 +63,7 @@ public class DaylightSavingCorrector {
 
       if (duplicateEpisode.isPresent()) {
         debug("Found duplicate! Fixing dates...");
-        tiVoEpisode.retired.changeValue(tiVoEpisode.id.getValue());
+        tiVoEpisode.retire();
         tiVoEpisode.commit(connection);
 
         TiVoEpisode duplicate = duplicateEpisode.get();

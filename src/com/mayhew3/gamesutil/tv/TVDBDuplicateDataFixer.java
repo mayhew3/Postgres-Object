@@ -175,11 +175,11 @@ public class TVDBDuplicateDataFixer {
         unlinkAllTiVoEpisodes(episode);
       }
 
-      episode.retired.changeValue(episode.id.getValue());
+      episode.retire();
       episode.commit(connection);
 
       TVDBEpisode tvdbEpisode = episode.getTVDBEpisode(connection);
-      tvdbEpisode.retired.changeValue(tvdbEpisode.id.getValue());
+      tvdbEpisode.retire();
       tvdbEpisode.commit(connection);
     }
 
