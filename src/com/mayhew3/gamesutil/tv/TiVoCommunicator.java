@@ -128,7 +128,7 @@ public class TiVoCommunicator {
       while (keepGoing) {
         debug("Downloading entries " + offset + " to " + (offset + 50) + "...");
 
-        Document document = readXMLFromTivoUrl(fullURL + "&AnchorOffset=" + offset, true);
+        Document document = readXMLFromTivoUrl(fullURL + "&AnchorOffset=" + offset, null);
 
         debug("Checking against DB...");
         keepGoing = parseShowsFromDocument(document);
@@ -279,7 +279,7 @@ public class TiVoCommunicator {
 
     tivoInfo.url = getUrl(showAttributes);
 
-    if (isEpisodic(showAttributes)) {
+    if (isEpisodic(showAttributes, tivoInfo.seriesTitle + "_" + tivoInfo.programId)) {
 
       Series series = getOrCreateSeries(tivoInfo);
       if (series != null) {
@@ -300,6 +300,26 @@ public class TiVoCommunicator {
    */
   @Nullable
   private Series getOrCreateSeries(TiVoInfo tivoInfo) throws SQLException {
+    Series existingSeries = findExistingSeries(tivoInfo);
+
+    if (existingSeries == null) {
+      if (!tivoInfo.recordingNow) {
+        debug("Adding series '" + tivoInfo.seriesTitle + "'.");
+        addNewSeries(tivoInfo);
+      } else {
+        debug("Found new series '" + tivoInfo.seriesTitle + "', but it is currently recording. Waiting to add it.");
+      }
+      return null;
+    } else {
+      debug("Updating existing series '" + tivoInfo.seriesTitle + "'.");
+      return existingSeries;
+    }
+  }
+
+  @Nullable
+  public Series findExistingSeries(TiVoInfo tivoInfo) throws SQLException {
+    Series series = new Series();
+
     ResultSet resultSet = sqlConnection.prepareAndExecuteStatementFetch(
         "SELECT * " +
             "FROM series " +
@@ -307,38 +327,33 @@ public class TiVoCommunicator {
             "and retired = ? ",
         tivoInfo.tivoId, 0);
 
-    Series series = new Series();
-
-    if (!resultSet.next()) {
-      if (!tivoInfo.recordingNow) {
-        @NotNull ResultSet maybeMatch = sqlConnection.prepareAndExecuteStatementFetch(
-            "SELECT * " +
-                "FROM series " +
-                "WHERE title = ? " +
-                "AND (tivo_series_v2_ext_id is null OR tivo_version = ?) " +
-                "AND retired = ? ",
-            tivoInfo.seriesTitle, 1, 0);
-
-        if (maybeMatch.next()) {
-          series.initializeFromDBObject(maybeMatch);
-          updateTiVoFieldsOnExistingSeries(tivoInfo, series);
-        } else {
-          addNewSeries(series, tivoInfo);
-          return null;
-        }
-      }
-    } else {
+    if (resultSet.next()) {
       series.initializeFromDBObject(resultSet);
-      debug("Updating existing series '" + tivoInfo.seriesTitle + "'.");
+      return series;
+    } else {
+      @NotNull ResultSet maybeMatch = sqlConnection.prepareAndExecuteStatementFetch(
+          "SELECT * " +
+              "FROM series " +
+              "WHERE title = ? " +
+              "AND (tivo_series_v2_ext_id is null OR tivo_version = ?) " +
+              "AND retired = ? ",
+          tivoInfo.seriesTitle, 1, 0);
+
+      if (maybeMatch.next()) {
+        series.initializeFromDBObject(maybeMatch);
+        updateTiVoFieldsOnExistingSeries(tivoInfo, series);
+        return series;
+      }
     }
-    return series;
+
+    return null;
   }
 
   private void updateTiVoFieldsOnExistingSeries(TiVoInfo tivoInfo, Series series) throws SQLException {
     series.tivoSeriesV2ExtId.changeValue(tivoInfo.tivoId);
     series.tivoName.changeValue(tivoInfo.seriesTitle);
-    if (!tivoInfo.isSuggestion) {
-      series.isSuggestion.changeValue(tivoInfo.isSuggestion);
+    if (tivoInfo.isSuggestion == null || !tivoInfo.isSuggestion) {
+      series.isSuggestion.changeValue(false);
     }
     series.matchedWrong.changeValue(false);
     series.tivoVersion.changeValue(2);
@@ -513,7 +528,8 @@ public class TiVoCommunicator {
     return movie;
   }
 
-  private void addNewSeries(Series series, TiVoInfo tivoInfo) throws SQLException {
+  private void addNewSeries(TiVoInfo tivoInfo) throws SQLException {
+    Series series = new Series();
     series.initializeForInsert();
 
     debug("Adding series '" + tivoInfo.seriesTitle + "'  with TiVoID '" + tivoInfo.tivoId + "'");
@@ -654,11 +670,11 @@ public class TiVoCommunicator {
   }
 
   @NotNull
-  private Boolean isEpisodic(NodeList showAttributes) throws BadlyFormattedXMLException {
+  private Boolean isEpisodic(NodeList showAttributes, @Nullable String episodeIdentifier) throws BadlyFormattedXMLException {
     String detailUrl = getDetailUrl(showAttributes);
 
     try {
-      Document document = readXMLFromTivoUrl(detailUrl, false);
+      Document document = readXMLFromTivoUrl(detailUrl, episodeIdentifier);
 
       debug("Checking against DB...");
       return parseDetailFromDocument(document);
@@ -715,14 +731,14 @@ public class TiVoCommunicator {
     return nodeReader.getValueOfSimpleStringNullableNode(content, "Url");
   }
 
-  private Document readXMLFromTivoUrl(String urlString, Boolean saveXML) throws IOException, SAXException {
-    String localFilePath = "resources\\tivo_2016_07_20.xml";
-
-    if (saveTiVoXML && saveXML) {
-      tiVoDataProvider.withCopySavedTo(localFilePath);
+  private Document readXMLFromTivoUrl(String urlString, @Nullable String episodeIdentifier) throws IOException, SAXException {
+    if (saveTiVoXML) {
+      tiVoDataProvider.withCopySaved();
+    } else {
+      tiVoDataProvider.withNoCopySaved();
     }
 
-    return tiVoDataProvider.connectAndRetrieveDocument(urlString);
+    return tiVoDataProvider.connectAndRetrieveDocument(urlString, episodeIdentifier);
   }
 
 

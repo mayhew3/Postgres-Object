@@ -84,7 +84,8 @@ class TVDBEpisodeMatcher {
   }
 
   private boolean oneMatchForTitleAndDate(List<TVDBEpisode> exactTitleMatches, List<TVDBEpisode> exactDateMatches) {
-    return exactDateMatches.size() == 1 && exactTitleMatches.contains(exactDateMatches.get(0));
+    return (exactDateMatches.size() == 1 && exactTitleMatches.contains(exactDateMatches.get(0))) ||
+        (exactTitleMatches.size() == 1 && exactDateMatches.contains(exactTitleMatches.get(0)));
   }
 
   private void matchEpisode(@NotNull TVDBEpisode tvdbEpisode) throws SQLException {

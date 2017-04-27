@@ -20,6 +20,8 @@ import java.util.Date;
 
 public class RemoteFileDownloader implements TiVoDataProvider {
   @Nullable private String localFilePath;
+  private Boolean saveXml = false;
+  private String localFolderPath;
 
   public RemoteFileDownloader() {
     String tivoApiKey = System.getenv("TIVO_API_KEY");
@@ -32,9 +34,17 @@ public class RemoteFileDownloader implements TiVoDataProvider {
         return new PasswordAuthentication("tivo", tivoApiKey.toCharArray());
       }
     });
+
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy_MM_dd_hh_mm_ss");
+    String dateFormatted = simpleDateFormat.format(new Date());
+
+    localFolderPath = "resources\\tivo_xml\\" + dateFormatted + "\\";
+    if (!new File(localFolderPath).mkdir()) {
+      throw new RuntimeException("Unable to create directory: " + localFolderPath);
+    }
   }
 
-  public Document connectAndRetrieveDocument(String urlString) throws IOException, SAXException {
+  public Document connectAndRetrieveDocument(String urlString, @Nullable String episodeIdentifier) throws IOException, SAXException {
     URL url = new URL(urlString);
 
     URLConnection urlConnection = url.openConnection();
@@ -43,10 +53,10 @@ public class RemoteFileDownloader implements TiVoDataProvider {
 
     try (InputStream is = urlConnection.getInputStream()) {
 
-      if (localFilePath != null) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy_MM_dd_hh_mm_ss");
+      if (this.saveXml) {
+        String fileName = episodeIdentifier == null ? "00_index" : episodeIdentifier;
 
-        File destination = new File("resources\\tivo_xml_" + simpleDateFormat.format(new Date()));
+        File destination = new File(localFolderPath + fileName + ".xml");
         FileOutputStream fos = new FileOutputStream(destination, true);
 
         ReadableByteChannel readableByteChannel = Channels.newChannel(is);
@@ -63,9 +73,12 @@ public class RemoteFileDownloader implements TiVoDataProvider {
     }
   }
 
-  public RemoteFileDownloader withCopySavedTo(String localFilePath) {
-    this.localFilePath = localFilePath;
-    return this;
+  public void withCopySaved() {
+    this.saveXml = true;
+  }
+
+  public void withNoCopySaved() {
+    this.saveXml = false;
   }
 
   private Document recoverDocument(InputStream inputStream) throws IOException, SAXException {

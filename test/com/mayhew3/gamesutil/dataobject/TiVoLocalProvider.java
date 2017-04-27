@@ -1,7 +1,7 @@
 package com.mayhew3.gamesutil.dataobject;
 
-import com.mayhew3.gamesutil.tv.RemoteFileDownloader;
 import com.mayhew3.gamesutil.tv.TiVoDataProvider;
+import org.jetbrains.annotations.Nullable;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -24,7 +24,7 @@ public class TiVoLocalProvider implements TiVoDataProvider {
   }
 
   @Override
-  public Document connectAndRetrieveDocument(String urlString) throws IOException, SAXException {
+  public Document connectAndRetrieveDocument(String urlString, @Nullable String episodeIdentifier) throws IOException, SAXException {
     if (urlString.contains("TiVoVideoDetails")) {
       return parseDocumentWithFile(localFilePath + detailFileName);
     } else if (urlString.contains("QueryContainer")) {
@@ -40,8 +40,13 @@ public class TiVoLocalProvider implements TiVoDataProvider {
   }
 
   @Override
-  public RemoteFileDownloader withCopySavedTo(String localFilePath) {
-    return null;
+  public void withCopySaved() {
+    // nothing to do.
+  }
+
+  @Override
+  public void withNoCopySaved() {
+    // nothing to do.
   }
 
   private Document recoverDocument(InputStream inputStream) throws IOException, SAXException {
