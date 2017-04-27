@@ -3,3 +3,5 @@ out/
 lib/
 logs/
 sh.exe.stackdump
+GamesDBUtil CMD.lnk
+logging.properties
