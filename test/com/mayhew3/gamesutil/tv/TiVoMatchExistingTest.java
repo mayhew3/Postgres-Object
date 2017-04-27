@@ -39,7 +39,7 @@ public class TiVoMatchExistingTest extends TVDatabaseTest {
         .as("SANITY: Only one series should exist with name initially.")
         .hasSize(1);
 
-    TiVoCommunicator tiVoCommunicator = new TiVoCommunicator(connection, tiVoLocalProvider, false);
+    TiVoCommunicator tiVoCommunicator = new TiVoCommunicator(connection, tiVoLocalProvider);
     tiVoCommunicator.runUpdate(true);
 
     TiVoLocalProvider notRecording = new TiVoLocalProvider(
@@ -47,7 +47,7 @@ public class TiVoMatchExistingTest extends TVDatabaseTest {
         "SeriesList.xml",
         "SeriesDetail.xml");
 
-    tiVoCommunicator = new TiVoCommunicator(connection, notRecording, false);
+    tiVoCommunicator = new TiVoCommunicator(connection, notRecording);
     tiVoCommunicator.runUpdate(true);
 
     List<Series> afterUpdate = getSeriesWithName(seriesName);

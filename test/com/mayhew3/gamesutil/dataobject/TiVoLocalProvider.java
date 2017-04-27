@@ -39,16 +39,6 @@ public class TiVoLocalProvider implements TiVoDataProvider {
     return recoverDocument(fileInputStream);
   }
 
-  @Override
-  public void withCopySaved() {
-    // nothing to do.
-  }
-
-  @Override
-  public void withNoCopySaved() {
-    // nothing to do.
-  }
-
   private Document recoverDocument(InputStream inputStream) throws IOException, SAXException {
     DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
     DocumentBuilder dBuilder = null;

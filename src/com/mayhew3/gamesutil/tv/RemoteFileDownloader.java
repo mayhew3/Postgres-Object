@@ -19,11 +19,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class RemoteFileDownloader implements TiVoDataProvider {
-  @Nullable private String localFilePath;
   private Boolean saveXml = false;
   private String localFolderPath;
 
-  public RemoteFileDownloader() {
+  public RemoteFileDownloader(Boolean saveXml) {
     String tivoApiKey = System.getenv("TIVO_API_KEY");
     if (tivoApiKey == null) {
       throw new IllegalStateException("No TIVO_API_KEY environment variable found!");
@@ -35,12 +34,15 @@ public class RemoteFileDownloader implements TiVoDataProvider {
       }
     });
 
-    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy_MM_dd_hh_mm_ss");
-    String dateFormatted = simpleDateFormat.format(new Date());
+    this.saveXml = saveXml;
+    if (this.saveXml) {
+      SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy_MM_dd_hh_mm_ss");
+      String dateFormatted = simpleDateFormat.format(new Date());
 
-    localFolderPath = "resources\\tivo_xml\\" + dateFormatted + "\\";
-    if (!new File(localFolderPath).mkdir()) {
-      throw new RuntimeException("Unable to create directory: " + localFolderPath);
+      localFolderPath = "resources\\tivo_xml\\" + dateFormatted + "\\";
+      if (!new File(localFolderPath).mkdir()) {
+        throw new RuntimeException("Unable to create directory: " + localFolderPath);
+      }
     }
   }
 
@@ -71,14 +73,6 @@ public class RemoteFileDownloader implements TiVoDataProvider {
 
       return recoverDocument(is);
     }
-  }
-
-  public void withCopySaved() {
-    this.saveXml = true;
-  }
-
-  public void withNoCopySaved() {
-    this.saveXml = false;
   }
 
   private Document recoverDocument(InputStream inputStream) throws IOException, SAXException {

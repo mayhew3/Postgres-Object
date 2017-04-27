@@ -9,6 +9,4 @@ import java.io.IOException;
 public interface TiVoDataProvider {
 
   Document connectAndRetrieveDocument(String urlString, @Nullable String episodeIdentifier) throws IOException, SAXException;
-  void withCopySaved();
-  void withNoCopySaved();
 }

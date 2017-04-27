@@ -35,7 +35,6 @@ public class TiVoCommunicator {
   private List<String> episodesOnTiVo;
   private List<String> moviesOnTiVo;
   private NodeReader nodeReader;
-  private Boolean saveTiVoXML = false;
 
   private Integer addedShows = 0;
   private Integer deletedShows = 0;
@@ -44,11 +43,10 @@ public class TiVoCommunicator {
   private static SQLConnection sqlConnection;
   private TiVoDataProvider tiVoDataProvider;
 
-  public TiVoCommunicator(SQLConnection connection, TiVoDataProvider tiVoDataProvider, Boolean saveTiVoXML) {
+  public TiVoCommunicator(SQLConnection connection, TiVoDataProvider tiVoDataProvider) {
     episodesOnTiVo = new ArrayList<>();
     moviesOnTiVo = new ArrayList<>();
     nodeReader = new NodeReaderImpl();
-    this.saveTiVoXML = saveTiVoXML;
     sqlConnection = connection;
     this.tiVoDataProvider = tiVoDataProvider;
   }
@@ -63,7 +61,7 @@ public class TiVoCommunicator {
 
     SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
 
-    TiVoCommunicator tiVoCommunicator = new TiVoCommunicator(connection, new RemoteFileDownloader(), saveTiVoXML);
+    TiVoCommunicator tiVoCommunicator = new TiVoCommunicator(connection, new RemoteFileDownloader(saveTiVoXML));
 
     if (dev) {
       tiVoCommunicator.truncateTables();
@@ -87,7 +85,7 @@ public class TiVoCommunicator {
         adding the right VM parameters to recognize it, create a Keystore, Trusting something, running it through
         an SSL Factory and Https connection, but I was never able to get it to recognize the certificate.
       - Because I'm only running this over the local network, I'm just disabling the validation completely, which
-        is hacky, but seems to work. (After getting the Authorization popup to work. See DatabaseUtility#readXMLFromTivoUrl.
+        is hacky, but seems to work. (After getting the Authorization popup to work. See RemoteFileDownloader()
      */
 
     updateFields();
@@ -732,12 +730,6 @@ public class TiVoCommunicator {
   }
 
   private Document readXMLFromTivoUrl(String urlString, @Nullable String episodeIdentifier) throws IOException, SAXException {
-    if (saveTiVoXML) {
-      tiVoDataProvider.withCopySaved();
-    } else {
-      tiVoDataProvider.withNoCopySaved();
-    }
-
     return tiVoDataProvider.connectAndRetrieveDocument(urlString, episodeIdentifier);
   }
 
