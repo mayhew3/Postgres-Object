@@ -553,7 +553,12 @@ public class TiVoCommunicator {
   }
 
 
-  private Boolean isAfter(Date trackingDate, Date newDate) {
+  private Boolean isBefore(Date newDate, Date trackingDate) {
+    return trackingDate == null || trackingDate.after(newDate);
+  }
+
+
+  private Boolean isAfter(Date newDate, Date trackingDate) {
     return trackingDate == null || trackingDate.before(newDate);
   }
 
@@ -575,14 +580,19 @@ public class TiVoCommunicator {
     series.tvdbOnlyEpisodes.increment(-1);
     if (!watched) {
       series.unwatchedUnrecorded.increment(-1);
+
+      if (isBefore(showingStartTime, series.firstUnwatched.getValue())) {
+        series.firstUnwatched.changeValue(showingStartTime);
+      }
+
+      if (isAfter(showingStartTime, series.lastUnwatched.getValue())) {
+        series.lastUnwatched.changeValue(showingStartTime);
+      }
+
     }
 
-    if (isAfter(series.mostRecent.getValue(), showingStartTime)) {
+    if (isAfter(showingStartTime, series.mostRecent.getValue())) {
       series.mostRecent.changeValue(showingStartTime);
-    }
-
-    if (isAfter(series.lastUnwatched.getValue(), showingStartTime)) {
-      series.lastUnwatched.changeValue(showingStartTime);
     }
 
   }
