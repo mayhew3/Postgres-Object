@@ -54,6 +54,7 @@ public class Series extends RetireableDataObject {
   public FieldValueInteger streamingEpisodes = registerIntegerField("streaming_episodes", Nullability.NOT_NULL).defaultValue(0);
   public FieldValueInteger unwatchedStreaming = registerIntegerField("unwatched_streaming", Nullability.NOT_NULL).defaultValue(0);
 
+  public FieldValueTimestamp firstUnwatched = registerTimestampField("first_unwatched", Nullability.NULLABLE);
   public FieldValueTimestamp lastUnwatched = registerTimestampField("last_unwatched", Nullability.NULLABLE);
   public FieldValueTimestamp mostRecent = registerTimestampField("most_recent", Nullability.NULLABLE);
   public FieldValueBoolean isSuggestion = registerBooleanField("suggestion", Nullability.NOT_NULL).defaultValue(false);

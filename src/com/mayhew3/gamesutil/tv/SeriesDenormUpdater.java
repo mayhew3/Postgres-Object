@@ -29,6 +29,7 @@ public class SeriesDenormUpdater {
     updateActiveEpisodes();
     updateUnwatchedEpisodes();
     updateLastUnwatched();
+    updateFirstUnwatched();
     updateMostRecent();
     updateDeletedEpisodes();
     updateSuggestionEpisodes();
@@ -182,11 +183,27 @@ public class SeriesDenormUpdater {
     debug("- Last Unwatched");
     connection.prepareAndExecuteStatementUpdate(
         "update series\n" +
-            "set last_unwatched = (select max(e.air_date)\n" +
+            "set last_unwatched = (select max(e.air_time)\n" +
             "                            from episode e\n" +
             "                            where e.series_id = series.id\n" +
             "                            and (e.on_tivo = ? or e.streaming = ?)\n" +
-            "                            and e.air_date < now()\n" +
+            "                            and e.air_time < now()\n" +
+            "                            and e.watched = ?\n" +
+            "                            and e.season <> ?\n" +
+            "                            and e.retired = ?)",
+        true, true, false, 0, 0
+    );
+  }
+
+  private void updateFirstUnwatched() throws SQLException {
+    debug("- First Unwatched");
+    connection.prepareAndExecuteStatementUpdate(
+        "update series\n" +
+            "set first_unwatched = (select min(e.air_time)\n" +
+            "                            from episode e\n" +
+            "                            where e.series_id = series.id\n" +
+            "                            and (e.on_tivo = ? or e.streaming = ?)\n" +
+            "                            and e.air_time < now()\n" +
             "                            and e.watched = ?\n" +
             "                            and e.season <> ?\n" +
             "                            and e.retired = ?)",
