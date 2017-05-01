@@ -6,6 +6,7 @@ import com.mayhew3.gamesutil.model.tv.Episode;
 import com.mayhew3.gamesutil.model.tv.Series;
 import com.mayhew3.gamesutil.model.tv.TVDBEpisode;
 import com.mayhew3.gamesutil.model.tv.TVDBSeries;
+import com.mayhew3.gamesutil.tv.exception.ShowFailedException;
 import com.mayhew3.gamesutil.xml.BadlyFormattedXMLException;
 import com.mayhew3.gamesutil.xml.JSONReaderImpl;
 import org.apache.http.auth.AuthenticationException;
@@ -20,7 +21,6 @@ import java.net.URISyntaxException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
-import java.util.Optional;
 
 import static org.fest.assertions.Assertions.assertThat;
 import static org.junit.Assert.fail;

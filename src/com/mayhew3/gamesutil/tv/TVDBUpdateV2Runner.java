@@ -7,6 +7,7 @@ import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.model.tv.Series;
 import com.mayhew3.gamesutil.model.tv.TVDBConnectionLog;
+import com.mayhew3.gamesutil.tv.exception.ShowFailedException;
 import com.mayhew3.gamesutil.xml.BadlyFormattedXMLException;
 import com.mayhew3.gamesutil.xml.JSONReader;
 import com.mayhew3.gamesutil.xml.JSONReaderImpl;

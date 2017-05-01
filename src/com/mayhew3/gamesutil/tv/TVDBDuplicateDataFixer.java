@@ -8,6 +8,7 @@ import com.mayhew3.gamesutil.model.tv.Episode;
 import com.mayhew3.gamesutil.model.tv.Series;
 import com.mayhew3.gamesutil.model.tv.TVDBEpisode;
 import com.mayhew3.gamesutil.model.tv.TiVoEpisode;
+import com.mayhew3.gamesutil.tv.exception.ShowFailedException;
 import org.apache.commons.lang3.ObjectUtils;
 import org.jetbrains.annotations.Nullable;
 

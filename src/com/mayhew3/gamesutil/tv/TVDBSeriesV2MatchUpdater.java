@@ -4,7 +4,7 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.model.tv.PossibleSeriesMatch;
 import com.mayhew3.gamesutil.model.tv.Series;
-import com.mayhew3.gamesutil.model.tv.TVDBSeries;
+import com.mayhew3.gamesutil.tv.exception.ShowFailedException;
 import com.mayhew3.gamesutil.xml.BadlyFormattedXMLException;
 import com.mayhew3.gamesutil.xml.JSONReader;
 import org.apache.http.auth.AuthenticationException;

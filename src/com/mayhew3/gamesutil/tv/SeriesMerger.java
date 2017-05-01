@@ -6,6 +6,7 @@ import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.model.tv.Episode;
 import com.mayhew3.gamesutil.model.tv.Series;
 import com.mayhew3.gamesutil.model.tv.TiVoEpisode;
+import com.mayhew3.gamesutil.tv.exception.ShowFailedException;
 
 import java.net.URISyntaxException;
 import java.sql.SQLException;
