@@ -28,6 +28,8 @@ public class TVSchema {
       new TVDBMigrationError(),
       new TVDBMigrationLog(),
       new TVDBConnectionLog(),
+      new TVDBUpdateError(),
+      new TVDBUpdateErrorType(),
       new TVDBWorkItem(),
       new ViewingLocation()
   );
