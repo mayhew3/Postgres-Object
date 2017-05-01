@@ -4,7 +4,7 @@ import com.mayhew3.gamesutil.dataobject.*;
 
 public class TVDBUpdateError extends RetireableDataObject {
 
-  public FieldValueForeignKey exceptionType = registerForeignKey(new TVDBUpdateErrorType(), Nullability.NOT_NULL);
+  public FieldValueString exceptionClass = registerStringField("exception_class", Nullability.NOT_NULL);
   public FieldValueString exceptionMsg = registerStringField("exception_msg", Nullability.NOT_NULL);
 
   public FieldValueString context = registerStringField("context", Nullability.NOT_NULL);

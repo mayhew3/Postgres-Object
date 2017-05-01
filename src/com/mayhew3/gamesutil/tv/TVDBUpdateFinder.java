@@ -6,6 +6,7 @@ import com.mayhew3.gamesutil.ArgumentChecker;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.model.tv.Series;
+import com.mayhew3.gamesutil.model.tv.TVDBUpdateError;
 import com.mayhew3.gamesutil.model.tv.TVDBWorkItem;
 import com.mayhew3.gamesutil.xml.JSONReader;
 import com.mayhew3.gamesutil.xml.JSONReaderImpl;
@@ -105,7 +106,7 @@ public class TVDBUpdateFinder {
   }
 
   @SuppressWarnings("InfiniteLoopStatement")
-  private void runUpdater() throws InterruptedException, FileNotFoundException {
+  private void runUpdater() throws InterruptedException, FileNotFoundException, SQLException {
 
     while (true) {
       if (logToFile && logOutput == null) {
@@ -121,6 +122,7 @@ public class TVDBUpdateFinder {
       } catch (AuthenticationException | UnirestException | SQLException | JSONException e) {
         debug("Exception thrown with TVDB! Trying again in " + SECONDS + " seconds...");
         e.printStackTrace();
+        addUpdateError(e);
       }
 
       if (logToFile && logOutput != null) {
@@ -130,6 +132,19 @@ public class TVDBUpdateFinder {
       sleep(1000 * SECONDS);
     }
   }
+
+  private void addUpdateError(Exception e) throws SQLException {
+    TVDBUpdateError tvdbUpdateError = new TVDBUpdateError();
+    tvdbUpdateError.initializeForInsert();
+
+    tvdbUpdateError.context.changeValue("TVDBUpdateFinder");
+    tvdbUpdateError.exceptionClass.changeValue(e.getClass().toString());
+    tvdbUpdateError.exceptionMsg.changeValue(e.getMessage());
+
+    tvdbUpdateError.commit(connection);
+  }
+
+
 
   @SuppressWarnings("SameParameterValue")
   private void testUpdaterWorksSameWithPeriod(Integer seconds) throws SQLException, UnirestException, InterruptedException, AuthenticationException {

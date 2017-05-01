@@ -7,6 +7,7 @@ import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.model.tv.Series;
 import com.mayhew3.gamesutil.model.tv.TVDBConnectionLog;
+import com.mayhew3.gamesutil.model.tv.TVDBUpdateError;
 import com.mayhew3.gamesutil.tv.exception.ShowFailedException;
 import com.mayhew3.gamesutil.xml.BadlyFormattedXMLException;
 import com.mayhew3.gamesutil.xml.JSONReader;
@@ -445,9 +446,24 @@ public class TVDBUpdateV2Runner {
       e.printStackTrace();
       debug("Show failed TVDB: " + series.seriesTitle.getValue());
       updateTVDBErrors(series);
+      addUpdateError(e, series);
       return SeriesUpdateResult.UPDATE_FAILED;
     }
   }
+
+  private void addUpdateError(Exception e, Series series) throws SQLException {
+    TVDBUpdateError tvdbUpdateError = new TVDBUpdateError();
+    tvdbUpdateError.initializeForInsert();
+
+    tvdbUpdateError.context.changeValue("TVDBUpdateRunner");
+    tvdbUpdateError.exceptionClass.changeValue(e.getClass().toString());
+    tvdbUpdateError.exceptionMsg.changeValue(e.getMessage());
+    tvdbUpdateError.seriesId.changeValue(series.id.getValue());
+
+    tvdbUpdateError.commit(connection);
+  }
+
+
 
   private Timestamp getMostRecentSuccessfulUpdate() throws SQLException {
     String sql = "select max(start_time) as max_start_time\n" +

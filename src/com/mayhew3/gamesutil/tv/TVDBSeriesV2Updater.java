@@ -277,6 +277,7 @@ public class TVDBSeriesV2Updater {
       episodesFailed++;
       erroredEpisodeIds.add(episodeRemoteId);
       updateEpisodeLastError(episodeRemoteId);
+      addUpdateError(episodeRemoteId, e);
       addMigrationError(episodeRemoteId, e);
     }
   }
@@ -380,6 +381,21 @@ public class TVDBSeriesV2Updater {
 
     migrationError.commit(connection);
   }
+
+  private void addUpdateError(Integer tvdbEpisodeExtId, Exception e) throws SQLException {
+    TVDBUpdateError tvdbUpdateError = new TVDBUpdateError();
+    tvdbUpdateError.initializeForInsert();
+
+    tvdbUpdateError.context.changeValue("TVDBSeriesUpdater");
+    tvdbUpdateError.exceptionClass.changeValue(e.getClass().toString());
+    tvdbUpdateError.exceptionMsg.changeValue(e.getMessage());
+    tvdbUpdateError.seriesId.changeValue(series.id.getValue());
+    tvdbUpdateError.tvdbEpisodeExtId.changeValue(tvdbEpisodeExtId);
+
+    tvdbUpdateError.commit(connection);
+  }
+
+
 
   private void addChangeLogs(TVDBSeries tvdbSeries) throws SQLException {
     for (FieldValue fieldValue : tvdbSeries.getChangedFields()) {

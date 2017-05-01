@@ -7,6 +7,7 @@ import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.model.tv.Series;
 import com.mayhew3.gamesutil.model.tv.TVDBConnectionLog;
+import com.mayhew3.gamesutil.model.tv.TVDBUpdateError;
 import com.mayhew3.gamesutil.model.tv.TVDBWorkItem;
 import com.mayhew3.gamesutil.tv.exception.ShowFailedException;
 import com.mayhew3.gamesutil.xml.BadlyFormattedXMLException;
@@ -130,10 +131,23 @@ public class TVDBUpdateProcessor {
 
     } catch (Exception e) {
       e.printStackTrace();
+      addUpdateError(e);
     } finally {
       tvdbConnectionLog.commit(connection);
       tvdbConnectionLog = null;
     }
+  }
+
+
+  private void addUpdateError(Exception e) throws SQLException {
+    TVDBUpdateError tvdbUpdateError = new TVDBUpdateError();
+    tvdbUpdateError.initializeForInsert();
+
+    tvdbUpdateError.context.changeValue("TVDBUpdateProcessor");
+    tvdbUpdateError.exceptionClass.changeValue(e.getClass().toString());
+    tvdbUpdateError.exceptionMsg.changeValue(e.getMessage());
+
+    tvdbUpdateError.commit(connection);
   }
 
 

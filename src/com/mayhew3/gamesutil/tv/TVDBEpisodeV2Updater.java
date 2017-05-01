@@ -5,6 +5,8 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mayhew3.gamesutil.dataobject.FieldValue;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.model.tv.*;
+import com.mayhew3.gamesutil.tv.exception.MalformedTVDBEpisodeException;
+import com.mayhew3.gamesutil.tv.exception.MultipleMatchesException;
 import com.mayhew3.gamesutil.tv.exception.ShowFailedException;
 import com.mayhew3.gamesutil.xml.JSONReader;
 import org.apache.http.auth.AuthenticationException;
@@ -75,7 +77,7 @@ class TVDBEpisodeV2Updater {
           }
         }
       }
-      throw new ShowFailedException("Found episode id " + tvdbRemoteId + " with weird JSON.");
+      throw new MalformedTVDBEpisodeException("Found episode id " + tvdbRemoteId + " with weird JSON.");
     }
 
     JSONObject episodeJson = episodeData.getJSONObject("data");
@@ -92,7 +94,7 @@ class TVDBEpisodeV2Updater {
     TVDBEpisode existingTVDBEpisodeByEpisodeNumber = findExistingTVDBEpisodeByEpisodeNumber(
         episodenumber,
         seasonnumber,
-        series.tvdbSeriesId.getValue());
+        series);
 
     TVDBEpisode existingEpisode = existingTVDBEpisodeByTVDBID == null ?
         existingTVDBEpisodeByEpisodeNumber :
@@ -342,7 +344,7 @@ class TVDBEpisodeV2Updater {
   }
 
   @Nullable
-  private TVDBEpisode findExistingTVDBEpisodeByEpisodeNumber(Integer episodeNumber, Integer seasonNumber, Integer tvdbSeriesId) throws SQLException, ShowFailedException {
+  private TVDBEpisode findExistingTVDBEpisodeByEpisodeNumber(Integer episodeNumber, Integer seasonNumber, Series series) throws SQLException, ShowFailedException {
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
         "SELECT te.* " +
             "FROM tvdb_episode te " +
@@ -350,15 +352,15 @@ class TVDBEpisodeV2Updater {
             "AND episode_number = ? " +
             "AND season_number = ? " +
             "AND retired = ?",
-        tvdbSeriesId, episodeNumber, seasonNumber, 0
+        series.tvdbSeriesId.getValue(), episodeNumber, seasonNumber, 0
     );
     if (resultSet.next()) {
       TVDBEpisode tvdbEpisode = new TVDBEpisode();
       tvdbEpisode.initializeFromDBObject(resultSet);
 
       if (resultSet.next()) {
-        throw new ShowFailedException("Found multiple matches for Series '" + tvdbEpisode.seriesName.getValue() + "' (" +
-            tvdbSeriesId + "), " + seasonNumber + "x" + episodeNumber);
+        throw new MultipleMatchesException("Found multiple matches for Series '" + series.seriesTitle.getValue() + "' (" +
+            series.tvdbSeriesId.getValue() + "), " + seasonNumber + "x" + episodeNumber);
       }
 
       return tvdbEpisode;
