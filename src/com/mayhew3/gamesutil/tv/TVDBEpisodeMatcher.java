@@ -20,6 +20,7 @@ class TVDBEpisodeMatcher {
   private Integer seriesId;
 
   private List<TVDBEpisode> allTVDBEpisodes = new ArrayList<>();
+  private Set<Integer> existingPossibleMatches = new HashSet<>();
 
   private StringDistance distanceCalculator = new NGram();
 
@@ -113,16 +114,17 @@ class TVDBEpisodeMatcher {
   }
 
   private void collectBestMatches(String episodeTitle) throws SQLException {
-    List<PossibleEpisodeMatch> orderedBestTitleMatches = createOrderedBestTitleMatches(episodeTitle);
+    updateExistingPossibleMatches();
 
-    int maxIndex = Math.min(orderedBestTitleMatches.size(), 5);
-    for (int i = 0; i < maxIndex; i++) {
-      PossibleEpisodeMatch possibleEpisodeMatch = orderedBestTitleMatches.get(i);
+    TreeSet<PossibleEpisodeMatch> orderedBestTitleMatches = createOrderedTitleMatches(episodeTitle);
+    List<PossibleEpisodeMatch> topFive = orderedBestTitleMatches.stream().limit(5).collect(Collectors.toList());
+
+    for (PossibleEpisodeMatch possibleEpisodeMatch : topFive) {
       possibleEpisodeMatch.commit(connection);
     }
 
     if (!orderedBestTitleMatches.isEmpty()) {
-      PossibleEpisodeMatch bestMatch = orderedBestTitleMatches.get(0);
+      PossibleEpisodeMatch bestMatch = topFive.get(0);
       tiVoEpisode.tvdbMatchId.changeValue(bestMatch.tvdbEpisodeId.getValue());
       tiVoEpisode.tvdbMatchStatus.changeValue(TVDBMatchStatus.NEEDS_CONFIRMATION);
       tiVoEpisode.commit(connection);
@@ -132,12 +134,15 @@ class TVDBEpisodeMatcher {
     }
   }
 
-  private List<PossibleEpisodeMatch> createOrderedBestTitleMatches(String episodeTitle) {
-    return allTVDBEpisodes.stream()
-        .filter(tvdbEpisode -> tvdbEpisode.name.getValue() != null)
-        .map(tvdbEpisode -> initializePossibleMatch(tvdbEpisode, episodeTitle))
-        .sorted()
-        .collect(Collectors.toList());
+  private TreeSet<PossibleEpisodeMatch> createOrderedTitleMatches(String episodeTitle) {
+    TreeSet<PossibleEpisodeMatch> matches = new TreeSet<>();
+    for (TVDBEpisode tvdbEpisode : allTVDBEpisodes) {
+      if (tvdbEpisode.name.getValue() != null) {
+        PossibleEpisodeMatch possibleEpisodeMatch = initializePossibleMatch(tvdbEpisode, episodeTitle);
+        matches.add(possibleEpisodeMatch);
+      }
+    }
+    return matches;
   }
 
   private PossibleEpisodeMatch initializePossibleMatch(TVDBEpisode tvdbEpisode, String episodeTitle) {
@@ -156,20 +161,48 @@ class TVDBEpisodeMatcher {
     return possibleEpisodeMatch;
   }
 
+  private void updateExistingPossibleMatches() {
+    try {
+      ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
+          "SELECT tvdb_episode_id " +
+              "FROM possible_episode_match " +
+              "WHERE tivo_episode_id = ? " +
+              "AND retired = ? ",
+          tiVoEpisode.id.getValue(),
+          0);
+
+      while (resultSet.next()) {
+        Integer tvdb_episode_id = resultSet.getInt("tvdb_episode_id");
+        existingPossibleMatches.add(tvdb_episode_id);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+      throw new RuntimeException(e);
+    }
+  }
+
   private PossibleEpisodeMatch getOrCreateMatch(Integer tvdbEpisodeId) {
     try {
       PossibleEpisodeMatch possibleEpisodeMatch = new PossibleEpisodeMatch();
 
-      ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
-          "SELECT * " +
-              "FROM possible_episode_match " +
-              "WHERE tivo_episode_id = ? " +
-              "AND tvdb_episode_id = ?",
-          tiVoEpisode.id.getValue(),
-          tvdbEpisodeId);
+      if (existingPossibleMatches.contains(tvdbEpisodeId)) {
 
-      if (resultSet.next()) {
-        possibleEpisodeMatch.initializeFromDBObject(resultSet);
+        ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
+            "SELECT * " +
+                "FROM possible_episode_match " +
+                "WHERE tivo_episode_id = ? " +
+                "AND tvdb_episode_id = ? " +
+                "AND retired = ? ",
+            tiVoEpisode.id.getValue(),
+            tvdbEpisodeId,
+            0);
+
+        if (resultSet.next()) {
+          possibleEpisodeMatch.initializeFromDBObject(resultSet);
+        } else {
+          throw new IllegalStateException("Found possible match on first pass with TVDB ID " + tvdbEpisodeId + " and " +
+              "TiVo ID " + tiVoEpisode.id.getValue() + ", but no longer found.");
+        }
       } else {
         possibleEpisodeMatch.initializeForInsert();
       }
