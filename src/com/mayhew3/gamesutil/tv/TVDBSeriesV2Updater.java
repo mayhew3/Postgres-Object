@@ -154,6 +154,7 @@ public class TVDBSeriesV2Updater {
 
     updateAllEpisodes(tvdbSeriesExtId);
     retireOrphanedEpisodes(tvdbSeriesId);
+    updateOnlyAbsoluteNumbers();
 
     series.tvdbNew.changeValue(false);
     series.commit(connection);
@@ -167,6 +168,28 @@ public class TVDBSeriesV2Updater {
     debug(seriesTitle + ": Update complete! Added: " + episodesAdded + "; Updated: " + episodesUpdated);
 
   }
+
+  private void updateOnlyAbsoluteNumbers() throws SQLException {
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
+        "SELECT e.* " +
+            "FROM episode e " +
+            "WHERE e.series_id = ? " +
+            "AND e.retired = ? " +
+            "AND e.air_time IS NOT NULL " +
+            "ORDER BY e.season, e.episode_number ", series.id.getValue(), 0);
+
+    int i = 1;
+    while (resultSet.next()) {
+      Episode episode = new Episode();
+      episode.initializeFromDBObject(resultSet);
+
+      episode.absoluteNumber.changeValue(i);
+      episode.commit(connection);
+
+      i++;
+    }
+  }
+
 
   private void retireOrphanedEpisodes(Integer tvdbSeriesId) throws SQLException {
     String sql = "SELECT te.* " +
