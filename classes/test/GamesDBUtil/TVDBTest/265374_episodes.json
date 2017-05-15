@@ -1,0 +1,58 @@
+{
+  "data": [
+    {
+      "dvdSeason": null,
+      "overview": "Amy raps for Lin-Manuel Miranda, avoids sex with her boyfriend and loses an eye.",
+      "airedSeasonID": 660327,
+      "absoluteNumber": 31,
+      "episodeName": "The World's Most Interesting Woman in the World",
+      "firstAired": "2016-04-21",
+      "airedSeason": 4,
+      "language": {
+        "overview": "en",
+        "episodeName": "en"
+      },
+      "dvdEpisodeNumber": null,
+      "id": 5578415,
+      "airedEpisodeNumber": 1
+    },
+    {
+      "dvdSeason": null,
+      "overview": "Amy hosts a home shopping show for gun enthusiasts, faces the wrath of a new Twitter feature and lands a role on \"Game of Thrones.\"",
+      "airedSeasonID": 660327,
+      "absoluteNumber": 33,
+      "episodeName": "Welcome to the Gun Show",
+      "firstAired": "2016-04-28",
+      "airedSeason": 4,
+      "language": {
+        "overview": "en",
+        "episodeName": "en"
+      },
+      "dvdEpisodeNumber": null,
+      "id": 5580497,
+      "airedEpisodeNumber": 2
+    },
+    {
+      "dvdSeason": null,
+      "overview": "Amy wins an Oscar, finds out how to get what she wants and eats pasta from the garbage.",
+      "airedSeasonID": 660327,
+      "absoluteNumber": 32,
+      "episodeName": "Brave",
+      "firstAired": "2016-05-05",
+      "airedSeason": 4,
+      "language": {
+        "overview": "en",
+        "episodeName": "en"
+      },
+      "dvdEpisodeNumber": null,
+      "id": 5552985,
+      "airedEpisodeNumber": 3
+    }
+  ],
+  "links": {
+    "next": null,
+    "last": 1,
+    "prev": null,
+    "first": 1
+  }
+}

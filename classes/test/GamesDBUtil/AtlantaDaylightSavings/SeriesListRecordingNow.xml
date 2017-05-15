@@ -1,0 +1,60 @@
+<TiVoContainer xmlns="http://www.tivo.com/developer/calypso-protocol-1.6/">
+    <Details>
+        <ContentType>x-tivo-container/tivo-videos</ContentType>
+        <SourceFormat>x-tivo-container/tivo-dvr</SourceFormat>
+        <Title>Now Playing</Title>
+        <LastChangeDate>0x58FBCB5A</LastChangeDate>
+        <TotalItems>1</TotalItems>
+        <UniqueId>/NowPlaying</UniqueId>
+    </Details>
+    <SortOrder>Type,CaptureDate</SortOrder>
+    <GlobalSort>Yes</GlobalSort>
+    <ItemStart>0</ItemStart>
+    <ItemCount>1</ItemCount>
+    <Item>
+    <Details>
+        <ContentType>video/x-tivo-raw-tts</ContentType>
+        <SourceFormat>video/x-tivo-raw-tts</SourceFormat>
+        <Title>Atlanta</Title>
+        <SourceSize>20971520</SourceSize>
+        <Duration>1617000</Duration>
+        <CaptureDate>0x581ED567</CaptureDate>
+        <ShowingDuration>2280000</ShowingDuration>
+        <StartPadding>0</StartPadding>
+        <EndPadding>0</EndPadding>
+        <ShowingStartTime>0x581ED568</ShowingStartTime>
+        <EpisodeTitle>The Jacket</EpisodeTitle>
+        <Description>
+            In the season finale, Quita loses her phone and Earn loses his jacket. Copyright Rovi, Inc.
+        </Description>
+        <SourceChannel>741</SourceChannel>
+        <SourceStation>FXPHD</SourceStation>
+        <HighDefinition>Yes</HighDefinition>
+        <ProgramId>EP0351236842-0362508025</ProgramId>
+        <SeriesId>SH0351236842</SeriesId>
+        <StreamingPermission>Yes</StreamingPermission>
+        <ProgramServerId>362508025</ProgramServerId>
+        <SeriesServerId>351236842</SeriesServerId>
+        <TvRating>6</TvRating>
+        <ShowingBits>266755</ShowingBits>
+        <SourceType>2</SourceType>
+        <IdGuideSource>59814</IdGuideSource>
+    </Details>
+    <Links>
+        <Content>
+            <Url>http://10.0.0.14:80/download/Atlanta.TiVo?Container=%2FNowPlaying</Url>
+            <ContentType>video/x-tivo-raw-tts</ContentType>
+        </Content>
+        <CustomIcon>
+            <Url>urn:tivo:image:in-progress-recording</Url>
+            <ContentType>image/*</ContentType>
+            <AcceptsParams>No</AcceptsParams>
+        </CustomIcon>
+        <TiVoVideoDetails>
+            <Url>https://10.0.0.14:443/TiVoVideoDetails?id=380307</Url>
+            <ContentType>text/xml</ContentType>
+            <AcceptsParams>No</AcceptsParams>
+        </TiVoVideoDetails>
+    </Links>
+</Item>
+</TiVoContainer>
