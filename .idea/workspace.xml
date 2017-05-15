@@ -1,177 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1e099498-ec9e-4703-ab18-cce3963e4d0c" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/TVDBTest/265374_episodes.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/TVDBTest/265374_posters.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/TVDBTest/265374_summary.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/TVDBTest/E5552985.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/TVDBTest/E5578415.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/TVDBTest/E5580497.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/TVDBTest/search_Inside Amy Schumer.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_09_42/00_index.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_09_42/American Crime_EP0317753099-0369664093.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_09_42/American Crime_EP0317753099-0370233423.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_09_42/Angie Tribeca_EP0318047152-0369261961.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_09_42/Angie Tribeca_EP0318047152-0369261962.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_09_42/Better Call Saul_EP0306092938-0369795786.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_09_42/Better Call Saul_EP0306092938-0370330261.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_09_42/Bob's Burgers_EP0165674492-0370601126.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_09_42/Bob's Burgers_EP0165674492-0370601127.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_09_42/Brooklyn Nine-Nine_EP0269674420-0369970883.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_09_42/Brooklyn Nine-Nine_EP0269674420-0370378037.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_09_42/Conan_EP0171093113-0370233367.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_09_42/Conan_EP0171093113-0370233368.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_09_42/Conan_EP0171093113-0370233369.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_09_42/Conan_EP0171093113-0370557198.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_09_42/Conan_EP0171093113-0370600252.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_09_42/Doctor Who_EP0049457552-0370330238.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_09_42/Fargo_EP0262724987-0369664041.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_09_42/Fargo_EP0262724987-0369664042.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_09_42/Frontline_EP0000017544-0368599308.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_09_42/Frontline_EP0000017544-0368599309.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_09_42/Full Frontal With Samantha Bee_EP0338187382-0368761933.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_09_42/Girls_EP0207829717-0369471673.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_09_42/Great News_EP0349153932-0355598820.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_09_42/Great News_EP0349153932-0370330362.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_09_42/Last Week Tonight With John Oliver_EP0309387513-0369471686.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_09_42/Last Week Tonight With John Oliver_EP0309387513-0369471687.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_09_42/Making History_EP0349153926-0370457275.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_09_42/Powerless_EP0349151181-0370379581.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_09_42/Seinfeld_EP0000016984-0000497864.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_09_42/Silicon Valley_EP0304811178-0370515062.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_09_42/The Americans_EP0244684015-0368896405.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_09_42/The Americans_EP0244684015-0368896408.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_09_42/The Expanse_EP0334289063-0369846940.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_09_42/The Graham Norton Show_EP0097361913-0369514479.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_09_42/The Graham Norton Show_EP0097361913-0370330141.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_09_42/The Last Man on Earth_EP0317679548-0369972592.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_09_42/The Late Show With Stephen Colbert_EP0314839233-0370601097.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_09_42/The Late Show With Stephen Colbert_EP0314839233-0370601098.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_09_42/The Late Show With Stephen Colbert_EP0314839233-0370601099.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_09_42/The Late Show With Stephen Colbert_EP0314839233-0370601100.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_09_42/The Late Show With Stephen Colbert_EP0314839233-0370601101.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_09_42/The Late Show With Stephen Colbert_EP0314839233-0370933684.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_09_42/The Late Show With Stephen Colbert_EP0314839233-0370933686.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_09_42/The Leftovers_EP0304811922-0353675178.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_09_42/The Leftovers_EP0304811922-0369615299.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_09_42/Veep_EP0207829648-0351525850.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_09_42/Veep_EP0207829648-0369846770.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_09_42/iZombie_EP0318047451-0369972566.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_09_42/iZombie_EP0318047451-0370600271.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/00_index.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/A Goodbye to Girls_EP0207829717-0369515458.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/American Crime_EP0317753099-0368718488.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/American Crime_EP0317753099-0369088414.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/American Crime_EP0317753099-0369471488.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/American Crime_EP0317753099-0369664093.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/American Crime_EP0317753099-0370233423.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Angie Tribeca_EP0318047152-0369261241.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Angie Tribeca_EP0318047152-0369261961.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Angie Tribeca_EP0318047152-0369261962.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Better Call Saul" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Better Call Saul_EP0306092938-0369471440.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Better Call Saul_EP0306092938-0369795786.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Better Call Saul_EP0306092938-0370330261.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Black Sails_EP0270535872-0368718378.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Black Sails_EP0270535872-0368718379.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Bob's Burgers_EP0165674492-0368761709.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Bob's Burgers_EP0165674492-0369365049.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Bob's Burgers_EP0165674492-0370601126.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Bob's Burgers_EP0165674492-0370601127.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Brooklyn Nine-Nine_EP0269674420-0369664044.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Brooklyn Nine-Nine_EP0269674420-0369970883.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Brooklyn Nine-Nine_EP0269674420-0370378037.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Colony_EP0334289068-0369088506.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Colony_EP0334289068-0369262621.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Conan_EP0171093113-0370233367.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Conan_EP0171093113-0370233368.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Conan_EP0171093113-0370233369.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Conan_EP0171093113-0370557198.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Conan_EP0171093113-0370600252.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Detroiters_EP0349146144-0368718719.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Detroiters_EP0349146144-0368897618.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Detroiters_EP0349146144-0369514544.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Doctor Who_EP0049457552-0369514478.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Doctor Who_EP0049457552-0370193068.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Doctor Who_EP0049457552-0370330238.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Fargo_EP0262724987-0369664041.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Fargo_EP0262724987-0369664042.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Frontline_EP0000017544-0368599308.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Frontline_EP0000017544-0368599309.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Full Frontal With Samantha Bee_EP0338187382-0368761933.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Full Frontal With Samantha Bee_EP0338187382-0369471433.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Girls_EP0207829717-0368718304.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Girls_EP0207829717-0368761734.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Girls_EP0207829717-0369471672.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Girls_EP0207829717-0369471673.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Great News_EP0349153932-0355598820.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Great News_EP0349153932-0370330362.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Homeland_EP0193655238-0368761731.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Homeland_EP0193655238-0368761732.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Homeland_EP0193655238-0369031995.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Last Week Tonight With John Oliver_EP0309387513-0368761798.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Last Week Tonight With John Oliver_EP0309387513-0369471685.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Last Week Tonight With John Oliver_EP0309387513-0369471686.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Last Week Tonight With John Oliver_EP0309387513-0369471687.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Making History_EP0349153926-0368761958.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Making History_EP0349153926-0369365065.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Making History_EP0349153926-0370457275.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Powerless_EP0349151181-0368718762.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Powerless_EP0349151181-0368720867.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Powerless_EP0349151181-0369847274.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Powerless_EP0349151181-0370379581.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Review_EP0303065687-0368896907.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Rick and Morty_EP0300402734-0351316420.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Seinfeld_EP0000016984-0000497864.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Silicon Valley_EP0304811178-0370515062.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/The Americans_EP0244684015-0368896404.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/The Americans_EP0244684015-0368896405.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/The Americans_EP0244684015-0368896406.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/The Americans_EP0244684015-0368896407.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/The Americans_EP0244684015-0368896408.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/The Expanse_EP0334289063-0368951238.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/The Expanse_EP0334289063-0369558797.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/The Expanse_EP0334289063-0369846939.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/The Expanse_EP0334289063-0369846940.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/The Graham Norton Show_EP0097361913-0369514479.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/The Graham Norton Show_EP0097361913-0370330141.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/The Last Man on Earth_EP0317679548-0368718491.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/The Last Man on Earth_EP0317679548-0368897240.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/The Last Man on Earth_EP0317679548-0369972592.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/The Late Show With Stephen Colbert_EP0314839233-0370601097.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/The Late Show With Stephen Colbert_EP0314839233-0370601098.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/The Late Show With Stephen Colbert_EP0314839233-0370601099.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/The Late Show With Stephen Colbert_EP0314839233-0370601100.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/The Late Show With Stephen Colbert_EP0314839233-0370601101.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/The Late Show With Stephen Colbert_EP0314839233-0370933684.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/The Late Show With Stephen Colbert_EP0314839233-0370933686.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/The Leftovers_EP0304811922-0353675178.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/The Leftovers_EP0304811922-0369615299.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/The Missing_EP0325428475-0367502201.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/The Missing_EP0325428475-0367502202.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/The Walking Dead" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/The Walking Dead_EP0170457235-0368718286.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/The Walking Dead_EP0170457235-0368761729.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Veep_EP0207829648-0351525850.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/Veep_EP0207829648-0369846770.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/iZombie_EP0318047451-0369470994.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/iZombie_EP0318047451-0369615306.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/iZombie_EP0318047451-0369972566.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/tivo_xml/2017_04_26_10_40_57/iZombie_EP0318047451-0370600271.xml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/RemoteFileDownloader.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/RemoteFileDownloader.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBJWTProviderImpl.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBJWTProviderImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBLocalJSONProvider.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBLocalJSONProvider.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBXMLFetcher.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBXMLFetcher.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/com/mayhew3/gamesutil/tv/TVDBSeriesV2UpdaterTest.java" afterPath="$PROJECT_DIR$/src/test/java/com/mayhew3/gamesutil/tv/TVDBSeriesV2UpdaterTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/com/mayhew3/gamesutil/tv/TiVoDaylightSavingsTest.java" afterPath="$PROJECT_DIR$/src/test/java/com/mayhew3/gamesutil/tv/TiVoDaylightSavingsTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/com/mayhew3/gamesutil/tv/TiVoMatchExistingTest.java" afterPath="$PROJECT_DIR$/src/test/java/com/mayhew3/gamesutil/tv/TiVoMatchExistingTest.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/resources/AtlantaDaylightSavings/SeriesDetail.xml" afterPath="$PROJECT_DIR$/src/test/resources/AtlantaDaylightSavings/SeriesDetail.xml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/resources/AtlantaDaylightSavings/SeriesList.xml" afterPath="$PROJECT_DIR$/src/test/resources/AtlantaDaylightSavings/SeriesList.xml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/resources/AtlantaDaylightSavings/SeriesListRecordingNow.xml" afterPath="$PROJECT_DIR$/src/test/resources/AtlantaDaylightSavings/SeriesListRecordingNow.xml" />
-    </list>
+    <list default="true" id="1e099498-ec9e-4703-ab18-cce3963e4d0c" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -347,8 +177,8 @@
           <file leaf-file-name="RemoteFileDownloader.java" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/RemoteFileDownloader.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="302">
-                  <caret line="41" column="36" lean-forward="false" selection-start-line="41" selection-start-column="36" selection-end-line="41" selection-end-column="36" />
+                <state relative-caret-position="397">
+                  <caret line="46" column="3" lean-forward="true" selection-start-line="46" selection-start-column="3" selection-end-line="46" selection-end-column="3" />
                   <folding />
                 </state>
               </provider>
@@ -438,50 +268,51 @@
           <file leaf-file-name="workspace.xml" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="3338">
-                  <caret line="2681" column="50" lean-forward="false" selection-start-line="2681" selection-start-column="50" selection-end-line="2681" selection-end-column="50" />
+                <state relative-caret-position="127">
+                  <caret line="2512" column="50" lean-forward="false" selection-start-line="2512" selection-start-column="50" selection-end-line="2512" selection-end-column="50" />
                   <folding>
-                    <marker date="1494810908393" expanded="true" signature="223095:223137" ph="..." />
-                    <marker date="1494810908393" expanded="true" signature="223095:223155" ph="..." />
-                    <marker date="1494810908393" expanded="true" signature="223095:223168" ph="..." />
-                    <marker date="1494810908393" expanded="true" signature="223095:223183" ph="..." />
-                    <marker date="1494810908393" expanded="true" signature="223229:223310" ph="..." />
-                    <marker date="1494810908393" expanded="true" signature="223345:225894" ph="..." />
-                    <marker date="1494810908393" expanded="true" signature="223358:225879" ph="..." />
-                    <marker date="1494810908393" expanded="true" signature="223412:223707" ph="..." />
-                    <marker date="1494810908393" expanded="true" signature="223431:223692" ph="..." />
-                    <marker date="1494810908393" expanded="true" signature="223534:223638" ph="..." />
-                    <marker date="1494810908393" expanded="true" signature="223555:223616" ph="..." />
-                    <marker date="1494810908393" expanded="true" signature="223757:224084" ph="..." />
-                    <marker date="1494810908393" expanded="true" signature="223776:224069" ph="..." />
-                    <marker date="1494810908393" expanded="true" signature="223871:224049" ph="..." />
-                    <marker date="1494810908393" expanded="true" signature="223911:224015" ph="..." />
-                    <marker date="1494810908393" expanded="true" signature="223932:223993" ph="..." />
-                    <marker date="1494810908393" expanded="true" signature="224135:224400" ph="..." />
-                    <marker date="1494810908393" expanded="true" signature="224154:224385" ph="..." />
-                    <marker date="1494810908393" expanded="true" signature="224187:224365" ph="..." />
-                    <marker date="1494810908393" expanded="true" signature="224227:224331" ph="..." />
-                    <marker date="1494810908393" expanded="true" signature="224248:224309" ph="..." />
-                    <marker date="1494810908393" expanded="true" signature="224443:224756" ph="..." />
-                    <marker date="1494810908393" expanded="true" signature="224462:224741" ph="..." />
-                    <marker date="1494810908393" expanded="true" signature="224536:224721" ph="..." />
-                    <marker date="1494810908393" expanded="true" signature="224576:224687" ph="..." />
-                    <marker date="1494810908393" expanded="true" signature="224597:224665" ph="..." />
-                    <marker date="1494810908393" expanded="true" signature="224807:225145" ph="..." />
-                    <marker date="1494810908393" expanded="true" signature="224826:225130" ph="..." />
-                    <marker date="1494810908393" expanded="true" signature="224925:225110" ph="..." />
-                    <marker date="1494810908393" expanded="true" signature="224965:225076" ph="..." />
-                    <marker date="1494810908393" expanded="true" signature="224986:225054" ph="..." />
-                    <marker date="1494810908393" expanded="true" signature="225180:225486" ph="..." />
-                    <marker date="1494810908393" expanded="true" signature="225199:225471" ph="..." />
-                    <marker date="1494810908393" expanded="true" signature="225273:225451" ph="..." />
-                    <marker date="1494810908393" expanded="true" signature="225313:225417" ph="..." />
-                    <marker date="1494810908393" expanded="true" signature="225334:225395" ph="..." />
-                    <marker date="1494810908393" expanded="true" signature="225538:225865" ph="..." />
-                    <marker date="1494810908393" expanded="true" signature="225557:225850" ph="..." />
-                    <marker date="1494810908393" expanded="true" signature="225645:225830" ph="..." />
-                    <marker date="1494810908393" expanded="true" signature="225685:225796" ph="..." />
-                    <marker date="1494810908393" expanded="true" signature="225706:225774" ph="..." />
+                    <marker date="1494815553924" expanded="true" signature="197245:197287" ph="..." />
+                    <marker date="1494815553924" expanded="true" signature="197245:197305" ph="..." />
+                    <marker date="1494815553924" expanded="true" signature="197245:197318" ph="..." />
+                    <marker date="1494815553924" expanded="true" signature="197245:197333" ph="..." />
+                    <marker date="1494815553924" expanded="true" signature="197379:197460" ph="..." />
+                    <marker date="1494815553924" expanded="true" signature="197495:200044" ph="..." />
+                    <marker date="1494815553924" expanded="true" signature="197508:200029" ph="..." />
+                    <marker date="1494815553924" expanded="true" signature="197562:197857" ph="..." />
+                    <marker date="1494815553924" expanded="true" signature="197581:197842" ph="..." />
+                    <marker date="1494815553924" expanded="true" signature="197644:197822" ph="..." />
+                    <marker date="1494815553924" expanded="true" signature="197684:197788" ph="..." />
+                    <marker date="1494815553924" expanded="true" signature="197705:197766" ph="..." />
+                    <marker date="1494815553924" expanded="true" signature="197907:198234" ph="..." />
+                    <marker date="1494815553924" expanded="true" signature="197926:198219" ph="..." />
+                    <marker date="1494815553924" expanded="true" signature="198021:198199" ph="..." />
+                    <marker date="1494815553924" expanded="true" signature="198061:198165" ph="..." />
+                    <marker date="1494815553924" expanded="true" signature="198082:198143" ph="..." />
+                    <marker date="1494815553924" expanded="true" signature="198285:198550" ph="..." />
+                    <marker date="1494815553924" expanded="true" signature="198304:198535" ph="..." />
+                    <marker date="1494815553924" expanded="true" signature="198337:198515" ph="..." />
+                    <marker date="1494815553924" expanded="true" signature="198377:198481" ph="..." />
+                    <marker date="1494815553924" expanded="true" signature="198398:198459" ph="..." />
+                    <marker date="1494815553924" expanded="true" signature="198593:198906" ph="..." />
+                    <marker date="1494815553924" expanded="true" signature="198612:198891" ph="..." />
+                    <marker date="1494815553924" expanded="true" signature="198686:198871" ph="..." />
+                    <marker date="1494815553924" expanded="true" signature="198726:198837" ph="..." />
+                    <marker date="1494815553924" expanded="true" signature="198747:198815" ph="..." />
+                    <marker date="1494815553924" expanded="true" signature="198957:199295" ph="..." />
+                    <marker date="1494815553924" expanded="true" signature="198976:199280" ph="..." />
+                    <marker date="1494815553924" expanded="true" signature="199075:199260" ph="..." />
+                    <marker date="1494815553924" expanded="true" signature="199115:199226" ph="..." />
+                    <marker date="1494815553924" expanded="true" signature="199136:199204" ph="..." />
+                    <marker date="1494815553924" expanded="true" signature="199330:199636" ph="..." />
+                    <marker date="1494815553924" expanded="true" signature="199349:199621" ph="..." />
+                    <marker date="1494815553924" expanded="true" signature="199423:199601" ph="..." />
+                    <marker date="1494815553924" expanded="true" signature="199463:199567" ph="..." />
+                    <marker date="1494815553924" expanded="true" signature="199484:199545" ph="..." />
+                    <marker date="1494815553924" expanded="true" signature="199688:200015" ph="..." />
+                    <marker date="1494815553924" expanded="true" signature="199707:200000" ph="..." />
+                    <marker date="1494815553924" expanded="true" signature="199795:199980" ph="..." />
+                    <marker date="1494815553924" expanded="true" signature="199835:199946" ph="..." />
+                    <marker date="1494815553924" expanded="true" signature="199856:199924" ph="..." />
                   </folding>
                 </state>
               </provider>
@@ -2964,6 +2795,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="2576" height="1586" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3293623" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -2973,7 +2805,7 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3293623" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3293623" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.09976152" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.09976152" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3293623" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3298887" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -3094,6 +2926,9 @@
           <caret line="329" column="42" lean-forward="true" selection-start-line="329" selection-start-column="42" selection-end-line="329" selection-end-column="42" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#1630#1666#0" expanded="true" />
+            <element signature="e#3608#3650#0" expanded="true" />
+            <element signature="e#4805#4844#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -3191,60 +3026,64 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3338">
-          <caret line="2681" column="50" lean-forward="false" selection-start-line="2681" selection-start-column="50" selection-end-line="2681" selection-end-column="50" />
+        <state relative-caret-position="127">
+          <caret line="2512" column="50" lean-forward="false" selection-start-line="2512" selection-start-column="50" selection-end-line="2512" selection-end-column="50" />
           <folding>
-            <marker date="1494810908393" expanded="true" signature="223095:223137" ph="..." />
-            <marker date="1494810908393" expanded="true" signature="223095:223155" ph="..." />
-            <marker date="1494810908393" expanded="true" signature="223095:223168" ph="..." />
-            <marker date="1494810908393" expanded="true" signature="223095:223183" ph="..." />
-            <marker date="1494810908393" expanded="true" signature="223229:223310" ph="..." />
-            <marker date="1494810908393" expanded="true" signature="223345:225894" ph="..." />
-            <marker date="1494810908393" expanded="true" signature="223358:225879" ph="..." />
-            <marker date="1494810908393" expanded="true" signature="223412:223707" ph="..." />
-            <marker date="1494810908393" expanded="true" signature="223431:223692" ph="..." />
-            <marker date="1494810908393" expanded="true" signature="223534:223638" ph="..." />
-            <marker date="1494810908393" expanded="true" signature="223555:223616" ph="..." />
-            <marker date="1494810908393" expanded="true" signature="223757:224084" ph="..." />
-            <marker date="1494810908393" expanded="true" signature="223776:224069" ph="..." />
-            <marker date="1494810908393" expanded="true" signature="223871:224049" ph="..." />
-            <marker date="1494810908393" expanded="true" signature="223911:224015" ph="..." />
-            <marker date="1494810908393" expanded="true" signature="223932:223993" ph="..." />
-            <marker date="1494810908393" expanded="true" signature="224135:224400" ph="..." />
-            <marker date="1494810908393" expanded="true" signature="224154:224385" ph="..." />
-            <marker date="1494810908393" expanded="true" signature="224187:224365" ph="..." />
-            <marker date="1494810908393" expanded="true" signature="224227:224331" ph="..." />
-            <marker date="1494810908393" expanded="true" signature="224248:224309" ph="..." />
-            <marker date="1494810908393" expanded="true" signature="224443:224756" ph="..." />
-            <marker date="1494810908393" expanded="true" signature="224462:224741" ph="..." />
-            <marker date="1494810908393" expanded="true" signature="224536:224721" ph="..." />
-            <marker date="1494810908393" expanded="true" signature="224576:224687" ph="..." />
-            <marker date="1494810908393" expanded="true" signature="224597:224665" ph="..." />
-            <marker date="1494810908393" expanded="true" signature="224807:225145" ph="..." />
-            <marker date="1494810908393" expanded="true" signature="224826:225130" ph="..." />
-            <marker date="1494810908393" expanded="true" signature="224925:225110" ph="..." />
-            <marker date="1494810908393" expanded="true" signature="224965:225076" ph="..." />
-            <marker date="1494810908393" expanded="true" signature="224986:225054" ph="..." />
-            <marker date="1494810908393" expanded="true" signature="225180:225486" ph="..." />
-            <marker date="1494810908393" expanded="true" signature="225199:225471" ph="..." />
-            <marker date="1494810908393" expanded="true" signature="225273:225451" ph="..." />
-            <marker date="1494810908393" expanded="true" signature="225313:225417" ph="..." />
-            <marker date="1494810908393" expanded="true" signature="225334:225395" ph="..." />
-            <marker date="1494810908393" expanded="true" signature="225538:225865" ph="..." />
-            <marker date="1494810908393" expanded="true" signature="225557:225850" ph="..." />
-            <marker date="1494810908393" expanded="true" signature="225645:225830" ph="..." />
-            <marker date="1494810908393" expanded="true" signature="225685:225796" ph="..." />
-            <marker date="1494810908393" expanded="true" signature="225706:225774" ph="..." />
+            <marker date="1494815553924" expanded="true" signature="197245:197287" ph="..." />
+            <marker date="1494815553924" expanded="true" signature="197245:197305" ph="..." />
+            <marker date="1494815553924" expanded="true" signature="197245:197318" ph="..." />
+            <marker date="1494815553924" expanded="true" signature="197245:197333" ph="..." />
+            <marker date="1494815553924" expanded="true" signature="197379:197460" ph="..." />
+            <marker date="1494815553924" expanded="true" signature="197495:200044" ph="..." />
+            <marker date="1494815553924" expanded="true" signature="197508:200029" ph="..." />
+            <marker date="1494815553924" expanded="true" signature="197562:197857" ph="..." />
+            <marker date="1494815553924" expanded="true" signature="197581:197842" ph="..." />
+            <marker date="1494815553924" expanded="true" signature="197644:197822" ph="..." />
+            <marker date="1494815553924" expanded="true" signature="197684:197788" ph="..." />
+            <marker date="1494815553924" expanded="true" signature="197705:197766" ph="..." />
+            <marker date="1494815553924" expanded="true" signature="197907:198234" ph="..." />
+            <marker date="1494815553924" expanded="true" signature="197926:198219" ph="..." />
+            <marker date="1494815553924" expanded="true" signature="198021:198199" ph="..." />
+            <marker date="1494815553924" expanded="true" signature="198061:198165" ph="..." />
+            <marker date="1494815553924" expanded="true" signature="198082:198143" ph="..." />
+            <marker date="1494815553924" expanded="true" signature="198285:198550" ph="..." />
+            <marker date="1494815553924" expanded="true" signature="198304:198535" ph="..." />
+            <marker date="1494815553924" expanded="true" signature="198337:198515" ph="..." />
+            <marker date="1494815553924" expanded="true" signature="198377:198481" ph="..." />
+            <marker date="1494815553924" expanded="true" signature="198398:198459" ph="..." />
+            <marker date="1494815553924" expanded="true" signature="198593:198906" ph="..." />
+            <marker date="1494815553924" expanded="true" signature="198612:198891" ph="..." />
+            <marker date="1494815553924" expanded="true" signature="198686:198871" ph="..." />
+            <marker date="1494815553924" expanded="true" signature="198726:198837" ph="..." />
+            <marker date="1494815553924" expanded="true" signature="198747:198815" ph="..." />
+            <marker date="1494815553924" expanded="true" signature="198957:199295" ph="..." />
+            <marker date="1494815553924" expanded="true" signature="198976:199280" ph="..." />
+            <marker date="1494815553924" expanded="true" signature="199075:199260" ph="..." />
+            <marker date="1494815553924" expanded="true" signature="199115:199226" ph="..." />
+            <marker date="1494815553924" expanded="true" signature="199136:199204" ph="..." />
+            <marker date="1494815553924" expanded="true" signature="199330:199636" ph="..." />
+            <marker date="1494815553924" expanded="true" signature="199349:199621" ph="..." />
+            <marker date="1494815553924" expanded="true" signature="199423:199601" ph="..." />
+            <marker date="1494815553924" expanded="true" signature="199463:199567" ph="..." />
+            <marker date="1494815553924" expanded="true" signature="199484:199545" ph="..." />
+            <marker date="1494815553924" expanded="true" signature="199688:200015" ph="..." />
+            <marker date="1494815553924" expanded="true" signature="199707:200000" ph="..." />
+            <marker date="1494815553924" expanded="true" signature="199795:199980" ph="..." />
+            <marker date="1494815553924" expanded="true" signature="199835:199946" ph="..." />
+            <marker date="1494815553924" expanded="true" signature="199856:199924" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateFinder.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="361">
-          <caret line="347" column="70" lean-forward="false" selection-start-line="347" selection-start-column="70" selection-end-line="347" selection-end-column="70" />
+        <state relative-caret-position="228">
+          <caret line="340" column="7" lean-forward="false" selection-start-line="340" selection-start-column="7" selection-end-line="340" selection-end-column="7" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#1630#1666#0" expanded="true" />
+            <element signature="e#3608#3650#0" expanded="true" />
+            <element signature="e#4805#4844#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -3305,18 +3144,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/RemoteFileDownloader.java">
+    <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="302">
-          <caret line="41" column="36" lean-forward="false" selection-start-line="41" selection-start-column="36" selection-end-line="41" selection-end-column="36" />
+        <state relative-caret-position="133">
+          <caret line="8" column="7" lean-forward="false" selection-start-line="8" selection-start-column="7" selection-end-line="8" selection-end-column="7" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/RemoteFileDownloader.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="9" column="21" lean-forward="false" selection-start-line="9" selection-start-column="21" selection-end-line="9" selection-end-column="21" />
+        <state relative-caret-position="397">
+          <caret line="46" column="3" lean-forward="true" selection-start-line="46" selection-start-column="3" selection-end-line="46" selection-end-column="3" />
           <folding />
         </state>
       </provider>
