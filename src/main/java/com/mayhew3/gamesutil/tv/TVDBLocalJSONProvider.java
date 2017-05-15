@@ -1,7 +1,7 @@
 package com.mayhew3.gamesutil.tv;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import org.fest.util.VisibleForTesting;
 import org.json.JSONObject;
 
 import java.io.IOException;

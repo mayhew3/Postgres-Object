@@ -5,3 +5,6 @@ logs/
 sh.exe.stackdump
 GamesDBUtil CMD.lnk
 logging.properties
+.gradle/
+/build/
+!/.idea/workspace.xml
