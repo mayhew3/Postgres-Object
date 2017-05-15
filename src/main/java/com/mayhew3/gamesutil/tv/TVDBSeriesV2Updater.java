@@ -122,6 +122,7 @@ public class TVDBSeriesV2Updater {
   }
 
   private void updateShowData() throws SQLException, UnirestException, AuthenticationException, ShowFailedException {
+    debug("UpdateShowData...");
     if (series.tvdbMatchId.getValue() != null && TVDBMatchStatus.MATCH_CONFIRMED.equals(series.tvdbMatchStatus.getValue())) {
       series.tvdbSeriesExtId.changeValue(series.tvdbMatchId.getValue());
     }
@@ -151,6 +152,8 @@ public class TVDBSeriesV2Updater {
     series.tvdbMatchStatus.changeValue(TVDBMatchStatus.MATCH_COMPLETED);
 
     series.commit(connection);
+
+    debug("Finished series update.");
 
     updateAllEpisodes(tvdbSeriesExtId);
     retireOrphanedEpisodes(tvdbSeriesId);
@@ -236,10 +239,12 @@ public class TVDBSeriesV2Updater {
     Integer lastPage;
 
     do {
+
       JSONObject episodeData = tvdbDataProvider.getEpisodeSummaries(tvdbID, pageNumber);
 
       JSONObject links = episodeData.getJSONObject("links");
       lastPage = jsonReader.getIntegerWithKey(links, "last");
+      debug("Page " + pageNumber + " of " + lastPage + "...");
 
       JSONArray episodeArray = episodeData.getJSONArray("data");
 
@@ -251,6 +256,7 @@ public class TVDBSeriesV2Updater {
       pageNumber++;
 
     } while (pageNumber <= lastPage);
+    debug("end updateAllEpisodes.");
   }
 
   @NotNull
@@ -280,6 +286,7 @@ public class TVDBSeriesV2Updater {
 
   private void updateEpisode(JSONObject episode) throws SQLException {
     Integer episodeRemoteId = episode.getInt("id");
+    debug("updateEpisode " + episodeRemoteId);
 
     try {
       TVDBEpisodeV2Updater tvdbEpisodeUpdater = new TVDBEpisodeV2Updater(series, connection, tvdbDataProvider, episodeRemoteId, new JSONReaderImpl(), false);

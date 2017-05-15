@@ -22,6 +22,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.*;
+import java.util.stream.Collectors;
 
 class TVDBEpisodeV2Updater {
   enum EPISODE_RESULT {ADDED, UPDATED, RETIRED, NONE}
@@ -53,6 +54,7 @@ class TVDBEpisodeV2Updater {
    * @throws ShowFailedException If multiple episodes were found to update
    */
   EPISODE_RESULT updateSingleEpisode() throws SQLException, ShowFailedException, UnirestException, AuthenticationException {
+  debug("updateSingleEpisode...");
     JSONObject episodeData = tvdbjwtProvider.getEpisodeData(tvdbRemoteId);
 
     if (!episodeData.has("data")) {
@@ -354,22 +356,97 @@ class TVDBEpisodeV2Updater {
             "WHERE tvdb_series_id = ? " +
             "AND episode_number = ? " +
             "AND season_number = ? " +
-            "AND retired = ?",
+            "AND retired = ? " +
+            "ORDER BY date_added ",
         series.tvdbSeriesId.getValue(), episodeNumber, seasonNumber, 0
     );
-    if (resultSet.next()) {
+
+    List<TVDBEpisode> existingEpisodes = new ArrayList<>();
+    while (resultSet.next()) {
       TVDBEpisode tvdbEpisode = new TVDBEpisode();
       tvdbEpisode.initializeFromDBObject(resultSet);
 
-      if (resultSet.next()) {
-        throw new MultipleMatchesException("Found multiple matches for Series '" + series.seriesTitle.getValue() + "' (" +
-            series.tvdbSeriesId.getValue() + "), " + seasonNumber + "x" + episodeNumber);
+      existingEpisodes.add(tvdbEpisode);
+    }
+
+    if (existingEpisodes.size() == 1) {
+      return existingEpisodes.get(0);
+    } else if (existingEpisodes.isEmpty()) {
+      return null;
+    } else {
+      return mergeDuplicates(existingEpisodes);
+    }
+  }
+
+  private TVDBEpisode mergeDuplicates(List<TVDBEpisode> duplicates) throws SQLException, MultipleMatchesException {
+    TVDBEpisode mostRecent = getMostRecent(duplicates);
+
+    List<TVDBEpisode> matched = new ArrayList<>();
+    Set<Integer> tivoMatches = new HashSet<>();
+    for (TVDBEpisode duplicate : duplicates) {
+      List<TiVoEpisode> tiVoEpisodes = duplicate.getEpisode(connection).getTiVoEpisodes(connection);
+      if (!tiVoEpisodes.isEmpty()) {
+        matched.add(duplicate);
+        tivoMatches.addAll(tiVoEpisodes.stream().map(tivoEpisode -> tivoEpisode.id.getValue()).collect(Collectors.toSet()));
+      }
+    }
+
+    if (tivoMatches.size() > 1) {
+      throw new MultipleMatchesException("Multiple matches for series " + series.seriesTitle.getValue() + " " +
+          mostRecent.seasonNumber.getValue() + "x" + mostRecent.episodeNumber.getValue() + " with different existing TiVo matches!");
+    } else if (tivoMatches.size() == 1) {
+      Integer tivoEpisodeId = tivoMatches.iterator().next();
+
+      Episode correctEpisode = mostRecent.getEpisode(connection);
+      Boolean correctlyMatched = matched.contains(mostRecent);
+
+      if (!correctlyMatched) {
+        match(correctEpisode, tivoEpisodeId);
       }
 
-      return tvdbEpisode;
-    } else {
-      return null;
+      unmatchAllButOne(tivoEpisodeId, correctEpisode.id.getValue());
     }
+
+    List<TVDBEpisode> episodesToRetire = Lists.newArrayList(duplicates);
+    episodesToRetire.remove(mostRecent);
+
+    for (TVDBEpisode tvdbEpisode : episodesToRetire) {
+      Episode episode = tvdbEpisode.getEpisode(connection);
+      episode.retire();
+      episode.commit(connection);
+
+      tvdbEpisode.retire();
+      tvdbEpisode.commit(connection);
+    }
+
+    return mostRecent;
+  }
+
+  private void unmatchAllButOne(Integer tivoEpisodeId, Integer episodeId) throws SQLException {
+    String sql = "DELETE FROM edge_tivo_episode " +
+        "WHERE tivo_episode_id = ? " +
+        "AND episode_id <> ? ";
+    connection.prepareAndExecuteStatementUpdate(sql, tivoEpisodeId, episodeId);
+  }
+
+  private void match(Episode episode, Integer tivoEpisodeId) throws SQLException {
+    EdgeTiVoEpisode edgeTiVoEpisode = new EdgeTiVoEpisode();
+    edgeTiVoEpisode.initializeForInsert();
+
+    edgeTiVoEpisode.tivoEpisodeId.changeValue(tivoEpisodeId);
+    edgeTiVoEpisode.episodeId.changeValue(episode.id.getValue());
+
+    edgeTiVoEpisode.commit(connection);
+
+    episode.onTiVo.changeValue(true);
+    episode.commit(connection);
+  }
+
+  private TVDBEpisode getMostRecent(List<TVDBEpisode> duplicates) {
+    Optional<TVDBEpisode> max = duplicates.stream()
+        .max(Comparator.comparing(tvdbEpisode -> tvdbEpisode.dateAdded.getValue()));
+    //noinspection ConstantConditions
+    return max.get();
   }
 
   @Nullable

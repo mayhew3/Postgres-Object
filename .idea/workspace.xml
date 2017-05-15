@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1e099498-ec9e-4703-ab18-cce3963e4d0c" name="Default" comment="" />
+    <list default="true" id="1e099498-ec9e-4703-ab18-cce3963e4d0c" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBEpisodeV2Updater.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBEpisodeV2Updater.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBSeriesV2Updater.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBSeriesV2Updater.java" />
+    </list>
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -141,202 +145,132 @@
     </system>
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.5">
-      <split-first>
-        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="TVDBLocalJSONProvider.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBLocalJSONProvider.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="114">
-                  <caret line="14" column="42" lean-forward="false" selection-start-line="14" selection-start-column="42" selection-end-line="14" selection-end-column="42" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="TVDBJWTProviderImpl.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBJWTProviderImpl.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="302">
-                  <caret line="129" column="34" lean-forward="false" selection-start-line="129" selection-start-column="34" selection-end-line="129" selection-end-column="34" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="TiVoDaylightSavingsTest.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/gamesutil/tv/TiVoDaylightSavingsTest.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="304">
-                  <caret line="32" column="20" lean-forward="false" selection-start-line="32" selection-start-column="9" selection-end-line="32" selection-end-column="20" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="RemoteFileDownloader.java" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/RemoteFileDownloader.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="397">
-                  <caret line="46" column="3" lean-forward="true" selection-start-line="46" selection-start-column="3" selection-end-line="46" selection-end-column="3" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="TVDBSeriesV2UpdaterTest.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/gamesutil/tv/TVDBSeriesV2UpdaterTest.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="310">
-                  <caret line="44" column="60" lean-forward="false" selection-start-line="44" selection-start-column="60" selection-end-line="44" selection-end-column="60" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="TiVoMatchExistingTest.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/gamesutil/tv/TiVoMatchExistingTest.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="228">
-                  <caret line="26" column="20" lean-forward="false" selection-start-line="26" selection-start-column="20" selection-end-line="26" selection-end-column="20" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="TVDBXMLFetcher.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBXMLFetcher.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="152">
-                  <caret line="19" column="40" lean-forward="false" selection-start-line="19" selection-start-column="40" selection-end-line="19" selection-end-column="40" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="TiVoLocalProvider.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/gamesutil/dataobject/TiVoLocalProvider.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="310">
-                  <caret line="30" column="0" lean-forward="false" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name=".gitignore" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/.gitignore">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="133">
-                  <caret line="8" column="7" lean-forward="false" selection-start-line="8" selection-start-column="7" selection-end-line="8" selection-end-column="7" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="TVDBUpdateFinder.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateFinder.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="228">
-                  <caret line="340" column="7" lean-forward="false" selection-start-line="340" selection-start-column="7" selection-end-line="340" selection-end-column="7" />
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                    <element signature="e#1630#1666#0" expanded="true" />
-                    <element signature="e#3608#3650#0" expanded="true" />
-                    <element signature="e#4805#4844#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-first>
-      <split-second>
-        <leaf>
-          <file leaf-file-name="TVDBUpdateFinder.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateFinder.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="361">
-                  <caret line="347" column="70" lean-forward="false" selection-start-line="347" selection-start-column="70" selection-end-line="347" selection-end-column="70" />
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="workspace.xml" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="127">
-                  <caret line="2512" column="50" lean-forward="false" selection-start-line="2512" selection-start-column="50" selection-end-line="2512" selection-end-column="50" />
-                  <folding>
-                    <marker date="1494815553924" expanded="true" signature="197245:197287" ph="..." />
-                    <marker date="1494815553924" expanded="true" signature="197245:197305" ph="..." />
-                    <marker date="1494815553924" expanded="true" signature="197245:197318" ph="..." />
-                    <marker date="1494815553924" expanded="true" signature="197245:197333" ph="..." />
-                    <marker date="1494815553924" expanded="true" signature="197379:197460" ph="..." />
-                    <marker date="1494815553924" expanded="true" signature="197495:200044" ph="..." />
-                    <marker date="1494815553924" expanded="true" signature="197508:200029" ph="..." />
-                    <marker date="1494815553924" expanded="true" signature="197562:197857" ph="..." />
-                    <marker date="1494815553924" expanded="true" signature="197581:197842" ph="..." />
-                    <marker date="1494815553924" expanded="true" signature="197644:197822" ph="..." />
-                    <marker date="1494815553924" expanded="true" signature="197684:197788" ph="..." />
-                    <marker date="1494815553924" expanded="true" signature="197705:197766" ph="..." />
-                    <marker date="1494815553924" expanded="true" signature="197907:198234" ph="..." />
-                    <marker date="1494815553924" expanded="true" signature="197926:198219" ph="..." />
-                    <marker date="1494815553924" expanded="true" signature="198021:198199" ph="..." />
-                    <marker date="1494815553924" expanded="true" signature="198061:198165" ph="..." />
-                    <marker date="1494815553924" expanded="true" signature="198082:198143" ph="..." />
-                    <marker date="1494815553924" expanded="true" signature="198285:198550" ph="..." />
-                    <marker date="1494815553924" expanded="true" signature="198304:198535" ph="..." />
-                    <marker date="1494815553924" expanded="true" signature="198337:198515" ph="..." />
-                    <marker date="1494815553924" expanded="true" signature="198377:198481" ph="..." />
-                    <marker date="1494815553924" expanded="true" signature="198398:198459" ph="..." />
-                    <marker date="1494815553924" expanded="true" signature="198593:198906" ph="..." />
-                    <marker date="1494815553924" expanded="true" signature="198612:198891" ph="..." />
-                    <marker date="1494815553924" expanded="true" signature="198686:198871" ph="..." />
-                    <marker date="1494815553924" expanded="true" signature="198726:198837" ph="..." />
-                    <marker date="1494815553924" expanded="true" signature="198747:198815" ph="..." />
-                    <marker date="1494815553924" expanded="true" signature="198957:199295" ph="..." />
-                    <marker date="1494815553924" expanded="true" signature="198976:199280" ph="..." />
-                    <marker date="1494815553924" expanded="true" signature="199075:199260" ph="..." />
-                    <marker date="1494815553924" expanded="true" signature="199115:199226" ph="..." />
-                    <marker date="1494815553924" expanded="true" signature="199136:199204" ph="..." />
-                    <marker date="1494815553924" expanded="true" signature="199330:199636" ph="..." />
-                    <marker date="1494815553924" expanded="true" signature="199349:199621" ph="..." />
-                    <marker date="1494815553924" expanded="true" signature="199423:199601" ph="..." />
-                    <marker date="1494815553924" expanded="true" signature="199463:199567" ph="..." />
-                    <marker date="1494815553924" expanded="true" signature="199484:199545" ph="..." />
-                    <marker date="1494815553924" expanded="true" signature="199688:200015" ph="..." />
-                    <marker date="1494815553924" expanded="true" signature="199707:200000" ph="..." />
-                    <marker date="1494815553924" expanded="true" signature="199795:199980" ph="..." />
-                    <marker date="1494815553924" expanded="true" signature="199835:199946" ph="..." />
-                    <marker date="1494815553924" expanded="true" signature="199856:199924" ph="..." />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/.gitignore">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="171">
-                  <caret line="9" column="21" lean-forward="false" selection-start-line="9" selection-start-column="21" selection-end-line="9" selection-end-column="21" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-second>
-    </splitter>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="MultipleMatchesException.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/exception/MultipleMatchesException.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="133">
+              <caret line="7" column="0" lean-forward="true" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+              <folding>
+                <element signature="e#168#169#0" expanded="true" />
+                <element signature="e#197#198#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TVDBEpisodeV2Updater.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBEpisodeV2Updater.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="707">
+              <caret line="626" column="22" lean-forward="false" selection-start-line="626" selection-start-column="17" selection-end-line="626" selection-end-column="22" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RunUpdaterHeroku.bat" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/RunUpdaterHeroku.bat">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="114">
+              <caret line="6" column="8" lean-forward="true" selection-start-line="6" selection-start-column="8" selection-end-line="6" selection-end-column="8" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FieldValue.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/dataobject/FieldValue.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="703">
+              <caret line="49" column="0" lean-forward="false" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
+              <folding>
+                <element signature="e#1238#1239#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RetireableDataObject.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/dataobject/RetireableDataObject.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="152">
+              <caret line="9" column="14" lean-forward="false" selection-start-line="9" selection-start-column="14" selection-end-line="9" selection-end-column="14" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Episode.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/model/tv/Episode.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="467">
+              <caret line="81" column="23" lean-forward="true" selection-start-line="66" selection-start-column="3" selection-end-line="81" selection-end-column="23" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TVDBEpisode.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/model/tv/TVDBEpisode.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="277">
+              <caret line="59" column="17" lean-forward="false" selection-start-line="59" selection-start-column="17" selection-end-line="59" selection-end-column="17" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TVDBSeriesV2Updater.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBSeriesV2Updater.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="700">
+              <caret line="306" column="23" lean-forward="true" selection-start-line="306" selection-start-column="23" selection-end-line="306" selection-end-column="23" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TVDBUpdateV2Runner.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateV2Runner.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="661">
+              <caret line="212" column="25" lean-forward="true" selection-start-line="212" selection-start-column="25" selection-end-line="212" selection-end-column="25" />
+              <folding>
+                <marker date="1494822676074" expanded="false" signature="15080:15087" ph=" { " />
+                <marker date="1494822676074" expanded="false" signature="15134:15138" ph=" }" />
+                <marker date="1494822676074" expanded="false" signature="18589:18596" ph=" { " />
+                <marker date="1494822676074" expanded="false" signature="18617:18621" ph=" }" />
+                <marker date="1494822676074" expanded="false" signature="18658:18665" ph=" { " />
+                <marker date="1494822676074" expanded="false" signature="18686:18690" ph=" }" />
+                <marker date="1494822676074" expanded="false" signature="18729:18736" ph=" { " />
+                <marker date="1494822676074" expanded="false" signature="18759:18763" ph=" }" />
+                <marker date="1494822676074" expanded="false" signature="18805:18812" ph=" { " />
+                <marker date="1494822676074" expanded="false" signature="18840:18844" ph=" }" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TVDBSeriesV2MatchRunner.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBSeriesV2MatchRunner.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="283">
+              <caret line="132" column="0" lean-forward="false" selection-start-line="132" selection-start-column="0" selection-end-line="132" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
       <find>TVDBUpdateFinder (test</find>
-      <find>type=&quot;JUnit&quot;</find>
       <find>resources</find>
+      <find>type=&quot;JUnit&quot;</find>
+      <find>singleSeries =</find>
+      <find>debug</find>
     </findStrings>
     <replaceStrings>
       <replace>&lt;module name=&quot;GamesDBUtil_main&quot;</replace>
@@ -676,6 +610,10 @@
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBJWTProviderImpl.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/RemoteFileDownloader.java" />
         <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBSeriesV2MatchRunner.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateV2Runner.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBEpisodeV2Updater.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBSeriesV2Updater.java" />
       </list>
     </option>
   </component>
@@ -734,6 +672,32 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="GamesDBUtil" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="GamesDBUtil" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="org.jetbrains.plugins.gradle.projectView.GradleTreeStructureProvider$GradleSourceSetDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tivo_xml" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -839,34 +803,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="GamesDBUtil" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="GamesDBUtil" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="build" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="GamesDBUtil" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="GamesDBUtil" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value=".idea" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
       <pane id="Scope" />
@@ -905,7 +841,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.All in GamesDBUtil">
+  <component name="RunManager" selected="Application.TVDBUpdateV2Runner (test/single)">
     <configuration default="false" name="All in GamesDBUtil" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="GamesDBUtil_test" />
@@ -2802,14 +2738,14 @@
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3293623" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3293623" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3293623" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3293623" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.09976152" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15143085" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3293623" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3298887" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3994394" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -2819,11 +2755,31 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ORDER">
+      <list>
+        <option value="0" />
+        <option value="2" />
+        <option value="3" />
+        <option value="1" />
+      </list>
+    </option>
+  </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager />
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBEpisodeV2Updater.java</url>
+          <line>381</line>
+          <properties />
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="4" />
+    </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
@@ -3024,70 +2980,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="127">
-          <caret line="2512" column="50" lean-forward="false" selection-start-line="2512" selection-start-column="50" selection-end-line="2512" selection-end-column="50" />
-          <folding>
-            <marker date="1494815553924" expanded="true" signature="197245:197287" ph="..." />
-            <marker date="1494815553924" expanded="true" signature="197245:197305" ph="..." />
-            <marker date="1494815553924" expanded="true" signature="197245:197318" ph="..." />
-            <marker date="1494815553924" expanded="true" signature="197245:197333" ph="..." />
-            <marker date="1494815553924" expanded="true" signature="197379:197460" ph="..." />
-            <marker date="1494815553924" expanded="true" signature="197495:200044" ph="..." />
-            <marker date="1494815553924" expanded="true" signature="197508:200029" ph="..." />
-            <marker date="1494815553924" expanded="true" signature="197562:197857" ph="..." />
-            <marker date="1494815553924" expanded="true" signature="197581:197842" ph="..." />
-            <marker date="1494815553924" expanded="true" signature="197644:197822" ph="..." />
-            <marker date="1494815553924" expanded="true" signature="197684:197788" ph="..." />
-            <marker date="1494815553924" expanded="true" signature="197705:197766" ph="..." />
-            <marker date="1494815553924" expanded="true" signature="197907:198234" ph="..." />
-            <marker date="1494815553924" expanded="true" signature="197926:198219" ph="..." />
-            <marker date="1494815553924" expanded="true" signature="198021:198199" ph="..." />
-            <marker date="1494815553924" expanded="true" signature="198061:198165" ph="..." />
-            <marker date="1494815553924" expanded="true" signature="198082:198143" ph="..." />
-            <marker date="1494815553924" expanded="true" signature="198285:198550" ph="..." />
-            <marker date="1494815553924" expanded="true" signature="198304:198535" ph="..." />
-            <marker date="1494815553924" expanded="true" signature="198337:198515" ph="..." />
-            <marker date="1494815553924" expanded="true" signature="198377:198481" ph="..." />
-            <marker date="1494815553924" expanded="true" signature="198398:198459" ph="..." />
-            <marker date="1494815553924" expanded="true" signature="198593:198906" ph="..." />
-            <marker date="1494815553924" expanded="true" signature="198612:198891" ph="..." />
-            <marker date="1494815553924" expanded="true" signature="198686:198871" ph="..." />
-            <marker date="1494815553924" expanded="true" signature="198726:198837" ph="..." />
-            <marker date="1494815553924" expanded="true" signature="198747:198815" ph="..." />
-            <marker date="1494815553924" expanded="true" signature="198957:199295" ph="..." />
-            <marker date="1494815553924" expanded="true" signature="198976:199280" ph="..." />
-            <marker date="1494815553924" expanded="true" signature="199075:199260" ph="..." />
-            <marker date="1494815553924" expanded="true" signature="199115:199226" ph="..." />
-            <marker date="1494815553924" expanded="true" signature="199136:199204" ph="..." />
-            <marker date="1494815553924" expanded="true" signature="199330:199636" ph="..." />
-            <marker date="1494815553924" expanded="true" signature="199349:199621" ph="..." />
-            <marker date="1494815553924" expanded="true" signature="199423:199601" ph="..." />
-            <marker date="1494815553924" expanded="true" signature="199463:199567" ph="..." />
-            <marker date="1494815553924" expanded="true" signature="199484:199545" ph="..." />
-            <marker date="1494815553924" expanded="true" signature="199688:200015" ph="..." />
-            <marker date="1494815553924" expanded="true" signature="199707:200000" ph="..." />
-            <marker date="1494815553924" expanded="true" signature="199795:199980" ph="..." />
-            <marker date="1494815553924" expanded="true" signature="199835:199946" ph="..." />
-            <marker date="1494815553924" expanded="true" signature="199856:199924" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateFinder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="340" column="7" lean-forward="false" selection-start-line="340" selection-start-column="7" selection-end-line="340" selection-end-column="7" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1630#1666#0" expanded="true" />
-            <element signature="e#3608#3650#0" expanded="true" />
-            <element signature="e#4805#4844#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/gamesutil/dataobject/TiVoLocalProvider.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="310">
@@ -3152,10 +3044,135 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="127">
+          <caret line="2512" column="50" lean-forward="false" selection-start-line="2512" selection-start-column="50" selection-end-line="2512" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateFinder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="228">
+          <caret line="340" column="7" lean-forward="false" selection-start-line="340" selection-start-column="7" selection-end-line="340" selection-end-column="7" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1630#1666#0" expanded="true" />
+            <element signature="e#3608#3650#0" expanded="true" />
+            <element signature="e#4805#4844#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/RemoteFileDownloader.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="397">
-          <caret line="46" column="3" lean-forward="true" selection-start-line="46" selection-start-column="3" selection-end-line="46" selection-end-column="3" />
+        <state relative-caret-position="416">
+          <caret line="47" column="0" lean-forward="false" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="133">
+          <caret line="7" column="7" lean-forward="false" selection-start-line="7" selection-start-column="7" selection-end-line="7" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBSeriesV2MatchRunner.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="283">
+          <caret line="132" column="0" lean-forward="false" selection-start-line="132" selection-start-column="0" selection-end-line="132" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/exception/MultipleMatchesException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="133">
+          <caret line="7" column="0" lean-forward="true" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+          <folding>
+            <element signature="e#168#169#0" expanded="true" />
+            <element signature="e#197#198#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/model/tv/TVDBEpisode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="277">
+          <caret line="59" column="17" lean-forward="false" selection-start-line="59" selection-start-column="17" selection-end-line="59" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/model/tv/Episode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="467">
+          <caret line="81" column="23" lean-forward="true" selection-start-line="66" selection-start-column="3" selection-end-line="81" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/dataobject/RetireableDataObject.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="152">
+          <caret line="9" column="14" lean-forward="false" selection-start-line="9" selection-start-column="14" selection-end-line="9" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/dataobject/FieldValue.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="703">
+          <caret line="49" column="0" lean-forward="false" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
+          <folding>
+            <element signature="e#1238#1239#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RunUpdaterHeroku.bat">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="114">
+          <caret line="6" column="8" lean-forward="true" selection-start-line="6" selection-start-column="8" selection-end-line="6" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateV2Runner.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="661">
+          <caret line="212" column="25" lean-forward="true" selection-start-line="212" selection-start-column="25" selection-end-line="212" selection-end-column="25" />
+          <folding>
+            <marker date="1494822676074" expanded="false" signature="15080:15087" ph=" { " />
+            <marker date="1494822676074" expanded="false" signature="15134:15138" ph=" }" />
+            <marker date="1494822676074" expanded="false" signature="18589:18596" ph=" { " />
+            <marker date="1494822676074" expanded="false" signature="18617:18621" ph=" }" />
+            <marker date="1494822676074" expanded="false" signature="18658:18665" ph=" { " />
+            <marker date="1494822676074" expanded="false" signature="18686:18690" ph=" }" />
+            <marker date="1494822676074" expanded="false" signature="18729:18736" ph=" { " />
+            <marker date="1494822676074" expanded="false" signature="18759:18763" ph=" }" />
+            <marker date="1494822676074" expanded="false" signature="18805:18812" ph=" { " />
+            <marker date="1494822676074" expanded="false" signature="18840:18844" ph=" }" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBEpisodeV2Updater.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="707">
+          <caret line="626" column="22" lean-forward="false" selection-start-line="626" selection-start-column="17" selection-end-line="626" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBSeriesV2Updater.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="700">
+          <caret line="306" column="23" lean-forward="true" selection-start-line="306" selection-start-column="23" selection-end-line="306" selection-end-column="23" />
           <folding />
         </state>
       </provider>
