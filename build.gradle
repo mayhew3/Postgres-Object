@@ -38,6 +38,28 @@ task runFinder(type:JavaExec) {
     args += 'Test'
 }
 
+task runMetacritic(type:JavaExec) {
+    main = 'com.mayhew3.gamesutil.tv.MetacriticTVUpdater'
+    classpath = sourceSets.main.runtimeClasspath
+    args += 'Quick'
+    args += 'Heroku'
+}
+
+task runTiVoQuick(type:JavaExec) {
+    main = 'com.mayhew3.gamesutil.tv.TiVoLibraryUpdater'
+    classpath = sourceSets.main.runtimeClasspath
+    args += 'LogToFile'
+    args += 'Heroku'
+}
+
+task runTiVoFull(type:JavaExec) {
+    main = 'com.mayhew3.gamesutil.tv.TiVoLibraryUpdater'
+    classpath = sourceSets.main.runtimeClasspath
+    args += 'LogToFile'
+    args += 'Heroku'
+    args += 'FullMode'
+}
+
 run {
     args += 'Test'
 }

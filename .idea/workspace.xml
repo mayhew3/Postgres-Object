@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1e099498-ec9e-4703-ab18-cce3963e4d0c" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/RunQuickUpdaterGradle.bat" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBEpisodeV2Updater.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBEpisodeV2Updater.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBSeriesV2Updater.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBSeriesV2Updater.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build.gradle" afterPath="$PROJECT_DIR$/build.gradle" />
     </list>
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -103,6 +103,24 @@
                 <option name="myItemType" value="com.intellij.openapi.externalSystem.view.TasksNode" />
               </PATH_ELEMENT>
               <PATH_ELEMENT>
+                <option name="myItemId" value="build setup" />
+                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.TasksNode$1" />
+              </PATH_ELEMENT>
+            </PATH>
+            <PATH>
+              <PATH_ELEMENT>
+                <option name="myItemId" value="" />
+                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ExternalProjectsStructure$RootNode" />
+              </PATH_ELEMENT>
+              <PATH_ELEMENT>
+                <option name="myItemId" value="GamesDBUtil" />
+                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ProjectNode" />
+              </PATH_ELEMENT>
+              <PATH_ELEMENT>
+                <option name="myItemId" value="Tasks" />
+                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.TasksNode" />
+              </PATH_ELEMENT>
+              <PATH_ELEMENT>
                 <option name="myItemId" value="build" />
                 <option name="myItemType" value="com.intellij.openapi.externalSystem.view.TasksNode$1" />
               </PATH_ELEMENT>
@@ -146,35 +164,15 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="MultipleMatchesException.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/exception/MultipleMatchesException.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="133">
-              <caret line="7" column="0" lean-forward="true" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-              <folding>
-                <element signature="e#168#169#0" expanded="true" />
-                <element signature="e#197#198#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="TVDBEpisodeV2Updater.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBEpisodeV2Updater.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="707">
-              <caret line="626" column="22" lean-forward="false" selection-start-line="626" selection-start-column="17" selection-end-line="626" selection-end-column="22" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RunUpdaterHeroku.bat" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/RunUpdaterHeroku.bat">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="114">
-              <caret line="6" column="8" lean-forward="true" selection-start-line="6" selection-start-column="8" selection-end-line="6" selection-end-column="8" />
-              <folding />
+            <state relative-caret-position="303">
+              <caret line="604" column="8" lean-forward="false" selection-start-line="604" selection-start-column="8" selection-end-line="604" selection-end-column="8" />
+              <folding>
+                <element signature="e#22869#22870#0" expanded="true" />
+                <element signature="e#22905#22906#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -185,7 +183,31 @@
             <state relative-caret-position="703">
               <caret line="49" column="0" lean-forward="false" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
               <folding>
-                <element signature="e#1238#1239#0" expanded="true" />
+                <element signature="imports" expanded="false" />
+                <element signature="e#956#957#0" expanded="false" />
+                <element signature="e#1026#1027#0" expanded="false" />
+                <element signature="e#1087#1088#0" expanded="false" />
+                <element signature="e#1121#1122#0" expanded="false" />
+                <element signature="e#1154#1155#0" expanded="false" />
+                <element signature="e#1184#1185#0" expanded="false" />
+                <element signature="e#2413#2414#0" expanded="false" />
+                <element signature="e#2462#2463#0" expanded="false" />
+                <element signature="e#2496#2497#0" expanded="false" />
+                <element signature="e#2522#2523#0" expanded="false" />
+                <element signature="e#2555#2556#0" expanded="false" />
+                <element signature="e#2584#2585#0" expanded="false" />
+                <element signature="e#2881#2882#0" expanded="false" />
+                <element signature="e#2910#2911#0" expanded="false" />
+                <element signature="e#3014#3015#0" expanded="false" />
+                <element signature="e#3071#3072#0" expanded="false" />
+                <element signature="e#3110#3111#0" expanded="false" />
+                <element signature="e#3171#3172#0" expanded="false" />
+                <element signature="e#3204#3205#0" expanded="false" />
+                <element signature="e#3266#3267#0" expanded="false" />
+                <element signature="e#3293#3294#0" expanded="false" />
+                <element signature="e#3331#3332#0" expanded="false" />
+                <element signature="e#3701#3702#0" expanded="false" />
+                <element signature="e#3730#3731#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -196,7 +218,9 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="152">
               <caret line="9" column="14" lean-forward="false" selection-start-line="9" selection-start-column="14" selection-end-line="9" selection-end-column="14" />
-              <folding />
+              <folding>
+                <element signature="imports" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -204,60 +228,78 @@
       <file leaf-file-name="Episode.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/model/tv/Episode.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="467">
-              <caret line="81" column="23" lean-forward="true" selection-start-line="66" selection-start-column="3" selection-end-line="81" selection-end-column="23" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TVDBEpisode.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/model/tv/TVDBEpisode.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="277">
-              <caret line="59" column="17" lean-forward="false" selection-start-line="59" selection-start-column="17" selection-end-line="59" selection-end-column="17" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TVDBSeriesV2Updater.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBSeriesV2Updater.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="700">
-              <caret line="306" column="23" lean-forward="true" selection-start-line="306" selection-start-column="23" selection-end-line="306" selection-end-column="23" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TVDBUpdateV2Runner.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateV2Runner.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="661">
-              <caret line="212" column="25" lean-forward="true" selection-start-line="212" selection-start-column="25" selection-end-line="212" selection-end-column="25" />
+            <state relative-caret-position="1197">
+              <caret line="81" column="23" lean-forward="false" selection-start-line="66" selection-start-column="3" selection-end-line="81" selection-end-column="23" />
               <folding>
-                <marker date="1494822676074" expanded="false" signature="15080:15087" ph=" { " />
-                <marker date="1494822676074" expanded="false" signature="15134:15138" ph=" }" />
-                <marker date="1494822676074" expanded="false" signature="18589:18596" ph=" { " />
-                <marker date="1494822676074" expanded="false" signature="18617:18621" ph=" }" />
-                <marker date="1494822676074" expanded="false" signature="18658:18665" ph=" { " />
-                <marker date="1494822676074" expanded="false" signature="18686:18690" ph=" }" />
-                <marker date="1494822676074" expanded="false" signature="18729:18736" ph=" { " />
-                <marker date="1494822676074" expanded="false" signature="18759:18763" ph=" }" />
-                <marker date="1494822676074" expanded="false" signature="18805:18812" ph=" { " />
-                <marker date="1494822676074" expanded="false" signature="18840:18844" ph=" }" />
+                <element signature="imports" expanded="false" />
+                <element signature="e#2555#2556#0" expanded="false" />
+                <element signature="e#2581#2582#0" expanded="false" />
+                <element signature="e#2636#2637#0" expanded="false" />
+                <element signature="e#2679#2680#0" expanded="false" />
+                <element signature="e#5697#5698#0" expanded="false" />
+                <element signature="e#5731#5732#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TVDBSeriesV2MatchRunner.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBSeriesV2MatchRunner.java">
+      <file leaf-file-name="TVDBSeriesV2Updater.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBSeriesV2Updater.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="283">
-              <caret line="132" column="0" lean-forward="false" selection-start-line="132" selection-start-column="0" selection-end-line="132" selection-end-column="0" />
+            <state relative-caret-position="814">
+              <caret line="312" column="3" lean-forward="false" selection-start-line="312" selection-start-column="3" selection-end-line="312" selection-end-column="3" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RunQuickUpdaterHeroku.bat" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/RunQuickUpdaterHeroku.bat">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="76">
+              <caret line="4" column="8" lean-forward="false" selection-start-line="4" selection-start-column="8" selection-end-line="4" selection-end-column="8" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="build.gradle" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/build.gradle">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="298">
+              <caret line="40" column="35" lean-forward="true" selection-start-line="40" selection-start-column="35" selection-end-line="40" selection-end-column="35" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RunQuickUpdaterGradle.bat" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/RunQuickUpdaterGradle.bat">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="57">
+              <caret line="3" column="8" lean-forward="false" selection-start-line="3" selection-start-column="8" selection-end-line="3" selection-end-column="8" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TVDBUpdateV2Runner.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateV2Runner.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="547">
+              <caret line="206" column="3" lean-forward="true" selection-start-line="206" selection-start-column="3" selection-end-line="206" selection-end-column="3" />
+              <folding>
+                <marker date="1494825185861" expanded="false" signature="15080:15087" ph=" { " />
+                <marker date="1494825185861" expanded="false" signature="15134:15138" ph=" }" />
+                <marker date="1494825185861" expanded="false" signature="18589:18596" ph=" { " />
+                <marker date="1494825185861" expanded="false" signature="18617:18621" ph=" }" />
+                <marker date="1494825185861" expanded="false" signature="18658:18665" ph=" { " />
+                <marker date="1494825185861" expanded="false" signature="18686:18690" ph=" }" />
+                <marker date="1494825185861" expanded="false" signature="18729:18736" ph=" { " />
+                <marker date="1494825185861" expanded="false" signature="18759:18763" ph=" }" />
+                <marker date="1494825185861" expanded="false" signature="18805:18812" ph=" { " />
+                <marker date="1494825185861" expanded="false" signature="18840:18844" ph=" }" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -371,6 +413,10 @@
                 <option name="name" value="startScripts" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="runTiVoQuick" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
                 <option name="description" value="Assembles a jar archive containing the main classes." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="jar" />
@@ -465,9 +511,17 @@
                 <option name="name" value="build" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="runMetacritic" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
                 <option name="description" value="Assembles and tests this project and all projects it depends on." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="buildNeeded" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="runTiVoFull" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="description" value="Bundles the project as a distribution." />
@@ -491,8 +545,8 @@
     </option>
     <option name="modificationStamps">
       <map>
-        <entry key="$PROJECT_DIR$" value="1494807341280" />
-        <entry key="$PROJECT_DIR$/build.gradle" value="3931746725" />
+        <entry key="$PROJECT_DIR$" value="1494824070225" />
+        <entry key="$PROJECT_DIR$/build.gradle" value="3552997225" />
       </map>
     </option>
     <option name="projectBuildClasspath">
@@ -600,7 +654,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/build.gradle" />
         <option value="$PROJECT_DIR$/.idea/workspace.xml" />
         <option value="$PROJECT_DIR$/src/test/java/com/mayhew3/gamesutil/tv/TiVoDaylightSavingsTest.java" />
         <option value="$PROJECT_DIR$/src/test/java/com/mayhew3/gamesutil/tv/TVDBSeriesV2UpdaterTest.java" />
@@ -611,9 +664,11 @@
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/RemoteFileDownloader.java" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBSeriesV2MatchRunner.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateV2Runner.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBEpisodeV2Updater.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBSeriesV2Updater.java" />
+        <option value="$PROJECT_DIR$/RunQuickUpdaterGradle.bat" />
+        <option value="$PROJECT_DIR$/build.gradle" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateV2Runner.java" />
       </list>
     </option>
   </component>
@@ -639,8 +694,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -806,6 +859,8 @@
         </subPane>
       </pane>
       <pane id="Scope" />
+      <pane id="Scratches" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -823,6 +878,9 @@
     <property name="add_unversioned_files" value="$PROJECT_DIR$/.idea/workspace.xml" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Projects\mean_projects\GamesDBUtil" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\Projects\mean_projects\GamesDBUtil\src\test\resources" />
       <recent name="D:\Projects\mean_projects\GamesDBUtil\src\test\java" />
@@ -841,7 +899,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.TVDBUpdateV2Runner (test/single)">
+  <component name="RunManager" selected="Application.TVDBUpdateV2Runner (heroku/single)">
     <configuration default="false" name="All in GamesDBUtil" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="GamesDBUtil_test" />
@@ -851,56 +909,6 @@
       <option name="MAIN_CLASS_NAME" value="" />
       <option name="METHOD_NAME" value="" />
       <option name="TEST_OBJECT" value="package" />
-      <option name="VM_PARAMETERS" value="" />
-      <option name="PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="moduleWithDependencies" />
-      </option>
-      <envs>
-        <env name="postgresURL_local" value="jdbc:postgresql://localhost:5432/tv?user=postgres&amp;password=m3mysql" />
-        <env name="postgresURL_local_test" value="jdbc:postgresql://localhost:5432/tv_copy?user=postgres&amp;password=m3mysql" />
-        <env name="postgresURL" value="postgres://ijxuheufucvnyu:h16h_LnZi4fHgIUjBANnzITEyR@ec2-54-204-30-115.compute-1.amazonaws.com:5432/dcg1rtode4vgk9" />
-      </envs>
-      <patterns />
-      <method />
-    </configuration>
-    <configuration default="false" name="DataObjectTest.testGenerateTableCreateStatement" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <module name="GamesDBUtil_test" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="com.mayhew3.gamesutil.dataobject" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.dataobject.DataObjectTest" />
-      <option name="METHOD_NAME" value="testGenerateTableCreateStatement" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="VM_PARAMETERS" value="" />
-      <option name="PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="moduleWithDependencies" />
-      </option>
-      <envs>
-        <env name="postgresURL_local" value="jdbc:postgresql://localhost:5432/tv?user=postgres&amp;password=m3mysql" />
-        <env name="postgresURL_local_test" value="jdbc:postgresql://localhost:5432/tv_copy?user=postgres&amp;password=m3mysql" />
-        <env name="postgresURL" value="postgres://ijxuheufucvnyu:h16h_LnZi4fHgIUjBANnzITEyR@ec2-54-204-30-115.compute-1.amazonaws.com:5432/dcg1rtode4vgk9" />
-      </envs>
-      <patterns />
-      <method />
-    </configuration>
-    <configuration default="false" name="TVDBSeriesV2UpdaterTest.testIDChangedForTVDBEpisode" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <module name="GamesDBUtil_test" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="com.mayhew3.gamesutil.tv" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.TVDBSeriesV2UpdaterTest" />
-      <option name="METHOD_NAME" value="testIDChangedForTVDBEpisode" />
-      <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -967,6 +975,42 @@
       <patterns />
       <method />
     </configuration>
+    <configuration default="false" name="GamesDBUtil [run]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="run" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <method />
+    </configuration>
+    <configuration default="false" name="GamesDBUtil [wrapper]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="wrapper" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <method />
+    </configuration>
     <configuration default="true" type="Application" factoryName="Application">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="MAIN_CLASS_NAME" value="" />
@@ -1010,6 +1054,15 @@
         </option>
         <option name="vmOptions" />
       </ExternalSystemSettings>
+      <method />
+    </configuration>
+    <configuration default="true" type="GroovyScriptRunConfiguration" factoryName="Groovy">
+      <module name="" />
+      <setting name="path" value="" />
+      <setting name="vmparams" value="" />
+      <setting name="params" value="" />
+      <setting name="workDir" value="file://$PROJECT_DIR$" />
+      <setting name="debug" value="false" />
       <method />
     </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit">
@@ -2599,7 +2652,25 @@
       </envs>
       <method />
     </configuration>
-    <list size="85">
+    <configuration default="false" name="GamesDBUtil [build]" type="GradleRunConfiguration" factoryName="Gradle">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="build" />
+          </list>
+        </option>
+        <option name="vmOptions" value="" />
+      </ExternalSystemSettings>
+      <method />
+    </configuration>
+    <list size="86">
       <item index="0" class="java.lang.String" itemvalue="Application.GamePostgresMongoSyncer" />
       <item index="1" class="java.lang.String" itemvalue="Application.SteamGameUpdater" />
       <item index="2" class="java.lang.String" itemvalue="Application.MetacriticGameUpdateRunner" />
@@ -2681,18 +2752,19 @@
       <item index="78" class="java.lang.String" itemvalue="Application.DaylightSavingCorrector (Test)" />
       <item index="79" class="java.lang.String" itemvalue="Application.DaylightSavingCorrector (Heroku)" />
       <item index="80" class="java.lang.String" itemvalue="JUnit.All in GamesDBUtil" />
-      <item index="81" class="java.lang.String" itemvalue="JUnit.DataObjectTest.testGenerateTableCreateStatement" />
-      <item index="82" class="java.lang.String" itemvalue="JUnit.TVDBSeriesV2UpdaterTest.testIDChangedForTVDBEpisode" />
-      <item index="83" class="java.lang.String" itemvalue="JUnit.TiVoMatchExistingTest.testFirstTiVoEpisodeFoundForExistingSeries" />
-      <item index="84" class="java.lang.String" itemvalue="JUnit.TiVoDaylightSavingsTest.testAtlantaFebruary" />
+      <item index="81" class="java.lang.String" itemvalue="JUnit.TiVoMatchExistingTest.testFirstTiVoEpisodeFoundForExistingSeries" />
+      <item index="82" class="java.lang.String" itemvalue="JUnit.TiVoDaylightSavingsTest.testAtlantaFebruary" />
+      <item index="83" class="java.lang.String" itemvalue="Gradle.GamesDBUtil [build]" />
+      <item index="84" class="java.lang.String" itemvalue="Gradle.GamesDBUtil [run]" />
+      <item index="85" class="java.lang.String" itemvalue="Gradle.GamesDBUtil [wrapper]" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="JUnit.All in GamesDBUtil" />
-        <item index="1" class="java.lang.String" itemvalue="JUnit.TiVoDaylightSavingsTest.testAtlantaFebruary" />
-        <item index="2" class="java.lang.String" itemvalue="JUnit.TiVoMatchExistingTest.testFirstTiVoEpisodeFoundForExistingSeries" />
-        <item index="3" class="java.lang.String" itemvalue="JUnit.TVDBSeriesV2UpdaterTest.testIDChangedForTVDBEpisode" />
-        <item index="4" class="java.lang.String" itemvalue="JUnit.DataObjectTest.testGenerateTableCreateStatement" />
+        <item index="0" class="java.lang.String" itemvalue="Gradle.GamesDBUtil [wrapper]" />
+        <item index="1" class="java.lang.String" itemvalue="Gradle.GamesDBUtil [run]" />
+        <item index="2" class="java.lang.String" itemvalue="JUnit.All in GamesDBUtil" />
+        <item index="3" class="java.lang.String" itemvalue="JUnit.TiVoDaylightSavingsTest.testAtlantaFebruary" />
+        <item index="4" class="java.lang.String" itemvalue="JUnit.TiVoMatchExistingTest.testFirstTiVoEpisodeFoundForExistingSeries" />
       </list>
     </recent_temporary>
   </component>
@@ -2731,19 +2803,17 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="2576" height="1586" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3293623" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3293623" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3293623" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3293623" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3293623" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15143085" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3293623" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3298887" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1526232" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24125597" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3994394" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -2752,6 +2822,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3293623" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -2783,6 +2854,125 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/RunUpdaterHeroku.bat">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="114">
+          <caret line="6" column="8" lean-forward="true" selection-start-line="6" selection-start-column="8" selection-end-line="6" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/dataobject/FieldValue.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="703">
+          <caret line="49" column="0" lean-forward="false" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#956#957#0" expanded="false" />
+            <element signature="e#1026#1027#0" expanded="false" />
+            <element signature="e#1087#1088#0" expanded="false" />
+            <element signature="e#1121#1122#0" expanded="false" />
+            <element signature="e#1154#1155#0" expanded="false" />
+            <element signature="e#1184#1185#0" expanded="false" />
+            <element signature="e#2413#2414#0" expanded="false" />
+            <element signature="e#2462#2463#0" expanded="false" />
+            <element signature="e#2496#2497#0" expanded="false" />
+            <element signature="e#2522#2523#0" expanded="false" />
+            <element signature="e#2555#2556#0" expanded="false" />
+            <element signature="e#2584#2585#0" expanded="false" />
+            <element signature="e#2881#2882#0" expanded="false" />
+            <element signature="e#2910#2911#0" expanded="false" />
+            <element signature="e#3014#3015#0" expanded="false" />
+            <element signature="e#3071#3072#0" expanded="false" />
+            <element signature="e#3110#3111#0" expanded="false" />
+            <element signature="e#3171#3172#0" expanded="false" />
+            <element signature="e#3204#3205#0" expanded="false" />
+            <element signature="e#3266#3267#0" expanded="false" />
+            <element signature="e#3293#3294#0" expanded="false" />
+            <element signature="e#3331#3332#0" expanded="false" />
+            <element signature="e#3701#3702#0" expanded="false" />
+            <element signature="e#3730#3731#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/dataobject/RetireableDataObject.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="152">
+          <caret line="9" column="14" lean-forward="false" selection-start-line="9" selection-start-column="14" selection-end-line="9" selection-end-column="14" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/model/tv/Episode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1197">
+          <caret line="81" column="23" lean-forward="true" selection-start-line="66" selection-start-column="3" selection-end-line="81" selection-end-column="23" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#2555#2556#0" expanded="false" />
+            <element signature="e#2581#2582#0" expanded="false" />
+            <element signature="e#2636#2637#0" expanded="false" />
+            <element signature="e#2679#2680#0" expanded="false" />
+            <element signature="e#5697#5698#0" expanded="false" />
+            <element signature="e#5731#5732#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/model/tv/TVDBEpisode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="893">
+          <caret line="59" column="17" lean-forward="false" selection-start-line="59" selection-start-column="17" selection-end-line="59" selection-end-column="17" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#2768#2769#0" expanded="false" />
+            <element signature="e#2824#2825#0" expanded="false" />
+            <element signature="e#2870#2871#0" expanded="false" />
+            <element signature="e#2901#2902#0" expanded="false" />
+            <element signature="e#2943#2944#0" expanded="false" />
+            <element signature="e#3039#3040#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateV2Runner.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3553">
+          <caret line="212" column="25" lean-forward="true" selection-start-line="212" selection-start-column="25" selection-end-line="212" selection-end-column="25" />
+          <folding>
+            <marker date="1494825185861" expanded="false" signature="15080:15087" ph=" { " />
+            <marker date="1494825185861" expanded="false" signature="15134:15138" ph=" }" />
+            <marker date="1494825185861" expanded="false" signature="18589:18596" ph=" { " />
+            <marker date="1494825185861" expanded="false" signature="18617:18621" ph=" }" />
+            <marker date="1494825185861" expanded="false" signature="18658:18665" ph=" { " />
+            <marker date="1494825185861" expanded="false" signature="18686:18690" ph=" }" />
+            <marker date="1494825185861" expanded="false" signature="18729:18736" ph=" { " />
+            <marker date="1494825185861" expanded="false" signature="18759:18763" ph=" }" />
+            <marker date="1494825185861" expanded="false" signature="18805:18812" ph=" { " />
+            <marker date="1494825185861" expanded="false" signature="18840:18844" ph=" }" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBSeriesV2MatchRunner.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2128">
+          <caret line="132" column="0" lean-forward="false" selection-start-line="132" selection-start-column="0" selection-end-line="132" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBSeriesV2Updater.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5605">
+          <caret line="312" column="3" lean-forward="true" selection-start-line="312" selection-start-column="3" selection-end-line="312" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="684">
@@ -2795,7 +2985,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="228">
           <caret line="12" column="18" lean-forward="false" selection-start-line="12" selection-start-column="18" selection-end-line="12" selection-end-column="18" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2803,9 +2992,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="133">
           <caret line="9" column="17" lean-forward="false" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="17" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2813,7 +2999,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="95">
           <caret line="21" column="28" lean-forward="false" selection-start-line="21" selection-start-column="28" selection-end-line="21" selection-end-column="28" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2864,7 +3049,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2872,7 +3056,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="665">
           <caret line="41" column="0" lean-forward="false" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2880,12 +3063,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="6251">
           <caret line="329" column="42" lean-forward="true" selection-start-line="329" selection-start-column="42" selection-end-line="329" selection-end-column="42" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1630#1666#0" expanded="true" />
-            <element signature="e#3608#3650#0" expanded="true" />
-            <element signature="e#4805#4844#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2907,7 +3084,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2940,9 +3116,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="133">
           <caret line="9" column="17" lean-forward="false" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="17" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2960,15 +3133,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="665">
           <caret line="41" column="0" lean-forward="false" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="684">
-          <caret line="36" column="14" lean-forward="false" selection-start-line="36" selection-start-column="14" selection-end-line="36" selection-end-column="14" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2976,7 +3140,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="654">
           <caret line="2444" column="73" lean-forward="false" selection-start-line="2444" selection-start-column="73" selection-end-line="2444" selection-end-column="73" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2984,7 +3147,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="310">
           <caret line="30" column="0" lean-forward="false" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2992,7 +3154,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="304">
           <caret line="32" column="20" lean-forward="false" selection-start-line="32" selection-start-column="9" selection-end-line="32" selection-end-column="20" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3008,7 +3169,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="228">
           <caret line="26" column="20" lean-forward="false" selection-start-line="26" selection-start-column="20" selection-end-line="26" selection-end-column="20" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3016,7 +3176,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="152">
           <caret line="19" column="40" lean-forward="false" selection-start-line="19" selection-start-column="40" selection-end-line="19" selection-end-column="40" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3024,7 +3183,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="114">
           <caret line="14" column="42" lean-forward="false" selection-start-line="14" selection-start-column="42" selection-end-line="14" selection-end-column="42" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3032,7 +3190,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="302">
           <caret line="129" column="34" lean-forward="false" selection-start-line="129" selection-start-column="34" selection-end-line="129" selection-end-column="34" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3048,7 +3205,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="127">
           <caret line="2512" column="50" lean-forward="false" selection-start-line="2512" selection-start-column="50" selection-end-line="2512" selection-end-column="50" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3056,12 +3212,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="228">
           <caret line="340" column="7" lean-forward="false" selection-start-line="340" selection-start-column="7" selection-end-line="340" selection-end-column="7" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1630#1666#0" expanded="true" />
-            <element signature="e#3608#3650#0" expanded="true" />
-            <element signature="e#4805#4844#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -3069,7 +3219,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="416">
           <caret line="47" column="0" lean-forward="false" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3077,13 +3226,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="133">
           <caret line="7" column="7" lean-forward="false" selection-start-line="7" selection-start-column="7" selection-end-line="7" selection-end-column="7" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBSeriesV2MatchRunner.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="283">
+        <state relative-caret-position="2128">
           <caret line="132" column="0" lean-forward="false" selection-start-line="132" selection-start-column="0" selection-end-line="132" selection-end-column="0" />
           <folding />
         </state>
@@ -3091,28 +3239,44 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/exception/MultipleMatchesException.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="133">
-          <caret line="7" column="0" lean-forward="true" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+        <state relative-caret-position="95">
+          <caret line="7" column="0" lean-forward="false" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
           <folding>
-            <element signature="e#168#169#0" expanded="true" />
-            <element signature="e#197#198#0" expanded="true" />
+            <element signature="e#168#169#0" expanded="false" />
+            <element signature="e#197#198#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/model/tv/TVDBEpisode.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="277">
+        <state relative-caret-position="893">
           <caret line="59" column="17" lean-forward="false" selection-start-line="59" selection-start-column="17" selection-end-line="59" selection-end-column="17" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#2768#2769#0" expanded="false" />
+            <element signature="e#2824#2825#0" expanded="false" />
+            <element signature="e#2870#2871#0" expanded="false" />
+            <element signature="e#2901#2902#0" expanded="false" />
+            <element signature="e#2943#2944#0" expanded="false" />
+            <element signature="e#3039#3040#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/model/tv/Episode.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="467">
-          <caret line="81" column="23" lean-forward="true" selection-start-line="66" selection-start-column="3" selection-end-line="81" selection-end-column="23" />
-          <folding />
+        <state relative-caret-position="1197">
+          <caret line="81" column="23" lean-forward="false" selection-start-line="66" selection-start-column="3" selection-end-line="81" selection-end-column="23" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#2555#2556#0" expanded="false" />
+            <element signature="e#2581#2582#0" expanded="false" />
+            <element signature="e#2636#2637#0" expanded="false" />
+            <element signature="e#2679#2680#0" expanded="false" />
+            <element signature="e#5697#5698#0" expanded="false" />
+            <element signature="e#5731#5732#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -3120,7 +3284,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="152">
           <caret line="9" column="14" lean-forward="false" selection-start-line="9" selection-start-column="14" selection-end-line="9" selection-end-column="14" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -3129,7 +3295,50 @@
         <state relative-caret-position="703">
           <caret line="49" column="0" lean-forward="false" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
           <folding>
-            <element signature="e#1238#1239#0" expanded="true" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#956#957#0" expanded="false" />
+            <element signature="e#1026#1027#0" expanded="false" />
+            <element signature="e#1087#1088#0" expanded="false" />
+            <element signature="e#1121#1122#0" expanded="false" />
+            <element signature="e#1154#1155#0" expanded="false" />
+            <element signature="e#1184#1185#0" expanded="false" />
+            <element signature="e#2413#2414#0" expanded="false" />
+            <element signature="e#2462#2463#0" expanded="false" />
+            <element signature="e#2496#2497#0" expanded="false" />
+            <element signature="e#2522#2523#0" expanded="false" />
+            <element signature="e#2555#2556#0" expanded="false" />
+            <element signature="e#2584#2585#0" expanded="false" />
+            <element signature="e#2881#2882#0" expanded="false" />
+            <element signature="e#2910#2911#0" expanded="false" />
+            <element signature="e#3014#3015#0" expanded="false" />
+            <element signature="e#3071#3072#0" expanded="false" />
+            <element signature="e#3110#3111#0" expanded="false" />
+            <element signature="e#3171#3172#0" expanded="false" />
+            <element signature="e#3204#3205#0" expanded="false" />
+            <element signature="e#3266#3267#0" expanded="false" />
+            <element signature="e#3293#3294#0" expanded="false" />
+            <element signature="e#3331#3332#0" expanded="false" />
+            <element signature="e#3701#3702#0" expanded="false" />
+            <element signature="e#3730#3731#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBSeriesV2Updater.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="814">
+          <caret line="312" column="3" lean-forward="false" selection-start-line="312" selection-start-column="3" selection-end-line="312" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBEpisodeV2Updater.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="303">
+          <caret line="604" column="8" lean-forward="false" selection-start-line="604" selection-start-column="8" selection-end-line="604" selection-end-column="8" />
+          <folding>
+            <element signature="e#22869#22870#0" expanded="true" />
+            <element signature="e#22905#22906#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -3137,43 +3346,51 @@
     <entry file="file://$PROJECT_DIR$/RunUpdaterHeroku.bat">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="114">
-          <caret line="6" column="8" lean-forward="true" selection-start-line="6" selection-start-column="8" selection-end-line="6" selection-end-column="8" />
+          <caret line="6" column="8" lean-forward="false" selection-start-line="6" selection-start-column="8" selection-end-line="6" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RunQuickUpdaterGradle.bat">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="57">
+          <caret line="3" column="8" lean-forward="false" selection-start-line="3" selection-start-column="8" selection-end-line="3" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RunQuickUpdaterHeroku.bat">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="76">
+          <caret line="4" column="8" lean-forward="false" selection-start-line="4" selection-start-column="8" selection-end-line="4" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="298">
+          <caret line="40" column="35" lean-forward="true" selection-start-line="40" selection-start-column="35" selection-end-line="40" selection-end-column="35" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateV2Runner.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="661">
-          <caret line="212" column="25" lean-forward="true" selection-start-line="212" selection-start-column="25" selection-end-line="212" selection-end-column="25" />
+        <state relative-caret-position="547">
+          <caret line="206" column="3" lean-forward="true" selection-start-line="206" selection-start-column="3" selection-end-line="206" selection-end-column="3" />
           <folding>
-            <marker date="1494822676074" expanded="false" signature="15080:15087" ph=" { " />
-            <marker date="1494822676074" expanded="false" signature="15134:15138" ph=" }" />
-            <marker date="1494822676074" expanded="false" signature="18589:18596" ph=" { " />
-            <marker date="1494822676074" expanded="false" signature="18617:18621" ph=" }" />
-            <marker date="1494822676074" expanded="false" signature="18658:18665" ph=" { " />
-            <marker date="1494822676074" expanded="false" signature="18686:18690" ph=" }" />
-            <marker date="1494822676074" expanded="false" signature="18729:18736" ph=" { " />
-            <marker date="1494822676074" expanded="false" signature="18759:18763" ph=" }" />
-            <marker date="1494822676074" expanded="false" signature="18805:18812" ph=" { " />
-            <marker date="1494822676074" expanded="false" signature="18840:18844" ph=" }" />
+            <marker date="1494825185861" expanded="false" signature="15080:15087" ph=" { " />
+            <marker date="1494825185861" expanded="false" signature="15134:15138" ph=" }" />
+            <marker date="1494825185861" expanded="false" signature="18589:18596" ph=" { " />
+            <marker date="1494825185861" expanded="false" signature="18617:18621" ph=" }" />
+            <marker date="1494825185861" expanded="false" signature="18658:18665" ph=" { " />
+            <marker date="1494825185861" expanded="false" signature="18686:18690" ph=" }" />
+            <marker date="1494825185861" expanded="false" signature="18729:18736" ph=" { " />
+            <marker date="1494825185861" expanded="false" signature="18759:18763" ph=" }" />
+            <marker date="1494825185861" expanded="false" signature="18805:18812" ph=" { " />
+            <marker date="1494825185861" expanded="false" signature="18840:18844" ph=" }" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBEpisodeV2Updater.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="707">
-          <caret line="626" column="22" lean-forward="false" selection-start-line="626" selection-start-column="17" selection-end-line="626" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBSeriesV2Updater.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="700">
-          <caret line="306" column="23" lean-forward="true" selection-start-line="306" selection-start-column="23" selection-end-line="306" selection-end-column="23" />
-          <folding />
         </state>
       </provider>
     </entry>
