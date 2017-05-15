@@ -60,6 +60,21 @@ task runTiVoFull(type:JavaExec) {
     args += 'FullMode'
 }
 
+task runMetacriticGames(type:JavaExec) {
+    main = 'com.mayhew3.gamesutil.games.MetacriticGameUpdateRunner'
+    classpath = sourceSets.main.runtimeClasspath
+    args += 'LogToFile'
+    args += 'Heroku'
+}
+
+task runSteamGames(type:JavaExec) {
+    main = 'com.mayhew3.gamesutil.games.SteamGameUpdater'
+    classpath = sourceSets.main.runtimeClasspath
+    jvmArgs += '-Dwebdriver.chrome.driver="D:\\Projects\\mean_projects\\GamesDBUtil\\resources\\chromedriver.exe"'
+    args += 'LogToFile'
+    args += 'Test'
+}
+
 run {
     args += 'Test'
 }

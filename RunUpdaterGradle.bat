@@ -1,0 +1,4 @@
+setlocal
+echo Program is running
+gradlew runSteamGames runMetacriticGames runTiVoFull
+endlocal
