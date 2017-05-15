@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 
 @VisibleForTesting
 public class TVDBLocalJSONProvider implements TVDBJWTProvider {
-  private String filePrefix = "resources\\TVDBTest\\";
+  private String filePrefix = "src\\test\\resources\\TVDBTest\\";
 
   public TVDBLocalJSONProvider(String localFilePath) {
     this.filePrefix = localFilePath;

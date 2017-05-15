@@ -17,7 +17,7 @@ import java.sql.SQLException;
 public class TVDBXMLFetcher {
 
   private String singleSeriesTitle = "Inside Amy Schumer"; // update for testing on a single series
-  private String filePath = "resources\\TVDB_Inside_Amy_Schumer.xml";
+  private String filePath = "src\\test\\resources\\TVDB_Inside_Amy_Schumer.xml";
 
   private SQLConnection connection;
 

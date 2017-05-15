@@ -39,7 +39,7 @@ public class RemoteFileDownloader implements TiVoDataProvider {
       SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy_MM_dd_hh_mm_ss");
       String dateFormatted = simpleDateFormat.format(new Date());
 
-      localFolderPath = "resources\\tivo_xml\\" + dateFormatted + "\\";
+      localFolderPath = "src\\test\\resources\\tivo_xml\\" + dateFormatted + "\\";
       if (!new File(localFolderPath).mkdir()) {
         throw new RuntimeException("Unable to create directory: " + localFolderPath);
       }

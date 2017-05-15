@@ -30,7 +30,7 @@ public class TiVoDaylightSavingsTest extends TVDatabaseTest {
   public void setUp() throws URISyntaxException, SQLException {
     super.setUp();
     tiVoLocalProvider = new TiVoLocalProvider(
-        "resources\\AtlantaDaylightSavings\\",
+        "src\\test\\resources\\AtlantaDaylightSavings\\",
         "SeriesList.xml",
         "SeriesDetail.xml");
   }

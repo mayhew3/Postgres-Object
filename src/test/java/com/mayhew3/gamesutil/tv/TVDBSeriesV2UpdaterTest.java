@@ -42,7 +42,7 @@ public class TVDBSeriesV2UpdaterTest extends TVDatabaseTest {
   @Override
   public void setUp() throws URISyntaxException, SQLException {
     super.setUp();
-    tvdbjwtProvider = new TVDBLocalJSONProvider("resources\\TVDBTest\\");
+    tvdbjwtProvider = new TVDBLocalJSONProvider("src\\test\\resources\\TVDBTest\\");
   }
 
   @Test

@@ -115,7 +115,7 @@ class TVDBJWTProviderImpl implements TVDBJWTProvider {
 
     JSONObject jsonObject = getData(seriesUrl, queryParams);
 
-    String filePath = "resources\\TVDBTest\\search_" + formattedTitle + ".json";
+    String filePath = "src\\test\\resources\\TVDBTest\\search_" + formattedTitle + ".json";
 
     writeResultToFile(filePath, jsonObject);
   }
@@ -127,7 +127,7 @@ class TVDBJWTProviderImpl implements TVDBJWTProvider {
 
     JSONObject jsonObject = getData(seriesUrl);
 
-    String filePath = "resources\\TVDBTest\\" + tvdbId + "_summary.json";
+    String filePath = "src\\test\\resources\\TVDBTest\\" + tvdbId + "_summary.json";
 
     writeResultToFile(filePath, jsonObject);
   }
@@ -142,7 +142,7 @@ class TVDBJWTProviderImpl implements TVDBJWTProvider {
 
     JSONObject jsonObject = getData(seriesUrl, queryParams);
 
-    String filePath = "resources\\TVDBTest\\" + tvdbSeriesId + "_posters.json";
+    String filePath = "src\\test\\resources\\TVDBTest\\" + tvdbSeriesId + "_posters.json";
 
     writeResultToFile(filePath, jsonObject);
   }
@@ -173,7 +173,7 @@ class TVDBJWTProviderImpl implements TVDBJWTProvider {
 
     JSONObject episodeObject = getData(episodeUrl);
 
-    String filePath = "resources\\TVDBTest\\" + "E" + tvdbEpisodeId + ".json";
+    String filePath = "src\\test\\resources\\TVDBTest\\" + "E" + tvdbEpisodeId + ".json";
     writeResultToFile(filePath, episodeObject);
   }
 
