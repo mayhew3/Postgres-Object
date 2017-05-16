@@ -1,4 +1,4 @@
 setlocal
-echo Program is running
+echo Full Updater (Gradle) is running
 gradlew runSteamGames runMetacriticGames runTiVoFull
 endlocal

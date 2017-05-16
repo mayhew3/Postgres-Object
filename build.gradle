@@ -38,6 +38,12 @@ task runFinder(type:JavaExec) {
     args += 'Test'
 }
 
+task runProcessor(type:JavaExec) {
+    main = 'com.mayhew3.gamesutil.tv.TVDBUpdateProcessor'
+    classpath = sourceSets.main.runtimeClasspath
+    args += 'Heroku'
+}
+
 task runMetacritic(type:JavaExec) {
     main = 'com.mayhew3.gamesutil.tv.MetacriticTVUpdater'
     classpath = sourceSets.main.runtimeClasspath
@@ -72,7 +78,7 @@ task runSteamGames(type:JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     jvmArgs += '-Dwebdriver.chrome.driver="D:\\Projects\\mean_projects\\GamesDBUtil\\resources\\chromedriver.exe"'
     args += 'LogToFile'
-    args += 'Test'
+    args += 'Heroku'
 }
 
 run {
