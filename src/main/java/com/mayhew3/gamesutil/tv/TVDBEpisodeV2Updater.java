@@ -54,7 +54,6 @@ class TVDBEpisodeV2Updater {
    * @throws ShowFailedException If multiple episodes were found to update
    */
   EPISODE_RESULT updateSingleEpisode() throws SQLException, ShowFailedException, UnirestException, AuthenticationException {
-  debug("updateSingleEpisode...");
     JSONObject episodeData = tvdbjwtProvider.getEpisodeData(tvdbRemoteId);
 
     if (!episodeData.has("data")) {

@@ -352,8 +352,8 @@ public class TVDBSeriesV2Updater {
       tvdbSeries.commit(connection);
     }
 
-    String primaryPoster = updatePosters(tvdbID, tvdbSeries);
-    updateLinkedFieldsIfNotOverridden(series.poster, tvdbSeries.lastPoster, primaryPoster);
+    Optional<String> primaryPoster = updatePosters(tvdbID, tvdbSeries);
+    primaryPoster.ifPresent(poster -> updateLinkedFieldsIfNotOverridden(series.poster, tvdbSeries.lastPoster, poster));
 
     // only add change log if an existing series is changing, not for a new one.
     if (!isForInsert && tvdbSeries.hasChanged()) {
@@ -363,10 +363,14 @@ public class TVDBSeriesV2Updater {
     tvdbSeries.commit(connection);
   }
 
-  private @NotNull String updatePosters(Integer tvdbID, TVDBSeries tvdbSeries) throws UnirestException, AuthenticationException, SQLException {
+  private Optional<String> updatePosters(Integer tvdbID, TVDBSeries tvdbSeries) throws UnirestException, AuthenticationException, SQLException {
 
     JSONObject imageData = tvdbDataProvider.getPosterData(tvdbID);
     @NotNull JSONArray images = jsonReader.getArrayWithKey(imageData, "data");
+
+    if (images.length() == 0) {
+      return Optional.empty();
+    }
 
     JSONObject mostRecentImageObj = images.getJSONObject(images.length()-1);
     @NotNull String mostRecentImage = jsonReader.getStringWithKey(mostRecentImageObj, "fileName");
@@ -377,7 +381,7 @@ public class TVDBSeriesV2Updater {
       tvdbSeries.addPoster(filename, null, connection);
     }
 
-    return mostRecentImage;
+    return Optional.of(mostRecentImage);
   }
 
   private void updateEpisodeLastError(Integer tvdbEpisodeExtId) {
