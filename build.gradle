@@ -35,13 +35,15 @@ dependencies {
 task runFinder(type:JavaExec) {
     main = 'com.mayhew3.gamesutil.tv.TVDBUpdateFinder'
     classpath = sourceSets.main.runtimeClasspath
-    args += 'Test'
+    args += 'Heroku'
+    args += 'LogToFile'
 }
 
 task runProcessor(type:JavaExec) {
     main = 'com.mayhew3.gamesutil.tv.TVDBUpdateProcessor'
     classpath = sourceSets.main.runtimeClasspath
     args += 'Heroku'
+    args += 'LogToFile'
 }
 
 task runMetacritic(type:JavaExec) {
