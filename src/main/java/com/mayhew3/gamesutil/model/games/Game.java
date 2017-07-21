@@ -12,6 +12,7 @@ public class Game extends DataObject {
   public FieldValue<Timestamp> giantbomb_release_date = registerTimestampField("giantbomb_release_date", Nullability.NULLABLE);
   public FieldValue<Timestamp> howlong_updated = registerTimestampField("howlong_updated", Nullability.NULLABLE);
   public FieldValue<Timestamp> howlong_failed = registerTimestampField("howlong_failed", Nullability.NULLABLE);
+  public FieldValue<Timestamp> lastPlayed = registerTimestampField("last_played", Nullability.NULLABLE);
 
   public FieldValue<BigDecimal> metacritic = registerBigDecimalField("metacritic", Nullability.NULLABLE);
   public FieldValue<BigDecimal> guess = registerBigDecimalField("guess", Nullability.NULLABLE);
@@ -35,6 +36,7 @@ public class Game extends DataObject {
   public FieldValue<BigDecimal> howlong_all = registerBigDecimalField("howlong_all", Nullability.NULLABLE);
 
 
+
   public FieldValueInteger total = registerIntegerField("total", Nullability.NULLABLE);
   public FieldValueInteger totalinc = registerIntegerField("totalinc", Nullability.NULLABLE);
   public FieldValueInteger die1 = registerIntegerField("die1", Nullability.NULLABLE);
@@ -50,6 +52,7 @@ public class Game extends DataObject {
   public FieldValueInteger howlong_extras_confidence = registerIntegerField("howlong_extras_confidence", Nullability.NULLABLE);
   public FieldValueInteger howlong_completionist_confidence = registerIntegerField("howlong_completionist_confidence", Nullability.NULLABLE);
   public FieldValueInteger howlong_all_confidence = registerIntegerField("howlong_all_confidence", Nullability.NULLABLE);
+  public FieldValueInteger year = registerIntegerField("year", Nullability.NULLABLE);
 
   public FieldValueString title = registerStringField("title", Nullability.NOT_NULL);
   public FieldValueString platform = registerStringField("platform", Nullability.NOT_NULL);
@@ -75,7 +78,7 @@ public class Game extends DataObject {
   public FieldValueBoolean giantbomb_guess_confirmed = registerBooleanFieldAllowingNulls("giantbomb_guess_confirmed", Nullability.NULLABLE);
 
   public FieldValueString metacriticHint = registerStringField("metacritic_hint", Nullability.NULLABLE);
-  public FieldValueBoolean metacriticPage = registerBooleanFieldAllowingNulls("metacritic_page", Nullability.NOT_NULL);
+  public FieldValueBoolean metacriticPage = registerBooleanField("metacritic_page", Nullability.NOT_NULL).defaultValue(false);
   public FieldValueBoolean steam_cloud = registerBooleanFieldAllowingNulls("steam_cloud", Nullability.NULLABLE);
   public FieldValueBoolean steam_controller = registerBooleanFieldAllowingNulls("steam_controller", Nullability.NULLABLE);
   public FieldValueBoolean steam_local_coop = registerBooleanFieldAllowingNulls("steam_local_coop", Nullability.NULLABLE);

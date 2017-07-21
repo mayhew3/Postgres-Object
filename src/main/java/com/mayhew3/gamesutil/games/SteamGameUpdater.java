@@ -17,6 +17,7 @@ import java.net.URISyntaxException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class SteamGameUpdater extends DatabaseUtility {
@@ -29,13 +30,26 @@ public class SteamGameUpdater extends DatabaseUtility {
     String identifier = new ArgumentChecker(args).getDBIdentifier();
 
     if (logToFile) {
-      File file = new File("D:\\Projects\\mean_projects\\GamesDBUtil\\logs\\SteamUpdaterErrors.log");
-      FileOutputStream fos = new FileOutputStream(file, true);
-      PrintStream ps = new PrintStream(fos);
+      SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+      String dateFormatted = simpleDateFormat.format(new Date());
+
+      File errorFile = new File("D:\\Projects\\mean_projects\\GamesDBUtil\\logs\\SteamUpdaterErrors_" + dateFormatted + "_" + identifier + ".log");
+      FileOutputStream errorStream = new FileOutputStream(errorFile, true);
+      PrintStream ps = new PrintStream(errorStream);
       System.setErr(ps);
 
       System.err.println("Starting run on " + new Date());
+
+      File logFile = new File("D:\\Projects\\mean_projects\\GamesDBUtil\\logs\\SteamUpdaterLog_" + dateFormatted + "_" + identifier + ".log");
+      FileOutputStream logStream = new FileOutputStream(logFile, true);
+      PrintStream logPrintStream = new PrintStream(logStream);
+      System.setOut(logPrintStream);
     }
+
+
+    debug("");
+    debug("SESSION START! Date: " + new Date());
+    debug("");
 
     connection = new PostgresConnectionFactory().createConnection(identifier);
     updateFields();
