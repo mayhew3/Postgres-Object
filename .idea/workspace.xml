@@ -2,168 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1e099498-ec9e-4703-ab18-cce3963e4d0c" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/AtlantaDaylightSavings/SeriesDetail.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/AtlantaDaylightSavings/SeriesList.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/AtlantaDaylightSavings/SeriesListRecordingNow.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/TVDBTest/265374_episodes.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/TVDBTest/265374_posters.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/TVDBTest/265374_summary.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/TVDBTest/E5552985.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/TVDBTest/E5578415.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/TVDBTest/E5580497.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/TVDBTest/search_Inside Amy Schumer.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_09_42/00_index.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_09_42/American Crime_EP0317753099-0369664093.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_09_42/American Crime_EP0317753099-0370233423.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_09_42/Angie Tribeca_EP0318047152-0369261961.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_09_42/Angie Tribeca_EP0318047152-0369261962.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_09_42/Better Call Saul_EP0306092938-0369795786.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_09_42/Better Call Saul_EP0306092938-0370330261.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_09_42/Bob's Burgers_EP0165674492-0370601126.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_09_42/Bob's Burgers_EP0165674492-0370601127.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_09_42/Brooklyn Nine-Nine_EP0269674420-0369970883.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_09_42/Brooklyn Nine-Nine_EP0269674420-0370378037.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_09_42/Conan_EP0171093113-0370233367.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_09_42/Conan_EP0171093113-0370233368.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_09_42/Conan_EP0171093113-0370233369.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_09_42/Conan_EP0171093113-0370557198.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_09_42/Conan_EP0171093113-0370600252.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_09_42/Doctor Who_EP0049457552-0370330238.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_09_42/Fargo_EP0262724987-0369664041.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_09_42/Fargo_EP0262724987-0369664042.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_09_42/Frontline_EP0000017544-0368599308.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_09_42/Frontline_EP0000017544-0368599309.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_09_42/Full Frontal With Samantha Bee_EP0338187382-0368761933.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_09_42/Girls_EP0207829717-0369471673.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_09_42/Great News_EP0349153932-0355598820.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_09_42/Great News_EP0349153932-0370330362.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_09_42/Last Week Tonight With John Oliver_EP0309387513-0369471686.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_09_42/Last Week Tonight With John Oliver_EP0309387513-0369471687.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_09_42/Making History_EP0349153926-0370457275.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_09_42/Powerless_EP0349151181-0370379581.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_09_42/Seinfeld_EP0000016984-0000497864.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_09_42/Silicon Valley_EP0304811178-0370515062.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_09_42/The Americans_EP0244684015-0368896405.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_09_42/The Americans_EP0244684015-0368896408.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_09_42/The Expanse_EP0334289063-0369846940.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_09_42/The Graham Norton Show_EP0097361913-0369514479.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_09_42/The Graham Norton Show_EP0097361913-0370330141.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_09_42/The Last Man on Earth_EP0317679548-0369972592.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_09_42/The Late Show With Stephen Colbert_EP0314839233-0370601097.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_09_42/The Late Show With Stephen Colbert_EP0314839233-0370601098.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_09_42/The Late Show With Stephen Colbert_EP0314839233-0370601099.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_09_42/The Late Show With Stephen Colbert_EP0314839233-0370601100.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_09_42/The Late Show With Stephen Colbert_EP0314839233-0370601101.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_09_42/The Late Show With Stephen Colbert_EP0314839233-0370933684.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_09_42/The Late Show With Stephen Colbert_EP0314839233-0370933686.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_09_42/The Leftovers_EP0304811922-0353675178.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_09_42/The Leftovers_EP0304811922-0369615299.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_09_42/Veep_EP0207829648-0351525850.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_09_42/Veep_EP0207829648-0369846770.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_09_42/iZombie_EP0318047451-0369972566.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_09_42/iZombie_EP0318047451-0370600271.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/00_index.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/A Goodbye to Girls_EP0207829717-0369515458.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/American Crime_EP0317753099-0368718488.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/American Crime_EP0317753099-0369088414.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/American Crime_EP0317753099-0369471488.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/American Crime_EP0317753099-0369664093.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/American Crime_EP0317753099-0370233423.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Angie Tribeca_EP0318047152-0369261241.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Angie Tribeca_EP0318047152-0369261961.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Angie Tribeca_EP0318047152-0369261962.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Better Call Saul" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Better Call Saul_EP0306092938-0369471440.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Better Call Saul_EP0306092938-0369795786.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Better Call Saul_EP0306092938-0370330261.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Black Sails_EP0270535872-0368718378.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Black Sails_EP0270535872-0368718379.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Bob's Burgers_EP0165674492-0368761709.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Bob's Burgers_EP0165674492-0369365049.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Bob's Burgers_EP0165674492-0370601126.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Bob's Burgers_EP0165674492-0370601127.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Brooklyn Nine-Nine_EP0269674420-0369664044.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Brooklyn Nine-Nine_EP0269674420-0369970883.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Brooklyn Nine-Nine_EP0269674420-0370378037.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Colony_EP0334289068-0369088506.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Colony_EP0334289068-0369262621.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Conan_EP0171093113-0370233367.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Conan_EP0171093113-0370233368.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Conan_EP0171093113-0370233369.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Conan_EP0171093113-0370557198.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Conan_EP0171093113-0370600252.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Detroiters_EP0349146144-0368718719.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Detroiters_EP0349146144-0368897618.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Detroiters_EP0349146144-0369514544.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Doctor Who_EP0049457552-0369514478.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Doctor Who_EP0049457552-0370193068.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Doctor Who_EP0049457552-0370330238.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Fargo_EP0262724987-0369664041.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Fargo_EP0262724987-0369664042.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Frontline_EP0000017544-0368599308.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Frontline_EP0000017544-0368599309.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Full Frontal With Samantha Bee_EP0338187382-0368761933.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Full Frontal With Samantha Bee_EP0338187382-0369471433.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Girls_EP0207829717-0368718304.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Girls_EP0207829717-0368761734.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Girls_EP0207829717-0369471672.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Girls_EP0207829717-0369471673.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Great News_EP0349153932-0355598820.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Great News_EP0349153932-0370330362.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Homeland_EP0193655238-0368761731.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Homeland_EP0193655238-0368761732.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Homeland_EP0193655238-0369031995.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Last Week Tonight With John Oliver_EP0309387513-0368761798.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Last Week Tonight With John Oliver_EP0309387513-0369471685.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Last Week Tonight With John Oliver_EP0309387513-0369471686.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Last Week Tonight With John Oliver_EP0309387513-0369471687.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Making History_EP0349153926-0368761958.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Making History_EP0349153926-0369365065.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Making History_EP0349153926-0370457275.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Powerless_EP0349151181-0368718762.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Powerless_EP0349151181-0368720867.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Powerless_EP0349151181-0369847274.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Powerless_EP0349151181-0370379581.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Review_EP0303065687-0368896907.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Rick and Morty_EP0300402734-0351316420.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Seinfeld_EP0000016984-0000497864.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Silicon Valley_EP0304811178-0370515062.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/The Americans_EP0244684015-0368896404.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/The Americans_EP0244684015-0368896405.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/The Americans_EP0244684015-0368896406.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/The Americans_EP0244684015-0368896407.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/The Americans_EP0244684015-0368896408.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/The Expanse_EP0334289063-0368951238.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/The Expanse_EP0334289063-0369558797.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/The Expanse_EP0334289063-0369846939.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/The Expanse_EP0334289063-0369846940.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/The Graham Norton Show_EP0097361913-0369514479.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/The Graham Norton Show_EP0097361913-0370330141.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/The Last Man on Earth_EP0317679548-0368718491.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/The Last Man on Earth_EP0317679548-0368897240.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/The Last Man on Earth_EP0317679548-0369972592.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/The Late Show With Stephen Colbert_EP0314839233-0370601097.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/The Late Show With Stephen Colbert_EP0314839233-0370601098.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/The Late Show With Stephen Colbert_EP0314839233-0370601099.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/The Late Show With Stephen Colbert_EP0314839233-0370601100.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/The Late Show With Stephen Colbert_EP0314839233-0370601101.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/The Late Show With Stephen Colbert_EP0314839233-0370933684.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/The Late Show With Stephen Colbert_EP0314839233-0370933686.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/The Leftovers_EP0304811922-0353675178.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/The Leftovers_EP0304811922-0369615299.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/The Missing_EP0325428475-0367502201.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/The Missing_EP0325428475-0367502202.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/The Walking Dead" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/The Walking Dead_EP0170457235-0368718286.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/The Walking Dead_EP0170457235-0368761729.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Veep_EP0207829648-0351525850.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/Veep_EP0207829648-0369846770.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/iZombie_EP0318047451-0369470994.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/iZombie_EP0318047451-0369615306.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/iZombie_EP0318047451-0369972566.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/classes/test/GamesDBUtil/tivo_xml/2017_04_26_10_40_57/iZombie_EP0318047451-0370600271.xml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/SteamGameUpdater.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/SteamGameUpdater.java" />
     </list>
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -222,22 +62,48 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SteamGameUpdater.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="SteamGameUpdater.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/SteamGameUpdater.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="513">
-              <caret line="45" column="36" lean-forward="true" selection-start-line="45" selection-start-column="36" selection-end-line="45" selection-end-column="36" />
+            <state relative-caret-position="-1085">
+              <caret line="78" column="19" lean-forward="false" selection-start-line="78" selection-start-column="19" selection-end-line="78" selection-end-column="19" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/.gitignore">
+      <file leaf-file-name="BigDecimal.java" pinned="false" current-in-tab="false">
+        <entry file="jar://C:/Java/jdk1.8.0_72/src.zip!/java/math/BigDecimal.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="190">
-              <caret line="10" column="21" lean-forward="true" selection-start-line="10" selection-start-column="21" selection-end-line="10" selection-end-column="21" />
+            <state relative-caret-position="311">
+              <caret line="329" column="35" lean-forward="false" selection-start-line="329" selection-start-column="35" selection-end-line="329" selection-end-column="35" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DateTime.java" pinned="false" current-in-tab="false">
+        <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/joda-time/joda-time/2.6/828b58d9c5a47da48bc1bcc2515e0ffd3b2dbb07/joda-time-2.6-sources.jar!/org/joda/time/DateTime.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="360">
+              <caret line="1781" column="20" lean-forward="false" selection-start-line="1781" selection-start-column="20" selection-end-line="1781" selection-end-column="20" />
+              <folding>
+                <element signature="e#69734#69735#0" expanded="true" />
+                <element signature="e#69819#69820#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FieldValue.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/dataobject/FieldValue.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="684">
+              <caret line="48" column="11" lean-forward="false" selection-start-line="48" selection-start-column="11" selection-end-line="48" selection-end-column="11" />
+              <folding>
+                <element signature="e#1209#1210#0" expanded="true" />
+                <element signature="e#1238#1239#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -246,7 +112,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TiVoLibraryUpdater.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="456">
-              <caret line="40" column="24" lean-forward="true" selection-start-line="40" selection-start-column="24" selection-end-line="40" selection-end-column="24" />
+              <caret line="40" column="24" lean-forward="false" selection-start-line="40" selection-start-column="24" selection-end-line="40" selection-end-column="24" />
               <folding />
             </state>
           </provider>
@@ -255,8 +121,8 @@
       <file leaf-file-name="Game.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/model/games/Game.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="456">
-              <caret line="27" column="35" lean-forward="false" selection-start-line="27" selection-start-column="35" selection-end-line="27" selection-end-column="35" />
+            <state relative-caret-position="209">
+              <caret line="14" column="33" lean-forward="false" selection-start-line="14" selection-start-column="33" selection-end-line="14" selection-end-column="33" />
               <folding />
             </state>
           </provider>
@@ -268,28 +134,6 @@
             <state relative-caret-position="1083">
               <caret line="85" column="3" lean-forward="false" selection-start-line="85" selection-start-column="3" selection-end-line="85" selection-end-column="3" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TVSchemaHerokuTest.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/gamesutil/model/tv/TVSchemaHerokuTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="76">
-              <caret line="13" column="25" lean-forward="false" selection-start-line="13" selection-start-column="25" selection-end-line="13" selection-end-column="25" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GameSchemaHerokuTest.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/gamesutil/model/games/GameSchemaHerokuTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="171">
-              <caret line="18" column="62" lean-forward="false" selection-start-line="18" selection-start-column="62" selection-end-line="18" selection-end-column="62" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -319,6 +163,7 @@
       <find>played</find>
       <find>SteamGameUpdater</find>
       <find>runSteamGames</find>
+      <find>top</find>
     </findStrings>
     <replaceStrings>
       <replace>&lt;module name=&quot;GamesDBUtil_main&quot;</replace>
@@ -696,8 +541,8 @@
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateV2Runner.java" />
         <option value="$PROJECT_DIR$/src/test/java/com/mayhew3/gamesutil/model/games/GameSchemaHerokuTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/model/games/Game.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/SteamGameUpdater.java" />
         <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/SteamGameUpdater.java" />
       </list>
     </option>
   </component>
@@ -722,6 +567,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
@@ -745,8 +592,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scratches" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -788,7 +633,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.SteamGameUpdater (test/LogToFile)">
+  <component name="RunManager" selected="Gradle.GamesDBUtil [build]">
     <configuration name="DatabaseRecreatorTest (Demo)" type="JUnit" factoryName="JUnit">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="GamesDBUtil_test" />
@@ -2680,14 +2525,15 @@
     <frame x="-8" y="-8" width="2576" height="1586" extended-state="6" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32867646" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32866153" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3293623" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32866153" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3293623" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32866153" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.08306836" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.08426073" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32866153" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24068071" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -2697,7 +2543,6 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32867646" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -2733,26 +2578,18 @@
           <properties />
           <option name="timeStamp" value="4" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/SteamGameUpdater.java</url>
+          <line>171</line>
+          <properties />
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="5" />
+      <option name="time" value="6" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/dataobject/DataObject.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="114">
-          <caret line="6" column="32" lean-forward="false" selection-start-line="6" selection-start-column="32" selection-end-line="6" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/GamesDBUtil.iws">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../MMGradle/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="665">
@@ -2865,13 +2702,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="127">
-          <caret line="2512" column="50" lean-forward="false" selection-start-line="2512" selection-start-column="50" selection-end-line="2512" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateFinder.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="228">
@@ -2925,13 +2755,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="152">
           <caret line="9" column="14" lean-forward="false" selection-start-line="9" selection-start-column="14" selection-end-line="9" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/dataobject/FieldValue.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="703">
-          <caret line="49" column="0" lean-forward="false" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -3020,9 +2843,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="5016">
           <caret line="292" column="36" lean-forward="false" selection-start-line="292" selection-start-column="36" selection-end-line="292" selection-end-column="36" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -3030,7 +2850,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="76">
           <caret line="13" column="25" lean-forward="false" selection-start-line="13" selection-start-column="25" selection-end-line="13" selection-end-column="25" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3038,9 +2857,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="171">
           <caret line="18" column="62" lean-forward="false" selection-start-line="18" selection-start-column="62" selection-end-line="18" selection-end-column="62" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -3056,14 +2872,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1083">
           <caret line="85" column="3" lean-forward="false" selection-start-line="85" selection-start-column="3" selection-end-line="85" selection-end-column="3" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/model/games/Game.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="456">
-          <caret line="27" column="35" lean-forward="false" selection-start-line="27" selection-start-column="35" selection-end-line="27" selection-end-column="35" />
           <folding />
         </state>
       </provider>
@@ -3087,23 +2895,68 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TiVoLibraryUpdater.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="456">
-          <caret line="40" column="24" lean-forward="true" selection-start-line="40" selection-start-column="24" selection-end-line="40" selection-end-column="24" />
+          <caret line="40" column="24" lean-forward="false" selection-start-line="40" selection-start-column="24" selection-end-line="40" selection-end-column="24" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/SteamGameUpdater.java">
+    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="513">
-          <caret line="45" column="36" lean-forward="true" selection-start-line="45" selection-start-column="36" selection-end-line="45" selection-end-column="36" />
-          <folding />
+        <state relative-caret-position="127">
+          <caret line="2512" column="50" lean-forward="false" selection-start-line="2512" selection-start-column="50" selection-end-line="2512" selection-end-column="50" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="190">
-          <caret line="10" column="21" lean-forward="true" selection-start-line="10" selection-start-column="21" selection-end-line="10" selection-end-column="21" />
+          <caret line="10" column="21" lean-forward="false" selection-start-line="10" selection-start-column="21" selection-end-line="10" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/dataobject/FieldValue.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="684">
+          <caret line="48" column="11" lean-forward="false" selection-start-line="48" selection-start-column="11" selection-end-line="48" selection-end-column="11" />
+          <folding>
+            <element signature="e#1209#1210#0" expanded="true" />
+            <element signature="e#1238#1239#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/joda-time/joda-time/2.6/828b58d9c5a47da48bc1bcc2515e0ffd3b2dbb07/joda-time-2.6-sources.jar!/org/joda/time/DateTime.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="1781" column="20" lean-forward="false" selection-start-line="1781" selection-start-column="20" selection-end-line="1781" selection-end-column="20" />
+          <folding>
+            <element signature="e#69734#69735#0" expanded="true" />
+            <element signature="e#69819#69820#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Java/jdk1.8.0_72/src.zip!/java/math/BigDecimal.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="311">
+          <caret line="329" column="35" lean-forward="false" selection-start-line="329" selection-start-column="35" selection-end-line="329" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/model/games/Game.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="14" column="33" lean-forward="false" selection-start-line="14" selection-start-column="33" selection-end-line="14" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/SteamGameUpdater.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1085">
+          <caret line="78" column="19" lean-forward="false" selection-start-line="78" selection-start-column="19" selection-end-line="78" selection-end-column="19" />
           <folding />
         </state>
       </provider>

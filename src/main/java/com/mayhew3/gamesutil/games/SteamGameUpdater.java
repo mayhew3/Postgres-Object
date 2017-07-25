@@ -8,6 +8,7 @@ import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.model.games.Game;
 import com.mayhew3.gamesutil.model.games.GameLog;
+import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -100,7 +101,6 @@ public class SteamGameUpdater extends DatabaseUtility {
       }
 
       debug("Operation finished!");
-//      debug(jsonObject);
     } catch (IOException e) {
       debug("Error reading from URL: " + fullURL);
       e.printStackTrace();
@@ -167,22 +167,22 @@ public class SteamGameUpdater extends DatabaseUtility {
     game.title.changeValue(name);
     game.owned.changeValue("owned");
 
-    BigDecimal previousPlaytime = game.playtime.getValue();
+    BigDecimal previousPlaytime = game.playtime.getValue() == null ? BigDecimal.ZERO : game.playtime.getValue();
     if (!(playtime.compareTo(previousPlaytime) == 0)) {
-      if (previousPlaytime != null) {
-        logUpdateToPlaytime(name, steamID, previousPlaytime, playtime);
-      }
+      logUpdateToPlaytime(name, steamID, previousPlaytime, playtime);
       game.playtime.changeValue(playtime);
+      game.lastPlayed.changeValue(new Timestamp(bumpDateIfLateNight().toDate().getTime()));
     }
     game.commit(connection);
   }
 
   private static void addNewGame(String name, Integer steamID, BigDecimal playtime, String icon, String logo, Game game) throws SQLException {
+    game.initializeForInsert();
+
     if (playtime.compareTo(BigDecimal.ZERO) > 0) {
       logUpdateToPlaytime(name, steamID, BigDecimal.ZERO, playtime);
+      game.lastPlayed.changeValue(new Timestamp(bumpDateIfLateNight().toDate().getTime()));
     }
-
-    game.initializeForInsert();
 
     game.platform.changeValue("Steam");
     game.owned.changeValue("owned");
@@ -215,4 +215,17 @@ public class SteamGameUpdater extends DatabaseUtility {
   }
 
 
+  /**
+   * Most of the time this updater runs at 4:45am, so if this method is called between 12am and 7am, and new playtime is
+   * found, assume for now that it was played the previous day. Arbitrarily put 8pm.
+   * @return The current timestamp if it is after 7am, or 8pm the previous day otherwise.
+   */
+  private static DateTime bumpDateIfLateNight() {
+    DateTime today = new DateTime(new Date());
+    if (today.getHourOfDay() > 7) {
+      return today;
+    } else {
+      return today.minusDays(1).withHourOfDay(20);
+    }
+  }
 }
