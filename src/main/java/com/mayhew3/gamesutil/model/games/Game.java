@@ -89,6 +89,7 @@ public class Game extends DataObject {
 
   public FieldValueBoolean started = registerBooleanFieldAllowingNulls("started", Nullability.NULLABLE);
   public FieldValueBoolean include = registerBooleanFieldAllowingNulls("include", Nullability.NULLABLE);
+  public FieldValueBoolean naturalEnd = registerBooleanField("natural_end", Nullability.NOT_NULL).defaultValue(true);
 
   @Override
   public String getTableName() {
