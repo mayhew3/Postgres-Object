@@ -78,7 +78,7 @@ task runMetacriticGames(type:JavaExec) {
 task runSteamGames(type:JavaExec) {
     main = 'com.mayhew3.gamesutil.games.SteamGameUpdater'
     classpath = sourceSets.main.runtimeClasspath
-    jvmArgs += '-Dwebdriver.chrome.driver="D:\\Projects\\mean_projects\\GamesDBUtil\\resources\\chromedriver.exe"'
+    jvmArgs += '-Dwebdriver.chrome.driver="D:\\Code\\git\\media-mogul-data\\resources\\chromedriver.exe"'
     args += 'LogToFile'
     args += 'Heroku'
 }

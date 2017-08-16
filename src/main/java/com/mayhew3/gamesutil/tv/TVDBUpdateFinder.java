@@ -89,7 +89,9 @@ public class TVDBUpdateFinder {
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
     String dateFormatted = simpleDateFormat.format(new Date());
 
-    File file = new File("D:\\Projects\\mean_projects\\GamesDBUtil\\logs\\TVDBUpdateFinder_" + dateFormatted + ".log");
+    String mediaMogulLogs = System.getenv("MediaMogulLogs");
+
+    File file = new File(mediaMogulLogs + "\\TVDBUpdateFinder_" + dateFormatted + ".log");
     FileOutputStream fos = new FileOutputStream(file, true);
     logOutput = new PrintStream(fos);
 

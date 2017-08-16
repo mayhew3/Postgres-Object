@@ -34,14 +34,16 @@ public class SteamGameUpdater extends DatabaseUtility {
       SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
       String dateFormatted = simpleDateFormat.format(new Date());
 
-      File errorFile = new File("D:\\Projects\\mean_projects\\GamesDBUtil\\logs\\SteamUpdaterErrors_" + dateFormatted + "_" + identifier + ".log");
+      String mediaMogulLogs = System.getenv("MediaMogulLogs");
+
+      File errorFile = new File(mediaMogulLogs + "\\SteamUpdaterErrors_" + dateFormatted + "_" + identifier + ".log");
       FileOutputStream errorStream = new FileOutputStream(errorFile, true);
       PrintStream ps = new PrintStream(errorStream);
       System.setErr(ps);
 
       System.err.println("Starting run on " + new Date());
 
-      File logFile = new File("D:\\Projects\\mean_projects\\GamesDBUtil\\logs\\SteamUpdaterLog_" + dateFormatted + "_" + identifier + ".log");
+      File logFile = new File(mediaMogulLogs + "\\SteamUpdaterLog_" + dateFormatted + "_" + identifier + ".log");
       FileOutputStream logStream = new FileOutputStream(logFile, true);
       PrintStream logPrintStream = new PrintStream(logStream);
       System.setOut(logPrintStream);

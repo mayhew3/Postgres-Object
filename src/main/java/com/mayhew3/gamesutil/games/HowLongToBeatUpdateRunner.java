@@ -35,7 +35,9 @@ public class HowLongToBeatUpdateRunner {
     String identifier = new ArgumentChecker(args).getDBIdentifier();
 
     if (logToFile) {
-      File file = new File("D:\\Projects\\mean_projects\\GamesDBUtil\\logs\\HowLongToBeatUpdater.log");
+      String mediaMogulLogs = System.getenv("MediaMogulLogs");
+
+      File file = new File(mediaMogulLogs + "\\HowLongToBeatUpdater.log");
       FileOutputStream fos = new FileOutputStream(file, true);
       PrintStream ps = new PrintStream(fos);
       System.setErr(ps);

@@ -34,7 +34,9 @@ public class TiVoLibraryUpdater {
       SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
       String dateFormatted = simpleDateFormat.format(new Date());
 
-      File file = new File("D:\\Projects\\mean_projects\\GamesDBUtil\\logs\\TiVoUpdaterPostgres_" + dateFormatted + "_" + identifier + ".log");
+      String mediaMogulLogs = System.getenv("MediaMogulLogs");
+
+      File file = new File(mediaMogulLogs + "\\TiVoUpdaterPostgres_" + dateFormatted + "_" + identifier + ".log");
       FileOutputStream fos = new FileOutputStream(file, true);
       PrintStream ps = new PrintStream(fos);
       System.setErr(ps);

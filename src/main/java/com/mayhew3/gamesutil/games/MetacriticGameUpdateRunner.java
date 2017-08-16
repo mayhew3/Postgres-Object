@@ -28,7 +28,9 @@ public class MetacriticGameUpdateRunner {
     String identifier = new ArgumentChecker(args).getDBIdentifier();
 
     if (logToFile) {
-      File file = new File("D:\\Projects\\mean_projects\\GamesDBUtil\\logs\\MetacriticGameUpdater.log");
+      String mediaMogulLogs = System.getenv("MediaMogulLogs");
+
+      File file = new File(mediaMogulLogs + "\\MetacriticGameUpdater.log");
       FileOutputStream fos = new FileOutputStream(file, true);
       PrintStream ps = new PrintStream(fos);
       System.setErr(ps);
