@@ -2,27 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1e099498-ec9e-4703-ab18-cce3963e4d0c" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/CommandPrompt.cmd" afterPath="$PROJECT_DIR$/scripts/CommandPrompt.cmd" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/media-mogul-data CMD.lnk" afterPath="$PROJECT_DIR$/scripts/media-mogul-data CMD.lnk" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/BackupPostgresLocalDB.bat" afterPath="$PROJECT_DIR$/scripts/old/BackupPostgresLocalDB.bat" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/CopyPostgresLocalToTestDB.bat" afterPath="$PROJECT_DIR$/scripts/old/CopyPostgresLocalToTestDB.bat" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/MongoDBGames.lnk" afterPath="$PROJECT_DIR$/scripts/old/MongoDBGames.lnk" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/RestartLocalNode.cmd" afterPath="$PROJECT_DIR$/scripts/old/RestartLocalNode.cmd" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/RestorePostgresLocalDB.bat" afterPath="$PROJECT_DIR$/scripts/old/RestorePostgresLocalDB.bat" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/RestorePostgresLocalGamesDB.bat" afterPath="$PROJECT_DIR$/scripts/old/RestorePostgresLocalGamesDB.bat" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/RunPostgresUpdater.bat" afterPath="$PROJECT_DIR$/scripts/old/RunPostgresUpdater.bat" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/RunQuickUpdater.bat" afterPath="$PROJECT_DIR$/scripts/old/RunQuickUpdater.bat" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/RunQuickUpdaterHeroku.bat" afterPath="$PROJECT_DIR$/scripts/old/RunQuickUpdaterHeroku.bat" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/RunQuickUpdaterTest.bat" afterPath="$PROJECT_DIR$/scripts/old/RunQuickUpdaterTest.bat" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/RunSteamUpdater.bat" afterPath="$PROJECT_DIR$/scripts/old/RunSteamUpdater.bat" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/RunTVDBFinderHeroku.bat" afterPath="$PROJECT_DIR$/scripts/old/RunTVDBFinderHeroku.bat" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/RunTVDBProcessorHeroku.bat" afterPath="$PROJECT_DIR$/scripts/old/RunTVDBProcessorHeroku.bat" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/RunTVUpdaterTest.bat" afterPath="$PROJECT_DIR$/scripts/old/RunTVUpdaterTest.bat" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/RunUpdater.bat" afterPath="$PROJECT_DIR$/scripts/old/RunUpdater.bat" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/RunUpdaterHeroku.bat" afterPath="$PROJECT_DIR$/scripts/old/RunUpdaterHeroku.bat" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/gradlew.bat" afterPath="$PROJECT_DIR$/gradlew.bat" />
     </list>
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -74,8 +54,8 @@
       <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="190">
-              <caret line="10" column="21" lean-forward="true" selection-start-line="10" selection-start-column="21" selection-end-line="10" selection-end-column="21" />
+            <state relative-caret-position="133">
+              <caret line="7" column="8" lean-forward="true" selection-start-line="7" selection-start-column="8" selection-end-line="7" selection-end-column="8" />
               <folding />
             </state>
           </provider>
@@ -2597,7 +2577,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3293623" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32866153" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13593005" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1554054" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32866153" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24068071" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -3022,8 +3002,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="10" column="21" lean-forward="true" selection-start-line="10" selection-start-column="21" selection-end-line="10" selection-end-column="21" />
+        <state relative-caret-position="133">
+          <caret line="7" column="8" lean-forward="true" selection-start-line="7" selection-start-column="8" selection-end-line="7" selection-end-column="8" />
           <folding />
         </state>
       </provider>
