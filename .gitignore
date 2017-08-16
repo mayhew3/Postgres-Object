@@ -3,7 +3,7 @@ out/
 lib/
 logs/
 sh.exe.stackdump
-GamesDBUtil CMD.lnk
+scripts/media-mogul-data CMD.lnk
 logging.properties
 .gradle/
 /build/

@@ -2,34 +2,27 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1e099498-ec9e-4703-ab18-cce3963e4d0c" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/BackupPostgresHerokuDB.bat" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/BackupPostgresLocalDB.bat" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/BackupPostgresLocalTestDB.bat" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/CommandPrompt.cmd" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/CopyPostgresHerokuToTestDB.bat" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/CopyPostgresLocalToTestDB.bat" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/RestartLocalNode.cmd" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/RestorePostgresHerokuDB.bat" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/RestorePostgresLocalDB.bat" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/RestorePostgresLocalGamesDB.bat" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/RestorePostgresLocalTestDB.bat" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/RunPostgresUpdater.bat" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/RunQuickUpdater.bat" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/RunQuickUpdaterGradle.bat" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/RunQuickUpdaterHeroku.bat" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/RunQuickUpdaterTest.bat" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/RunSteamUpdater.bat" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/RunTVDBFinderGradle.bat" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/RunTVDBFinderHeroku.bat" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/RunTVDBProcessorGradle.bat" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/RunTVDBProcessorHeroku.bat" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/RunTVUpdaterTest.bat" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/RunUpdater.bat" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/RunUpdaterGradle.bat" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/RunUpdaterHeroku.bat" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/gradlew.bat" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/MongoDBGames.lnk" afterPath="$PROJECT_DIR$/scripts/MongoDBGames.lnk" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/CommandPrompt.cmd" afterPath="$PROJECT_DIR$/scripts/CommandPrompt.cmd" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/media-mogul-data CMD.lnk" afterPath="$PROJECT_DIR$/scripts/media-mogul-data CMD.lnk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/BackupPostgresLocalDB.bat" afterPath="$PROJECT_DIR$/scripts/old/BackupPostgresLocalDB.bat" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/CopyPostgresLocalToTestDB.bat" afterPath="$PROJECT_DIR$/scripts/old/CopyPostgresLocalToTestDB.bat" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/MongoDBGames.lnk" afterPath="$PROJECT_DIR$/scripts/old/MongoDBGames.lnk" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/RestartLocalNode.cmd" afterPath="$PROJECT_DIR$/scripts/old/RestartLocalNode.cmd" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/RestorePostgresLocalDB.bat" afterPath="$PROJECT_DIR$/scripts/old/RestorePostgresLocalDB.bat" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/RestorePostgresLocalGamesDB.bat" afterPath="$PROJECT_DIR$/scripts/old/RestorePostgresLocalGamesDB.bat" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/RunPostgresUpdater.bat" afterPath="$PROJECT_DIR$/scripts/old/RunPostgresUpdater.bat" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/RunQuickUpdater.bat" afterPath="$PROJECT_DIR$/scripts/old/RunQuickUpdater.bat" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/RunQuickUpdaterHeroku.bat" afterPath="$PROJECT_DIR$/scripts/old/RunQuickUpdaterHeroku.bat" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/RunQuickUpdaterTest.bat" afterPath="$PROJECT_DIR$/scripts/old/RunQuickUpdaterTest.bat" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/RunSteamUpdater.bat" afterPath="$PROJECT_DIR$/scripts/old/RunSteamUpdater.bat" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/RunTVDBFinderHeroku.bat" afterPath="$PROJECT_DIR$/scripts/old/RunTVDBFinderHeroku.bat" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/RunTVDBProcessorHeroku.bat" afterPath="$PROJECT_DIR$/scripts/old/RunTVDBProcessorHeroku.bat" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/RunTVUpdaterTest.bat" afterPath="$PROJECT_DIR$/scripts/old/RunTVUpdaterTest.bat" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/RunUpdater.bat" afterPath="$PROJECT_DIR$/scripts/old/RunUpdater.bat" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/RunUpdaterHeroku.bat" afterPath="$PROJECT_DIR$/scripts/old/RunUpdaterHeroku.bat" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/gradlew.bat" afterPath="$PROJECT_DIR$/gradlew.bat" />
     </list>
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -78,51 +71,81 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="false">
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="171">
-              <caret line="9" column="8" lean-forward="false" selection-start-line="9" selection-start-column="8" selection-end-line="9" selection-end-column="8" />
+            <state relative-caret-position="190">
+              <caret line="10" column="21" lean-forward="true" selection-start-line="10" selection-start-column="21" selection-end-line="10" selection-end-column="21" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="build.gradle" pinned="false" current-in-tab="true">
+      <file leaf-file-name="build.gradle" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/build.gradle">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="682">
-              <caret line="83" column="1" lean-forward="true" selection-start-line="83" selection-start-column="1" selection-end-line="83" selection-end-column="1" />
+            <state relative-caret-position="245">
+              <caret line="60" column="1" lean-forward="true" selection-start-line="60" selection-start-column="1" selection-end-line="60" selection-end-column="1" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GiantBombUpdater.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/GiantBombUpdater.java">
+      <file leaf-file-name="BackupPostgresLocalTestDB.bat" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/scripts/BackupPostgresLocalTestDB.bat">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="361">
-              <caret line="47" column="45" lean-forward="false" selection-start-line="47" selection-start-column="45" selection-end-line="47" selection-end-column="45" />
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="HowLongToBeatUpdateRunner.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/HowLongToBeatUpdateRunner.java">
+      <file leaf-file-name="CommandPrompt.cmd" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/scripts/CommandPrompt.cmd">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="417">
-              <caret line="43" column="24" lean-forward="false" selection-start-line="43" selection-start-column="24" selection-end-line="43" selection-end-column="24" />
+            <state relative-caret-position="38">
+              <caret line="2" column="3" lean-forward="true" selection-start-line="2" selection-start-column="3" selection-end-line="2" selection-end-column="3" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MetacriticGameUpdateRunner.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/MetacriticGameUpdateRunner.java">
+      <file leaf-file-name="RunSteamUpdater.bat" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/scripts/old/RunSteamUpdater.bat">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="342">
-              <caret line="32" column="45" lean-forward="false" selection-start-line="32" selection-start-column="45" selection-end-line="32" selection-end-column="45" />
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RunQuickUpdater.bat" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/scripts/old/RunQuickUpdater.bat">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="gradlew" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/gradlew">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="570">
+              <caret line="30" column="19" lean-forward="true" selection-start-line="30" selection-start-column="19" selection-end-line="30" selection-end-column="19" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="gradlew.bat" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/gradlew.bat">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="380">
+              <caret line="20" column="0" lean-forward="true" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -133,26 +156,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="349">
               <caret line="35" column="45" lean-forward="false" selection-start-line="35" selection-start-column="45" selection-end-line="35" selection-end-column="45" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TVDBUpdateFinder.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateFinder.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="349">
-              <caret line="93" column="43" lean-forward="false" selection-start-line="93" selection-start-column="43" selection-end-line="93" selection-end-column="43" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TVDBUpdateProcessor.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateProcessor.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="444">
-              <caret line="243" column="29" lean-forward="false" selection-start-line="243" selection-start-column="29" selection-end-line="243" selection-end-column="29" />
               <folding />
             </state>
           </provider>
@@ -550,7 +553,6 @@
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBEpisodeV2Updater.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateV2Runner.java" />
         <option value="$PROJECT_DIR$/src/test/java/com/mayhew3/gamesutil/model/games/GameSchemaHerokuTest.java" />
-        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/model/games/Game.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TiVoLibraryUpdater.java" />
         <option value="$PROJECT_DIR$/CommandPrompt.cmd" />
@@ -562,6 +564,8 @@
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/SteamAttributeUpdateRunner.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/SteamGameUpdater.java" />
         <option value="$PROJECT_DIR$/build.gradle" />
+        <option value="$PROJECT_DIR$/scripts/CommandPrompt.cmd" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -623,10 +627,11 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Code\git\media-mogul-data" />
+      <recent name="D:\Code\git\media-mogul-data\scripts\old" />
       <recent name="D:\Code\git\media-mogul-data\scripts" />
       <recent name="D:\Projects\mean_projects\GamesDBUtil\src\test\resources" />
       <recent name="D:\Projects\mean_projects\GamesDBUtil\src\test\java" />
-      <recent name="D:\Projects\mean_projects\GamesDBUtil\src\main\java" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.mayhew3.gamesutil.model.games" />
@@ -2582,6 +2587,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="2576" height="1586" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32866153" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -2591,7 +2597,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3293623" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32866153" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13593005" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13593005" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32866153" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24068071" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -2643,42 +2649,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../MMGradle/build.gradle" />
-    <entry file="file://$PROJECT_DIR$/.idea/workspace (Restored) 05-12-2017 22.24.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="654">
-          <caret line="2444" column="73" lean-forward="false" selection-start-line="2444" selection-start-column="73" selection-end-line="2444" selection-end-column="73" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/gamesutil/dataobject/TiVoLocalProvider.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="310">
-          <caret line="30" column="0" lean-forward="false" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/gamesutil/tv/TVDBSeriesV2UpdaterTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="310">
-          <caret line="44" column="60" lean-forward="false" selection-start-line="44" selection-start-column="60" selection-end-line="44" selection-end-column="60" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/gamesutil/tv/TiVoMatchExistingTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="26" column="20" lean-forward="false" selection-start-line="26" selection-start-column="20" selection-end-line="26" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBXMLFetcher.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="19" column="40" lean-forward="false" selection-start-line="19" selection-start-column="40" selection-end-line="19" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBLocalJSONProvider.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="114">
@@ -2986,14 +2956,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="9" column="8" lean-forward="false" selection-start-line="9" selection-start-column="8" selection-end-line="9" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/BackupPostgresHerokuDB.bat">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="266">
@@ -3002,10 +2964,66 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/old/RunSteamUpdater.bat">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/old/RunQuickUpdater.bat">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gradlew">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="570">
+          <caret line="30" column="19" lean-forward="true" selection-start-line="30" selection-start-column="19" selection-end-line="30" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gradlew.bat">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="380">
+          <caret line="20" column="0" lean-forward="true" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="682">
-          <caret line="83" column="1" lean-forward="true" selection-start-line="83" selection-start-column="1" selection-end-line="83" selection-end-column="1" />
+        <state relative-caret-position="245">
+          <caret line="60" column="1" lean-forward="true" selection-start-line="60" selection-start-column="1" selection-end-line="60" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/BackupPostgresLocalTestDB.bat">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/CommandPrompt.cmd">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="38">
+          <caret line="2" column="3" lean-forward="true" selection-start-line="2" selection-start-column="3" selection-end-line="2" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="190">
+          <caret line="10" column="21" lean-forward="true" selection-start-line="10" selection-start-column="21" selection-end-line="10" selection-end-column="21" />
           <folding />
         </state>
       </provider>
