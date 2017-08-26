@@ -1,13 +1,14 @@
 package com.mayhew3.gamesutil.tv;
 
 import com.mayhew3.gamesutil.ArgumentChecker;
+import com.mayhew3.gamesutil.UpdateRunner;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
 
 import java.net.URISyntaxException;
 import java.sql.SQLException;
 
-public class SeriesDenormUpdater {
+public class SeriesDenormUpdater implements UpdateRunner {
 
   private SQLConnection connection;
 
@@ -20,10 +21,15 @@ public class SeriesDenormUpdater {
     SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
 
     SeriesDenormUpdater updater = new SeriesDenormUpdater(connection);
-    updater.updateFields();
+    updater.runUpdate();
   }
 
-  public void updateFields() throws SQLException {
+  @Override
+  public String getRunnerName() {
+    return "Series Denorm Updater";
+  }
+
+  public void runUpdate() throws SQLException {
     debug("Updating denorms...");
     updateUnmatchedEpisodes();
     updateActiveEpisodes();

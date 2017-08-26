@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.mayhew3.gamesutil.ArgumentChecker;
 import com.mayhew3.gamesutil.DatabaseUtility;
+import com.mayhew3.gamesutil.UpdateRunner;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.model.games.Game;
@@ -21,11 +22,11 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class SteamGameUpdater extends DatabaseUtility {
+public class SteamGameUpdater extends DatabaseUtility implements UpdateRunner {
 
   private SQLConnection connection;
 
-  SteamGameUpdater(SQLConnection connection) {
+  public SteamGameUpdater(SQLConnection connection) {
     this.connection = connection;
   }
 
@@ -59,13 +60,13 @@ public class SteamGameUpdater extends DatabaseUtility {
 
     SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
     SteamGameUpdater steamGameUpdater = new SteamGameUpdater(connection);
-    steamGameUpdater.updateFields();
+    steamGameUpdater.runUpdate();
 
     debug(" --- ");
     debug(" Full operation complete!");
   }
 
-  void updateFields() throws SQLException {
+  public void runUpdate() throws SQLException {
     Map<Integer, String> unfoundGames = new HashMap<>();
     ArrayList<String> duplicateGames = new ArrayList<>();
 
@@ -212,5 +213,10 @@ public class SteamGameUpdater extends DatabaseUtility {
     } else {
       return today.minusDays(1).withHourOfDay(20);
     }
+  }
+
+  @Override
+  public String getRunnerName() {
+    return "Steam Game Updater";
   }
 }

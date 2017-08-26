@@ -89,7 +89,7 @@ public class TVDBDuplicateDataFixer {
     TVDBDuplicateDataFixer dataFixer = new TVDBDuplicateDataFixer(connection);
     dataFixer.runUpdate();
 
-    new SeriesDenormUpdater(connection).updateFields();
+    new SeriesDenormUpdater(connection).runUpdate();
   }
 
   private void runUpdate() throws SQLException {

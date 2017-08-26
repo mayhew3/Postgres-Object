@@ -83,6 +83,13 @@ task runSteamGames(type:JavaExec) {
     args += 'Heroku'
 }
 
+task runQuickBatchUpdater(type:JavaExec) {
+    main = 'com.mayhew3.gamesutil.QuickBatchUpdater'
+    classpath = sourceSets.main.runtimeClasspath
+    args += 'LogToFile'
+    args += 'Heroku'
+}
+
 run {
     args += 'Test'
 }

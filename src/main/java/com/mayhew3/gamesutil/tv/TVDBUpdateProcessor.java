@@ -41,6 +41,8 @@ public class TVDBUpdateProcessor {
 
   private TVDBConnectionLog tvdbConnectionLog;
 
+  private String identifier;
+
   private static PrintStream originalStream = System.out;
 
   private static Boolean logToFile = false;
@@ -53,28 +55,29 @@ public class TVDBUpdateProcessor {
   @SuppressWarnings("FieldCanBeLocal")
   private final Integer ERROR_THRESHOLD = 3;
 
-  private TVDBUpdateProcessor(SQLConnection connection, TVDBJWTProvider tvdbjwtProvider, JSONReader jsonReader) {
+  private TVDBUpdateProcessor(SQLConnection connection, TVDBJWTProvider tvdbjwtProvider, JSONReader jsonReader, String identifier) {
     this.connection = connection;
     this.tvdbjwtProvider = tvdbjwtProvider;
     this.jsonReader = jsonReader;
+    this.identifier = identifier;
   }
 
   public static void main(String... args) throws UnirestException, URISyntaxException, SQLException, InterruptedException, FileNotFoundException {
     List<String> argList = Lists.newArrayList(args);
     logToFile = argList.contains("LogToFile");
 
+    String identifier = new ArgumentChecker(args).getDBIdentifier();
+
     if (logToFile) {
-      openLogStream();
+      openLogStream(identifier);
     }
 
     debug("");
     debug("SESSION START! Date: " + new Date());
     debug("");
 
-    String identifier = new ArgumentChecker(args).getDBIdentifier();
-
     SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
-    TVDBUpdateProcessor tvdbUpdateRunner = new TVDBUpdateProcessor(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl());
+    TVDBUpdateProcessor tvdbUpdateRunner = new TVDBUpdateProcessor(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), identifier);
 
     tvdbUpdateRunner.runUpdater();
   }
@@ -84,7 +87,7 @@ public class TVDBUpdateProcessor {
 
     while (true) {
       if (logToFile && logOutput == null) {
-        openLogStream();
+        openLogStream(identifier);
       }
 
       debug(new Date());
@@ -230,13 +233,13 @@ public class TVDBUpdateProcessor {
     updater.updateSeries();
   }
 
-  private static void openLogStream() throws FileNotFoundException {
+  private static void openLogStream(String identifier) throws FileNotFoundException {
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
     String dateFormatted = simpleDateFormat.format(new Date());
 
     String mediaMogulLogs = System.getenv("MediaMogulLogs");
 
-    File file = new File(mediaMogulLogs + "\\TVDBUpdateProcessor_" + dateFormatted + ".log");
+    File file = new File(mediaMogulLogs + "\\TVDBUpdateProcessor_" + dateFormatted + "_" + identifier + ".log");
     FileOutputStream fos = new FileOutputStream(file, true);
     logOutput = new PrintStream(fos);
 

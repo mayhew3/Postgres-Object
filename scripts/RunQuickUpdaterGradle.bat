@@ -1,5 +1,5 @@
 setlocal
 echo Program is running
 cd ..
-gradlew runMetacritic runTiVoQuick
+gradlew runQuickBatchUpdater
 endlocal

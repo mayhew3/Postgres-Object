@@ -21,10 +21,10 @@ import java.util.List;
 import java.util.Map;
 
 
-class TVDBJWTProviderImpl implements TVDBJWTProvider {
+public class TVDBJWTProviderImpl implements TVDBJWTProvider {
   private String token = null;
 
-  TVDBJWTProviderImpl() throws UnirestException {
+  public TVDBJWTProviderImpl() throws UnirestException {
     if (token == null) {
       token = getToken();
     }

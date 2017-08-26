@@ -56,8 +56,8 @@ public class TiVoLibraryUpdater {
 
     if (!tvdbOnly) {
       try {
-        TiVoCommunicator tiVoCommunicator = new TiVoCommunicator(connection, new RemoteFileDownloader(saveTiVoXML));
-        tiVoCommunicator.runUpdate(nightly);
+        TiVoCommunicator tiVoCommunicator = new TiVoCommunicator(connection, new RemoteFileDownloader(saveTiVoXML), nightly);
+        tiVoCommunicator.runUpdate();
       } catch (BadlyFormattedXMLException e) {
         debug("Error parsing TiVo XML.");
         e.printStackTrace();
@@ -69,8 +69,8 @@ public class TiVoLibraryUpdater {
 
     if (!tiVoOnly) {
       try {
-        TVDBUpdateV2Runner tvdbUpdateRunner = new TVDBUpdateV2Runner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl());
-        tvdbUpdateRunner.runUpdate(TVDBUpdateType.SMART);
+        TVDBUpdateV2Runner tvdbUpdateRunner = new TVDBUpdateV2Runner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), TVDBUpdateType.SMART);
+        tvdbUpdateRunner.runUpdate();
       } catch (SQLException e) {
         debug("Error downloading info from TVDB service.");
         e.printStackTrace();
@@ -82,8 +82,8 @@ public class TiVoLibraryUpdater {
 
     if (!tiVoOnly) {
       try {
-        TVDBSeriesV2MatchRunner tvdbUpdateRunner = new TVDBSeriesV2MatchRunner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl());
-        tvdbUpdateRunner.runUpdate(TVDBUpdateType.SMART);
+        TVDBSeriesV2MatchRunner tvdbUpdateRunner = new TVDBSeriesV2MatchRunner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), TVDBUpdateType.SMART);
+        tvdbUpdateRunner.runUpdate();
       } catch (SQLException e) {
         debug("Error trying to match series with TVDB.");
         e.printStackTrace();
@@ -106,8 +106,8 @@ public class TiVoLibraryUpdater {
     // update any shows that haven't been run in a while
     if (nightly) {
       try {
-        TVDBUpdateV2Runner tvdbUpdateV2Runner = new TVDBUpdateV2Runner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl());
-        tvdbUpdateV2Runner.runUpdate(TVDBUpdateType.SANITY);
+        TVDBUpdateV2Runner tvdbUpdateV2Runner = new TVDBUpdateV2Runner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), TVDBUpdateType.SANITY);
+        tvdbUpdateV2Runner.runUpdate();
       } catch (UnirestException e) {
         debug("Uncaught exception during TVDB sanity check.");
         e.printStackTrace();
@@ -128,7 +128,7 @@ public class TiVoLibraryUpdater {
     try {
       debug("Updating denorms...");
       SeriesDenormUpdater denormUpdater = new SeriesDenormUpdater(connection);
-      denormUpdater.updateFields();
+      denormUpdater.runUpdate();
       debug("Denorms updated.");
     } catch (Exception e) {
       debug("Error updating series denorms.");

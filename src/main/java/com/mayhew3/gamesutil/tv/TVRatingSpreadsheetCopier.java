@@ -33,7 +33,7 @@ public class TVRatingSpreadsheetCopier {
     TVRatingSpreadsheetCopier spreadsheetCopier = new TVRatingSpreadsheetCopier(connection);
     spreadsheetCopier.runUpdate();
 
-    new SeriesDenormUpdater(connection).updateFields();
+    new SeriesDenormUpdater(connection).runUpdate();
 }
 
   private void runUpdate() throws SQLException {

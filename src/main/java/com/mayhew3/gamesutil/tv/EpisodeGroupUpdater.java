@@ -37,12 +37,12 @@ public class EpisodeGroupUpdater {
     updater.updateEpisodeGroups(currentYear);
   }
 
-  EpisodeGroupUpdater(SQLConnection connection) {
+  public EpisodeGroupUpdater(SQLConnection connection) {
     this.connection = connection;
   }
 
   @SuppressWarnings("SameParameterValue")
-  void updateEpisodeGroups(Integer year) throws SQLException {
+  public void updateEpisodeGroups(Integer year) throws SQLException {
     String sql = "select s.*\n" +
         "from episode e\n" +
         "inner join series s\n" +

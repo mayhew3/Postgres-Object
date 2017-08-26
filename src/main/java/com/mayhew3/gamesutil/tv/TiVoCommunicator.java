@@ -3,6 +3,7 @@ package com.mayhew3.gamesutil.tv;
 import com.google.common.collect.Lists;
 import com.mayhew3.gamesutil.ArgumentChecker;
 import com.mayhew3.gamesutil.SSLTool;
+import com.mayhew3.gamesutil.UpdateRunner;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.model.tv.*;
@@ -30,7 +31,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class TiVoCommunicator {
+public class TiVoCommunicator implements UpdateRunner {
 
   private Boolean lookAtAllShows = false;
   private List<String> episodesOnTiVo;
@@ -44,12 +45,13 @@ public class TiVoCommunicator {
   private static SQLConnection sqlConnection;
   private TiVoDataProvider tiVoDataProvider;
 
-  public TiVoCommunicator(SQLConnection connection, TiVoDataProvider tiVoDataProvider) {
+  public TiVoCommunicator(SQLConnection connection, TiVoDataProvider tiVoDataProvider, Boolean updateAllShows) {
     episodesOnTiVo = new ArrayList<>();
     moviesOnTiVo = new ArrayList<>();
     nodeReader = new NodeReaderImpl();
     sqlConnection = connection;
     this.tiVoDataProvider = tiVoDataProvider;
+    lookAtAllShows = updateAllShows;
   }
 
   public static void main(String[] args) throws UnknownHostException, SQLException, URISyntaxException, BadlyFormattedXMLException {
@@ -62,20 +64,18 @@ public class TiVoCommunicator {
 
     SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
 
-    TiVoCommunicator tiVoCommunicator = new TiVoCommunicator(connection, new RemoteFileDownloader(saveTiVoXML));
+    TiVoCommunicator tiVoCommunicator = new TiVoCommunicator(connection, new RemoteFileDownloader(saveTiVoXML), lookAtAllShows);
 
     if (dev) {
       tiVoCommunicator.truncateTables();
     }
 
-    tiVoCommunicator.runUpdate(lookAtAllShows);
+    tiVoCommunicator.runUpdate();
 
-    new SeriesDenormUpdater(connection).updateFields();
+    new SeriesDenormUpdater(connection).runUpdate();
   }
 
-  public void runUpdate(Boolean updateAllShows) throws SQLException, BadlyFormattedXMLException {
-
-    lookAtAllShows = updateAllShows;
+  public void runUpdate() throws SQLException, BadlyFormattedXMLException {
 
     SSLTool.disableCertificateValidation();
 
@@ -764,6 +764,12 @@ public class TiVoCommunicator {
 
   protected void debug(Object object) {
     System.out.println(object);
+  }
+
+  @Override
+  public String getRunnerName() {
+    String qualifier = lookAtAllShows ? "(Long)" : "(Short)";
+    return "TiVo Communicator " + qualifier;
   }
 
 

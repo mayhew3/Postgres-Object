@@ -45,7 +45,7 @@ public class SeriesMerger {
     SeriesMerger seriesMerger = new SeriesMerger(unmatchedSeries.get(), baseSeries.get(), connection);
     seriesMerger.executeMerge();
 
-    new SeriesDenormUpdater(connection).updateFields();
+    new SeriesDenormUpdater(connection).runUpdate();
   }
 
   void executeMerge() throws SQLException, ShowFailedException {

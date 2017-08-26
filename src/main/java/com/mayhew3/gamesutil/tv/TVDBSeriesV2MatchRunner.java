@@ -3,6 +3,7 @@ package com.mayhew3.gamesutil.tv;
 import com.google.common.collect.Lists;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mayhew3.gamesutil.ArgumentChecker;
+import com.mayhew3.gamesutil.UpdateRunner;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.model.tv.*;
@@ -22,7 +23,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-public class TVDBSeriesV2MatchRunner {
+public class TVDBSeriesV2MatchRunner implements UpdateRunner {
 
   private enum SeriesUpdateResult {UPDATE_SUCCESS, UPDATE_FAILED}
 
@@ -32,16 +33,18 @@ public class TVDBSeriesV2MatchRunner {
   private JSONReader jsonReader;
 
   private TVDBConnectionLog tvdbConnectionLog;
+  private TVDBUpdateType updateType;
 
   private final Integer ERROR_THRESHOLD = 3;
 
   @SuppressWarnings("FieldCanBeLocal")
   private final Integer ERROR_FOLLOW_UP_THRESHOLD_IN_DAYS = 7;
 
-  TVDBSeriesV2MatchRunner(SQLConnection connection, TVDBJWTProvider tvdbjwtProvider, JSONReader jsonReader) {
+  public TVDBSeriesV2MatchRunner(SQLConnection connection, TVDBJWTProvider tvdbjwtProvider, JSONReader jsonReader, TVDBUpdateType updateType) {
     this.connection = connection;
     this.tvdbjwtProvider = tvdbjwtProvider;
     this.jsonReader = jsonReader;
+    this.updateType = updateType;
   }
 
   public static void main(String... args) throws URISyntaxException, SQLException, UnirestException {
@@ -54,31 +57,31 @@ public class TVDBSeriesV2MatchRunner {
     String identifier = new ArgumentChecker(args).getDBIdentifier();
 
     SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
-    TVDBSeriesV2MatchRunner tvdbUpdateRunner = new TVDBSeriesV2MatchRunner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl());
+    TVDBSeriesV2MatchRunner tvdbUpdateRunner;
 
     if (singleSeries) {
-      tvdbUpdateRunner.runUpdate(TVDBUpdateType.SINGLE);
+      tvdbUpdateRunner = new TVDBSeriesV2MatchRunner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), TVDBUpdateType.SINGLE);
     } else if (smartMode) {
-      tvdbUpdateRunner.runUpdate(TVDBUpdateType.SMART);
+      tvdbUpdateRunner = new TVDBSeriesV2MatchRunner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), TVDBUpdateType.SMART);
     } else if (fewErrors) {
-      tvdbUpdateRunner.runUpdate(TVDBUpdateType.FEW_ERRORS);
+      tvdbUpdateRunner = new TVDBSeriesV2MatchRunner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), TVDBUpdateType.FEW_ERRORS);
     } else if (oldErrors) {
-      tvdbUpdateRunner.runUpdate(TVDBUpdateType.OLD_ERRORS);
+      tvdbUpdateRunner = new TVDBSeriesV2MatchRunner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), TVDBUpdateType.OLD_ERRORS);
     } else if (episodeMatch) {
-      tvdbUpdateRunner.runUpdate(TVDBUpdateType.EPISODE_MATCH);
+      tvdbUpdateRunner = new TVDBSeriesV2MatchRunner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), TVDBUpdateType.EPISODE_MATCH);
     } else {
-      tvdbUpdateRunner.runUpdate(TVDBUpdateType.FULL);
+      tvdbUpdateRunner = new TVDBSeriesV2MatchRunner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), TVDBUpdateType.FIRST_PASS);
     }
-
+    tvdbUpdateRunner.runUpdate();
   }
 
-  public void runUpdate(@NotNull TVDBUpdateType updateType) throws SQLException, UnirestException {
+  public void runUpdate() throws SQLException {
 
     initializeConnectionLog(updateType);
 
     try {
-      if (updateType.equals(TVDBUpdateType.FULL)) {
-        runUpdate();
+      if (updateType.equals(TVDBUpdateType.FIRST_PASS)) {
+        runFirstPassUpdate();
       } else if (updateType.equals(TVDBUpdateType.SMART)) {
         runSmartUpdate();
       } else if (updateType.equals(TVDBUpdateType.FEW_ERRORS)) {
@@ -112,13 +115,18 @@ public class TVDBSeriesV2MatchRunner {
     tvdbConnectionLog.updateType.changeValue(updateType.getTypekey() + " (match only)");
   }
 
+  @Override
+  public String getRunnerName() {
+    return "TVDB Series Matcher";
+  }
+
   /**
    * Go to theTVDB and update all series in my DB with the ones from theirs.
    *
    * @throws SQLException if query to get series to update fails. Any one series update will not halt operation of the
    *                    script, but if the query to find all the serieses fails, the operation can't continue.
    */
-  public void runUpdate() throws SQLException {
+  private void runFirstPassUpdate() throws SQLException {
     String sql = "select *\n" +
         "from series\n" +
         "where tvdb_match_status = ? " +
@@ -149,7 +157,7 @@ public class TVDBSeriesV2MatchRunner {
     debug("-- STARTING UPDATE FOR NEEDS FIRST PASS SHOWS WITH NO ERRORS -- ");
     debug("");
 
-    runUpdate();
+    runFirstPassUpdate();
 
     debug("");
     debug("-- STARTING UPDATE FOR RECENTLY FAILED SHOWS WITH FEW ERRORS -- ");

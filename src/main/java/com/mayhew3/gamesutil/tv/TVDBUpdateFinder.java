@@ -41,6 +41,8 @@ public class TVDBUpdateFinder {
 
   private Timestamp lastUpdated;
 
+  private String identifier;
+
   private static PrintStream originalStream = System.out;
 
   private static Boolean logToFile = false;
@@ -50,10 +52,11 @@ public class TVDBUpdateFinder {
   @SuppressWarnings("FieldCanBeLocal")
   private Integer SECONDS = 120;
 
-  public TVDBUpdateFinder(SQLConnection connection, TVDBJWTProvider tvdbjwtProvider, JSONReader jsonReader) {
+  public TVDBUpdateFinder(SQLConnection connection, TVDBJWTProvider tvdbjwtProvider, JSONReader jsonReader, String identifier) {
     this.connection = connection;
     this.tvdbjwtProvider = tvdbjwtProvider;
     this.jsonReader = jsonReader;
+    this.identifier = identifier;
   }
 
   public static void main(String... args) throws UnirestException, URISyntaxException, SQLException, InterruptedException, FileNotFoundException, AuthenticationException {
@@ -62,19 +65,18 @@ public class TVDBUpdateFinder {
     boolean lastWeek = argList.contains("LastWeek");
     boolean healthCheck = argList.contains("HealthCheck");
 
-    if (logToFile) {
-      openLogStream();
-    }
+    String identifier = new ArgumentChecker(args).getDBIdentifier();
 
+    if (logToFile) {
+      openLogStream(identifier);
+    }
 
     debug("");
     debug("SESSION START! Date: " + new Date());
     debug("");
 
-    String identifier = new ArgumentChecker(args).getDBIdentifier();
-
     SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
-    TVDBUpdateFinder tvdbUpdateRunner = new TVDBUpdateFinder(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl());
+    TVDBUpdateFinder tvdbUpdateRunner = new TVDBUpdateFinder(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), identifier);
 
     if (lastWeek) {
       tvdbUpdateRunner.fillInGapsFromPastWeek();
@@ -85,13 +87,13 @@ public class TVDBUpdateFinder {
     }
   }
 
-  private static void openLogStream() throws FileNotFoundException {
+  private static void openLogStream(String identifier) throws FileNotFoundException {
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
     String dateFormatted = simpleDateFormat.format(new Date());
 
     String mediaMogulLogs = System.getenv("MediaMogulLogs");
 
-    File file = new File(mediaMogulLogs + "\\TVDBUpdateFinder_" + dateFormatted + ".log");
+    File file = new File(mediaMogulLogs + "\\TVDBUpdateFinder_" + dateFormatted + "_" + identifier + ".log");
     FileOutputStream fos = new FileOutputStream(file, true);
     logOutput = new PrintStream(fos);
 
@@ -112,7 +114,7 @@ public class TVDBUpdateFinder {
 
     while (true) {
       if (logToFile && logOutput == null) {
-        openLogStream();
+        openLogStream(identifier);
       }
 
       debug(new Date());

@@ -1,6 +1,6 @@
 package com.mayhew3.gamesutil.tv;
 
-enum TVDBUpdateType {
+public enum TVDBUpdateType {
   FULL("Full"),
   SMART("Smart"),
   FEW_ERRORS("FewErrors"),
@@ -11,7 +11,8 @@ enum TVDBUpdateType {
   AIRTIMES("AirTimes"),
   SANITY("Sanity"),
   SERVICE("Service"),
-  EPISODE_MATCH("EpisodeMatch");
+  EPISODE_MATCH("EpisodeMatch"),
+  FIRST_PASS("FirstPass");
 
   private final String typekey;
 
