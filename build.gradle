@@ -8,7 +8,7 @@ repositories {
     // You can declare any Maven/Ivy/file repository here.
     jcenter()
     flatDir {
-        dirs 'D:\\Program Files (x86)\\JetBrains\\IntelliJ IDEA Community Edition 2017.1\\redist'
+        dirs "$System.env.IDEA_ANNOTATIONS_DIR"
     }
 }
 
