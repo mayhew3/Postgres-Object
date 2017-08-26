@@ -2,9 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1e099498-ec9e-4703-ab18-cce3963e4d0c" name="Default" comment="Move annotation directory">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/SteamGameUpdateRunner.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build.gradle" afterPath="$PROJECT_DIR$/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateV2Runner.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateV2Runner.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/SteamAttributeUpdateRunner.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/SteamAttributeUpdateRunner.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/SteamGameUpdater.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/SteamGameUpdater.java" />
     </list>
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -54,36 +55,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="CommandPrompt.cmd" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/scripts/CommandPrompt.cmd">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="38">
-              <caret line="2" column="3" lean-forward="false" selection-start-line="2" selection-start-column="3" selection-end-line="2" selection-end-column="3" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CopyPostgresHerokuToTestDB.bat" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/scripts/CopyPostgresHerokuToTestDB.bat">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RestorePostgresHerokuDB.bat" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/scripts/RestorePostgresHerokuDB.bat">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="RunUpdaterGradle.bat" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/scripts/RunUpdaterGradle.bat">
           <provider selected="true" editor-type-id="text-editor">
@@ -116,11 +87,67 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="build.gradle" pinned="false" current-in-tab="true">
+      <file leaf-file-name="build.gradle" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/build.gradle">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="589">
-              <caret line="31" column="44" lean-forward="false" selection-start-line="31" selection-start-column="44" selection-end-line="31" selection-end-column="44" />
+            <state relative-caret-position="532">
+              <caret line="28" column="31" lean-forward="false" selection-start-line="28" selection-start-column="31" selection-end-line="28" selection-end-column="31" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SteamGameUpdater.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/SteamGameUpdater.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="513">
+              <caret line="46" column="0" lean-forward="true" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
+              <folding>
+                <element signature="e#861#862#0" expanded="true" />
+                <element signature="e#899#900#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ArgumentChecker.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/ArgumentChecker.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="171">
+              <caret line="13" column="16" lean-forward="false" selection-start-line="13" selection-start-column="16" selection-end-line="13" selection-end-column="16" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SteamGameUpdateRunner.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/SteamGameUpdateRunner.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="494">
+              <caret line="63" column="79" lean-forward="false" selection-start-line="63" selection-start-column="79" selection-end-line="63" selection-end-column="79" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SteamAttributeUpdateRunner.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/SteamAttributeUpdateRunner.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="513">
+              <caret line="41" column="0" lean-forward="true" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
+              <folding>
+                <element signature="e#698#699#0" expanded="true" />
+                <element signature="e#736#737#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DatabaseUtility.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/DatabaseUtility.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="133">
+              <caret line="21" column="0" lean-forward="true" selection-start-line="17" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -535,8 +562,6 @@
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateProcessor.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/HowLongToBeatUpdateRunner.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/MetacriticGameUpdateRunner.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/SteamAttributeUpdateRunner.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/SteamGameUpdater.java" />
         <option value="$PROJECT_DIR$/scripts/CommandPrompt.cmd" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/scripts/RunTVDBProcessorGradle.bat" />
@@ -547,6 +572,9 @@
         <option value="$PROJECT_DIR$/scripts/RunTVDBFinderGradle.bat" />
         <option value="$PROJECT_DIR$/scripts/RunTVDBFinderGradle.cmd" />
         <option value="$PROJECT_DIR$/scripts/RunAndOutput.cmd" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/SteamGameUpdateRunner.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/SteamGameUpdater.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/SteamAttributeUpdateRunner.java" />
       </list>
     </option>
   </component>
@@ -579,7 +607,6 @@
     </navigator>
     <panes>
       <pane id="PackagesPane" />
-      <pane id="Scratches" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -628,10 +655,20 @@
               <item name="gamesutil" type="462c0819:PsiDirectoryNode" />
               <item name="dataobject" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="media-mogul-data" type="b2602c69:ProjectViewProjectNode" />
+              <item name="media-mogul-data" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="gamesutil" type="462c0819:PsiDirectoryNode" />
+              <item name="games" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -650,18 +687,19 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Projects\mean_projects\GamesDBUtil" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.mayhew3.gamesutil.games" />
+      <recent name="com.mayhew3.gamesutil.model.games" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\Code\git\media-mogul-data" />
       <recent name="D:\Code\git\media-mogul-data\scripts" />
       <recent name="D:\Code\git\media-mogul-data\scripts\old" />
       <recent name="D:\Projects\mean_projects\GamesDBUtil\src\test\resources" />
       <recent name="D:\Projects\mean_projects\GamesDBUtil\src\test\java" />
-    </key>
-    <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="com.mayhew3.gamesutil.model.games" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\Projects\mean_projects\GamesDBUtil" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -676,7 +714,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.TiVoCommunicator (Heroku/Quick)">
+  <component name="RunManager" selected="Application.SteamGameUpdater (test)">
     <configuration name="DatabaseRecreatorTest (Demo)" type="JUnit" factoryName="JUnit">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="media-mogul-data_test" />
@@ -2600,20 +2638,20 @@
     <frame x="-8" y="-8" width="2576" height="1586" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16255961" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32866153" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32866153" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3293623" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32866153" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3293623" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16494435" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24046105" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3994394" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32866153" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -2647,9 +2685,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/RunQuickUpdaterHeroku.bat" />
-    <entry file="file://$PROJECT_DIR$/RunTVDBProcessorGradle.bat" />
-    <entry file="file://$PROJECT_DIR$/IO.gradle" />
     <entry file="file://$PROJECT_DIR$/RunUpdaterHeroku.bat" />
     <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBEpisodeV2Updater.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -2774,20 +2809,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="342">
           <caret line="32" column="45" lean-forward="false" selection-start-line="32" selection-start-column="45" selection-end-line="32" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/SteamAttributeUpdateRunner.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="349">
-          <caret line="35" column="45" lean-forward="false" selection-start-line="35" selection-start-column="45" selection-end-line="35" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/SteamGameUpdater.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="596">
-          <caret line="51" column="0" lean-forward="false" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -2924,9 +2945,55 @@
     <entry file="file://$PROJECT_DIR$/scripts/RunTVDBFinderGradle.cmd" />
     <entry file="file://$PROJECT_DIR$/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="589">
-          <caret line="31" column="44" lean-forward="false" selection-start-line="31" selection-start-column="44" selection-end-line="31" selection-end-column="44" />
+        <state relative-caret-position="532">
+          <caret line="28" column="31" lean-forward="false" selection-start-line="28" selection-start-column="31" selection-end-line="28" selection-end-column="31" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/DatabaseUtility.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="133">
+          <caret line="21" column="0" lean-forward="true" selection-start-line="17" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/ArgumentChecker.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="171">
+          <caret line="13" column="16" lean-forward="false" selection-start-line="13" selection-start-column="16" selection-end-line="13" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/SteamGameUpdater.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="513">
+          <caret line="46" column="0" lean-forward="true" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
+          <folding>
+            <element signature="e#861#862#0" expanded="true" />
+            <element signature="e#899#900#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/SteamGameUpdateRunner.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="494">
+          <caret line="63" column="79" lean-forward="false" selection-start-line="63" selection-start-column="79" selection-end-line="63" selection-end-column="79" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/SteamAttributeUpdateRunner.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="513">
+          <caret line="41" column="0" lean-forward="true" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
+          <folding>
+            <element signature="e#698#699#0" expanded="true" />
+            <element signature="e#736#737#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -20,7 +20,7 @@ public class SteamAttributeUpdateRunner {
 
   private SQLConnection connection;
 
-  public SteamAttributeUpdateRunner(SQLConnection connection) {
+  SteamAttributeUpdateRunner(SQLConnection connection) {
     this.connection = connection;
   }
 
@@ -55,7 +55,7 @@ public class SteamAttributeUpdateRunner {
 
   }
 
-  public void runSteamAttributeUpdate() throws SQLException {
+  void runSteamAttributeUpdate() throws SQLException {
     String sql = "SELECT * FROM games WHERE steamid is not null AND steam_attributes IS NULL AND steam_page_gone IS NULL";
     ResultSet resultSet = connection.executeQuery(sql);
 

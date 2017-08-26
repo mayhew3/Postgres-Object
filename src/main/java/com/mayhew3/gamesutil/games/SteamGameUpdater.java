@@ -23,7 +23,11 @@ import java.util.*;
 
 public class SteamGameUpdater extends DatabaseUtility {
 
-  private static SQLConnection connection;
+  private SQLConnection connection;
+
+  SteamGameUpdater(SQLConnection connection) {
+    this.connection = connection;
+  }
 
   public static void main(String... args) throws SQLException, FileNotFoundException, URISyntaxException, InterruptedException {
     List<String> argList = Lists.newArrayList(args);
@@ -49,42 +53,21 @@ public class SteamGameUpdater extends DatabaseUtility {
       System.setOut(logPrintStream);
     }
 
-
     debug("");
     debug("SESSION START! Date: " + new Date());
     debug("");
 
-    connection = new PostgresConnectionFactory().createConnection(identifier);
-    updateFields();
-
-    debug(" --- ");
-    debug(" Finished Steam API section, starting attribute update!");
-    debug(" --- ");
-
-    SteamAttributeUpdateRunner steamAttributeUpdateRunner = new SteamAttributeUpdateRunner(connection);
-    steamAttributeUpdateRunner.runSteamAttributeUpdate();
-
-    debug(" --- ");
-    debug(" Finished Steam Attribute section, starting HowLongToBeat update!");
-    debug(" --- ");
-
-    HowLongToBeatUpdateRunner howLongToBeatUpdateRunner = new HowLongToBeatUpdateRunner(connection);
-    howLongToBeatUpdateRunner.runUpdate();
-
-    debug(" --- ");
-    debug(" Finished HowLongToBeat section, starting GiantBomb update!");
-    debug(" --- ");
-
-    GiantBombUpdater giantBombUpdater = new GiantBombUpdater(connection);
-    giantBombUpdater.updateFieldsOnUnmatched();
+    SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
+    SteamGameUpdater steamGameUpdater = new SteamGameUpdater(connection);
+    steamGameUpdater.updateFields();
 
     debug(" --- ");
     debug(" Full operation complete!");
   }
 
-  public static void updateFields() throws SQLException {
-    Map<Integer, String> unfoundGames = new HashMap<Integer, String>();
-    ArrayList<String> duplicateGames = new ArrayList<String>();
+  void updateFields() throws SQLException {
+    Map<Integer, String> unfoundGames = new HashMap<>();
+    ArrayList<String> duplicateGames = new ArrayList<>();
 
     String fullURL = getFullUrl();
 
@@ -129,7 +112,7 @@ public class SteamGameUpdater extends DatabaseUtility {
 
   }
 
-  private static void processSteamGame(Map<Integer, String> unfoundGames, ArrayList<String> duplicateGames, JSONObject jsonGame) throws SQLException {
+  private void processSteamGame(Map<Integer, String> unfoundGames, ArrayList<String> duplicateGames, JSONObject jsonGame) throws SQLException {
     String name = jsonGame.getString("name");
     Integer steamID = jsonGame.getInt("appid");
     BigDecimal playtime = new BigDecimal(jsonGame.getInt("playtime_forever"));
@@ -163,7 +146,7 @@ public class SteamGameUpdater extends DatabaseUtility {
     }
   }
 
-  private static void updateGame(String name, Integer steamID, BigDecimal playtime, String icon, String logo, Game game) throws SQLException {
+  private void updateGame(String name, Integer steamID, BigDecimal playtime, String icon, String logo, Game game) throws SQLException {
     game.logo.changeValue(logo);
     game.icon.changeValue(icon);
     game.title.changeValue(name);
@@ -178,7 +161,7 @@ public class SteamGameUpdater extends DatabaseUtility {
     game.commit(connection);
   }
 
-  private static void addNewGame(String name, Integer steamID, BigDecimal playtime, String icon, String logo, Game game) throws SQLException {
+  private void addNewGame(String name, Integer steamID, BigDecimal playtime, String icon, String logo, Game game) throws SQLException {
     game.initializeForInsert();
 
     if (playtime.compareTo(BigDecimal.ZERO) > 0) {
@@ -200,7 +183,7 @@ public class SteamGameUpdater extends DatabaseUtility {
     game.commit(connection);
   }
 
-  private static void logUpdateToPlaytime(String name, Integer steamID, BigDecimal previousPlaytime, BigDecimal updatedPlaytime) throws SQLException {
+  private void logUpdateToPlaytime(String name, Integer steamID, BigDecimal previousPlaytime, BigDecimal updatedPlaytime) throws SQLException {
     GameLog gameLog = new GameLog();
     gameLog.initializeForInsert();
 
