@@ -1,7 +1,7 @@
 package com.mayhew3.gamesutil.tv;
 
 import com.mayhew3.gamesutil.ArgumentChecker;
-import com.mayhew3.gamesutil.UpdateRunner;
+import com.mayhew3.gamesutil.scheduler.UpdateRunner;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
 

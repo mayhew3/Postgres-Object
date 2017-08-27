@@ -5,6 +5,7 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.games.SteamGameUpdater;
+import com.mayhew3.gamesutil.scheduler.UpdateRunner;
 import com.mayhew3.gamesutil.tv.*;
 import com.mayhew3.gamesutil.xml.JSONReaderImpl;
 

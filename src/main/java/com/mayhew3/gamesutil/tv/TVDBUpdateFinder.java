@@ -1,7 +1,7 @@
 package com.mayhew3.gamesutil.tv;
 
 import com.mashape.unirest.http.exceptions.UnirestException;
-import com.mayhew3.gamesutil.UpdateRunner;
+import com.mayhew3.gamesutil.scheduler.UpdateRunner;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.model.tv.Series;
 import com.mayhew3.gamesutil.model.tv.TVDBWorkItem;

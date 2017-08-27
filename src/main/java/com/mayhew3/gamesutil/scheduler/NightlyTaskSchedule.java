@@ -1,4 +1,4 @@
-package com.mayhew3.gamesutil;
+package com.mayhew3.gamesutil.scheduler;
 
 import org.jetbrains.annotations.NotNull;
 import org.joda.time.DateTime;

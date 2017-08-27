@@ -1,4 +1,4 @@
-package com.mayhew3.gamesutil;
+package com.mayhew3.gamesutil.scheduler;
 
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mayhew3.gamesutil.xml.BadlyFormattedXMLException;

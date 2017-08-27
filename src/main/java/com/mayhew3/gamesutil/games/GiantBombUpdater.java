@@ -2,7 +2,7 @@ package com.mayhew3.gamesutil.games;
 
 import com.google.common.collect.Lists;
 import com.mayhew3.gamesutil.ArgumentChecker;
-import com.mayhew3.gamesutil.UpdateRunner;
+import com.mayhew3.gamesutil.scheduler.UpdateRunner;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.model.games.Game;

@@ -3,7 +3,7 @@ package com.mayhew3.gamesutil.tv;
 import com.google.common.collect.Lists;
 import com.mayhew3.gamesutil.ArgumentChecker;
 import com.mayhew3.gamesutil.SSLTool;
-import com.mayhew3.gamesutil.UpdateRunner;
+import com.mayhew3.gamesutil.scheduler.UpdateRunner;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.model.tv.*;

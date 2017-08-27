@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.mayhew3.gamesutil.ArgumentChecker;
 import com.mayhew3.gamesutil.DatabaseUtility;
-import com.mayhew3.gamesutil.UpdateRunner;
+import com.mayhew3.gamesutil.scheduler.UpdateRunner;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.model.games.Game;
