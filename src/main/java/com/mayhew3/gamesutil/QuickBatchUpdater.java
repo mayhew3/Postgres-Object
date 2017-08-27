@@ -8,6 +8,7 @@ import com.mayhew3.gamesutil.games.SteamGameUpdater;
 import com.mayhew3.gamesutil.tv.*;
 import com.mayhew3.gamesutil.xml.BadlyFormattedXMLException;
 import com.mayhew3.gamesutil.xml.JSONReaderImpl;
+import org.apache.http.auth.AuthenticationException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -81,11 +82,9 @@ public class QuickBatchUpdater {
       try {
         updateRunner.runUpdate();
         debug("Finished execution of updater '" + runnerName + "'");
-      } catch (BadlyFormattedXMLException e) {
-        debug("Error parsing XML during update: " + runnerName);
+      } catch (Exception e) {
+        debug("Error during update: " + runnerName);
         e.printStackTrace();
-      } catch (SQLException e) {
-        debug("SQL error during update: " + runnerName);
       }
     }
 

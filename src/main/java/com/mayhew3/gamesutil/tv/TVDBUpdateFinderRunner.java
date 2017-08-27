@@ -33,7 +33,7 @@ import java.util.stream.Collectors;
 
 import static java.lang.Thread.sleep;
 
-public class TVDBUpdateFinder {
+public class TVDBUpdateFinderRunner {
 
   private SQLConnection connection;
   private TVDBJWTProvider tvdbjwtProvider;
@@ -52,7 +52,7 @@ public class TVDBUpdateFinder {
   @SuppressWarnings("FieldCanBeLocal")
   private Integer SECONDS = 120;
 
-  public TVDBUpdateFinder(SQLConnection connection, TVDBJWTProvider tvdbjwtProvider, JSONReader jsonReader, String identifier) {
+  public TVDBUpdateFinderRunner(SQLConnection connection, TVDBJWTProvider tvdbjwtProvider, JSONReader jsonReader, String identifier) {
     this.connection = connection;
     this.tvdbjwtProvider = tvdbjwtProvider;
     this.jsonReader = jsonReader;
@@ -76,7 +76,7 @@ public class TVDBUpdateFinder {
     debug("");
 
     SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
-    TVDBUpdateFinder tvdbUpdateRunner = new TVDBUpdateFinder(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), identifier);
+    TVDBUpdateFinderRunner tvdbUpdateRunner = new TVDBUpdateFinderRunner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), identifier);
 
     if (lastWeek) {
       tvdbUpdateRunner.fillInGapsFromPastWeek();
@@ -389,7 +389,7 @@ public class TVDBUpdateFinder {
     System.out.println(message);
   }
 
-  private class TVDBUpdate {
+  class TVDBUpdate {
     private Integer tvdbSeriesExtId;
     private Timestamp tvdbLastUpdated;
 
