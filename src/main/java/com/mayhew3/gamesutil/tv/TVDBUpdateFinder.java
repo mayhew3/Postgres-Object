@@ -21,7 +21,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
-public class TVDBUpdateFinderObj implements UpdateRunner {
+public class TVDBUpdateFinder implements UpdateRunner {
 
   private JSONReader jsonReader;
   private TVDBJWTProvider tvdbjwtProvider;
@@ -30,7 +30,7 @@ public class TVDBUpdateFinderObj implements UpdateRunner {
 
   private Timestamp lastUpdated;
 
-  public TVDBUpdateFinderObj(JSONReader jsonReader, TVDBJWTProvider tvdbjwtProvider, SQLConnection connection) {
+  public TVDBUpdateFinder(JSONReader jsonReader, TVDBJWTProvider tvdbjwtProvider, SQLConnection connection) {
     this.jsonReader = jsonReader;
     this.tvdbjwtProvider = tvdbjwtProvider;
     this.connection = connection;

@@ -68,7 +68,7 @@ public class TaskScheduleRunner {
   }
 
   private void createTaskList() {
-    addPeriodicTask(new TVDBUpdateFinderObj(jsonReader, tvdbjwtProvider, connection), 120);
+    addPeriodicTask(new TVDBUpdateFinder(jsonReader, tvdbjwtProvider, connection), 120);
     addPeriodicTask(new TiVoCommunicator(connection, new RemoteFileDownloader(false), false), 600);
   }
 
