@@ -1,4 +1,4 @@
-package com.mayhew3.gamesutil.tv;
+package com.mayhew3.gamesutil.tv.utility;
 
 import com.mayhew3.gamesutil.ArgumentChecker;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
@@ -11,11 +11,7 @@ import java.net.URISyntaxException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.time.Instant;
-import java.time.OffsetDateTime;
-import java.time.ZoneId;
 import java.util.Optional;
-import java.util.TimeZone;
 
 public class DaylightSavingCorrector {
 

@@ -1,4 +1,4 @@
-package com.mayhew3.gamesutil.tv;
+package com.mayhew3.gamesutil.tv.provider;
 
 import com.mashape.unirest.http.exceptions.UnirestException;
 import org.apache.http.auth.AuthenticationException;

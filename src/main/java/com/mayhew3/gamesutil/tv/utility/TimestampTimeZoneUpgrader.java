@@ -1,4 +1,4 @@
-package com.mayhew3.gamesutil.tv;
+package com.mayhew3.gamesutil.tv.utility;
 
 import com.mayhew3.gamesutil.ArgumentChecker;
 import com.mayhew3.gamesutil.dataobject.DataObject;

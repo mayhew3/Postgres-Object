@@ -1,4 +1,4 @@
-package com.mayhew3.gamesutil.tv;
+package com.mayhew3.gamesutil.tv.helper;
 
 import com.mayhew3.gamesutil.tv.exception.ShowFailedException;
 

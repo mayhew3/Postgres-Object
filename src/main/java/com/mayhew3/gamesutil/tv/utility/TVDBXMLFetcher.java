@@ -1,9 +1,10 @@
-package com.mayhew3.gamesutil.tv;
+package com.mayhew3.gamesutil.tv.utility;
 
 import com.mayhew3.gamesutil.ArgumentChecker;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.model.tv.Series;
+import com.mayhew3.gamesutil.tv.TVDBMatchStatus;
 import com.mayhew3.gamesutil.xml.NodeReader;
 import com.mayhew3.gamesutil.xml.NodeReaderImpl;
 import org.xml.sax.SAXException;

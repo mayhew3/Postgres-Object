@@ -1,4 +1,4 @@
-package com.mayhew3.gamesutil.tv;
+package com.mayhew3.gamesutil.tv.utility;
 
 import com.mayhew3.gamesutil.ArgumentChecker;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
@@ -7,6 +7,7 @@ import com.mayhew3.gamesutil.model.tv.Episode;
 import com.mayhew3.gamesutil.model.tv.EpisodeRating;
 import com.mayhew3.gamesutil.model.tv.Series;
 import com.mayhew3.gamesutil.model.tv.TmpRating;
+import com.mayhew3.gamesutil.tv.SeriesDenormUpdater;
 import org.apache.commons.lang3.time.DateUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

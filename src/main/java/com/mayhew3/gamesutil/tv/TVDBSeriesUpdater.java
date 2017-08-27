@@ -6,6 +6,8 @@ import com.mayhew3.gamesutil.dataobject.FieldValue;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.model.tv.*;
 import com.mayhew3.gamesutil.tv.exception.ShowFailedException;
+import com.mayhew3.gamesutil.tv.helper.SeriesMerger;
+import com.mayhew3.gamesutil.tv.provider.TVDBJWTProvider;
 import com.mayhew3.gamesutil.xml.BadlyFormattedXMLException;
 import com.mayhew3.gamesutil.xml.JSONReader;
 import com.mayhew3.gamesutil.xml.JSONReaderImpl;

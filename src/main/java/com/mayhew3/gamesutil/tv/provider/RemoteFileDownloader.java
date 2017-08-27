@@ -1,4 +1,4 @@
-package com.mayhew3.gamesutil.tv;
+package com.mayhew3.gamesutil.tv.provider;
 
 import org.jetbrains.annotations.Nullable;
 import org.w3c.dom.Document;

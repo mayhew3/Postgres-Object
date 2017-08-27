@@ -1,4 +1,4 @@
-package com.mayhew3.gamesutil.tv;
+package com.mayhew3.gamesutil.tv.provider;
 
 import org.xml.sax.SAXException;
 

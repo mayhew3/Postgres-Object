@@ -1,4 +1,4 @@
-package com.mayhew3.gamesutil.tv;
+package com.mayhew3.gamesutil.tv.provider;
 
 import org.apache.commons.io.FileUtils;
 

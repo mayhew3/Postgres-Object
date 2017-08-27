@@ -1,4 +1,4 @@
-package com.mayhew3.gamesutil.tv;
+package com.mayhew3.gamesutil.tv.provider;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
@@ -105,7 +105,7 @@ public class TVDBJWTProviderImpl implements TVDBJWTProvider {
     return fromDate.getTime() / 1000L;
   }
 
-  void writeSearchToFile(String formattedTitle) throws UnirestException, IOException, AuthenticationException {
+  public void writeSearchToFile(String formattedTitle) throws UnirestException, IOException, AuthenticationException {
     Preconditions.checkState(token != null);
 
     String seriesUrl = "https://api.thetvdb.com/search/series";
@@ -120,7 +120,7 @@ public class TVDBJWTProviderImpl implements TVDBJWTProvider {
     writeResultToFile(filePath, jsonObject);
   }
 
-  void writeSeriesToFile(Integer tvdbId) throws UnirestException, IOException, AuthenticationException {
+  public void writeSeriesToFile(Integer tvdbId) throws UnirestException, IOException, AuthenticationException {
     Preconditions.checkState(token != null);
 
     String seriesUrl = "https://api.thetvdb.com/series/" + tvdbId;
@@ -132,7 +132,7 @@ public class TVDBJWTProviderImpl implements TVDBJWTProvider {
     writeResultToFile(filePath, jsonObject);
   }
 
-  void writePostersToFile(Integer tvdbSeriesId) throws UnirestException, IOException, AuthenticationException {
+  public void writePostersToFile(Integer tvdbSeriesId) throws UnirestException, IOException, AuthenticationException {
     Preconditions.checkState(token != null);
 
     String seriesUrl = "https://api.thetvdb.com/series/" + tvdbSeriesId + "/images/query";
@@ -148,7 +148,7 @@ public class TVDBJWTProviderImpl implements TVDBJWTProvider {
   }
 
 
-  void writeEpisodeDetailsToFiles(Integer tvdbSeriesId, List<Pair<Integer, Integer>> episodeNumbers) throws IOException, UnirestException, AuthenticationException {
+  public void writeEpisodeDetailsToFiles(Integer tvdbSeriesId, List<Pair<Integer, Integer>> episodeNumbers) throws IOException, UnirestException, AuthenticationException {
     for (Pair<Integer, Integer> episodeNumber : episodeNumbers) {
       writeEpisodeDetailToFile(tvdbSeriesId, episodeNumber.getKey(), episodeNumber.getValue());
     }

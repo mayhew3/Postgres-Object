@@ -5,6 +5,10 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mayhew3.gamesutil.ArgumentChecker;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
+import com.mayhew3.gamesutil.tv.helper.ConnectionLogger;
+import com.mayhew3.gamesutil.tv.helper.TVDBUpdateType;
+import com.mayhew3.gamesutil.tv.provider.RemoteFileDownloader;
+import com.mayhew3.gamesutil.tv.provider.TVDBJWTProviderImpl;
 import com.mayhew3.gamesutil.xml.BadlyFormattedXMLException;
 import com.mayhew3.gamesutil.xml.JSONReaderImpl;
 

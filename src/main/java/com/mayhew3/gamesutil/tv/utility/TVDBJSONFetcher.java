@@ -1,10 +1,12 @@
-package com.mayhew3.gamesutil.tv;
+package com.mayhew3.gamesutil.tv.utility;
 
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mayhew3.gamesutil.ArgumentChecker;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.model.tv.Series;
+import com.mayhew3.gamesutil.tv.provider.TVDBJWTProviderImpl;
+import com.mayhew3.gamesutil.tv.TVDBMatchStatus;
 import javafx.util.Pair;
 import org.apache.http.auth.AuthenticationException;
 

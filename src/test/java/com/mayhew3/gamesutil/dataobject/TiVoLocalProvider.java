@@ -1,6 +1,6 @@
 package com.mayhew3.gamesutil.dataobject;
 
-import com.mayhew3.gamesutil.tv.TiVoDataProvider;
+import com.mayhew3.gamesutil.tv.provider.TiVoDataProvider;
 import org.jetbrains.annotations.Nullable;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;

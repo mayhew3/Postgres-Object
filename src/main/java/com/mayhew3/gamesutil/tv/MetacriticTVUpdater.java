@@ -7,6 +7,7 @@ import com.mayhew3.gamesutil.model.tv.Season;
 import com.mayhew3.gamesutil.model.tv.Series;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
+import com.mayhew3.gamesutil.tv.helper.MetacriticException;
 import org.jetbrains.annotations.Nullable;
 import org.joda.time.DateTime;
 import org.jsoup.Jsoup;

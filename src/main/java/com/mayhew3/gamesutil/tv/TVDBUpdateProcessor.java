@@ -9,6 +9,8 @@ import com.mayhew3.gamesutil.model.tv.TVDBConnectionLog;
 import com.mayhew3.gamesutil.model.tv.TVDBUpdateError;
 import com.mayhew3.gamesutil.model.tv.TVDBWorkItem;
 import com.mayhew3.gamesutil.tv.exception.ShowFailedException;
+import com.mayhew3.gamesutil.tv.helper.TVDBUpdateType;
+import com.mayhew3.gamesutil.tv.provider.TVDBJWTProvider;
 import com.mayhew3.gamesutil.xml.BadlyFormattedXMLException;
 import com.mayhew3.gamesutil.xml.JSONReader;
 import org.apache.http.auth.AuthenticationException;

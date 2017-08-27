@@ -1,4 +1,4 @@
-package com.mayhew3.gamesutil.tv;
+package com.mayhew3.gamesutil.tv.helper;
 
 import com.mayhew3.gamesutil.ArgumentChecker;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
@@ -6,7 +6,11 @@ import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.model.tv.Episode;
 import com.mayhew3.gamesutil.model.tv.Series;
 import com.mayhew3.gamesutil.model.tv.TiVoEpisode;
+import com.mayhew3.gamesutil.tv.SeriesDenormUpdater;
+import com.mayhew3.gamesutil.tv.TVDBEpisodeMatcher;
+import com.mayhew3.gamesutil.tv.TVDBMatchStatus;
 import com.mayhew3.gamesutil.tv.exception.ShowFailedException;
+import com.mayhew3.gamesutil.tv.utility.SeriesDeleter;
 
 import java.net.URISyntaxException;
 import java.sql.SQLException;
@@ -20,7 +24,7 @@ public class SeriesMerger {
   private Series baseSeries;
   private SQLConnection connection;
 
-  SeriesMerger(Series unmatchedSeries, Series baseSeries, SQLConnection connection) {
+  public SeriesMerger(Series unmatchedSeries, Series baseSeries, SQLConnection connection) {
     this.unmatchedSeries = unmatchedSeries;
     this.baseSeries = baseSeries;
     this.connection = connection;
@@ -48,7 +52,7 @@ public class SeriesMerger {
     new SeriesDenormUpdater(connection).runUpdate();
   }
 
-  void executeMerge() throws SQLException, ShowFailedException {
+  public void executeMerge() throws SQLException, ShowFailedException {
     List<TiVoEpisode> tiVoEpisodes = unmatchedSeries.getTiVoEpisodes(connection);
     validateNoOtherEpisodes(tiVoEpisodes);
 

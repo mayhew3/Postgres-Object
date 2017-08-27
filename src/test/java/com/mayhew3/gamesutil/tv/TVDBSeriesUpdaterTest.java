@@ -7,6 +7,8 @@ import com.mayhew3.gamesutil.model.tv.Series;
 import com.mayhew3.gamesutil.model.tv.TVDBEpisode;
 import com.mayhew3.gamesutil.model.tv.TVDBSeries;
 import com.mayhew3.gamesutil.tv.exception.ShowFailedException;
+import com.mayhew3.gamesutil.tv.provider.TVDBJWTProvider;
+import com.mayhew3.gamesutil.tv.provider.TVDBLocalJSONProvider;
 import com.mayhew3.gamesutil.xml.BadlyFormattedXMLException;
 import com.mayhew3.gamesutil.xml.JSONReaderImpl;
 import org.apache.http.auth.AuthenticationException;

@@ -1,4 +1,4 @@
-package com.mayhew3.gamesutil.tv;
+package com.mayhew3.gamesutil.tv.helper;
 
 public enum TVDBUpdateType {
   FULL("Full"),

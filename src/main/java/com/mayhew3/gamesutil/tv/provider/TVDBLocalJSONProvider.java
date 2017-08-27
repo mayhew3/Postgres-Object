@@ -1,4 +1,4 @@
-package com.mayhew3.gamesutil.tv;
+package com.mayhew3.gamesutil.tv.provider;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.mashape.unirest.http.exceptions.UnirestException;

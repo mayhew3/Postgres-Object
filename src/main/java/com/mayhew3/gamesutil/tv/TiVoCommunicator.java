@@ -8,6 +8,8 @@ import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.model.tv.*;
 import com.mayhew3.gamesutil.tv.exception.ShowFailedException;
+import com.mayhew3.gamesutil.tv.provider.RemoteFileDownloader;
+import com.mayhew3.gamesutil.tv.provider.TiVoDataProvider;
 import com.mayhew3.gamesutil.xml.BadlyFormattedXMLException;
 import com.mayhew3.gamesutil.xml.NodeReader;
 import com.mayhew3.gamesutil.xml.NodeReaderImpl;
@@ -764,5 +766,22 @@ public class TiVoCommunicator implements UpdateRunner {
     }
   }
 
+  private static class TiVoInfo {
+    String programId;
+    String tivoId;
+    public String seriesTitle;
+    String captureDate;
+    Boolean isSuggestion;
+    public String url;
+    Boolean recordingNow = false;
+
+    TiVoInfo(@NotNull NodeList showDetails, @NotNull NodeReader nodeReader) throws BadlyFormattedXMLException {
+      programId = nodeReader.getValueOfSimpleStringNode(showDetails, "ProgramId");
+      tivoId = nodeReader.getValueOfSimpleStringNode(showDetails, "SeriesId");
+      seriesTitle = nodeReader.getValueOfSimpleStringNode(showDetails, "Title");
+      captureDate = nodeReader.getValueOfSimpleStringNode(showDetails, "CaptureDate");
+    }
+
+  }
 }
 

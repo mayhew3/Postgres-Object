@@ -7,6 +7,10 @@ import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.games.SteamGameUpdater;
 import com.mayhew3.gamesutil.scheduler.UpdateRunner;
 import com.mayhew3.gamesutil.tv.*;
+import com.mayhew3.gamesutil.tv.helper.ConnectionLogger;
+import com.mayhew3.gamesutil.tv.helper.TVDBUpdateType;
+import com.mayhew3.gamesutil.tv.provider.RemoteFileDownloader;
+import com.mayhew3.gamesutil.tv.provider.TVDBJWTProviderImpl;
 import com.mayhew3.gamesutil.xml.JSONReaderImpl;
 
 import java.io.File;

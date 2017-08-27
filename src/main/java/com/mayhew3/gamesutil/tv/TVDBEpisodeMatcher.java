@@ -14,7 +14,7 @@ import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-class TVDBEpisodeMatcher {
+public class TVDBEpisodeMatcher {
   private SQLConnection connection;
   private TiVoEpisode tiVoEpisode;
   private Integer seriesId;
@@ -24,13 +24,13 @@ class TVDBEpisodeMatcher {
 
   private StringDistance distanceCalculator = new NGram();
 
-  TVDBEpisodeMatcher(SQLConnection connection, TiVoEpisode tiVoEpisode, Integer seriesId) {
+  public TVDBEpisodeMatcher(SQLConnection connection, TiVoEpisode tiVoEpisode, Integer seriesId) {
     this.connection = connection;
     this.tiVoEpisode = tiVoEpisode;
     this.seriesId = seriesId;
   }
 
-  Optional<TVDBEpisode> matchAndLinkEpisode() throws SQLException {
+  public Optional<TVDBEpisode> matchAndLinkEpisode() throws SQLException {
     String episodeTitle = tiVoEpisode.title.getValue();
     Integer episodeNumber = tiVoEpisode.episodeNumber.getValue();
     Date startTime = tiVoEpisode.showingStartTime.getValue();

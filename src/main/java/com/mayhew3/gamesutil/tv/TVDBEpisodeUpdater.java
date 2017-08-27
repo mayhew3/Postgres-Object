@@ -8,6 +8,7 @@ import com.mayhew3.gamesutil.model.tv.*;
 import com.mayhew3.gamesutil.tv.exception.MalformedTVDBEpisodeException;
 import com.mayhew3.gamesutil.tv.exception.MultipleMatchesException;
 import com.mayhew3.gamesutil.tv.exception.ShowFailedException;
+import com.mayhew3.gamesutil.tv.provider.TVDBJWTProvider;
 import com.mayhew3.gamesutil.xml.JSONReader;
 import org.apache.http.auth.AuthenticationException;
 import org.jetbrains.annotations.NotNull;
