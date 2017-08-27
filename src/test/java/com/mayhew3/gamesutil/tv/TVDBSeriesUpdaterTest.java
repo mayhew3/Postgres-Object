@@ -26,7 +26,7 @@ import static org.fest.assertions.Assertions.assertThat;
 import static org.junit.Assert.fail;
 
 @SuppressWarnings({"SameParameterValue", "OptionalGetWithoutIsPresent"})
-public class TVDBSeriesV2UpdaterTest extends TVDatabaseTest {
+public class TVDBSeriesUpdaterTest extends TVDatabaseTest {
 
   private final String SCHUMER_EPISODE_NAME1 = "The World's Most Interesting Woman in the World";
   private final String SCHUMER_EPISODE_NAME2 = "Welcome to the Gun Show";
@@ -58,7 +58,7 @@ public class TVDBSeriesV2UpdaterTest extends TVDatabaseTest {
     addEpisode(series, 4, 2, SCHUMER_EPISODE_NAME2, originalID);
     addEpisode(series, 4, 3, SCHUMER_EPISODE_NAME3, SCHUMER_EPISODE_ID3);
 
-    TVDBSeriesV2Updater tvdbSeriesUpdater = new TVDBSeriesV2Updater(connection, series, tvdbjwtProvider, new JSONReaderImpl());
+    TVDBSeriesUpdater tvdbSeriesUpdater = new TVDBSeriesUpdater(connection, series, tvdbjwtProvider, new JSONReaderImpl());
     tvdbSeriesUpdater.updateSeries();
 
     TVDBEpisode retiredEpisode = findTVDBEpisodeWithTVDBID(originalID);
@@ -87,7 +87,7 @@ public class TVDBSeriesV2UpdaterTest extends TVDatabaseTest {
     addEpisode(series, 4, 2, SCHUMER_EPISODE_NAME3, SCHUMER_EPISODE_ID3);
     addEpisode(series, 4, 3, SCHUMER_EPISODE_NAME2, SCHUMER_EPISODE_ID2);
 
-    TVDBSeriesV2Updater tvdbSeriesUpdater = new TVDBSeriesV2Updater(connection, series, tvdbjwtProvider, new JSONReaderImpl());
+    TVDBSeriesUpdater tvdbSeriesUpdater = new TVDBSeriesUpdater(connection, series, tvdbjwtProvider, new JSONReaderImpl());
     tvdbSeriesUpdater.updateSeries();
 
     TVDBEpisode tvdbEpisode = findTVDBEpisodeWithTVDBID(SCHUMER_EPISODE_ID3);
@@ -130,7 +130,7 @@ public class TVDBSeriesV2UpdaterTest extends TVDatabaseTest {
     secondEpisode.airDate.changeValue(originalDate);
     secondEpisode.commit(connection);
 
-    TVDBSeriesV2Updater tvdbSeriesUpdater = new TVDBSeriesV2Updater(connection, series, tvdbjwtProvider, new JSONReaderImpl());
+    TVDBSeriesUpdater tvdbSeriesUpdater = new TVDBSeriesUpdater(connection, series, tvdbjwtProvider, new JSONReaderImpl());
     tvdbSeriesUpdater.updateSeries();
 
     @NotNull Episode episode = findEpisodeWithID(episodeID);
@@ -154,7 +154,7 @@ public class TVDBSeriesV2UpdaterTest extends TVDatabaseTest {
 
     Date xmlDate = new LocalDate(2016, 4, 28).toDate();
 
-    TVDBSeriesV2Updater tvdbSeriesUpdater = new TVDBSeriesV2Updater(connection, series, tvdbjwtProvider, new JSONReaderImpl());
+    TVDBSeriesUpdater tvdbSeriesUpdater = new TVDBSeriesUpdater(connection, series, tvdbjwtProvider, new JSONReaderImpl());
     tvdbSeriesUpdater.updateSeries();
 
     @NotNull Episode episode = findEpisode(SCHUMER_SERIES_NAME, 4, 2);
@@ -190,7 +190,7 @@ public class TVDBSeriesV2UpdaterTest extends TVDatabaseTest {
     secondEpisode.airDate.changeValue(overriddenDate);
     secondEpisode.commit(connection);
 
-    TVDBSeriesV2Updater tvdbSeriesUpdater = new TVDBSeriesV2Updater(connection, series, tvdbjwtProvider, new JSONReaderImpl());
+    TVDBSeriesUpdater tvdbSeriesUpdater = new TVDBSeriesUpdater(connection, series, tvdbjwtProvider, new JSONReaderImpl());
     tvdbSeriesUpdater.updateSeries();
 
     @NotNull Episode episode = findEpisodeWithID(episodeID);
@@ -222,7 +222,7 @@ public class TVDBSeriesV2UpdaterTest extends TVDatabaseTest {
     secondEpisode.episodeNumber.changeValue(overriddenEpisodeNumber);
     secondEpisode.commit(connection);
 
-    TVDBSeriesV2Updater tvdbSeriesUpdater = new TVDBSeriesV2Updater(connection, series, tvdbjwtProvider, new JSONReaderImpl());
+    TVDBSeriesUpdater tvdbSeriesUpdater = new TVDBSeriesUpdater(connection, series, tvdbjwtProvider, new JSONReaderImpl());
     tvdbSeriesUpdater.updateSeries();
 
     @NotNull Episode episode = findEpisodeWithID(episodeID);
@@ -255,7 +255,7 @@ public class TVDBSeriesV2UpdaterTest extends TVDatabaseTest {
     secondEpisode.setSeason(overriddenSeasonNumber, connection);
     secondEpisode.commit(connection);
 
-    TVDBSeriesV2Updater tvdbSeriesUpdater = new TVDBSeriesV2Updater(connection, series, tvdbjwtProvider, new JSONReaderImpl());
+    TVDBSeriesUpdater tvdbSeriesUpdater = new TVDBSeriesUpdater(connection, series, tvdbjwtProvider, new JSONReaderImpl());
     tvdbSeriesUpdater.updateSeries();
 
     @NotNull Episode episode = findEpisodeWithID(episodeID);
@@ -292,7 +292,7 @@ public class TVDBSeriesV2UpdaterTest extends TVDatabaseTest {
     series.poster.changeValue(overriddenPoster);
     series.commit(connection);
 
-    TVDBSeriesV2Updater tvdbSeriesUpdater = new TVDBSeriesV2Updater(connection, series, tvdbjwtProvider, new JSONReaderImpl());
+    TVDBSeriesUpdater tvdbSeriesUpdater = new TVDBSeriesUpdater(connection, series, tvdbjwtProvider, new JSONReaderImpl());
     tvdbSeriesUpdater.updateSeries();
 
     Series foundSeries = findSeriesWithTitle("Inside Amy Schumer");

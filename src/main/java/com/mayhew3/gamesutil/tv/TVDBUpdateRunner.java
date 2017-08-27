@@ -28,7 +28,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
-public class TVDBUpdateV2Runner implements UpdateRunner {
+public class TVDBUpdateRunner implements UpdateRunner {
 
   private enum SeriesUpdateResult {UPDATE_SUCCESS, UPDATE_FAILED}
 
@@ -48,7 +48,7 @@ public class TVDBUpdateV2Runner implements UpdateRunner {
   private final Integer ERROR_FOLLOW_UP_THRESHOLD_IN_DAYS = 7;
   private final Integer ERROR_THRESHOLD = 5;
 
-  public TVDBUpdateV2Runner(SQLConnection connection, TVDBJWTProvider tvdbjwtProvider, JSONReader jsonReader, @NotNull TVDBUpdateType updateType) {
+  public TVDBUpdateRunner(SQLConnection connection, TVDBJWTProvider tvdbjwtProvider, JSONReader jsonReader, @NotNull TVDBUpdateType updateType) {
     this.connection = connection;
     this.tvdbjwtProvider = tvdbjwtProvider;
     this.jsonReader = jsonReader;
@@ -68,26 +68,26 @@ public class TVDBUpdateV2Runner implements UpdateRunner {
     String identifier = new ArgumentChecker(args).getDBIdentifier();
 
     SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
-    TVDBUpdateV2Runner tvdbUpdateRunner;
+    TVDBUpdateRunner tvdbUpdateRunner;
 
     if (singleSeries) {
-      tvdbUpdateRunner = new TVDBUpdateV2Runner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), TVDBUpdateType.SINGLE);
+      tvdbUpdateRunner = new TVDBUpdateRunner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), TVDBUpdateType.SINGLE);
     } else if (quickMode) {
-      tvdbUpdateRunner = new TVDBUpdateV2Runner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), TVDBUpdateType.QUICK);
+      tvdbUpdateRunner = new TVDBUpdateRunner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), TVDBUpdateType.QUICK);
     } else if (smartMode) {
-      tvdbUpdateRunner = new TVDBUpdateV2Runner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), TVDBUpdateType.SMART);
+      tvdbUpdateRunner = new TVDBUpdateRunner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), TVDBUpdateType.SMART);
     } else if (recentlyUpdatedOnly) {
-      tvdbUpdateRunner = new TVDBUpdateV2Runner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), TVDBUpdateType.RECENT);
+      tvdbUpdateRunner = new TVDBUpdateRunner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), TVDBUpdateType.RECENT);
     } else if (fewErrors) {
-      tvdbUpdateRunner = new TVDBUpdateV2Runner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), TVDBUpdateType.FEW_ERRORS);
+      tvdbUpdateRunner = new TVDBUpdateRunner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), TVDBUpdateType.FEW_ERRORS);
     } else if (oldErrors) {
-      tvdbUpdateRunner = new TVDBUpdateV2Runner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), TVDBUpdateType.OLD_ERRORS);
+      tvdbUpdateRunner = new TVDBUpdateRunner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), TVDBUpdateType.OLD_ERRORS);
     } else if (updateOnlyAirTimes) {
-      tvdbUpdateRunner = new TVDBUpdateV2Runner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), TVDBUpdateType.AIRTIMES);
+      tvdbUpdateRunner = new TVDBUpdateRunner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), TVDBUpdateType.AIRTIMES);
     } else if (sanityCheck) {
-      tvdbUpdateRunner = new TVDBUpdateV2Runner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), TVDBUpdateType.SANITY);
+      tvdbUpdateRunner = new TVDBUpdateRunner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), TVDBUpdateType.SANITY);
     } else {
-      tvdbUpdateRunner = new TVDBUpdateV2Runner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), TVDBUpdateType.FULL);
+      tvdbUpdateRunner = new TVDBUpdateRunner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), TVDBUpdateType.FULL);
     }
 
     tvdbUpdateRunner.runUpdate();
@@ -230,8 +230,8 @@ public class TVDBUpdateV2Runner implements UpdateRunner {
 
       debug("Updating series '" + series.seriesTitle.getValue() + "'");
 
-      TVDBEpisodeV2Updater tvdbEpisodeV2Updater = new TVDBEpisodeV2Updater(series, connection, tvdbjwtProvider, 1, jsonReader, false);
-      tvdbEpisodeV2Updater.updateOnlyAirTimes();
+      TVDBEpisodeUpdater tvdbEpisodeUpdater = new TVDBEpisodeUpdater(series, connection, tvdbjwtProvider, 1, jsonReader, false);
+      tvdbEpisodeUpdater.updateOnlyAirTimes();
     }
   }
 
@@ -511,7 +511,7 @@ public class TVDBUpdateV2Runner implements UpdateRunner {
   }
 
   private void updateTVDB(Series series) throws SQLException, BadlyFormattedXMLException, ShowFailedException, UnirestException, AuthenticationException {
-    TVDBSeriesV2Updater updater = new TVDBSeriesV2Updater(connection, series, tvdbjwtProvider, jsonReader);
+    TVDBSeriesUpdater updater = new TVDBSeriesUpdater(connection, series, tvdbjwtProvider, jsonReader);
     updater.updateSeries();
 
     episodesAdded += updater.getEpisodesAdded();

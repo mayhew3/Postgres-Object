@@ -22,7 +22,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-public class TVDBUpdateProcessorObj implements UpdateRunner {
+public class TVDBUpdateProcessor implements UpdateRunner {
 
 
   private enum SeriesUpdateResult {UPDATE_SUCCESS, UPDATE_FAILED}
@@ -37,7 +37,7 @@ public class TVDBUpdateProcessorObj implements UpdateRunner {
   @SuppressWarnings("FieldCanBeLocal")
   private final Integer ERROR_THRESHOLD = 3;
 
-  public TVDBUpdateProcessorObj(SQLConnection connection, TVDBJWTProvider tvdbjwtProvider, JSONReader jsonReader) {
+  public TVDBUpdateProcessor(SQLConnection connection, TVDBJWTProvider tvdbjwtProvider, JSONReader jsonReader) {
     this.connection = connection;
     this.tvdbjwtProvider = tvdbjwtProvider;
     this.jsonReader = jsonReader;
@@ -179,7 +179,7 @@ public class TVDBUpdateProcessorObj implements UpdateRunner {
   }
 
   private void updateTVDB(Series series) throws SQLException, BadlyFormattedXMLException, ShowFailedException, UnirestException, AuthenticationException {
-    TVDBSeriesV2Updater updater = new TVDBSeriesV2Updater(connection, series, tvdbjwtProvider, jsonReader);
+    TVDBSeriesUpdater updater = new TVDBSeriesUpdater(connection, series, tvdbjwtProvider, jsonReader);
     updater.updateSeries();
   }
 

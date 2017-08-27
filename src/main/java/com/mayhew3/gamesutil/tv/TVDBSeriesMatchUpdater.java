@@ -22,7 +22,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-public class TVDBSeriesV2MatchUpdater {
+public class TVDBSeriesMatchUpdater {
 
   private Series series;
 
@@ -30,9 +30,9 @@ public class TVDBSeriesV2MatchUpdater {
   private TVDBJWTProvider tvdbDataProvider;
   private JSONReader jsonReader;
 
-  public TVDBSeriesV2MatchUpdater(SQLConnection connection,
-                                  @NotNull Series series,
-                                  TVDBJWTProvider tvdbWebProvider, JSONReader jsonReader) {
+  public TVDBSeriesMatchUpdater(SQLConnection connection,
+                                @NotNull Series series,
+                                TVDBJWTProvider tvdbWebProvider, JSONReader jsonReader) {
     this.series = series;
     this.connection = connection;
     this.tvdbDataProvider = tvdbWebProvider;

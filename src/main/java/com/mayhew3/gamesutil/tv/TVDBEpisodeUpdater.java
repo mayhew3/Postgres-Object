@@ -24,7 +24,7 @@ import java.sql.Timestamp;
 import java.util.*;
 import java.util.stream.Collectors;
 
-class TVDBEpisodeV2Updater {
+class TVDBEpisodeUpdater {
   enum EPISODE_RESULT {ADDED, UPDATED, RETIRED, NONE}
 
   private Series series;
@@ -34,12 +34,12 @@ class TVDBEpisodeV2Updater {
   private JSONReader jsonReader;
   private Boolean retireUnfound;
 
-  TVDBEpisodeV2Updater(Series series,
-                       SQLConnection connection,
-                       TVDBJWTProvider tvdbjwtProvider,
-                       Integer tvdbEpisodeId,
-                       JSONReader jsonReader,
-                       Boolean retireUnfound) {
+  TVDBEpisodeUpdater(Series series,
+                     SQLConnection connection,
+                     TVDBJWTProvider tvdbjwtProvider,
+                     Integer tvdbEpisodeId,
+                     JSONReader jsonReader,
+                     Boolean retireUnfound) {
     this.series = series;
     this.connection = connection;
     this.tvdbRemoteId = tvdbEpisodeId;

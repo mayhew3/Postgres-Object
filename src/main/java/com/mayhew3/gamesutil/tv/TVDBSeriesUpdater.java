@@ -19,7 +19,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
-public class TVDBSeriesV2Updater {
+public class TVDBSeriesUpdater {
 
   private Series series;
 
@@ -34,10 +34,10 @@ public class TVDBSeriesV2Updater {
   private Integer episodesUpdated = 0;
   private Integer episodesFailed = 0;
 
-  public TVDBSeriesV2Updater(SQLConnection connection,
-                             @NotNull Series series,
-                             TVDBJWTProvider tvdbWebProvider,
-                             JSONReader jsonReader) {
+  public TVDBSeriesUpdater(SQLConnection connection,
+                           @NotNull Series series,
+                           TVDBJWTProvider tvdbWebProvider,
+                           JSONReader jsonReader) {
     this.series = series;
     this.connection = connection;
     this.tvdbDataProvider = tvdbWebProvider;
@@ -289,16 +289,16 @@ public class TVDBSeriesV2Updater {
     debug("updateEpisode " + episodeRemoteId);
 
     try {
-      TVDBEpisodeV2Updater tvdbEpisodeUpdater = new TVDBEpisodeV2Updater(series, connection, tvdbDataProvider, episodeRemoteId, new JSONReaderImpl(), false);
-      TVDBEpisodeV2Updater.EPISODE_RESULT episodeResult = tvdbEpisodeUpdater.updateSingleEpisode();
+      TVDBEpisodeUpdater tvdbEpisodeUpdater = new TVDBEpisodeUpdater(series, connection, tvdbDataProvider, episodeRemoteId, new JSONReaderImpl(), false);
+      TVDBEpisodeUpdater.EPISODE_RESULT episodeResult = tvdbEpisodeUpdater.updateSingleEpisode();
 
-      if (episodeResult == TVDBEpisodeV2Updater.EPISODE_RESULT.ADDED) {
+      if (episodeResult == TVDBEpisodeUpdater.EPISODE_RESULT.ADDED) {
         episodesAdded++;
-      } else if (episodeResult == TVDBEpisodeV2Updater.EPISODE_RESULT.UPDATED) {
+      } else if (episodeResult == TVDBEpisodeUpdater.EPISODE_RESULT.UPDATED) {
         episodesUpdated++;
       }
 
-      if (episodeResult != TVDBEpisodeV2Updater.EPISODE_RESULT.RETIRED) {
+      if (episodeResult != TVDBEpisodeUpdater.EPISODE_RESULT.RETIRED) {
         foundEpisodeIds.add(episodeRemoteId);
       }
     } catch (Exception e) {

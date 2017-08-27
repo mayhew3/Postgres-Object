@@ -70,7 +70,7 @@ public class TiVoLibraryUpdater {
 
     if (!tiVoOnly) {
       try {
-        TVDBUpdateV2Runner tvdbUpdateRunner = new TVDBUpdateV2Runner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), TVDBUpdateType.SMART);
+        TVDBUpdateRunner tvdbUpdateRunner = new TVDBUpdateRunner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), TVDBUpdateType.SMART);
         tvdbUpdateRunner.runUpdate();
       } catch (SQLException e) {
         debug("Error downloading info from TVDB service.");
@@ -83,7 +83,7 @@ public class TiVoLibraryUpdater {
 
     if (!tiVoOnly) {
       try {
-        TVDBSeriesV2MatchRunner tvdbUpdateRunner = new TVDBSeriesV2MatchRunner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), TVDBUpdateType.SMART);
+        TVDBSeriesMatchRunner tvdbUpdateRunner = new TVDBSeriesMatchRunner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), TVDBUpdateType.SMART);
         tvdbUpdateRunner.runUpdate();
       } catch (SQLException e) {
         debug("Error trying to match series with TVDB.");
@@ -107,8 +107,8 @@ public class TiVoLibraryUpdater {
     // update any shows that haven't been run in a while
     if (nightly) {
       try {
-        TVDBUpdateV2Runner tvdbUpdateV2Runner = new TVDBUpdateV2Runner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), TVDBUpdateType.SANITY);
-        tvdbUpdateV2Runner.runUpdate();
+        TVDBUpdateRunner tvdbUpdateRunner = new TVDBUpdateRunner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), TVDBUpdateType.SANITY);
+        tvdbUpdateRunner.runUpdate();
       } catch (UnirestException e) {
         debug("Uncaught exception during TVDB sanity check.");
         e.printStackTrace();
