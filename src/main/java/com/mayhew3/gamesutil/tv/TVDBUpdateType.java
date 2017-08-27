@@ -23,4 +23,9 @@ public enum TVDBUpdateType {
   public String getTypekey() {
     return typekey;
   }
+
+  @Override
+  public String toString() {
+    return getTypekey();
+  }
 }

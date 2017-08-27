@@ -29,6 +29,7 @@ public class TiVoLibraryUpdater {
     Boolean saveTiVoXML = argList.contains("SaveTiVoXML");
 
     String identifier = new ArgumentChecker(args).getDBIdentifier();
+    TiVoCommunicator.UpdateType updateType = nightly ? TiVoCommunicator.UpdateType.FULL : TiVoCommunicator.UpdateType.QUICK;
 
     if (logToFile) {
       SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
@@ -56,7 +57,7 @@ public class TiVoLibraryUpdater {
 
     if (!tvdbOnly) {
       try {
-        TiVoCommunicator tiVoCommunicator = new TiVoCommunicator(connection, new RemoteFileDownloader(saveTiVoXML), nightly);
+        TiVoCommunicator tiVoCommunicator = new TiVoCommunicator(connection, new RemoteFileDownloader(saveTiVoXML), updateType);
         tiVoCommunicator.runUpdate();
       } catch (BadlyFormattedXMLException e) {
         debug("Error parsing TiVo XML.");
@@ -96,7 +97,7 @@ public class TiVoLibraryUpdater {
     if (nightly) {
       try {
         MetacriticTVUpdater metacriticTVUpdater = new MetacriticTVUpdater(connection);
-        metacriticTVUpdater.runUpdater();
+        metacriticTVUpdater.runUpdate();
       } catch (Exception e) {
         debug("Uncaught exception during metacritic update.");
         e.printStackTrace();
@@ -118,7 +119,7 @@ public class TiVoLibraryUpdater {
       try {
         debug("Updating EpisodeGroupRatings...");
         EpisodeGroupUpdater episodeGroupUpdater = new EpisodeGroupUpdater(connection);
-        episodeGroupUpdater.updateEpisodeGroups(EpisodeGroupUpdater.currentYear);
+        episodeGroupUpdater.runUpdate();
       } catch (Exception e) {
         debug("Uncaught exception during episode group rating update.");
         e.printStackTrace();

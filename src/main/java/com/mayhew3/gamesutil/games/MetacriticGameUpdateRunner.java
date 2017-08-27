@@ -2,6 +2,7 @@ package com.mayhew3.gamesutil.games;
 
 import com.google.common.collect.Lists;
 import com.mayhew3.gamesutil.ArgumentChecker;
+import com.mayhew3.gamesutil.UpdateRunner;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.model.games.Game;
@@ -16,9 +17,12 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
-public class MetacriticGameUpdateRunner {
+public class MetacriticGameUpdateRunner implements UpdateRunner {
 
-  private static SQLConnection connection;
+  public enum UpdateType {FULL, SINGLE, UNMATCHED}
+  private UpdateType updateType;
+
+  private SQLConnection connection;
 
   public static void main(String[] args) throws FileNotFoundException, SQLException, URISyntaxException {
     List<String> argList = Lists.newArrayList(args);
@@ -37,17 +41,39 @@ public class MetacriticGameUpdateRunner {
       System.setOut(ps);
     }
 
-    connection = new PostgresConnectionFactory().createConnection(identifier);
+    SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
 
-    MetacriticGameUpdateRunner updateRunner = new MetacriticGameUpdateRunner();
-
+    UpdateType updateType = UpdateType.UNMATCHED;
     if (allGames) {
-      updateRunner.updateAllGames();
+      updateType = UpdateType.FULL;
     } else if (singleGame) {
-      updateRunner.updateSingleGame();
-    } else {
-      updateRunner.updateUnmatchedGames();
+      updateType = UpdateType.SINGLE;
     }
+
+    MetacriticGameUpdateRunner updateRunner = new MetacriticGameUpdateRunner(connection, updateType);
+    updateRunner.runUpdate();
+  }
+
+  @Override
+  public String getRunnerName() {
+    return "Metacritic Game Updater";
+  }
+
+  public void runUpdate() throws SQLException {
+    if (updateType.equals(UpdateType.FULL)) {
+      updateAllGames();
+    } else if (updateType.equals(UpdateType.SINGLE)) {
+      updateSingleGame();
+    } else if (updateType.equals(UpdateType.UNMATCHED)) {
+      updateUnmatchedGames();
+    } else {
+      throw new IllegalStateException("Unknown update type.");
+    }
+  }
+
+  public MetacriticGameUpdateRunner(SQLConnection connection, UpdateType updateType) {
+    this.connection = connection;
+    this.updateType = updateType;
   }
 
   private void updateSingleGame() throws SQLException {

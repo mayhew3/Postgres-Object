@@ -2,6 +2,7 @@ package com.mayhew3.gamesutil.games;
 
 import com.google.common.collect.Lists;
 import com.mayhew3.gamesutil.ArgumentChecker;
+import com.mayhew3.gamesutil.UpdateRunner;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.model.games.Game;
@@ -16,11 +17,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class SteamAttributeUpdateRunner {
+public class SteamAttributeUpdateRunner implements UpdateRunner {
 
   private SQLConnection connection;
 
-  SteamAttributeUpdateRunner(SQLConnection connection) {
+  public SteamAttributeUpdateRunner(SQLConnection connection) {
     this.connection = connection;
   }
 
@@ -53,11 +54,11 @@ public class SteamAttributeUpdateRunner {
 
     SteamAttributeUpdateRunner updateRunner = new SteamAttributeUpdateRunner(connection);
 
-    updateRunner.runSteamAttributeUpdate();
+    updateRunner.runUpdate();
 
   }
 
-  void runSteamAttributeUpdate() throws SQLException {
+  public void runUpdate() throws SQLException {
     String sql = "SELECT * FROM games WHERE steamid is not null AND steam_attributes IS NULL AND steam_page_gone IS NULL";
     ResultSet resultSet = connection.executeQuery(sql);
 
@@ -98,6 +99,11 @@ public class SteamAttributeUpdateRunner {
 
   protected void debug(Object object) {
     System.out.println(object);
+  }
+
+  @Override
+  public String getRunnerName() {
+    return "Steam Attribute Update Runner";
   }
 }
 

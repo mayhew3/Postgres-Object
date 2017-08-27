@@ -43,7 +43,7 @@ public class TiVoDaylightSavingsTest extends TVDatabaseTest {
 
     DateTimeUtils.setCurrentMillisFixed(februaryDate.toDate().getTime());
 
-    TiVoCommunicator tiVoCommunicator = new TiVoCommunicator(connection, tiVoLocalProvider, true);
+    TiVoCommunicator tiVoCommunicator = new TiVoCommunicator(connection, tiVoLocalProvider, TiVoCommunicator.UpdateType.FULL);
     tiVoCommunicator.runUpdate();
 
     TiVoEpisode tiVoEpisode = getSingleAddedEpisode();
@@ -60,7 +60,7 @@ public class TiVoDaylightSavingsTest extends TVDatabaseTest {
 
     DateTimeUtils.setCurrentMillisFixed(aprilDate.toDate().getTime());
 
-    TiVoCommunicator tiVoCommunicator = new TiVoCommunicator(connection, tiVoLocalProvider, true);
+    TiVoCommunicator tiVoCommunicator = new TiVoCommunicator(connection, tiVoLocalProvider, TiVoCommunicator.UpdateType.FULL);
     tiVoCommunicator.runUpdate();
 
     TiVoEpisode tiVoEpisode = getSingleAddedEpisode();
@@ -78,7 +78,7 @@ public class TiVoDaylightSavingsTest extends TVDatabaseTest {
 
     DateTimeUtils.setCurrentMillisFixed(februaryDate.toDate().getTime());
 
-    TiVoCommunicator tiVoCommunicator = new TiVoCommunicator(connection, tiVoLocalProvider, true);
+    TiVoCommunicator tiVoCommunicator = new TiVoCommunicator(connection, tiVoLocalProvider, TiVoCommunicator.UpdateType.FULL);
     tiVoCommunicator.runUpdate();
 
     List<TiVoEpisode> matchingEpisodes = findAddedEpisodes();
@@ -107,7 +107,7 @@ public class TiVoDaylightSavingsTest extends TVDatabaseTest {
 
     DateTimeUtils.setCurrentMillisFixed(aprilDate.toDate().getTime());
 
-    TiVoCommunicator tiVoCommunicator = new TiVoCommunicator(connection, tiVoLocalProvider, true);
+    TiVoCommunicator tiVoCommunicator = new TiVoCommunicator(connection, tiVoLocalProvider, TiVoCommunicator.UpdateType.FULL);
     tiVoCommunicator.runUpdate();
 
     List<TiVoEpisode> matchingEpisodes = findAddedEpisodes();

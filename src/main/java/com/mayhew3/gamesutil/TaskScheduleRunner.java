@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
-import com.mayhew3.gamesutil.games.SteamGameUpdater;
+import com.mayhew3.gamesutil.games.*;
 import com.mayhew3.gamesutil.tv.*;
 import com.mayhew3.gamesutil.xml.JSONReader;
 import com.mayhew3.gamesutil.xml.JSONReaderImpl;
@@ -32,6 +32,7 @@ public class TaskScheduleRunner {
   @Nullable
   private TVDBJWTProvider tvdbjwtProvider;
   private JSONReader jsonReader;
+  private TiVoDataProvider tiVoDataProvider;
 
   private String identifier;
 
@@ -40,10 +41,11 @@ public class TaskScheduleRunner {
   private Boolean logToFile;
   private PrintStream logOutput = null;
 
-  private TaskScheduleRunner(SQLConnection connection, @Nullable TVDBJWTProvider tvdbjwtProvider, JSONReader jsonReader, String identifier, Boolean logToFile) {
+  private TaskScheduleRunner(SQLConnection connection, @Nullable TVDBJWTProvider tvdbjwtProvider, JSONReader jsonReader, TiVoDataProvider tiVoDataProvider, String identifier, Boolean logToFile) {
     this.connection = connection;
     this.tvdbjwtProvider = tvdbjwtProvider;
     this.jsonReader = jsonReader;
+    this.tiVoDataProvider = tiVoDataProvider;
     this.identifier = identifier;
     this.logToFile = logToFile;
   }
@@ -63,27 +65,46 @@ public class TaskScheduleRunner {
 
     SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
     JSONReader jsonReader = new JSONReaderImpl();
+    TiVoDataProvider tiVoDataProvider = new RemoteFileDownloader(false);
 
-    TaskScheduleRunner taskScheduleRunner = new TaskScheduleRunner(connection, tvdbjwtProvider, jsonReader, identifier, logToFile);
+    TaskScheduleRunner taskScheduleRunner = new TaskScheduleRunner(connection, tvdbjwtProvider, jsonReader, tiVoDataProvider, identifier, logToFile);
     taskScheduleRunner.runUpdates();
   }
 
-  @SuppressWarnings("PointlessArithmeticExpression")
   private void createTaskList() {
+    // REGULAR
     addPeriodicTask(new TVDBUpdateFinder(connection, tvdbjwtProvider, jsonReader),
         2);
     addPeriodicTask(new TVDBUpdateProcessorObj(connection, tvdbjwtProvider, jsonReader),
         1);
+    addPeriodicTask(new TVDBSeriesV2MatchRunner(connection, tvdbjwtProvider, jsonReader, TVDBUpdateType.SMART),
+        5);
     addPeriodicTask(new TVDBUpdateV2Runner(connection, tvdbjwtProvider, jsonReader, TVDBUpdateType.SMART),
         20);
-    addPeriodicTask(new TiVoCommunicator(connection, new RemoteFileDownloader(false), false),
+    addPeriodicTask(new TiVoCommunicator(connection, tiVoDataProvider, TiVoCommunicator.UpdateType.QUICK),
         10);
     addPeriodicTask(new SteamGameUpdater(connection),
         60);
+    addPeriodicTask(new SeriesDenormUpdater(connection),
+        5);
+
+    // NIGHTLY
+    addNightlyTask(new TiVoCommunicator(connection, tiVoDataProvider, TiVoCommunicator.UpdateType.FULL));
+    addNightlyTask(new MetacriticTVUpdater(connection));
+    addNightlyTask(new MetacriticGameUpdateRunner(connection, MetacriticGameUpdateRunner.UpdateType.UNMATCHED));
+    addNightlyTask(new TVDBUpdateV2Runner(connection, tvdbjwtProvider, jsonReader, TVDBUpdateType.SANITY));
+    addNightlyTask(new EpisodeGroupUpdater(connection));
+    addNightlyTask(new SteamAttributeUpdateRunner(connection));
+    addNightlyTask(new HowLongToBeatUpdateRunner(connection));
+    addNightlyTask(new GiantBombUpdater(connection));
   }
 
   private void addPeriodicTask(UpdateRunner updateRunner, Integer minutesBetween) {
     taskSchedules.add(new PeriodicTaskSchedule(updateRunner, minutesBetween));
+  }
+
+  private void addNightlyTask(UpdateRunner updateRunner) {
+    taskSchedules.add(new NightlyTaskSchedule(updateRunner, 1));
   }
 
   @SuppressWarnings("InfiniteLoopStatement")

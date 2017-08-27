@@ -1,26 +1,29 @@
 package com.mayhew3.gamesutil;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.Date;
 
 public abstract class TaskSchedule {
   private UpdateRunner updateRunner;
-  private Date lastRan = null;
 
-  protected TaskSchedule(UpdateRunner updateRunner) {
+  @Nullable
+  Date lastRan = null;
+
+  TaskSchedule(UpdateRunner updateRunner) {
     this.updateRunner = updateRunner;
   }
 
-  public UpdateRunner getUpdateRunner() {
+  @NotNull
+  UpdateRunner getUpdateRunner() {
     return updateRunner;
   }
 
-  public Date getLastRan() {
-    return lastRan;
-  }
-
-  public void updateLastRanToNow() {
+  void updateLastRanToNow() {
     this.lastRan = new Date();
   }
 
+  @NotNull
   public abstract Boolean isEligibleToRun();
 }

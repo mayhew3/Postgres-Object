@@ -2,6 +2,7 @@ package com.mayhew3.gamesutil.games;
 
 import com.google.common.collect.Lists;
 import com.mayhew3.gamesutil.ArgumentChecker;
+import com.mayhew3.gamesutil.UpdateRunner;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.model.games.Game;
@@ -28,7 +29,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class GiantBombUpdater {
+public class GiantBombUpdater implements UpdateRunner {
 
   private SQLConnection connection;
 
@@ -58,7 +59,7 @@ public class GiantBombUpdater {
     if (singleGame) {
       giantBombUpdater.updateFieldsOnSingle();
     } else {
-      giantBombUpdater.updateFieldsOnUnmatched();
+      giantBombUpdater.runUpdate();
     }
   }
 
@@ -77,7 +78,7 @@ public class GiantBombUpdater {
   }
 
 
-  void updateFieldsOnUnmatched() throws SQLException, InterruptedException {
+  public void runUpdate() throws SQLException, InterruptedException {
     String sql = "SELECT * FROM games WHERE NOT (giantbomb_id IS NOT NULL and giantbomb_icon_url IS NOT NULL) and owned <> 'not owned'";
     ResultSet resultSet = connection.executeQuery(sql);
 
@@ -334,4 +335,8 @@ public class GiantBombUpdater {
   }
 
 
+  @Override
+  public String getRunnerName() {
+    return "Giant Bomb Updater";
+  }
 }

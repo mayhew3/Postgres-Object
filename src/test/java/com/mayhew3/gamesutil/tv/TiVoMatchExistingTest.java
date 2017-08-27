@@ -4,7 +4,6 @@ import com.mayhew3.gamesutil.TVDatabaseTest;
 import com.mayhew3.gamesutil.dataobject.TiVoLocalProvider;
 import com.mayhew3.gamesutil.model.tv.Series;
 import com.mayhew3.gamesutil.model.tv.TVDBSeries;
-import com.mayhew3.gamesutil.model.tv.TiVoEpisode;
 import com.mayhew3.gamesutil.xml.BadlyFormattedXMLException;
 import org.junit.Test;
 
@@ -18,7 +17,6 @@ import static org.fest.assertions.Assertions.assertThat;
 
 public class TiVoMatchExistingTest extends TVDatabaseTest {
   private TiVoLocalProvider tiVoLocalProvider;
-  private String seriesName;
 
   @Override
   public void setUp() throws URISyntaxException, SQLException {
@@ -33,13 +31,13 @@ public class TiVoMatchExistingTest extends TVDatabaseTest {
   public void testFirstTiVoEpisodeFoundForExistingSeries() throws SQLException, BadlyFormattedXMLException {
     setupSeries();
 
-    seriesName = "Atlanta";
+    String seriesName = "Atlanta";
     List<Series> originalSeriesesWithName = getSeriesWithName(seriesName);
     assertThat(originalSeriesesWithName)
         .as("SANITY: Only one series should exist with name initially.")
         .hasSize(1);
 
-    TiVoCommunicator tiVoCommunicator = new TiVoCommunicator(connection, tiVoLocalProvider, true);
+    TiVoCommunicator tiVoCommunicator = new TiVoCommunicator(connection, tiVoLocalProvider, TiVoCommunicator.UpdateType.FULL);
     tiVoCommunicator.runUpdate();
 
     TiVoLocalProvider notRecording = new TiVoLocalProvider(
@@ -47,7 +45,7 @@ public class TiVoMatchExistingTest extends TVDatabaseTest {
         "SeriesList.xml",
         "SeriesDetail.xml");
 
-    tiVoCommunicator = new TiVoCommunicator(connection, notRecording, true);
+    tiVoCommunicator = new TiVoCommunicator(connection, notRecording, TiVoCommunicator.UpdateType.FULL);
     tiVoCommunicator.runUpdate();
 
     List<Series> afterUpdate = getSeriesWithName(seriesName);
@@ -57,7 +55,7 @@ public class TiVoMatchExistingTest extends TVDatabaseTest {
   }
 
 
-  private Series setupSeries() throws SQLException {
+  private void setupSeries() throws SQLException {
     int tvdbSeriesExtId = 234123;
 
     TVDBSeries tvdbSeries = new TVDBSeries();
@@ -74,36 +72,6 @@ public class TiVoMatchExistingTest extends TVDatabaseTest {
     series.tvdbSeriesExtId.changeValue(tvdbSeriesExtId);
     series.tivoVersion.changeValue(1);
     series.commit(connection);
-
-    return series;
-  }
-
-  private TiVoEpisode getSingleAddedEpisode() throws SQLException {
-    List<TiVoEpisode> addedEpisodes = findAddedEpisodes();
-
-    assertThat(addedEpisodes)
-        .hasSize(1);
-
-    return addedEpisodes.get(0);
-  }
-
-  private List<TiVoEpisode> findAddedEpisodes() throws SQLException {
-    List<TiVoEpisode> addedEpisodes = new ArrayList<>();
-
-    String sql = "SELECT * " +
-        "FROM tivo_episode " +
-        "WHERE program_v2_id = ? " +
-        "AND retired = ? ";
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, "EP0351236842-0362508025", 0);
-
-    while (resultSet.next()) {
-      TiVoEpisode tiVoEpisode = new TiVoEpisode();
-      tiVoEpisode.initializeFromDBObject(resultSet);
-
-      addedEpisodes.add(tiVoEpisode);
-    }
-
-    return addedEpisodes;
   }
 
   private List<Series> getSeriesWithName(String seriesName) throws SQLException {

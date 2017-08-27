@@ -18,11 +18,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.net.UnknownHostException;
 import java.sql.ResultSet;
@@ -33,7 +29,8 @@ import java.util.*;
 
 public class TiVoCommunicator implements UpdateRunner {
 
-  private Boolean lookAtAllShows = false;
+  public enum UpdateType {QUICK, FULL}
+
   private List<String> episodesOnTiVo;
   private List<String> moviesOnTiVo;
   private NodeReader nodeReader;
@@ -42,16 +39,18 @@ public class TiVoCommunicator implements UpdateRunner {
   private Integer deletedShows = 0;
   private Integer updatedShows = 0;
 
+  private UpdateType updateType;
+
   private static SQLConnection sqlConnection;
   private TiVoDataProvider tiVoDataProvider;
 
-  public TiVoCommunicator(SQLConnection connection, TiVoDataProvider tiVoDataProvider, Boolean updateAllShows) {
+  public TiVoCommunicator(SQLConnection connection, TiVoDataProvider tiVoDataProvider, UpdateType updateType) {
     episodesOnTiVo = new ArrayList<>();
     moviesOnTiVo = new ArrayList<>();
     nodeReader = new NodeReaderImpl();
     sqlConnection = connection;
     this.tiVoDataProvider = tiVoDataProvider;
-    lookAtAllShows = updateAllShows;
+    this.updateType = updateType;
   }
 
   public static void main(String[] args) throws UnknownHostException, SQLException, URISyntaxException, BadlyFormattedXMLException {
@@ -63,8 +62,9 @@ public class TiVoCommunicator implements UpdateRunner {
     String identifier = new ArgumentChecker(args).getDBIdentifier();
 
     SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
+    UpdateType updateType = lookAtAllShows ? UpdateType.FULL : UpdateType.QUICK;
 
-    TiVoCommunicator tiVoCommunicator = new TiVoCommunicator(connection, new RemoteFileDownloader(saveTiVoXML), lookAtAllShows);
+    TiVoCommunicator tiVoCommunicator = new TiVoCommunicator(connection, new RemoteFileDownloader(saveTiVoXML), updateType);
 
     if (dev) {
       tiVoCommunicator.truncateTables();
@@ -117,7 +117,7 @@ public class TiVoCommunicator implements UpdateRunner {
   }
 
 
-  public void updateFields() throws SQLException, BadlyFormattedXMLException {
+  private void updateFields() throws SQLException, BadlyFormattedXMLException {
     String fullURL = "https://10.0.0.14/TiVoConnect?Command=QueryContainer&Container=%2FNowPlaying&Recurse=Yes&ItemCount=50";
 
     try {
@@ -134,7 +134,7 @@ public class TiVoCommunicator implements UpdateRunner {
         offset += 50;
       }
 
-      if (lookAtAllShows) {
+      if (isFullUpdate()) {
         checkForDeletedShows();
         checkForDeletedMovies();
         // todo: delete TiVo suggestions from DB completely if they're deleted. Don't need that noise.
@@ -258,7 +258,7 @@ public class TiVoCommunicator implements UpdateRunner {
   }
 
 
-  /**
+  /*
    * @param showAttributes Root XML object
    * @return Whether this episode already exists in the database, and we should stop updating later episodes in quick mode.
    * @throws SQLException
@@ -291,7 +291,7 @@ public class TiVoCommunicator implements UpdateRunner {
     }
   }
 
-  /**
+  /*
    * @return New series object based on TiVo info, or existing series object in DB, or null
    *        if we chose not to create a new series, because the first episode is recording now,
    *        and we don't know if it is a suggestion or not.
@@ -316,7 +316,7 @@ public class TiVoCommunicator implements UpdateRunner {
   }
 
   @Nullable
-  public Series findExistingSeries(TiVoInfo tivoInfo) throws SQLException {
+  private Series findExistingSeries(TiVoInfo tivoInfo) throws SQLException {
     Series series = new Series();
 
     ResultSet resultSet = sqlConnection.prepareAndExecuteStatementFetch(
@@ -362,7 +362,7 @@ public class TiVoCommunicator implements UpdateRunner {
     series.addViewingLocation(sqlConnection, "TiVo");
   }
 
-  /**
+  /*
    * @return Whether the episode already exists in the database.
    * @throws SQLException
    */
@@ -376,7 +376,7 @@ public class TiVoCommunicator implements UpdateRunner {
     }
 
 
-    if (lookAtAllShows) {
+    if (isFullUpdate()) {
       episodesOnTiVo.add(tivoInfo.programId);
     }
 
@@ -409,7 +409,7 @@ public class TiVoCommunicator implements UpdateRunner {
       }
     }
 
-    return tivoEpisodeExists && !lookAtAllShows;
+    return tivoEpisodeExists && isQuickUpdate();
   }
 
   private List<Episode> getLinkedFromRepeats(TiVoEpisode tiVoEpisode) throws SQLException {
@@ -464,7 +464,7 @@ public class TiVoCommunicator implements UpdateRunner {
   }
 
 
-  /**
+  /*
    * @return Whether the movie already exists in the database.
    * @throws SQLException
    */
@@ -477,15 +477,15 @@ public class TiVoCommunicator implements UpdateRunner {
       movieExists = resultSet.next();
     }
 
-    if (lookAtAllShows) {
+    if (isFullUpdate()) {
       moviesOnTiVo.add(tivoInfo.programId);
     }
 
-    if (movieExists && !lookAtAllShows) {
+    if (movieExists && isQuickUpdate()) {
       return true;
     }
 
-    getOrCreateMovie(showDetails, tivoInfo, resultSet, movieExists);
+    maybeCreateMovie(showDetails, tivoInfo, resultSet, movieExists);
 
     return false;
   }
@@ -508,7 +508,7 @@ public class TiVoCommunicator implements UpdateRunner {
     return tivoEpisode;
   }
 
-  private Movie getOrCreateMovie(NodeList showDetails, TiVoInfo tivoInfo, ResultSet existingMovie, Boolean movieExists) throws SQLException {
+  private void maybeCreateMovie(NodeList showDetails, TiVoInfo tivoInfo, ResultSet existingMovie, Boolean movieExists) throws SQLException {
     Movie movie = new Movie();
     if (movieExists) {
       movie.initializeFromDBObject(existingMovie);
@@ -524,7 +524,6 @@ public class TiVoCommunicator implements UpdateRunner {
     // todo: on TiVo with same program_v2_id, or is one deleted but not marked yet? Either way I think we should update
     // todo: instead of insert.
     movie.commit(sqlConnection);
-    return movie;
   }
 
   private void addNewSeries(TiVoInfo tivoInfo) throws SQLException {
@@ -619,7 +618,7 @@ public class TiVoCommunicator implements UpdateRunner {
     return sqlConnection.prepareAndExecuteStatementFetch("SELECT * FROM movie WHERE program_v2_id = ? AND retired = ?", programId, 0);
   }
 
-  private TiVoEpisode formatEpisodeObject(TiVoEpisode tiVoEpisode, String url, Boolean isSuggestion, NodeList showDetails) {
+  private void formatEpisodeObject(TiVoEpisode tiVoEpisode, String url, Boolean isSuggestion, NodeList showDetails) {
     tiVoEpisode.captureDate.changeValueFromXMLString(nodeReader.getValueOfSimpleStringNullableNode(showDetails, "CaptureDate"));
     tiVoEpisode.showingStartTime.changeValueFromXMLString(nodeReader.getValueOfSimpleStringNullableNode(showDetails, "ShowingStartTime"));
 
@@ -638,11 +637,9 @@ public class TiVoCommunicator implements UpdateRunner {
 
     tiVoEpisode.suggestion.changeValue(isSuggestion);
     tiVoEpisode.url.changeValue(url);
-
-    return tiVoEpisode;
   }
 
-  private Movie formatMovieObject(Movie movie, String url, Boolean isSuggestion, NodeList showDetails) {
+  private void formatMovieObject(Movie movie, String url, Boolean isSuggestion, NodeList showDetails) {
     movie.captureDate.changeValueFromXMLString(nodeReader.getValueOfSimpleStringNullableNode(showDetails, "CaptureDate"));
     movie.showingStartTime.changeValueFromXMLString(nodeReader.getValueOfSimpleStringNullableNode(showDetails, "ShowingStartTime"));
 
@@ -659,8 +656,6 @@ public class TiVoCommunicator implements UpdateRunner {
 
     movie.suggestion.changeValue(isSuggestion);
     movie.url.changeValue(url);
-
-    return movie;
   }
 
 
@@ -744,23 +739,13 @@ public class TiVoCommunicator implements UpdateRunner {
     return tiVoDataProvider.connectAndRetrieveDocument(urlString, episodeIdentifier);
   }
 
-
-  private Document recoverDocument(InputStream inputStream) throws IOException, SAXException {
-    DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-    DocumentBuilder dBuilder = null;
-    try {
-      dBuilder = dbFactory.newDocumentBuilder();
-    } catch (ParserConfigurationException e) {
-      e.printStackTrace();
-    }
-
-    Document doc;
-    assert dBuilder != null;
-    doc = dBuilder.parse(inputStream);
-    return doc;
+  private Boolean isQuickUpdate() {
+    return UpdateType.QUICK.equals(updateType);
   }
 
-
+  private Boolean isFullUpdate() {
+    return UpdateType.FULL.equals(updateType);
+  }
 
   protected void debug(Object object) {
     System.out.println(object);
@@ -768,7 +753,7 @@ public class TiVoCommunicator implements UpdateRunner {
 
   @Override
   public String getRunnerName() {
-    String qualifier = lookAtAllShows ? "(Long)" : "(Short)";
+    String qualifier = isFullUpdate() ? "(Long)" : "(Short)";
     return "TiVo Communicator " + qualifier;
   }
 

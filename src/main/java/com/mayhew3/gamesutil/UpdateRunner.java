@@ -9,5 +9,5 @@ import java.sql.SQLException;
 public interface UpdateRunner {
   String getRunnerName();
 
-  void runUpdate() throws SQLException, BadlyFormattedXMLException, AuthenticationException, UnirestException;
+  void runUpdate() throws SQLException, BadlyFormattedXMLException, AuthenticationException, UnirestException, InterruptedException;
 }

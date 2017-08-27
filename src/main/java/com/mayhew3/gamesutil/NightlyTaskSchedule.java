@@ -1,5 +1,7 @@
 package com.mayhew3.gamesutil;
 
+import org.jetbrains.annotations.NotNull;
+import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
 
 public class NightlyTaskSchedule extends TaskSchedule {
@@ -9,27 +11,32 @@ public class NightlyTaskSchedule extends TaskSchedule {
 
   private Integer numberOfDays;
 
-  protected NightlyTaskSchedule(UpdateRunner updateRunner, LocalTime startTime, LocalTime endTime, Integer numberOfDays) {
+  NightlyTaskSchedule(UpdateRunner updateRunner, Integer numberOfDays) {
     super(updateRunner);
-    this.startTime = startTime;
-    this.endTime = endTime;
+    this.startTime = new LocalTime(3, 0);
+    this.endTime = new LocalTime(7, 0);
     this.numberOfDays = numberOfDays;
   }
 
-  public LocalTime getStartTime() {
-    return startTime;
-  }
-
-  public LocalTime getEndTime() {
-    return endTime;
-  }
-
-  public Integer getNumberOfDays() {
-    return numberOfDays;
-  }
-
+  @NotNull
   @Override
   public Boolean isEligibleToRun() {
-    throw new IllegalStateException("Implement me!");
+    return appropriateNumberOfDaysLater() && withinEligibleHours();
+  }
+
+  private boolean appropriateNumberOfDaysLater() {
+    if (lastRan == null) {
+      return true;
+    }
+    DateTime lastRanAtMidnight = new DateTime(lastRan).withTimeAtStartOfDay();
+    DateTime now = new DateTime();
+    DateTime nextEligible = lastRanAtMidnight.plusDays(numberOfDays);
+
+    return !now.withTimeAtStartOfDay().isBefore(nextEligible);
+  }
+
+  private boolean withinEligibleHours() {
+    DateTime now = new DateTime();
+    return !now.toLocalTime().isBefore(startTime) && !now.toLocalTime().isAfter(endTime);
   }
 }

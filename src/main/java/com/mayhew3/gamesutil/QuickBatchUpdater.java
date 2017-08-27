@@ -6,9 +6,7 @@ import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.games.SteamGameUpdater;
 import com.mayhew3.gamesutil.tv.*;
-import com.mayhew3.gamesutil.xml.BadlyFormattedXMLException;
 import com.mayhew3.gamesutil.xml.JSONReaderImpl;
-import org.apache.http.auth.AuthenticationException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -52,7 +50,7 @@ public class QuickBatchUpdater {
     // INITIALIZE UPDATERS
 
     List<UpdateRunner> updateRunners = Lists.newArrayList(
-        new TiVoCommunicator(connection, new RemoteFileDownloader(saveTiVoXML), false),
+        new TiVoCommunicator(connection, new RemoteFileDownloader(saveTiVoXML), TiVoCommunicator.UpdateType.QUICK),
         new SteamGameUpdater(connection)
     );
 

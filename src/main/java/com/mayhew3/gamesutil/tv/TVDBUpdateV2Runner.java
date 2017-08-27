@@ -28,7 +28,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
-@SuppressWarnings("Guava")
 public class TVDBUpdateV2Runner implements UpdateRunner {
 
   private enum SeriesUpdateResult {UPDATE_SUCCESS, UPDATE_FAILED}
@@ -147,7 +146,7 @@ public class TVDBUpdateV2Runner implements UpdateRunner {
 
   @Override
   public String getRunnerName() {
-    return "TVDB Updater";
+    return "TVDB Updater (" + updateType + ")";
   }
 
   /**
@@ -156,7 +155,7 @@ public class TVDBUpdateV2Runner implements UpdateRunner {
    * @throws SQLException if query to get series to update fails. Any one series update will not halt operation of the
    *                    script, but if the query to find all the serieses fails, the operation can't continue.
    */
-  public void runFullUpdate() throws SQLException {
+  private void runFullUpdate() throws SQLException {
     String sql = "select *\n" +
         "from series\n" +
         "where tvdb_match_status = ? " +

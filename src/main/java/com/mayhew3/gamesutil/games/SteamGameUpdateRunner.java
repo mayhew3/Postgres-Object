@@ -52,7 +52,7 @@ public class SteamGameUpdateRunner {
     debug(" --- ");
 
     SteamAttributeUpdateRunner steamAttributeUpdateRunner = new SteamAttributeUpdateRunner(connection);
-    steamAttributeUpdateRunner.runSteamAttributeUpdate();
+    steamAttributeUpdateRunner.runUpdate();
 
     debug(" --- ");
     debug(" Finished Steam Attribute section, starting HowLongToBeat update!");
@@ -66,7 +66,7 @@ public class SteamGameUpdateRunner {
     debug(" --- ");
 
     GiantBombUpdater giantBombUpdater = new GiantBombUpdater(connection);
-    giantBombUpdater.updateFieldsOnUnmatched();
+    giantBombUpdater.runUpdate();
 
     debug(" --- ");
     debug(" Full operation complete!");

@@ -2,6 +2,7 @@ package com.mayhew3.gamesutil.tv;
 
 import com.google.common.collect.Lists;
 import com.mayhew3.gamesutil.ArgumentChecker;
+import com.mayhew3.gamesutil.UpdateRunner;
 import com.mayhew3.gamesutil.model.tv.Season;
 import com.mayhew3.gamesutil.model.tv.Series;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
@@ -22,7 +23,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class MetacriticTVUpdater {
+public class MetacriticTVUpdater implements UpdateRunner {
 
   private SQLConnection connection;
 
@@ -44,11 +45,11 @@ public class MetacriticTVUpdater {
     } else if (quickMode) {
       metacriticTVUpdater.runQuickUpdate();
     } else {
-      metacriticTVUpdater.runUpdater();
+      metacriticTVUpdater.runUpdate();
     }
   }
 
-  public void runUpdater() throws SQLException {
+  public void runUpdate() throws SQLException {
     String sql = "select *\n" +
         "from series\n" +
         "where tvdb_match_status = ? " +
@@ -58,7 +59,7 @@ public class MetacriticTVUpdater {
     runUpdateOnResultSet(resultSet);
   }
 
-  public void runQuickUpdate() throws SQLException {
+  private void runQuickUpdate() throws SQLException {
     String sql = "select *\n" +
         "from series\n" +
         "where tvdb_match_status = ? " +
@@ -228,4 +229,8 @@ public class MetacriticTVUpdater {
     System.out.println(object);
   }
 
+  @Override
+  public String getRunnerName() {
+    return "Metacritic TV Runner";
+  }
 }

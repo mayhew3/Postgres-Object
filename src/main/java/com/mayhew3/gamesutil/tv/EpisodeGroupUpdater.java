@@ -1,6 +1,7 @@
 package com.mayhew3.gamesutil.tv;
 
 import com.mayhew3.gamesutil.ArgumentChecker;
+import com.mayhew3.gamesutil.UpdateRunner;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.model.tv.Episode;
@@ -16,25 +17,23 @@ import java.net.URISyntaxException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.time.Year;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @SuppressWarnings({"OptionalIsPresent"})
-public class EpisodeGroupUpdater {
+public class EpisodeGroupUpdater implements UpdateRunner {
 
   private SQLConnection connection;
 
-  private Timestamp lastWatchDate;
-
-  public static Integer currentYear = 2017;
+  @SuppressWarnings("WeakerAccess")
+  static Integer currentYear = 2017;
 
   public static void main(String... args) throws URISyntaxException, SQLException {
     String identifier = new ArgumentChecker(args).getDBIdentifier();
     SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
 
     EpisodeGroupUpdater updater = new EpisodeGroupUpdater(connection);
-    updater.updateEpisodeGroups(currentYear);
+    updater.runUpdate();
   }
 
   public EpisodeGroupUpdater(SQLConnection connection) {
@@ -42,7 +41,7 @@ public class EpisodeGroupUpdater {
   }
 
   @SuppressWarnings("SameParameterValue")
-  public void updateEpisodeGroups(Integer year) throws SQLException {
+  public void runUpdate() throws SQLException {
     String sql = "select s.*\n" +
         "from episode e\n" +
         "inner join series s\n" +
@@ -56,10 +55,10 @@ public class EpisodeGroupUpdater {
 
 //    String startDate = year + "-01-01";
 //    String endDate =  year + "-12-31";
-    Timestamp startDate = new Timestamp(beginningOfYear(year).toDate().getTime());
-    Timestamp endDate = new Timestamp(endOfYear(year).toDate().getTime());
+    Timestamp startDate = new Timestamp(beginningOfYear(currentYear).toDate().getTime());
+    Timestamp endDate = new Timestamp(endOfYear(currentYear).toDate().getTime());
 
-    lastWatchDate = new Timestamp(new DateTime(2017, 1, 11, 0, 0, 0).toDate().getTime());
+    Timestamp lastWatchDate = new Timestamp(new DateTime(2017, 1, 11, 0, 0, 0).toDate().getTime());
 
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, startDate, endDate, true, 0);
 
@@ -69,7 +68,7 @@ public class EpisodeGroupUpdater {
 
       debug("Updating Series '" + series.seriesTitle.getValue() + "' (" + series.id.getValue() + ")");
 
-      EpisodeGroupRating groupRating = getOrCreateExistingRatingForSeriesAndYear(series, year);
+      EpisodeGroupRating groupRating = getOrCreateExistingRatingForSeriesAndYear(series, currentYear);
 
       List<EpisodeInfo> episodeInfos = getEligibleEpisodeInfos(groupRating);
 
@@ -163,6 +162,11 @@ public class EpisodeGroupUpdater {
       infos.add(new EpisodeInfo(episode));
     }
     return infos;
+  }
+
+  @Override
+  public String getRunnerName() {
+    return "Episode Group Updater";
   }
 
   private class EpisodeInfo {

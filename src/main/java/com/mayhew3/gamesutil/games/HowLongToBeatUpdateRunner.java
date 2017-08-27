@@ -2,6 +2,7 @@ package com.mayhew3.gamesutil.games;
 
 import com.google.common.collect.Lists;
 import com.mayhew3.gamesutil.ArgumentChecker;
+import com.mayhew3.gamesutil.UpdateRunner;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.model.games.Game;
@@ -20,11 +21,11 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
-public class HowLongToBeatUpdateRunner {
+public class HowLongToBeatUpdateRunner implements UpdateRunner {
 
   private SQLConnection connection;
 
-  HowLongToBeatUpdateRunner(SQLConnection connection) {
+  public HowLongToBeatUpdateRunner(SQLConnection connection) {
     this.connection = connection;
   }
 
@@ -57,7 +58,12 @@ public class HowLongToBeatUpdateRunner {
     }
   }
 
-  void runUpdate() throws SQLException {
+  @Override
+  public String getRunnerName() {
+    return "HowLongToBeat Updater";
+  }
+
+  public void runUpdate() throws SQLException {
     Date date = new DateTime().minusDays(7).toDate();
     Timestamp timestamp = new Timestamp(date.getTime());
 
