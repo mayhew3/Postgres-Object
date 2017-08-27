@@ -67,6 +67,8 @@ public class TaskScheduleRunner {
     JSONReader jsonReader = new JSONReaderImpl();
     TiVoDataProvider tiVoDataProvider = new RemoteFileDownloader(false);
 
+    setDriverPath();
+
     TaskScheduleRunner taskScheduleRunner = new TaskScheduleRunner(connection, tvdbjwtProvider, jsonReader, tiVoDataProvider, identifier, logToFile);
     taskScheduleRunner.runUpdates();
   }
@@ -176,6 +178,11 @@ public class TaskScheduleRunner {
 
     logOutput.close();
     logOutput = null;
+  }
+
+  private static void setDriverPath() {
+    String driverPath = System.getProperty("user.dir") + "\\resources\\chromedriver.exe";
+    System.setProperty("webdriver.chrome.driver", driverPath);
   }
 
   protected static void debug(Object message) {

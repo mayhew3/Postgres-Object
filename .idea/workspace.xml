@@ -2,26 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1e099498-ec9e-4703-ab18-cce3963e4d0c" name="Default" comment="Move annotation directory">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/NightlyTaskSchedule.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/NightlyTaskSchedule.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/PeriodicTaskSchedule.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/PeriodicTaskSchedule.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/QuickBatchUpdater.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/QuickBatchUpdater.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/TaskSchedule.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/TaskSchedule.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/TaskScheduleRunner.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/TaskScheduleRunner.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/UpdateRunner.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/UpdateRunner.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/GiantBombUpdater.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/GiantBombUpdater.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/HowLongToBeatUpdateRunner.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/HowLongToBeatUpdateRunner.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/MetacriticGameUpdateRunner.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/MetacriticGameUpdateRunner.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/SteamAttributeUpdateRunner.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/SteamAttributeUpdateRunner.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/SteamGameUpdateRunner.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/SteamGameUpdateRunner.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/EpisodeGroupUpdater.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/EpisodeGroupUpdater.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/MetacriticTVUpdater.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/MetacriticTVUpdater.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateType.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateType.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateV2Runner.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateV2Runner.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TiVoCommunicator.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TiVoCommunicator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TiVoLibraryUpdater.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TiVoLibraryUpdater.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/com/mayhew3/gamesutil/tv/TiVoDaylightSavingsTest.java" afterPath="$PROJECT_DIR$/src/test/java/com/mayhew3/gamesutil/tv/TiVoDaylightSavingsTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/com/mayhew3/gamesutil/tv/TiVoMatchExistingTest.java" afterPath="$PROJECT_DIR$/src/test/java/com/mayhew3/gamesutil/tv/TiVoMatchExistingTest.java" />
     </list>
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -83,11 +64,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="TaskScheduleRunner.java" pinned="false" current-in-tab="false">
+          <file leaf-file-name="TaskScheduleRunner.java" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/TaskScheduleRunner.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="513">
-                  <caret line="89" column="0" lean-forward="true" selection-start-line="89" selection-start-column="0" selection-end-line="89" selection-end-column="0" />
+                <state relative-caret-position="684">
+                  <caret line="93" column="34" lean-forward="false" selection-start-line="93" selection-start-column="34" selection-end-line="93" selection-end-column="34" />
                   <folding>
                     <element signature="imports" expanded="true" />
                   </folding>
@@ -151,11 +132,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="TiVoMatchExistingTest.java" pinned="false" current-in-tab="true">
+          <file leaf-file-name="TiVoMatchExistingTest.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/gamesutil/tv/TiVoMatchExistingTest.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="491">
-                  <caret line="56" column="0" lean-forward="true" selection-start-line="56" selection-start-column="0" selection-end-line="56" selection-end-column="0" />
+                <state relative-caret-position="111">
+                  <caret line="36" column="72" lean-forward="true" selection-start-line="36" selection-start-column="72" selection-end-line="36" selection-end-column="72" />
                   <folding />
                 </state>
               </provider>
@@ -191,7 +172,7 @@
             <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/TaskScheduleRunner.java">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="379">
-                  <caret line="81" column="37" lean-forward="true" selection-start-line="81" selection-start-column="37" selection-end-line="81" selection-end-column="37" />
+                  <caret line="83" column="37" lean-forward="true" selection-start-line="83" selection-start-column="37" selection-end-line="83" selection-end-column="37" />
                   <folding>
                     <element signature="imports" expanded="true" />
                   </folding>
@@ -212,11 +193,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="UpdateRunner.java" pinned="false" current-in-tab="true">
+          <file leaf-file-name="UpdateRunner.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/UpdateRunner.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="247">
-                  <caret line="13" column="0" lean-forward="true" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
+                <state relative-caret-position="209">
+                  <caret line="11" column="43" lean-forward="false" selection-start-line="11" selection-start-column="43" selection-end-line="11" selection-end-column="43" />
                   <folding>
                     <element signature="imports" expanded="true" />
                   </folding>
@@ -268,9 +249,12 @@
           <file leaf-file-name="MetacriticTVUpdater.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/MetacriticTVUpdater.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="418">
-                  <caret line="45" column="43" lean-forward="true" selection-start-line="45" selection-start-column="43" selection-end-line="45" selection-end-column="43" />
-                  <folding />
+                <state relative-caret-position="554">
+                  <caret line="177" column="0" lean-forward="true" selection-start-line="177" selection-start-column="0" selection-end-line="177" selection-end-column="0" />
+                  <folding>
+                    <element signature="e#937#938#0" expanded="true" />
+                    <element signature="e#975#976#0" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -288,12 +272,15 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="HowLongToBeatUpdateRunner.java" pinned="false" current-in-tab="false">
+          <file leaf-file-name="HowLongToBeatUpdateRunner.java" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/HowLongToBeatUpdateRunner.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="551">
-                  <caret line="64" column="0" lean-forward="true" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
-                  <folding />
+                <state relative-caret-position="1189">
+                  <caret line="132" column="0" lean-forward="true" selection-start-line="127" selection-start-column="0" selection-end-line="132" selection-end-column="0" />
+                  <folding>
+                    <element signature="e#898#899#0" expanded="true" />
+                    <element signature="e#936#937#0" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -746,7 +733,6 @@
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/NightlyTaskSchedule.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/PeriodicTaskSchedule.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/MetacriticGameUpdateRunner.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/TaskScheduleRunner.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TiVoLibraryUpdater.java" />
         <option value="$PROJECT_DIR$/src/test/java/com/mayhew3/gamesutil/tv/TiVoDaylightSavingsTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateType.java" />
@@ -756,6 +742,7 @@
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/TaskSchedule.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TiVoCommunicator.java" />
         <option value="$PROJECT_DIR$/src/test/java/com/mayhew3/gamesutil/tv/TiVoMatchExistingTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/TaskScheduleRunner.java" />
       </list>
     </option>
   </component>
@@ -808,20 +795,20 @@
               <item name="media-mogul-data" type="b2602c69:ProjectViewProjectNode" />
               <item name="media-mogul-data" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
             </path>
             <path>
               <item name="media-mogul-data" type="b2602c69:ProjectViewProjectNode" />
               <item name="media-mogul-data" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="media-mogul-data" type="b2602c69:ProjectViewProjectNode" />
               <item name="media-mogul-data" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="gamesutil" type="462c0819:PsiDirectoryNode" />
             </path>
@@ -877,7 +864,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.All in media-mogul-data_test">
+  <component name="RunManager" selected="Gradle.media-mogul-data [assemble]">
     <configuration name="All in media-mogul-data_test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="media-mogul-data_test" />
@@ -2849,8 +2836,8 @@
     </list>
     <recent_temporary>
       <list size="4">
-        <item index="0" class="java.lang.String" itemvalue="JUnit.All in media-mogul-data_test" />
-        <item index="1" class="java.lang.String" itemvalue="Gradle.media-mogul-data [assemble]" />
+        <item index="0" class="java.lang.String" itemvalue="Gradle.media-mogul-data [assemble]" />
+        <item index="1" class="java.lang.String" itemvalue="JUnit.All in media-mogul-data_test" />
         <item index="2" class="java.lang.String" itemvalue="JUnit.com.mayhew3.gamesutil in media-mogul-data_test" />
         <item index="3" class="java.lang.String" itemvalue="Gradle.media-mogul-data [clean]" />
       </list>
@@ -2922,7 +2909,7 @@
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32866153" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32866153" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3293623" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13235295" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -3106,10 +3093,10 @@
         <state relative-caret-position="152">
           <caret line="28" column="0" lean-forward="false" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
           <folding>
-            <element signature="e#1651#1652#0" expanded="true" />
-            <element signature="e#1691#1692#0" expanded="true" />
-            <element signature="e#7850#7851#0" expanded="true" />
-            <element signature="e#7907#7908#0" expanded="true" />
+            <element signature="e#1651#1652#0" expanded="false" />
+            <element signature="e#1691#1692#0" expanded="false" />
+            <element signature="e#7850#7851#0" expanded="false" />
+            <element signature="e#7907#7908#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -3241,14 +3228,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/HowLongToBeatUpdateRunner.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="551">
-          <caret line="64" column="0" lean-forward="true" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/MetacriticGameUpdateRunner.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="361">
@@ -3316,24 +3295,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/MetacriticTVUpdater.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="418">
-          <caret line="45" column="43" lean-forward="true" selection-start-line="45" selection-start-column="43" selection-end-line="45" selection-end-column="43" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/TaskScheduleRunner.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="513">
-          <caret line="89" column="0" lean-forward="true" selection-start-line="89" selection-start-column="0" selection-end-line="89" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/gamesutil/tv/TiVoDaylightSavingsTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="368">
@@ -3385,21 +3346,53 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/gamesutil/tv/TiVoMatchExistingTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="111">
+          <caret line="36" column="72" lean-forward="true" selection-start-line="36" selection-start-column="72" selection-end-line="36" selection-end-column="72" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/UpdateRunner.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="247">
-          <caret line="13" column="0" lean-forward="true" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
+        <state relative-caret-position="209">
+          <caret line="11" column="43" lean-forward="false" selection-start-line="11" selection-start-column="43" selection-end-line="11" selection-end-column="43" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/gamesutil/tv/TiVoMatchExistingTest.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/MetacriticTVUpdater.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="491">
-          <caret line="56" column="0" lean-forward="true" selection-start-line="56" selection-start-column="0" selection-end-line="56" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="554">
+          <caret line="177" column="0" lean-forward="true" selection-start-line="177" selection-start-column="0" selection-end-line="177" selection-end-column="0" />
+          <folding>
+            <element signature="e#937#938#0" expanded="true" />
+            <element signature="e#975#976#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/HowLongToBeatUpdateRunner.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1189">
+          <caret line="132" column="0" lean-forward="true" selection-start-line="127" selection-start-column="0" selection-end-line="132" selection-end-column="0" />
+          <folding>
+            <element signature="e#898#899#0" expanded="true" />
+            <element signature="e#936#937#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/TaskScheduleRunner.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="684">
+          <caret line="93" column="34" lean-forward="false" selection-start-line="93" selection-start-column="34" selection-end-line="93" selection-end-column="34" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
