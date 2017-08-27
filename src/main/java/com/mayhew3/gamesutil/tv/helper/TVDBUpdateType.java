@@ -1,5 +1,9 @@
 package com.mayhew3.gamesutil.tv.helper;
 
+import com.google.common.collect.Lists;
+
+import java.util.Optional;
+
 public enum TVDBUpdateType {
   FULL("Full"),
   SMART("Smart"),
@@ -22,6 +26,13 @@ public enum TVDBUpdateType {
 
   public String getTypekey() {
     return typekey;
+  }
+
+  public static Optional<TVDBUpdateType> getUpdateType(final String typekey) {
+    return Lists.newArrayList(TVDBUpdateType.values())
+        .stream()
+        .filter(tvdbUpdateType -> tvdbUpdateType.typekey.equalsIgnoreCase(typekey))
+        .findAny();
   }
 
   @Override

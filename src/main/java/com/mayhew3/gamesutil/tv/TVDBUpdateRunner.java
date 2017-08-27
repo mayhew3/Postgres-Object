@@ -1,6 +1,5 @@
 package com.mayhew3.gamesutil.tv;
 
-import com.google.common.collect.Lists;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mayhew3.gamesutil.ArgumentChecker;
 import com.mayhew3.gamesutil.scheduler.UpdateRunner;
@@ -16,6 +15,7 @@ import com.mayhew3.gamesutil.tv.provider.TVDBJWTProviderImpl;
 import com.mayhew3.gamesutil.xml.BadlyFormattedXMLException;
 import com.mayhew3.gamesutil.xml.JSONReader;
 import com.mayhew3.gamesutil.xml.JSONReaderImpl;
+import org.apache.commons.cli.*;
 import org.apache.http.auth.AuthenticationException;
 import org.jetbrains.annotations.NotNull;
 import org.joda.time.DateTime;
@@ -26,10 +26,7 @@ import java.net.URISyntaxException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.TimeZone;
+import java.util.*;
 
 public class TVDBUpdateRunner implements UpdateRunner {
 
@@ -58,41 +55,14 @@ public class TVDBUpdateRunner implements UpdateRunner {
     this.updateType = updateType;
   }
 
-  public static void main(String... args) throws URISyntaxException, SQLException, UnirestException {
-    List<String> argList = Lists.newArrayList(args);
-    Boolean singleSeries = argList.contains("SingleSeries");
-    Boolean quickMode = argList.contains("Quick");
-    Boolean smartMode = argList.contains("Smart");
-    Boolean recentlyUpdatedOnly = argList.contains("Recent");
-    Boolean fewErrors = argList.contains("FewErrors");
-    Boolean oldErrors = argList.contains("OldErrors");
-    Boolean updateOnlyAirTimes = argList.contains("AirTimes");
-    Boolean sanityCheck = argList.contains("SanityCheck");
+  public static void main(String... args) throws URISyntaxException, SQLException, UnirestException, ParseException {
+    TVDBUpdateType updateType = getTVDBUpdateType(args);
+
     String identifier = new ArgumentChecker(args).getDBIdentifier();
 
     SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
-    TVDBUpdateRunner tvdbUpdateRunner;
 
-    if (singleSeries) {
-      tvdbUpdateRunner = new TVDBUpdateRunner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), TVDBUpdateType.SINGLE);
-    } else if (quickMode) {
-      tvdbUpdateRunner = new TVDBUpdateRunner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), TVDBUpdateType.QUICK);
-    } else if (smartMode) {
-      tvdbUpdateRunner = new TVDBUpdateRunner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), TVDBUpdateType.SMART);
-    } else if (recentlyUpdatedOnly) {
-      tvdbUpdateRunner = new TVDBUpdateRunner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), TVDBUpdateType.RECENT);
-    } else if (fewErrors) {
-      tvdbUpdateRunner = new TVDBUpdateRunner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), TVDBUpdateType.FEW_ERRORS);
-    } else if (oldErrors) {
-      tvdbUpdateRunner = new TVDBUpdateRunner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), TVDBUpdateType.OLD_ERRORS);
-    } else if (updateOnlyAirTimes) {
-      tvdbUpdateRunner = new TVDBUpdateRunner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), TVDBUpdateType.AIRTIMES);
-    } else if (sanityCheck) {
-      tvdbUpdateRunner = new TVDBUpdateRunner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), TVDBUpdateType.SANITY);
-    } else {
-      tvdbUpdateRunner = new TVDBUpdateRunner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), TVDBUpdateType.FULL);
-    }
-
+    TVDBUpdateRunner tvdbUpdateRunner = new TVDBUpdateRunner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), updateType);
     tvdbUpdateRunner.runUpdate();
 
     if (tvdbUpdateRunner.getSeriesUpdates() > 0) {
@@ -101,33 +71,51 @@ public class TVDBUpdateRunner implements UpdateRunner {
     }
   }
 
+  @NotNull
+  private static TVDBUpdateType getTVDBUpdateType(String[] args) throws ParseException {
+    Options options = new Options();
+    Option typeOption = Option.builder("type")
+        .hasArg()
+        .desc("TVDB Update Type")
+        .required(false)
+        .build();
+
+    options.addOption(typeOption);
+
+    CommandLineParser parser = new DefaultParser();
+    CommandLine commands = parser.parse(options, args);
+
+    TVDBUpdateType updateType = TVDBUpdateType.SMART;
+    if (commands.hasOption("type")) {
+      String optionValue = commands.getOptionValue("type");
+      Optional<TVDBUpdateType> commandLineType = TVDBUpdateType.getUpdateType(optionValue);
+      if (commandLineType.isPresent()) {
+        updateType = commandLineType.get();
+      } else {
+        throw new IllegalArgumentException("No TVDBUpdateType found: " + optionValue);
+      }
+    }
+    return updateType;
+  }
+
   public void runUpdate() throws SQLException {
 
     initializeConnectionLog(updateType);
 
+    Map<TVDBUpdateType, Runnable> methodMap = new HashMap<>();
+    methodMap.put(TVDBUpdateType.FULL, this::runFullUpdate);
+    methodMap.put(TVDBUpdateType.SMART, this::runSmartUpdateSingleQuery);
+    methodMap.put(TVDBUpdateType.RECENT, this::runUpdateOnRecentUpdateList);
+    methodMap.put(TVDBUpdateType.FEW_ERRORS, this::runUpdateOnRecentlyErrored);
+    methodMap.put(TVDBUpdateType.OLD_ERRORS, this::runUpdateOnOldErrors);
+    methodMap.put(TVDBUpdateType.SINGLE, this::runUpdateSingle);
+    methodMap.put(TVDBUpdateType.AIRTIMES, this::runAirTimesUpdate);
+    methodMap.put(TVDBUpdateType.QUICK, this::runQuickUpdate);
+    methodMap.put(TVDBUpdateType.SANITY, this::runSanityUpdateOnShowsThatHaventBeenUpdatedInAWhile);
+
     try {
-      if (updateType.equals(TVDBUpdateType.FULL)) {
-        runFullUpdate();
-      } else if (updateType.equals(TVDBUpdateType.SMART)) {
-        runSmartUpdateSingleQuery();
-      } else if (updateType.equals(TVDBUpdateType.RECENT)) {
-        runUpdateOnRecentUpdateList();
-      } else if (updateType.equals(TVDBUpdateType.FEW_ERRORS)) {
-        runUpdateOnRecentlyErrored();
-      } else if (updateType.equals(TVDBUpdateType.OLD_ERRORS)) {
-        runUpdateOnOldErrors();
-      } else if (updateType.equals(TVDBUpdateType.SINGLE)) {
-        runUpdateSingle();
-      } else if (updateType.equals(TVDBUpdateType.AIRTIMES)) {
-        runAirTimesUpdate();
-      } else if (updateType.equals(TVDBUpdateType.QUICK)) {
-        runQuickUpdate();
-      } else if (updateType.equals(TVDBUpdateType.SANITY)) {
-        runSanityUpdateOnShowsThatHaventBeenUpdatedInAWhile();
-      }
-
+      methodMap.get(updateType).run();
       tvdbConnectionLog.finishTime.changeValue(new Date());
-
     } catch (Exception e) {
       e.printStackTrace();
     } finally {
@@ -154,18 +142,19 @@ public class TVDBUpdateRunner implements UpdateRunner {
 
   /**
    * Go to theTVDB and update all matched series in my DB with the ones from theirs.
-   *
-   * @throws SQLException if query to get series to update fails. Any one series update will not halt operation of the
-   *                    script, but if the query to find all the serieses fails, the operation can't continue.
    */
-  private void runFullUpdate() throws SQLException {
+  private void runFullUpdate() {
     String sql = "select *\n" +
         "from series\n" +
         "where tvdb_match_status = ? " +
         "and retired = ? ";
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, TVDBMatchStatus.MATCH_COMPLETED, 0);
 
-    runUpdateOnResultSet(resultSet);
+    try {
+      ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, TVDBMatchStatus.MATCH_COMPLETED, 0);
+      runUpdateOnResultSet(resultSet);
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   /**
@@ -175,19 +164,23 @@ public class TVDBUpdateRunner implements UpdateRunner {
    * @throws SQLException if query to get series to update fails. Any one series update will not halt operation of the
    *                    script, but if the query to find all the serieses fails, the operation can't continue.
    */
-  private void runQuickUpdate() throws SQLException {
+  private void runQuickUpdate() {
     String sql = "select * " +
         "from series " +
         "where tvdb_match_status = ? " +
         "and consecutive_tvdb_errors < ? " +
         "and retired = ? ";
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, TVDBMatchStatus.MATCH_CONFIRMED, ERROR_THRESHOLD, 0);
 
-    runUpdateOnResultSet(resultSet);
+    try {
+      ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, TVDBMatchStatus.MATCH_CONFIRMED, ERROR_THRESHOLD, 0);
+      runUpdateOnResultSet(resultSet);
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   // todo: run on shows that haven't been updated in the past week. Test first: queries to see how many this is.
-  private void runSanityUpdateOnShowsThatHaventBeenUpdatedInAWhile() throws SQLException {
+  private void runSanityUpdateOnShowsThatHaventBeenUpdatedInAWhile() {
     DateTime today = new DateTime();
     Timestamp sevenDaysAgo = new Timestamp(today.minusDays(7).getMillis());
     Timestamp threeMonthsAgo = new Timestamp(today.minusMonths(3).getMillis());
@@ -200,91 +193,108 @@ public class TVDBUpdateRunner implements UpdateRunner {
         "and suggestion = ?\n" +
         "and retired = ?\n" +
         "and (most_recent > ? or tier = ?);";
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, TVDBMatchStatus.MATCH_COMPLETED, sevenDaysAgo, false, 0, threeMonthsAgo, 1);
 
-    runUpdateOnResultSet(resultSet);
+    try {
+      ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, TVDBMatchStatus.MATCH_COMPLETED, sevenDaysAgo, false, 0, threeMonthsAgo, 1);
+      runUpdateOnResultSet(resultSet);
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
   }
 
 
-  private void runUpdateSingle() throws SQLException {
+  private void runUpdateSingle() {
     String singleSeriesTitle = "Game of Thrones"; // update for testing on a single series
 
     String sql = "select *\n" +
         "from series\n" +
         "where title = ? " +
         "and retired = ? ";
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, singleSeriesTitle, 0);
 
-    runUpdateOnResultSet(resultSet);
+    try {
+      ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, singleSeriesTitle, 0);
+      runUpdateOnResultSet(resultSet);
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
   }
 
-  private void runAirTimesUpdate() throws SQLException {
+  private void runAirTimesUpdate() {
     String singleSeriesTitle = "Detroit Steel"; // update for testing on a single series
 
     String sql = "select *\n" +
         "from series\n" +
         "where title = ? " +
         "and retired = ? ";
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, singleSeriesTitle, 0);
 
-    while (resultSet.next()) {
-      Series series = new Series();
-      series.initializeFromDBObject(resultSet);
+    try {
+      ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, singleSeriesTitle, 0);
 
-      debug("Updating series '" + series.seriesTitle.getValue() + "'");
+      while (resultSet.next()) {
+        Series series = new Series();
+        series.initializeFromDBObject(resultSet);
 
-      TVDBEpisodeUpdater tvdbEpisodeUpdater = new TVDBEpisodeUpdater(series, connection, tvdbjwtProvider, 1, jsonReader, false);
-      tvdbEpisodeUpdater.updateOnlyAirTimes();
+        debug("Updating series '" + series.seriesTitle.getValue() + "'");
+
+        TVDBEpisodeUpdater tvdbEpisodeUpdater = new TVDBEpisodeUpdater(series, connection, tvdbjwtProvider, 1, jsonReader, false);
+        tvdbEpisodeUpdater.updateOnlyAirTimes();
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
     }
   }
 
 
-  private void runUpdateOnRecentUpdateList() throws UnirestException, SQLException, AuthenticationException {
+  private void runUpdateOnRecentUpdateList() {
 
-    Timestamp mostRecentSuccessfulUpdate = getMostRecentSuccessfulUpdate();
+    try {
+      Timestamp mostRecentSuccessfulUpdate = getMostRecentSuccessfulUpdate();
 
-    validateLastUpdate(mostRecentSuccessfulUpdate);
+      validateLastUpdate(mostRecentSuccessfulUpdate);
 
-    debug("Finding all episodes updated since: " + mostRecentSuccessfulUpdate);
+      debug("Finding all episodes updated since: " + mostRecentSuccessfulUpdate);
 
-    JSONObject updatedSeries = tvdbjwtProvider.getUpdatedSeries(mostRecentSuccessfulUpdate);
+      JSONObject updatedSeries = tvdbjwtProvider.getUpdatedSeries(mostRecentSuccessfulUpdate);
 
-    if (updatedSeries.isNull("data")) {
-      debug("Empty list of TVDB updated.");
-      return;
-    }
-
-    @NotNull JSONArray seriesArray = jsonReader.getArrayWithKey(updatedSeries, "data");
-
-    debug("Total series found: " + seriesArray.length());
-
-    for (int i = 0; i < seriesArray.length(); i++) {
-      JSONObject seriesRow = seriesArray.getJSONObject(i);
-      @NotNull Integer seriesId = jsonReader.getIntegerWithKey(seriesRow, "id");
-
-      String sql = "select * " +
-          "from series " +
-          "where tvdb_match_status = ? " +
-          "and tvdb_series_ext_id = ? " +
-          "and retired = ? ";
-
-      @NotNull ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, TVDBMatchStatus.MATCH_COMPLETED, seriesId, 0);
-      if (resultSet.next()) {
-        Series series = new Series();
-
-        try {
-          SeriesUpdateResult updateResult = processSingleSeries(resultSet, series);
-          if (SeriesUpdateResult.UPDATE_SUCCESS.equals(updateResult)) {
-            tvdbConnectionLog.updatedShows.increment(1);
-          } else {
-            tvdbConnectionLog.failedShows.increment(1);
-          }
-        } catch (Exception e) {
-          debug("Show failed on initialization from DB.");
-        }
-      } else {
-        debug("Recently updated series not found: ID " + seriesId);
+      if (updatedSeries.isNull("data")) {
+        debug("Empty list of TVDB updated.");
+        return;
       }
+
+      @NotNull JSONArray seriesArray = jsonReader.getArrayWithKey(updatedSeries, "data");
+
+      debug("Total series found: " + seriesArray.length());
+
+      for (int i = 0; i < seriesArray.length(); i++) {
+        JSONObject seriesRow = seriesArray.getJSONObject(i);
+        @NotNull Integer seriesId = jsonReader.getIntegerWithKey(seriesRow, "id");
+
+        String sql = "select * " +
+            "from series " +
+            "where tvdb_match_status = ? " +
+            "and tvdb_series_ext_id = ? " +
+            "and retired = ? ";
+
+        @NotNull ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, TVDBMatchStatus.MATCH_COMPLETED, seriesId, 0);
+        if (resultSet.next()) {
+          Series series = new Series();
+
+          try {
+            SeriesUpdateResult updateResult = processSingleSeries(resultSet, series);
+            if (SeriesUpdateResult.UPDATE_SUCCESS.equals(updateResult)) {
+              tvdbConnectionLog.updatedShows.increment(1);
+            } else {
+              tvdbConnectionLog.failedShows.increment(1);
+            }
+          } catch (Exception e) {
+            debug("Show failed on initialization from DB.");
+          }
+        } else {
+          debug("Recently updated series not found: ID " + seriesId);
+        }
+      }
+    } catch (SQLException | UnirestException | AuthenticationException e) {
+      throw new RuntimeException(e);
     }
   }
 
@@ -296,7 +306,7 @@ public class TVDBUpdateRunner implements UpdateRunner {
     }
   }
 
-  private void runUpdateOnRecentlyErrored() throws SQLException {
+  private void runUpdateOnRecentlyErrored() {
     String sql = "select *\n" +
         "from series\n" +
         "where last_tvdb_error is not null\n" +
@@ -304,11 +314,15 @@ public class TVDBUpdateRunner implements UpdateRunner {
         "and tvdb_match_status = ? " +
         "and retired = ? ";
 
-    @NotNull ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, ERROR_THRESHOLD, TVDBMatchStatus.MATCH_COMPLETED, 0);
-    runUpdateOnResultSet(resultSet);
+    try {
+      @NotNull ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, ERROR_THRESHOLD, TVDBMatchStatus.MATCH_COMPLETED, 0);
+      runUpdateOnResultSet(resultSet);
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
   }
 
-  private void runUpdateOnOldErrors() throws SQLException {
+  private void runUpdateOnOldErrors() {
     DateTime now = new DateTime(new Date());
     DateTime aWeekAgo = now.minusDays(ERROR_FOLLOW_UP_THRESHOLD_IN_DAYS);
     Timestamp timestamp = new Timestamp(aWeekAgo.toDate().getTime());
@@ -321,8 +335,12 @@ public class TVDBUpdateRunner implements UpdateRunner {
         "and tvdb_match_status = ? " +
         "and retired = ? ";
 
-    @NotNull ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, timestamp, ERROR_THRESHOLD, TVDBMatchStatus.MATCH_COMPLETED, 0);
-    runUpdateOnResultSet(resultSet);
+    try {
+      @NotNull ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, timestamp, ERROR_THRESHOLD, TVDBMatchStatus.MATCH_COMPLETED, 0);
+      runUpdateOnResultSet(resultSet);
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   private void runUpdateOnResultSet(ResultSet resultSet) throws SQLException {
@@ -351,40 +369,45 @@ public class TVDBUpdateRunner implements UpdateRunner {
     debug("Update complete for result set: " + i + " processed.");
   }
 
-  private void runSmartUpdateSingleQuery() throws SQLException {
+  private void runSmartUpdateSingleQuery() {
 
     debug("Starting update.");
 
     String sql = "select * " +
         "from series " +
         "where retired = ? ";
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, 0);
 
-    int i = 0;
+    try {
+      ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, 0);
 
-    while (resultSet.next()) {
-      i++;
-      Series series = new Series();
-      series.initializeFromDBObject(resultSet);
+      int i = 0;
 
-      if (shouldUpdateSeries(series)) {
+      while (resultSet.next()) {
+        i++;
+        Series series = new Series();
+        series.initializeFromDBObject(resultSet);
 
-        try {
-          @NotNull SeriesUpdateResult result = processSingleSeries(resultSet, series);
-          if (result.equals(SeriesUpdateResult.UPDATE_SUCCESS)) {
-            tvdbConnectionLog.updatedShows.increment(1);
-          } else {
-            tvdbConnectionLog.failedShows.increment(1);
+        if (shouldUpdateSeries(series)) {
+
+          try {
+            @NotNull SeriesUpdateResult result = processSingleSeries(resultSet, series);
+            if (result.equals(SeriesUpdateResult.UPDATE_SUCCESS)) {
+              tvdbConnectionLog.updatedShows.increment(1);
+            } else {
+              tvdbConnectionLog.failedShows.increment(1);
+            }
+          } catch (Exception e) {
+            debug("Show failed on initialization from DB.");
           }
-        } catch (Exception e) {
-          debug("Show failed on initialization from DB.");
+
+          seriesUpdates++;
         }
-
-        seriesUpdates++;
       }
-    }
 
-    debug("Update complete for series: " + i + " processed.");
+      debug("Update complete for series: " + i + " processed.");
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   private Boolean shouldUpdateSeries(Series series) {
