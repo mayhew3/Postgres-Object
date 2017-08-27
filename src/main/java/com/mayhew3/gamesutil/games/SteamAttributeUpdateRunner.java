@@ -49,6 +49,8 @@ public class SteamAttributeUpdateRunner {
       connection.executeUpdate("UPDATE games SET steam_attributes = NULL");
     }
 
+    setDriverPath();
+
     SteamAttributeUpdateRunner updateRunner = new SteamAttributeUpdateRunner(connection);
 
     updateRunner.runSteamAttributeUpdate();
@@ -86,6 +88,11 @@ public class SteamAttributeUpdateRunner {
     }
 
     chromeDriver.close();
+  }
+
+  private static void setDriverPath() {
+    String driverPath = System.getProperty("user.dir") + "\\resources\\chromedriver.exe";
+    System.setProperty("webdriver.chrome.driver", driverPath);
   }
 
 

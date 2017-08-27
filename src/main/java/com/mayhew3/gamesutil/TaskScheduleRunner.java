@@ -70,14 +70,20 @@ public class TaskScheduleRunner {
 
   @SuppressWarnings("PointlessArithmeticExpression")
   private void createTaskList() {
-    addPeriodicTask(new TVDBUpdateFinder(connection, tvdbjwtProvider, jsonReader), 2*60);
-    addPeriodicTask(new TVDBUpdateProcessorObj(connection, tvdbjwtProvider, jsonReader), 1*60);
-    addPeriodicTask(new TiVoCommunicator(connection, new RemoteFileDownloader(false), false), 10*60);
-    addPeriodicTask(new SteamGameUpdater(connection), 60*60);
+    addPeriodicTask(new TVDBUpdateFinder(connection, tvdbjwtProvider, jsonReader),
+        2);
+    addPeriodicTask(new TVDBUpdateProcessorObj(connection, tvdbjwtProvider, jsonReader),
+        1);
+    addPeriodicTask(new TVDBUpdateV2Runner(connection, tvdbjwtProvider, jsonReader, TVDBUpdateType.SMART),
+        20);
+    addPeriodicTask(new TiVoCommunicator(connection, new RemoteFileDownloader(false), false),
+        10);
+    addPeriodicTask(new SteamGameUpdater(connection),
+        60);
   }
 
-  private void addPeriodicTask(UpdateRunner updateRunner, Integer secondsBetween) {
-    taskSchedules.add(new PeriodicTaskSchedule(updateRunner, secondsBetween));
+  private void addPeriodicTask(UpdateRunner updateRunner, Integer minutesBetween) {
+    taskSchedules.add(new PeriodicTaskSchedule(updateRunner, minutesBetween));
   }
 
   @SuppressWarnings("InfiniteLoopStatement")

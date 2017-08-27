@@ -46,6 +46,8 @@ public class HowLongToBeatUpdateRunner {
 
     SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
 
+    setDriverPath();
+
     HowLongToBeatUpdateRunner updateRunner = new HowLongToBeatUpdateRunner(connection);
 
     if (fullMode) {
@@ -118,6 +120,10 @@ public class HowLongToBeatUpdateRunner {
     game.commit(connection);
   }
 
+  private static void setDriverPath() {
+    String driverPath = System.getProperty("user.dir") + "\\resources\\chromedriver.exe";
+    System.setProperty("webdriver.chrome.driver", driverPath);
+  }
 
   protected void debug(Object object) {
     System.out.println(object);

@@ -6,11 +6,11 @@ import org.joda.time.Seconds;
 import java.util.Date;
 
 public class PeriodicTaskSchedule extends TaskSchedule {
-  private Integer secondsBetween;
+  private Integer minutesBetween;
 
-  PeriodicTaskSchedule(UpdateRunner updateRunner, Integer secondsBetween) {
+  PeriodicTaskSchedule(UpdateRunner updateRunner, Integer minutesBetween) {
     super(updateRunner);
-    this.secondsBetween = secondsBetween;
+    this.minutesBetween = minutesBetween;
   }
 
   @Override
@@ -20,6 +20,6 @@ public class PeriodicTaskSchedule extends TaskSchedule {
       return true;
     }
     Seconds seconds = Seconds.secondsBetween(new DateTime(lastRan), new DateTime());
-    return seconds.getSeconds() > secondsBetween;
+    return seconds.getSeconds() > minutesBetween*60;
   }
 }

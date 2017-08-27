@@ -3,7 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="1e099498-ec9e-4703-ab18-cce3963e4d0c" name="Default" comment="Move annotation directory">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build.gradle" afterPath="$PROJECT_DIR$/build.gradle" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/PeriodicTaskSchedule.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/PeriodicTaskSchedule.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/TaskScheduleRunner.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/TaskScheduleRunner.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/HowLongToBeatUpdateRunner.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/HowLongToBeatUpdateRunner.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/SteamAttributeUpdateRunner.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/SteamAttributeUpdateRunner.java" />
     </list>
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -55,24 +59,21 @@
     <splitter split-orientation="horizontal" split-proportion="0.5">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="TVDBUpdateFinderRunner.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateFinderRunner.java">
+          <file leaf-file-name="build.gradle" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/build.gradle">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="2261">
-                  <caret line="150" column="0" lean-forward="false" selection-start-line="150" selection-start-column="0" selection-end-line="150" selection-end-column="0" />
-                  <folding>
-                    <element signature="e#14077#14078#0" expanded="true" />
-                    <element signature="e#14114#14115#0" expanded="true" />
-                  </folding>
+                <state relative-caret-position="-458">
+                  <caret line="33" column="0" lean-forward="true" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
+                  <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="TVDBUpdateProcessorRunner.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateProcessorRunner.java">
+          <file leaf-file-name="TiVoLibraryUpdater.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TiVoLibraryUpdater.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="0">
-                  <caret line="0" column="33" lean-forward="false" selection-start-line="0" selection-start-column="33" selection-end-line="0" selection-end-column="33" />
+                <state relative-caret-position="475">
+                  <caret line="71" column="60" lean-forward="false" selection-start-line="71" selection-start-column="60" selection-end-line="71" selection-end-column="60" />
                   <folding />
                 </state>
               </provider>
@@ -81,81 +82,71 @@
           <file leaf-file-name="TaskScheduleRunner.java" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/TaskScheduleRunner.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="551">
-                  <caret line="77" column="0" lean-forward="true" selection-start-line="77" selection-start-column="0" selection-end-line="77" selection-end-column="0" />
+                <state relative-caret-position="722">
+                  <caret line="83" column="0" lean-forward="true" selection-start-line="83" selection-start-column="0" selection-end-line="83" selection-end-column="0" />
                   <folding>
                     <element signature="imports" expanded="true" />
-                    <element signature="e#2359#2409#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="RemoteFileDownloader.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/RemoteFileDownloader.java">
+          <file leaf-file-name="TVDBUpdateV2Runner.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateV2Runner.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="152">
-                  <caret line="24" column="9" lean-forward="false" selection-start-line="24" selection-start-column="9" selection-end-line="24" selection-end-column="9" />
+                <state relative-caret-position="247">
+                  <caret line="51" column="9" lean-forward="false" selection-start-line="51" selection-start-column="9" selection-end-line="51" selection-end-column="9" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="TiVoCommunicator.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TiVoCommunicator.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="342">
-                  <caret line="47" column="9" lean-forward="false" selection-start-line="47" selection-start-column="9" selection-end-line="47" selection-end-column="9" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="build.gradle" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/build.gradle">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1558">
-                  <caret line="82" column="20" lean-forward="false" selection-start-line="82" selection-start-column="20" selection-end-line="82" selection-end-column="20" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="RunTaskScheduleRunner.bat" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/scripts/RunTaskScheduleRunner.bat">
+          <file leaf-file-name="TVDBUpdateType.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateType.java">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="76">
-                  <caret line="4" column="8" lean-forward="true" selection-start-line="4" selection-start-column="8" selection-end-line="4" selection-end-column="8" />
+                  <caret line="4" column="5" lean-forward="false" selection-start-line="4" selection-start-column="5" selection-end-line="4" selection-end-column="5" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="QuickBatchUpdater.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/QuickBatchUpdater.java">
+          <file leaf-file-name="TVDBSeriesV2MatchRunner.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBSeriesV2MatchRunner.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="912">
-                  <caret line="66" column="0" lean-forward="false" selection-start-line="66" selection-start-column="0" selection-end-line="66" selection-end-column="0" />
+                <state relative-caret-position="132">
+                  <caret line="82" column="57" lean-forward="true" selection-start-line="82" selection-start-column="57" selection-end-line="82" selection-end-column="57" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="NightlyTaskSchedule.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/NightlyTaskSchedule.java">
+          <file leaf-file-name="SteamGameUpdateRunner.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/SteamGameUpdateRunner.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="359">
+                  <caret line="54" column="44" lean-forward="false" selection-start-line="54" selection-start-column="44" selection-end-line="54" selection-end-column="44" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="SteamAttributeUpdateRunner.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/SteamAttributeUpdateRunner.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="581">
+                  <caret line="65" column="42" lean-forward="false" selection-start-line="65" selection-start-column="42" selection-end-line="65" selection-end-column="42" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="HowLongToBeatUpdateRunner.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/HowLongToBeatUpdateRunner.java">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="475">
-                  <caret line="32" column="53" lean-forward="false" selection-start-line="32" selection-start-column="53" selection-end-line="32" selection-end-column="53" />
-                  <folding>
-                    <element signature="e#501#502#0" expanded="true" />
-                    <element signature="e#527#528#0" expanded="true" />
-                    <element signature="e#562#563#0" expanded="true" />
-                    <element signature="e#586#587#0" expanded="true" />
-                    <element signature="e#624#625#0" expanded="true" />
-                    <element signature="e#653#654#0" expanded="true" />
-                    <element signature="e#703#704#0" expanded="true" />
-                    <element signature="e#761#762#0" expanded="true" />
-                  </folding>
+                  <caret line="45" column="0" lean-forward="false" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
+                  <folding />
                 </state>
               </provider>
             </entry>
@@ -163,8 +154,8 @@
           <file leaf-file-name="PeriodicTaskSchedule.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/PeriodicTaskSchedule.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="171">
-                  <caret line="12" column="41" lean-forward="false" selection-start-line="12" selection-start-column="41" selection-end-line="12" selection-end-column="41" />
+                <state relative-caret-position="266">
+                  <caret line="14" column="0" lean-forward="true" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
                   <folding>
                     <element signature="imports" expanded="true" />
                   </folding>
@@ -277,6 +268,7 @@
       <find>tvdbOnly</find>
       <find>secondsBetween</find>
       <find>new Date</find>
+      <find>chrome</find>
     </findStrings>
     <replaceStrings>
       <replace>&lt;module name=&quot;media-mogul-data_main&quot;</replace>
@@ -529,9 +521,9 @@
     </option>
     <option name="modificationStamps">
       <map>
-        <entry key="$PROJECT_DIR$" value="1503805383017" />
+        <entry key="$PROJECT_DIR$" value="1503807580946" />
         <entry key="$PROJECT_DIR$/IO.gradle" value="4046186073" />
-        <entry key="$PROJECT_DIR$/build.gradle" value="1511130589" />
+        <entry key="$PROJECT_DIR$/build.gradle" value="672116252" />
       </map>
     </option>
     <option name="projectBuildClasspath">
@@ -652,7 +644,6 @@
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/model/games/Game.java" />
         <option value="$PROJECT_DIR$/CommandPrompt.cmd" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/GiantBombUpdater.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/HowLongToBeatUpdateRunner.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/MetacriticGameUpdateRunner.java" />
         <option value="$PROJECT_DIR$/scripts/CommandPrompt.cmd" />
         <option value="$PROJECT_DIR$/.gitignore" />
@@ -662,7 +653,6 @@
         <option value="$PROJECT_DIR$/scripts/RunTVDBFinderGradle.cmd" />
         <option value="$PROJECT_DIR$/scripts/RunAndOutput.cmd" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/SteamGameUpdateRunner.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/SteamAttributeUpdateRunner.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/SteamGameUpdater.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TiVoCommunicator.java" />
         <option value="$PROJECT_DIR$/src/test/java/com/mayhew3/gamesutil/tv/TiVoMatchExistingTest.java" />
@@ -679,7 +669,6 @@
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/TaskSchedule.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/NightlyTaskSchedule.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/QuickBatchUpdater.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/PeriodicTaskSchedule.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateFinderObj.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateFinderRunner.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateProcessor.java" />
@@ -687,8 +676,11 @@
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateProcessorRunner.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateProcessorObj.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateFinder.java" />
-        <option value="$PROJECT_DIR$/build.gradle" />
         <option value="$PROJECT_DIR$/scripts/RunTaskScheduleRunner.bat" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/SteamAttributeUpdateRunner.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/HowLongToBeatUpdateRunner.java" />
+        <option value="$PROJECT_DIR$/build.gradle" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/PeriodicTaskSchedule.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/TaskScheduleRunner.java" />
       </list>
     </option>
@@ -736,6 +728,11 @@
             <path>
               <item name="media-mogul-data" type="b2602c69:ProjectViewProjectNode" />
               <item name="media-mogul-data" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="media-mogul-data" type="b2602c69:ProjectViewProjectNode" />
+              <item name="media-mogul-data" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -758,6 +755,15 @@
               <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="gamesutil" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="media-mogul-data" type="b2602c69:ProjectViewProjectNode" />
+              <item name="media-mogul-data" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="gamesutil" type="462c0819:PsiDirectoryNode" />
+              <item name="tv" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -1016,8 +1022,26 @@
     <configuration name="HowLongToBeatUpdateRunner (Heroku/FullMode)" type="Application" factoryName="Application" folderName="Games">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.games.HowLongToBeatUpdateRunner" />
-      <option name="VM_PARAMETERS" value="-Dwebdriver.chrome.driver=&quot;C:\Program Files (x86)\Google\Chrome\Application\chromedriver.exe&quot;" />
+      <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Heroku FullMode" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="media-mogul-data_main" />
+      <envs>
+        <env name="postgresURL" value="postgres://ijxuheufucvnyu:h16h_LnZi4fHgIUjBANnzITEyR@ec2-54-204-30-115.compute-1.amazonaws.com:5432/dcg1rtode4vgk9" />
+        <env name="giantbomb_api" value="5565f1f674caf87eaeed23269d7bb06dadfc2e6f" />
+        <env name="" value="" />
+      </envs>
+    </configuration>
+    <configuration name="HowLongToBeatUpdateRunner (test)" type="Application" factoryName="Application" folderName="Games">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.games.HowLongToBeatUpdateRunner" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="Test" />
       <option name="WORKING_DIRECTORY" value="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
@@ -1034,7 +1058,7 @@
     <configuration name="HowLongToBeatUpdateRunner" type="Application" factoryName="Application" folderName="Games">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.games.HowLongToBeatUpdateRunner" />
-      <option name="VM_PARAMETERS" value="-Dwebdriver.chrome.driver=&quot;C:\Program Files (x86)\Google\Chrome\Application\chromedriver.exe&quot;" />
+      <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Heroku" />
       <option name="WORKING_DIRECTORY" value="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -1263,7 +1287,7 @@
     <configuration name="SteamAttributeUpdateRunner" type="Application" factoryName="Application" folderName="Games">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.games.SteamAttributeUpdateRunner" />
-      <option name="VM_PARAMETERS" value="-Dwebdriver.chrome.driver=&quot;C:\Program Files (x86)\Google\Chrome\Application\chromedriver.exe&quot;" />
+      <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Heroku" />
       <option name="WORKING_DIRECTORY" value="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -1280,7 +1304,7 @@
     <configuration name="SteamGameUpdater (LogToFile)" type="Application" factoryName="Application" folderName="Games">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.games.SteamGameUpdater" />
-      <option name="VM_PARAMETERS" value="-Dwebdriver.chrome.driver=&quot;C:\Program Files (x86)\Google\Chrome\Application\chromedriver.exe&quot;" />
+      <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Heroku LogToFile" />
       <option name="WORKING_DIRECTORY" value="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -1296,7 +1320,7 @@
     <configuration name="SteamGameUpdater (test)" type="Application" factoryName="Application" folderName="Games">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.games.SteamGameUpdater" />
-      <option name="VM_PARAMETERS" value="-Dwebdriver.chrome.driver=&quot;C:\Program Files (x86)\Google\Chrome\Application\chromedriver.exe&quot;" />
+      <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Test" />
       <option name="WORKING_DIRECTORY" value="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -1312,7 +1336,7 @@
     <configuration name="SteamGameUpdater (test/LogToFile)" type="Application" factoryName="Application" folderName="Games">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.games.SteamGameUpdater" />
-      <option name="VM_PARAMETERS" value="-Dwebdriver.chrome.driver=&quot;C:\Program Files (x86)\Google\Chrome\Application\chromedriver.exe&quot;" />
+      <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Test LogToFile" />
       <option name="WORKING_DIRECTORY" value="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -1328,7 +1352,7 @@
     <configuration name="SteamGameUpdater" type="Application" factoryName="Application" folderName="Games" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.games.SteamGameUpdater" />
-      <option name="VM_PARAMETERS" value="-Dwebdriver.chrome.driver=&quot;C:\Program Files (x86)\Google\Chrome\Application\chromedriver.exe&quot;" />
+      <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Heroku" />
       <option name="WORKING_DIRECTORY" value="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -2663,103 +2687,104 @@
         <option name="vmOptions" />
       </ExternalSystemSettings>
     </configuration>
-    <list size="96">
+    <list size="97">
       <item index="0" class="java.lang.String" itemvalue="Application.GamePostgresMongoSyncer" />
       <item index="1" class="java.lang.String" itemvalue="Application.GiantBombUpdater" />
       <item index="2" class="java.lang.String" itemvalue="Application.GiantBombUpdater (SingleGame)" />
       <item index="3" class="java.lang.String" itemvalue="Application.GiantBombUpdater (test)" />
       <item index="4" class="java.lang.String" itemvalue="Application.HowLongToBeatUpdateRunner" />
       <item index="5" class="java.lang.String" itemvalue="Application.HowLongToBeatUpdateRunner (Heroku/FullMode)" />
-      <item index="6" class="java.lang.String" itemvalue="Application.MetacriticGameUpdateRunner" />
-      <item index="7" class="java.lang.String" itemvalue="Application.SteamAttributeUpdateRunner" />
-      <item index="8" class="java.lang.String" itemvalue="Application.SteamGameUpdater" />
-      <item index="9" class="java.lang.String" itemvalue="Application.SteamGameUpdater (LogToFile)" />
-      <item index="10" class="java.lang.String" itemvalue="Application.SteamGameUpdater (test)" />
-      <item index="11" class="java.lang.String" itemvalue="Application.SteamGameUpdater (test/LogToFile)" />
-      <item index="12" class="java.lang.String" itemvalue="Application.SeriesDenormUpdater (local)" />
-      <item index="13" class="java.lang.String" itemvalue="Application.TVDBDuplicateDataFixer (local)" />
-      <item index="14" class="java.lang.String" itemvalue="Application.TVDBUpdateV2Runner (local)" />
-      <item index="15" class="java.lang.String" itemvalue="Application.TVDBUpdateV2Runner (local/single)" />
-      <item index="16" class="java.lang.String" itemvalue="Application.TVDBUpdateV2Runner (local/smart)" />
-      <item index="17" class="java.lang.String" itemvalue="Application.TVRatingSpreadsheetCopier (local)" />
-      <item index="18" class="java.lang.String" itemvalue="Application.TiVoCommunicator (Local/Dev)" />
-      <item index="19" class="java.lang.String" itemvalue="Application.TiVoCommunicator (Local/Full)" />
-      <item index="20" class="java.lang.String" itemvalue="Application.TiVoCommunicator (Local/Quick)" />
-      <item index="21" class="java.lang.String" itemvalue="Application.TiVoLibraryUpdater" />
-      <item index="22" class="java.lang.String" itemvalue="Application.TiVoLibraryUpdater (Quick)" />
-      <item index="23" class="java.lang.String" itemvalue="Application.MetacriticTVUpdater" />
-      <item index="24" class="java.lang.String" itemvalue="Application.MetacriticTVUpdater (prod/single)" />
-      <item index="25" class="java.lang.String" itemvalue="Application.MetacriticTVUpdater (test)" />
-      <item index="26" class="java.lang.String" itemvalue="Application.MetacriticTVUpdater (test/single)" />
-      <item index="27" class="java.lang.String" itemvalue="Application.TiVoCommunicator (Heroku/Quick)" />
-      <item index="28" class="java.lang.String" itemvalue="Application.TiVoCommunicator (demo/Full)" />
-      <item index="29" class="java.lang.String" itemvalue="Application.TiVoCommunicator (test/Full)" />
-      <item index="30" class="java.lang.String" itemvalue="Application.TiVoCommunicator (test/Full/Dev)" />
-      <item index="31" class="java.lang.String" itemvalue="Application.TiVoCommunicator (test/Full/XML)" />
-      <item index="32" class="java.lang.String" itemvalue="Application.TiVoCommunicator (test/Quick)" />
-      <item index="33" class="java.lang.String" itemvalue="Application.TiVoCommunicator (test/Quick/XML)" />
-      <item index="34" class="java.lang.String" itemvalue="Application.TiVoLibraryUpdater (heroku/quick)" />
-      <item index="35" class="java.lang.String" itemvalue="Application.TiVoLibraryUpdater (test)" />
-      <item index="36" class="java.lang.String" itemvalue="Application.TiVoLibraryUpdater (test/LogToFile/TVDB)" />
-      <item index="37" class="java.lang.String" itemvalue="Application.TiVoLibraryUpdater (test/Quick)" />
-      <item index="38" class="java.lang.String" itemvalue="Application.TiVoLibraryUpdater (test/Quick/LogToFile)" />
-      <item index="39" class="java.lang.String" itemvalue="Application.TVDBSeriesV2MatchRunner (heroku/episodes)" />
-      <item index="40" class="java.lang.String" itemvalue="Application.TVDBSeriesV2MatchRunner (heroku/full)" />
-      <item index="41" class="java.lang.String" itemvalue="Application.TVDBSeriesV2MatchRunner (heroku/single)" />
-      <item index="42" class="java.lang.String" itemvalue="Application.TVDBSeriesV2MatchRunner (test/episodes)" />
-      <item index="43" class="java.lang.String" itemvalue="Application.TVDBSeriesV2MatchRunner (test/full)" />
-      <item index="44" class="java.lang.String" itemvalue="Application.TVDBSeriesV2MatchRunner (test/single)" />
-      <item index="45" class="java.lang.String" itemvalue="Application.TVDBUpdateV2Runner (demo)" />
-      <item index="46" class="java.lang.String" itemvalue="Application.TVDBUpdateV2Runner (heroku/airtimes)" />
-      <item index="47" class="java.lang.String" itemvalue="Application.TVDBUpdateV2Runner (heroku/quick)" />
-      <item index="48" class="java.lang.String" itemvalue="Application.TVDBUpdateV2Runner (heroku/sanity)" />
-      <item index="49" class="java.lang.String" itemvalue="Application.TVDBUpdateV2Runner (heroku/single)" />
-      <item index="50" class="java.lang.String" itemvalue="Application.TVDBUpdateV2Runner (heroku/smart)" />
-      <item index="51" class="java.lang.String" itemvalue="Application.TVDBUpdateV2Runner (test)" />
-      <item index="52" class="java.lang.String" itemvalue="Application.TVDBUpdateV2Runner (test/LogToFile)" />
-      <item index="53" class="java.lang.String" itemvalue="Application.TVDBUpdateV2Runner (test/absolute)" />
-      <item index="54" class="java.lang.String" itemvalue="Application.TVDBUpdateV2Runner (test/airtimes)" />
-      <item index="55" class="java.lang.String" itemvalue="Application.TVDBUpdateV2Runner (test/fewerrors)" />
-      <item index="56" class="java.lang.String" itemvalue="Application.TVDBUpdateV2Runner (test/olderrors)" />
-      <item index="57" class="java.lang.String" itemvalue="Application.TVDBUpdateV2Runner (test/quick)" />
-      <item index="58" class="java.lang.String" itemvalue="Application.TVDBUpdateV2Runner (test/sanity)" />
-      <item index="59" class="java.lang.String" itemvalue="Application.TVDBUpdateV2Runner (test/single)" />
-      <item index="60" class="java.lang.String" itemvalue="Application.TVDBUpdateV2Runner (test/smart)" />
-      <item index="61" class="java.lang.String" itemvalue="Application.DaylightSavingCorrector (Heroku)" />
-      <item index="62" class="java.lang.String" itemvalue="Application.DaylightSavingCorrector (Test)" />
-      <item index="63" class="java.lang.String" itemvalue="Application.EpisodeGroupUpdater (Heroku)" />
-      <item index="64" class="java.lang.String" itemvalue="Application.EpisodeGroupUpdater (test)" />
-      <item index="65" class="java.lang.String" itemvalue="Application.SeriesDeleter (heroku)" />
-      <item index="66" class="java.lang.String" itemvalue="Application.SeriesDeleter (test)" />
-      <item index="67" class="java.lang.String" itemvalue="Application.SeriesDenormUpdater (heroku)" />
-      <item index="68" class="java.lang.String" itemvalue="Application.SeriesDenormUpdater (test)" />
-      <item index="69" class="java.lang.String" itemvalue="Application.SeriesMerger (test)" />
-      <item index="70" class="java.lang.String" itemvalue="Application.TVDBDuplicateDataFixer (test)" />
-      <item index="71" class="java.lang.String" itemvalue="Application.TVDBJSONFetcher (test)" />
-      <item index="72" class="java.lang.String" itemvalue="Application.TVDBUpdateFinder (heroku)" />
-      <item index="73" class="java.lang.String" itemvalue="Application.TVDBUpdateFinder (heroku/lastweek)" />
-      <item index="74" class="java.lang.String" itemvalue="Application.TVDBUpdateFinder (test)" />
-      <item index="75" class="java.lang.String" itemvalue="Application.TVDBUpdateFinder (test/LogToFile)" />
-      <item index="76" class="java.lang.String" itemvalue="Application.TVDBUpdateProcessor (heroku)" />
-      <item index="77" class="java.lang.String" itemvalue="Application.TVDBUpdateProcessor (test)" />
-      <item index="78" class="java.lang.String" itemvalue="Application.TVDBUpdateProcessor (test/LogToFile)" />
-      <item index="79" class="java.lang.String" itemvalue="Application.TVDBXMLFetcher (test)" />
-      <item index="80" class="java.lang.String" itemvalue="Application.TVRatingSpreadsheetCopier (test)" />
-      <item index="81" class="java.lang.String" itemvalue="Application.TimestampTimeZoneUpgrader (heroku)" />
-      <item index="82" class="java.lang.String" itemvalue="Application.TimestampTimeZoneUpgrader (test)" />
-      <item index="83" class="java.lang.String" itemvalue="Application.QuickBatchUpdater (test)" />
-      <item index="84" class="java.lang.String" itemvalue="Application.TaskScheduleRunner (test)" />
-      <item index="85" class="java.lang.String" itemvalue="Application.TaskScheduleRunner (test/LogToFile)" />
-      <item index="86" class="java.lang.String" itemvalue="Gradle.media-mogul-data [build]" />
-      <item index="87" class="java.lang.String" itemvalue="JUnit.DatabaseRecreatorTest (Demo)" />
-      <item index="88" class="java.lang.String" itemvalue="JUnit.DatabaseRecreatorTest (Test)" />
-      <item index="89" class="java.lang.String" itemvalue="JUnit.TVSchemaHerokuTest" />
-      <item index="90" class="java.lang.String" itemvalue="JUnit.TVSchemaHerokuTest.testHerokuSchemaUpToDate" />
-      <item index="91" class="java.lang.String" itemvalue="Gradle.media-mogul-data [clean]" />
-      <item index="92" class="java.lang.String" itemvalue="Gradle.media-mogul-data [assemble]" />
-      <item index="93" class="java.lang.String" itemvalue="JUnit.StringSimilarityTest.testNGram" />
-      <item index="94" class="java.lang.String" itemvalue="JUnit.TVSchemaHerokuTest (1)" />
-      <item index="95" class="java.lang.String" itemvalue="JUnit.TiVoDaylightSavingsTest" />
+      <item index="6" class="java.lang.String" itemvalue="Application.HowLongToBeatUpdateRunner (test)" />
+      <item index="7" class="java.lang.String" itemvalue="Application.MetacriticGameUpdateRunner" />
+      <item index="8" class="java.lang.String" itemvalue="Application.SteamAttributeUpdateRunner" />
+      <item index="9" class="java.lang.String" itemvalue="Application.SteamGameUpdater" />
+      <item index="10" class="java.lang.String" itemvalue="Application.SteamGameUpdater (LogToFile)" />
+      <item index="11" class="java.lang.String" itemvalue="Application.SteamGameUpdater (test)" />
+      <item index="12" class="java.lang.String" itemvalue="Application.SteamGameUpdater (test/LogToFile)" />
+      <item index="13" class="java.lang.String" itemvalue="Application.SeriesDenormUpdater (local)" />
+      <item index="14" class="java.lang.String" itemvalue="Application.TVDBDuplicateDataFixer (local)" />
+      <item index="15" class="java.lang.String" itemvalue="Application.TVDBUpdateV2Runner (local)" />
+      <item index="16" class="java.lang.String" itemvalue="Application.TVDBUpdateV2Runner (local/single)" />
+      <item index="17" class="java.lang.String" itemvalue="Application.TVDBUpdateV2Runner (local/smart)" />
+      <item index="18" class="java.lang.String" itemvalue="Application.TVRatingSpreadsheetCopier (local)" />
+      <item index="19" class="java.lang.String" itemvalue="Application.TiVoCommunicator (Local/Dev)" />
+      <item index="20" class="java.lang.String" itemvalue="Application.TiVoCommunicator (Local/Full)" />
+      <item index="21" class="java.lang.String" itemvalue="Application.TiVoCommunicator (Local/Quick)" />
+      <item index="22" class="java.lang.String" itemvalue="Application.TiVoLibraryUpdater" />
+      <item index="23" class="java.lang.String" itemvalue="Application.TiVoLibraryUpdater (Quick)" />
+      <item index="24" class="java.lang.String" itemvalue="Application.MetacriticTVUpdater" />
+      <item index="25" class="java.lang.String" itemvalue="Application.MetacriticTVUpdater (prod/single)" />
+      <item index="26" class="java.lang.String" itemvalue="Application.MetacriticTVUpdater (test)" />
+      <item index="27" class="java.lang.String" itemvalue="Application.MetacriticTVUpdater (test/single)" />
+      <item index="28" class="java.lang.String" itemvalue="Application.TiVoCommunicator (Heroku/Quick)" />
+      <item index="29" class="java.lang.String" itemvalue="Application.TiVoCommunicator (demo/Full)" />
+      <item index="30" class="java.lang.String" itemvalue="Application.TiVoCommunicator (test/Full)" />
+      <item index="31" class="java.lang.String" itemvalue="Application.TiVoCommunicator (test/Full/Dev)" />
+      <item index="32" class="java.lang.String" itemvalue="Application.TiVoCommunicator (test/Full/XML)" />
+      <item index="33" class="java.lang.String" itemvalue="Application.TiVoCommunicator (test/Quick)" />
+      <item index="34" class="java.lang.String" itemvalue="Application.TiVoCommunicator (test/Quick/XML)" />
+      <item index="35" class="java.lang.String" itemvalue="Application.TiVoLibraryUpdater (heroku/quick)" />
+      <item index="36" class="java.lang.String" itemvalue="Application.TiVoLibraryUpdater (test)" />
+      <item index="37" class="java.lang.String" itemvalue="Application.TiVoLibraryUpdater (test/LogToFile/TVDB)" />
+      <item index="38" class="java.lang.String" itemvalue="Application.TiVoLibraryUpdater (test/Quick)" />
+      <item index="39" class="java.lang.String" itemvalue="Application.TiVoLibraryUpdater (test/Quick/LogToFile)" />
+      <item index="40" class="java.lang.String" itemvalue="Application.TVDBSeriesV2MatchRunner (heroku/episodes)" />
+      <item index="41" class="java.lang.String" itemvalue="Application.TVDBSeriesV2MatchRunner (heroku/full)" />
+      <item index="42" class="java.lang.String" itemvalue="Application.TVDBSeriesV2MatchRunner (heroku/single)" />
+      <item index="43" class="java.lang.String" itemvalue="Application.TVDBSeriesV2MatchRunner (test/episodes)" />
+      <item index="44" class="java.lang.String" itemvalue="Application.TVDBSeriesV2MatchRunner (test/full)" />
+      <item index="45" class="java.lang.String" itemvalue="Application.TVDBSeriesV2MatchRunner (test/single)" />
+      <item index="46" class="java.lang.String" itemvalue="Application.TVDBUpdateV2Runner (demo)" />
+      <item index="47" class="java.lang.String" itemvalue="Application.TVDBUpdateV2Runner (heroku/airtimes)" />
+      <item index="48" class="java.lang.String" itemvalue="Application.TVDBUpdateV2Runner (heroku/quick)" />
+      <item index="49" class="java.lang.String" itemvalue="Application.TVDBUpdateV2Runner (heroku/sanity)" />
+      <item index="50" class="java.lang.String" itemvalue="Application.TVDBUpdateV2Runner (heroku/single)" />
+      <item index="51" class="java.lang.String" itemvalue="Application.TVDBUpdateV2Runner (heroku/smart)" />
+      <item index="52" class="java.lang.String" itemvalue="Application.TVDBUpdateV2Runner (test)" />
+      <item index="53" class="java.lang.String" itemvalue="Application.TVDBUpdateV2Runner (test/LogToFile)" />
+      <item index="54" class="java.lang.String" itemvalue="Application.TVDBUpdateV2Runner (test/absolute)" />
+      <item index="55" class="java.lang.String" itemvalue="Application.TVDBUpdateV2Runner (test/airtimes)" />
+      <item index="56" class="java.lang.String" itemvalue="Application.TVDBUpdateV2Runner (test/fewerrors)" />
+      <item index="57" class="java.lang.String" itemvalue="Application.TVDBUpdateV2Runner (test/olderrors)" />
+      <item index="58" class="java.lang.String" itemvalue="Application.TVDBUpdateV2Runner (test/quick)" />
+      <item index="59" class="java.lang.String" itemvalue="Application.TVDBUpdateV2Runner (test/sanity)" />
+      <item index="60" class="java.lang.String" itemvalue="Application.TVDBUpdateV2Runner (test/single)" />
+      <item index="61" class="java.lang.String" itemvalue="Application.TVDBUpdateV2Runner (test/smart)" />
+      <item index="62" class="java.lang.String" itemvalue="Application.DaylightSavingCorrector (Heroku)" />
+      <item index="63" class="java.lang.String" itemvalue="Application.DaylightSavingCorrector (Test)" />
+      <item index="64" class="java.lang.String" itemvalue="Application.EpisodeGroupUpdater (Heroku)" />
+      <item index="65" class="java.lang.String" itemvalue="Application.EpisodeGroupUpdater (test)" />
+      <item index="66" class="java.lang.String" itemvalue="Application.SeriesDeleter (heroku)" />
+      <item index="67" class="java.lang.String" itemvalue="Application.SeriesDeleter (test)" />
+      <item index="68" class="java.lang.String" itemvalue="Application.SeriesDenormUpdater (heroku)" />
+      <item index="69" class="java.lang.String" itemvalue="Application.SeriesDenormUpdater (test)" />
+      <item index="70" class="java.lang.String" itemvalue="Application.SeriesMerger (test)" />
+      <item index="71" class="java.lang.String" itemvalue="Application.TVDBDuplicateDataFixer (test)" />
+      <item index="72" class="java.lang.String" itemvalue="Application.TVDBJSONFetcher (test)" />
+      <item index="73" class="java.lang.String" itemvalue="Application.TVDBUpdateFinder (heroku)" />
+      <item index="74" class="java.lang.String" itemvalue="Application.TVDBUpdateFinder (heroku/lastweek)" />
+      <item index="75" class="java.lang.String" itemvalue="Application.TVDBUpdateFinder (test)" />
+      <item index="76" class="java.lang.String" itemvalue="Application.TVDBUpdateFinder (test/LogToFile)" />
+      <item index="77" class="java.lang.String" itemvalue="Application.TVDBUpdateProcessor (heroku)" />
+      <item index="78" class="java.lang.String" itemvalue="Application.TVDBUpdateProcessor (test)" />
+      <item index="79" class="java.lang.String" itemvalue="Application.TVDBUpdateProcessor (test/LogToFile)" />
+      <item index="80" class="java.lang.String" itemvalue="Application.TVDBXMLFetcher (test)" />
+      <item index="81" class="java.lang.String" itemvalue="Application.TVRatingSpreadsheetCopier (test)" />
+      <item index="82" class="java.lang.String" itemvalue="Application.TimestampTimeZoneUpgrader (heroku)" />
+      <item index="83" class="java.lang.String" itemvalue="Application.TimestampTimeZoneUpgrader (test)" />
+      <item index="84" class="java.lang.String" itemvalue="Application.QuickBatchUpdater (test)" />
+      <item index="85" class="java.lang.String" itemvalue="Application.TaskScheduleRunner (test)" />
+      <item index="86" class="java.lang.String" itemvalue="Application.TaskScheduleRunner (test/LogToFile)" />
+      <item index="87" class="java.lang.String" itemvalue="Gradle.media-mogul-data [build]" />
+      <item index="88" class="java.lang.String" itemvalue="JUnit.DatabaseRecreatorTest (Demo)" />
+      <item index="89" class="java.lang.String" itemvalue="JUnit.DatabaseRecreatorTest (Test)" />
+      <item index="90" class="java.lang.String" itemvalue="JUnit.TVSchemaHerokuTest" />
+      <item index="91" class="java.lang.String" itemvalue="JUnit.TVSchemaHerokuTest.testHerokuSchemaUpToDate" />
+      <item index="92" class="java.lang.String" itemvalue="Gradle.media-mogul-data [clean]" />
+      <item index="93" class="java.lang.String" itemvalue="Gradle.media-mogul-data [assemble]" />
+      <item index="94" class="java.lang.String" itemvalue="JUnit.StringSimilarityTest.testNGram" />
+      <item index="95" class="java.lang.String" itemvalue="JUnit.TVSchemaHerokuTest (1)" />
+      <item index="96" class="java.lang.String" itemvalue="JUnit.TiVoDaylightSavingsTest" />
     </list>
     <recent_temporary>
       <list size="2">
@@ -2838,6 +2863,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3293623" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13235295" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32866153" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24046105" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3994394" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -2848,7 +2874,6 @@
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32866153" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -2876,21 +2901,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/MetacriticGameUpdateRunner.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="32" column="45" lean-forward="false" selection-start-line="32" selection-start-column="45" selection-end-line="32" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/BackupPostgresHerokuDB.bat" />
-    <entry file="file://$PROJECT_DIR$/scripts/old/RunSteamUpdater.bat">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/scripts/old/RunQuickUpdater.bat">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -3005,33 +3015,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/SteamAttributeUpdateRunner.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="513">
-          <caret line="41" column="0" lean-forward="true" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/SteamGameUpdateRunner.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="665">
-          <caret line="53" column="79" lean-forward="false" selection-start-line="53" selection-start-column="79" selection-end-line="53" selection-end-column="79" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/SteamGameUpdater.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="359">
-          <caret line="67" column="0" lean-forward="true" selection-start-line="67" selection-start-column="0" selection-end-line="67" selection-end-column="0" />
-          <folding>
-            <element signature="e#935#936#0" expanded="false" />
-            <element signature="e#973#974#0" expanded="false" />
-            <element signature="e#8133#8134#0" expanded="false" />
-            <element signature="e#8170#8171#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/gamesutil/tv/TiVoMatchExistingTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="558">
@@ -3053,31 +3036,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateType.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="11" column="19" lean-forward="false" selection-start-line="11" selection-start-column="19" selection-end-line="11" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBSeriesV2MatchRunner.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="38" column="0" lean-forward="false" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/SeriesDenormUpdater.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="437">
           <caret line="33" column="30" lean-forward="false" selection-start-line="33" selection-start-column="30" selection-end-line="33" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateV2Runner.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6954">
-          <caret line="394" column="52" lean-forward="false" selection-start-line="394" selection-start-column="52" selection-end-line="394" selection-end-column="52" />
         </state>
       </provider>
     </entry>
@@ -3112,13 +3074,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/TaskSchedule.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="437">
-          <caret line="23" column="0" lean-forward="true" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TiVoDataProvider.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="76">
@@ -3130,13 +3085,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="76">
           <caret line="14" column="13" lean-forward="false" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TiVoLibraryUpdater.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="28" column="12" lean-forward="false" selection-start-line="28" selection-start-column="12" selection-end-line="28" selection-end-column="12" />
         </state>
       </provider>
     </entry>
@@ -3181,20 +3129,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/PeriodicTaskSchedule.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="12" column="41" lean-forward="false" selection-start-line="12" selection-start-column="41" selection-end-line="12" selection-end-column="41" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateFinderRunner.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2261">
-          <caret line="150" column="0" lean-forward="false" selection-start-line="150" selection-start-column="0" selection-end-line="150" selection-end-column="0" />
+        <state relative-caret-position="646">
+          <caret line="65" column="58" lean-forward="false" selection-start-line="65" selection-start-column="58" selection-end-line="65" selection-end-column="58" />
           <folding>
             <element signature="e#14077#14078#0" expanded="true" />
             <element signature="e#14114#14115#0" expanded="true" />
@@ -3225,22 +3163,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateProcessorRunner.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="33" lean-forward="false" selection-start-line="0" selection-start-column="33" selection-end-line="0" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1558">
-          <caret line="82" column="20" lean-forward="false" selection-start-line="82" selection-start-column="20" selection-end-line="82" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/scripts/RunTaskScheduleRunner.bat">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="76">
@@ -3249,13 +3171,134 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/TaskScheduleRunner.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/TaskSchedule.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="551">
-          <caret line="77" column="0" lean-forward="true" selection-start-line="77" selection-start-column="0" selection-end-line="77" selection-end-column="0" />
+        <state relative-caret-position="285">
+          <caret line="23" column="0" lean-forward="false" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateProcessorRunner.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="33" lean-forward="false" selection-start-line="0" selection-start-column="33" selection-end-line="0" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/SteamGameUpdater.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1042">
+          <caret line="67" column="0" lean-forward="false" selection-start-line="67" selection-start-column="0" selection-end-line="67" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.seleniumhq.selenium/selenium-chrome-driver/2.47.1/bb5c45973bbc48e2e8e79fbb47a4cd7e5c233ff0/selenium-chrome-driver-2.47.1-sources.jar!/org/openqa/selenium/chrome/ChromeDriver.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="303">
+          <caret line="157" column="36" lean-forward="false" selection-start-line="157" selection-start-column="36" selection-end-line="157" selection-end-column="36" />
+          <folding>
+            <element signature="e#4253#4254#0" expanded="false" />
+            <element signature="e#4332#4333#0" expanded="false" />
+            <element signature="e#5737#5738#0" expanded="false" />
+            <element signature="e#5786#5787#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.seleniumhq.selenium/selenium-chrome-driver/2.47.1/bb5c45973bbc48e2e8e79fbb47a4cd7e5c233ff0/selenium-chrome-driver-2.47.1-sources.jar!/org/openqa/selenium/chrome/ChromeDriverService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="417">
+          <caret line="139" column="5" lean-forward="false" selection-start-line="139" selection-start-column="5" selection-end-line="139" selection-end-column="5" />
+          <folding>
+            <element signature="e#3437#3438#0" expanded="true" />
+            <element signature="e#3494#3495#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/SteamGameUpdateRunner.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="359">
+          <caret line="54" column="44" lean-forward="false" selection-start-line="54" selection-start-column="44" selection-end-line="54" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/SteamAttributeUpdateRunner.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="581">
+          <caret line="65" column="42" lean-forward="false" selection-start-line="65" selection-start-column="42" selection-end-line="65" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/HowLongToBeatUpdateRunner.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="475">
+          <caret line="45" column="0" lean-forward="false" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-458">
+          <caret line="33" column="0" lean-forward="true" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="76">
+          <caret line="4" column="5" lean-forward="false" selection-start-line="4" selection-start-column="5" selection-end-line="4" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBSeriesV2MatchRunner.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="132">
+          <caret line="82" column="57" lean-forward="true" selection-start-line="82" selection-start-column="57" selection-end-line="82" selection-end-column="57" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TiVoLibraryUpdater.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="475">
+          <caret line="71" column="60" lean-forward="false" selection-start-line="71" selection-start-column="60" selection-end-line="71" selection-end-column="60" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateV2Runner.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="247">
+          <caret line="51" column="9" lean-forward="false" selection-start-line="51" selection-start-column="9" selection-end-line="51" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/PeriodicTaskSchedule.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="266">
+          <caret line="14" column="0" lean-forward="true" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2359#2409#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/TaskScheduleRunner.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="722">
+          <caret line="83" column="0" lean-forward="true" selection-start-line="83" selection-start-column="0" selection-end-line="83" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
