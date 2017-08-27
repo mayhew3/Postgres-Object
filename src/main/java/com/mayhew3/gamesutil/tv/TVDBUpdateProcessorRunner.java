@@ -32,7 +32,7 @@ import java.util.Optional;
 
 import static java.lang.Thread.sleep;
 
-public class TVDBUpdateProcessor {
+public class TVDBUpdateProcessorRunner {
   private enum SeriesUpdateResult {UPDATE_SUCCESS, UPDATE_FAILED}
 
   private SQLConnection connection;
@@ -55,7 +55,7 @@ public class TVDBUpdateProcessor {
   @SuppressWarnings("FieldCanBeLocal")
   private final Integer ERROR_THRESHOLD = 3;
 
-  private TVDBUpdateProcessor(SQLConnection connection, TVDBJWTProvider tvdbjwtProvider, JSONReader jsonReader, String identifier) {
+  private TVDBUpdateProcessorRunner(SQLConnection connection, TVDBJWTProvider tvdbjwtProvider, JSONReader jsonReader, String identifier) {
     this.connection = connection;
     this.tvdbjwtProvider = tvdbjwtProvider;
     this.jsonReader = jsonReader;
@@ -77,7 +77,7 @@ public class TVDBUpdateProcessor {
     debug("");
 
     SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
-    TVDBUpdateProcessor tvdbUpdateRunner = new TVDBUpdateProcessor(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), identifier);
+    TVDBUpdateProcessorRunner tvdbUpdateRunner = new TVDBUpdateProcessorRunner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), identifier);
 
     tvdbUpdateRunner.runUpdater();
   }

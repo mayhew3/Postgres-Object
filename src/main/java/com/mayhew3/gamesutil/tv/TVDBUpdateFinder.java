@@ -30,7 +30,7 @@ public class TVDBUpdateFinder implements UpdateRunner {
 
   private Timestamp lastUpdated;
 
-  public TVDBUpdateFinder(JSONReader jsonReader, TVDBJWTProvider tvdbjwtProvider, SQLConnection connection) {
+  public TVDBUpdateFinder(SQLConnection connection, TVDBJWTProvider tvdbjwtProvider, JSONReader jsonReader) {
     this.jsonReader = jsonReader;
     this.tvdbjwtProvider = tvdbjwtProvider;
     this.connection = connection;
