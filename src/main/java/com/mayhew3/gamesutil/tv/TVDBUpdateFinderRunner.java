@@ -52,7 +52,7 @@ public class TVDBUpdateFinderRunner {
   @SuppressWarnings("FieldCanBeLocal")
   private Integer SECONDS = 120;
 
-  public TVDBUpdateFinderRunner(SQLConnection connection, TVDBJWTProvider tvdbjwtProvider, JSONReader jsonReader, String identifier) {
+  private TVDBUpdateFinderRunner(SQLConnection connection, TVDBJWTProvider tvdbjwtProvider, JSONReader jsonReader, String identifier) {
     this.connection = connection;
     this.tvdbjwtProvider = tvdbjwtProvider;
     this.jsonReader = jsonReader;
@@ -157,35 +157,31 @@ public class TVDBUpdateFinderRunner {
 
     Timestamp veryFirstStartTime = getLastUpdateTime();
 
-    if (veryFirstStartTime != null) {
+    List<TVDBUpdate> updatesFromPeriodic = new ArrayList<>();
 
-      List<TVDBUpdate> updatesFromPeriodic = new ArrayList<>();
+    while (tenMinutesFromNow.isAfterNow()) {
+      debug("Starting periodic update...");
 
-      while (tenMinutesFromNow.isAfterNow()) {
-        debug("Starting periodic update...");
+      updatesFromPeriodic.addAll(runPeriodicUpdate());
 
-        updatesFromPeriodic.addAll(runPeriodicUpdate());
-
-        debug("Finished run. Waiting " + seconds + " seconds...");
-        sleep(1000 * seconds);
-      }
-
-      List<TVDBUpdate> updatesFromFull = runPeriodicUpdate(veryFirstStartTime);
-
-      // going to assume there are some updates missing from the back end of each update. This test is going to focus
-      // on no updates missed from between runs, and expect any missed from the most recent run will be made up for
-      // in a successive run. Therefore, we use the final periodic update as a maximum, and make sure all the previous
-      // ones are complete.
-      Optional<Timestamp> maxUpdateTime = getMaxUpdateTime(updatesFromPeriodic);
-
-      if (maxUpdateTime.isPresent()) {
-        validatePeriodicUpdates(updatesFromPeriodic, updatesFromFull, maxUpdateTime.get());
-      } else {
-        debug("No periodic updates. Aborting comparison.");
-      }
-    } else {
-      debug("No last update time. Aborting.");
+      debug("Finished run. Waiting " + seconds + " seconds...");
+      sleep(1000 * seconds);
     }
+
+    List<TVDBUpdate> updatesFromFull = runPeriodicUpdate(veryFirstStartTime);
+
+    // going to assume there are some updates missing from the back end of each update. This test is going to focus
+    // on no updates missed from between runs, and expect any missed from the most recent run will be made up for
+    // in a successive run. Therefore, we use the final periodic update as a maximum, and make sure all the previous
+    // ones are complete.
+    Optional<Timestamp> maxUpdateTime = getMaxUpdateTime(updatesFromPeriodic);
+
+    if (maxUpdateTime.isPresent()) {
+      validatePeriodicUpdates(updatesFromPeriodic, updatesFromFull, maxUpdateTime.get());
+    } else {
+      debug("No periodic updates. Aborting comparison.");
+    }
+
   }
 
   private void fillInGapsFromPastWeek() throws AuthenticationException, UnirestException, SQLException {
@@ -215,11 +211,8 @@ public class TVDBUpdateFinderRunner {
 
   private List<TVDBUpdate> runPeriodicUpdate() throws SQLException, UnirestException, AuthenticationException {
     Timestamp lastUpdateTime = getLastUpdateTime();
-    if (lastUpdateTime != null) {
-      Timestamp startTime = createStartTimeWithBuffer(lastUpdateTime);
-      return runPeriodicUpdate(startTime);
-    }
-    return new ArrayList<>();
+    Timestamp startTime = createStartTimeWithBuffer(lastUpdateTime);
+    return runPeriodicUpdate(startTime);
   }
 
   @NotNull
@@ -361,12 +354,12 @@ public class TVDBUpdateFinderRunner {
     return null;
   }
 
-  @Nullable
+  @NotNull
   private Timestamp getLastUpdateTime() throws SQLException {
     return lastUpdated == null ? getLastUpdateTimeFromDB() : lastUpdated;
   }
 
-  @Nullable
+  @NotNull
   private Timestamp getLastUpdateTimeFromDB() throws SQLException {
     Timestamp mostRecentSuccessfulUpdate = getMostRecentSuccessfulUpdate();
     Timestamp mostRecentPeriodicCheck = getMostRecentPeriodicCheck();
