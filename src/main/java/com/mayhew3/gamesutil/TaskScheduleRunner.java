@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
+import com.mayhew3.gamesutil.games.SteamGameUpdater;
 import com.mayhew3.gamesutil.tv.*;
 import com.mayhew3.gamesutil.xml.JSONReader;
 import com.mayhew3.gamesutil.xml.JSONReaderImpl;
@@ -67,10 +68,12 @@ public class TaskScheduleRunner {
     taskScheduleRunner.runUpdates();
   }
 
+  @SuppressWarnings("PointlessArithmeticExpression")
   private void createTaskList() {
-    addPeriodicTask(new TVDBUpdateFinder(connection, tvdbjwtProvider, jsonReader), 120);
-    addPeriodicTask(new TVDBUpdateProcessorObj(connection, tvdbjwtProvider, jsonReader), 60);
-    addPeriodicTask(new TiVoCommunicator(connection, new RemoteFileDownloader(false), false), 600);
+    addPeriodicTask(new TVDBUpdateFinder(connection, tvdbjwtProvider, jsonReader), 2*60);
+    addPeriodicTask(new TVDBUpdateProcessorObj(connection, tvdbjwtProvider, jsonReader), 1*60);
+    addPeriodicTask(new TiVoCommunicator(connection, new RemoteFileDownloader(false), false), 10*60);
+    addPeriodicTask(new SteamGameUpdater(connection), 60*60);
   }
 
   private void addPeriodicTask(UpdateRunner updateRunner, Integer secondsBetween) {
