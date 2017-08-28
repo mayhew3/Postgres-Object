@@ -30,6 +30,8 @@ import java.util.*;
 
 public class TVDBUpdateRunner implements UpdateRunner {
 
+  private final Map<TVDBUpdateType, Runnable> methodMap;
+
   private enum SeriesUpdateResult {UPDATE_SUCCESS, UPDATE_FAILED}
 
   private Integer seriesUpdates = 0;
@@ -49,18 +51,36 @@ public class TVDBUpdateRunner implements UpdateRunner {
   private final Integer ERROR_THRESHOLD = 5;
 
   public TVDBUpdateRunner(SQLConnection connection, TVDBJWTProvider tvdbjwtProvider, JSONReader jsonReader, @NotNull TVDBUpdateType updateType) {
+
+    methodMap = new HashMap<>();
+    methodMap.put(TVDBUpdateType.FULL, this::runFullUpdate);
+    methodMap.put(TVDBUpdateType.SMART, this::runSmartUpdateSingleQuery);
+    methodMap.put(TVDBUpdateType.RECENT, this::runUpdateOnRecentUpdateList);
+    methodMap.put(TVDBUpdateType.FEW_ERRORS, this::runUpdateOnRecentlyErrored);
+    methodMap.put(TVDBUpdateType.OLD_ERRORS, this::runUpdateOnOldErrors);
+    methodMap.put(TVDBUpdateType.SINGLE, this::runUpdateSingle);
+    methodMap.put(TVDBUpdateType.AIRTIMES, this::runAirTimesUpdate);
+    methodMap.put(TVDBUpdateType.QUICK, this::runQuickUpdate);
+    methodMap.put(TVDBUpdateType.SANITY, this::runSanityUpdateOnShowsThatHaventBeenUpdatedInAWhile);
+
     this.connection = connection;
     this.tvdbjwtProvider = tvdbjwtProvider;
     this.jsonReader = jsonReader;
+
+    if (!methodMap.keySet().contains(updateType)) {
+      throw new IllegalArgumentException("Update type '" + updateType + "' is not applicable for this updater.");
+    }
+
     this.updateType = updateType;
   }
 
   public static void main(String... args) throws URISyntaxException, SQLException, UnirestException, ParseException {
-    TVDBUpdateType updateType = getTVDBUpdateType(args);
+    ArgumentChecker argumentChecker = new ArgumentChecker(args);
 
-    String identifier = new ArgumentChecker(args).getDBIdentifier();
+    String dbIdentifier = argumentChecker.getDBIdentifier();
+    TVDBUpdateType updateType = TVDBUpdateType.getUpdateTypeOrDefault(argumentChecker, TVDBUpdateType.SMART);
 
-    SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
+    SQLConnection connection = new PostgresConnectionFactory().createConnection(dbIdentifier);
 
     TVDBUpdateRunner tvdbUpdateRunner = new TVDBUpdateRunner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), updateType);
     tvdbUpdateRunner.runUpdate();
@@ -71,47 +91,9 @@ public class TVDBUpdateRunner implements UpdateRunner {
     }
   }
 
-  @NotNull
-  private static TVDBUpdateType getTVDBUpdateType(String[] args) throws ParseException {
-    Options options = new Options();
-    Option typeOption = Option.builder("type")
-        .hasArg()
-        .desc("TVDB Update Type")
-        .required(false)
-        .build();
-
-    options.addOption(typeOption);
-
-    CommandLineParser parser = new DefaultParser();
-    CommandLine commands = parser.parse(options, args);
-
-    TVDBUpdateType updateType = TVDBUpdateType.SMART;
-    if (commands.hasOption("type")) {
-      String optionValue = commands.getOptionValue("type");
-      Optional<TVDBUpdateType> commandLineType = TVDBUpdateType.getUpdateType(optionValue);
-      if (commandLineType.isPresent()) {
-        updateType = commandLineType.get();
-      } else {
-        throw new IllegalArgumentException("No TVDBUpdateType found: " + optionValue);
-      }
-    }
-    return updateType;
-  }
-
   public void runUpdate() throws SQLException {
 
     initializeConnectionLog(updateType);
-
-    Map<TVDBUpdateType, Runnable> methodMap = new HashMap<>();
-    methodMap.put(TVDBUpdateType.FULL, this::runFullUpdate);
-    methodMap.put(TVDBUpdateType.SMART, this::runSmartUpdateSingleQuery);
-    methodMap.put(TVDBUpdateType.RECENT, this::runUpdateOnRecentUpdateList);
-    methodMap.put(TVDBUpdateType.FEW_ERRORS, this::runUpdateOnRecentlyErrored);
-    methodMap.put(TVDBUpdateType.OLD_ERRORS, this::runUpdateOnOldErrors);
-    methodMap.put(TVDBUpdateType.SINGLE, this::runUpdateSingle);
-    methodMap.put(TVDBUpdateType.AIRTIMES, this::runAirTimesUpdate);
-    methodMap.put(TVDBUpdateType.QUICK, this::runQuickUpdate);
-    methodMap.put(TVDBUpdateType.SANITY, this::runSanityUpdateOnShowsThatHaventBeenUpdatedInAWhile);
 
     try {
       methodMap.get(updateType).run();

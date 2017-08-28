@@ -1,6 +1,7 @@
 package com.mayhew3.gamesutil.tv.helper;
 
 import com.google.common.collect.Lists;
+import com.mayhew3.gamesutil.ArgumentChecker;
 
 import java.util.Optional;
 
@@ -33,6 +34,20 @@ public enum TVDBUpdateType {
         .stream()
         .filter(tvdbUpdateType -> tvdbUpdateType.typekey.equalsIgnoreCase(typekey))
         .findAny();
+  }
+
+  public static TVDBUpdateType getUpdateTypeOrDefault(ArgumentChecker checker, TVDBUpdateType defaultType) {
+    Optional<String> typeIdentifier = checker.getUpdateTypeIdentifier();
+    if (typeIdentifier.isPresent()) {
+      Optional<TVDBUpdateType> optionalType = getUpdateType(typeIdentifier.get());
+      if (optionalType.isPresent()) {
+        return optionalType.get();
+      } else {
+        throw new IllegalArgumentException("No TVDBUpdateType found: " + typeIdentifier);
+      }
+    } else {
+      return defaultType;
+    }
   }
 
   @Override
