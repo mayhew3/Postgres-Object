@@ -2,7 +2,147 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1e099498-ec9e-4703-ab18-cce3963e4d0c" name="Default" comment="Move annotation directory">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/EpisodeGroupUpdater.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/EpisodeGroupUpdater.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build.gradle" afterPath="$PROJECT_DIR$/build.gradle" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" afterPath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/ArgumentChecker.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/ArgumentChecker.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/DatabaseUtility.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/DatabaseUtility.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/InputGetter.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/InputGetter.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/QuickBatchUpdater.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/QuickBatchUpdater.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/SSLTool.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/SSLTool.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/dataobject/DataObject.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/dataobject/DataObject.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/dataobject/DataObjectMismatch.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/dataobject/DataObjectMismatch.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/dataobject/DataObjectTableValidator.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/dataobject/DataObjectTableValidator.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/dataobject/DataSchema.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/dataobject/DataSchema.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/dataobject/DatabaseRecreator.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/dataobject/DatabaseRecreator.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/dataobject/FieldConversion.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/dataobject/FieldConversion.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/dataobject/FieldConversionBigDecimal.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/dataobject/FieldConversionBigDecimal.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/dataobject/FieldConversionBoolean.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/dataobject/FieldConversionBoolean.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/dataobject/FieldConversionInteger.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/dataobject/FieldConversionInteger.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/dataobject/FieldConversionString.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/dataobject/FieldConversionString.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/dataobject/FieldConversionTimestamp.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/dataobject/FieldConversionTimestamp.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/dataobject/FieldValue.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/dataobject/FieldValue.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/dataobject/FieldValueBigDecimal.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/dataobject/FieldValueBigDecimal.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/dataobject/FieldValueBoolean.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/dataobject/FieldValueBoolean.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/dataobject/FieldValueForeignKey.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/dataobject/FieldValueForeignKey.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/dataobject/FieldValueInteger.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/dataobject/FieldValueInteger.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/dataobject/FieldValueSerial.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/dataobject/FieldValueSerial.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/dataobject/FieldValueString.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/dataobject/FieldValueString.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/dataobject/FieldValueTimestamp.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/dataobject/FieldValueTimestamp.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/dataobject/IntegerSize.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/dataobject/IntegerSize.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/dataobject/Nullability.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/dataobject/Nullability.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/dataobject/RetireableDataObject.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/dataobject/RetireableDataObject.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/dataobject/UniqueConstraint.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/dataobject/UniqueConstraint.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/db/PostgresConnection.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/db/PostgresConnection.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/db/PostgresConnectionFactory.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/db/PostgresConnectionFactory.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/db/SQLConnection.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/db/SQLConnection.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/GameFailedException.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/GameFailedException.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/GiantBombUpdater.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/GiantBombUpdater.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/HowLongToBeatUpdateRunner.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/HowLongToBeatUpdateRunner.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/HowLongToBeatUpdater.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/HowLongToBeatUpdater.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/MetacriticGameUpdateRunner.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/MetacriticGameUpdateRunner.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/MetacriticGameUpdater.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/MetacriticGameUpdater.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/SteamAttributeUpdateRunner.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/SteamAttributeUpdateRunner.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/SteamAttributeUpdater.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/SteamAttributeUpdater.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/SteamGameUpdateRunner.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/SteamGameUpdateRunner.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/SteamGameUpdater.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/SteamGameUpdater.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/model/games/Game.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/Game.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/model/games/GameLog.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/GameLog.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/model/games/GamesSchema.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/GamesSchema.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/model/games/SteamAttribute.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/SteamAttribute.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/model/tv/ConnectLog.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/ConnectLog.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/model/tv/EdgeTiVoEpisode.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/EdgeTiVoEpisode.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/model/tv/Episode.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/Episode.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/model/tv/EpisodeGroupRating.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/EpisodeGroupRating.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/model/tv/EpisodeRating.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/EpisodeRating.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/model/tv/ErrorLog.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/ErrorLog.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/model/tv/Genre.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/Genre.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/model/tv/Movie.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/Movie.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/model/tv/PossibleEpisodeMatch.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/PossibleEpisodeMatch.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/model/tv/PossibleSeriesMatch.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/PossibleSeriesMatch.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/model/tv/Season.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/Season.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/model/tv/SeasonViewingLocation.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/SeasonViewingLocation.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/model/tv/Series.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/Series.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/model/tv/SeriesGenre.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/SeriesGenre.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/model/tv/SeriesViewingLocation.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/SeriesViewingLocation.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/model/tv/TVDBConnectionLog.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TVDBConnectionLog.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/model/tv/TVDBEpisode.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TVDBEpisode.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/model/tv/TVDBMigrationError.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TVDBMigrationError.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/model/tv/TVDBMigrationLog.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TVDBMigrationLog.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/model/tv/TVDBPoster.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TVDBPoster.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/model/tv/TVDBSeries.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TVDBSeries.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/model/tv/TVDBUpdateError.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TVDBUpdateError.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/model/tv/TVDBWorkItem.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TVDBWorkItem.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/model/tv/TVSchema.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TVSchema.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/model/tv/TiVoEpisode.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TiVoEpisode.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/model/tv/TmpRating.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TmpRating.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/model/tv/ViewingLocation.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/ViewingLocation.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/scheduler/NightlyTaskSchedule.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/scheduler/NightlyTaskSchedule.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/scheduler/PeriodicTaskSchedule.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/scheduler/PeriodicTaskSchedule.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/scheduler/TaskSchedule.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/scheduler/TaskSchedule.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/scheduler/TaskScheduleRunner.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/scheduler/TaskScheduleRunner.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/scheduler/UpdateRunner.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/scheduler/UpdateRunner.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/EpisodeGroupUpdater.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/EpisodeGroupUpdater.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/MetacriticTVUpdater.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/MetacriticTVUpdater.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/SeriesDenormUpdater.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/SeriesDenormUpdater.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBEpisodeMatcher.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBEpisodeMatcher.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBEpisodeUpdater.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBEpisodeUpdater.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBMatchStatus.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBMatchStatus.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBSeriesMatchRunner.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBSeriesMatchRunner.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBSeriesMatchUpdater.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBSeriesMatchUpdater.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBSeriesUpdater.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBSeriesUpdater.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateFinder.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBUpdateFinder.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateFinderRunner.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBUpdateFinderRunner.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateProcessor.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBUpdateProcessor.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateProcessorRunner.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBUpdateProcessorRunner.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateRunner.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBUpdateRunner.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TiVoCommunicator.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TiVoCommunicator.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TiVoLibraryUpdater.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TiVoLibraryUpdater.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/exception/MalformedTVDBEpisodeException.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/exception/MalformedTVDBEpisodeException.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/exception/MultipleMatchesException.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/exception/MultipleMatchesException.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/exception/ShowFailedException.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/exception/ShowFailedException.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/helper/ConnectionLogger.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/helper/ConnectionLogger.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/helper/MetacriticException.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/helper/MetacriticException.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/helper/SeriesMerger.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/helper/SeriesMerger.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/helper/UpdateMode.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/helper/UpdateMode.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/provider/RemoteFileDownloader.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/provider/RemoteFileDownloader.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/provider/TVDBDataProvider.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/provider/TVDBDataProvider.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/provider/TVDBJWTProvider.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/provider/TVDBJWTProvider.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/provider/TVDBJWTProviderImpl.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/provider/TVDBJWTProviderImpl.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/provider/TVDBLocalFileProvider.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/provider/TVDBLocalFileProvider.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/provider/TVDBLocalJSONProvider.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/provider/TVDBLocalJSONProvider.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/provider/TVDBWebProvider.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/provider/TVDBWebProvider.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/provider/TiVoDataProvider.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/provider/TiVoDataProvider.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/utility/DaylightSavingCorrector.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/utility/DaylightSavingCorrector.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/utility/SeriesDeleter.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/utility/SeriesDeleter.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/utility/TVDBDuplicateDataFixer.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/utility/TVDBDuplicateDataFixer.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/utility/TVDBJSONFetcher.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/utility/TVDBJSONFetcher.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/utility/TVDBXMLFetcher.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/utility/TVDBXMLFetcher.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/utility/TVRatingSpreadsheetCopier.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/utility/TVRatingSpreadsheetCopier.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/utility/TimestampTimeZoneUpgrader.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/utility/TimestampTimeZoneUpgrader.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/xml/BadlyFormattedXMLException.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/xml/BadlyFormattedXMLException.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/xml/JSONReader.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/xml/JSONReader.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/xml/JSONReaderImpl.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/xml/JSONReaderImpl.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/xml/NodeReader.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/xml/NodeReader.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/xml/NodeReaderImpl.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/xml/NodeReaderImpl.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/xml/episodes.json" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/xml/episodes.json" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/xml/series.json" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/xml/series.json" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/test/java/com/mayhew3/gamesutil/TVDatabaseTest.java" afterPath="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/TVDatabaseTest.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/test/java/com/mayhew3/gamesutil/dataobject/DataObjectCommitTest.java" afterPath="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/dataobject/DataObjectCommitTest.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/test/java/com/mayhew3/gamesutil/dataobject/DataObjectMock.java" afterPath="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/dataobject/DataObjectMock.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/test/java/com/mayhew3/gamesutil/dataobject/DataObjectTest.java" afterPath="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/dataobject/DataObjectTest.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/test/java/com/mayhew3/gamesutil/dataobject/DatabaseRecreatorTest.java" afterPath="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/dataobject/DatabaseRecreatorTest.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/test/java/com/mayhew3/gamesutil/dataobject/EpisodeTest.java" afterPath="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/dataobject/EpisodeTest.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/test/java/com/mayhew3/gamesutil/dataobject/FieldValueBigDecimalTest.java" afterPath="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/dataobject/FieldValueBigDecimalTest.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/test/java/com/mayhew3/gamesutil/dataobject/TVTestSchema.java" afterPath="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/dataobject/TVTestSchema.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/test/java/com/mayhew3/gamesutil/dataobject/TiVoLocalProvider.java" afterPath="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/dataobject/TiVoLocalProvider.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/test/java/com/mayhew3/gamesutil/db/PostgresConnectionTest.java" afterPath="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/db/PostgresConnectionTest.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/test/java/com/mayhew3/gamesutil/model/games/GameSchemaHerokuTest.java" afterPath="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/model/games/GameSchemaHerokuTest.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/test/java/com/mayhew3/gamesutil/model/tv/TVSchemaHerokuTest.java" afterPath="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/model/tv/TVSchemaHerokuTest.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/test/java/com/mayhew3/gamesutil/tv/StringSimilarityTest.java" afterPath="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/tv/StringSimilarityTest.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/test/java/com/mayhew3/gamesutil/tv/TVDBSeriesUpdaterTest.java" afterPath="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/tv/TVDBSeriesUpdaterTest.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/test/java/com/mayhew3/gamesutil/tv/TiVoDaylightSavingsTest.java" afterPath="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/tv/TiVoDaylightSavingsTest.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/test/java/com/mayhew3/gamesutil/tv/TiVoMatchExistingTest.java" afterPath="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/tv/TiVoMatchExistingTest.java" />
     </list>
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -58,35 +198,45 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file leaf-file-name="TVDBUpdateRunner.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateRunner.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBUpdateRunner.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="379">
-              <caret line="175" column="29" lean-forward="true" selection-start-line="175" selection-start-column="29" selection-end-line="175" selection-end-column="29" />
+              <caret line="175" column="29" lean-forward="false" selection-start-line="175" selection-start-column="29" selection-end-line="175" selection-end-column="29" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="EpisodeGroupUpdater.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/EpisodeGroupUpdater.java">
+      <file leaf-file-name="EpisodeGroupUpdater.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/EpisodeGroupUpdater.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="778">
-              <caret line="303" column="0" lean-forward="true" selection-start-line="303" selection-start-column="0" selection-end-line="303" selection-end-column="0" />
+            <state relative-caret-position="380">
+              <caret line="39" column="19" lean-forward="false" selection-start-line="39" selection-start-column="19" selection-end-line="39" selection-end-column="19" />
               <folding>
-                <marker date="1503901302588" expanded="false" signature="767:807" ph="/OptionalIsPresent/" />
-                <marker date="1503901302588" expanded="false" signature="907:940" ph="/WeakerAccess/" />
-                <marker date="1503901302588" expanded="false" signature="1425:1464" ph="/SameParameterValue/" />
-                <marker date="1503901302588" expanded="true" signature="6443:6482" ph="@{...}" />
-                <marker date="1503901302588" expanded="true" signature="7086:7125" ph="@{...}" />
-                <marker date="1503901302588" expanded="true" signature="7762:7801" ph="@{...}" />
-                <marker date="1503901302588" expanded="true" signature="8446:8485" ph="@{...}" />
+                <marker date="1503901429234" expanded="false" signature="776:816" ph="/OptionalIsPresent/" />
+                <marker date="1503901429234" expanded="false" signature="916:949" ph="/WeakerAccess/" />
+                <marker date="1503901429234" expanded="false" signature="1434:1473" ph="/SameParameterValue/" />
+                <marker date="1503901429234" expanded="true" signature="6452:6491" ph="@{...}" />
+                <marker date="1503901429234" expanded="true" signature="7095:7134" ph="@{...}" />
+                <marker date="1503901429234" expanded="true" signature="7771:7810" ph="@{...}" />
+                <marker date="1503901429234" expanded="true" signature="8455:8494" ph="@{...}" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="TiVoUpdaterPostgres_20161105.log" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/logs/TiVoUpdaterPostgres_20161105.log">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="692">
+              <caret line="167" column="40" lean-forward="false" selection-start-line="167" selection-start-column="40" selection-end-line="167" selection-end-column="40" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="TVDBSeriesMatchRunner.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBSeriesMatchRunner.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBSeriesMatchRunner.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="170">
               <caret line="98" column="69" lean-forward="false" selection-start-line="98" selection-start-column="69" selection-end-line="98" selection-end-column="69" />
@@ -98,7 +248,7 @@
         </entry>
       </file>
       <file leaf-file-name="TVDBUpdateProcessor.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateProcessor.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBUpdateProcessor.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="178">
               <caret line="109" column="69" lean-forward="false" selection-start-line="109" selection-start-column="69" selection-end-line="109" selection-end-column="69" />
@@ -108,7 +258,7 @@
         </entry>
       </file>
       <file leaf-file-name="TVDBUpdateProcessorRunner.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateProcessorRunner.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBUpdateProcessorRunner.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="311">
               <caret line="160" column="69" lean-forward="false" selection-start-line="160" selection-start-column="69" selection-end-line="160" selection-end-column="69" />
@@ -117,28 +267,8 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="QuickBatchUpdater.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/QuickBatchUpdater.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="311">
-              <caret line="57" column="97" lean-forward="false" selection-start-line="57" selection-start-column="97" selection-end-line="57" selection-end-column="97" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MetacriticGameUpdateRunner.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/MetacriticGameUpdateRunner.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="114">
-              <caret line="21" column="14" lean-forward="false" selection-start-line="21" selection-start-column="14" selection-end-line="21" selection-end-column="14" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="TVDBConnectionLog.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/model/tv/TVDBConnectionLog.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TVDBConnectionLog.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="171">
               <caret line="9" column="26" lean-forward="false" selection-start-line="9" selection-start-column="26" selection-end-line="9" selection-end-column="26" />
@@ -147,21 +277,31 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ArgumentChecker.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/ArgumentChecker.java">
+      <file leaf-file-name="build.gradle" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/build.gradle">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="494">
-              <caret line="30" column="34" lean-forward="false" selection-start-line="30" selection-start-column="34" selection-end-line="30" selection-end-column="34" />
+            <state relative-caret-position="796">
+              <caret line="47" column="17" lean-forward="false" selection-start-line="47" selection-start-column="17" selection-end-line="47" selection-end-column="17" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="build.gradle" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/build.gradle">
+      <file leaf-file-name="RunPostgresUpdater.bat" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/scripts/old/RunPostgresUpdater.bat">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="798">
-              <caret line="42" column="0" lean-forward="true" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
+            <state relative-caret-position="228">
+              <caret line="12" column="8" lean-forward="false" selection-start-line="12" selection-start-column="8" selection-end-line="12" selection-end-column="8" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RunQuickUpdater.bat" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/scripts/old/RunQuickUpdater.bat">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="76">
+              <caret line="4" column="8" lean-forward="false" selection-start-line="4" selection-start-column="8" selection-end-line="4" selection-end-column="8" />
               <folding />
             </state>
           </provider>
@@ -206,11 +346,14 @@
       <find>updateType</find>
       <find>-type</find>
       <find>-type</find>
+      <find>com.mayhew3.mediamogul</find>
+      <find>com.mayhew3.gamesutil</find>
     </findStrings>
     <replaceStrings>
       <replace>&lt;module name=&quot;media-mogul-data_main&quot;</replace>
       <replace>TVDBUpdateRunner</replace>
       <replace>-mode</replace>
+      <replace>com.mayhew3.mediamogul</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -219,7 +362,7 @@
   <component name="GradleLocalSettings">
     <option name="myGradleHomes">
       <map>
-        <entry key="$PROJECT_DIR$" value="C:\Users\Mayhew Seavey\.gradle\wrapper\dists\gradle-3.5-bin\daoimhu7k5rlo48ntmxw2ok3e\gradle-3.5" />
+        <entry key="$PROJECT_DIR$" value="D:\Program Files (x86)\gradle-3.5" />
       </map>
     </option>
     <option name="myGradleVersions">
@@ -428,9 +571,9 @@
     </option>
     <option name="modificationStamps">
       <map>
-        <entry key="$PROJECT_DIR$" value="1503898034401" />
+        <entry key="$PROJECT_DIR$" value="1503901659906" />
         <entry key="$PROJECT_DIR$/IO.gradle" value="4046186073" />
-        <entry key="$PROJECT_DIR$/build.gradle" value="782651407" />
+        <entry key="$PROJECT_DIR$/build.gradle" value="1030589985" />
       </map>
     </option>
     <option name="projectBuildClasspath">
@@ -538,8 +681,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/scripts/RunQuickUpdaterGradle.bat" />
-        <option value="$PROJECT_DIR$/src/main/java/NightlyTaskSchedule.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBLocalJSONProvider.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateFinderObj.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateFinderRunner.java" />
@@ -578,7 +719,6 @@
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/provider/RemoteFileDownloader.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/SeriesMerger.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBEpisodeMatcher.java" />
-        <option value="$PROJECT_DIR$/build.gradle" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/helper/TVDBUpdateType.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/ArgumentChecker.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/helper/UpdateMode.java" />
@@ -589,6 +729,9 @@
         <option value="$PROJECT_DIR$/.idea/workspace.xml" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/scheduler/TaskScheduleRunner.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/EpisodeGroupUpdater.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/EpisodeGroupUpdater.java" />
+        <option value="$PROJECT_DIR$/build.gradle" />
+        <option value="$PROJECT_DIR$/scripts/old/RunPostgresUpdater.bat" />
       </list>
     </option>
   </component>
@@ -597,6 +740,9 @@
   <component name="JsGulpfileManager">
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="NamedScopeManager">
+    <scope name="AllButLogs" pattern="!file[media-mogul-data]:logs//*" />
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-8" />
@@ -658,7 +804,7 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="gamesutil" type="462c0819:PsiDirectoryNode" />
+              <item name="mediamogul" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="media-mogul-data" type="b2602c69:ProjectViewProjectNode" />
@@ -666,16 +812,16 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="gamesutil" type="462c0819:PsiDirectoryNode" />
+              <item name="mediamogul" type="462c0819:PsiDirectoryNode" />
               <item name="tv" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
       <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -754,8 +900,8 @@
       <module name="media-mogul-data_test" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="com.mayhew3.gamesutil.dataobject" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.dataobject.DatabaseRecreatorTest" />
+      <option name="PACKAGE_NAME" value="com.mayhew3.mediamogul.dataobject" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.dataobject.DatabaseRecreatorTest" />
       <option name="METHOD_NAME" value="" />
       <option name="TEST_OBJECT" value="class" />
       <option name="VM_PARAMETERS" value="" />
@@ -779,8 +925,8 @@
       <module name="media-mogul-data_test" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="com.mayhew3.gamesutil.dataobject" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.dataobject.DatabaseRecreatorTest" />
+      <option name="PACKAGE_NAME" value="com.mayhew3.mediamogul.dataobject" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.dataobject.DatabaseRecreatorTest" />
       <option name="METHOD_NAME" value="" />
       <option name="TEST_OBJECT" value="class" />
       <option name="VM_PARAMETERS" value="" />
@@ -801,7 +947,7 @@
     </configuration>
     <configuration name="DaylightSavingCorrector (Heroku)" type="Application" factoryName="Application" folderName="Utilities">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.utility.DaylightSavingCorrector" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.utility.DaylightSavingCorrector" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Heroku" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -819,7 +965,7 @@
     </configuration>
     <configuration name="DaylightSavingCorrector (Test)" type="Application" factoryName="Application" folderName="Utilities">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.utility.DaylightSavingCorrector" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.utility.DaylightSavingCorrector" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Test" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -837,7 +983,7 @@
     </configuration>
     <configuration name="EpisodeGroupUpdater (Heroku)" type="Application" factoryName="Application">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.EpisodeGroupUpdater" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.EpisodeGroupUpdater" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Heroku" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -855,7 +1001,7 @@
     </configuration>
     <configuration name="EpisodeGroupUpdater (test)" type="Application" factoryName="Application">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.EpisodeGroupUpdater" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.EpisodeGroupUpdater" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Test" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -899,7 +1045,7 @@
     </configuration>
     <configuration name="GiantBombUpdater (SingleGame)" type="Application" factoryName="Application" folderName="Games">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.games.GiantBombUpdater" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.games.GiantBombUpdater" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Heroku SingleGame" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -917,7 +1063,7 @@
     </configuration>
     <configuration name="GiantBombUpdater (test)" type="Application" factoryName="Application" folderName="Games">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.games.GiantBombUpdater" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.games.GiantBombUpdater" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Test" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -935,7 +1081,7 @@
     </configuration>
     <configuration name="GiantBombUpdater" type="Application" factoryName="Application" folderName="Games">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.games.GiantBombUpdater" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.games.GiantBombUpdater" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Heroku" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -953,7 +1099,7 @@
     </configuration>
     <configuration name="HowLongToBeatUpdateRunner (Heroku/FullMode)" type="Application" factoryName="Application" folderName="Games">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.games.HowLongToBeatUpdateRunner" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.games.HowLongToBeatUpdateRunner" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Heroku FullMode" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -971,7 +1117,7 @@
     </configuration>
     <configuration name="HowLongToBeatUpdateRunner (test)" type="Application" factoryName="Application" folderName="Games">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.games.HowLongToBeatUpdateRunner" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.games.HowLongToBeatUpdateRunner" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Test" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -989,7 +1135,7 @@
     </configuration>
     <configuration name="HowLongToBeatUpdateRunner" type="Application" factoryName="Application" folderName="Games">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.games.HowLongToBeatUpdateRunner" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.games.HowLongToBeatUpdateRunner" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Heroku" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1007,7 +1153,7 @@
     </configuration>
     <configuration name="MetacriticGameUpdateRunner" type="Application" factoryName="Application" folderName="Games" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.games.MetacriticGameUpdateRunner" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.games.MetacriticGameUpdateRunner" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Heroku" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1032,7 +1178,7 @@
     </configuration>
     <configuration name="MetacriticTVUpdater (prod/single)" type="Application" factoryName="Application" folderName="MetacriticTV">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.MetacriticTVUpdater" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.MetacriticTVUpdater" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="SingleSeries Local" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1048,7 +1194,7 @@
     </configuration>
     <configuration name="MetacriticTVUpdater (test)" type="Application" factoryName="Application" folderName="MetacriticTV">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.MetacriticTVUpdater" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.MetacriticTVUpdater" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Test" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1064,7 +1210,7 @@
     </configuration>
     <configuration name="MetacriticTVUpdater (test/single)" type="Application" factoryName="Application" folderName="MetacriticTV">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.MetacriticTVUpdater" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.MetacriticTVUpdater" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="SingleSeries Test" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1080,7 +1226,7 @@
     </configuration>
     <configuration name="MetacriticTVUpdater" type="Application" factoryName="Application" folderName="MetacriticTV" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.MetacriticTVUpdater" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.MetacriticTVUpdater" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Local" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1098,7 +1244,7 @@
     </configuration>
     <configuration name="QuickBatchUpdater (test)" type="Application" factoryName="Application">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.QuickBatchUpdater" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.QuickBatchUpdater" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Test" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1116,7 +1262,7 @@
     </configuration>
     <configuration name="SeriesDeleter (heroku)" type="Application" factoryName="Application" folderName="Utilities">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.utility.SeriesDeleter" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.utility.SeriesDeleter" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Heroku" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1134,7 +1280,7 @@
     </configuration>
     <configuration name="SeriesDeleter (test)" type="Application" factoryName="Application" folderName="Utilities">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.utility.SeriesDeleter" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.utility.SeriesDeleter" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Test" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1152,7 +1298,7 @@
     </configuration>
     <configuration name="SeriesDenormUpdater (heroku)" type="Application" factoryName="Application">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.SeriesDenormUpdater" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.SeriesDenormUpdater" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Heroku" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1168,7 +1314,7 @@
     </configuration>
     <configuration name="SeriesDenormUpdater (local)" type="Application" factoryName="Application" folderName="Local (Old)">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.SeriesDenormUpdater" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.SeriesDenormUpdater" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Local" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1184,7 +1330,7 @@
     </configuration>
     <configuration name="SeriesDenormUpdater (test)" type="Application" factoryName="Application">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.SeriesDenormUpdater" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.SeriesDenormUpdater" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Test" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1200,7 +1346,7 @@
     </configuration>
     <configuration name="SeriesMerger (test)" type="Application" factoryName="Application" folderName="Utilities">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.helper.SeriesMerger" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.helper.SeriesMerger" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Test" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1218,7 +1364,7 @@
     </configuration>
     <configuration name="SteamAttributeUpdateRunner" type="Application" factoryName="Application" folderName="Games">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.games.SteamAttributeUpdateRunner" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.games.SteamAttributeUpdateRunner" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Heroku" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1235,7 +1381,7 @@
     </configuration>
     <configuration name="SteamGameUpdater (LogToFile)" type="Application" factoryName="Application" folderName="Games">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.games.SteamGameUpdater" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.games.SteamGameUpdater" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Heroku LogToFile" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1251,7 +1397,7 @@
     </configuration>
     <configuration name="SteamGameUpdater (test)" type="Application" factoryName="Application" folderName="Games">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.games.SteamGameUpdater" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.games.SteamGameUpdater" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Test" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1267,7 +1413,7 @@
     </configuration>
     <configuration name="SteamGameUpdater (test/LogToFile)" type="Application" factoryName="Application" folderName="Games">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.games.SteamGameUpdater" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.games.SteamGameUpdater" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Test LogToFile" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1283,7 +1429,7 @@
     </configuration>
     <configuration name="SteamGameUpdater" type="Application" factoryName="Application" folderName="Games" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.games.SteamGameUpdater" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.games.SteamGameUpdater" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Heroku" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1307,7 +1453,7 @@
     </configuration>
     <configuration name="TVDBDuplicateDataFixer (local)" type="Application" factoryName="Application" folderName="Local (Old)">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.utility.TVDBDuplicateDataFixer" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.utility.TVDBDuplicateDataFixer" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Local" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1323,7 +1469,7 @@
     </configuration>
     <configuration name="TVDBDuplicateDataFixer (test)" type="Application" factoryName="Application" folderName="Utilities">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.utility.TVDBDuplicateDataFixer" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.utility.TVDBDuplicateDataFixer" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Test" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1339,7 +1485,7 @@
     </configuration>
     <configuration name="TVDBJSONFetcher (test)" type="Application" factoryName="Application" folderName="Utilities">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.utility.TVDBJSONFetcher" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.utility.TVDBJSONFetcher" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Test" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1357,7 +1503,7 @@
     </configuration>
     <configuration name="TVDBSeriesMatchRunner (heroku/episodes)" type="Application" factoryName="Application" folderName="TVDBSeriesMatchRunner">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.TVDBSeriesMatchRunner" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBSeriesMatchRunner" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Heroku -mode EpisodeMatch" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1375,7 +1521,7 @@
     </configuration>
     <configuration name="TVDBSeriesMatchRunner (heroku/full)" type="Application" factoryName="Application" folderName="TVDBSeriesMatchRunner">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.TVDBSeriesMatchRunner" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBSeriesMatchRunner" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Heroku" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1393,7 +1539,7 @@
     </configuration>
     <configuration name="TVDBSeriesMatchRunner (heroku/single)" type="Application" factoryName="Application" folderName="TVDBSeriesMatchRunner">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.TVDBSeriesMatchRunner" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBSeriesMatchRunner" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Heroku -mode Single" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1411,7 +1557,7 @@
     </configuration>
     <configuration name="TVDBSeriesMatchRunner (test/episodes)" type="Application" factoryName="Application" folderName="TVDBSeriesMatchRunner">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.TVDBSeriesMatchRunner" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBSeriesMatchRunner" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Test -mode EpisodeMatch" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1429,7 +1575,7 @@
     </configuration>
     <configuration name="TVDBSeriesMatchRunner (test/full)" type="Application" factoryName="Application" folderName="TVDBSeriesMatchRunner">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.TVDBSeriesMatchRunner" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBSeriesMatchRunner" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Test -mode FirstPass" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1447,7 +1593,7 @@
     </configuration>
     <configuration name="TVDBSeriesMatchRunner (test/single)" type="Application" factoryName="Application" folderName="TVDBSeriesMatchRunner">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.TVDBSeriesMatchRunner" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBSeriesMatchRunner" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Test -mode Single" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1465,7 +1611,7 @@
     </configuration>
     <configuration name="TVDBUpdateFinder (heroku)" type="Application" factoryName="Application" folderName="TVDBUpdateFinder">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.TVDBUpdateFinderRunner" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBUpdateFinderRunner" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Heroku" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1483,7 +1629,7 @@
     </configuration>
     <configuration name="TVDBUpdateFinder (heroku/lastweek)" type="Application" factoryName="Application" folderName="TVDBUpdateFinder">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.TVDBUpdateFinderRunner" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBUpdateFinderRunner" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Heroku LastWeek" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1501,7 +1647,7 @@
     </configuration>
     <configuration name="TVDBUpdateFinder (test)" type="Application" factoryName="Application" folderName="TVDBUpdateFinder">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.TVDBUpdateFinderRunner" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBUpdateFinderRunner" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Test" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1519,7 +1665,7 @@
     </configuration>
     <configuration name="TVDBUpdateFinder (test/LogToFile)" type="Application" factoryName="Application" folderName="TVDBUpdateFinder">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.TVDBUpdateFinderRunner" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBUpdateFinderRunner" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Test LogToFile" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1537,7 +1683,7 @@
     </configuration>
     <configuration name="TVDBUpdateProcessor (heroku)" type="Application" factoryName="Application" folderName="TVDBUpdateProcessor">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.TVDBUpdateProcessorRunner" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBUpdateProcessorRunner" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Heroku" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1555,7 +1701,7 @@
     </configuration>
     <configuration name="TVDBUpdateProcessor (test)" type="Application" factoryName="Application" folderName="TVDBUpdateProcessor">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.TVDBUpdateProcessorRunner" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBUpdateProcessorRunner" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Test" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1573,7 +1719,7 @@
     </configuration>
     <configuration name="TVDBUpdateProcessor (test/LogToFile)" type="Application" factoryName="Application" folderName="TVDBUpdateProcessor">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.TVDBUpdateProcessorRunner" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBUpdateProcessorRunner" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Test LogToFile" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1591,7 +1737,7 @@
     </configuration>
     <configuration name="TVDBUpdateRunner (demo)" type="Application" factoryName="Application" folderName="TVDBUpdateRunner">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.TVDBUpdateRunner" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBUpdateRunner" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Demo" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1610,7 +1756,7 @@
     </configuration>
     <configuration name="TVDBUpdateRunner (heroku/airtimes)" type="Application" factoryName="Application" folderName="TVDBUpdateRunner">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.TVDBUpdateRunner" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBUpdateRunner" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Heroku -mode AirTimes" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1628,7 +1774,7 @@
     </configuration>
     <configuration name="TVDBUpdateRunner (heroku/quick)" type="Application" factoryName="Application" folderName="TVDBUpdateRunner">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.TVDBUpdateRunner" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBUpdateRunner" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Heroku -mode Quick" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1646,7 +1792,7 @@
     </configuration>
     <configuration name="TVDBUpdateRunner (heroku/sanity)" type="Application" factoryName="Application" folderName="TVDBUpdateRunner">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.TVDBUpdateRunner" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBUpdateRunner" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Heroku -mode SanityCheck" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1664,7 +1810,7 @@
     </configuration>
     <configuration name="TVDBUpdateRunner (heroku/single)" type="Application" factoryName="Application" folderName="TVDBUpdateRunner">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.TVDBUpdateRunner" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBUpdateRunner" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Heroku -mode Single" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1682,7 +1828,7 @@
     </configuration>
     <configuration name="TVDBUpdateRunner (heroku/smart)" type="Application" factoryName="Application" folderName="TVDBUpdateRunner">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.TVDBUpdateRunner" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBUpdateRunner" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Heroku -mode Smart" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1700,7 +1846,7 @@
     </configuration>
     <configuration name="TVDBUpdateRunner (local)" type="Application" factoryName="Application" folderName="Local (Old)">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.TVDBUpdateRunner" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBUpdateRunner" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Local" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1718,7 +1864,7 @@
     </configuration>
     <configuration name="TVDBUpdateRunner (local/single)" type="Application" factoryName="Application" folderName="Local (Old)">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.TVDBUpdateRunner" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBUpdateRunner" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Local SingleSeries" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1736,7 +1882,7 @@
     </configuration>
     <configuration name="TVDBUpdateRunner (local/smart)" type="Application" factoryName="Application" folderName="Local (Old)">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.TVDBUpdateRunner" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBUpdateRunner" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Local Smart" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1754,7 +1900,7 @@
     </configuration>
     <configuration name="TVDBUpdateRunner (test)" type="Application" factoryName="Application" folderName="TVDBUpdateRunner">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.TVDBUpdateRunner" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBUpdateRunner" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Test" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1772,7 +1918,7 @@
     </configuration>
     <configuration name="TVDBUpdateRunner (test/LogToFile)" type="Application" factoryName="Application" folderName="TVDBUpdateRunner">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.TVDBUpdateRunner" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBUpdateRunner" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Test LogToFile" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1790,7 +1936,7 @@
     </configuration>
     <configuration name="TVDBUpdateRunner (test/airtimes)" type="Application" factoryName="Application" folderName="TVDBUpdateRunner">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.TVDBUpdateRunner" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBUpdateRunner" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Test -mode AirTimes" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1808,7 +1954,7 @@
     </configuration>
     <configuration name="TVDBUpdateRunner (test/episodeMatch)" type="Application" factoryName="Application">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.TVDBUpdateRunner" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBUpdateRunner" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Test -mode EpisodeMatch" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1826,7 +1972,7 @@
     </configuration>
     <configuration name="TVDBUpdateRunner (test/fewerrors)" type="Application" factoryName="Application" folderName="TVDBUpdateRunner">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.TVDBUpdateRunner" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBUpdateRunner" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Test -mode FewErrors" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1844,7 +1990,7 @@
     </configuration>
     <configuration name="TVDBUpdateRunner (test/olderrors)" type="Application" factoryName="Application" folderName="TVDBUpdateRunner">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.TVDBUpdateRunner" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBUpdateRunner" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Test -mode OldErrors" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1862,7 +2008,7 @@
     </configuration>
     <configuration name="TVDBUpdateRunner (test/quick)" type="Application" factoryName="Application" folderName="TVDBUpdateRunner">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.TVDBUpdateRunner" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBUpdateRunner" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Test -mode Quick" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1880,7 +2026,7 @@
     </configuration>
     <configuration name="TVDBUpdateRunner (test/sanity)" type="Application" factoryName="Application" folderName="TVDBUpdateRunner">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.TVDBUpdateRunner" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBUpdateRunner" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Test -mode Sanity" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1898,7 +2044,7 @@
     </configuration>
     <configuration name="TVDBUpdateRunner (test/single)" type="Application" factoryName="Application" folderName="TVDBUpdateRunner">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.TVDBUpdateRunner" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBUpdateRunner" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Test -mode SingleSeries" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1916,7 +2062,7 @@
     </configuration>
     <configuration name="TVDBUpdateRunner (test/smart)" type="Application" factoryName="Application" folderName="TVDBUpdateRunner">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.TVDBUpdateRunner" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBUpdateRunner" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Test -mode Smart" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1934,7 +2080,7 @@
     </configuration>
     <configuration name="TVDBXMLFetcher (test)" type="Application" factoryName="Application" folderName="Utilities">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.utility.TVDBXMLFetcher" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.utility.TVDBXMLFetcher" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Test" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1952,7 +2098,7 @@
     </configuration>
     <configuration name="TVRatingSpreadsheetCopier (local)" type="Application" factoryName="Application" folderName="Local (Old)">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.utility.TVRatingSpreadsheetCopier" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.utility.TVRatingSpreadsheetCopier" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Local" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1970,7 +2116,7 @@
     </configuration>
     <configuration name="TVRatingSpreadsheetCopier (test)" type="Application" factoryName="Application" folderName="Utilities">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.utility.TVRatingSpreadsheetCopier" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.utility.TVRatingSpreadsheetCopier" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Test" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1991,8 +2137,8 @@
       <module name="media-mogul-data_test" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="com.mayhew3.gamesutil.model.tv" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.model.tv.TVSchemaHerokuTest" />
+      <option name="PACKAGE_NAME" value="com.mayhew3.mediamogul.model.tv" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.model.tv.TVSchemaHerokuTest" />
       <option name="METHOD_NAME" value="" />
       <option name="TEST_OBJECT" value="class" />
       <option name="VM_PARAMETERS" value="" />
@@ -2015,8 +2161,8 @@
       <module name="media-mogul-data_test" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="com.mayhew3.gamesutil.model.tv" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.model.tv.TVSchemaHerokuTest" />
+      <option name="PACKAGE_NAME" value="com.mayhew3.mediamogul.model.tv" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.model.tv.TVSchemaHerokuTest" />
       <option name="METHOD_NAME" value="testHerokuSchemaUpToDate" />
       <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" value="" />
@@ -2036,7 +2182,7 @@
     </configuration>
     <configuration name="TaskScheduleRunner (test)" type="Application" factoryName="Application">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.scheduler.TaskScheduleRunner" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.scheduler.TaskScheduleRunner" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Test" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -2054,7 +2200,7 @@
     </configuration>
     <configuration name="TaskScheduleRunner (test/LogToFile)" type="Application" factoryName="Application">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.scheduler.TaskScheduleRunner" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.scheduler.TaskScheduleRunner" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Test LogToFile" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -2072,7 +2218,7 @@
     </configuration>
     <configuration name="TiVoCommunicator (Heroku/Quick)" type="Application" factoryName="Application" folderName="TiVoCommunicator">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.TiVoCommunicator" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TiVoCommunicator" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Heroku" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -2089,7 +2235,7 @@
     </configuration>
     <configuration name="TiVoCommunicator (Local/Dev)" type="Application" factoryName="Application" folderName="Local (Old)">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.TiVoCommunicator" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TiVoCommunicator" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Dev FullMode Local" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -2105,7 +2251,7 @@
     </configuration>
     <configuration name="TiVoCommunicator (Local/Full)" type="Application" factoryName="Application" folderName="Local (Old)">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.TiVoCommunicator" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TiVoCommunicator" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="FullMode Local" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -2121,7 +2267,7 @@
     </configuration>
     <configuration name="TiVoCommunicator (Local/Quick)" type="Application" factoryName="Application" folderName="Local (Old)">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.TiVoCommunicator" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TiVoCommunicator" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Local" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -2137,7 +2283,7 @@
     </configuration>
     <configuration name="TiVoCommunicator (demo/Full)" type="Application" factoryName="Application" folderName="TiVoCommunicator">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.TiVoCommunicator" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TiVoCommunicator" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="FullMode Demo" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -2154,7 +2300,7 @@
     </configuration>
     <configuration name="TiVoCommunicator (test/Full)" type="Application" factoryName="Application" folderName="TiVoCommunicator">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.TiVoCommunicator" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TiVoCommunicator" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="FullMode Test" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -2170,7 +2316,7 @@
     </configuration>
     <configuration name="TiVoCommunicator (test/Full/Dev)" type="Application" factoryName="Application" folderName="TiVoCommunicator">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.TiVoCommunicator" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TiVoCommunicator" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="FullMode Dev Test" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -2186,7 +2332,7 @@
     </configuration>
     <configuration name="TiVoCommunicator (test/Full/XML)" type="Application" factoryName="Application" folderName="TiVoCommunicator">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.TiVoCommunicator" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TiVoCommunicator" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Test SaveTiVoXML FullMode" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -2202,7 +2348,7 @@
     </configuration>
     <configuration name="TiVoCommunicator (test/Quick)" type="Application" factoryName="Application" folderName="TiVoCommunicator">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.TiVoCommunicator" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TiVoCommunicator" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Test" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -2218,7 +2364,7 @@
     </configuration>
     <configuration name="TiVoCommunicator (test/Quick/XML)" type="Application" factoryName="Application" folderName="TiVoCommunicator">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.TiVoCommunicator" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TiVoCommunicator" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Test SaveTiVoXML" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -2237,8 +2383,8 @@
       <module name="media-mogul-data_test" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="com.mayhew3.gamesutil.tv" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.TiVoDaylightSavingsTest" />
+      <option name="PACKAGE_NAME" value="com.mayhew3.mediamogul.tv" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TiVoDaylightSavingsTest" />
       <option name="METHOD_NAME" value="" />
       <option name="TEST_OBJECT" value="class" />
       <option name="VM_PARAMETERS" value="" />
@@ -2258,7 +2404,7 @@
     </configuration>
     <configuration name="TiVoLibraryUpdater (Quick)" type="Application" factoryName="Application" folderName="Local (Old)">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.TiVoLibraryUpdater" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TiVoLibraryUpdater" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="TiVoOnly Local" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -2274,7 +2420,7 @@
     </configuration>
     <configuration name="TiVoLibraryUpdater (heroku/quick)" type="Application" factoryName="Application" folderName="TiVoLibraryUpdater">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.TiVoLibraryUpdater" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TiVoLibraryUpdater" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Heroku" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -2290,7 +2436,7 @@
     </configuration>
     <configuration name="TiVoLibraryUpdater (test)" type="Application" factoryName="Application" folderName="TiVoLibraryUpdater">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.TiVoLibraryUpdater" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TiVoLibraryUpdater" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="FullMode Test" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -2306,7 +2452,7 @@
     </configuration>
     <configuration name="TiVoLibraryUpdater (test/LogToFile/TVDB)" type="Application" factoryName="Application" folderName="TiVoLibraryUpdater">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.TiVoLibraryUpdater" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TiVoLibraryUpdater" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="FullMode LogToFile TVDBOnly Test" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -2322,7 +2468,7 @@
     </configuration>
     <configuration name="TiVoLibraryUpdater (test/Quick)" type="Application" factoryName="Application" folderName="TiVoLibraryUpdater">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.TiVoLibraryUpdater" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TiVoLibraryUpdater" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Test" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -2338,7 +2484,7 @@
     </configuration>
     <configuration name="TiVoLibraryUpdater (test/Quick/LogToFile)" type="Application" factoryName="Application" folderName="TiVoLibraryUpdater">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.TiVoLibraryUpdater" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TiVoLibraryUpdater" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Test LogToFile" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -2354,7 +2500,7 @@
     </configuration>
     <configuration name="TiVoLibraryUpdater" type="Application" factoryName="Application" folderName="Local (Old)" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.TiVoLibraryUpdater" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TiVoLibraryUpdater" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="FullMode Local" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -2370,7 +2516,7 @@
     </configuration>
     <configuration name="TimestampTimeZoneUpgrader (heroku)" type="Application" factoryName="Application" folderName="Utilities">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.utility.TimestampTimeZoneUpgrader" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.utility.TimestampTimeZoneUpgrader" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Heroku" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -2387,7 +2533,7 @@
     </configuration>
     <configuration name="TimestampTimeZoneUpgrader (test)" type="Application" factoryName="Application" folderName="Utilities">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.tv.utility.TimestampTimeZoneUpgrader" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.utility.TimestampTimeZoneUpgrader" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="Test" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -2520,12 +2666,12 @@
       <envs />
       <method />
     </configuration>
-    <configuration name="com.mayhew3.gamesutil in media-mogul-data_test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="com.mayhew3.mediamogul in media-mogul-data_test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="media-mogul-data_test" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="com.mayhew3.gamesutil" />
+      <option name="PACKAGE_NAME" value="com.mayhew3.mediamogul" />
       <option name="MAIN_CLASS_NAME" value="" />
       <option name="METHOD_NAME" value="" />
       <option name="TEST_OBJECT" value="package" />
@@ -2691,13 +2837,13 @@
       <item index="92" class="java.lang.String" itemvalue="JUnit.TVSchemaHerokuTest.testHerokuSchemaUpToDate" />
       <item index="93" class="java.lang.String" itemvalue="Gradle.media-mogul-data [clean]" />
       <item index="94" class="java.lang.String" itemvalue="JUnit.TiVoDaylightSavingsTest" />
-      <item index="95" class="java.lang.String" itemvalue="JUnit.com.mayhew3.gamesutil in media-mogul-data_test" />
+      <item index="95" class="java.lang.String" itemvalue="JUnit.com.mayhew3.mediamogul in media-mogul-data_test" />
       <item index="96" class="java.lang.String" itemvalue="JUnit.All in media-mogul-data_test" />
     </list>
     <recent_temporary>
       <list size="3">
         <item index="0" class="java.lang.String" itemvalue="JUnit.All in media-mogul-data_test" />
-        <item index="1" class="java.lang.String" itemvalue="JUnit.com.mayhew3.gamesutil in media-mogul-data_test" />
+        <item index="1" class="java.lang.String" itemvalue="JUnit.com.mayhew3.mediamogul in media-mogul-data_test" />
         <item index="2" class="java.lang.String" itemvalue="Gradle.media-mogul-data [clean]" />
       </list>
     </recent_temporary>
@@ -2768,11 +2914,11 @@
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26769447" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26769447" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3293623" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13473769" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32866153" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32866153" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.105325915" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3994394" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -2807,25 +2953,25 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateRunner.java</url>
+          <url>file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBUpdateRunner.java</url>
           <line>54</line>
           <properties />
           <option name="timeStamp" value="14" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBSeriesMatchRunner.java</url>
+          <url>file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBSeriesMatchRunner.java</url>
           <line>73</line>
           <properties />
           <option name="timeStamp" value="17" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBSeriesMatchRunner.java</url>
+          <url>file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBSeriesMatchRunner.java</url>
           <line>135</line>
           <properties />
           <option name="timeStamp" value="18" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBSeriesMatchRunner.java</url>
+          <url>file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBSeriesMatchRunner.java</url>
           <line>87</line>
           <properties />
           <option name="timeStamp" value="19" />
@@ -2836,34 +2982,7 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/SteamGameUpdateRunner.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="570">
-          <caret line="39" column="0" lean-forward="false" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/SteamGameUpdater.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="627">
-          <caret line="55" column="0" lean-forward="false" selection-start-line="55" selection-start-column="0" selection-end-line="55" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/scheduler/NightlyTaskSchedule.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="6" column="13" lean-forward="false" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#580#581#0" expanded="false" />
-            <element signature="e#652#653#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/scheduler/PeriodicTaskSchedule.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/scheduler/PeriodicTaskSchedule.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="6" column="13" lean-forward="false" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
@@ -2873,14 +2992,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/scheduler/TaskSchedule.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/scheduler/TaskSchedule.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="133">
           <caret line="7" column="22" lean-forward="false" selection-start-line="7" selection-start-column="22" selection-end-line="7" selection-end-column="22" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/HowLongToBeatUpdateRunner.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/HowLongToBeatUpdateRunner.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1805">
           <caret line="118" column="25" lean-forward="false" selection-start-line="118" selection-start-column="25" selection-end-line="118" selection-end-column="25" />
@@ -2888,7 +3007,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBEpisodeUpdater.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBEpisodeUpdater.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="513">
           <caret line="49" column="0" lean-forward="false" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
@@ -2896,24 +3015,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBSeriesMatchUpdater.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBSeriesMatchUpdater.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="76">
           <caret line="24" column="23" lean-forward="false" selection-start-line="24" selection-start-column="23" selection-end-line="24" selection-end-column="23" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/scheduler/UpdateRunner.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/scheduler/UpdateRunner.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="76">
           <caret line="8" column="17" lean-forward="false" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/utility/SeriesDeleter.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/utility/SeriesDeleter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="12" column="13" lean-forward="false" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
@@ -2921,7 +3040,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/utility/DaylightSavingCorrector.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/utility/DaylightSavingCorrector.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="15" column="13" lean-forward="false" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
@@ -2929,7 +3048,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/utility/TimestampTimeZoneUpgrader.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/utility/TimestampTimeZoneUpgrader.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="14" column="13" lean-forward="false" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
@@ -2937,14 +3056,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/utility/TVRatingSpreadsheetCopier.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/utility/TVRatingSpreadsheetCopier.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="22" column="13" lean-forward="false" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/utility/TVDBDuplicateDataFixer.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/utility/TVDBDuplicateDataFixer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="76">
           <caret line="21" column="13" lean-forward="false" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="13" />
@@ -2952,7 +3071,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/utility/TVDBXMLFetcher.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/utility/TVDBXMLFetcher.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="589">
           <caret line="45" column="0" lean-forward="true" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
@@ -2960,35 +3079,35 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TiVoInfo.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/utility/TVDBJSONFetcher.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/utility/TVDBJSONFetcher.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="966">
           <caret line="72" column="43" lean-forward="true" selection-start-line="72" selection-start-column="43" selection-end-line="72" selection-end-column="43" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/provider/TiVoDataProvider.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/provider/TiVoDataProvider.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="76">
           <caret line="8" column="17" lean-forward="false" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/provider/TVDBDataProvider.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/provider/TVDBDataProvider.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="7" column="17" lean-forward="false" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/provider/TVDBJWTProvider.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/provider/TVDBJWTProvider.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="8" column="17" lean-forward="false" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/provider/TVDBJWTProviderImpl.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/provider/TVDBJWTProviderImpl.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="95">
           <caret line="23" column="13" lean-forward="false" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="13" />
@@ -2996,7 +3115,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/provider/TVDBLocalFileProvider.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/provider/TVDBLocalFileProvider.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="76">
           <caret line="7" column="13" lean-forward="false" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
@@ -3004,7 +3123,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/provider/TVDBLocalJSONProvider.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/provider/TVDBLocalJSONProvider.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="95">
           <caret line="13" column="13" lean-forward="false" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
@@ -3012,7 +3131,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/provider/TVDBWebProvider.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/provider/TVDBWebProvider.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="494">
           <caret line="33" column="48" lean-forward="false" selection-start-line="33" selection-start-column="48" selection-end-line="33" selection-end-column="48" />
@@ -3020,7 +3139,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/provider/RemoteFileDownloader.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/provider/RemoteFileDownloader.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="399">
           <caret line="37" column="23" lean-forward="false" selection-start-line="37" selection-start-column="23" selection-end-line="37" selection-end-column="23" />
@@ -3028,7 +3147,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBEpisodeMatcher.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBEpisodeMatcher.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="76">
           <caret line="16" column="7" lean-forward="false" selection-start-line="16" selection-start-column="7" selection-end-line="16" selection-end-column="7" />
@@ -3036,7 +3155,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TiVoCommunicator.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TiVoCommunicator.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="13908">
           <caret line="767" column="0" lean-forward="false" selection-start-line="767" selection-start-column="0" selection-end-line="767" selection-end-column="0" />
@@ -3044,7 +3163,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBSeriesUpdater.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBSeriesUpdater.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1026">
           <caret line="73" column="44" lean-forward="false" selection-start-line="73" selection-start-column="44" selection-end-line="73" selection-end-column="44" />
@@ -3052,43 +3171,43 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/helper/SeriesMerger.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/helper/SeriesMerger.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="684">
           <caret line="53" column="0" lean-forward="false" selection-start-line="53" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
           <folding>
-            <marker date="1503866659908" expanded="false" signature="49:774" ph="..." />
-            <marker date="1503866659908" expanded="true" signature="995:1112" ph="{...}" />
-            <marker date="1503866659908" expanded="true" signature="1217:2079" ph="{...}" />
-            <marker date="1503866659908" expanded="true" signature="2151:3326" ph="{...}" />
-            <marker date="1503866659908" expanded="true" signature="3419:3933" ph="{...}" />
+            <marker date="1503901430531" expanded="false" signature="50:786" ph="..." />
+            <marker date="1503901430531" expanded="true" signature="1007:1124" ph="{...}" />
+            <marker date="1503901430531" expanded="true" signature="1229:2091" ph="{...}" />
+            <marker date="1503901430531" expanded="true" signature="2163:3338" ph="{...}" />
+            <marker date="1503901430531" expanded="true" signature="3431:3945" ph="{...}" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/helper/ConnectionLogger.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/helper/ConnectionLogger.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="76">
           <caret line="10" column="13" lean-forward="false" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
           <folding>
-            <marker date="1503866520889" expanded="false" signature="49:246" ph="..." />
-            <marker date="1503866520889" expanded="false" signature="401:408" ph=" { " />
-            <marker date="1503866520889" expanded="false" signature="437:441" ph=" }" />
-            <marker date="1503866520889" expanded="true" signature="490:545" ph="{...}" />
-            <marker date="1503866520889" expanded="true" signature="611:833" ph="{...}" />
-            <marker date="1503866520889" expanded="true" signature="912:1258" ph="{...}" />
-            <marker date="1503866520889" expanded="true" signature="1313:2136" ph="{...}" />
+            <marker date="1503901428579" expanded="false" signature="50:249" ph="..." />
+            <marker date="1503901428579" expanded="false" signature="404:411" ph=" { " />
+            <marker date="1503901428579" expanded="false" signature="440:444" ph=" }" />
+            <marker date="1503901428579" expanded="true" signature="493:548" ph="{...}" />
+            <marker date="1503901428579" expanded="true" signature="614:836" ph="{...}" />
+            <marker date="1503901428579" expanded="true" signature="915:1261" ph="{...}" />
+            <marker date="1503901428579" expanded="true" signature="1316:2139" ph="{...}" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/helper/MetacriticException.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/helper/MetacriticException.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="133">
           <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
           <folding>
-            <marker date="1503866520698" expanded="false" signature="218:225" ph=" { " />
-            <marker date="1503866520698" expanded="false" signature="245:249" ph=" }" />
+            <marker date="1503901428556" expanded="false" signature="220:227" ph=" { " />
+            <marker date="1503901428556" expanded="false" signature="247:251" ph=" }" />
           </folding>
         </state>
       </provider>
@@ -3183,7 +3302,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/db/PostgresConnection.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/db/PostgresConnection.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="703">
           <caret line="45" column="19" lean-forward="false" selection-start-line="45" selection-start-column="19" selection-end-line="45" selection-end-column="19" />
@@ -3191,7 +3310,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/db/SQLConnection.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/db/SQLConnection.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="665">
           <caret line="42" column="12" lean-forward="false" selection-start-line="42" selection-start-column="12" selection-end-line="42" selection-end-column="12" />
@@ -3199,61 +3318,61 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateFinder.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBUpdateFinder.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="368">
           <caret line="170" column="6" lean-forward="false" selection-start-line="170" selection-start-column="6" selection-end-line="170" selection-end-column="6" />
           <folding>
-            <marker date="1503898738236" expanded="false" signature="42:863" ph="..." />
-            <marker date="1503898738236" expanded="true" signature="1178:1295" ph="{...}" />
-            <marker date="1503898738236" expanded="false" signature="1340:1347" ph=" { " />
-            <marker date="1503898738236" expanded="false" signature="1375:1379" ph=" }" />
-            <marker date="1503898738236" expanded="true" signature="1470:1630" ph="{...}" />
-            <marker date="1503898738236" expanded="true" signature="1724:1878" ph="{...}" />
-            <marker date="1503898738236" expanded="true" signature="2006:2518" ph="{...}" />
-            <marker date="1503898738236" expanded="true" signature="2615:3207" ph="{...}" />
-            <marker date="1503898738236" expanded="true" signature="3329:4074" ph="{...}" />
-            <marker date="1503898738236" expanded="true" signature="4185:4467" ph="{...}" />
-            <marker date="1503898738236" expanded="true" signature="4611:5169" ph="{...}" />
-            <marker date="1503898738236" expanded="false" signature="5216:5223" ph=" { " />
-            <marker date="1503898738236" expanded="false" signature="5251:5255" ph=" }" />
-            <marker date="1503898738236" expanded="true" signature="5328:5407" ph="{...}" />
-            <marker date="1503898738236" expanded="true" signature="5486:6027" ph="{...}" />
-            <marker date="1503898738236" expanded="true" signature="6101:6996" ph="{...}" />
-            <marker date="1503898738236" expanded="true" signature="7079:7485" ph="{...}" />
-            <marker date="1503898738236" expanded="false" signature="7539:7546" ph=" { " />
-            <marker date="1503898738236" expanded="false" signature="7586:7590" ph=" }" />
-            <marker date="1503898738236" expanded="false" signature="7628:7635" ph=" { " />
-            <marker date="1503898738236" expanded="false" signature="7678:7682" ph=" }" />
+            <marker date="1503901427783" expanded="false" signature="43:871" ph="..." />
+            <marker date="1503901427783" expanded="true" signature="1186:1303" ph="{...}" />
+            <marker date="1503901427783" expanded="false" signature="1348:1355" ph=" { " />
+            <marker date="1503901427783" expanded="false" signature="1383:1387" ph=" }" />
+            <marker date="1503901427783" expanded="true" signature="1478:1638" ph="{...}" />
+            <marker date="1503901427783" expanded="true" signature="1732:1886" ph="{...}" />
+            <marker date="1503901427783" expanded="true" signature="2014:2526" ph="{...}" />
+            <marker date="1503901427783" expanded="true" signature="2623:3215" ph="{...}" />
+            <marker date="1503901427783" expanded="true" signature="3337:4082" ph="{...}" />
+            <marker date="1503901427783" expanded="true" signature="4193:4475" ph="{...}" />
+            <marker date="1503901427783" expanded="true" signature="4619:5177" ph="{...}" />
+            <marker date="1503901427783" expanded="false" signature="5224:5231" ph=" { " />
+            <marker date="1503901427783" expanded="false" signature="5259:5263" ph=" }" />
+            <marker date="1503901427783" expanded="true" signature="5336:5415" ph="{...}" />
+            <marker date="1503901427783" expanded="true" signature="5494:6035" ph="{...}" />
+            <marker date="1503901427783" expanded="true" signature="6109:7004" ph="{...}" />
+            <marker date="1503901427783" expanded="true" signature="7087:7493" ph="{...}" />
+            <marker date="1503901427783" expanded="false" signature="7547:7554" ph=" { " />
+            <marker date="1503901427783" expanded="false" signature="7594:7598" ph=" }" />
+            <marker date="1503901427783" expanded="false" signature="7636:7643" ph=" { " />
+            <marker date="1503901427783" expanded="false" signature="7686:7690" ph=" }" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/MetacriticTVUpdater.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/MetacriticTVUpdater.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="475">
           <caret line="49" column="5" lean-forward="true" selection-start-line="49" selection-start-column="5" selection-end-line="49" selection-end-column="5" />
           <folding>
-            <marker date="1503866520785" expanded="false" signature="42:853" ph="..." />
-            <marker date="1503866520785" expanded="false" signature="1006:1013" ph=" { " />
-            <marker date="1503866520785" expanded="false" signature="1042:1046" ph=" }" />
-            <marker date="1503866520785" expanded="true" signature="1151:1767" ph="{...}" />
-            <marker date="1503866520785" expanded="true" signature="1815:2096" ph="{...}" />
-            <marker date="1503866520785" expanded="true" signature="2150:2473" ph="{...}" />
-            <marker date="1503866520785" expanded="true" signature="2529:2937" ph="{...}" />
-            <marker date="1503866520785" expanded="true" signature="3016:3732" ph="{...}" />
-            <marker date="1503866520785" expanded="true" signature="3821:5105" ph="{...}" />
-            <marker date="1503866520785" expanded="true" signature="5203:5488" ph="{...}" />
-            <marker date="1503866520785" expanded="true" signature="5643:7267" ph="{...}" />
-            <marker date="1503866520785" expanded="false" signature="7306:7313" ph=" { " />
-            <marker date="1503866520785" expanded="false" signature="7340:7344" ph=" }" />
-            <marker date="1503866520785" expanded="false" signature="7389:7396" ph=" { " />
-            <marker date="1503866520785" expanded="false" signature="7426:7430" ph=" }" />
+            <marker date="1503901427425" expanded="false" signature="43:861" ph="..." />
+            <marker date="1503901427425" expanded="false" signature="1014:1021" ph=" { " />
+            <marker date="1503901427425" expanded="false" signature="1050:1054" ph=" }" />
+            <marker date="1503901427425" expanded="true" signature="1159:1775" ph="{...}" />
+            <marker date="1503901427425" expanded="true" signature="1823:2104" ph="{...}" />
+            <marker date="1503901427425" expanded="true" signature="2158:2481" ph="{...}" />
+            <marker date="1503901427425" expanded="true" signature="2537:2945" ph="{...}" />
+            <marker date="1503901427425" expanded="true" signature="3024:3740" ph="{...}" />
+            <marker date="1503901427425" expanded="true" signature="3829:5113" ph="{...}" />
+            <marker date="1503901427425" expanded="true" signature="5211:5496" ph="{...}" />
+            <marker date="1503901427425" expanded="true" signature="5651:7275" ph="{...}" />
+            <marker date="1503901427425" expanded="false" signature="7314:7321" ph=" { " />
+            <marker date="1503901427425" expanded="false" signature="7348:7352" ph=" }" />
+            <marker date="1503901427425" expanded="false" signature="7397:7404" ph=" { " />
+            <marker date="1503901427425" expanded="false" signature="7434:7438" ph=" }" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/ArgumentChecker.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/ArgumentChecker.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="494">
           <caret line="30" column="34" lean-forward="false" selection-start-line="30" selection-start-column="34" selection-end-line="30" selection-end-column="34" />
@@ -3261,7 +3380,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/QuickBatchUpdater.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/QuickBatchUpdater.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="311">
           <caret line="57" column="97" lean-forward="false" selection-start-line="57" selection-start-column="97" selection-end-line="57" selection-end-column="97" />
@@ -3269,7 +3388,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/games/MetacriticGameUpdateRunner.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/MetacriticGameUpdateRunner.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="114">
           <caret line="21" column="14" lean-forward="false" selection-start-line="21" selection-start-column="14" selection-end-line="21" selection-end-column="14" />
@@ -3277,7 +3396,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/model/tv/TVDBConnectionLog.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TVDBConnectionLog.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="171">
           <caret line="9" column="26" lean-forward="false" selection-start-line="9" selection-start-column="26" selection-end-line="9" selection-end-column="26" />
@@ -3285,7 +3404,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBSeriesMatchRunner.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBSeriesMatchRunner.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
           <caret line="98" column="69" lean-forward="false" selection-start-line="98" selection-start-column="69" selection-end-line="98" selection-end-column="69" />
@@ -3295,7 +3414,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateProcessor.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBUpdateProcessor.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="178">
           <caret line="109" column="69" lean-forward="false" selection-start-line="109" selection-start-column="69" selection-end-line="109" selection-end-column="69" />
@@ -3303,7 +3422,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateProcessorRunner.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBUpdateProcessorRunner.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="311">
           <caret line="160" column="69" lean-forward="false" selection-start-line="160" selection-start-column="69" selection-end-line="160" selection-end-column="69" />
@@ -3311,20 +3430,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/helper/UpdateMode.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/helper/UpdateMode.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="304">
           <caret line="16" column="19" lean-forward="true" selection-start-line="16" selection-start-column="19" selection-end-line="16" selection-end-column="19" />
           <folding>
-            <marker date="1503898738355" expanded="true" signature="49:155" ph="..." />
-            <marker date="1503898738355" expanded="false" signature="517:524" ph=" { " />
-            <marker date="1503898738355" expanded="false" signature="548:552" ph=" }" />
-            <marker date="1503898738355" expanded="false" signature="582:589" ph=" { " />
-            <marker date="1503898738355" expanded="false" signature="604:608" ph=" }" />
-            <marker date="1503898738355" expanded="true" signature="683:853" ph="{...}" />
-            <marker date="1503898738355" expanded="true" signature="954:1377" ph="{...}" />
-            <marker date="1503898738355" expanded="false" signature="1417:1424" ph=" { " />
-            <marker date="1503898738355" expanded="false" signature="1444:1448" ph=" }" />
+            <marker date="1503901425364" expanded="true" signature="50:157" ph="..." />
+            <marker date="1503901425364" expanded="false" signature="519:526" ph=" { " />
+            <marker date="1503901425364" expanded="false" signature="550:554" ph=" }" />
+            <marker date="1503901425364" expanded="false" signature="584:591" ph=" { " />
+            <marker date="1503901425364" expanded="false" signature="606:610" ph=" }" />
+            <marker date="1503901425364" expanded="true" signature="685:855" ph="{...}" />
+            <marker date="1503901425364" expanded="true" signature="956:1379" ph="{...}" />
+            <marker date="1503901425364" expanded="false" signature="1419:1426" ph=" { " />
+            <marker date="1503901425364" expanded="false" signature="1446:1450" ph=" }" />
           </folding>
         </state>
       </provider>
@@ -3334,105 +3453,129 @@
         <state relative-caret-position="892">
           <caret line="2041" column="25" lean-forward="false" selection-start-line="2041" selection-start-column="25" selection-end-line="2041" selection-end-column="25" />
           <folding>
-            <marker date="1503901302445" expanded="true" signature="59:226625" ph="..." />
-            <marker date="1503901302445" expanded="true" signature="98:217" ph="..." />
-            <marker date="1503901302445" expanded="true" signature="223781:223798" ph="..." />
-            <marker date="1503901302445" expanded="true" signature="223781:223816" ph="..." />
-            <marker date="1503901302445" expanded="true" signature="223781:223829" ph="..." />
-            <marker date="1503901302445" expanded="true" signature="223781:223844" ph="..." />
-            <marker date="1503901302445" expanded="true" signature="223890:223971" ph="..." />
-            <marker date="1503901302445" expanded="true" signature="224006:226614" ph="..." />
-            <marker date="1503901302445" expanded="true" signature="224019:226599" ph="..." />
-            <marker date="1503901302445" expanded="true" signature="224073:224368" ph="..." />
-            <marker date="1503901302445" expanded="true" signature="224092:224353" ph="..." />
-            <marker date="1503901302445" expanded="true" signature="224155:224333" ph="..." />
-            <marker date="1503901302445" expanded="true" signature="224195:224299" ph="..." />
-            <marker date="1503901302445" expanded="true" signature="224216:224277" ph="..." />
-            <marker date="1503901302445" expanded="true" signature="224418:224745" ph="..." />
-            <marker date="1503901302445" expanded="true" signature="224437:224730" ph="..." />
-            <marker date="1503901302445" expanded="true" signature="224532:224710" ph="..." />
-            <marker date="1503901302445" expanded="true" signature="224572:224676" ph="..." />
-            <marker date="1503901302445" expanded="true" signature="224593:224654" ph="..." />
-            <marker date="1503901302445" expanded="true" signature="224796:225061" ph="..." />
-            <marker date="1503901302445" expanded="true" signature="224815:225046" ph="..." />
-            <marker date="1503901302445" expanded="true" signature="224848:225026" ph="..." />
-            <marker date="1503901302445" expanded="true" signature="224888:224992" ph="..." />
-            <marker date="1503901302445" expanded="true" signature="224909:224970" ph="..." />
-            <marker date="1503901302445" expanded="true" signature="225104:225417" ph="..." />
-            <marker date="1503901302445" expanded="true" signature="225123:225402" ph="..." />
-            <marker date="1503901302445" expanded="true" signature="225197:225382" ph="..." />
-            <marker date="1503901302445" expanded="true" signature="225237:225348" ph="..." />
-            <marker date="1503901302445" expanded="true" signature="225258:225326" ph="..." />
-            <marker date="1503901302445" expanded="true" signature="225468:225855" ph="..." />
-            <marker date="1503901302445" expanded="true" signature="225487:225840" ph="..." />
-            <marker date="1503901302445" expanded="true" signature="225596:225820" ph="..." />
-            <marker date="1503901302445" expanded="true" signature="225636:225786" ph="..." />
-            <marker date="1503901302445" expanded="true" signature="225657:225764" ph="..." />
-            <marker date="1503901302445" expanded="true" signature="225890:226196" ph="..." />
-            <marker date="1503901302445" expanded="true" signature="225909:226181" ph="..." />
-            <marker date="1503901302445" expanded="true" signature="225983:226161" ph="..." />
-            <marker date="1503901302445" expanded="true" signature="226023:226127" ph="..." />
-            <marker date="1503901302445" expanded="true" signature="226044:226105" ph="..." />
-            <marker date="1503901302445" expanded="true" signature="226248:226585" ph="..." />
-            <marker date="1503901302445" expanded="true" signature="226267:226570" ph="..." />
-            <marker date="1503901302445" expanded="true" signature="226365:226550" ph="..." />
-            <marker date="1503901302445" expanded="true" signature="226405:226516" ph="..." />
-            <marker date="1503901302445" expanded="true" signature="226426:226494" ph="..." />
+            <marker date="1503901634445" expanded="true" signature="59:256933" ph="..." />
+            <marker date="1503901634445" expanded="true" signature="98:217" ph="..." />
+            <marker date="1503901634445" expanded="true" signature="254089:254106" ph="..." />
+            <marker date="1503901634445" expanded="true" signature="254089:254124" ph="..." />
+            <marker date="1503901634445" expanded="true" signature="254089:254137" ph="..." />
+            <marker date="1503901634445" expanded="true" signature="254089:254152" ph="..." />
+            <marker date="1503901634445" expanded="true" signature="254198:254279" ph="..." />
+            <marker date="1503901634445" expanded="true" signature="254314:256922" ph="..." />
+            <marker date="1503901634445" expanded="true" signature="254327:256907" ph="..." />
+            <marker date="1503901634445" expanded="true" signature="254381:254676" ph="..." />
+            <marker date="1503901634445" expanded="true" signature="254400:254661" ph="..." />
+            <marker date="1503901634445" expanded="true" signature="254463:254641" ph="..." />
+            <marker date="1503901634445" expanded="true" signature="254503:254607" ph="..." />
+            <marker date="1503901634445" expanded="true" signature="254524:254585" ph="..." />
+            <marker date="1503901634445" expanded="true" signature="254726:255053" ph="..." />
+            <marker date="1503901634445" expanded="true" signature="254745:255038" ph="..." />
+            <marker date="1503901634445" expanded="true" signature="254840:255018" ph="..." />
+            <marker date="1503901634445" expanded="true" signature="254880:254984" ph="..." />
+            <marker date="1503901634445" expanded="true" signature="254901:254962" ph="..." />
+            <marker date="1503901634445" expanded="true" signature="255104:255369" ph="..." />
+            <marker date="1503901634445" expanded="true" signature="255123:255354" ph="..." />
+            <marker date="1503901634445" expanded="true" signature="255156:255334" ph="..." />
+            <marker date="1503901634445" expanded="true" signature="255196:255300" ph="..." />
+            <marker date="1503901634445" expanded="true" signature="255217:255278" ph="..." />
+            <marker date="1503901634445" expanded="true" signature="255412:255725" ph="..." />
+            <marker date="1503901634445" expanded="true" signature="255431:255710" ph="..." />
+            <marker date="1503901634445" expanded="true" signature="255505:255690" ph="..." />
+            <marker date="1503901634445" expanded="true" signature="255545:255656" ph="..." />
+            <marker date="1503901634445" expanded="true" signature="255566:255634" ph="..." />
+            <marker date="1503901634445" expanded="true" signature="255776:256163" ph="..." />
+            <marker date="1503901634445" expanded="true" signature="255795:256148" ph="..." />
+            <marker date="1503901634445" expanded="true" signature="255904:256128" ph="..." />
+            <marker date="1503901634445" expanded="true" signature="255944:256094" ph="..." />
+            <marker date="1503901634445" expanded="true" signature="255965:256072" ph="..." />
+            <marker date="1503901634445" expanded="true" signature="256198:256504" ph="..." />
+            <marker date="1503901634445" expanded="true" signature="256217:256489" ph="..." />
+            <marker date="1503901634445" expanded="true" signature="256291:256469" ph="..." />
+            <marker date="1503901634445" expanded="true" signature="256331:256435" ph="..." />
+            <marker date="1503901634445" expanded="true" signature="256352:256413" ph="..." />
+            <marker date="1503901634445" expanded="true" signature="256556:256893" ph="..." />
+            <marker date="1503901634445" expanded="true" signature="256575:256878" ph="..." />
+            <marker date="1503901634445" expanded="true" signature="256673:256858" ph="..." />
+            <marker date="1503901634445" expanded="true" signature="256713:256824" ph="..." />
+            <marker date="1503901634445" expanded="true" signature="256734:256802" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/scheduler/TaskScheduleRunner.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/scheduler/TaskScheduleRunner.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="399">
           <caret line="39" column="32" lean-forward="true" selection-start-line="39" selection-start-column="32" selection-end-line="39" selection-end-column="32" />
           <folding>
-            <marker date="1503899416365" expanded="true" signature="49:1168" ph="..." />
-            <marker date="1503899416365" expanded="true" signature="1786:2015" ph="{...}" />
-            <marker date="1503899416365" expanded="true" signature="2144:2928" ph="{...}" />
-            <marker date="1503899416365" expanded="true" signature="2962:4295" ph="{...}" />
-            <marker date="1503899416365" expanded="true" signature="4379:4463" ph="{...}" />
-            <marker date="1503899416365" expanded="true" signature="4522:4592" ph="{...}" />
-            <marker date="1503899416365" expanded="false" signature="4596:4638" ph="/InfiniteLoopStatement/" />
-            <marker date="1503899416365" expanded="true" signature="4718:6072" ph="{...}" />
-            <marker date="1503899416365" expanded="true" signature="6152:6630" ph="{...}" />
-            <marker date="1503899416365" expanded="true" signature="6664:6785" ph="{...}" />
-            <marker date="1503899416365" expanded="true" signature="6825:6983" ph="{...}" />
-            <marker date="1503899416365" expanded="false" signature="7030:7037" ph=" { " />
-            <marker date="1503899416365" expanded="false" signature="7085:7089" ph=" }" />
+            <marker date="1503901429591" expanded="true" signature="50:1181" ph="..." />
+            <marker date="1503901429591" expanded="true" signature="1799:2028" ph="{...}" />
+            <marker date="1503901429591" expanded="true" signature="2157:2941" ph="{...}" />
+            <marker date="1503901429591" expanded="true" signature="2975:4308" ph="{...}" />
+            <marker date="1503901429591" expanded="true" signature="4392:4476" ph="{...}" />
+            <marker date="1503901429591" expanded="true" signature="4535:4605" ph="{...}" />
+            <marker date="1503901429591" expanded="false" signature="4609:4651" ph="/InfiniteLoopStatement/" />
+            <marker date="1503901429591" expanded="true" signature="4731:6085" ph="{...}" />
+            <marker date="1503901429591" expanded="true" signature="6165:6643" ph="{...}" />
+            <marker date="1503901429591" expanded="true" signature="6677:6798" ph="{...}" />
+            <marker date="1503901429591" expanded="true" signature="6838:6996" ph="{...}" />
+            <marker date="1503901429591" expanded="false" signature="7043:7050" ph=" { " />
+            <marker date="1503901429591" expanded="false" signature="7098:7102" ph=" }" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateRunner.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBUpdateRunner.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="379">
-          <caret line="175" column="29" lean-forward="true" selection-start-line="175" selection-start-column="29" selection-end-line="175" selection-end-column="29" />
+          <caret line="175" column="29" lean-forward="false" selection-start-line="175" selection-start-column="29" selection-end-line="175" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/EpisodeGroupUpdater.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="380">
+          <caret line="39" column="19" lean-forward="false" selection-start-line="39" selection-start-column="19" selection-end-line="39" selection-end-column="19" />
+          <folding>
+            <marker date="1503901429234" expanded="false" signature="776:816" ph="/OptionalIsPresent/" />
+            <marker date="1503901429234" expanded="false" signature="916:949" ph="/WeakerAccess/" />
+            <marker date="1503901429234" expanded="false" signature="1434:1473" ph="/SameParameterValue/" />
+            <marker date="1503901429234" expanded="true" signature="6452:6491" ph="@{...}" />
+            <marker date="1503901429234" expanded="true" signature="7095:7134" ph="@{...}" />
+            <marker date="1503901429234" expanded="true" signature="7771:7810" ph="@{...}" />
+            <marker date="1503901429234" expanded="true" signature="8455:8494" ph="@{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/logs/TiVoUpdaterPostgres_20161105.log">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="692">
+          <caret line="167" column="40" lean-forward="false" selection-start-line="167" selection-start-column="40" selection-end-line="167" selection-end-column="40" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="798">
-          <caret line="42" column="0" lean-forward="true" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
+        <state relative-caret-position="796">
+          <caret line="47" column="17" lean-forward="false" selection-start-line="47" selection-start-column="17" selection-end-line="47" selection-end-column="17" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/EpisodeGroupUpdater.java">
+    <entry file="file://$PROJECT_DIR$/scripts/old/RunPostgresUpdater.bat">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="778">
-          <caret line="303" column="0" lean-forward="true" selection-start-line="303" selection-start-column="0" selection-end-line="303" selection-end-column="0" />
-          <folding>
-            <marker date="1503901302588" expanded="false" signature="767:807" ph="/OptionalIsPresent/" />
-            <marker date="1503901302588" expanded="false" signature="907:940" ph="/WeakerAccess/" />
-            <marker date="1503901302588" expanded="false" signature="1425:1464" ph="/SameParameterValue/" />
-            <marker date="1503901302588" expanded="true" signature="6443:6482" ph="@{...}" />
-            <marker date="1503901302588" expanded="true" signature="7086:7125" ph="@{...}" />
-            <marker date="1503901302588" expanded="true" signature="7762:7801" ph="@{...}" />
-            <marker date="1503901302588" expanded="true" signature="8446:8485" ph="@{...}" />
-          </folding>
+        <state relative-caret-position="228">
+          <caret line="12" column="8" lean-forward="false" selection-start-line="12" selection-start-column="8" selection-end-line="12" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/old/RunQuickUpdater.bat">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="76">
+          <caret line="4" column="8" lean-forward="false" selection-start-line="4" selection-start-column="8" selection-end-line="4" selection-end-column="8" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -3525,6 +3668,21 @@
               </list>
             </option>
           </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ScopeChooserConfigurable.UI">
+        <settings>
+          <last-edited>AllButLogs</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.31923383" />
+              </list>
+            </option>
+          </splitter-proportions>
+          <order>
+            <scope name="AllButLogs" />
+          </order>
         </settings>
       </state>
     </states>
