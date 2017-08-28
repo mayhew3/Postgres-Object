@@ -17,7 +17,8 @@ public enum UpdateMode {
   SANITY("Sanity"),
   SERVICE("Service"),
   EPISODE_MATCH("EpisodeMatch"),
-  FIRST_PASS("FirstPass");
+  FIRST_PASS("FirstPass"),
+  UNMATCHED("Unmatched");
 
   private final String typekey;
 

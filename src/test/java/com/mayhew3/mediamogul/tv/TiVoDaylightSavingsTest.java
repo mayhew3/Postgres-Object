@@ -4,6 +4,7 @@ import com.mayhew3.mediamogul.TVDatabaseTest;
 import com.mayhew3.mediamogul.dataobject.TiVoLocalProvider;
 import com.mayhew3.mediamogul.model.tv.Series;
 import com.mayhew3.mediamogul.model.tv.TiVoEpisode;
+import com.mayhew3.mediamogul.tv.helper.UpdateMode;
 import com.mayhew3.mediamogul.xml.BadlyFormattedXMLException;
 import org.joda.time.DateTimeUtils;
 import org.joda.time.LocalDate;
@@ -43,7 +44,7 @@ public class TiVoDaylightSavingsTest extends TVDatabaseTest {
 
     DateTimeUtils.setCurrentMillisFixed(februaryDate.toDate().getTime());
 
-    TiVoCommunicator tiVoCommunicator = new TiVoCommunicator(connection, tiVoLocalProvider, TiVoCommunicator.UpdateType.FULL);
+    TiVoCommunicator tiVoCommunicator = new TiVoCommunicator(connection, tiVoLocalProvider, UpdateMode.FULL);
     tiVoCommunicator.runUpdate();
 
     TiVoEpisode tiVoEpisode = getSingleAddedEpisode();
@@ -60,7 +61,7 @@ public class TiVoDaylightSavingsTest extends TVDatabaseTest {
 
     DateTimeUtils.setCurrentMillisFixed(aprilDate.toDate().getTime());
 
-    TiVoCommunicator tiVoCommunicator = new TiVoCommunicator(connection, tiVoLocalProvider, TiVoCommunicator.UpdateType.FULL);
+    TiVoCommunicator tiVoCommunicator = new TiVoCommunicator(connection, tiVoLocalProvider, UpdateMode.FULL);
     tiVoCommunicator.runUpdate();
 
     TiVoEpisode tiVoEpisode = getSingleAddedEpisode();
@@ -78,7 +79,7 @@ public class TiVoDaylightSavingsTest extends TVDatabaseTest {
 
     DateTimeUtils.setCurrentMillisFixed(februaryDate.toDate().getTime());
 
-    TiVoCommunicator tiVoCommunicator = new TiVoCommunicator(connection, tiVoLocalProvider, TiVoCommunicator.UpdateType.FULL);
+    TiVoCommunicator tiVoCommunicator = new TiVoCommunicator(connection, tiVoLocalProvider, UpdateMode.FULL);
     tiVoCommunicator.runUpdate();
 
     List<TiVoEpisode> matchingEpisodes = findAddedEpisodes();
@@ -107,7 +108,7 @@ public class TiVoDaylightSavingsTest extends TVDatabaseTest {
 
     DateTimeUtils.setCurrentMillisFixed(aprilDate.toDate().getTime());
 
-    TiVoCommunicator tiVoCommunicator = new TiVoCommunicator(connection, tiVoLocalProvider, TiVoCommunicator.UpdateType.FULL);
+    TiVoCommunicator tiVoCommunicator = new TiVoCommunicator(connection, tiVoLocalProvider, UpdateMode.FULL);
     tiVoCommunicator.runUpdate();
 
     List<TiVoEpisode> matchingEpisodes = findAddedEpisodes();

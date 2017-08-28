@@ -55,7 +55,7 @@ public class QuickBatchUpdater {
     // INITIALIZE UPDATERS
 
     List<UpdateRunner> updateRunners = Lists.newArrayList(
-        new TiVoCommunicator(connection, new RemoteFileDownloader(saveTiVoXML), TiVoCommunicator.UpdateType.QUICK),
+        new TiVoCommunicator(connection, new RemoteFileDownloader(saveTiVoXML), UpdateMode.QUICK),
         new SteamGameUpdater(connection)
     );
 

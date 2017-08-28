@@ -4,6 +4,7 @@ import com.mayhew3.mediamogul.TVDatabaseTest;
 import com.mayhew3.mediamogul.dataobject.TiVoLocalProvider;
 import com.mayhew3.mediamogul.model.tv.Series;
 import com.mayhew3.mediamogul.model.tv.TVDBSeries;
+import com.mayhew3.mediamogul.tv.helper.UpdateMode;
 import com.mayhew3.mediamogul.xml.BadlyFormattedXMLException;
 import org.junit.Test;
 
@@ -37,7 +38,7 @@ public class TiVoMatchExistingTest extends TVDatabaseTest {
         .as("SANITY: Only one series should exist with name initially.")
         .hasSize(1);
 
-    TiVoCommunicator tiVoCommunicator = new TiVoCommunicator(connection, tiVoLocalProvider, TiVoCommunicator.UpdateType.FULL);
+    TiVoCommunicator tiVoCommunicator = new TiVoCommunicator(connection, tiVoLocalProvider, UpdateMode.FULL);
     tiVoCommunicator.runUpdate();
 
     TiVoLocalProvider notRecording = new TiVoLocalProvider(
@@ -45,7 +46,7 @@ public class TiVoMatchExistingTest extends TVDatabaseTest {
         "SeriesList.xml",
         "SeriesDetail.xml");
 
-    tiVoCommunicator = new TiVoCommunicator(connection, notRecording, TiVoCommunicator.UpdateType.FULL);
+    tiVoCommunicator = new TiVoCommunicator(connection, notRecording, UpdateMode.FULL);
     tiVoCommunicator.runUpdate();
 
     List<Series> afterUpdate = getSeriesWithName(seriesName);

@@ -84,8 +84,7 @@ public class TVDBSeriesMatchRunner implements UpdateRunner {
     initializeConnectionLog(updateMode);
 
     try {
-      Runnable runnable = methodMap.get(updateMode);
-      runnable.run();
+      methodMap.get(updateMode).run();
       tvdbConnectionLog.finishTime.changeValue(new Date());
     } catch (Exception e) {
       e.printStackTrace();

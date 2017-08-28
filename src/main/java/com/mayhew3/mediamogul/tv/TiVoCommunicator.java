@@ -1,13 +1,15 @@
 package com.mayhew3.mediamogul.tv;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.mayhew3.mediamogul.ArgumentChecker;
 import com.mayhew3.mediamogul.SSLTool;
-import com.mayhew3.mediamogul.scheduler.UpdateRunner;
 import com.mayhew3.mediamogul.db.PostgresConnectionFactory;
 import com.mayhew3.mediamogul.db.SQLConnection;
 import com.mayhew3.mediamogul.model.tv.*;
+import com.mayhew3.mediamogul.scheduler.UpdateRunner;
 import com.mayhew3.mediamogul.tv.exception.ShowFailedException;
+import com.mayhew3.mediamogul.tv.helper.UpdateMode;
 import com.mayhew3.mediamogul.tv.provider.RemoteFileDownloader;
 import com.mayhew3.mediamogul.tv.provider.TiVoDataProvider;
 import com.mayhew3.mediamogul.xml.BadlyFormattedXMLException;
@@ -31,8 +33,6 @@ import java.util.*;
 
 public class TiVoCommunicator implements UpdateRunner {
 
-  public enum UpdateType {QUICK, FULL}
-
   private List<String> episodesOnTiVo;
   private List<String> moviesOnTiVo;
   private NodeReader nodeReader;
@@ -41,32 +41,40 @@ public class TiVoCommunicator implements UpdateRunner {
   private Integer deletedShows = 0;
   private Integer updatedShows = 0;
 
-  private UpdateType updateType;
+  private UpdateMode updateMode;
 
   private static SQLConnection sqlConnection;
   private TiVoDataProvider tiVoDataProvider;
 
-  public TiVoCommunicator(SQLConnection connection, TiVoDataProvider tiVoDataProvider, UpdateType updateType) {
+  public TiVoCommunicator(SQLConnection connection, TiVoDataProvider tiVoDataProvider, UpdateMode updateMode) {
     episodesOnTiVo = new ArrayList<>();
     moviesOnTiVo = new ArrayList<>();
     nodeReader = new NodeReaderImpl();
+
     sqlConnection = connection;
     this.tiVoDataProvider = tiVoDataProvider;
-    this.updateType = updateType;
+
+    HashSet<UpdateMode> validModes = Sets.newHashSet(UpdateMode.FULL, UpdateMode.QUICK);
+
+    if (!validModes.contains(updateMode)) {
+      throw new IllegalArgumentException("Update mode '" + updateMode + "' is not applicable for this updater.");
+    }
+
+    this.updateMode = updateMode;
   }
 
   public static void main(String[] args) throws UnknownHostException, SQLException, URISyntaxException, BadlyFormattedXMLException {
     List<String> argList = Lists.newArrayList(args);
-    Boolean lookAtAllShows = argList.contains("FullMode");
     Boolean dev = argList.contains("Dev");
     Boolean saveTiVoXML = argList.contains("SaveTiVoXML");
 
-    String identifier = new ArgumentChecker(args).getDBIdentifier();
+    ArgumentChecker argumentChecker = new ArgumentChecker(args);
+    String identifier = argumentChecker.getDBIdentifier();
+    UpdateMode updateMode = UpdateMode.getUpdateModeOrDefault(argumentChecker, UpdateMode.QUICK);
 
     SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
-    UpdateType updateType = lookAtAllShows ? UpdateType.FULL : UpdateType.QUICK;
 
-    TiVoCommunicator tiVoCommunicator = new TiVoCommunicator(connection, new RemoteFileDownloader(saveTiVoXML), updateType);
+    TiVoCommunicator tiVoCommunicator = new TiVoCommunicator(connection, new RemoteFileDownloader(saveTiVoXML), updateMode);
 
     if (dev) {
       tiVoCommunicator.truncateTables();
@@ -742,11 +750,11 @@ public class TiVoCommunicator implements UpdateRunner {
   }
 
   private Boolean isQuickUpdate() {
-    return UpdateType.QUICK.equals(updateType);
+    return UpdateMode.QUICK.equals(updateMode);
   }
 
   private Boolean isFullUpdate() {
-    return UpdateType.FULL.equals(updateType);
+    return UpdateMode.FULL.equals(updateMode);
   }
 
   protected void debug(Object object) {

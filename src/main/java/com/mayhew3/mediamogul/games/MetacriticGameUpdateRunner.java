@@ -2,10 +2,11 @@ package com.mayhew3.mediamogul.games;
 
 import com.google.common.collect.Lists;
 import com.mayhew3.mediamogul.ArgumentChecker;
-import com.mayhew3.mediamogul.scheduler.UpdateRunner;
 import com.mayhew3.mediamogul.db.PostgresConnectionFactory;
 import com.mayhew3.mediamogul.db.SQLConnection;
 import com.mayhew3.mediamogul.model.games.Game;
+import com.mayhew3.mediamogul.scheduler.UpdateRunner;
+import com.mayhew3.mediamogul.tv.helper.UpdateMode;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -15,21 +16,39 @@ import java.net.URISyntaxException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MetacriticGameUpdateRunner implements UpdateRunner {
 
-  public enum UpdateType {FULL, SINGLE, UNMATCHED}
-  private UpdateType updateType;
+  private UpdateMode updateMode;
+
+  private final Map<UpdateMode, Runnable> methodMap;
 
   private SQLConnection connection;
 
+  public MetacriticGameUpdateRunner(SQLConnection connection, UpdateMode updateMode) {
+    methodMap = new HashMap<>();
+    methodMap.put(UpdateMode.FULL, this::updateAllGames);
+    methodMap.put(UpdateMode.UNMATCHED, this::updateUnmatchedGames);
+    methodMap.put(UpdateMode.SINGLE, this::updateSingleGame);
+
+    this.connection = connection;
+
+    if (!methodMap.keySet().contains(updateMode)) {
+      throw new IllegalArgumentException("Update mode '" + updateMode + "' is not applicable for this updater.");
+    }
+
+    this.updateMode = updateMode;
+  }
+
   public static void main(String[] args) throws FileNotFoundException, SQLException, URISyntaxException {
     List<String> argList = Lists.newArrayList(args);
-    Boolean allGames = argList.contains("AllGames");
-    Boolean singleGame = argList.contains("SingleGame");
     Boolean logToFile = argList.contains("LogToFile");
-    String identifier = new ArgumentChecker(args).getDBIdentifier();
+    ArgumentChecker argumentChecker = new ArgumentChecker(args);
+    String identifier = argumentChecker.getDBIdentifier();
+    UpdateMode updateMode = UpdateMode.getUpdateModeOrDefault(argumentChecker, UpdateMode.UNMATCHED);
 
     if (logToFile) {
       String mediaMogulLogs = System.getenv("MediaMogulLogs");
@@ -43,14 +62,7 @@ public class MetacriticGameUpdateRunner implements UpdateRunner {
 
     SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
 
-    UpdateType updateType = UpdateType.UNMATCHED;
-    if (allGames) {
-      updateType = UpdateType.FULL;
-    } else if (singleGame) {
-      updateType = UpdateType.SINGLE;
-    }
-
-    MetacriticGameUpdateRunner updateRunner = new MetacriticGameUpdateRunner(connection, updateType);
+    MetacriticGameUpdateRunner updateRunner = new MetacriticGameUpdateRunner(connection, updateMode);
     updateRunner.runUpdate();
   }
 
@@ -59,46 +71,47 @@ public class MetacriticGameUpdateRunner implements UpdateRunner {
     return "Metacritic Game Updater";
   }
 
-  public void runUpdate() throws SQLException {
-    if (updateType.equals(UpdateType.FULL)) {
-      updateAllGames();
-    } else if (updateType.equals(UpdateType.SINGLE)) {
-      updateSingleGame();
-    } else if (updateType.equals(UpdateType.UNMATCHED)) {
-      updateUnmatchedGames();
-    } else {
-      throw new IllegalStateException("Unknown update type.");
-    }
+  public void runUpdate() {
+    methodMap.get(updateMode).run();
   }
 
-  public MetacriticGameUpdateRunner(SQLConnection connection, UpdateType updateType) {
-    this.connection = connection;
-    this.updateType = updateType;
-  }
-
-  private void updateSingleGame() throws SQLException {
+  private void updateSingleGame() {
     String nameOfSingleGame = "DOOM";
 
     String sql = "SELECT * FROM games"
         + " WHERE title = ?";
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, nameOfSingleGame);
 
-    runUpdateOnResultSet(resultSet);
+    try {
+      ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, nameOfSingleGame);
+
+      runUpdateOnResultSet(resultSet);
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
   }
 
-  private void updateAllGames() throws SQLException {
+  private void updateAllGames() {
     String sql = "SELECT * FROM games";
-    ResultSet resultSet = connection.executeQuery(sql);
 
-    runUpdateOnResultSet(resultSet);
+    try {
+      ResultSet resultSet = connection.executeQuery(sql);
+      runUpdateOnResultSet(resultSet);
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
   }
 
-  private void updateUnmatchedGames() throws SQLException {
+  private void updateUnmatchedGames() {
     String sql = "SELECT * FROM games"
      + " WHERE metacritic_matched IS NULL";
-    ResultSet resultSet = connection.executeQuery(sql);
 
-    runUpdateOnResultSet(resultSet);
+    try {
+      ResultSet resultSet = connection.executeQuery(sql);
+
+      runUpdateOnResultSet(resultSet);
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   private void runUpdateOnResultSet(ResultSet resultSet) throws SQLException {

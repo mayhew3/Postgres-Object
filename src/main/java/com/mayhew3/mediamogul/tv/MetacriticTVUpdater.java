@@ -1,13 +1,13 @@
 package com.mayhew3.mediamogul.tv;
 
-import com.google.common.collect.Lists;
 import com.mayhew3.mediamogul.ArgumentChecker;
-import com.mayhew3.mediamogul.scheduler.UpdateRunner;
-import com.mayhew3.mediamogul.model.tv.Season;
-import com.mayhew3.mediamogul.model.tv.Series;
 import com.mayhew3.mediamogul.db.PostgresConnectionFactory;
 import com.mayhew3.mediamogul.db.SQLConnection;
+import com.mayhew3.mediamogul.model.tv.Season;
+import com.mayhew3.mediamogul.model.tv.Series;
+import com.mayhew3.mediamogul.scheduler.UpdateRunner;
 import com.mayhew3.mediamogul.tv.helper.MetacriticException;
+import com.mayhew3.mediamogul.tv.helper.UpdateMode;
 import org.jetbrains.annotations.Nullable;
 import org.joda.time.DateTime;
 import org.jsoup.Jsoup;
@@ -20,59 +20,77 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class MetacriticTVUpdater implements UpdateRunner {
 
   private SQLConnection connection;
+  private UpdateMode updateMode;
 
-  public MetacriticTVUpdater(SQLConnection connection) {
+  private final Map<UpdateMode, Runnable> methodMap;
+
+  public MetacriticTVUpdater(SQLConnection connection, UpdateMode updateMode) {
+    methodMap = new HashMap<>();
+    methodMap.put(UpdateMode.FULL, this::runFullUpdate);
+    methodMap.put(UpdateMode.QUICK, this::runQuickUpdate);
+    methodMap.put(UpdateMode.SINGLE, this::runUpdateSingle);
+
     this.connection = connection;
+
+    if (!methodMap.keySet().contains(updateMode)) {
+      throw new IllegalArgumentException("Update mode '" + updateMode + "' is not applicable for this updater.");
+    }
+
+    this.updateMode = updateMode;
   }
 
   public static void main(String... args) throws URISyntaxException, SQLException, MetacriticException {
-    List<String> argList = Lists.newArrayList(args);
-    Boolean singleSeries = argList.contains("SingleSeries");
-    Boolean quickMode = argList.contains("Quick");
-    String identifier = new ArgumentChecker(args).getDBIdentifier();
+    ArgumentChecker argumentChecker = new ArgumentChecker(args);
+    String identifier = argumentChecker.getDBIdentifier();
+    UpdateMode updateMode = UpdateMode.getUpdateModeOrDefault(argumentChecker, UpdateMode.FULL);
 
     SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
-    MetacriticTVUpdater metacriticTVUpdater = new MetacriticTVUpdater(connection);
+    MetacriticTVUpdater metacriticTVUpdater = new MetacriticTVUpdater(connection, updateMode);
 
-    if (singleSeries) {
-      metacriticTVUpdater.runUpdateSingle();
-    } else if (quickMode) {
-      metacriticTVUpdater.runQuickUpdate();
-    } else {
-      metacriticTVUpdater.runUpdate();
-    }
+    metacriticTVUpdater.runUpdate();
   }
 
-  public void runUpdate() throws SQLException {
+  @Override
+  public void runUpdate() {
+    methodMap.get(updateMode).run();
+  }
+
+  void runFullUpdate() {
     String sql = "select *\n" +
         "from series\n" +
         "where tvdb_match_status = ? " +
         "and retired = ? ";
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, TVDBMatchStatus.MATCH_COMPLETED, 0);
 
-    runUpdateOnResultSet(resultSet);
+    try {
+      ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, TVDBMatchStatus.MATCH_COMPLETED, 0);
+      runUpdateOnResultSet(resultSet);
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
   }
 
-  private void runQuickUpdate() throws SQLException {
+  private void runQuickUpdate() {
     String sql = "select *\n" +
         "from series\n" +
         "where tvdb_match_status = ? " +
         "and metacritic_new = ? " +
         "and retired = ? ";
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, TVDBMatchStatus.MATCH_COMPLETED, true, 0);
 
-    runUpdateOnResultSet(resultSet);
+    try {
+      ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, TVDBMatchStatus.MATCH_COMPLETED, true, 0);
+      runUpdateOnResultSet(resultSet);
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
   }
 
 
-  private void runUpdateSingle() throws SQLException {
+  private void runUpdateSingle() {
     String singleSeriesTitle = "Prey"; // update for testing on a single series
 
     String sql = "select *\n" +
@@ -80,9 +98,13 @@ public class MetacriticTVUpdater implements UpdateRunner {
         "where tvdb_match_status = ? " +
         "and title = ? " +
         "and retired = ? ";
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, TVDBMatchStatus.MATCH_COMPLETED, singleSeriesTitle, 0);
 
-    runUpdateOnResultSet(resultSet);
+    try {
+      ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, TVDBMatchStatus.MATCH_COMPLETED, singleSeriesTitle, 0);
+      runUpdateOnResultSet(resultSet);
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   private void runUpdateOnResultSet(ResultSet resultSet) throws SQLException {
@@ -234,4 +256,5 @@ public class MetacriticTVUpdater implements UpdateRunner {
   public String getRunnerName() {
     return "Metacritic TV Runner";
   }
+
 }

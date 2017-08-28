@@ -33,7 +33,7 @@ public class TiVoLibraryUpdater {
     Boolean saveTiVoXML = argList.contains("SaveTiVoXML");
 
     String identifier = new ArgumentChecker(args).getDBIdentifier();
-    TiVoCommunicator.UpdateType updateType = nightly ? TiVoCommunicator.UpdateType.FULL : TiVoCommunicator.UpdateType.QUICK;
+    UpdateMode updateType = nightly ? UpdateMode.FULL : UpdateMode.QUICK;
 
     if (logToFile) {
       SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
@@ -100,8 +100,8 @@ public class TiVoLibraryUpdater {
 
     if (nightly) {
       try {
-        MetacriticTVUpdater metacriticTVUpdater = new MetacriticTVUpdater(connection);
-        metacriticTVUpdater.runUpdate();
+        MetacriticTVUpdater metacriticTVUpdater = new MetacriticTVUpdater(connection, UpdateMode.FULL);
+        metacriticTVUpdater.runFullUpdate();
       } catch (Exception e) {
         debug("Uncaught exception during metacritic update.");
         e.printStackTrace();
