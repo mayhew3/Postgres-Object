@@ -5,7 +5,7 @@ import com.mayhew3.gamesutil.ArgumentChecker;
 
 import java.util.Optional;
 
-public enum TVDBUpdateType {
+public enum UpdateMode {
   FULL("Full"),
   SMART("Smart"),
   FEW_ERRORS("FewErrors"),
@@ -21,7 +21,7 @@ public enum TVDBUpdateType {
 
   private final String typekey;
 
-  TVDBUpdateType(String dbString) {
+  UpdateMode(String dbString) {
     this.typekey = dbString;
   }
 
@@ -29,21 +29,21 @@ public enum TVDBUpdateType {
     return typekey;
   }
 
-  public static Optional<TVDBUpdateType> getUpdateType(final String typekey) {
-    return Lists.newArrayList(TVDBUpdateType.values())
+  public static Optional<UpdateMode> getUpdateType(final String typekey) {
+    return Lists.newArrayList(UpdateMode.values())
         .stream()
-        .filter(tvdbUpdateType -> tvdbUpdateType.typekey.equalsIgnoreCase(typekey))
+        .filter(updateMode -> updateMode.typekey.equalsIgnoreCase(typekey))
         .findAny();
   }
 
-  public static TVDBUpdateType getUpdateTypeOrDefault(ArgumentChecker checker, TVDBUpdateType defaultType) {
-    Optional<String> typeIdentifier = checker.getUpdateTypeIdentifier();
-    if (typeIdentifier.isPresent()) {
-      Optional<TVDBUpdateType> optionalType = getUpdateType(typeIdentifier.get());
+  public static UpdateMode getUpdateModeOrDefault(ArgumentChecker checker, UpdateMode defaultType) {
+    Optional<String> modeIdentifier = checker.getUpdateModeIdentifier();
+    if (modeIdentifier.isPresent()) {
+      Optional<UpdateMode> optionalType = getUpdateType(modeIdentifier.get());
       if (optionalType.isPresent()) {
         return optionalType.get();
       } else {
-        throw new IllegalArgumentException("No TVDBUpdateType found: " + typeIdentifier);
+        throw new IllegalArgumentException("No Update Mode found: " + modeIdentifier);
       }
     } else {
       return defaultType;

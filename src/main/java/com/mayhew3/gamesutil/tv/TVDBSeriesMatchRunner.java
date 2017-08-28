@@ -10,7 +10,7 @@ import com.mayhew3.gamesutil.model.tv.TVDBEpisode;
 import com.mayhew3.gamesutil.model.tv.TiVoEpisode;
 import com.mayhew3.gamesutil.scheduler.UpdateRunner;
 import com.mayhew3.gamesutil.tv.exception.ShowFailedException;
-import com.mayhew3.gamesutil.tv.helper.TVDBUpdateType;
+import com.mayhew3.gamesutil.tv.helper.UpdateMode;
 import com.mayhew3.gamesutil.tv.provider.TVDBJWTProvider;
 import com.mayhew3.gamesutil.tv.provider.TVDBJWTProviderImpl;
 import com.mayhew3.gamesutil.xml.BadlyFormattedXMLException;
@@ -39,52 +39,52 @@ public class TVDBSeriesMatchRunner implements UpdateRunner {
   private JSONReader jsonReader;
 
   private TVDBConnectionLog tvdbConnectionLog;
-  private TVDBUpdateType updateType;
+  private UpdateMode updateMode;
 
-  private final Map<TVDBUpdateType, Runnable> methodMap;
+  private final Map<UpdateMode, Runnable> methodMap;
 
   private final Integer ERROR_THRESHOLD = 3;
 
   @SuppressWarnings("FieldCanBeLocal")
   private final Integer ERROR_FOLLOW_UP_THRESHOLD_IN_DAYS = 7;
 
-  public TVDBSeriesMatchRunner(SQLConnection connection, TVDBJWTProvider tvdbjwtProvider, JSONReader jsonReader, TVDBUpdateType updateType) {
+  public TVDBSeriesMatchRunner(SQLConnection connection, TVDBJWTProvider tvdbjwtProvider, JSONReader jsonReader, UpdateMode updateMode) {
     methodMap = new HashMap<>();
-    methodMap.put(TVDBUpdateType.FIRST_PASS, this::runFirstPassUpdate);
-    methodMap.put(TVDBUpdateType.SMART, this::runSmartUpdate);
-    methodMap.put(TVDBUpdateType.FEW_ERRORS, this::runUpdateOnRecentlyErrored);
-    methodMap.put(TVDBUpdateType.OLD_ERRORS, this::runUpdateOnOldErrors);
-    methodMap.put(TVDBUpdateType.SINGLE, this::runUpdateSingle);
-    methodMap.put(TVDBUpdateType.EPISODE_MATCH, this::tryToMatchTiVoEpisodes);
+    methodMap.put(UpdateMode.FIRST_PASS, this::runFirstPassUpdate);
+    methodMap.put(UpdateMode.SMART, this::runSmartUpdate);
+    methodMap.put(UpdateMode.FEW_ERRORS, this::runUpdateOnRecentlyErrored);
+    methodMap.put(UpdateMode.OLD_ERRORS, this::runUpdateOnOldErrors);
+    methodMap.put(UpdateMode.SINGLE, this::runUpdateSingle);
+    methodMap.put(UpdateMode.EPISODE_MATCH, this::tryToMatchTiVoEpisodes);
 
     this.connection = connection;
     this.tvdbjwtProvider = tvdbjwtProvider;
     this.jsonReader = jsonReader;
 
-    if (!methodMap.keySet().contains(updateType)) {
-      throw new IllegalArgumentException("Update type '" + updateType + "' is not applicable for this updater.");
+    if (!methodMap.keySet().contains(updateMode)) {
+      throw new IllegalArgumentException("Update type '" + updateMode + "' is not applicable for this updater.");
     }
 
-    this.updateType = updateType;
+    this.updateMode = updateMode;
   }
 
   public static void main(String... args) throws URISyntaxException, SQLException, UnirestException {
     ArgumentChecker argumentChecker = new ArgumentChecker(args);
     String identifier = argumentChecker.getDBIdentifier();
-    TVDBUpdateType updateType = TVDBUpdateType.getUpdateTypeOrDefault(argumentChecker, TVDBUpdateType.FIRST_PASS);
+    UpdateMode updateMode = UpdateMode.getUpdateModeOrDefault(argumentChecker, UpdateMode.FIRST_PASS);
 
     SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
 
-    TVDBSeriesMatchRunner tvdbUpdateRunner = new TVDBSeriesMatchRunner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), updateType);
+    TVDBSeriesMatchRunner tvdbUpdateRunner = new TVDBSeriesMatchRunner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), updateMode);
     tvdbUpdateRunner.runUpdate();
   }
 
   public void runUpdate() throws SQLException {
 
-    initializeConnectionLog(updateType);
+    initializeConnectionLog(updateMode);
 
     try {
-      Runnable runnable = methodMap.get(updateType);
+      Runnable runnable = methodMap.get(updateMode);
       runnable.run();
       tvdbConnectionLog.finishTime.changeValue(new Date());
     } catch (Exception e) {
@@ -96,14 +96,14 @@ public class TVDBSeriesMatchRunner implements UpdateRunner {
 
   }
 
-  private void initializeConnectionLog(@NotNull TVDBUpdateType updateType) {
+  private void initializeConnectionLog(@NotNull UpdateMode updateMode) {
     tvdbConnectionLog = new TVDBConnectionLog();
     tvdbConnectionLog.initializeForInsert();
 
     tvdbConnectionLog.startTime.changeValue(new Date());
     tvdbConnectionLog.updatedShows.changeValue(0);
     tvdbConnectionLog.failedShows.changeValue(0);
-    tvdbConnectionLog.updateType.changeValue(updateType.getTypekey() + " (match only)");
+    tvdbConnectionLog.updateType.changeValue(updateMode.getTypekey() + " (match only)");
   }
 
   @Override

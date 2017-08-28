@@ -8,7 +8,7 @@ import com.mayhew3.gamesutil.games.SteamGameUpdater;
 import com.mayhew3.gamesutil.scheduler.UpdateRunner;
 import com.mayhew3.gamesutil.tv.*;
 import com.mayhew3.gamesutil.tv.helper.ConnectionLogger;
-import com.mayhew3.gamesutil.tv.helper.TVDBUpdateType;
+import com.mayhew3.gamesutil.tv.helper.UpdateMode;
 import com.mayhew3.gamesutil.tv.provider.RemoteFileDownloader;
 import com.mayhew3.gamesutil.tv.provider.TVDBJWTProviderImpl;
 import com.mayhew3.gamesutil.xml.JSONReaderImpl;
@@ -61,8 +61,8 @@ public class QuickBatchUpdater {
 
     try {
       TVDBJWTProviderImpl tvdbjwtProvider = new TVDBJWTProviderImpl();
-      updateRunners.add(new TVDBUpdateRunner(connection, tvdbjwtProvider, new JSONReaderImpl(), TVDBUpdateType.SMART));
-      updateRunners.add(new TVDBSeriesMatchRunner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), TVDBUpdateType.SMART));
+      updateRunners.add(new TVDBUpdateRunner(connection, tvdbjwtProvider, new JSONReaderImpl(), UpdateMode.SMART));
+      updateRunners.add(new TVDBSeriesMatchRunner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), UpdateMode.SMART));
     } catch (UnirestException e) {
       debug("Error getting TVDB token. Skipping TVDB updates.");
       e.printStackTrace();

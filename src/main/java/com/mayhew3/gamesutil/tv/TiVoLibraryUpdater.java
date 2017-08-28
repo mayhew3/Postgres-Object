@@ -6,7 +6,7 @@ import com.mayhew3.gamesutil.ArgumentChecker;
 import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.tv.helper.ConnectionLogger;
-import com.mayhew3.gamesutil.tv.helper.TVDBUpdateType;
+import com.mayhew3.gamesutil.tv.helper.UpdateMode;
 import com.mayhew3.gamesutil.tv.provider.RemoteFileDownloader;
 import com.mayhew3.gamesutil.tv.provider.TVDBJWTProviderImpl;
 import com.mayhew3.gamesutil.xml.BadlyFormattedXMLException;
@@ -74,7 +74,7 @@ public class TiVoLibraryUpdater {
 
     if (!tiVoOnly) {
       try {
-        TVDBUpdateRunner tvdbUpdateRunner = new TVDBUpdateRunner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), TVDBUpdateType.SMART);
+        TVDBUpdateRunner tvdbUpdateRunner = new TVDBUpdateRunner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), UpdateMode.SMART);
         tvdbUpdateRunner.runUpdate();
       } catch (SQLException e) {
         debug("Error downloading info from TVDB service.");
@@ -87,7 +87,7 @@ public class TiVoLibraryUpdater {
 
     if (!tiVoOnly) {
       try {
-        TVDBSeriesMatchRunner tvdbUpdateRunner = new TVDBSeriesMatchRunner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), TVDBUpdateType.SMART);
+        TVDBSeriesMatchRunner tvdbUpdateRunner = new TVDBSeriesMatchRunner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), UpdateMode.SMART);
         tvdbUpdateRunner.runUpdate();
       } catch (SQLException e) {
         debug("Error trying to match series with TVDB.");
@@ -111,7 +111,7 @@ public class TiVoLibraryUpdater {
     // update any shows that haven't been run in a while
     if (nightly) {
       try {
-        TVDBUpdateRunner tvdbUpdateRunner = new TVDBUpdateRunner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), TVDBUpdateType.SANITY);
+        TVDBUpdateRunner tvdbUpdateRunner = new TVDBUpdateRunner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), UpdateMode.SANITY);
         tvdbUpdateRunner.runUpdate();
       } catch (UnirestException e) {
         debug("Uncaught exception during TVDB sanity check.");

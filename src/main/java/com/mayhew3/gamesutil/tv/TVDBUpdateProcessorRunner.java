@@ -10,7 +10,7 @@ import com.mayhew3.gamesutil.model.tv.TVDBConnectionLog;
 import com.mayhew3.gamesutil.model.tv.TVDBUpdateError;
 import com.mayhew3.gamesutil.model.tv.TVDBWorkItem;
 import com.mayhew3.gamesutil.tv.exception.ShowFailedException;
-import com.mayhew3.gamesutil.tv.helper.TVDBUpdateType;
+import com.mayhew3.gamesutil.tv.helper.UpdateMode;
 import com.mayhew3.gamesutil.tv.provider.TVDBJWTProvider;
 import com.mayhew3.gamesutil.tv.provider.TVDBJWTProviderImpl;
 import com.mayhew3.gamesutil.xml.BadlyFormattedXMLException;
@@ -115,7 +115,7 @@ public class TVDBUpdateProcessorRunner {
 
     List<WorkItemGroup> workItemGroups = groupWorkItems(workItems);
 
-    initializeConnectionLog(TVDBUpdateType.SERVICE);
+    initializeConnectionLog(UpdateMode.SERVICE);
 
     try {
       for (WorkItemGroup workItemGroup : workItemGroups) {
@@ -158,14 +158,14 @@ public class TVDBUpdateProcessorRunner {
 
 
 
-  private void initializeConnectionLog(@NotNull TVDBUpdateType updateType) {
+  private void initializeConnectionLog(@NotNull UpdateMode updateMode) {
     tvdbConnectionLog = new TVDBConnectionLog();
     tvdbConnectionLog.initializeForInsert();
 
     tvdbConnectionLog.startTime.changeValue(new Date());
     tvdbConnectionLog.updatedShows.changeValue(0);
     tvdbConnectionLog.failedShows.changeValue(0);
-    tvdbConnectionLog.updateType.changeValue(updateType.getTypekey());
+    tvdbConnectionLog.updateType.changeValue(updateMode.getTypekey());
   }
 
   private @NotNull SeriesUpdateResult processWorkItemGroup(WorkItemGroup workItemGroup) throws SQLException {

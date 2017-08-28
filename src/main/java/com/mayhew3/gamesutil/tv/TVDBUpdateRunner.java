@@ -9,7 +9,7 @@ import com.mayhew3.gamesutil.model.tv.Series;
 import com.mayhew3.gamesutil.model.tv.TVDBConnectionLog;
 import com.mayhew3.gamesutil.model.tv.TVDBUpdateError;
 import com.mayhew3.gamesutil.tv.exception.ShowFailedException;
-import com.mayhew3.gamesutil.tv.helper.TVDBUpdateType;
+import com.mayhew3.gamesutil.tv.helper.UpdateMode;
 import com.mayhew3.gamesutil.tv.provider.TVDBJWTProvider;
 import com.mayhew3.gamesutil.tv.provider.TVDBJWTProviderImpl;
 import com.mayhew3.gamesutil.xml.BadlyFormattedXMLException;
@@ -30,7 +30,7 @@ import java.util.*;
 
 public class TVDBUpdateRunner implements UpdateRunner {
 
-  private final Map<TVDBUpdateType, Runnable> methodMap;
+  private final Map<UpdateMode, Runnable> methodMap;
 
   private enum SeriesUpdateResult {UPDATE_SUCCESS, UPDATE_FAILED}
 
@@ -44,45 +44,45 @@ public class TVDBUpdateRunner implements UpdateRunner {
   private JSONReader jsonReader;
 
   private TVDBConnectionLog tvdbConnectionLog;
-  private TVDBUpdateType updateType;
+  private UpdateMode updateMode;
 
   @SuppressWarnings("FieldCanBeLocal")
   private final Integer ERROR_FOLLOW_UP_THRESHOLD_IN_DAYS = 7;
   private final Integer ERROR_THRESHOLD = 5;
 
-  public TVDBUpdateRunner(SQLConnection connection, TVDBJWTProvider tvdbjwtProvider, JSONReader jsonReader, @NotNull TVDBUpdateType updateType) {
+  public TVDBUpdateRunner(SQLConnection connection, TVDBJWTProvider tvdbjwtProvider, JSONReader jsonReader, @NotNull UpdateMode updateMode) {
 
     methodMap = new HashMap<>();
-    methodMap.put(TVDBUpdateType.FULL, this::runFullUpdate);
-    methodMap.put(TVDBUpdateType.SMART, this::runSmartUpdateSingleQuery);
-    methodMap.put(TVDBUpdateType.RECENT, this::runUpdateOnRecentUpdateList);
-    methodMap.put(TVDBUpdateType.FEW_ERRORS, this::runUpdateOnRecentlyErrored);
-    methodMap.put(TVDBUpdateType.OLD_ERRORS, this::runUpdateOnOldErrors);
-    methodMap.put(TVDBUpdateType.SINGLE, this::runUpdateSingle);
-    methodMap.put(TVDBUpdateType.AIRTIMES, this::runAirTimesUpdate);
-    methodMap.put(TVDBUpdateType.QUICK, this::runQuickUpdate);
-    methodMap.put(TVDBUpdateType.SANITY, this::runSanityUpdateOnShowsThatHaventBeenUpdatedInAWhile);
+    methodMap.put(UpdateMode.FULL, this::runFullUpdate);
+    methodMap.put(UpdateMode.SMART, this::runSmartUpdateSingleQuery);
+    methodMap.put(UpdateMode.RECENT, this::runUpdateOnRecentUpdateList);
+    methodMap.put(UpdateMode.FEW_ERRORS, this::runUpdateOnRecentlyErrored);
+    methodMap.put(UpdateMode.OLD_ERRORS, this::runUpdateOnOldErrors);
+    methodMap.put(UpdateMode.SINGLE, this::runUpdateSingle);
+    methodMap.put(UpdateMode.AIRTIMES, this::runAirTimesUpdate);
+    methodMap.put(UpdateMode.QUICK, this::runQuickUpdate);
+    methodMap.put(UpdateMode.SANITY, this::runSanityUpdateOnShowsThatHaventBeenUpdatedInAWhile);
 
     this.connection = connection;
     this.tvdbjwtProvider = tvdbjwtProvider;
     this.jsonReader = jsonReader;
 
-    if (!methodMap.keySet().contains(updateType)) {
-      throw new IllegalArgumentException("Update type '" + updateType + "' is not applicable for this updater.");
+    if (!methodMap.keySet().contains(updateMode)) {
+      throw new IllegalArgumentException("Update type '" + updateMode + "' is not applicable for this updater.");
     }
 
-    this.updateType = updateType;
+    this.updateMode = updateMode;
   }
 
   public static void main(String... args) throws URISyntaxException, SQLException, UnirestException, ParseException {
     ArgumentChecker argumentChecker = new ArgumentChecker(args);
 
     String dbIdentifier = argumentChecker.getDBIdentifier();
-    TVDBUpdateType updateType = TVDBUpdateType.getUpdateTypeOrDefault(argumentChecker, TVDBUpdateType.SMART);
+    UpdateMode updateMode = UpdateMode.getUpdateModeOrDefault(argumentChecker, UpdateMode.SMART);
 
     SQLConnection connection = new PostgresConnectionFactory().createConnection(dbIdentifier);
 
-    TVDBUpdateRunner tvdbUpdateRunner = new TVDBUpdateRunner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), updateType);
+    TVDBUpdateRunner tvdbUpdateRunner = new TVDBUpdateRunner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), updateMode);
     tvdbUpdateRunner.runUpdate();
 
     if (tvdbUpdateRunner.getSeriesUpdates() > 0) {
@@ -93,10 +93,10 @@ public class TVDBUpdateRunner implements UpdateRunner {
 
   public void runUpdate() throws SQLException {
 
-    initializeConnectionLog(updateType);
+    initializeConnectionLog(updateMode);
 
     try {
-      methodMap.get(updateType).run();
+      methodMap.get(updateMode).run();
       tvdbConnectionLog.finishTime.changeValue(new Date());
     } catch (Exception e) {
       e.printStackTrace();
@@ -107,19 +107,19 @@ public class TVDBUpdateRunner implements UpdateRunner {
 
   }
 
-  private void initializeConnectionLog(@NotNull TVDBUpdateType updateType) {
+  private void initializeConnectionLog(@NotNull UpdateMode updateMode) {
     tvdbConnectionLog = new TVDBConnectionLog();
     tvdbConnectionLog.initializeForInsert();
 
     tvdbConnectionLog.startTime.changeValue(new Date());
     tvdbConnectionLog.updatedShows.changeValue(0);
     tvdbConnectionLog.failedShows.changeValue(0);
-    tvdbConnectionLog.updateType.changeValue(updateType.getTypekey());
+    tvdbConnectionLog.updateType.changeValue(updateMode.getTypekey());
   }
 
   @Override
   public String getRunnerName() {
-    return "TVDB Updater (" + updateType + ")";
+    return "TVDB Updater (" + updateMode + ")";
   }
 
   /**
@@ -488,9 +488,9 @@ public class TVDBUpdateRunner implements UpdateRunner {
         "where update_type in (?, ?, ?)\n" +
         "and finish_time is not null";
     @NotNull ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql,
-        TVDBUpdateType.FULL.getTypekey(),
-        TVDBUpdateType.SMART.getTypekey(),
-        TVDBUpdateType.RECENT.getTypekey()
+        UpdateMode.FULL.getTypekey(),
+        UpdateMode.SMART.getTypekey(),
+        UpdateMode.RECENT.getTypekey()
     );
     if (resultSet.next()) {
       Calendar calendar = Calendar.getInstance();

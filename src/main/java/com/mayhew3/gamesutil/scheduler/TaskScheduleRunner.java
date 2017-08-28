@@ -7,7 +7,7 @@ import com.mayhew3.gamesutil.db.PostgresConnectionFactory;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.games.*;
 import com.mayhew3.gamesutil.tv.*;
-import com.mayhew3.gamesutil.tv.helper.TVDBUpdateType;
+import com.mayhew3.gamesutil.tv.helper.UpdateMode;
 import com.mayhew3.gamesutil.tv.provider.RemoteFileDownloader;
 import com.mayhew3.gamesutil.tv.provider.TVDBJWTProvider;
 import com.mayhew3.gamesutil.tv.provider.TVDBJWTProviderImpl;
@@ -85,9 +85,9 @@ public class TaskScheduleRunner {
         2);
     addPeriodicTask(new TVDBUpdateProcessor(connection, tvdbjwtProvider, jsonReader),
         1);
-    addPeriodicTask(new TVDBSeriesMatchRunner(connection, tvdbjwtProvider, jsonReader, TVDBUpdateType.SMART),
+    addPeriodicTask(new TVDBSeriesMatchRunner(connection, tvdbjwtProvider, jsonReader, UpdateMode.SMART),
         5);
-    addPeriodicTask(new TVDBUpdateRunner(connection, tvdbjwtProvider, jsonReader, TVDBUpdateType.SMART),
+    addPeriodicTask(new TVDBUpdateRunner(connection, tvdbjwtProvider, jsonReader, UpdateMode.SMART),
         20);
     addPeriodicTask(new TiVoCommunicator(connection, tiVoDataProvider, TiVoCommunicator.UpdateType.QUICK),
         10);
@@ -100,7 +100,7 @@ public class TaskScheduleRunner {
     addNightlyTask(new TiVoCommunicator(connection, tiVoDataProvider, TiVoCommunicator.UpdateType.FULL));
     addNightlyTask(new MetacriticTVUpdater(connection));
     addNightlyTask(new MetacriticGameUpdateRunner(connection, MetacriticGameUpdateRunner.UpdateType.UNMATCHED));
-    addNightlyTask(new TVDBUpdateRunner(connection, tvdbjwtProvider, jsonReader, TVDBUpdateType.SANITY));
+    addNightlyTask(new TVDBUpdateRunner(connection, tvdbjwtProvider, jsonReader, UpdateMode.SANITY));
     addNightlyTask(new EpisodeGroupUpdater(connection));
     addNightlyTask(new SteamAttributeUpdateRunner(connection));
     addNightlyTask(new HowLongToBeatUpdateRunner(connection));

@@ -12,12 +12,12 @@ public class ArgumentChecker {
 
   public ArgumentChecker(String... args) {
     Options options = new Options();
-    Option typeOption = Option.builder("type")
+    Option modeOption = Option.builder("mode")
         .hasArg()
-        .desc("TVDB Update Type")
+        .desc("Update Mode")
         .required(false)
         .build();
-    options.addOption(typeOption);
+    options.addOption(modeOption);
     CommandLineParser parser = new DefaultParser();
 
     try {
@@ -28,9 +28,9 @@ public class ArgumentChecker {
     this.argList = Lists.newArrayList(args);
   }
 
-  public Optional<String> getUpdateTypeIdentifier() {
-    if (commands.hasOption("type")) {
-      return Optional.of(commands.getOptionValue("type"));
+  public Optional<String> getUpdateModeIdentifier() {
+    if (commands.hasOption("mode")) {
+      return Optional.of(commands.getOptionValue("mode"));
     } else {
       return Optional.empty();
     }

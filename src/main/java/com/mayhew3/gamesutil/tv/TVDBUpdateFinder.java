@@ -5,7 +5,7 @@ import com.mayhew3.gamesutil.scheduler.UpdateRunner;
 import com.mayhew3.gamesutil.db.SQLConnection;
 import com.mayhew3.gamesutil.model.tv.Series;
 import com.mayhew3.gamesutil.model.tv.TVDBWorkItem;
-import com.mayhew3.gamesutil.tv.helper.TVDBUpdateType;
+import com.mayhew3.gamesutil.tv.helper.UpdateMode;
 import com.mayhew3.gamesutil.tv.provider.TVDBJWTProvider;
 import com.mayhew3.gamesutil.xml.JSONReader;
 import org.apache.http.auth.AuthenticationException;
@@ -165,9 +165,9 @@ public class TVDBUpdateFinder implements UpdateRunner {
         "where update_type in (?, ?, ?)\n" +
         "and finish_time is not null";
     @NotNull ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql,
-        TVDBUpdateType.FULL.getTypekey(),
-        TVDBUpdateType.SMART.getTypekey(),
-        TVDBUpdateType.RECENT.getTypekey()
+        UpdateMode.FULL.getTypekey(),
+        UpdateMode.SMART.getTypekey(),
+        UpdateMode.RECENT.getTypekey()
     );
     if (resultSet.next()) {
       Calendar calendar = Calendar.getInstance();
