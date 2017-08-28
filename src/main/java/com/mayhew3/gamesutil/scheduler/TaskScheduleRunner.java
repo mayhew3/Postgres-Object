@@ -83,14 +83,14 @@ public class TaskScheduleRunner {
     // REGULAR
     addPeriodicTask(new TVDBUpdateFinder(connection, tvdbjwtProvider, jsonReader),
         2);
+    addPeriodicTask(new TiVoCommunicator(connection, tiVoDataProvider, TiVoCommunicator.UpdateType.QUICK),
+        10);
     addPeriodicTask(new TVDBUpdateProcessor(connection, tvdbjwtProvider, jsonReader),
         1);
     addPeriodicTask(new TVDBSeriesMatchRunner(connection, tvdbjwtProvider, jsonReader, UpdateMode.SMART),
-        5);
+        3);
     addPeriodicTask(new TVDBUpdateRunner(connection, tvdbjwtProvider, jsonReader, UpdateMode.SMART),
-        20);
-    addPeriodicTask(new TiVoCommunicator(connection, tiVoDataProvider, TiVoCommunicator.UpdateType.QUICK),
-        10);
+        30);
     addPeriodicTask(new SteamGameUpdater(connection),
         60);
     addPeriodicTask(new SeriesDenormUpdater(connection),

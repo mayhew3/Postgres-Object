@@ -2,18 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1e099498-ec9e-4703-ab18-cce3963e4d0c" name="Default" comment="Move annotation directory">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/ArgumentChecker.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/ArgumentChecker.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/QuickBatchUpdater.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/QuickBatchUpdater.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/scheduler/TaskScheduleRunner.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/scheduler/TaskScheduleRunner.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBSeriesMatchRunner.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBSeriesMatchRunner.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateFinder.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateFinder.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateFinderRunner.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateFinderRunner.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateProcessor.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateProcessor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateProcessorRunner.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateProcessorRunner.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateRunner.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateRunner.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TiVoLibraryUpdater.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TiVoLibraryUpdater.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/helper/TVDBUpdateType.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/helper/UpdateMode.java" />
     </list>
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -70,12 +59,14 @@
     <splitter split-orientation="horizontal" split-proportion="0.5197201">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="TVDBSeriesUpdater.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBSeriesUpdater.java">
+          <file leaf-file-name="TaskScheduleRunner.java" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/scheduler/TaskScheduleRunner.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1026">
-                  <caret line="73" column="44" lean-forward="false" selection-start-line="73" selection-start-column="44" selection-end-line="73" selection-end-column="44" />
-                  <folding />
+                <state relative-caret-position="634">
+                  <caret line="97" column="0" lean-forward="true" selection-start-line="97" selection-start-column="0" selection-end-line="97" selection-end-column="0" />
+                  <folding>
+                    <element signature="imports" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -102,19 +93,55 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="workspace.xml" pinned="false" current-in-tab="true">
+          <file leaf-file-name="workspace.xml" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="531">
-                  <caret line="2022" column="45" lean-forward="true" selection-start-line="2022" selection-start-column="45" selection-end-line="2022" selection-end-column="45" />
+                <state relative-caret-position="987">
+                  <caret line="2046" column="25" lean-forward="false" selection-start-line="2046" selection-start-column="25" selection-end-line="2046" selection-end-column="25" />
                   <folding>
-                    <element signature="e#18683#18689#0" expanded="true" />
-                    <element signature="e#18694#18700#0" expanded="true" />
-                    <element signature="e#19291#19297#0" expanded="true" />
-                    <element signature="e#19301#19307#0" expanded="true" />
-                    <element signature="e#19450#19454#0" expanded="true" />
-                    <element signature="e#19466#19472#0" expanded="true" />
-                    <element signature="e#19493#19499#0" expanded="true" />
+                    <marker date="1503899416460" expanded="true" signature="220548:220588" ph="..." />
+                    <marker date="1503899416460" expanded="true" signature="220548:220605" ph="..." />
+                    <marker date="1503899416460" expanded="true" signature="220548:220623" ph="..." />
+                    <marker date="1503899416460" expanded="true" signature="220548:220636" ph="..." />
+                    <marker date="1503899416460" expanded="true" signature="220548:220651" ph="..." />
+                    <marker date="1503899416460" expanded="true" signature="220697:220778" ph="..." />
+                    <marker date="1503899416460" expanded="true" signature="220813:223421" ph="..." />
+                    <marker date="1503899416460" expanded="true" signature="220826:223406" ph="..." />
+                    <marker date="1503899416460" expanded="true" signature="220880:221175" ph="..." />
+                    <marker date="1503899416460" expanded="true" signature="220899:221160" ph="..." />
+                    <marker date="1503899416460" expanded="true" signature="220962:221140" ph="..." />
+                    <marker date="1503899416460" expanded="true" signature="221002:221106" ph="..." />
+                    <marker date="1503899416460" expanded="true" signature="221023:221084" ph="..." />
+                    <marker date="1503899416460" expanded="true" signature="221225:221552" ph="..." />
+                    <marker date="1503899416460" expanded="true" signature="221244:221537" ph="..." />
+                    <marker date="1503899416460" expanded="true" signature="221339:221517" ph="..." />
+                    <marker date="1503899416460" expanded="true" signature="221379:221483" ph="..." />
+                    <marker date="1503899416460" expanded="true" signature="221400:221461" ph="..." />
+                    <marker date="1503899416460" expanded="true" signature="221603:221868" ph="..." />
+                    <marker date="1503899416460" expanded="true" signature="221622:221853" ph="..." />
+                    <marker date="1503899416460" expanded="true" signature="221655:221833" ph="..." />
+                    <marker date="1503899416460" expanded="true" signature="221695:221799" ph="..." />
+                    <marker date="1503899416460" expanded="true" signature="221716:221777" ph="..." />
+                    <marker date="1503899416460" expanded="true" signature="221911:222224" ph="..." />
+                    <marker date="1503899416460" expanded="true" signature="221930:222209" ph="..." />
+                    <marker date="1503899416460" expanded="true" signature="222004:222189" ph="..." />
+                    <marker date="1503899416460" expanded="true" signature="222044:222155" ph="..." />
+                    <marker date="1503899416460" expanded="true" signature="222065:222133" ph="..." />
+                    <marker date="1503899416460" expanded="true" signature="222275:222662" ph="..." />
+                    <marker date="1503899416460" expanded="true" signature="222294:222647" ph="..." />
+                    <marker date="1503899416460" expanded="true" signature="222403:222627" ph="..." />
+                    <marker date="1503899416460" expanded="true" signature="222443:222593" ph="..." />
+                    <marker date="1503899416460" expanded="true" signature="222464:222571" ph="..." />
+                    <marker date="1503899416460" expanded="true" signature="222697:223003" ph="..." />
+                    <marker date="1503899416460" expanded="true" signature="222716:222988" ph="..." />
+                    <marker date="1503899416460" expanded="true" signature="222790:222968" ph="..." />
+                    <marker date="1503899416460" expanded="true" signature="222830:222934" ph="..." />
+                    <marker date="1503899416460" expanded="true" signature="222851:222912" ph="..." />
+                    <marker date="1503899416460" expanded="true" signature="223055:223392" ph="..." />
+                    <marker date="1503899416460" expanded="true" signature="223074:223377" ph="..." />
+                    <marker date="1503899416460" expanded="true" signature="223172:223357" ph="..." />
+                    <marker date="1503899416460" expanded="true" signature="223212:223323" ph="..." />
+                    <marker date="1503899416460" expanded="true" signature="223233:223301" ph="..." />
                   </folding>
                 </state>
               </provider>
@@ -659,7 +686,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/SeriesDenormUpdater.java" />
         <option value="$PROJECT_DIR$/scripts/RunQuickUpdaterGradle.bat" />
         <option value="$PROJECT_DIR$/src/main/java/NightlyTaskSchedule.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBLocalJSONProvider.java" />
@@ -710,6 +736,7 @@
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateProcessorRunner.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/tv/TVDBUpdateRunner.java" />
         <option value="$PROJECT_DIR$/.idea/workspace.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/scheduler/TaskScheduleRunner.java" />
       </list>
     </option>
   </component>
@@ -788,17 +815,7 @@
               <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="gamesutil" type="462c0819:PsiDirectoryNode" />
-              <item name="tv" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="media-mogul-data" type="b2602c69:ProjectViewProjectNode" />
-              <item name="media-mogul-data" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="gamesutil" type="462c0819:PsiDirectoryNode" />
-              <item name="tv" type="462c0819:PsiDirectoryNode" />
-              <item name="helper" type="462c0819:PsiDirectoryNode" />
+              <item name="scheduler" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -2985,6 +3002,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="6" column="13" lean-forward="false" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#580#581#0" expanded="false" />
+            <element signature="e#652#653#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -2992,6 +3014,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="6" column="13" lean-forward="false" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -3006,6 +3031,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1805">
           <caret line="118" column="25" lean-forward="false" selection-start-line="118" selection-start-column="25" selection-end-line="118" selection-end-column="25" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -3188,14 +3214,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/scheduler/TaskScheduleRunner.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="532">
-          <caret line="28" column="35" lean-forward="false" selection-start-line="28" selection-start-column="35" selection-end-line="28" selection-end-column="35" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://C:/Dev/Java/jdk1.8.0_131/src.zip!/java/util/stream/Stream.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17252">
@@ -3346,16 +3364,62 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="531">
-          <caret line="2022" column="45" lean-forward="true" selection-start-line="2022" selection-start-column="45" selection-end-line="2022" selection-end-column="45" />
+        <state relative-caret-position="987">
+          <caret line="2046" column="25" lean-forward="false" selection-start-line="2046" selection-start-column="25" selection-end-line="2046" selection-end-column="25" />
           <folding>
-            <element signature="e#18683#18689#0" expanded="true" />
-            <element signature="e#18694#18700#0" expanded="true" />
-            <element signature="e#19291#19297#0" expanded="true" />
-            <element signature="e#19301#19307#0" expanded="true" />
-            <element signature="e#19450#19454#0" expanded="true" />
-            <element signature="e#19466#19472#0" expanded="true" />
-            <element signature="e#19493#19499#0" expanded="true" />
+            <marker date="1503899416460" expanded="true" signature="220548:220588" ph="..." />
+            <marker date="1503899416460" expanded="true" signature="220548:220605" ph="..." />
+            <marker date="1503899416460" expanded="true" signature="220548:220623" ph="..." />
+            <marker date="1503899416460" expanded="true" signature="220548:220636" ph="..." />
+            <marker date="1503899416460" expanded="true" signature="220548:220651" ph="..." />
+            <marker date="1503899416460" expanded="true" signature="220697:220778" ph="..." />
+            <marker date="1503899416460" expanded="true" signature="220813:223421" ph="..." />
+            <marker date="1503899416460" expanded="true" signature="220826:223406" ph="..." />
+            <marker date="1503899416460" expanded="true" signature="220880:221175" ph="..." />
+            <marker date="1503899416460" expanded="true" signature="220899:221160" ph="..." />
+            <marker date="1503899416460" expanded="true" signature="220962:221140" ph="..." />
+            <marker date="1503899416460" expanded="true" signature="221002:221106" ph="..." />
+            <marker date="1503899416460" expanded="true" signature="221023:221084" ph="..." />
+            <marker date="1503899416460" expanded="true" signature="221225:221552" ph="..." />
+            <marker date="1503899416460" expanded="true" signature="221244:221537" ph="..." />
+            <marker date="1503899416460" expanded="true" signature="221339:221517" ph="..." />
+            <marker date="1503899416460" expanded="true" signature="221379:221483" ph="..." />
+            <marker date="1503899416460" expanded="true" signature="221400:221461" ph="..." />
+            <marker date="1503899416460" expanded="true" signature="221603:221868" ph="..." />
+            <marker date="1503899416460" expanded="true" signature="221622:221853" ph="..." />
+            <marker date="1503899416460" expanded="true" signature="221655:221833" ph="..." />
+            <marker date="1503899416460" expanded="true" signature="221695:221799" ph="..." />
+            <marker date="1503899416460" expanded="true" signature="221716:221777" ph="..." />
+            <marker date="1503899416460" expanded="true" signature="221911:222224" ph="..." />
+            <marker date="1503899416460" expanded="true" signature="221930:222209" ph="..." />
+            <marker date="1503899416460" expanded="true" signature="222004:222189" ph="..." />
+            <marker date="1503899416460" expanded="true" signature="222044:222155" ph="..." />
+            <marker date="1503899416460" expanded="true" signature="222065:222133" ph="..." />
+            <marker date="1503899416460" expanded="true" signature="222275:222662" ph="..." />
+            <marker date="1503899416460" expanded="true" signature="222294:222647" ph="..." />
+            <marker date="1503899416460" expanded="true" signature="222403:222627" ph="..." />
+            <marker date="1503899416460" expanded="true" signature="222443:222593" ph="..." />
+            <marker date="1503899416460" expanded="true" signature="222464:222571" ph="..." />
+            <marker date="1503899416460" expanded="true" signature="222697:223003" ph="..." />
+            <marker date="1503899416460" expanded="true" signature="222716:222988" ph="..." />
+            <marker date="1503899416460" expanded="true" signature="222790:222968" ph="..." />
+            <marker date="1503899416460" expanded="true" signature="222830:222934" ph="..." />
+            <marker date="1503899416460" expanded="true" signature="222851:222912" ph="..." />
+            <marker date="1503899416460" expanded="true" signature="223055:223392" ph="..." />
+            <marker date="1503899416460" expanded="true" signature="223074:223377" ph="..." />
+            <marker date="1503899416460" expanded="true" signature="223172:223357" ph="..." />
+            <marker date="1503899416460" expanded="true" signature="223212:223323" ph="..." />
+            <marker date="1503899416460" expanded="true" signature="223233:223301" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/gamesutil/scheduler/TaskScheduleRunner.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="634">
+          <caret line="97" column="0" lean-forward="true" selection-start-line="97" selection-start-column="0" selection-end-line="97" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
