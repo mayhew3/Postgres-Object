@@ -291,20 +291,11 @@ public class EpisodeGroupUpdater implements UpdateRunner {
       return null;
     }
 
-    BigDecimal total = average.multiply(BigDecimal.valueOf(3)).add(max).add(last);
+    BigDecimal total = average.multiply(BigDecimal.valueOf(5))
+        .add(max.multiply(BigDecimal.valueOf(3)))
+        .add(last);
 
-    BigDecimal ratedEpisodeTotal = total.divide(BigDecimal.valueOf(5), BigDecimal.ROUND_HALF_UP);
-
-
-    Integer numRated = groupRating.rated.getValue();
-    Integer numUnrated = groupRating.numEpisodes.getValue() - numRated;
-
-    BigDecimal ratedWeight = BigDecimal.valueOf(numRated, 1);
-    BigDecimal unratedWeight = BigDecimal.valueOf(numUnrated).divide(BigDecimal.valueOf(10), 1, BigDecimal.ROUND_HALF_UP);
-
-    BigDecimal totalRating = ratedEpisodeTotal.multiply(ratedWeight).add(BigDecimal.valueOf(83).multiply(unratedWeight));
-
-    return totalRating.divide(ratedWeight.add(unratedWeight), 1, BigDecimal.ROUND_HALF_UP);
+    return total.divide(BigDecimal.valueOf(9), BigDecimal.ROUND_HALF_UP);
   }
 
   @NotNull
