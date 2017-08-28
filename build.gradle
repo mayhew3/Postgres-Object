@@ -35,7 +35,7 @@ dependencies {
 }
 
 task runTaskScheduleRunner(type:JavaExec) {
-    main = 'com.mayhew3.gamesutil.TaskScheduleRunner'
+    main = 'com.mayhew3.gamesutil.scheduler.TaskScheduleRunner'
     classpath = sourceSets.main.runtimeClasspath
     args += 'LogToFile'
     args += 'Heroku'
@@ -45,4 +45,4 @@ run {
     args += 'Test'
 }
 
-mainClassName = 'com.mayhew3.gamesutil.TaskScheduleRunner'
+mainClassName = 'com.mayhew3.gamesutil.scheduler.TaskScheduleRunner'
