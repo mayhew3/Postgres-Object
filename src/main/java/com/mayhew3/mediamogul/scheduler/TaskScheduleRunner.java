@@ -122,7 +122,7 @@ public class TaskScheduleRunner {
     }
 
     if (logToFile) {
-      openLogStream(identifier);
+      openLogStream();
     }
 
     createTaskList();
@@ -133,7 +133,7 @@ public class TaskScheduleRunner {
 
     while (true) {
       if (logToFile && logOutput == null) {
-        openLogStream(identifier);
+        openLogStream();
       }
 
       List<TaskSchedule> eligibleTasks = taskSchedules.stream()
@@ -164,7 +164,7 @@ public class TaskScheduleRunner {
   }
 
 
-  private void openLogStream(String identifier) throws FileNotFoundException {
+  private void openLogStream() throws FileNotFoundException {
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
     String dateFormatted = simpleDateFormat.format(new Date());
 
