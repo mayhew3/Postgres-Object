@@ -71,6 +71,7 @@ public class Series extends RetireableDataObject {
   public FieldValueString tvdbMatchStatus = registerStringField("tvdb_match_status", Nullability.NOT_NULL).defaultValue(TVDBMatchStatus.MATCH_FIRST_PASS);
   public FieldValueTimestamp tvdbConfirmDate = registerTimestampField("tvdb_confirm_date", Nullability.NULLABLE);
   public FieldValueTimestamp tvdbIgnoreDate = registerTimestampField("tvdb_ignore_date", Nullability.NULLABLE);
+  public FieldValueBoolean tvdbManualQueue = registerBooleanField("tvdb_manual_queue", Nullability.NOT_NULL).defaultValue(Boolean.FALSE);
 
   public FieldValueInteger consecutiveTVDBErrors = registerIntegerField("consecutive_tvdb_errors", Nullability.NOT_NULL).defaultValue(0);
 
