@@ -150,6 +150,7 @@ public class TVDBSeriesUpdater {
     Integer tvdbSeriesId = tvdbSeries.id.getValue();
     series.tvdbSeriesId.changeValue(tvdbSeriesId);
     series.lastTVDBUpdate.changeValue(new Date());
+    series.tvdbManualQueue.changeValue(false);
 
     series.tvdbMatchStatus.changeValue(TVDBMatchStatus.MATCH_COMPLETED);
 

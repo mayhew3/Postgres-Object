@@ -95,6 +95,8 @@ public class TaskScheduleRunner {
         60);
     addPeriodicTask(new SeriesDenormUpdater(connection),
         5);
+    addPeriodicTask(new TVDBUpdateRunner(connection, tvdbjwtProvider, jsonReader, UpdateMode.MANUAL),
+        1);
 
     // NIGHTLY
     addNightlyTask(new TiVoCommunicator(connection, tiVoDataProvider, UpdateMode.FULL));

@@ -18,6 +18,7 @@ public enum UpdateMode {
   SERVICE("Service"),
   EPISODE_MATCH("EpisodeMatch"),
   FIRST_PASS("FirstPass"),
+  MANUAL("Manual"),
   UNMATCHED("Unmatched");
 
   private final String typekey;

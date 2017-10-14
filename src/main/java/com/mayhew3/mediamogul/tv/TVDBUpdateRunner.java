@@ -62,6 +62,7 @@ public class TVDBUpdateRunner implements UpdateRunner {
     methodMap.put(UpdateMode.AIRTIMES, this::runAirTimesUpdate);
     methodMap.put(UpdateMode.QUICK, this::runQuickUpdate);
     methodMap.put(UpdateMode.SANITY, this::runSanityUpdateOnShowsThatHaventBeenUpdatedInAWhile);
+    methodMap.put(UpdateMode.MANUAL, this::runManuallyQueuedUpdates);
 
     this.connection = connection;
     this.tvdbjwtProvider = tvdbjwtProvider;
@@ -178,6 +179,20 @@ public class TVDBUpdateRunner implements UpdateRunner {
 
     try {
       ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, TVDBMatchStatus.MATCH_COMPLETED, sevenDaysAgo, false, 0, threeMonthsAgo, 1);
+      runUpdateOnResultSet(resultSet);
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  private void runManuallyQueuedUpdates() {
+    String sql = "select *\n" +
+        "from series\n" +
+        "where tvdb_manual_queue = ? " +
+        "and retired = ?;";
+
+    try {
+      ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, true, 0);
       runUpdateOnResultSet(resultSet);
     } catch (SQLException e) {
       throw new RuntimeException(e);
