@@ -37,12 +37,11 @@ dependencies {
 task runTaskScheduleRunner(type:JavaExec) {
     main = 'com.mayhew3.mediamogul.scheduler.TaskScheduleRunner'
     classpath = sourceSets.main.runtimeClasspath
-    args += 'LogToFile'
-    args += 'Heroku'
+    args = ['-db', 'Heroku', 'LogToFile']
 }
 
 run {
-    args += 'Test'
+    args = ['-db', 'Test']
 }
 
 mainClassName = 'com.mayhew3.mediamogul.scheduler.TaskScheduleRunner'
