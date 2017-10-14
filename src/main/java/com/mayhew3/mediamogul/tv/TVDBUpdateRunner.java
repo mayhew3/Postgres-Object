@@ -166,19 +166,20 @@ public class TVDBUpdateRunner implements UpdateRunner {
   private void runSanityUpdateOnShowsThatHaventBeenUpdatedInAWhile() {
     DateTime today = new DateTime();
     Timestamp sevenDaysAgo = new Timestamp(today.minusDays(7).getMillis());
+    Timestamp threeDaysAgo = new Timestamp(today.minusDays(3).getMillis());
     Timestamp threeMonthsAgo = new Timestamp(today.minusMonths(3).getMillis());
 
     String sql = "select *\n" +
         "from series\n" +
         "where tvdb_match_status = ? " +
         "and last_tvdb_update is not null\n" +
-        "and last_tvdb_update < ?\n" +
         "and suggestion = ?\n" +
         "and retired = ?\n" +
-        "and (most_recent > ? or tier = ?);";
+        "and ((last_tvdb_update < ? and tier = ?) " +
+          "or (last_tvdb_update < ? and most_recent > ?))";
 
     try {
-      ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, TVDBMatchStatus.MATCH_COMPLETED, sevenDaysAgo, false, 0, threeMonthsAgo, 1);
+      ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, TVDBMatchStatus.MATCH_COMPLETED, false, 0, threeDaysAgo, 1, sevenDaysAgo, threeMonthsAgo);
       runUpdateOnResultSet(resultSet);
     } catch (SQLException e) {
       throw new RuntimeException(e);
