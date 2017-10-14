@@ -233,7 +233,10 @@ class TVDBEpisodeUpdater {
     // my first-time update populated this for ALL rows with air date, but periodic updates
     // should only populate new episodes with future dates using series time. Because most
     // commonly the air time will refer to CURRENT episodes, not past ones.
-    if (airDate != null && futureAirDateOrFirstAirTime(episode, airDate)) {
+    if (airDate == null) {
+      episode.airTime.changeValue(null);
+      episode.commit(connection);
+    } else if (futureAirDateOrFirstAirTime(episode, airDate)) {
 
       DateTimeFormatter dateOnlyFormatter = DateTimeFormat.forPattern("yyyy-MM-dd");
       String dateOnly = dateOnlyFormatter.print(airDate.getTime());
