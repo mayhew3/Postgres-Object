@@ -67,15 +67,15 @@ public class TaskScheduleRunner {
       e.printStackTrace();
     }
 
-    String identifier = new ArgumentChecker(args).getDBIdentifier();
+    ArgumentChecker argumentChecker = new ArgumentChecker(args);
 
-    SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
+    SQLConnection connection = PostgresConnectionFactory.createConnection(argumentChecker);
     JSONReader jsonReader = new JSONReaderImpl();
     TiVoDataProvider tiVoDataProvider = new RemoteFileDownloader(false);
 
     setDriverPath();
 
-    TaskScheduleRunner taskScheduleRunner = new TaskScheduleRunner(connection, tvdbjwtProvider, jsonReader, tiVoDataProvider, identifier, logToFile);
+    TaskScheduleRunner taskScheduleRunner = new TaskScheduleRunner(connection, tvdbjwtProvider, jsonReader, tiVoDataProvider, argumentChecker.getDBIdentifier(), logToFile);
     taskScheduleRunner.runUpdates();
   }
 

@@ -34,7 +34,8 @@ public class SeriesMerger {
     String unmatchedTitle = "HUMANS";
     String baseTitle = "Humans";
 
-    SQLConnection connection = new PostgresConnectionFactory().createConnection(new ArgumentChecker(args).getDBIdentifier());
+    ArgumentChecker argumentChecker = new ArgumentChecker(args);
+    SQLConnection connection = PostgresConnectionFactory.createConnection(argumentChecker);
 
     Optional<Series> unmatchedSeries = Series.findSeriesFromTitle(unmatchedTitle, connection);
     if (!unmatchedSeries.isPresent()) {

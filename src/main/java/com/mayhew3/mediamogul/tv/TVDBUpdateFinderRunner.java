@@ -68,18 +68,18 @@ public class TVDBUpdateFinderRunner {
     boolean lastWeek = argList.contains("LastWeek");
     boolean healthCheck = argList.contains("HealthCheck");
 
-    String identifier = new ArgumentChecker(args).getDBIdentifier();
+    ArgumentChecker argumentChecker = new ArgumentChecker(args);
 
     if (logToFile) {
-      openLogStream(identifier);
+      openLogStream(argumentChecker.getDBIdentifier());
     }
 
     debug("");
     debug("SESSION START! Date: " + new Date());
     debug("");
 
-    SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
-    TVDBUpdateFinderRunner tvdbUpdateRunner = new TVDBUpdateFinderRunner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), identifier);
+    SQLConnection connection = PostgresConnectionFactory.createConnection(argumentChecker);
+    TVDBUpdateFinderRunner tvdbUpdateRunner = new TVDBUpdateFinderRunner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), argumentChecker.getDBIdentifier());
 
     if (lastWeek) {
       tvdbUpdateRunner.fillInGapsFromPastWeek();

@@ -23,9 +23,9 @@ public class SeriesDeleter {
   public static void main(String... args) throws URISyntaxException, SQLException {
     String seriesTitle = "Colony";
 
-    String dbIdentifier = new ArgumentChecker(args).getDBIdentifier();
+    ArgumentChecker argumentChecker = new ArgumentChecker(args);
 
-    SQLConnection connection = new PostgresConnectionFactory().createConnection(dbIdentifier);
+    SQLConnection connection = PostgresConnectionFactory.createConnection(argumentChecker);
 
     Optional<Series> series = Series.findSeriesFromTitle(seriesTitle, connection);
 

@@ -29,8 +29,8 @@ public class EpisodeGroupUpdater implements UpdateRunner {
   static Integer currentYear = 2017;
 
   public static void main(String... args) throws URISyntaxException, SQLException {
-    String identifier = new ArgumentChecker(args).getDBIdentifier();
-    SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
+    ArgumentChecker argumentChecker = new ArgumentChecker(args);
+    SQLConnection connection = PostgresConnectionFactory.createConnection(argumentChecker);
 
     EpisodeGroupUpdater updater = new EpisodeGroupUpdater(connection);
     updater.runUpdate();

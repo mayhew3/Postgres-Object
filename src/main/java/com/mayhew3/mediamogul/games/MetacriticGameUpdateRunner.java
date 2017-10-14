@@ -60,7 +60,7 @@ public class MetacriticGameUpdateRunner implements UpdateRunner {
       System.setOut(ps);
     }
 
-    SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
+    SQLConnection connection = PostgresConnectionFactory.createConnection(argumentChecker);
 
     MetacriticGameUpdateRunner updateRunner = new MetacriticGameUpdateRunner(connection, updateMode);
     updateRunner.runUpdate();

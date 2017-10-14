@@ -22,8 +22,8 @@ public class TimestampTimeZoneUpgrader {
   }
 
   public static void main(String... args) throws URISyntaxException, SQLException {
-    String dbIdentifier = new ArgumentChecker(args).getDBIdentifier();
-    SQLConnection connection = new PostgresConnectionFactory().createConnection(dbIdentifier);
+    ArgumentChecker argumentChecker = new ArgumentChecker(args);
+    SQLConnection connection = PostgresConnectionFactory.createConnection(argumentChecker);
 
     TimestampTimeZoneUpgrader upgrader = new TimestampTimeZoneUpgrader(TVSchema.tv_schema, connection);
     upgrader.upgradeColumns();

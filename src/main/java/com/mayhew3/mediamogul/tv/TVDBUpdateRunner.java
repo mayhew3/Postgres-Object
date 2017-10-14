@@ -78,10 +78,9 @@ public class TVDBUpdateRunner implements UpdateRunner {
   public static void main(String... args) throws URISyntaxException, SQLException, UnirestException, ParseException {
     ArgumentChecker argumentChecker = new ArgumentChecker(args);
 
-    String dbIdentifier = argumentChecker.getDBIdentifier();
     UpdateMode updateMode = UpdateMode.getUpdateModeOrDefault(argumentChecker, UpdateMode.SMART);
 
-    SQLConnection connection = new PostgresConnectionFactory().createConnection(dbIdentifier);
+    SQLConnection connection = PostgresConnectionFactory.createConnection(argumentChecker);
 
     TVDBUpdateRunner tvdbUpdateRunner = new TVDBUpdateRunner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), updateMode);
     tvdbUpdateRunner.runUpdate();

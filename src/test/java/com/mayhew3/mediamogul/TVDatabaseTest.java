@@ -16,7 +16,7 @@ public abstract class TVDatabaseTest {
   @Before
   public void setUp() throws URISyntaxException, SQLException {
     System.out.println("Setting up test DB...");
-    connection = new PostgresConnectionFactory().createConnection("test");
+    connection = PostgresConnectionFactory.getSqlConnection(PostgresConnectionFactory.TEST);
     new DatabaseRecreator(connection).recreateDatabase(TVTestSchema.tv_test_schema);
     System.out.println("DB re-created.");
   }

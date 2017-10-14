@@ -15,7 +15,7 @@ public class DatabaseRecreatorTest {
 
   @Test
   public void testRecreateTestDatabase() throws URISyntaxException, SQLException {
-    SQLConnection connection = new PostgresConnectionFactory().createConnection("test");
+    SQLConnection connection = PostgresConnectionFactory.getSqlConnection(PostgresConnectionFactory.TEST);
     new DatabaseRecreator(connection).recreateDatabase(TVSchema.tv_schema);
 
     List<DataObjectMismatch> mismatches = TVSchema.tv_schema.validateSchemaAgainstDatabase(connection);

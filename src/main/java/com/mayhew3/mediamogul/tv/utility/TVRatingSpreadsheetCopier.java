@@ -28,9 +28,9 @@ public class TVRatingSpreadsheetCopier {
   }
 
   public static void main(String... args) throws URISyntaxException, SQLException {
-    String identifier = new ArgumentChecker(args).getDBIdentifier();
+    ArgumentChecker argumentChecker = new ArgumentChecker(args);
 
-    SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
+    SQLConnection connection = PostgresConnectionFactory.createConnection(argumentChecker);
     TVRatingSpreadsheetCopier spreadsheetCopier = new TVRatingSpreadsheetCopier(connection);
     spreadsheetCopier.runUpdate();
 

@@ -73,7 +73,7 @@ public class TVDBSeriesMatchRunner implements UpdateRunner {
     String identifier = argumentChecker.getDBIdentifier();
     UpdateMode updateMode = UpdateMode.getUpdateModeOrDefault(argumentChecker, UpdateMode.FIRST_PASS);
 
-    SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
+    SQLConnection connection = PostgresConnectionFactory.createConnection(argumentChecker);
 
     TVDBSeriesMatchRunner tvdbUpdateRunner = new TVDBSeriesMatchRunner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), updateMode);
     tvdbUpdateRunner.runUpdate();

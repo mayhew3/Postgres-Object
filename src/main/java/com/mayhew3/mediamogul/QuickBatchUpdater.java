@@ -30,7 +30,8 @@ public class QuickBatchUpdater {
     Boolean logToFile = argList.contains("LogToFile");
     Boolean saveTiVoXML = argList.contains("SaveTiVoXML");
 
-    String identifier = new ArgumentChecker(args).getDBIdentifier();
+    ArgumentChecker argumentChecker = new ArgumentChecker(args);
+    String identifier = argumentChecker.getDBIdentifier();
 
     if (logToFile) {
       SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
@@ -49,7 +50,7 @@ public class QuickBatchUpdater {
     debug("SESSION START!");
     debug("");
 
-    SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
+    SQLConnection connection = PostgresConnectionFactory.createConnection(argumentChecker);
 
 
     // INITIALIZE UPDATERS

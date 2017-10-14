@@ -29,9 +29,9 @@ public class TVDBJSONFetcher {
   }
 
   public static void main(String... args) throws URISyntaxException, SQLException, IOException, UnirestException, AuthenticationException {
-    String identifier = new ArgumentChecker(args).getDBIdentifier();
+    ArgumentChecker argumentChecker = new ArgumentChecker(args);
 
-    SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
+    SQLConnection connection = PostgresConnectionFactory.createConnection(argumentChecker);
     TVDBJSONFetcher tvdbJsonFetcher = new TVDBJSONFetcher(connection);
 
     tvdbJsonFetcher.downloadJSONForSeries();

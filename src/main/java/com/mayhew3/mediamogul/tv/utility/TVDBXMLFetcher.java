@@ -27,9 +27,9 @@ public class TVDBXMLFetcher {
   }
 
   public static void main(String... args) throws URISyntaxException, SQLException, IOException, SAXException {
-    String identifier = new ArgumentChecker(args).getDBIdentifier();
+    ArgumentChecker argumentChecker = new ArgumentChecker(args);
 
-    SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
+    SQLConnection connection = PostgresConnectionFactory.createConnection(argumentChecker);
     TVDBXMLFetcher tvdbxmlFetcher = new TVDBXMLFetcher(connection);
 
     tvdbxmlFetcher.downloadXMLForSeries();

@@ -41,7 +41,7 @@ public class GiantBombUpdater implements UpdateRunner {
     List<String> argList = Lists.newArrayList(args);
     Boolean singleGame = argList.contains("SingleGame");
     Boolean logToFile = argList.contains("LogToFile");
-    String identifier = new ArgumentChecker(args).getDBIdentifier();
+    ArgumentChecker argumentChecker = new ArgumentChecker(args);
 
     if (logToFile) {
       String mediaMogulLogs = System.getenv("MediaMogulLogs");
@@ -54,7 +54,7 @@ public class GiantBombUpdater implements UpdateRunner {
       System.err.println("Starting run on " + new Date());
     }
 
-    GiantBombUpdater giantBombUpdater = new GiantBombUpdater(new PostgresConnectionFactory().createConnection(identifier));
+    GiantBombUpdater giantBombUpdater = new GiantBombUpdater(PostgresConnectionFactory.createConnection(argumentChecker));
 
     if (singleGame) {
       giantBombUpdater.updateFieldsOnSingle();

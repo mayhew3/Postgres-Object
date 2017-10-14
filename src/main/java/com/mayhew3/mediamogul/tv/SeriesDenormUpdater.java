@@ -17,8 +17,8 @@ public class SeriesDenormUpdater implements UpdateRunner {
   }
 
   public static void main(String... args) throws URISyntaxException, SQLException {
-    String identifier = new ArgumentChecker(args).getDBIdentifier();
-    SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
+    ArgumentChecker argumentChecker = new ArgumentChecker(args);
+    SQLConnection connection = PostgresConnectionFactory.createConnection(argumentChecker);
 
     SeriesDenormUpdater updater = new SeriesDenormUpdater(connection);
     updater.runUpdate();

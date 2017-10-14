@@ -49,7 +49,7 @@ public class MetacriticTVUpdater implements UpdateRunner {
     String identifier = argumentChecker.getDBIdentifier();
     UpdateMode updateMode = UpdateMode.getUpdateModeOrDefault(argumentChecker, UpdateMode.FULL);
 
-    SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
+    SQLConnection connection = PostgresConnectionFactory.createConnection(argumentChecker);
     MetacriticTVUpdater metacriticTVUpdater = new MetacriticTVUpdater(connection, updateMode);
 
     metacriticTVUpdater.runUpdate();

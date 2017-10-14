@@ -29,7 +29,8 @@ public class DataObjectTableValidator {
   // todo: remove. just for testing purposes.
   public static void main(String... args) throws URISyntaxException, SQLException {
     TVDBEpisode episode = new TVDBEpisode();
-    SQLConnection connection = new PostgresConnectionFactory().createConnection("test");
+    SQLConnection connection = PostgresConnectionFactory.getSqlConnection(PostgresConnectionFactory.TEST);
+
     List<DataObjectMismatch> results = new DataObjectTableValidator(episode, connection).matchSchema();
 
     if (results.isEmpty()) {

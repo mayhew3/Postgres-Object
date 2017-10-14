@@ -33,7 +33,7 @@ public class SteamGameUpdater extends DatabaseUtility implements UpdateRunner {
   public static void main(String... args) throws SQLException, FileNotFoundException, URISyntaxException, InterruptedException {
     List<String> argList = Lists.newArrayList(args);
     Boolean logToFile = argList.contains("LogToFile");
-    String identifier = new ArgumentChecker(args).getDBIdentifier();
+    ArgumentChecker argumentChecker = new ArgumentChecker(args);
 
     if (logToFile) {
       SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
@@ -41,14 +41,14 @@ public class SteamGameUpdater extends DatabaseUtility implements UpdateRunner {
 
       String mediaMogulLogs = System.getenv("MediaMogulLogs");
 
-      File errorFile = new File(mediaMogulLogs + "\\SteamUpdaterErrors_" + dateFormatted + "_" + identifier + ".log");
+      File errorFile = new File(mediaMogulLogs + "\\SteamUpdaterErrors_" + dateFormatted + "_" + argumentChecker.getDBIdentifier() + ".log");
       FileOutputStream errorStream = new FileOutputStream(errorFile, true);
       PrintStream ps = new PrintStream(errorStream);
       System.setErr(ps);
 
       System.err.println("Starting run on " + new Date());
 
-      File logFile = new File(mediaMogulLogs + "\\SteamUpdaterLog_" + dateFormatted + "_" + identifier + ".log");
+      File logFile = new File(mediaMogulLogs + "\\SteamUpdaterLog_" + dateFormatted + "_" + argumentChecker.getDBIdentifier() + ".log");
       FileOutputStream logStream = new FileOutputStream(logFile, true);
       PrintStream logPrintStream = new PrintStream(logStream);
       System.setOut(logPrintStream);
@@ -58,7 +58,7 @@ public class SteamGameUpdater extends DatabaseUtility implements UpdateRunner {
     debug("SESSION START! Date: " + new Date());
     debug("");
 
-    SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
+    SQLConnection connection = PostgresConnectionFactory.createConnection(argumentChecker);
     SteamGameUpdater steamGameUpdater = new SteamGameUpdater(connection);
     steamGameUpdater.runUpdate();
 

@@ -15,7 +15,7 @@ public class GameSchemaHerokuTest {
 
   @Test
   public void testHerokuSchemaUpToDate() throws URISyntaxException, SQLException {
-    SQLConnection connection = new PostgresConnectionFactory().createConnection("heroku");
+    SQLConnection connection = PostgresConnectionFactory.getSqlConnection(PostgresConnectionFactory.HEROKU);
     List<DataObjectMismatch> mismatches = GamesSchema.games_schema.validateSchemaAgainstDatabase(connection);
 
     if (!mismatches.isEmpty()) {

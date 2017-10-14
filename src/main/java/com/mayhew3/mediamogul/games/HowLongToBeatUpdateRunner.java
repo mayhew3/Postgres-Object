@@ -33,7 +33,7 @@ public class HowLongToBeatUpdateRunner implements UpdateRunner {
     List<String> argList = Lists.newArrayList(args);
     Boolean fullMode = argList.contains("FullMode");
     Boolean logToFile = argList.contains("LogToFile");
-    String identifier = new ArgumentChecker(args).getDBIdentifier();
+    ArgumentChecker argumentChecker = new ArgumentChecker(args);
 
     if (logToFile) {
       String mediaMogulLogs = System.getenv("MediaMogulLogs");
@@ -45,7 +45,7 @@ public class HowLongToBeatUpdateRunner implements UpdateRunner {
       System.setOut(ps);
     }
 
-    SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
+    SQLConnection connection = PostgresConnectionFactory.createConnection(argumentChecker);
 
     setDriverPath();
 

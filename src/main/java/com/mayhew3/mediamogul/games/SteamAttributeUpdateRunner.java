@@ -29,7 +29,7 @@ public class SteamAttributeUpdateRunner implements UpdateRunner {
     List<String> argList = Lists.newArrayList(args);
     Boolean logToFile = argList.contains("LogToFile");
     Boolean redo = false;
-    String identifier = new ArgumentChecker(args).getDBIdentifier();
+    ArgumentChecker argumentChecker = new ArgumentChecker(args);
 
     if (logToFile) {
       String mediaMogulLogs = System.getenv("MediaMogulLogs");
@@ -41,7 +41,7 @@ public class SteamAttributeUpdateRunner implements UpdateRunner {
       System.setOut(ps);
     }
 
-    SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
+    SQLConnection connection = PostgresConnectionFactory.createConnection(argumentChecker);
 
     // don't do this.
     if (redo) {

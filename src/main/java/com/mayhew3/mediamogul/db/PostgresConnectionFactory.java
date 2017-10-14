@@ -1,43 +1,58 @@
 package com.mayhew3.mediamogul.db;
 
+import com.google.common.collect.Lists;
+import com.mayhew3.mediamogul.ArgumentChecker;
+import org.jetbrains.annotations.NotNull;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.HashMap;
+import java.util.Optional;
 
-public class PostgresConnectionFactory {
+public enum PostgresConnectionFactory {
+  HEROKU("heroku", "postgresURL_heroku"),
+  LOCAL("local", "postgresURL_local"),
+  TEST("test", "postgresURL_local_test"),
+  DEMO("demo", "postgresURL_local_demo");
 
-  private String postgresURL;
+  private final String nickname;
+  private final String envName;
 
-  private HashMap<String, String> programToEnv;
-
-  public PostgresConnectionFactory() {
-    programToEnv = new HashMap<>();
-    programToEnv.put("heroku", "postgresURL_heroku");
-    programToEnv.put("local", "postgresURL_local");
-    programToEnv.put("test", "postgresURL_local_test");
-    programToEnv.put("demo", "postgresURL_local_demo");
+  PostgresConnectionFactory(String nickname, String envName) {
+    this.nickname = nickname;
+    this.envName = envName;
   }
 
-  public SQLConnection createConnection(String identifier) throws URISyntaxException, SQLException {
-    String envName = programToEnv.get(identifier);
-
-    if (envName == null) {
-      throw new IllegalArgumentException("Unknown factory identifier: " + identifier);
+  public static SQLConnection createConnection(ArgumentChecker argumentChecker) throws URISyntaxException, SQLException {
+    String dbIdentifier = argumentChecker.getDBIdentifier();
+    Optional<PostgresConnectionFactory> connectionType = getConnectionType(dbIdentifier);
+    if (connectionType.isPresent()) {
+      PostgresConnectionFactory postgresConnectionFactory = connectionType.get();
+      return getSqlConnection(postgresConnectionFactory);
+    } else {
+      throw new IllegalStateException("No connection type with nickname: " + dbIdentifier);
     }
+  }
 
-    postgresURL = System.getenv(envName);
-
+  @NotNull
+  public static SQLConnection getSqlConnection(PostgresConnectionFactory postgresConnectionFactory) throws URISyntaxException, SQLException {
+    String postgresURL = System.getenv(postgresConnectionFactory.envName);
     if (postgresURL == null) {
-      throw new IllegalStateException("No environment variable found with name: " + envName);
+      throw new IllegalStateException("No environment variable found with name: " + postgresConnectionFactory.envName);
     }
-
-    return new PostgresConnection(initiateDBConnect());
+    return new PostgresConnection(initiateDBConnect(postgresURL));
   }
 
-  private Connection initiateDBConnect() throws URISyntaxException, SQLException {
+  public static Optional<PostgresConnectionFactory> getConnectionType(final String nickname) {
+    return Lists.newArrayList(PostgresConnectionFactory.values())
+        .stream()
+        .filter(postgresConnectionFactory -> postgresConnectionFactory.nickname.equalsIgnoreCase(nickname))
+        .findAny();
+  }
+
+  private static Connection initiateDBConnect(String postgresURL) throws URISyntaxException, SQLException {
     debug("Connecting to: " + postgresURL);
     try {
       return DriverManager.getConnection(postgresURL);
@@ -53,7 +68,7 @@ public class PostgresConnectionFactory {
     }
   }
 
-  private void debug(String msg) {
+  private static void debug(String msg) {
     System.out.println(msg);
   }
 

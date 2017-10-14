@@ -32,7 +32,7 @@ public class TiVoLibraryUpdater {
     Boolean logToFile = argList.contains("LogToFile");
     Boolean saveTiVoXML = argList.contains("SaveTiVoXML");
 
-    String identifier = new ArgumentChecker(args).getDBIdentifier();
+    ArgumentChecker argumentChecker = new ArgumentChecker(args);
     UpdateMode updateType = nightly ? UpdateMode.FULL : UpdateMode.QUICK;
 
     if (logToFile) {
@@ -41,7 +41,7 @@ public class TiVoLibraryUpdater {
 
       String mediaMogulLogs = System.getenv("MediaMogulLogs");
 
-      File file = new File(mediaMogulLogs + "\\TiVoUpdaterPostgres_" + dateFormatted + "_" + identifier + ".log");
+      File file = new File(mediaMogulLogs + "\\TiVoUpdaterPostgres_" + dateFormatted + "_" + argumentChecker.getDBIdentifier() + ".log");
       FileOutputStream fos = new FileOutputStream(file, true);
       PrintStream ps = new PrintStream(fos);
       System.setErr(ps);
@@ -52,7 +52,7 @@ public class TiVoLibraryUpdater {
     debug("SESSION START! Date: " + new Date());
     debug("");
 
-    SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
+    SQLConnection connection = PostgresConnectionFactory.createConnection(argumentChecker);
 
     ConnectionLogger logger = new ConnectionLogger(connection);
     logger.initialize();

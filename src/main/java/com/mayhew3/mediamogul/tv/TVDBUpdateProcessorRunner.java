@@ -69,18 +69,18 @@ public class TVDBUpdateProcessorRunner {
     List<String> argList = Lists.newArrayList(args);
     logToFile = argList.contains("LogToFile");
 
-    String identifier = new ArgumentChecker(args).getDBIdentifier();
+    ArgumentChecker argumentChecker = new ArgumentChecker(args);
 
     if (logToFile) {
-      openLogStream(identifier);
+      openLogStream(argumentChecker.getDBIdentifier());
     }
 
     debug("");
     debug("SESSION START! Date: " + new Date());
     debug("");
 
-    SQLConnection connection = new PostgresConnectionFactory().createConnection(identifier);
-    TVDBUpdateProcessorRunner tvdbUpdateRunner = new TVDBUpdateProcessorRunner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), identifier);
+    SQLConnection connection = PostgresConnectionFactory.createConnection(argumentChecker);
+    TVDBUpdateProcessorRunner tvdbUpdateRunner = new TVDBUpdateProcessorRunner(connection, new TVDBJWTProviderImpl(), new JSONReaderImpl(), argumentChecker.getDBIdentifier());
 
     tvdbUpdateRunner.runUpdater();
   }
