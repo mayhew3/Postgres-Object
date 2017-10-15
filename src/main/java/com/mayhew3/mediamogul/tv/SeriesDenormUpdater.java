@@ -4,6 +4,8 @@ import com.mayhew3.mediamogul.ArgumentChecker;
 import com.mayhew3.mediamogul.scheduler.UpdateRunner;
 import com.mayhew3.mediamogul.db.PostgresConnectionFactory;
 import com.mayhew3.mediamogul.db.SQLConnection;
+import com.mayhew3.mediamogul.tv.helper.UpdateMode;
+import org.jetbrains.annotations.Nullable;
 
 import java.net.URISyntaxException;
 import java.sql.SQLException;
@@ -27,6 +29,11 @@ public class SeriesDenormUpdater implements UpdateRunner {
   @Override
   public String getRunnerName() {
     return "Series Denorm Updater";
+  }
+
+  @Override
+  public @Nullable UpdateMode getUpdateMode() {
+    return null;
   }
 
   public void runUpdate() throws SQLException {

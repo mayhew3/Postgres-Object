@@ -8,6 +8,7 @@ import com.mayhew3.mediamogul.model.tv.Episode;
 import com.mayhew3.mediamogul.model.tv.EpisodeGroupRating;
 import com.mayhew3.mediamogul.model.tv.EpisodeRating;
 import com.mayhew3.mediamogul.model.tv.Series;
+import com.mayhew3.mediamogul.tv.helper.UpdateMode;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joda.time.DateTime;
@@ -167,6 +168,11 @@ public class EpisodeGroupUpdater implements UpdateRunner {
   @Override
   public String getRunnerName() {
     return "Episode Group Updater";
+  }
+
+  @Override
+  public @Nullable UpdateMode getUpdateMode() {
+    return null;
   }
 
   private class EpisodeInfo {

@@ -18,6 +18,7 @@ import com.mayhew3.mediamogul.xml.JSONReader;
 import com.mayhew3.mediamogul.xml.JSONReaderImpl;
 import org.apache.http.auth.AuthenticationException;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.joda.time.DateTime;
 
 import java.net.URISyntaxException;
@@ -70,7 +71,6 @@ public class TVDBSeriesMatchRunner implements UpdateRunner {
 
   public static void main(String... args) throws URISyntaxException, SQLException, UnirestException {
     ArgumentChecker argumentChecker = new ArgumentChecker(args);
-    String identifier = argumentChecker.getDBIdentifier();
     UpdateMode updateMode = UpdateMode.getUpdateModeOrDefault(argumentChecker, UpdateMode.FIRST_PASS);
 
     SQLConnection connection = PostgresConnectionFactory.createConnection(argumentChecker);
@@ -108,6 +108,11 @@ public class TVDBSeriesMatchRunner implements UpdateRunner {
   @Override
   public String getRunnerName() {
     return "TVDB Series Matcher";
+  }
+
+  @Override
+  public @Nullable UpdateMode getUpdateMode() {
+    return updateMode;
   }
 
   /**

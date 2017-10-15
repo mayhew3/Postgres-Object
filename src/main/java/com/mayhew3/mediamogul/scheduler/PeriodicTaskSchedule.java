@@ -1,5 +1,6 @@
 package com.mayhew3.mediamogul.scheduler;
 
+import com.mayhew3.mediamogul.db.SQLConnection;
 import org.jetbrains.annotations.NotNull;
 import org.joda.time.DateTime;
 import org.joda.time.Minutes;
@@ -7,8 +8,8 @@ import org.joda.time.Minutes;
 public class PeriodicTaskSchedule extends TaskSchedule {
   private Integer minutesBetween;
 
-  PeriodicTaskSchedule(UpdateRunner updateRunner, Integer minutesBetween) {
-    super(updateRunner);
+  PeriodicTaskSchedule(UpdateRunner updateRunner, SQLConnection connection, Integer minutesBetween) {
+    super(updateRunner, connection);
     this.minutesBetween = minutesBetween;
   }
 
@@ -16,7 +17,10 @@ public class PeriodicTaskSchedule extends TaskSchedule {
   @Override
   public Boolean isEligibleToRun() {
     if (lastRan == null) {
-      return true;
+      updateLastRanFromDB();
+      if (lastRan == null) {
+        return true;
+      }
     }
     Minutes minutes = Minutes.minutesBetween(new DateTime(lastRan), new DateTime());
     return minutes.getMinutes() > minutesBetween;

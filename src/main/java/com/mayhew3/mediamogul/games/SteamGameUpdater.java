@@ -9,6 +9,8 @@ import com.mayhew3.mediamogul.db.PostgresConnectionFactory;
 import com.mayhew3.mediamogul.db.SQLConnection;
 import com.mayhew3.mediamogul.model.games.Game;
 import com.mayhew3.mediamogul.model.games.GameLog;
+import com.mayhew3.mediamogul.tv.helper.UpdateMode;
+import org.jetbrains.annotations.Nullable;
 import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -218,5 +220,10 @@ public class SteamGameUpdater extends DatabaseUtility implements UpdateRunner {
   @Override
   public String getRunnerName() {
     return "Steam Game Updater";
+  }
+
+  @Override
+  public @Nullable UpdateMode getUpdateMode() {
+    return null;
   }
 }

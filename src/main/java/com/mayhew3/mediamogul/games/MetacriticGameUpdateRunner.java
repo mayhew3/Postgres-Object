@@ -7,6 +7,7 @@ import com.mayhew3.mediamogul.db.SQLConnection;
 import com.mayhew3.mediamogul.model.games.Game;
 import com.mayhew3.mediamogul.scheduler.UpdateRunner;
 import com.mayhew3.mediamogul.tv.helper.UpdateMode;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -47,7 +48,6 @@ public class MetacriticGameUpdateRunner implements UpdateRunner {
     List<String> argList = Lists.newArrayList(args);
     Boolean logToFile = argList.contains("LogToFile");
     ArgumentChecker argumentChecker = new ArgumentChecker(args);
-    String identifier = argumentChecker.getDBIdentifier();
     UpdateMode updateMode = UpdateMode.getUpdateModeOrDefault(argumentChecker, UpdateMode.UNMATCHED);
 
     if (logToFile) {
@@ -69,6 +69,11 @@ public class MetacriticGameUpdateRunner implements UpdateRunner {
   @Override
   public String getRunnerName() {
     return "Metacritic Game Updater";
+  }
+
+  @Override
+  public @Nullable UpdateMode getUpdateMode() {
+    return updateMode;
   }
 
   public void runUpdate() {

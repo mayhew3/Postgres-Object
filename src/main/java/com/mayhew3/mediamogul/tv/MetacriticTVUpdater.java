@@ -46,7 +46,6 @@ public class MetacriticTVUpdater implements UpdateRunner {
 
   public static void main(String... args) throws URISyntaxException, SQLException, MetacriticException {
     ArgumentChecker argumentChecker = new ArgumentChecker(args);
-    String identifier = argumentChecker.getDBIdentifier();
     UpdateMode updateMode = UpdateMode.getUpdateModeOrDefault(argumentChecker, UpdateMode.FULL);
 
     SQLConnection connection = PostgresConnectionFactory.createConnection(argumentChecker);
@@ -255,6 +254,11 @@ public class MetacriticTVUpdater implements UpdateRunner {
   @Override
   public String getRunnerName() {
     return "Metacritic TV Runner";
+  }
+
+  @Override
+  public @Nullable UpdateMode getUpdateMode() {
+    return updateMode;
   }
 
 }

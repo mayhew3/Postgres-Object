@@ -43,6 +43,11 @@ public class TVDBUpdateFinder implements UpdateRunner {
     return "TVDB Update Finder";
   }
 
+  @Override
+  public @Nullable UpdateMode getUpdateMode() {
+    return null;
+  }
+
   public void runUpdate() throws SQLException, UnirestException, AuthenticationException {
     Timestamp lastUpdateTime = getLastUpdateTime();
     Timestamp startTime = createStartTimeWithBuffer(lastUpdateTime);

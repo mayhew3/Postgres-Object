@@ -15,6 +15,7 @@ import com.mayhew3.mediamogul.xml.BadlyFormattedXMLException;
 import com.mayhew3.mediamogul.xml.JSONReader;
 import org.apache.http.auth.AuthenticationException;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -48,6 +49,11 @@ public class TVDBUpdateProcessor implements UpdateRunner {
   @Override
   public String getRunnerName() {
     return "TVDB Update Processor";
+  }
+
+  @Override
+  public @Nullable UpdateMode getUpdateMode() {
+    return null;
   }
 
   @SuppressWarnings("InfiniteLoopStatement")

@@ -7,6 +7,7 @@ import com.mayhew3.mediamogul.db.PostgresConnectionFactory;
 import com.mayhew3.mediamogul.db.SQLConnection;
 import com.mayhew3.mediamogul.games.*;
 import com.mayhew3.mediamogul.tv.*;
+import com.mayhew3.mediamogul.tv.helper.ConnectionLogger;
 import com.mayhew3.mediamogul.tv.helper.UpdateMode;
 import com.mayhew3.mediamogul.tv.provider.RemoteFileDownloader;
 import com.mayhew3.mediamogul.tv.provider.TVDBJWTProvider;
@@ -110,11 +111,11 @@ public class TaskScheduleRunner {
   }
 
   private void addPeriodicTask(UpdateRunner updateRunner, Integer minutesBetween) {
-    taskSchedules.add(new PeriodicTaskSchedule(updateRunner, minutesBetween));
+    taskSchedules.add(new PeriodicTaskSchedule(updateRunner, connection, minutesBetween));
   }
 
   private void addNightlyTask(UpdateRunner updateRunner) {
-    taskSchedules.add(new NightlyTaskSchedule(updateRunner, 1));
+    taskSchedules.add(new NightlyTaskSchedule(updateRunner, connection, 1));
   }
 
   @SuppressWarnings("InfiniteLoopStatement")
@@ -145,11 +146,18 @@ public class TaskScheduleRunner {
       for (TaskSchedule taskSchedule : eligibleTasks) {
         UpdateRunner updateRunner = taskSchedule.getUpdateRunner();
         try {
-          debug("Starting update for '" + updateRunner.getRunnerName() + "'");
+          ConnectionLogger connectionLogger = new ConnectionLogger(connection);
+
+          debug("Starting update for '" + updateRunner.getUniqueIdentifier() + "'");
+
+          connectionLogger.logConnectionStart(updateRunner);
           updateRunner.runUpdate();
-          debug("Update complete for '" + updateRunner.getRunnerName() + "'");
+          connectionLogger.logConnectionEnd();
+
+          debug("Update complete for '" + updateRunner.getUniqueIdentifier() + "'");
+
         } catch (Exception e) {
-          debug("Exception encountered during run of update '" + updateRunner.getRunnerName() + "'.");
+          debug("Exception encountered during run of update '" + updateRunner.getUniqueIdentifier() + "'.");
           e.printStackTrace();
         } finally {
           // mark the task as having been run, whether it succeeds or errors out.

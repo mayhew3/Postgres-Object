@@ -7,6 +7,7 @@ import com.mayhew3.mediamogul.db.PostgresConnectionFactory;
 import com.mayhew3.mediamogul.db.SQLConnection;
 import com.mayhew3.mediamogul.model.games.Game;
 import com.mayhew3.mediamogul.model.games.GameLog;
+import com.mayhew3.mediamogul.tv.helper.UpdateMode;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.json.JSONArray;
@@ -338,5 +339,10 @@ public class GiantBombUpdater implements UpdateRunner {
   @Override
   public String getRunnerName() {
     return "Giant Bomb Updater";
+  }
+
+  @Override
+  public @Nullable UpdateMode getUpdateMode() {
+    return null;
   }
 }

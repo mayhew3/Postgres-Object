@@ -18,6 +18,7 @@ import com.mayhew3.mediamogul.xml.JSONReaderImpl;
 import org.apache.commons.cli.*;
 import org.apache.http.auth.AuthenticationException;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -119,7 +120,12 @@ public class TVDBUpdateRunner implements UpdateRunner {
 
   @Override
   public String getRunnerName() {
-    return "TVDB Updater (" + updateMode + ")";
+    return "TVDB Updater";
+  }
+
+  @Override
+  public @Nullable UpdateMode getUpdateMode() {
+    return updateMode;
   }
 
   /**
@@ -142,9 +148,6 @@ public class TVDBUpdateRunner implements UpdateRunner {
   /**
    * Go to theTVDB and only update series that recently had their match confirmed by a user, but haven't yet updated their
    * episodes or series data.
-   *
-   * @throws SQLException if query to get series to update fails. Any one series update will not halt operation of the
-   *                    script, but if the query to find all the serieses fails, the operation can't continue.
    */
   private void runQuickUpdate() {
     String sql = "select * " +

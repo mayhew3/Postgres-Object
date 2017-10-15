@@ -55,7 +55,6 @@ public class TiVoLibraryUpdater {
     SQLConnection connection = PostgresConnectionFactory.createConnection(argumentChecker);
 
     ConnectionLogger logger = new ConnectionLogger(connection);
-    logger.initialize();
 
     logger.logConnectionStart(nightly);
 

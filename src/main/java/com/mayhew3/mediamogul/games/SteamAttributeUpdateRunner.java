@@ -6,6 +6,8 @@ import com.mayhew3.mediamogul.scheduler.UpdateRunner;
 import com.mayhew3.mediamogul.db.PostgresConnectionFactory;
 import com.mayhew3.mediamogul.db.SQLConnection;
 import com.mayhew3.mediamogul.model.games.Game;
+import com.mayhew3.mediamogul.tv.helper.UpdateMode;
+import org.jetbrains.annotations.Nullable;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.io.File;
@@ -104,6 +106,11 @@ public class SteamAttributeUpdateRunner implements UpdateRunner {
   @Override
   public String getRunnerName() {
     return "Steam Attribute Update Runner";
+  }
+
+  @Override
+  public @Nullable UpdateMode getUpdateMode() {
+    return null;
   }
 }
 

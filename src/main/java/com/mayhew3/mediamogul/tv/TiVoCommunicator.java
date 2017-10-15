@@ -69,7 +69,6 @@ public class TiVoCommunicator implements UpdateRunner {
     Boolean saveTiVoXML = argList.contains("SaveTiVoXML");
 
     ArgumentChecker argumentChecker = new ArgumentChecker(args);
-    String identifier = argumentChecker.getDBIdentifier();
     UpdateMode updateMode = UpdateMode.getUpdateModeOrDefault(argumentChecker, UpdateMode.QUICK);
 
     SQLConnection connection = PostgresConnectionFactory.createConnection(argumentChecker);
@@ -763,8 +762,12 @@ public class TiVoCommunicator implements UpdateRunner {
 
   @Override
   public String getRunnerName() {
-    String qualifier = isFullUpdate() ? "(Long)" : "(Short)";
-    return "TiVo Communicator " + qualifier;
+    return "TiVo Communicator";
+  }
+
+  @Override
+  public @Nullable UpdateMode getUpdateMode() {
+    return updateMode;
   }
 
 

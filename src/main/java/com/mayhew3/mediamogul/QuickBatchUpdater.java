@@ -75,12 +75,11 @@ public class QuickBatchUpdater {
     // RUN UPDATERS
 
     ConnectionLogger logger = new ConnectionLogger(connection);
-    logger.initialize();
 
     logger.logConnectionStart(false);
 
     for (UpdateRunner updateRunner : updateRunners) {
-      String runnerName = updateRunner.getRunnerName();
+      String runnerName = updateRunner.getUniqueIdentifier();
       debug("Beginning execution of updater '" + runnerName + "'");
 
       try {

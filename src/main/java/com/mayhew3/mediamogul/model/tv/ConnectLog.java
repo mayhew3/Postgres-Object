@@ -16,6 +16,9 @@ public class ConnectLog extends DataObject {
   public FieldValueInteger timeConnected = registerIntegerField("time_connected", Nullability.NULLABLE);
   public FieldValueInteger updatedShows = registerIntegerField("updated_shows", Nullability.NULLABLE);
 
+  public FieldValueString taskName = registerStringField("task_name", Nullability.NOT_NULL).defaultValue("Legacy");
+  public FieldValueString taskMode = registerStringField("task_mode", Nullability.NULLABLE).defaultValue("Quick");
+
   public FieldValueBoolean fastUpdate = registerBooleanField("fast_update", Nullability.NOT_NULL).defaultValue(true);
 
   @Override
