@@ -1,6 +1,8 @@
 package com.mayhew3.mediamogul.model.tv;
 
 import com.mayhew3.mediamogul.dataobject.DataSchema;
+import com.mayhew3.mediamogul.model.Person;
+import com.mayhew3.mediamogul.model.PersonRole;
 
 public class TVSchema {
 
@@ -13,6 +15,8 @@ public class TVSchema {
       new ErrorLog(),
       new Genre(),
       new Movie(),
+      new Person(),
+      new PersonRole(),
       new PossibleSeriesMatch(),
       new PossibleEpisodeMatch(),
       new Season(),
