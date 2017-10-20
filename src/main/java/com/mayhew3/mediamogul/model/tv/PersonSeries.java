@@ -1,9 +1,6 @@
 package com.mayhew3.mediamogul.model.tv;
 
-import com.mayhew3.mediamogul.dataobject.FieldValueForeignKey;
-import com.mayhew3.mediamogul.dataobject.FieldValueInteger;
-import com.mayhew3.mediamogul.dataobject.Nullability;
-import com.mayhew3.mediamogul.dataobject.RetireableDataObject;
+import com.mayhew3.mediamogul.dataobject.*;
 import com.mayhew3.mediamogul.model.Person;
 
 public class PersonSeries extends RetireableDataObject {
@@ -13,6 +10,8 @@ public class PersonSeries extends RetireableDataObject {
 
   FieldValueInteger rating = registerIntegerField("rating", Nullability.NULLABLE);
   FieldValueInteger tier = registerIntegerField("tier", Nullability.NOT_NULL).defaultValue(1);
+
+  FieldValueBoolean disavowed = registerBooleanField("disavowed", Nullability.NOT_NULL).defaultValue(false);
 
 
   PersonSeries() {
