@@ -11,6 +11,8 @@ public class PersonSeries extends RetireableDataObject {
   FieldValueInteger rating = registerIntegerField("rating", Nullability.NULLABLE);
   FieldValueInteger tier = registerIntegerField("tier", Nullability.NOT_NULL).defaultValue(1);
 
+  FieldValueTimestamp ratingDate = registerTimestampField("rating_date", Nullability.NULLABLE);
+
   PersonSeries() {
     addUniqueConstraint(seriesId, personId);
   }
