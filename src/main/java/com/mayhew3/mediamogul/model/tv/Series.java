@@ -22,7 +22,7 @@ public class Series extends RetireableDataObject {
   public FieldValueString seriesTitle = registerStringField("title", Nullability.NULLABLE);
   public FieldValueInteger tier = registerIntegerField("tier", Nullability.NULLABLE, IntegerSize.SMALLINT);
   public FieldValueInteger metacritic = registerIntegerField("metacritic", Nullability.NULLABLE, IntegerSize.SMALLINT);
-  public FieldValueInteger my_rating = registerIntegerField("my_rating", Nullability.NULLABLE, IntegerSize.SMALLINT);
+  public FieldValueInteger mayhewRating = registerIntegerField("mayhew_rating", Nullability.NULLABLE, IntegerSize.SMALLINT);
 
   public FieldValueString tivoSeriesExtId = registerStringField("tivo_series_ext_id", Nullability.NULLABLE);
   public FieldValueString tivoSeriesV2ExtId = registerStringField("tivo_series_v2_ext_id", Nullability.NULLABLE);
