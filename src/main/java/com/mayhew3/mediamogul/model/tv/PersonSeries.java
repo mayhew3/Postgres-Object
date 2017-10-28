@@ -13,6 +13,12 @@ public class PersonSeries extends RetireableDataObject {
 
   FieldValueTimestamp ratingDate = registerTimestampField("rating_date", Nullability.NULLABLE);
 
+  /* WATCHED DENORMS */
+  public FieldValueInteger unwatchedEpisodes = registerIntegerField("unwatched_episodes", Nullability.NOT_NULL).defaultValue(0);
+  public FieldValueInteger unwatchedStreaming = registerIntegerField("unwatched_streaming", Nullability.NOT_NULL).defaultValue(0);
+  public FieldValueTimestamp firstUnwatched = registerTimestampField("first_unwatched", Nullability.NULLABLE);
+  public FieldValueTimestamp lastUnwatched = registerTimestampField("last_unwatched", Nullability.NULLABLE);
+
   PersonSeries() {
     addUniqueConstraint(seriesId, personId);
   }
