@@ -54,6 +54,10 @@ public class SeriesDenormUpdater implements UpdateRunner {
     updateStreamingEpisodes();
     updateUnwatchedStreaming();
 
+    updateMyUnwatchedEpisodes();
+    updateMyFirstUnwatched();
+    updateMyLastUnwatched();
+
     debug("Done updating denorms.");
   }
 
@@ -298,6 +302,54 @@ public class SeriesDenormUpdater implements UpdateRunner {
             "                            and te.retired = ? " +
             "                            and te.ignore_matching = ?)",
         0, false);
+  }
+
+  private void updateMyUnwatchedEpisodes() throws SQLException {
+    debug("- My Unwatched");
+    connection.prepareAndExecuteStatementUpdate(
+        "UPDATE person_series\n" +
+            "SET unwatched_episodes = (SELECT count(1)\n" +
+            "                          FROM episode e\n" +
+            "                          WHERE e.retired = 0\n" +
+            "                          AND e.series_id = person_series.series_id\n" +
+            "                          AND e.air_time < now()\n" +
+            "                          AND e.season <> ? \n" +
+            "                          AND e.id NOT IN (SELECT er.episode_id\n" +
+            "                                             FROM episode_rating er\n" +
+            "                                             WHERE er.person_id = person_series.person_id));",
+        0);
+  }
+
+  private void updateMyFirstUnwatched() throws SQLException {
+    debug("- My First Unwatched");
+    connection.prepareAndExecuteStatementUpdate(
+        "UPDATE person_series\n" +
+            "SET first_unwatched = (SELECT MIN(e.air_time)\n" +
+            "                      FROM episode e\n" +
+            "                      WHERE e.series_id = person_series.series_id\n" +
+            "                      AND e.air_time < now()\n" +
+            "                      AND e.season <> ?\n" +
+            "                      AND e.retired = ?\n" +
+            "                      AND e.id NOT IN (SELECT er.episode_id\n" +
+            "                                             FROM episode_rating er\n" +
+            "                                             WHERE er.person_id = person_series.person_id));",
+        0, 0);
+  }
+
+  private void updateMyLastUnwatched() throws SQLException {
+    debug("- My Last Unwatched");
+    connection.prepareAndExecuteStatementUpdate(
+        "UPDATE person_series\n" +
+            "SET last_unwatched = (SELECT MAX(e.air_time)\n" +
+            "                      FROM episode e\n" +
+            "                      WHERE e.series_id = person_series.series_id\n" +
+            "                      AND e.air_time < now()\n" +
+            "                      AND e.season <> ?\n" +
+            "                      AND e.retired = ?\n" +
+            "                      AND e.id NOT IN (SELECT er.episode_id\n" +
+            "                                             FROM episode_rating er\n" +
+            "                                             WHERE er.person_id = person_series.person_id));",
+        0, 0);
   }
 
 
