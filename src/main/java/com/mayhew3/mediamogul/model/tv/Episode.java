@@ -187,12 +187,13 @@ public class Episode extends RetireableDataObject {
     String sql = "select *\n" +
         "from episode_rating\n" +
         "where episode_id = ?\n" +
+        "and person_id = ? " +
         cutoffClause +
         "order by date_added desc";
 
     ResultSet resultSet = ratingCutoff.isPresent() ?
-        connection.prepareAndExecuteStatementFetch(sql, id.getValue(), ratingCutoff.get()) :
-        connection.prepareAndExecuteStatementFetch(sql, id.getValue());
+        connection.prepareAndExecuteStatementFetch(sql, id.getValue(), 1, ratingCutoff.get()) :
+        connection.prepareAndExecuteStatementFetch(sql, id.getValue(), 1);
 
     if (resultSet.next()) {
       EpisodeRating episodeRating = new EpisodeRating();

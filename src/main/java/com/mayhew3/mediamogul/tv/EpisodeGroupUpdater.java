@@ -47,9 +47,13 @@ public class EpisodeGroupUpdater implements UpdateRunner {
         "from episode e\n" +
         "inner join series s\n" +
         " on e.series_id = s.id\n" +
+        "inner join episode_rating er " +
+        " on er.episode_id = e.id " +
         "where e.air_date between ? and ?\n" +
-        "and e.watched = ?\n" +
+        "and er.watched = ?\n" +
         "and e.retired = ?\n" +
+        "and er.retired = ? " +
+        "and er.person_id = ? " +
         "group by s.id";
 
 //    DateTime dateTime = new DateTime(2016, 1, 1, 0, 0, 0);
@@ -61,7 +65,7 @@ public class EpisodeGroupUpdater implements UpdateRunner {
 
     Timestamp lastWatchDate = new Timestamp(new DateTime(2017, 1, 11, 0, 0, 0).toDate().getTime());
 
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, startDate, endDate, true, 0);
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, startDate, endDate, true, 0, 0, 1);
 
     while (resultSet.next()) {
       Series series = new Series();
@@ -103,14 +107,14 @@ public class EpisodeGroupUpdater implements UpdateRunner {
 
   private Integer getNumberOfRatedEpisodes(List<EpisodeInfo> episodeInfos) {
     return episodeInfos.stream()
-        .filter(episodeInfo -> episodeInfo.episodeRating != null)
+        .filter(episodeInfo -> (episodeInfo.episodeRating != null && episodeInfo.episodeRating.ratingValue.getValue() != null))
         .collect(Collectors.toList())
         .size();
   }
 
   private Integer getNumberOfWatchedEpisodes(List<EpisodeInfo> episodeInfos) {
     return episodeInfos.stream()
-        .filter(episodeInfo -> episodeInfo.episode.watched.getValue())
+        .filter(episodeInfo -> (episodeInfo.episodeRating != null && episodeInfo.episodeRating.watched.getValue()))
         .collect(Collectors.toList())
         .size();
   }
@@ -118,7 +122,7 @@ public class EpisodeGroupUpdater implements UpdateRunner {
   private Integer getNumberOfAiredEpisodes(List<EpisodeInfo> episodeInfos) {
     Timestamp now = new Timestamp(new Date().getTime());
     return episodeInfos.stream()
-        .filter(episodeInfo -> episodeInfo.episode.airDate.getValue().before(now))
+        .filter(episodeInfo -> episodeInfo.episode.airTime.getValue().before(now))
         .collect(Collectors.toList())
         .size();
   }
@@ -193,6 +197,7 @@ public class EpisodeGroupUpdater implements UpdateRunner {
         .map(episodeInfo -> episodeInfo.episodeRating)
         .filter(Objects::nonNull)
         .map(episodeRating -> episodeRating.ratingValue.getValue())
+        .filter(Objects::nonNull)
         .collect(Collectors.toList());
 
     if (ratings.isEmpty()) {
@@ -271,6 +276,7 @@ public class EpisodeGroupUpdater implements UpdateRunner {
         .map(episodeInfo -> episodeInfo.episodeRating)
         .filter(Objects::nonNull)
         .map(episodeRating -> episodeRating.ratingValue.getValue())
+        .filter(Objects::nonNull)
         .reduce(BigDecimal::max);
     return max.isPresent() ? max.get() : null;
   }
