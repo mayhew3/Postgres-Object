@@ -316,8 +316,9 @@ public class SeriesDenormUpdater implements UpdateRunner {
             "                          AND e.season <> ? \n" +
             "                          AND e.id NOT IN (SELECT er.episode_id\n" +
             "                                             FROM episode_rating er\n" +
-            "                                             WHERE er.person_id = person_series.person_id));",
-        0);
+            "                                             WHERE er.person_id = person_series.person_id " +
+            "                                             AND er.watched = ?));",
+        0, true);
   }
 
   private void updateMyFirstUnwatched() throws SQLException {
@@ -332,8 +333,9 @@ public class SeriesDenormUpdater implements UpdateRunner {
             "                      AND e.retired = ?\n" +
             "                      AND e.id NOT IN (SELECT er.episode_id\n" +
             "                                             FROM episode_rating er\n" +
-            "                                             WHERE er.person_id = person_series.person_id));",
-        0, 0);
+            "                                             WHERE er.person_id = person_series.person_id " +
+            "                                             AND er.watched = ?));",
+        0, 0, true);
   }
 
   private void updateMyLastUnwatched() throws SQLException {
@@ -348,8 +350,9 @@ public class SeriesDenormUpdater implements UpdateRunner {
             "                      AND e.retired = ?\n" +
             "                      AND e.id NOT IN (SELECT er.episode_id\n" +
             "                                             FROM episode_rating er\n" +
-            "                                             WHERE er.person_id = person_series.person_id));",
-        0, 0);
+            "                                             WHERE er.person_id = person_series.person_id " +
+            "                                             AND er.watched = ?));",
+        0, 0, true);
   }
 
 

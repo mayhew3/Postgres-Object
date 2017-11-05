@@ -1,5 +1,5 @@
 setlocal
-set fullBackupPath=D:\Projects\mean_projects\backups_postgres_heroku\2017_04_19_3_45
+set fullBackupPath=%BACKUP_DIR_HEROKU%\2016_11_23_17_50
 
 set PGPASSFILE=%postgres_pgpass_local%
 echo %PGPASSFILE%
