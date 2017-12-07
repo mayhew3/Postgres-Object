@@ -83,6 +83,7 @@ public class EpisodeGroupUpdater implements UpdateRunner {
       groupRating.aired.changeValue(getNumberOfAiredEpisodes(episodeInfos));
 
       groupRating.lastAired.changeValue(getLastAired(episodeInfos));
+      groupRating.nextAirDate.changeValue(getNextAirDate(episodeInfos));
 
       groupRating.avgRating.changeValue(getAvgRating(episodeInfos));
       groupRating.maxRating.changeValue(getMaxRating(episodeInfos));
@@ -133,6 +134,17 @@ public class EpisodeGroupUpdater implements UpdateRunner {
     Comparator<EpisodeInfo> byAirDate = Comparator.comparing(a -> a.episode.airDate.getValue());
     Optional<Timestamp> first = episodeInfos.stream()
         .sorted(byAirDate.reversed())
+        .map(episodeInfo -> episodeInfo.episode.airDate.getValue())
+        .findFirst();
+    return first.isPresent() ? first.get() : null;
+  }
+
+  @Nullable
+  private Timestamp getNextAirDate(List<EpisodeInfo> episodeInfos) {
+    Comparator<EpisodeInfo> byAirDate = Comparator.comparing(a -> a.episode.airDate.getValue());
+    Optional<Timestamp> first = episodeInfos.stream()
+        .filter(episodeInfo -> episodeInfo.episodeRating == null || !episodeInfo.episodeRating.watched.getValue())
+        .sorted(byAirDate)
         .map(episodeInfo -> episodeInfo.episode.airDate.getValue())
         .findFirst();
     return first.isPresent() ? first.get() : null;

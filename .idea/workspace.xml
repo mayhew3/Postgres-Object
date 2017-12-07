@@ -2,9 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1e099498-ec9e-4703-ab18-cce3963e4d0c" name="Default" comment="Move annotation directory">
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/model/tv/TVSchemaLocalTest.java" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/EpisodeGroupRating.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/EpisodeGroupRating.java" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/EpisodeGroupUpdater.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/EpisodeGroupUpdater.java" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBSeriesMatchRunner.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBSeriesMatchRunner.java" />
     </list>
@@ -105,21 +102,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="EpisodeGroupUpdater.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="EpisodeGroupUpdater.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/EpisodeGroupUpdater.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="341">
-              <caret line="83" column="0" lean-forward="true" selection-start-line="83" selection-start-column="0" selection-end-line="83" selection-end-column="0" />
+            <state relative-caret-position="542">
+              <caret line="150" column="3" lean-forward="true" selection-start-line="150" selection-start-column="3" selection-end-line="150" selection-end-column="3" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TVSchemaHerokuTest.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="TVSchemaHerokuTest.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/model/tv/TVSchemaHerokuTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="532">
-              <caret line="37" column="3" lean-forward="true" selection-start-line="37" selection-start-column="3" selection-end-line="37" selection-end-column="3" />
+            <state relative-caret-position="570">
+              <caret line="39" column="1" lean-forward="true" selection-start-line="39" selection-start-column="1" selection-end-line="39" selection-end-column="1" />
               <folding />
             </state>
           </provider>
@@ -596,8 +593,8 @@
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/SeriesDenormUpdater.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBSeriesMatchRunner.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/EpisodeGroupRating.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/EpisodeGroupUpdater.java" />
         <option value="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/model/tv/TVSchemaLocalTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/EpisodeGroupUpdater.java" />
       </list>
     </option>
   </component>
@@ -782,7 +779,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.TVSchemaHerokuTest.testHerokuSchemaUpToDate">
+  <component name="RunManager" selected="Application.EpisodeGroupUpdater (test)">
     <configuration name="DaylightSavingCorrector (Heroku)" type="Application" factoryName="Application" folderName="Utilities">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.utility.DaylightSavingCorrector" />
@@ -3258,14 +3255,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/EpisodeGroupUpdater.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="341">
-          <caret line="83" column="0" lean-forward="true" selection-start-line="83" selection-start-column="0" selection-end-line="83" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/model/tv/TVSchemaLocalTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="570">
@@ -3276,8 +3265,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/model/tv/TVSchemaHerokuTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="532">
-          <caret line="37" column="3" lean-forward="true" selection-start-line="37" selection-start-column="3" selection-end-line="37" selection-end-column="3" />
+        <state relative-caret-position="570">
+          <caret line="39" column="1" lean-forward="true" selection-start-line="39" selection-start-column="1" selection-end-line="39" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/EpisodeGroupUpdater.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="542">
+          <caret line="150" column="3" lean-forward="true" selection-start-line="150" selection-start-column="3" selection-end-line="150" selection-end-column="3" />
           <folding />
         </state>
       </provider>
