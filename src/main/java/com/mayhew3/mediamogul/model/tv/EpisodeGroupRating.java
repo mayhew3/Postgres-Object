@@ -12,6 +12,7 @@ public class EpisodeGroupRating extends RetireableDataObject {
   public FieldValueTimestamp endDate = registerTimestampField("end_date", Nullability.NOT_NULL);
   public FieldValueTimestamp lastAired = registerTimestampField("last_aired", Nullability.NULLABLE);
   public FieldValueTimestamp nextAirDate = registerTimestampField("next_air_date", Nullability.NULLABLE);
+  public FieldValueTimestamp reviewUpdateDate = registerTimestampField("review_update_date", Nullability.NULLABLE);
 
   public FieldValueBigDecimal avgRating = registerBigDecimalField("avg_rating", Nullability.NULLABLE);
   public FieldValueBigDecimal maxRating = registerBigDecimalField("max_rating", Nullability.NULLABLE);
@@ -26,6 +27,7 @@ public class EpisodeGroupRating extends RetireableDataObject {
   public FieldValueInteger watched = registerIntegerField("watched", Nullability.NOT_NULL);
   public FieldValueInteger rated = registerIntegerField("rated", Nullability.NOT_NULL);
   public FieldValueInteger aired = registerIntegerField("aired", Nullability.NOT_NULL);
+  public FieldValueInteger postUpdateEpisodes = registerIntegerField("post_update_episodes", Nullability.NOT_NULL);
 
   public FieldValueBigDecimal rating = registerBigDecimalField("rating", Nullability.NULLABLE);
 
