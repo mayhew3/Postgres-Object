@@ -2,7 +2,6 @@ package com.mayhew3.mediamogul.tv.blog;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.mayhew3.mediamogul.ArgumentChecker;
 import com.mayhew3.mediamogul.db.PostgresConnectionFactory;
 import com.mayhew3.mediamogul.db.SQLConnection;
@@ -10,7 +9,6 @@ import com.mayhew3.mediamogul.model.tv.Episode;
 import com.mayhew3.mediamogul.model.tv.EpisodeGroupRating;
 import com.mayhew3.mediamogul.model.tv.EpisodeRating;
 import com.mayhew3.mediamogul.model.tv.Series;
-import com.mayhew3.mediamogul.tv.EpisodeGroupUpdater;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -24,7 +22,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class BlogRankingsCreator {
@@ -124,6 +125,7 @@ public class BlogRankingsCreator {
     return totalShows;
   }
 
+  @SuppressWarnings("ConstantConditions")
   private String getExportForSeries(BlogTemplatePrinter blogTemplatePrinter, EpisodeGroupRating episodeGroupRating, Integer currentRanking) throws SQLException {
     blogTemplatePrinter.clearMappings();
 
@@ -138,6 +140,7 @@ public class BlogRankingsCreator {
     List<EpisodeInfo> episodeInfos = getEligibleEpisodeInfos(episodeGroupRating);
 
     EpisodeInfo bestEpisode = getBestEpisode(episodeGroupRating, episodeInfos);
+
     BigDecimal bestEpisodeRating = bestEpisode.episodeRating.ratingValue.getValue();
 
     blogTemplatePrinter.addMapping("POSTER_FILENAME", series.poster.getValue());
