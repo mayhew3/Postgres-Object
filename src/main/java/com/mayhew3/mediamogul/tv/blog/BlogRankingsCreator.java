@@ -73,14 +73,13 @@ public class BlogRankingsCreator {
         "WHERE year = ? " +
         "AND retired = ? " +
         "AND aired > ? " +
-        "AND review IS NOT NULL " +
         "AND aired = watched ";
 
     Integer totalShows = getSeriesCount(reusableJoins);
 
     String fullSql = "SELECT * " +
         reusableJoins +
-        "ORDER BY rating ASC ";
+        "ORDER BY coalesce(rating, suggested_rating)  ASC ";
 
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(fullSql, 2017, 0, 0);
 
@@ -118,10 +117,14 @@ public class BlogRankingsCreator {
 
     Series series = getSeries(episodeGroupRating);
 
+    BigDecimal effectiveRating = episodeGroupRating.rating.getValue() == null ?
+        episodeGroupRating.suggestedRating.getValue() :
+        episodeGroupRating.rating.getValue();
+
     blogTemplatePrinter.addMapping("POSTER_FILENAME", series.poster.getValue());
     blogTemplatePrinter.addMapping("RANKING_VALUE", Integer.toString(currentRanking));
-    blogTemplatePrinter.addMapping("RATING_COLOR", "#8da136");
-    blogTemplatePrinter.addMapping("RATING_VALUE", episodeGroupRating.rating.getValue().toString());
+    blogTemplatePrinter.addMapping("RATING_COLOR", getHSLAMethod(effectiveRating));
+    blogTemplatePrinter.addMapping("RATING_VALUE", effectiveRating.toString());
     blogTemplatePrinter.addMapping("SERIES_NAME", series.seriesTitle.getValue());
     blogTemplatePrinter.addMapping("SEASONS_TEXT", "Seasons 9/10");
     blogTemplatePrinter.addMapping("EPISODE_COUNT", Integer.toString(episodeGroupRating.aired.getValue()));
@@ -148,5 +151,26 @@ public class BlogRankingsCreator {
     } else {
       throw new IllegalStateException("No series found with id: " + episodeGroupRating.seriesId.getValue() + ", linked to EpisodeGroupRating id: " + episodeGroupRating.id.getValue());
     }
+  }
+
+  private String getHSLAMethod(BigDecimal value) {
+    BigDecimal hue = getHue(value);
+    String saturation = (value == null) ? "0%" : "50%";
+    return "hsla(" + hue + ", " + saturation + ", 42%, 1)";
+  }
+
+  private BigDecimal getHue(BigDecimal value) {
+    if (value == null) {
+      return BigDecimal.ZERO;
+    }
+
+    BigDecimal fifty = BigDecimal.valueOf(50);
+    BigDecimal half = BigDecimal.valueOf(.5);
+
+    // matches javascript code from seriesDetailController
+    return
+        (value.compareTo(fifty) <= 0) ?
+        value.multiply(half) :
+        (fifty.multiply(half).add((value.subtract(fifty).multiply(BigDecimal.valueOf(4.5)))));
   }
 }

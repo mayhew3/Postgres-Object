@@ -9,13 +9,13 @@ public class BlogTemplatePrinter {
   private Map<String, String> tagMappings;
   private String inputTemplate;
 
-  public BlogTemplatePrinter(String inputTemplate) {
+  BlogTemplatePrinter(String inputTemplate) {
     this.tagMappings = Maps.newHashMap();
     this.inputTemplate = inputTemplate;
   }
 
   public void addMapping(String tagName, String tagValue) {
-    tagMappings.put(tagName, tagValue);
+    tagMappings.put(tagName, tagValue == null ? "" : tagValue);
   }
 
   public void clearMappings() {
