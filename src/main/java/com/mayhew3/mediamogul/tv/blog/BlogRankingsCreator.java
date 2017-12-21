@@ -1,11 +1,16 @@
 package com.mayhew3.mediamogul.tv.blog;
 
+import com.google.common.collect.Maps;
 import com.mayhew3.mediamogul.ArgumentChecker;
 import com.mayhew3.mediamogul.db.PostgresConnectionFactory;
 import com.mayhew3.mediamogul.db.SQLConnection;
+import com.mayhew3.mediamogul.model.tv.Episode;
 import com.mayhew3.mediamogul.model.tv.EpisodeGroupRating;
+import com.mayhew3.mediamogul.model.tv.EpisodeRating;
 import com.mayhew3.mediamogul.model.tv.Series;
+import com.mayhew3.mediamogul.tv.EpisodeGroupUpdater;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -17,7 +22,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class BlogRankingsCreator {
 
@@ -121,6 +130,11 @@ public class BlogRankingsCreator {
         episodeGroupRating.suggestedRating.getValue() :
         episodeGroupRating.rating.getValue();
 
+    List<EpisodeInfo> episodeInfos = getEligibleEpisodeInfos(episodeGroupRating);
+
+    EpisodeInfo bestEpisode = getBestEpisode(episodeGroupRating, episodeInfos);
+    BigDecimal bestEpisodeRating = bestEpisode.episodeRating.ratingValue.getValue();
+
     blogTemplatePrinter.addMapping("POSTER_FILENAME", series.poster.getValue());
     blogTemplatePrinter.addMapping("RANKING_VALUE", Integer.toString(currentRanking));
     blogTemplatePrinter.addMapping("RATING_COLOR", getHSLAMethod(effectiveRating));
@@ -128,13 +142,69 @@ public class BlogRankingsCreator {
     blogTemplatePrinter.addMapping("SERIES_NAME", series.seriesTitle.getValue());
     blogTemplatePrinter.addMapping("SEASONS_TEXT", "Seasons 9/10");
     blogTemplatePrinter.addMapping("EPISODE_COUNT", Integer.toString(episodeGroupRating.aired.getValue()));
-    blogTemplatePrinter.addMapping("FEATURED_RATING_COLOR", "#36a194");
-    blogTemplatePrinter.addMapping("FEATURED_RATING_VALUE", "82");
-    blogTemplatePrinter.addMapping("FEATURED_EPISODE_NUMBER", "10x11");
-    blogTemplatePrinter.addMapping("FEATURED_EPISODE_TITLE", "She's Got Talent");
+    blogTemplatePrinter.addMapping("FEATURED_RATING_COLOR", getHSLAMethod(bestEpisodeRating));
+    blogTemplatePrinter.addMapping("FEATURED_RATING_VALUE", bestEpisodeRating.toString());
+    blogTemplatePrinter.addMapping("FEATURED_EPISODE_NUMBER", bestEpisode.episode.getSeason() + "x" + bestEpisode.episode.episodeNumber.getValue());
+    blogTemplatePrinter.addMapping("FEATURED_EPISODE_TITLE", bestEpisode.episode.title.getValue());
     blogTemplatePrinter.addMapping("REVIEW_TEXT", episodeGroupRating.review.getValue());
 
     return blogTemplatePrinter.createCombinedExport();
+  }
+
+  @NotNull
+  private BlogRankingsCreator.EpisodeInfo getBestEpisode(EpisodeGroupRating episodeGroupRating, List<EpisodeInfo> episodeInfos) {
+    Optional<EpisodeInfo> first = episodeInfos.stream()
+        .filter(episodeInfo -> episodeInfo.episodeRating != null &&
+            episodeGroupRating.maxRating.getValue().equals(episodeInfo.episodeRating.ratingValue.getValue()))
+        .findFirst();
+
+    if (!first.isPresent()) {
+      throw new IllegalStateException("No episode found with max rating!");
+    }
+
+    return first.get();
+  }
+
+  private List<EpisodeInfo> getEligibleEpisodeInfos(EpisodeGroupRating groupRating) throws SQLException {
+    String sql = "select *\n" +
+        "from episode\n" +
+        "where air_date between ? and ?\n" +
+        "and series_id = ?\n" +
+        "and season <> ? \n" +
+        "and retired = ?\n" +
+        "order by air_date";
+
+    List<Episode> episodes = new ArrayList<>();
+
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, groupRating.startDate.getValue(), groupRating.endDate.getValue(), groupRating.seriesId.getValue(), 0, 0);
+
+    while (resultSet.next()) {
+      Episode episode = new Episode();
+      episode.initializeFromDBObject(resultSet);
+
+      episodes.add(episode);
+    }
+
+    return populateInfos(episodes);
+  }
+
+  private List<EpisodeInfo> populateInfos(List<Episode> episodes) throws SQLException {
+    List<EpisodeInfo> infos = new ArrayList<>();
+    for (Episode episode : episodes) {
+      infos.add(new EpisodeInfo(episode));
+    }
+    return infos;
+  }
+
+  private class EpisodeInfo {
+    Episode episode;
+    @Nullable EpisodeRating episodeRating;
+
+    EpisodeInfo(Episode episode) throws SQLException {
+      this.episode = episode;
+      this.episodeRating = episode.getMostRecentRating(connection, Optional.empty());
+    }
+
   }
 
   private Series getSeries(EpisodeGroupRating episodeGroupRating) throws SQLException {
