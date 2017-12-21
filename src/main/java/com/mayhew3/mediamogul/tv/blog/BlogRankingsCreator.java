@@ -3,11 +3,14 @@ package com.mayhew3.mediamogul.tv.blog;
 import com.mayhew3.mediamogul.ArgumentChecker;
 import com.mayhew3.mediamogul.db.PostgresConnectionFactory;
 import com.mayhew3.mediamogul.db.SQLConnection;
+import com.mayhew3.mediamogul.model.tv.EpisodeGroupRating;
 import com.mayhew3.mediamogul.model.tv.Series;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -66,37 +69,84 @@ public class BlogRankingsCreator {
 
     BlogTemplatePrinter blogTemplatePrinter = new BlogTemplatePrinter(templateContents);
 
-    String sql = "SELECT * " +
-        "FROM series " +
-        "WHERE title = ?";
+    String reusableJoins = "FROM episode_group_rating " +
+        "WHERE year = ? " +
+        "AND retired = ? " +
+        "AND aired > ? " +
+        "AND review IS NOT NULL " +
+        "AND aired = watched ";
 
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, "Halt and Catch Fire");
+    Integer totalShows = getSeriesCount(reusableJoins);
+
+    String fullSql = "SELECT * " +
+        reusableJoins +
+        "ORDER BY rating ASC ";
+
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(fullSql, 2017, 0, 0);
+
+    Integer currentRanking = totalShows;
+
     while (resultSet.next()) {
-      Series series = new Series();
-      series.initializeFromDBObject(resultSet);
+      EpisodeGroupRating episodeGroupRating = new EpisodeGroupRating();
+      episodeGroupRating.initializeFromDBObject(resultSet);
 
-      export.append(getExportForSeries(blogTemplatePrinter, series));
+      export.append(getExportForSeries(blogTemplatePrinter, episodeGroupRating, currentRanking));
+      export.append("<br>");
+
+      currentRanking--;
     }
 
     return export.toString();
   }
 
-  private String getExportForSeries(BlogTemplatePrinter blogTemplatePrinter, Series series) {
+  @NotNull
+  private Integer getSeriesCount(String reusableJoins) throws SQLException {
+    String countSql = "SELECT COUNT(1) as series_count " +
+        reusableJoins;
+
+    ResultSet resultSet1 = connection.prepareAndExecuteStatementFetch(countSql, 2017, 0, 0);
+
+    Integer totalShows = 0;
+    if (resultSet1.next()) {
+      totalShows = resultSet1.getInt("series_count");
+    }
+    return totalShows;
+  }
+
+  private String getExportForSeries(BlogTemplatePrinter blogTemplatePrinter, EpisodeGroupRating episodeGroupRating, Integer currentRanking) throws SQLException {
     blogTemplatePrinter.clearMappings();
 
+    Series series = getSeries(episodeGroupRating);
+
     blogTemplatePrinter.addMapping("POSTER_FILENAME", series.poster.getValue());
-    blogTemplatePrinter.addMapping("RANKING_VALUE", "34");
+    blogTemplatePrinter.addMapping("RANKING_VALUE", Integer.toString(currentRanking));
     blogTemplatePrinter.addMapping("RATING_COLOR", "#8da136");
-    blogTemplatePrinter.addMapping("RATING_VALUE", "67.9");
+    blogTemplatePrinter.addMapping("RATING_VALUE", episodeGroupRating.rating.getValue().toString());
     blogTemplatePrinter.addMapping("SERIES_NAME", series.seriesTitle.getValue());
     blogTemplatePrinter.addMapping("SEASONS_TEXT", "Seasons 9/10");
-    blogTemplatePrinter.addMapping("EPISODE_COUNT", "12");
+    blogTemplatePrinter.addMapping("EPISODE_COUNT", Integer.toString(episodeGroupRating.aired.getValue()));
     blogTemplatePrinter.addMapping("FEATURED_RATING_COLOR", "#36a194");
     blogTemplatePrinter.addMapping("FEATURED_RATING_VALUE", "82");
     blogTemplatePrinter.addMapping("FEATURED_EPISODE_NUMBER", "10x11");
     blogTemplatePrinter.addMapping("FEATURED_EPISODE_TITLE", "She's Got Talent");
-    blogTemplatePrinter.addMapping("REVIEW_TEXT", "See my review for last season, which still mostly applies. It honestly feels like there are these moments, outside of the control of the writers themselves, that for whatever reason, be it momentary inspiration from one of the actors, an especially caffeinated day from the director... but against all odds, these moments just work. And brilliantly. A couple of my biggest laughs this year were to this show. One moment almost brought me to tears. And the other 98% of the content hurt me and made me feel ugly. I'm almost interested in this as a human experiment, to see how much torture I will put myself through for the glimmer of hope for one of those moments. This show isn't good.");
+    blogTemplatePrinter.addMapping("REVIEW_TEXT", episodeGroupRating.review.getValue());
 
     return blogTemplatePrinter.createCombinedExport();
+  }
+
+  private Series getSeries(EpisodeGroupRating episodeGroupRating) throws SQLException {
+    String sql = "SELECT * " +
+        "FROM series " +
+        "WHERE id = ? ";
+
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, episodeGroupRating.seriesId.getValue());
+    if (resultSet.next()) {
+      Series series = new Series();
+      series.initializeFromDBObject(resultSet);
+
+      return series;
+    } else {
+      throw new IllegalStateException("No series found with id: " + episodeGroupRating.seriesId.getValue() + ", linked to EpisodeGroupRating id: " + episodeGroupRating.id.getValue());
+    }
   }
 }
