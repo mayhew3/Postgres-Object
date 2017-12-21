@@ -1,5 +1,7 @@
 package com.mayhew3.mediamogul.tv.blog;
 
+import com.google.common.base.Joiner;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.mayhew3.mediamogul.ArgumentChecker;
 import com.mayhew3.mediamogul.db.PostgresConnectionFactory;
@@ -22,10 +24,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class BlogRankingsCreator {
@@ -84,7 +83,11 @@ public class BlogRankingsCreator {
         "AND aired > ? " +
         "AND aired = watched ";
 
+    debug("Getting series count...");
+
     Integer totalShows = getSeriesCount(reusableJoins);
+
+    debug("Done. Processing series...");
 
     String fullSql = "SELECT * " +
         reusableJoins +
@@ -126,6 +129,8 @@ public class BlogRankingsCreator {
 
     Series series = getSeries(episodeGroupRating);
 
+    debug(currentRanking + ": " + series.seriesTitle.getValue());
+
     BigDecimal effectiveRating = episodeGroupRating.rating.getValue() == null ?
         episodeGroupRating.suggestedRating.getValue() :
         episodeGroupRating.rating.getValue();
@@ -140,7 +145,7 @@ public class BlogRankingsCreator {
     blogTemplatePrinter.addMapping("RATING_COLOR", getHSLAMethod(effectiveRating));
     blogTemplatePrinter.addMapping("RATING_VALUE", effectiveRating.toString());
     blogTemplatePrinter.addMapping("SERIES_NAME", series.seriesTitle.getValue());
-    blogTemplatePrinter.addMapping("SEASONS_TEXT", "Seasons 9/10");
+    blogTemplatePrinter.addMapping("SEASONS_TEXT", getSeasonString(getSeasons(episodeInfos)));
     blogTemplatePrinter.addMapping("EPISODE_COUNT", Integer.toString(episodeGroupRating.aired.getValue()));
     blogTemplatePrinter.addMapping("FEATURED_RATING_COLOR", getHSLAMethod(bestEpisodeRating));
     blogTemplatePrinter.addMapping("FEATURED_RATING_VALUE", bestEpisodeRating.toString());
@@ -149,6 +154,24 @@ public class BlogRankingsCreator {
     blogTemplatePrinter.addMapping("REVIEW_TEXT", episodeGroupRating.review.getValue());
 
     return blogTemplatePrinter.createCombinedExport();
+  }
+
+  private String getSeasonString(List<Integer> seasonList) {
+    if (seasonList.size() == 1) {
+      return "Season " + seasonList.get(0);
+    } else {
+      return "Seasons " + Joiner.on('/').join(seasonList);
+    }
+  }
+
+  private List<Integer> getSeasons(List<EpisodeInfo> episodeInfos) {
+    Set<Integer> seasonSet = episodeInfos.stream()
+        .map(episodeInfo -> episodeInfo.episode.getSeason())
+        .collect(Collectors.toSet());
+
+    return Lists.newArrayList(seasonSet).stream()
+        .sorted()
+        .collect(Collectors.toList());
   }
 
   @NotNull
@@ -243,4 +266,10 @@ public class BlogRankingsCreator {
         value.multiply(half) :
         (fifty.multiply(half).add((value.subtract(fifty).multiply(BigDecimal.valueOf(4.5)))));
   }
+
+
+  protected void debug(Object object) {
+    System.out.println(object);
+  }
+
 }
