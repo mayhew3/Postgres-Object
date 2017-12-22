@@ -1,13 +1,13 @@
 package com.mayhew3.mediamogul.tv;
 
 import com.mayhew3.mediamogul.ArgumentChecker;
-import com.mayhew3.mediamogul.scheduler.UpdateRunner;
 import com.mayhew3.mediamogul.db.PostgresConnectionFactory;
 import com.mayhew3.mediamogul.db.SQLConnection;
 import com.mayhew3.mediamogul.model.tv.Episode;
 import com.mayhew3.mediamogul.model.tv.EpisodeGroupRating;
 import com.mayhew3.mediamogul.model.tv.EpisodeRating;
 import com.mayhew3.mediamogul.model.tv.Series;
+import com.mayhew3.mediamogul.scheduler.UpdateRunner;
 import com.mayhew3.mediamogul.tv.helper.UpdateMode;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -20,6 +20,8 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static java.lang.Math.toIntExact;
 
 @SuppressWarnings({"OptionalIsPresent"})
 public class EpisodeGroupUpdater implements UpdateRunner {
@@ -56,14 +58,8 @@ public class EpisodeGroupUpdater implements UpdateRunner {
         "and er.person_id = ? " +
         "group by s.id";
 
-//    DateTime dateTime = new DateTime(2016, 1, 1, 0, 0, 0);
-
-//    String startDate = year + "-01-01";
-//    String endDate =  year + "-12-31";
     Timestamp startDate = new Timestamp(beginningOfYear(currentYear).toDate().getTime());
     Timestamp endDate = new Timestamp(endOfYear(currentYear).toDate().getTime());
-
-    Timestamp lastWatchDate = new Timestamp(new DateTime(2017, 1, 11, 0, 0, 0).toDate().getTime());
 
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, startDate, endDate, true, 0, 0, 1);
 
@@ -94,6 +90,8 @@ public class EpisodeGroupUpdater implements UpdateRunner {
       groupRating.avgStory.changeValue(getAvgStory(episodeInfos));
 
       groupRating.suggestedRating.changeValue(getSuggestedRating(groupRating));
+
+      groupRating.postUpdateEpisodes.changeValue(getPostUpdateEpisodes(episodeInfos, groupRating.reviewUpdateDate.getValue()));
 
       debug(" - " + groupRating.rated.getValue() + "/" + groupRating.numEpisodes.getValue() + " ratings found, AVG: " + groupRating.avgRating.getValue());
 
@@ -204,7 +202,7 @@ public class EpisodeGroupUpdater implements UpdateRunner {
 
   @SuppressWarnings("ConstantConditions")
   @Nullable
-  private BigDecimal getAvgRating(List<EpisodeInfo> episodeInfos) throws SQLException {
+  private BigDecimal getAvgRating(List<EpisodeInfo> episodeInfos) {
     List<BigDecimal> ratings = episodeInfos.stream()
         .map(episodeInfo -> episodeInfo.episodeRating)
         .filter(Objects::nonNull)
@@ -224,7 +222,7 @@ public class EpisodeGroupUpdater implements UpdateRunner {
 
   @SuppressWarnings("ConstantConditions")
   @Nullable
-  private BigDecimal getAvgFunny(List<EpisodeInfo> episodeInfos) throws SQLException {
+  private BigDecimal getAvgFunny(List<EpisodeInfo> episodeInfos) {
     List<BigDecimal> ratings = episodeInfos.stream()
         .map(episodeInfo -> episodeInfo.episodeRating)
         .filter(Objects::nonNull)
@@ -244,7 +242,7 @@ public class EpisodeGroupUpdater implements UpdateRunner {
 
   @SuppressWarnings("ConstantConditions")
   @Nullable
-  private BigDecimal getAvgCharacter(List<EpisodeInfo> episodeInfos) throws SQLException {
+  private BigDecimal getAvgCharacter(List<EpisodeInfo> episodeInfos) {
     List<BigDecimal> ratings = episodeInfos.stream()
         .map(episodeInfo -> episodeInfo.episodeRating)
         .filter(Objects::nonNull)
@@ -264,7 +262,7 @@ public class EpisodeGroupUpdater implements UpdateRunner {
 
   @SuppressWarnings("ConstantConditions")
   @Nullable
-  private BigDecimal getAvgStory(List<EpisodeInfo> episodeInfos) throws SQLException {
+  private BigDecimal getAvgStory(List<EpisodeInfo> episodeInfos) {
     List<BigDecimal> ratings = episodeInfos.stream()
         .map(episodeInfo -> episodeInfo.episodeRating)
         .filter(Objects::nonNull)
@@ -283,7 +281,7 @@ public class EpisodeGroupUpdater implements UpdateRunner {
   }
 
   @Nullable
-  private BigDecimal getMaxRating(List<EpisodeInfo> episodeInfos) throws SQLException {
+  private BigDecimal getMaxRating(List<EpisodeInfo> episodeInfos) {
     Optional<BigDecimal> max = episodeInfos.stream()
         .map(episodeInfo -> episodeInfo.episodeRating)
         .filter(Objects::nonNull)
@@ -294,7 +292,7 @@ public class EpisodeGroupUpdater implements UpdateRunner {
   }
 
   @Nullable
-  private BigDecimal getLastRating(List<EpisodeInfo> episodeInfos) throws SQLException {
+  private BigDecimal getLastRating(List<EpisodeInfo> episodeInfos) {
     Comparator<EpisodeInfo> byAirDate = Comparator.comparing(a -> a.episode.airDate.getValue());
     Comparator<EpisodeInfo> byEpisodeNumber = Comparator.comparing(a -> a.episode.episodeNumber.getValue());
     Optional<EpisodeRating> lastRating = episodeInfos.stream()
@@ -305,8 +303,20 @@ public class EpisodeGroupUpdater implements UpdateRunner {
     return lastRating.isPresent() ? lastRating.get().ratingValue.getValue() : null;
   }
 
+  @NotNull
+  private Integer getPostUpdateEpisodes(List<EpisodeInfo> episodeInfos, Date updateDate) {
+    if (updateDate == null) {
+      return 0;
+    }
+    return toIntExact(episodeInfos.stream()
+        .filter(episodeInfo -> episodeInfo.episodeRating != null &&
+            episodeInfo.episodeRating.watchedDate.getValue() != null &&
+            episodeInfo.episodeRating.watchedDate.getValue().after(updateDate))
+        .count());
+  }
+
   @Nullable
-  private BigDecimal getSuggestedRating(EpisodeGroupRating groupRating) throws SQLException {
+  private BigDecimal getSuggestedRating(EpisodeGroupRating groupRating) {
     BigDecimal average = groupRating.avgRating.getValue();
     BigDecimal max = groupRating.maxRating.getValue();
     BigDecimal last = groupRating.lastRating.getValue();
