@@ -22,10 +22,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class BlogRankingsCreator {
@@ -105,6 +102,8 @@ public class BlogRankingsCreator {
       export.append(getExportForSeries(blogTemplatePrinter, episodeGroupRating, currentRanking));
       export.append("<br>");
 
+      debug("Export created and added to big string.");
+
       currentRanking--;
     }
 
@@ -137,7 +136,11 @@ public class BlogRankingsCreator {
         episodeGroupRating.suggestedRating.getValue() :
         episodeGroupRating.rating.getValue();
 
+    debug("Getting episode infos...");
+
     List<EpisodeInfo> episodeInfos = getEligibleEpisodeInfos(episodeGroupRating);
+
+    debug("Gotten. Adding mappings...");
 
     EpisodeInfo bestEpisode = getBestEpisode(episodeGroupRating, episodeInfos);
 
@@ -155,6 +158,8 @@ public class BlogRankingsCreator {
     blogTemplatePrinter.addMapping("FEATURED_EPISODE_NUMBER", bestEpisode.episode.getSeason() + "x" + bestEpisode.episode.episodeNumber.getValue());
     blogTemplatePrinter.addMapping("FEATURED_EPISODE_TITLE", bestEpisode.episode.title.getValue());
     blogTemplatePrinter.addMapping("REVIEW_TEXT", episodeGroupRating.review.getValue());
+
+    debug("Mappings added. Creating export...");
 
     return blogTemplatePrinter.createCombinedExport();
   }
@@ -272,7 +277,7 @@ public class BlogRankingsCreator {
 
 
   protected void debug(Object object) {
-    System.out.println(object);
+    System.out.println(new Date() + ": " + object);
   }
 
 }
