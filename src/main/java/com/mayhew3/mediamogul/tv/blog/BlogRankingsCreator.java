@@ -197,6 +197,14 @@ public class BlogRankingsCreator {
   }
 
   private List<EpisodeInfo> getEligibleEpisodeInfos(EpisodeGroupRating groupRating) throws SQLException {
+    List<Episode> episodes = getEpisodes(groupRating);
+    List<EpisodeRating> episodeRatings = getEpisodeRatings(groupRating);
+
+    return populateInfos(episodes, episodeRatings);
+  }
+
+  @NotNull
+  private List<Episode> getEpisodes(EpisodeGroupRating groupRating) throws SQLException {
     String sql = "select *\n" +
         "from episode\n" +
         "where air_date between ? and ?\n" +
@@ -215,14 +223,38 @@ public class BlogRankingsCreator {
 
       episodes.add(episode);
     }
-
-    return populateInfos(episodes);
+    return episodes;
   }
 
-  private List<EpisodeInfo> populateInfos(List<Episode> episodes) throws SQLException {
+  private List<EpisodeRating> getEpisodeRatings(EpisodeGroupRating groupRating) throws SQLException {
+    String sql = "select er.* " +
+        "from episode e " +
+        "inner join episode_rating er " +
+        "  on er.episode_id = e.id " +
+        "where e.air_date between ? and ? " +
+        "and e.series_id = ? " +
+        "and e.season <> ? " +
+        "and e.retired = ? " +
+        "order by e.air_date";
+
+    List<EpisodeRating> episodeRatings = new ArrayList<>();
+
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, groupRating.startDate.getValue(), groupRating.endDate.getValue(), groupRating.seriesId.getValue(), 0, 0);
+
+    while (resultSet.next()) {
+      EpisodeRating episodeRating = new EpisodeRating();
+      episodeRating.initializeFromDBObject(resultSet);
+
+      episodeRatings.add(episodeRating);
+    }
+    return episodeRatings;
+  }
+
+  private List<EpisodeInfo> populateInfos(List<Episode> episodes, List<EpisodeRating> episodeRatings) throws SQLException {
     List<EpisodeInfo> infos = new ArrayList<>();
     for (Episode episode : episodes) {
-      infos.add(new EpisodeInfo(episode));
+      EpisodeRating mostRecentRating = getMostRecentRating(episode, episodeRatings);
+      infos.add(new EpisodeInfo(episode, mostRecentRating));
     }
     return infos;
   }
@@ -231,12 +263,23 @@ public class BlogRankingsCreator {
     Episode episode;
     @Nullable EpisodeRating episodeRating;
 
-    EpisodeInfo(Episode episode) throws SQLException {
+    EpisodeInfo(Episode episode, @Nullable EpisodeRating episodeRating) {
       this.episode = episode;
-      this.episodeRating = episode.getMostRecentRating(connection, Optional.empty());
+      this.episodeRating = episodeRating;
     }
 
   }
+
+  @Nullable
+  private EpisodeRating getMostRecentRating(Episode episode, List<EpisodeRating> episodeRatings) {
+    Optional<EpisodeRating> mostRecent = episodeRatings.stream()
+        .filter(episodeRating -> episodeRating.episodeId.getValue().equals(episode.id.getValue()))
+        .max(Comparator.comparing(rating -> rating.watchedDate.getValue()));
+
+    return mostRecent
+        .orElse(null);
+  }
+
 
   private Series getSeries(EpisodeGroupRating episodeGroupRating) throws SQLException {
     String sql = "SELECT * " +
