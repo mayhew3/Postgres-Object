@@ -15,8 +15,10 @@ import org.jetbrains.annotations.Nullable;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -132,6 +134,8 @@ public class BlogRankingsCreator {
 
     debug(currentRanking + ": " + series.seriesTitle.getValue());
 
+    tryToSavePosterLocally(series);
+
     BigDecimal effectiveRating = episodeGroupRating.rating.getValue() == null ?
         episodeGroupRating.suggestedRating.getValue() :
         episodeGroupRating.rating.getValue();
@@ -162,6 +166,22 @@ public class BlogRankingsCreator {
     debug("Mappings added. Creating export...");
 
     return blogTemplatePrinter.createCombinedExport();
+  }
+
+  private void tryToSavePosterLocally(Series series) {
+    String seriesPosterFileName = series.poster.getValue();
+    if (seriesPosterFileName != null) {
+      try {
+        InputStream inputStream = new URL("https://www.thetvdb.com/banners/" + seriesPosterFileName).openStream();
+        String fullFilePath = System.getenv("BLOG_IMAGES") + "/" + seriesPosterFileName;
+        if (!new File(fullFilePath).exists()) {
+          Files.copy(inputStream, Paths.get(fullFilePath));
+        }
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
+
   }
 
   private String getSeasonString(List<Integer> seasonList) {
