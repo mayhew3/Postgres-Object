@@ -150,7 +150,10 @@ public class BlogRankingsCreator {
 
     BigDecimal bestEpisodeRating = bestEpisode.episodeRating.ratingValue.getValue();
 
-    blogTemplatePrinter.addMapping("POSTER_FILENAME", series.poster.getValue());
+    String fullPosterName = series.poster.getValue();
+    String truncatedPoster = fullPosterName.replace("posters/", "");
+
+    blogTemplatePrinter.addMapping("POSTER_FILENAME", truncatedPoster);
     blogTemplatePrinter.addMapping("RANKING_VALUE", Integer.toString(currentRanking));
     blogTemplatePrinter.addMapping("RATING_COLOR", getHSLAMethod(effectiveRating));
     blogTemplatePrinter.addMapping("RATING_VALUE", effectiveRating.toString());
