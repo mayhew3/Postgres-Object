@@ -176,7 +176,7 @@ public class BlogRankingsCreator {
     if (seriesPosterFileName != null) {
       try {
         InputStream inputStream = new URL("https://www.thetvdb.com/banners/" + seriesPosterFileName).openStream();
-        String fullFilePath = System.getenv("BLOG_IMAGES") + "/" + seriesPosterFileName;
+        String fullFilePath = outputPath + "/" + seriesPosterFileName;
         if (!new File(fullFilePath).exists()) {
           Files.copy(inputStream, Paths.get(fullFilePath));
         }
