@@ -2,6 +2,7 @@ package com.mayhew3.mediamogul.tv.blog;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.mayhew3.mediamogul.ArgumentChecker;
 import com.mayhew3.mediamogul.db.PostgresConnectionFactory;
 import com.mayhew3.mediamogul.db.SQLConnection;
@@ -33,6 +34,8 @@ public class BlogRankingsCreator {
   private Path templateFile;
   private String outputPath;
 
+  private List<Integer> postBoundaries = Lists.newArrayList(43, 20, 10, 0);
+
   private BlogRankingsCreator(SQLConnection connection, String templatePath, String outputPath) {
     this.connection = connection;
     templateFile = Paths.get(templatePath);
@@ -58,22 +61,31 @@ public class BlogRankingsCreator {
   }
 
   private void execute() throws IOException, SQLException {
-    File outputFile = new File(outputPath + "/blog_output1.html");
-    FileOutputStream outputStream = new FileOutputStream(outputFile, false);
-
     String contents = new String(Files.readAllBytes(templateFile));
 
+    Map<Integer, String> combinedExports = fetchSeriesAndCombineWithTemplate(contents);
 
-    String combinedExport = fetchSeriesAndCombineWithTemplate(contents);
+    for (Integer boundary : postBoundaries) {
+      File outputFile = new File(outputPath + "/blog_output" + (boundary + 1) + ".html");
+      FileOutputStream outputStream = new FileOutputStream(outputFile, false);
 
+      String combinedExport = combinedExports.get(boundary);
 
-    outputStream.write(combinedExport.getBytes());
-    outputStream.close();
+      outputStream.write(combinedExport.getBytes());
+      outputStream.close();
+    }
+
   }
 
-  private String fetchSeriesAndCombineWithTemplate(String templateContents) throws SQLException {
 
-    StringBuilder export = new StringBuilder();
+
+  private Map<Integer, String> fetchSeriesAndCombineWithTemplate(String templateContents) throws SQLException {
+
+    Map<Integer, StringBuilder> exportBuilders = Maps.newHashMap();
+
+    for (Integer postBoundary : postBoundaries) {
+      exportBuilders.put(postBoundary, new StringBuilder());
+    }
 
     BlogTemplatePrinter blogTemplatePrinter = new BlogTemplatePrinter(templateContents);
 
@@ -98,6 +110,8 @@ public class BlogRankingsCreator {
     Integer currentRanking = totalShows;
 
     while (resultSet.next()) {
+      StringBuilder export = exportBuilders.get(getNextBoundary(currentRanking));
+
       EpisodeGroupRating episodeGroupRating = new EpisodeGroupRating();
       episodeGroupRating.initializeFromDBObject(resultSet);
 
@@ -109,7 +123,25 @@ public class BlogRankingsCreator {
       currentRanking--;
     }
 
-    return export.toString();
+    Map<Integer, String> allExports = Maps.newHashMap();
+
+    for (Integer boundary : exportBuilders.keySet()) {
+      allExports.put(boundary, exportBuilders.get(boundary).toString());
+    }
+
+    return allExports;
+  }
+
+  private Integer getNextBoundary(Integer currentRanking) {
+    Optional<Integer> remainingBoundaries = postBoundaries.stream()
+        .filter(boundary -> boundary < currentRanking)
+        .findFirst();
+
+    if (remainingBoundaries.isPresent()) {
+      return remainingBoundaries.get();
+    } else {
+      throw new IllegalStateException("Current ranking " + currentRanking + " with no boundaries less than it.");
+    }
   }
 
   @NotNull
