@@ -31,14 +31,18 @@ import java.util.stream.Collectors;
 public class BlogRankingsCreator {
 
   private SQLConnection connection;
-  private Path templateFile;
+  private BlogTemplatePrinter standardTemplate;
+  private BlogTemplatePrinter topTemplate;
   private String outputPath;
 
   private List<Integer> postBoundaries = Lists.newArrayList(43, 20, 10, 0);
 
-  private BlogRankingsCreator(SQLConnection connection, String templatePath, String outputPath) {
+  private BlogRankingsCreator(SQLConnection connection, String templatePath, String outputPath) throws IOException {
     this.connection = connection;
-    templateFile = Paths.get(templatePath);
+
+    this.standardTemplate = createTemplate(templatePath + "/yearly_template.html");
+    this.topTemplate = createTemplate(templatePath + "/top20_template.html");
+
     this.outputPath = outputPath;
   }
 
@@ -60,10 +64,14 @@ public class BlogRankingsCreator {
     blogRankingsCreator.execute();
   }
 
-  private void execute() throws IOException, SQLException {
-    String contents = new String(Files.readAllBytes(templateFile));
+  private BlogTemplatePrinter createTemplate(String fileName) throws IOException {
+    Path templateFile = Paths.get(fileName);
+    String template = new String(Files.readAllBytes(templateFile));
+    return new BlogTemplatePrinter(template);
+  }
 
-    Map<Integer, String> combinedExports = fetchSeriesAndCombineWithTemplate(contents);
+  private void execute() throws IOException, SQLException {
+    Map<Integer, String> combinedExports = fetchSeriesAndCombineWithTemplate();
 
     for (Integer boundary : postBoundaries) {
       File outputFile = new File(outputPath + "/blog_output" + (boundary + 1) + ".html");
@@ -79,7 +87,7 @@ public class BlogRankingsCreator {
 
 
 
-  private Map<Integer, String> fetchSeriesAndCombineWithTemplate(String templateContents) throws SQLException {
+  private Map<Integer, String> fetchSeriesAndCombineWithTemplate() throws SQLException {
 
     Map<Integer, StringBuilder> exportBuilders = Maps.newHashMap();
 
@@ -87,13 +95,12 @@ public class BlogRankingsCreator {
       exportBuilders.put(postBoundary, new StringBuilder());
     }
 
-    BlogTemplatePrinter blogTemplatePrinter = new BlogTemplatePrinter(templateContents);
-
     String reusableJoins = "FROM episode_group_rating " +
         "WHERE year = ? " +
         "AND retired = ? " +
         "AND aired > ? " +
-        "AND aired = watched ";
+        "AND aired = watched " +
+        "AND rating IS NOT NULL ";
 
     debug("Getting series count...");
 
@@ -115,7 +122,9 @@ public class BlogRankingsCreator {
       EpisodeGroupRating episodeGroupRating = new EpisodeGroupRating();
       episodeGroupRating.initializeFromDBObject(resultSet);
 
-      export.append(getExportForSeries(blogTemplatePrinter, episodeGroupRating, currentRanking));
+      BlogTemplatePrinter templateToUse = currentRanking > 20 ? standardTemplate : topTemplate;
+
+      export.append(getExportForSeries(templateToUse, episodeGroupRating, currentRanking));
       export.append("<br>");
 
       debug("Export created and added to big string.");
@@ -182,10 +191,7 @@ public class BlogRankingsCreator {
 
     BigDecimal bestEpisodeRating = bestEpisode.episodeRating.ratingValue.getValue();
 
-    String fullPosterName = series.poster.getValue();
-    String truncatedPoster = fullPosterName.replace("posters/", "");
-
-    blogTemplatePrinter.addMapping("POSTER_FILENAME", truncatedPoster);
+    blogTemplatePrinter.addMapping("POSTER_FILENAME", generatePosterName(series, currentRanking));
     blogTemplatePrinter.addMapping("RANKING_VALUE", Integer.toString(currentRanking));
     blogTemplatePrinter.addMapping("RATING_COLOR", getHSLAMethod(effectiveRating));
     blogTemplatePrinter.addMapping("RATING_VALUE", effectiveRating.toString());
@@ -201,6 +207,19 @@ public class BlogRankingsCreator {
     debug("Mappings added. Creating export...");
 
     return blogTemplatePrinter.createCombinedExport();
+  }
+
+  private String generatePosterName(Series series, Integer currentRanking) {
+    if (currentRanking > 20) {
+      String fullPosterName = series.poster.getValue();
+      return fullPosterName.replace("posters/", "");
+    } else {
+      String fullSeriesName = series.seriesTitle.getValue();
+      fullSeriesName = fullSeriesName.replace(" ", "_");
+      fullSeriesName = fullSeriesName.replace("'", "");
+      fullSeriesName = fullSeriesName.replace(".", "");
+      return fullSeriesName.toLowerCase();
+    }
   }
 
   private void tryToSavePosterLocally(Series series) {
