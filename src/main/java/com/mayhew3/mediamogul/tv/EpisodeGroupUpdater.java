@@ -3,10 +3,7 @@ package com.mayhew3.mediamogul.tv;
 import com.mayhew3.mediamogul.ArgumentChecker;
 import com.mayhew3.mediamogul.db.PostgresConnectionFactory;
 import com.mayhew3.mediamogul.db.SQLConnection;
-import com.mayhew3.mediamogul.model.tv.Episode;
-import com.mayhew3.mediamogul.model.tv.EpisodeGroupRating;
-import com.mayhew3.mediamogul.model.tv.EpisodeRating;
-import com.mayhew3.mediamogul.model.tv.Series;
+import com.mayhew3.mediamogul.model.tv.*;
 import com.mayhew3.mediamogul.scheduler.UpdateRunner;
 import com.mayhew3.mediamogul.tv.helper.UpdateMode;
 import org.jetbrains.annotations.NotNull;
@@ -43,8 +40,29 @@ public class EpisodeGroupUpdater implements UpdateRunner {
     this.connection = connection;
   }
 
+  public Boolean isRatingLocked() throws SQLException {
+    String sql = "SELECT * " +
+        "FROM system_vars";
+
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql);
+    if (resultSet.next()) {
+      SystemVars systemVars = new SystemVars();
+      systemVars.initializeFromDBObject(resultSet);
+
+      return systemVars.ratingLocked.getValue();
+    } else {
+      throw new IllegalStateException("No rows found in system_vars.");
+    }
+  }
+
   @SuppressWarnings("SameParameterValue")
   public void runUpdate() throws SQLException {
+
+    if (isRatingLocked()) {
+      debug("Ratings are locked. Skipping episode group updater.");
+      return;
+    }
+
     String sql = "select s.*\n" +
         "from episode e\n" +
         "inner join series s\n" +
