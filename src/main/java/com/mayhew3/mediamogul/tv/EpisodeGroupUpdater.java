@@ -25,9 +25,6 @@ public class EpisodeGroupUpdater implements UpdateRunner {
 
   private SQLConnection connection;
 
-  @SuppressWarnings("WeakerAccess")
-  static Integer currentYear = 2017;
-
   public static void main(String... args) throws URISyntaxException, SQLException {
     ArgumentChecker argumentChecker = new ArgumentChecker(args);
     SQLConnection connection = PostgresConnectionFactory.createConnection(argumentChecker);
@@ -40,28 +37,17 @@ public class EpisodeGroupUpdater implements UpdateRunner {
     this.connection = connection;
   }
 
-  public Boolean isRatingLocked() throws SQLException {
-    String sql = "SELECT * " +
-        "FROM system_vars";
-
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql);
-    if (resultSet.next()) {
-      SystemVars systemVars = new SystemVars();
-      systemVars.initializeFromDBObject(resultSet);
-
-      return systemVars.ratingLocked.getValue();
-    } else {
-      throw new IllegalStateException("No rows found in system_vars.");
-    }
-  }
-
   @SuppressWarnings("SameParameterValue")
   public void runUpdate() throws SQLException {
 
-    if (isRatingLocked()) {
+    SystemVars systemVars = SystemVars.getSystemVars(connection);
+
+    if (isRatingLocked(systemVars)) {
       debug("Ratings are locked. Skipping episode group updater.");
       return;
     }
+
+    Integer currentYear = systemVars.ratingYear.getValue();
 
     String sql = "select s.*\n" +
         "from episode e\n" +
@@ -116,6 +102,10 @@ public class EpisodeGroupUpdater implements UpdateRunner {
       groupRating.commit(connection);
     }
 
+  }
+
+  private Boolean isRatingLocked(SystemVars systemVars) {
+    return systemVars.ratingLocked.getValue();
   }
 
   protected void debug(Object object) {
