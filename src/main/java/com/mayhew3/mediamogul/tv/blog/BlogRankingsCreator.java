@@ -33,6 +33,7 @@ public class BlogRankingsCreator {
   private SQLConnection connection;
   private BlogTemplatePrinter standardTemplate;
   private BlogTemplatePrinter topTemplate;
+  private BlogTemplatePrinter toppestTemplate;
   private String outputPath;
 
   private List<Integer> postBoundaries = Lists.newArrayList(43, 20, 10, 0);
@@ -42,6 +43,7 @@ public class BlogRankingsCreator {
 
     this.standardTemplate = createTemplate(templatePath + "/yearly_template.html");
     this.topTemplate = createTemplate(templatePath + "/top20_template.html");
+    this.toppestTemplate = createTemplate(templatePath + "/top1_template.html");
 
     this.outputPath = outputPath;
   }
@@ -122,7 +124,8 @@ public class BlogRankingsCreator {
       EpisodeGroupRating episodeGroupRating = new EpisodeGroupRating();
       episodeGroupRating.initializeFromDBObject(resultSet);
 
-      BlogTemplatePrinter templateToUse = currentRanking > 20 ? standardTemplate : topTemplate;
+      BlogTemplatePrinter templateToUse = currentRanking > 20 ? standardTemplate :
+          currentRanking == 1 ? toppestTemplate : topTemplate;
 
       export.append(getExportForSeries(templateToUse, episodeGroupRating, currentRanking));
       export.append("<br>");
