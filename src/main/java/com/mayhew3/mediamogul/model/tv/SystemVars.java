@@ -1,9 +1,6 @@
 package com.mayhew3.mediamogul.model.tv;
 
-import com.mayhew3.mediamogul.dataobject.DataObject;
-import com.mayhew3.mediamogul.dataobject.FieldValueBoolean;
-import com.mayhew3.mediamogul.dataobject.FieldValueInteger;
-import com.mayhew3.mediamogul.dataobject.Nullability;
+import com.mayhew3.mediamogul.dataobject.*;
 import com.mayhew3.mediamogul.db.SQLConnection;
 
 import java.sql.ResultSet;
@@ -12,7 +9,7 @@ import java.sql.SQLException;
 public class SystemVars extends DataObject {
 
   public FieldValueInteger ratingYear = registerIntegerField("rating_year", Nullability.NOT_NULL);
-  public FieldValueBoolean ratingLocked = registerBooleanField("rating_locked", Nullability.NOT_NULL);
+  public FieldValueTimestamp ratingEndDate = registerTimestampField("rating_end_date", Nullability.NULLABLE);
 
   @Override
   public String getTableName() {

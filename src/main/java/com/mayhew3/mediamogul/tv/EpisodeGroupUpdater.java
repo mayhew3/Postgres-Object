@@ -42,12 +42,8 @@ public class EpisodeGroupUpdater implements UpdateRunner {
 
     SystemVars systemVars = SystemVars.getSystemVars(connection);
 
-    if (isRatingLocked(systemVars)) {
-      debug("Ratings are locked. Skipping episode group updater.");
-      return;
-    }
-
     Integer currentYear = systemVars.ratingYear.getValue();
+    Timestamp ratingEndDate = systemVars.ratingEndDate.getValue();
 
     String sql = "select s.*\n" +
         "from episode e\n" +
@@ -57,6 +53,7 @@ public class EpisodeGroupUpdater implements UpdateRunner {
         " on er.episode_id = e.id " +
         "where e.air_date between ? and ?\n" +
         "and er.watched = ?\n" +
+        "and er.watched_date < ?\n" +
         "and e.retired = ?\n" +
         "and er.retired = ? " +
         "and er.person_id = ? " +
@@ -65,7 +62,7 @@ public class EpisodeGroupUpdater implements UpdateRunner {
     Timestamp startDate = new Timestamp(beginningOfYear(currentYear).toDate().getTime());
     Timestamp endDate = new Timestamp(endOfYear(currentYear).toDate().getTime());
 
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, startDate, endDate, true, 0, 0, 1);
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, startDate, endDate, true, ratingEndDate, 0, 0, 1);
 
     while (resultSet.next()) {
       Series series = new Series();
@@ -75,27 +72,35 @@ public class EpisodeGroupUpdater implements UpdateRunner {
 
       EpisodeGroupRating groupRating = getOrCreateExistingRatingForSeriesAndYear(series, currentYear);
 
-      List<EpisodeInfo> episodeInfos = getEligibleEpisodeInfos(groupRating);
+      List<EpisodeInfo> airedEligible = getEligibleEpisodeInfos(groupRating);
+      List<EpisodeInfo> watchedEligible = getWatchedEligibleEpisodeInfos(airedEligible, ratingEndDate);
 
-      groupRating.numEpisodes.changeValue(episodeInfos.size());
-      groupRating.watched.changeValue(getNumberOfWatchedEpisodes(episodeInfos));
-      groupRating.rated.changeValue(getNumberOfRatedEpisodes(episodeInfos));
-      groupRating.aired.changeValue(getNumberOfAiredEpisodes(episodeInfos));
+      // AIRED WITHIN WINDOW
 
-      groupRating.lastAired.changeValue(getLastAired(episodeInfos));
-      groupRating.nextAirDate.changeValue(getNextAirDate(episodeInfos));
+      groupRating.numEpisodes.changeValue(airedEligible.size());
+      groupRating.aired.changeValue(getNumberOfAiredEpisodes(airedEligible));
 
-      groupRating.avgRating.changeValue(getAvgRating(episodeInfos));
-      groupRating.maxRating.changeValue(getMaxRating(episodeInfos));
-      groupRating.lastRating.changeValue(getLastRating(episodeInfos));
+      groupRating.lastAired.changeValue(getLastAired(airedEligible));
+      groupRating.nextAirDate.changeValue(getNextAirDate(airedEligible));
 
-      groupRating.avgFunny.changeValue(getAvgFunny(episodeInfos));
-      groupRating.avgCharacter.changeValue(getAvgCharacter(episodeInfos));
-      groupRating.avgStory.changeValue(getAvgStory(episodeInfos));
+      // WATCHED WITHIN WINDOW
+
+      groupRating.watched.changeValue(getNumberOfWatchedEpisodes(watchedEligible));
+      groupRating.rated.changeValue(getNumberOfRatedEpisodes(watchedEligible));
+
+      groupRating.avgRating.changeValue(getAvgRating(watchedEligible));
+      groupRating.maxRating.changeValue(getMaxRating(watchedEligible));
+      groupRating.lastRating.changeValue(getLastRating(watchedEligible));
+
+      groupRating.avgFunny.changeValue(getAvgFunny(watchedEligible));
+      groupRating.avgCharacter.changeValue(getAvgCharacter(watchedEligible));
+      groupRating.avgStory.changeValue(getAvgStory(watchedEligible));
+
+      groupRating.postUpdateEpisodes.changeValue(getPostUpdateEpisodes(watchedEligible, groupRating.reviewUpdateDate.getValue()));
+
+      // SUGGESTED RATING
 
       groupRating.suggestedRating.changeValue(getSuggestedRating(groupRating));
-
-      groupRating.postUpdateEpisodes.changeValue(getPostUpdateEpisodes(episodeInfos, groupRating.reviewUpdateDate.getValue()));
 
       debug(" - " + groupRating.rated.getValue() + "/" + groupRating.numEpisodes.getValue() + " ratings found, AVG: " + groupRating.avgRating.getValue());
 
@@ -104,26 +109,21 @@ public class EpisodeGroupUpdater implements UpdateRunner {
 
   }
 
-  private Boolean isRatingLocked(SystemVars systemVars) {
-    return systemVars.ratingLocked.getValue();
-  }
-
   protected void debug(Object object) {
     System.out.println(object);
   }
 
   private Integer getNumberOfRatedEpisodes(List<EpisodeInfo> episodeInfos) {
     return episodeInfos.stream()
-        .filter(episodeInfo -> (episodeInfo.episodeRating != null && episodeInfo.episodeRating.ratingValue.getValue() != null))
+        .filter(episodeInfo -> (episodeInfo.episodeRating != null &&
+            episodeInfo.episodeRating.ratingValue.getValue() != null
+        ))
         .collect(Collectors.toList())
         .size();
   }
 
   private Integer getNumberOfWatchedEpisodes(List<EpisodeInfo> episodeInfos) {
-    return episodeInfos.stream()
-        .filter(episodeInfo -> (episodeInfo.episodeRating != null && episodeInfo.episodeRating.watched.getValue()))
-        .collect(Collectors.toList())
-        .size();
+    return episodeInfos.size();
   }
 
   private Integer getNumberOfAiredEpisodes(List<EpisodeInfo> episodeInfos) {
@@ -177,6 +177,20 @@ public class EpisodeGroupUpdater implements UpdateRunner {
     }
 
     return populateInfos(episodes);
+  }
+
+  private List<EpisodeInfo> getWatchedEligibleEpisodeInfos(List<EpisodeInfo> episodeInfos, @Nullable Timestamp ratingEndDate) {
+    return episodeInfos.stream()
+        .filter(episodeInfo -> episodeInfo.episodeRating != null &&
+            episodeInfo.episodeRating.watched.getValue() &&
+            (ratingEndDate == null || watchedBeforeDate(episodeInfo.episodeRating, ratingEndDate))
+        )
+        .collect(Collectors.toList());
+  }
+
+  private boolean watchedBeforeDate(@NotNull EpisodeRating episodeRating, @NotNull Timestamp ratingEndDate) {
+    return episodeRating.watchedDate.getValue() != null &&
+        episodeRating.watchedDate.getValue().before(ratingEndDate);
   }
 
   private List<EpisodeInfo> populateInfos(List<Episode> episodes) throws SQLException {
