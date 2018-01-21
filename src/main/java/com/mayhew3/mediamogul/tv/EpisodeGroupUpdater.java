@@ -53,7 +53,7 @@ public class EpisodeGroupUpdater implements UpdateRunner {
         " on er.episode_id = e.id " +
         "where e.air_date between ? and ?\n" +
         "and er.watched = ?\n" +
-        "and er.watched_date < ?\n" +
+//        "and er.watched_date < ?\n" +
         "and e.retired = ?\n" +
         "and er.retired = ? " +
         "and er.person_id = ? " +
@@ -62,7 +62,7 @@ public class EpisodeGroupUpdater implements UpdateRunner {
     Timestamp startDate = new Timestamp(beginningOfYear(currentYear).toDate().getTime());
     Timestamp endDate = new Timestamp(endOfYear(currentYear).toDate().getTime());
 
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, startDate, endDate, true, ratingEndDate, 0, 0, 1);
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, startDate, endDate, true, 0, 0, 1);
 
     while (resultSet.next()) {
       Series series = new Series();
