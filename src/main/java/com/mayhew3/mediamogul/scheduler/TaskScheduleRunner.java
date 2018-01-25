@@ -106,7 +106,7 @@ public class TaskScheduleRunner {
     addNightlyTask(new TVDBUpdateRunner(connection, tvdbjwtProvider, jsonReader, UpdateMode.SANITY));
     addNightlyTask(new EpisodeGroupUpdater(connection));
     addNightlyTask(new SteamAttributeUpdateRunner(connection));
-    addNightlyTask(new HowLongToBeatUpdateRunner(connection));
+    addNightlyTask(new HowLongToBeatUpdateRunner(connection, UpdateMode.QUICK));
     addNightlyTask(new GiantBombUpdater(connection));
   }
 

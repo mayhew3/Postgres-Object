@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.mayhew3.mediamogul.ArgumentChecker;
 import com.mayhew3.mediamogul.db.PostgresConnectionFactory;
 import com.mayhew3.mediamogul.db.SQLConnection;
+import com.mayhew3.mediamogul.tv.helper.UpdateMode;
 
 import java.io.*;
 import java.net.URISyntaxException;
@@ -58,7 +59,7 @@ public class SteamGameUpdateRunner {
     debug(" Finished Steam Attribute section, starting HowLongToBeat update!");
     debug(" --- ");
 
-    HowLongToBeatUpdateRunner howLongToBeatUpdateRunner = new HowLongToBeatUpdateRunner(connection);
+    HowLongToBeatUpdateRunner howLongToBeatUpdateRunner = new HowLongToBeatUpdateRunner(connection, UpdateMode.QUICK);
     howLongToBeatUpdateRunner.runUpdate();
 
     debug(" --- ");

@@ -2,10 +2,10 @@ package com.mayhew3.mediamogul.games;
 
 import com.google.common.collect.Lists;
 import com.mayhew3.mediamogul.ArgumentChecker;
-import com.mayhew3.mediamogul.scheduler.UpdateRunner;
 import com.mayhew3.mediamogul.db.PostgresConnectionFactory;
 import com.mayhew3.mediamogul.db.SQLConnection;
 import com.mayhew3.mediamogul.model.games.Game;
+import com.mayhew3.mediamogul.scheduler.UpdateRunner;
 import com.mayhew3.mediamogul.tv.helper.UpdateMode;
 import org.jetbrains.annotations.Nullable;
 import org.joda.time.DateTime;
@@ -21,19 +21,34 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class HowLongToBeatUpdateRunner implements UpdateRunner {
 
   private SQLConnection connection;
+  private UpdateMode updateMode;
 
-  public HowLongToBeatUpdateRunner(SQLConnection connection) {
+  private final Map<UpdateMode, Runnable> methodMap;
+
+  public HowLongToBeatUpdateRunner(SQLConnection connection, UpdateMode updateMode) {
+    methodMap = new HashMap<>();
+    methodMap.put(UpdateMode.QUICK, this::runUpdateFull);
+    methodMap.put(UpdateMode.FULL, this::runUpdateOnAllFailed);
+    methodMap.put(UpdateMode.SINGLE, this::runUpdateOnSingle);
+
     this.connection = connection;
+
+    if (!methodMap.keySet().contains(updateMode)) {
+      throw new IllegalArgumentException("Update type '" + updateMode + "' is not applicable for this updater.");
+    }
+
+    this.updateMode = updateMode;
   }
 
   public static void main(String[] args) throws FileNotFoundException, SQLException, URISyntaxException {
     List<String> argList = Lists.newArrayList(args);
-    Boolean fullMode = argList.contains("FullMode");
     Boolean logToFile = argList.contains("LogToFile");
     ArgumentChecker argumentChecker = new ArgumentChecker(args);
 
@@ -47,17 +62,13 @@ public class HowLongToBeatUpdateRunner implements UpdateRunner {
       System.setOut(ps);
     }
 
+    UpdateMode updateMode = UpdateMode.getUpdateModeOrDefault(argumentChecker, UpdateMode.QUICK);
     SQLConnection connection = PostgresConnectionFactory.createConnection(argumentChecker);
 
     setDriverPath();
 
-    HowLongToBeatUpdateRunner updateRunner = new HowLongToBeatUpdateRunner(connection);
-
-    if (fullMode) {
-      updateRunner.runUpdateOnAllFailed();
-    } else {
-      updateRunner.runUpdate();
-    }
+    HowLongToBeatUpdateRunner updateRunner = new HowLongToBeatUpdateRunner(connection, updateMode);
+    updateRunner.runUpdate();
   }
 
   @Override
@@ -67,25 +78,51 @@ public class HowLongToBeatUpdateRunner implements UpdateRunner {
 
   @Override
   public @Nullable UpdateMode getUpdateMode() {
-    return null;
+    return updateMode;
   }
 
-  public void runUpdate() throws SQLException {
+  @Override
+  public void runUpdate() {
+    methodMap.get(updateMode).run();
+  }
+
+  private void runUpdateFull() {
     Date date = new DateTime().minusDays(7).toDate();
     Timestamp timestamp = new Timestamp(date.getTime());
 
-    String sql = "SELECT * FROM games WHERE howlong_updated IS NULL " +
-        " AND (howlong_failed IS NULL OR howlong_failed < ?)";
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, timestamp);
+    String sql = "SELECT * FROM games WHERE howlong_updated IS NULL "
+        + " AND (howlong_failed IS NULL OR howlong_failed < ?)";
 
-    runUpdateOnResultSet(resultSet);
+    try {
+      ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, timestamp);
+
+      runUpdateOnResultSet(resultSet);
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
   }
 
-  private void runUpdateOnAllFailed() throws SQLException {
+  private void runUpdateOnAllFailed() {
     String sql = "SELECT * FROM games WHERE howlong_updated IS NULL ";
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql);
 
-    runUpdateOnResultSet(resultSet);
+    try {
+      ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql);
+      runUpdateOnResultSet(resultSet);
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  private void runUpdateOnSingle() {
+    String gameTitle = "Middle-earth™: Shadow of War™";
+    String sql = "SELECT * FROM games WHERE title = ? ";
+
+    try {
+      ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, gameTitle);
+      runUpdateOnResultSet(resultSet);
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   private void runUpdateOnResultSet(ResultSet resultSet) throws SQLException {

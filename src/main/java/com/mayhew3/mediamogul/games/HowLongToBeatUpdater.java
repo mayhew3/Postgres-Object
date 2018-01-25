@@ -4,10 +4,7 @@ import com.mayhew3.mediamogul.db.SQLConnection;
 import com.mayhew3.mediamogul.model.games.Game;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.openqa.selenium.By;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 
 import java.math.BigDecimal;
@@ -25,18 +22,16 @@ public class HowLongToBeatUpdater {
   final private Integer polledColumn = 1;
   final private Integer medianColumn = 3;
 
-  public HowLongToBeatUpdater(Game game, SQLConnection connection, WebDriver webDriver) {
+  HowLongToBeatUpdater(Game game, SQLConnection connection, WebDriver webDriver) {
     this.game = game;
     this.connection = connection;
     this.driver = webDriver;
   }
 
   public void runUpdater() throws GameFailedException, SQLException {
-    parseSteamPage();
-  }
-
-  private void parseSteamPage() throws GameFailedException, SQLException {
     String title = game.title.getValue();
+    title = title.replace("™", "");
+
     Integer howlong_id = game.howlong_id.getValue();
 
     String gameUrl;
@@ -78,7 +73,7 @@ public class HowLongToBeatUpdater {
     for (WebElement table : allTables) {
       WebElement table_header = table.findElement(By.tagName("thead"));
       WebElement firstColumn = table_header.findElement(By.tagName("td"));
-      if ("PlayStyle".equalsIgnoreCase(firstColumn.getText())) {
+      if ("Single-Player".equalsIgnoreCase(firstColumn.getText())) {
         return table;
       }
     }
@@ -162,10 +157,7 @@ public class HowLongToBeatUpdater {
 
     driver.get(url);
 
-    WebElement searchBox = goToSearchBox();
-    if (searchBox == null) {
-      throw new GameFailedException("Unable to find search box");
-    }
+    WebElement searchBox = getSearchBox();
 
     WebElement resultElement;
     resultElement = getResult(searchBox);
@@ -180,8 +172,22 @@ public class HowLongToBeatUpdater {
     return driver.getCurrentUrl();
   }
 
+  private WebElement getSearchBox() throws GameFailedException {
+    try {
+      WebElement searchBox = goToSearchBox();
+      if (searchBox == null) {
+        throw new GameFailedException("Unable to find search box");
+      }
+      return searchBox;
+    } catch (NoSuchElementException e) {
+      throw new GameFailedException("Unable to find search box.");
+    }
+  }
+
   private WebElement getResult(WebElement searchBox) {
     String title = game.title.getValue();
+
+    title = title.replace("™", "");
 
     Actions actions = new Actions(driver);
     actions.moveToElement(searchBox).click().sendKeys(title).build().perform();
@@ -189,8 +195,8 @@ public class HowLongToBeatUpdater {
     return findResultElement(By.xpath("//*[@title=\"" + title + "\"]"));
   }
 
-  private WebElement goToSearchBox() {
-    WebElement searchButton = driver.findElement(By.id("nav_search"));
+  private WebElement goToSearchBox() throws NoSuchElementException {
+    WebElement searchButton = driver.findElement(By.id("global_search_box"));
     Actions actions = new Actions(driver);
     actions.moveToElement(searchButton, 100, 0).click().build().perform();
 
@@ -227,8 +233,8 @@ public class HowLongToBeatUpdater {
   private void validateColumns(WebElement game_main_table) throws GameFailedException {
     WebElement table_header = game_main_table.findElement(By.tagName("thead"));
     List<WebElement> header_columns = table_header.findElements(By.tagName("td"));
-    if (!"PlayStyle".equalsIgnoreCase(header_columns.get(indexColumn).getText())) {
-      throw new GameFailedException("Expected first column to have 'PlayStyle' header.");
+    if (!"Single-Player".equalsIgnoreCase(header_columns.get(indexColumn).getText())) {
+      throw new GameFailedException("Expected first column to have 'Single-Player' header.");
     }
     if (!"Polled".equalsIgnoreCase(header_columns.get(polledColumn).getText())) {
       throw new GameFailedException("Expected second column to have 'Polled' header.");
