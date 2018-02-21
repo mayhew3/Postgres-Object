@@ -17,6 +17,6 @@ echo %PGPASSFILE%
 
 echo Restoring backup
 
-call pg_restore --host=localhost --username=postgres --dbname=tv_copy --clean --verbose --format=custom %fullBackupPath%.dump
+call pg_restore --host=localhost --username=postgres --dbname=tv --clean --verbose --format=custom %fullBackupPath%.dump
 
 endlocal
