@@ -24,7 +24,6 @@ import org.xml.sax.SAXException;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.net.UnknownHostException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -63,9 +62,8 @@ public class TiVoCommunicator implements UpdateRunner {
     this.updateMode = updateMode;
   }
 
-  public static void main(String[] args) throws UnknownHostException, SQLException, URISyntaxException, BadlyFormattedXMLException {
+  public static void main(String[] args) throws SQLException, URISyntaxException, BadlyFormattedXMLException {
     List<String> argList = Lists.newArrayList(args);
-    Boolean dev = argList.contains("Dev");
     Boolean saveTiVoXML = argList.contains("SaveTiVoXML");
 
     ArgumentChecker argumentChecker = new ArgumentChecker(args);
@@ -74,10 +72,6 @@ public class TiVoCommunicator implements UpdateRunner {
     SQLConnection connection = PostgresConnectionFactory.createConnection(argumentChecker);
 
     TiVoCommunicator tiVoCommunicator = new TiVoCommunicator(connection, new RemoteFileDownloader(saveTiVoXML), updateMode);
-
-    if (dev) {
-      tiVoCommunicator.truncateTables();
-    }
 
     tiVoCommunicator.runUpdate();
 
@@ -101,30 +95,6 @@ public class TiVoCommunicator implements UpdateRunner {
     updateFields();
 
   }
-
-  private void truncateTables() throws SQLException {
-    sqlConnection.executeUpdate("TRUNCATE TABLE tvdb_series CASCADE");
-    sqlConnection.executeUpdate("TRUNCATE TABLE tvdb_episode CASCADE");
-    sqlConnection.executeUpdate("TRUNCATE TABLE tivo_episode CASCADE");
-    sqlConnection.executeUpdate("TRUNCATE TABLE genre CASCADE");
-    sqlConnection.executeUpdate("TRUNCATE TABLE viewing_location CASCADE");
-    sqlConnection.executeUpdate("TRUNCATE TABLE edge_tivo_episode CASCADE");
-
-    sqlConnection.executeUpdate("ALTER SEQUENCE series_id_seq RESTART WITH 1");
-    sqlConnection.executeUpdate("ALTER SEQUENCE tvdb_series_id_seq RESTART WITH 1");
-    sqlConnection.executeUpdate("ALTER SEQUENCE season_id_seq RESTART WITH 1");
-    sqlConnection.executeUpdate("ALTER SEQUENCE episode_id_seq RESTART WITH 1");
-    sqlConnection.executeUpdate("ALTER SEQUENCE tivo_episode_id_seq RESTART WITH 1");
-    sqlConnection.executeUpdate("ALTER SEQUENCE tvdb_episode_id_seq RESTART WITH 1");
-
-    sqlConnection.executeUpdate("ALTER SEQUENCE genre_id_seq RESTART WITH 1");
-    sqlConnection.executeUpdate("ALTER SEQUENCE series_genre_id_seq RESTART WITH 1");
-
-    sqlConnection.executeUpdate("ALTER SEQUENCE viewing_location_id_seq RESTART WITH 1");
-    sqlConnection.executeUpdate("ALTER SEQUENCE series_viewing_location_id_seq RESTART WITH 1");
-
-  }
-
 
   private void updateFields() throws SQLException, BadlyFormattedXMLException {
     String fullURL = "https://10.0.0.14/TiVoConnect?Command=QueryContainer&Container=%2FNowPlaying&Recurse=Yes&ItemCount=50";
@@ -291,6 +261,11 @@ public class TiVoCommunicator implements UpdateRunner {
 
       Series series = getOrCreateSeries(tivoInfo);
       if (series != null) {
+
+        if (isFullUpdate()) {
+          episodesOnTiVo.add(tivoInfo.programId);
+        }
+
         return addEpisodeIfNotExists(showDetails, series, tivoInfo);
       } else {
         return false;
@@ -375,7 +350,7 @@ public class TiVoCommunicator implements UpdateRunner {
    * @return Whether the episode already exists in the database.
    * @throws SQLException
    */
-  private Boolean addEpisodeIfNotExists(NodeList showDetails, Series series, TiVoInfo tivoInfo) throws SQLException, BadlyFormattedXMLException {
+  private Boolean addEpisodeIfNotExists(NodeList showDetails, Series series, TiVoInfo tivoInfo) throws SQLException {
     ResultSet existingTiVoEpisode = getExistingTiVoEpisodes(tivoInfo);
     Boolean tivoEpisodeExists = existingTiVoEpisode.next();
 
@@ -384,10 +359,6 @@ public class TiVoCommunicator implements UpdateRunner {
       tivoEpisodeExists = existingTiVoEpisode.next();
     }
 
-
-    if (isFullUpdate()) {
-      episodesOnTiVo.add(tivoInfo.programId);
-    }
 
     TiVoEpisode tivoEpisode = getOrCreateTiVoEpisode(showDetails, tivoInfo, existingTiVoEpisode, tivoEpisodeExists);
 

@@ -84,8 +84,8 @@ public class TaskScheduleRunner {
     // REGULAR
     addPeriodicTask(new TVDBUpdateFinder(connection, tvdbjwtProvider, jsonReader),
         2);
-    addPeriodicTask(new TiVoCommunicator(connection, tiVoDataProvider, UpdateMode.QUICK),
-        10);
+//    addPeriodicTask(new TiVoCommunicator(connection, tiVoDataProvider, UpdateMode.QUICK),
+//        10);
     addPeriodicTask(new TVDBUpdateProcessor(connection, tvdbjwtProvider, jsonReader),
         1);
     addPeriodicTask(new TVDBSeriesMatchRunner(connection, tvdbjwtProvider, jsonReader, UpdateMode.SMART),
