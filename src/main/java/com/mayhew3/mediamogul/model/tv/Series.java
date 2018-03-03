@@ -3,6 +3,7 @@ package com.mayhew3.mediamogul.model.tv;
 import com.google.common.base.Preconditions;
 import com.mayhew3.mediamogul.dataobject.*;
 import com.mayhew3.mediamogul.db.SQLConnection;
+import com.mayhew3.mediamogul.model.Person;
 import com.mayhew3.mediamogul.tv.TVDBMatchStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -76,6 +77,7 @@ public class Series extends RetireableDataObject {
   public FieldValueInteger consecutiveTVDBErrors = registerIntegerField("consecutive_tvdb_errors", Nullability.NOT_NULL).defaultValue(0);
 
   public FieldValueString addedBy = registerStringField("added_by", Nullability.NOT_NULL).defaultValue("Manual");
+  public FieldValueForeignKey addedByUser = registerForeignKey(new Person(), Nullability.NULLABLE);
 
   public Series() {
     addUniqueConstraint(tvdbSeriesExtId);
