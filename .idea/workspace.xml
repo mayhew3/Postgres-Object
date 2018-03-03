@@ -3,7 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="1e099498-ec9e-4703-ab18-cce3963e4d0c" name="Default" comment="Move annotation directory">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/Series.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/Series.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/PersonSeries.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/PersonSeries.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBSeriesMatchRunner.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBSeriesMatchRunner.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBSeriesUpdater.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBSeriesUpdater.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBUpdateRunner.java" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBUpdateRunner.java" />
     </list>
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -62,54 +65,12 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="TVDBSeriesMatchUpdater.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBSeriesMatchUpdater.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="505">
-              <caret line="48" column="31" lean-forward="false" selection-start-line="48" selection-start-column="31" selection-end-line="48" selection-end-column="31" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="TVDBUpdateRunner.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBUpdateRunner.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="744">
-              <caret line="220" column="0" lean-forward="true" selection-start-line="220" selection-start-column="0" selection-end-line="220" selection-end-column="0" />
+            <state relative-caret-position="307">
+              <caret line="207" column="0" lean-forward="true" selection-start-line="207" selection-start-column="0" selection-end-line="207" selection-end-column="0" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TVDBUpdateProcessorRunner.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBUpdateProcessorRunner.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="627">
-              <caret line="66" column="0" lean-forward="false" selection-start-line="66" selection-start-column="0" selection-end-line="66" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="QuickBatchUpdater.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/QuickBatchUpdater.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="551">
-              <caret line="50" column="14" lean-forward="false" selection-start-line="50" selection-start-column="14" selection-end-line="50" selection-end-column="14" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TaskScheduleRunner.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/scheduler/TaskScheduleRunner.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="386">
-              <caret line="84" column="82" lean-forward="true" selection-start-line="84" selection-start-column="82" selection-end-line="84" selection-end-column="82" />
-              <folding>
-                <element signature="e#4801#4843#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -117,29 +78,72 @@
       <file leaf-file-name="TVDBMatchStatus.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBMatchStatus.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="152">
-              <caret line="8" column="1" lean-forward="true" selection-start-line="8" selection-start-column="1" selection-end-line="8" selection-end-column="1" />
+            <state relative-caret-position="114">
+              <caret line="6" column="29" lean-forward="false" selection-start-line="6" selection-start-column="29" selection-end-line="6" selection-end-column="29" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TiVoCommunicator.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TiVoCommunicator.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1399">
-              <caret line="378" column="25" lean-forward="true" selection-start-line="378" selection-start-column="25" selection-end-line="378" selection-end-column="25" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Series.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Series.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/Series.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="741">
-              <caret line="78" column="51" lean-forward="true" selection-start-line="78" selection-start-column="51" selection-end-line="78" selection-end-column="51" />
+            <state relative-caret-position="608">
+              <caret line="71" column="154" lean-forward="true" selection-start-line="71" selection-start-column="107" selection-end-line="71" selection-end-column="154" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TVDBSeriesUpdater.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBSeriesUpdater.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="592">
+              <caret line="168" column="39" lean-forward="true" selection-start-line="168" selection-start-column="39" selection-end-line="168" selection-end-column="39" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RetireableDataObject.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/dataobject/RetireableDataObject.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="76">
+              <caret line="5" column="56" lean-forward="false" selection-start-line="5" selection-start-column="56" selection-end-line="5" selection-end-column="56" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DataObject.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/dataobject/DataObject.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="76">
+              <caret line="16" column="22" lean-forward="false" selection-start-line="16" selection-start-column="22" selection-end-line="16" selection-end-column="22" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PersonSeries.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/PersonSeries.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="247">
+              <caret line="14" column="0" lean-forward="true" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TVDBSeriesMatchRunner.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBSeriesMatchRunner.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="345">
+              <caret line="170" column="14" lean-forward="true" selection-start-line="170" selection-start-column="14" selection-end-line="170" selection-end-column="14" />
+              <folding>
+                <element signature="e#4203#4204#0" expanded="true" />
+                <element signature="e#4230#4231#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -149,16 +153,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="437">
               <caret line="32" column="9" lean-forward="true" selection-start-line="32" selection-start-column="9" selection-end-line="32" selection-end-column="9" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BackupPostgresHerokuDB.bat" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/scripts/BackupPostgresHerokuDB.bat">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="266">
-              <caret line="14" column="8" lean-forward="false" selection-start-line="14" selection-start-column="8" selection-end-line="14" selection-end-column="8" />
               <folding />
             </state>
           </provider>
@@ -176,7 +170,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>TVDB Update Type</find>
       <find>&quot;type&quot;</find>
       <find>updateType</find>
       <find>-type</find>
@@ -200,12 +193,13 @@
       <find>tvdb_only_episodes</find>
       <find>unwatched_unrecorded</find>
       <find>most_recent</find>
-      <find>unwatched_episodes</find>
       <find>System.getenv</find>
       <find>return null</find>
       <find>tvdb_confirm_date</find>
       <find>Duplicate</find>
       <find>Needs Hint</find>
+      <find>series.id</find>
+      <find>unwatched_episodes</find>
     </findStrings>
     <replaceStrings>
       <replace>&lt;module name=&quot;media-mogul-data_main&quot;</replace>
@@ -546,8 +540,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/model/tv/TVSchemaHerokuTest.java" />
-        <option value="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/TVDatabaseTest.java" />
         <option value="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/dataobject/DatabaseRecreatorTest.java" />
         <option value="$PROJECT_DIR$/.idea/workspace.xml" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/ArgumentChecker.java" />
@@ -571,12 +563,10 @@
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/Person.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/PersonRole.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/EpisodeRating.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/PersonSeries.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/Episode.java" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/scripts/RestorePostgresLocalTestDB.bat" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/SeriesDenormUpdater.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBSeriesMatchRunner.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/EpisodeGroupRating.java" />
         <option value="$PROJECT_DIR$/resources/Blog Templates/yearly_template.html" />
         <option value="$PROJECT_DIR$/resources/Blog Templates/top20_template.html" />
@@ -595,8 +585,12 @@
         <option value="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/model/tv/TVSchemaLocalTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TiVoCommunicator.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/scheduler/TaskScheduleRunner.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBUpdateRunner.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/Series.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/PersonSeries.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBSeriesMatchRunner.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBSeriesUpdater.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBUpdateRunner.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/SeriesRequest.java" />
       </list>
     </option>
   </component>
@@ -788,7 +782,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.TVSchemaHerokuTest">
+  <component name="RunManager" selected="Application.TVDBUpdateRunner (local/single)">
     <configuration name="BlogRankingsCreator" type="Application" factoryName="Application" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.blog.BlogRankingsCreator" />
@@ -1435,11 +1429,11 @@
         <env name="postgresURL" value="postgres://ijxuheufucvnyu:h16h_LnZi4fHgIUjBANnzITEyR@ec2-54-204-30-115.compute-1.amazonaws.com:5432/dcg1rtode4vgk9" />
       </envs>
     </configuration>
-    <configuration name="TVDBSeriesMatchRunner (test/episodes)" type="Application" factoryName="Application" folderName="TVDBSeriesMatchRunner">
+    <configuration name="TVDBSeriesMatchRunner (local/first pass)" type="Application" factoryName="Application" folderName="TVDBSeriesMatchRunner">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBSeriesMatchRunner" />
       <option name="VM_PARAMETERS" value="" />
-      <option name="PROGRAM_PARAMETERS" value="-db Test -mode EpisodeMatch" />
+      <option name="PROGRAM_PARAMETERS" value="-db Local -mode FirstPass" />
       <option name="WORKING_DIRECTORY" value="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
@@ -1453,11 +1447,11 @@
         <env name="postgresURL" value="postgres://ijxuheufucvnyu:h16h_LnZi4fHgIUjBANnzITEyR@ec2-54-204-30-115.compute-1.amazonaws.com:5432/dcg1rtode4vgk9" />
       </envs>
     </configuration>
-    <configuration name="TVDBSeriesMatchRunner (test/first pass)" type="Application" factoryName="Application" folderName="TVDBSeriesMatchRunner">
+    <configuration name="TVDBSeriesMatchRunner (test/episodes)" type="Application" factoryName="Application" folderName="TVDBSeriesMatchRunner">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBSeriesMatchRunner" />
       <option name="VM_PARAMETERS" value="" />
-      <option name="PROGRAM_PARAMETERS" value="-db Test -mode FirstPass" />
+      <option name="PROGRAM_PARAMETERS" value="-db Test -mode EpisodeMatch" />
       <option name="WORKING_DIRECTORY" value="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
@@ -1760,6 +1754,24 @@
         <env name="postgresURL" value="postgres://ijxuheufucvnyu:h16h_LnZi4fHgIUjBANnzITEyR@ec2-54-204-30-115.compute-1.amazonaws.com:5432/dcg1rtode4vgk9" />
       </envs>
     </configuration>
+    <configuration name="TVDBUpdateRunner (local/single)" type="Application" factoryName="Application" folderName="TVDBUpdateRunner">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBUpdateRunner" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="-db Local -mode Single" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="media-mogul-data_main" />
+      <envs>
+        <env name="postgresURL_local" value="jdbc:postgresql://localhost:5432/tv?user=postgres&amp;password=m3mysql" />
+        <env name="postgresURL_local_test" value="jdbc:postgresql://localhost:5432/tv_copy?user=postgres&amp;password=m3mysql" />
+        <env name="postgresURL" value="postgres://ijxuheufucvnyu:h16h_LnZi4fHgIUjBANnzITEyR@ec2-54-204-30-115.compute-1.amazonaws.com:5432/dcg1rtode4vgk9" />
+      </envs>
+    </configuration>
     <configuration name="TVDBUpdateRunner (local/smart)" type="Application" factoryName="Application" folderName="Local (Old)">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBUpdateRunner" />
@@ -1927,24 +1939,6 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBUpdateRunner" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="-db Test -mode Sanity" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="media-mogul-data_main" />
-      <envs>
-        <env name="postgresURL_local" value="jdbc:postgresql://localhost:5432/tv?user=postgres&amp;password=m3mysql" />
-        <env name="postgresURL_local_test" value="jdbc:postgresql://localhost:5432/tv_copy?user=postgres&amp;password=m3mysql" />
-        <env name="postgresURL" value="postgres://ijxuheufucvnyu:h16h_LnZi4fHgIUjBANnzITEyR@ec2-54-204-30-115.compute-1.amazonaws.com:5432/dcg1rtode4vgk9" />
-      </envs>
-    </configuration>
-    <configuration name="TVDBUpdateRunner (test/single)" type="Application" factoryName="Application" folderName="TVDBUpdateRunner">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBUpdateRunner" />
-      <option name="VM_PARAMETERS" value="" />
-      <option name="PROGRAM_PARAMETERS" value="-db Local -mode Single" />
       <option name="WORKING_DIRECTORY" value="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
@@ -2793,7 +2787,7 @@
       <envs />
       <method />
     </configuration>
-    <list size="103">
+    <list size="102">
       <item index="0" class="java.lang.String" itemvalue="Application.GamePostgresMongoSyncer" />
       <item index="1" class="java.lang.String" itemvalue="Application.GiantBombUpdater" />
       <item index="2" class="java.lang.String" itemvalue="Application.GiantBombUpdater (SingleGame)" />
@@ -2839,7 +2833,7 @@
       <item index="42" class="java.lang.String" itemvalue="Application.TVDBSeriesMatchRunner (heroku/full)" />
       <item index="43" class="java.lang.String" itemvalue="Application.TVDBSeriesMatchRunner (heroku/single)" />
       <item index="44" class="java.lang.String" itemvalue="Application.TVDBSeriesMatchRunner (test/episodes)" />
-      <item index="45" class="java.lang.String" itemvalue="Application.TVDBSeriesMatchRunner (test/first pass)" />
+      <item index="45" class="java.lang.String" itemvalue="Application.TVDBSeriesMatchRunner (local/first pass)" />
       <item index="46" class="java.lang.String" itemvalue="Application.TVDBSeriesMatchRunner (test/single)" />
       <item index="47" class="java.lang.String" itemvalue="Application.TVDBUpdateFinder (heroku)" />
       <item index="48" class="java.lang.String" itemvalue="Application.TVDBUpdateFinder (heroku/lastweek)" />
@@ -2861,42 +2855,41 @@
       <item index="64" class="java.lang.String" itemvalue="Application.TVDBUpdateRunner (test/olderrors)" />
       <item index="65" class="java.lang.String" itemvalue="Application.TVDBUpdateRunner (test/quick)" />
       <item index="66" class="java.lang.String" itemvalue="Application.TVDBUpdateRunner (test/sanity)" />
-      <item index="67" class="java.lang.String" itemvalue="Application.TVDBUpdateRunner (test/single)" />
-      <item index="68" class="java.lang.String" itemvalue="Application.TVDBUpdateRunner (test/manual)" />
-      <item index="69" class="java.lang.String" itemvalue="Application.TVDBUpdateRunner (test/smart)" />
-      <item index="70" class="java.lang.String" itemvalue="Application.DaylightSavingCorrector (Heroku)" />
-      <item index="71" class="java.lang.String" itemvalue="Application.DaylightSavingCorrector (Test)" />
-      <item index="72" class="java.lang.String" itemvalue="Application.SeriesDeleter (heroku)" />
-      <item index="73" class="java.lang.String" itemvalue="Application.SeriesDeleter (test)" />
-      <item index="74" class="java.lang.String" itemvalue="Application.SeriesMerger (test)" />
-      <item index="75" class="java.lang.String" itemvalue="Application.TVDBDuplicateDataFixer (test)" />
-      <item index="76" class="java.lang.String" itemvalue="Application.TVDBJSONFetcher (test)" />
-      <item index="77" class="java.lang.String" itemvalue="Application.TVDBXMLFetcher (test)" />
-      <item index="78" class="java.lang.String" itemvalue="Application.TimestampTimeZoneUpgrader (heroku)" />
-      <item index="79" class="java.lang.String" itemvalue="Application.TimestampTimeZoneUpgrader (test)" />
-      <item index="80" class="java.lang.String" itemvalue="Application.TVRatingSpreadsheetCopier (test)" />
-      <item index="81" class="java.lang.String" itemvalue="Application.TVDBUpdateRunner (test/episodeMatch)" />
-      <item index="82" class="java.lang.String" itemvalue="Application.EpisodeGroupUpdater (Heroku)" />
-      <item index="83" class="java.lang.String" itemvalue="Application.EpisodeGroupUpdater (test)" />
-      <item index="84" class="java.lang.String" itemvalue="Application.SeriesDenormUpdater (heroku)" />
-      <item index="85" class="java.lang.String" itemvalue="Application.SeriesDenormUpdater (test)" />
-      <item index="86" class="java.lang.String" itemvalue="Application.QuickBatchUpdater (test)" />
-      <item index="87" class="java.lang.String" itemvalue="Application.TaskScheduleRunner (test)" />
-      <item index="88" class="java.lang.String" itemvalue="Application.TaskScheduleRunner (test/LogToFile)" />
-      <item index="89" class="java.lang.String" itemvalue="Application.BlogRankingsCreator" />
-      <item index="90" class="java.lang.String" itemvalue="Gradle.media-mogul-data [build]" />
-      <item index="91" class="java.lang.String" itemvalue="Gradle.media-mogul-data [assemble]" />
-      <item index="92" class="java.lang.String" itemvalue="JUnit.TVSchemaLocalTest.testHerokuTestUpToDate" />
-      <item index="93" class="java.lang.String" itemvalue="JUnit.DatabaseRecreatorTest (Demo)" />
-      <item index="94" class="java.lang.String" itemvalue="JUnit.DatabaseRecreatorTest (Test)" />
-      <item index="95" class="java.lang.String" itemvalue="JUnit.TVSchemaHerokuTest" />
-      <item index="96" class="java.lang.String" itemvalue="JUnit.TVSchemaHerokuTest.testHerokuSchemaUpToDate" />
+      <item index="67" class="java.lang.String" itemvalue="Application.TVDBUpdateRunner (test/manual)" />
+      <item index="68" class="java.lang.String" itemvalue="Application.TVDBUpdateRunner (test/smart)" />
+      <item index="69" class="java.lang.String" itemvalue="Application.DaylightSavingCorrector (Heroku)" />
+      <item index="70" class="java.lang.String" itemvalue="Application.DaylightSavingCorrector (Test)" />
+      <item index="71" class="java.lang.String" itemvalue="Application.SeriesDeleter (heroku)" />
+      <item index="72" class="java.lang.String" itemvalue="Application.SeriesDeleter (test)" />
+      <item index="73" class="java.lang.String" itemvalue="Application.SeriesMerger (test)" />
+      <item index="74" class="java.lang.String" itemvalue="Application.TVDBDuplicateDataFixer (test)" />
+      <item index="75" class="java.lang.String" itemvalue="Application.TVDBJSONFetcher (test)" />
+      <item index="76" class="java.lang.String" itemvalue="Application.TVDBXMLFetcher (test)" />
+      <item index="77" class="java.lang.String" itemvalue="Application.TimestampTimeZoneUpgrader (heroku)" />
+      <item index="78" class="java.lang.String" itemvalue="Application.TimestampTimeZoneUpgrader (test)" />
+      <item index="79" class="java.lang.String" itemvalue="Application.TVRatingSpreadsheetCopier (test)" />
+      <item index="80" class="java.lang.String" itemvalue="Application.TVDBUpdateRunner (test/episodeMatch)" />
+      <item index="81" class="java.lang.String" itemvalue="Application.EpisodeGroupUpdater (Heroku)" />
+      <item index="82" class="java.lang.String" itemvalue="Application.EpisodeGroupUpdater (test)" />
+      <item index="83" class="java.lang.String" itemvalue="Application.SeriesDenormUpdater (heroku)" />
+      <item index="84" class="java.lang.String" itemvalue="Application.SeriesDenormUpdater (test)" />
+      <item index="85" class="java.lang.String" itemvalue="Application.QuickBatchUpdater (test)" />
+      <item index="86" class="java.lang.String" itemvalue="Application.TaskScheduleRunner (test)" />
+      <item index="87" class="java.lang.String" itemvalue="Application.TaskScheduleRunner (test/LogToFile)" />
+      <item index="88" class="java.lang.String" itemvalue="Application.BlogRankingsCreator" />
+      <item index="89" class="java.lang.String" itemvalue="Gradle.media-mogul-data [build]" />
+      <item index="90" class="java.lang.String" itemvalue="Gradle.media-mogul-data [assemble]" />
+      <item index="91" class="java.lang.String" itemvalue="JUnit.TVSchemaLocalTest.testHerokuTestUpToDate" />
+      <item index="92" class="java.lang.String" itemvalue="JUnit.DatabaseRecreatorTest (Demo)" />
+      <item index="93" class="java.lang.String" itemvalue="JUnit.DatabaseRecreatorTest (Test)" />
+      <item index="94" class="java.lang.String" itemvalue="JUnit.TVSchemaHerokuTest" />
+      <item index="95" class="java.lang.String" itemvalue="JUnit.TVSchemaHerokuTest.testHerokuSchemaUpToDate" />
+      <item index="96" class="java.lang.String" itemvalue="JUnit.TVSchemaLocalTest" />
       <item index="97" class="java.lang.String" itemvalue="JUnit.TVSchemaLocalTest.testHerokuLocalUpToDate" />
       <item index="98" class="java.lang.String" itemvalue="JUnit.TVSchemaTestTest.testHerokuTestUpToDate" />
       <item index="99" class="java.lang.String" itemvalue="JUnit.StringSimilarityTest.testNGram" />
       <item index="100" class="java.lang.String" itemvalue="JUnit.TVDBSeriesUpdaterTest" />
       <item index="101" class="java.lang.String" itemvalue="JUnit.All in media-mogul-data_test" />
-      <item index="102" class="java.lang.String" itemvalue="JUnit.TVSchemaLocalTest" />
     </list>
     <recent_temporary>
       <list size="5">
@@ -2974,14 +2967,14 @@
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26068676" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26068676" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32863188" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17130366" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32726" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.15916955" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4012694" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.40084094" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -3030,7 +3023,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBSeriesUpdater.java</url>
-          <line>70</line>
+          <line>71</line>
           <properties />
           <option name="timeStamp" value="41" />
         </line-breakpoint>
@@ -3040,13 +3033,29 @@
           <properties />
           <option name="timeStamp" value="43" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBSeriesUpdater.java</url>
+          <line>191</line>
+          <properties />
+          <option name="timeStamp" value="50" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="48" />
+      <option name="time" value="52" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="evaluateExpression">
+      <expression>
+        <expression-string>series.tvdbMatchStatus.getValue()</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>series.addedByUser.getValue()</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
       <expression>
         <expression-string>firstColumn.getText()</expression-string>
         <language-id>JAVA</language-id>
@@ -3055,28 +3064,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/PersonRole.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TVDBSeries.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-7">
-          <caret line="11" column="17" lean-forward="false" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/Person.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="20" column="0" lean-forward="false" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/PersonSeries.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="551">
-          <caret line="36" column="0" lean-forward="false" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/Episode.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3458">
@@ -3315,29 +3302,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBSeriesMatchRunner.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3667">
-          <caret line="225" column="100" lean-forward="false" selection-start-line="225" selection-start-column="100" selection-end-line="225" selection-end-column="100" />
-          <folding>
-            <element signature="e#4203#4204#0" expanded="true" />
-            <element signature="e#4230#4231#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/helper/UpdateMode.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="171">
           <caret line="12" column="2" lean-forward="false" selection-start-line="12" selection-start-column="2" selection-end-line="12" selection-end-column="2" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBSeriesUpdater.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1045">
-          <caret line="74" column="0" lean-forward="false" selection-start-line="74" selection-start-column="0" selection-end-line="74" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -3374,26 +3342,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBMatchStatus.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="8" column="1" lean-forward="true" selection-start-line="8" selection-start-column="1" selection-end-line="8" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBSeriesMatchUpdater.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="505">
           <caret line="48" column="31" lean-forward="false" selection-start-line="48" selection-start-column="31" selection-end-line="48" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBUpdateRunner.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="744">
-          <caret line="220" column="0" lean-forward="true" selection-start-line="220" selection-start-column="0" selection-end-line="220" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -3424,10 +3376,77 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBMatchStatus.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="114">
+          <caret line="6" column="29" lean-forward="false" selection-start-line="6" selection-start-column="29" selection-end-line="6" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBSeriesMatchRunner.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="170" column="14" lean-forward="true" selection-start-line="170" selection-start-column="14" selection-end-line="170" selection-end-column="14" />
+          <folding>
+            <element signature="e#4203#4204#0" expanded="true" />
+            <element signature="e#4230#4231#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBUpdateRunner.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="307">
+          <caret line="207" column="0" lean-forward="true" selection-start-line="207" selection-start-column="0" selection-end-line="207" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/PersonSeries.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="247">
+          <caret line="14" column="0" lean-forward="true" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/dataobject/DataObject.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="76">
+          <caret line="16" column="22" lean-forward="false" selection-start-line="16" selection-start-column="22" selection-end-line="16" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/dataobject/RetireableDataObject.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="76">
+          <caret line="5" column="56" lean-forward="false" selection-start-line="5" selection-start-column="56" selection-end-line="5" selection-end-column="56" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/Series.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="741">
-          <caret line="78" column="51" lean-forward="true" selection-start-line="78" selection-start-column="51" selection-end-line="78" selection-end-column="51" />
+        <state relative-caret-position="608">
+          <caret line="71" column="154" lean-forward="true" selection-start-line="71" selection-start-column="107" selection-end-line="71" selection-end-column="154" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/SeriesRequest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="114">
+          <caret line="6" column="20" lean-forward="false" selection-start-line="6" selection-start-column="20" selection-end-line="6" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBSeriesUpdater.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="592">
+          <caret line="168" column="39" lean-forward="true" selection-start-line="168" selection-start-column="39" selection-end-line="168" selection-end-column="39" />
           <folding />
         </state>
       </provider>

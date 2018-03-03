@@ -1,6 +1,7 @@
 package com.mayhew3.mediamogul.tv;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Preconditions;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mayhew3.mediamogul.dataobject.FieldValue;
 import com.mayhew3.mediamogul.db.SQLConnection;
@@ -49,7 +50,7 @@ public class TVDBSeriesUpdater {
   }
 
 
-  void updateSeries() throws SQLException, ShowFailedException, UnirestException, BadlyFormattedXMLException, AuthenticationException {
+  void updateSeries() throws SQLException, ShowFailedException, UnirestException, AuthenticationException {
     String seriesTitle = series.seriesTitle.getValue();
 
     debug(seriesTitle + ": ID found, getting show data.");
@@ -147,6 +148,13 @@ public class TVDBSeriesUpdater {
 
     updateTVDBSeries(tvdbSeriesExtId, seriesJson, tvdbSeries);
 
+    // If we are finalizing the series match for the first time, add it to the collection of the person who made the add request.
+    if (series.addedByUser.getValue() != null &&
+        !TVDBMatchStatus.MATCH_COMPLETED.equalsIgnoreCase(series.tvdbMatchStatus.getValue()) &&
+        !isSeriesAlreadyInPersonCollection(series)) {
+      addPersonSeriesForRequestOwner(series);
+    }
+
     Integer tvdbSeriesId = tvdbSeries.id.getValue();
     series.tvdbSeriesId.changeValue(tvdbSeriesId);
     series.lastTVDBUpdate.changeValue(new Date());
@@ -173,6 +181,39 @@ public class TVDBSeriesUpdater {
 
     debug(seriesTitle + ": Update complete! Added: " + episodesAdded + "; Updated: " + episodesUpdated);
 
+  }
+
+  private Boolean isSeriesAlreadyInPersonCollection(Series series) throws SQLException {
+    Preconditions.checkArgument(series.addedByUser.getValue() != null, "Cannot check for existing PersonSeries for series with null person_id.");
+
+    Integer personId = series.addedByUser.getValue();
+    Integer seriesId = series.id.getValue();
+
+    String sql = "SELECT 1 " +
+        "FROM person_series " +
+        "WHERE person_id = ? " +
+        "AND series_id = ? " +
+        "AND retired = ? ";
+
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, personId, seriesId, 0);
+    return resultSet.next();
+  }
+
+  private void addPersonSeriesForRequestOwner(Series series) throws SQLException {
+    Preconditions.checkArgument(series.addedByUser.getValue() != null, "Cannot add PersonSeries for series with null person_id.");
+
+    Integer personId = series.addedByUser.getValue();
+    Integer seriesId = series.id.getValue();
+
+    PersonSeries personSeries = new PersonSeries();
+    personSeries.initializeForInsert();
+    personSeries.personId.changeValue(personId);
+    personSeries.seriesId.changeValue(seriesId);
+    personSeries.tier.changeValue(1);
+    personSeries.unwatchedEpisodes.changeValue(0);
+    personSeries.unwatchedStreaming.changeValue(0);
+
+    personSeries.commit(connection);
   }
 
   private void updateOnlyAbsoluteNumbers() throws SQLException {

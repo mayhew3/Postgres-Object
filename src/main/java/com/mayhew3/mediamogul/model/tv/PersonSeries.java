@@ -5,11 +5,11 @@ import com.mayhew3.mediamogul.model.Person;
 
 public class PersonSeries extends RetireableDataObject {
 
-  FieldValueForeignKey seriesId = registerForeignKey(new Series(), Nullability.NOT_NULL);
-  FieldValueForeignKey personId = registerForeignKey(new Person(), Nullability.NOT_NULL);
+  public FieldValueForeignKey seriesId = registerForeignKey(new Series(), Nullability.NOT_NULL);
+  public FieldValueForeignKey personId = registerForeignKey(new Person(), Nullability.NOT_NULL);
 
   FieldValueInteger rating = registerIntegerField("rating", Nullability.NULLABLE);
-  FieldValueInteger tier = registerIntegerField("tier", Nullability.NOT_NULL).defaultValue(1);
+  public FieldValueInteger tier = registerIntegerField("tier", Nullability.NOT_NULL).defaultValue(1);
 
   FieldValueTimestamp ratingDate = registerTimestampField("rating_date", Nullability.NULLABLE);
 
@@ -19,7 +19,7 @@ public class PersonSeries extends RetireableDataObject {
   public FieldValueTimestamp firstUnwatched = registerTimestampField("first_unwatched", Nullability.NULLABLE);
   public FieldValueTimestamp lastUnwatched = registerTimestampField("last_unwatched", Nullability.NULLABLE);
 
-  PersonSeries() {
+  public PersonSeries() {
     addUniqueConstraint(seriesId, personId);
   }
 
