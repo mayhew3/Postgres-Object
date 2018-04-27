@@ -82,6 +82,10 @@ public class TaskScheduleRunner {
 
   private void createTaskList() {
     // REGULAR
+    addPeriodicTask(new SeriesDenormUpdater(connection),
+        5);
+    addPeriodicTask(new TVDBUpdateRunner(connection, tvdbjwtProvider, jsonReader, UpdateMode.MANUAL),
+        1);
     addPeriodicTask(new TVDBUpdateFinder(connection, tvdbjwtProvider, jsonReader),
         2);
 //    addPeriodicTask(new TiVoCommunicator(connection, tiVoDataProvider, UpdateMode.QUICK),
@@ -94,10 +98,6 @@ public class TaskScheduleRunner {
         30);
     addPeriodicTask(new SteamGameUpdater(connection),
         60);
-    addPeriodicTask(new SeriesDenormUpdater(connection),
-        5);
-    addPeriodicTask(new TVDBUpdateRunner(connection, tvdbjwtProvider, jsonReader, UpdateMode.MANUAL),
-        1);
 
     // NIGHTLY
     addNightlyTask(new TiVoCommunicator(connection, tiVoDataProvider, UpdateMode.FULL));
