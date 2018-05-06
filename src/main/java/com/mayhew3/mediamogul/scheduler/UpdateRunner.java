@@ -6,6 +6,7 @@ import com.mayhew3.mediamogul.xml.BadlyFormattedXMLException;
 import org.apache.http.auth.AuthenticationException;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.FileNotFoundException;
 import java.sql.SQLException;
 
 public interface UpdateRunner {
@@ -23,5 +24,5 @@ public interface UpdateRunner {
     }
   }
 
-  void runUpdate() throws SQLException, BadlyFormattedXMLException, AuthenticationException, UnirestException, InterruptedException;
+  void runUpdate() throws SQLException, BadlyFormattedXMLException, AuthenticationException, UnirestException, InterruptedException, FileNotFoundException;
 }

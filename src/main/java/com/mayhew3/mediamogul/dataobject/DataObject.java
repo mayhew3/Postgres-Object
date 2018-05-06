@@ -155,7 +155,7 @@ public abstract class DataObject {
   }
 
   @Nullable
-  FieldValue getFieldValueWithName(String fieldName) {
+  public FieldValue getFieldValueWithName(String fieldName) {
     if ("id".equals(fieldName)) {
       return id;
     }
