@@ -4,6 +4,8 @@
     <list default="true" id="1e099498-ec9e-4703-ab18-cce3963e4d0c" name="Default" comment="Move annotation directory">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/archive/OldDataArchiveRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/archive/OldDataArchiveRunner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/dataobject/DataObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/dataobject/DataObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/scheduler/UpdateRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/scheduler/UpdateRunner.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -62,23 +64,25 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="TaskScheduleRunner.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/scheduler/TaskScheduleRunner.java">
+      <file leaf-file-name="OldDataArchiveRunner.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/archive/OldDataArchiveRunner.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3192">
-              <caret line="197" selection-start-line="175" selection-end-line="197" />
+            <state relative-caret-position="440">
+              <caret line="119" selection-start-line="119" selection-end-line="119" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#4184#4185#0" expanded="true" />
+                <element signature="e#4237#4238#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="OldDataArchiveRunner.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/archive/OldDataArchiveRunner.java">
+      <file leaf-file-name="BufferedReader.java" pinned="false" current-in-tab="false">
+        <entry file="jar://C:/Dev/Java/jdk1.8.0_131/src.zip!/java/io/BufferedReader.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="389">
-              <caret line="92" column="38" lean-forward="true" selection-start-line="92" selection-start-column="38" selection-end-line="92" selection-end-column="38" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="523">
+              <caret line="387" column="18" selection-start-line="387" selection-start-column="18" selection-end-line="387" selection-end-column="18" />
             </state>
           </provider>
         </entry>
@@ -157,8 +161,12 @@
       <file leaf-file-name="DataObject.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/dataobject/DataObject.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2527">
-              <caret line="157" column="20" selection-start-line="157" selection-start-column="20" selection-end-line="157" selection-end-column="20" />
+            <state relative-caret-position="269">
+              <caret line="55" column="31" lean-forward="true" selection-start-line="55" selection-start-column="31" selection-end-line="55" selection-end-column="31" />
+              <folding>
+                <element signature="e#2048#2049#0" expanded="true" />
+                <element signature="e#2099#2100#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -596,8 +604,8 @@
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/ArchiveableFactory.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/ConnectLog.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/archive/ArchiveableFactory.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/dataobject/DataObject.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/archive/ConnectLogFactory.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/dataobject/DataObject.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/archive/OldDataArchiveRunner.java" />
       </list>
     </option>
@@ -624,7 +632,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
@@ -682,6 +689,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -2295,61 +2303,6 @@
       <option name="MAIN_CLASS_NAME" />
       <option name="WORKING_DIRECTORY" />
     </configuration>
-    <configuration default="true" type="GradleRunConfiguration" factoryName="Gradle">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list />
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <method />
-    </configuration>
-    <configuration default="true" type="GroovyScriptRunConfiguration" factoryName="Groovy">
-      <module name="" />
-      <setting name="path" value="" />
-      <setting name="vmparams" value="" />
-      <setting name="params" value="" />
-      <setting name="workDir" value="file://$PROJECT_DIR$" />
-      <setting name="debug" value="false" />
-      <method />
-    </configuration>
-    <configuration default="true" type="JarApplication" factoryName="JAR Application">
-      <envs />
-      <method />
-    </configuration>
-    <configuration default="true" type="Java Scratch" factoryName="Java Scratch">
-      <option name="SCRATCH_FILE_ID" value="0" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="" />
-      <envs />
-      <method />
-    </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType" factoryName="Kotlin script">
-      <option name="filePath" />
-      <option name="vmParameters" />
-      <option name="alternativeJrePath" />
-      <option name="programParameters" />
-      <option name="passParentEnvs" value="true" />
-      <option name="workingDirectory" />
-      <option name="isAlternativeJrePathEnabled" value="false" />
-      <envs />
-      <method />
-    </configuration>
     <list>
       <item itemvalue="Application.GamePostgresMongoSyncer" />
       <item itemvalue="Application.GiantBombUpdater" />
@@ -2521,17 +2474,17 @@
     <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Messages" order="7" weight="0.32796076" />
       <window_info anchor="right" id="Palette&#9;" order="3" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="right" id="Maven Projects" order="3" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.2617544" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.32863188" />
       <window_info id="Designer" order="2" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.3799682" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32726" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.38314787" />
       <window_info anchor="right" id="Gradle" order="3" weight="0.15916955" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.4" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -2541,7 +2494,7 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Build" order="8" />
-      <window_info anchor="bottom" id="Messages" order="7" weight="0.32796076" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32726" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -2603,8 +2556,14 @@
           <properties />
           <option name="timeStamp" value="52" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/archive/OldDataArchiveRunner.java</url>
+          <line>112</line>
+          <properties />
+          <option name="timeStamp" value="58" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="57" />
+      <option name="time" value="61" />
     </breakpoint-manager>
   </component>
   <component name="debuggerHistoryManager">
@@ -2627,13 +2586,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TVSchema.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="475">
-          <caret line="26" column="24" selection-start-line="26" selection-start-column="24" selection-end-line="26" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/SystemVars.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="513">
@@ -2963,13 +2915,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/dataobject/DataObject.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2527">
-          <caret line="157" column="20" selection-start-line="157" selection-start-column="20" selection-end-line="157" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/archive/ConnectLogFactory.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="171">
@@ -2988,12 +2933,32 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar://C:/Dev/Java/jdk1.8.0_131/src.zip!/java/io/BufferedReader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="523">
+          <caret line="387" column="18" selection-start-line="387" selection-start-column="18" selection-end-line="387" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/dataobject/DataObject.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="269">
+          <caret line="55" column="31" lean-forward="true" selection-start-line="55" selection-start-column="31" selection-end-line="55" selection-end-column="31" />
+          <folding>
+            <element signature="e#2048#2049#0" expanded="true" />
+            <element signature="e#2099#2100#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/archive/OldDataArchiveRunner.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="389">
-          <caret line="92" column="38" lean-forward="true" selection-start-line="92" selection-start-column="38" selection-end-line="92" selection-end-column="38" />
+        <state relative-caret-position="440">
+          <caret line="119" selection-start-line="119" selection-end-line="119" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#4184#4185#0" expanded="true" />
+            <element signature="e#4237#4238#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -7,6 +7,7 @@ import org.apache.http.auth.AuthenticationException;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.SQLException;
 
 public interface UpdateRunner {
@@ -24,5 +25,5 @@ public interface UpdateRunner {
     }
   }
 
-  void runUpdate() throws SQLException, BadlyFormattedXMLException, AuthenticationException, UnirestException, InterruptedException, FileNotFoundException;
+  void runUpdate() throws SQLException, BadlyFormattedXMLException, AuthenticationException, UnirestException, InterruptedException, IOException;
 }

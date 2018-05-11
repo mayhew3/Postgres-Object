@@ -70,6 +70,12 @@ public abstract class DataObject {
     return Lists.newArrayList(allFieldValues);
   }
 
+  public List<FieldValue> getAllFieldValuesIncludingId() {
+    ArrayList<FieldValue> fieldValues = Lists.newArrayList(allFieldValues);
+    fieldValues.add(id);
+    return fieldValues;
+  }
+
   List<FieldValueForeignKey> getForeignKeys() {
     return Lists.newArrayList(foreignKeys);
   }

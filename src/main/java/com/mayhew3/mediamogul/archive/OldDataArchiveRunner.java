@@ -15,19 +15,13 @@ import org.jetbrains.annotations.Nullable;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeComparator;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
+import java.io.*;
 import java.net.URISyntaxException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class OldDataArchiveRunner implements UpdateRunner {
@@ -38,7 +32,7 @@ public class OldDataArchiveRunner implements UpdateRunner {
   private List<ArchiveableFactory> tablesToArchive;
 
 
-  public static void main(String... args) throws URISyntaxException, SQLException, FileNotFoundException {
+  public static void main(String... args) throws URISyntaxException, SQLException, IOException {
     ArgumentChecker argumentChecker = new ArgumentChecker(args);
 
     SQLConnection connection = PostgresConnectionFactory.createConnection(argumentChecker);
@@ -68,13 +62,13 @@ public class OldDataArchiveRunner implements UpdateRunner {
   }
 
   @Override
-  public void runUpdate() throws SQLException, FileNotFoundException {
+  public void runUpdate() throws SQLException, IOException {
     for (ArchiveableFactory factory : tablesToArchive) {
       runUpdateOnTable(factory);
     }
   }
 
-  private void runUpdateOnTable(ArchiveableFactory factory) throws SQLException, FileNotFoundException {
+  private void runUpdateOnTable(ArchiveableFactory factory) throws SQLException, IOException {
     String tableName = factory.tableName();
     String dateColumnName = factory.dateColumnName();
     Integer monthsToKeep = factory.monthsToKeep();
@@ -85,6 +79,7 @@ public class OldDataArchiveRunner implements UpdateRunner {
 
     File mostRecentFile = null;
     DateTime mostRecentDate = null;
+    PrintStream mostRecentStream = null;
 
     String sql = "SELECT * " +
         " FROM " + tableName +
@@ -109,12 +104,28 @@ public class OldDataArchiveRunner implements UpdateRunner {
       Timestamp rowTimestamp = dateValue.getValue();
       DateTime rowDateTime = new DateTime(rowTimestamp);
 
-      if (mostRecentDate == null || DateTimeComparator.getDateOnlyInstance().compare(mostRecentDate, rowDateTime) < 1) {
+      if (mostRecentDate == null || DateTimeComparator.getDateOnlyInstance().compare(mostRecentDate, rowDateTime) < 0) {
         mostRecentDate = rowDateTime;
         mostRecentFile = getFile(tableName, rowTimestamp);
+
+
+        if (mostRecentFile.exists()) {
+          BufferedReader bufferedReader = new BufferedReader(new FileReader(mostRecentFile));
+          String firstLine = bufferedReader.readLine();
+          if (firstLine != null) {
+            validateHeaderRow(dataObject, firstLine);
+          }
+          mostRecentStream = new PrintStream(new FileOutputStream(mostRecentFile, true));
+        } else {
+          List<String> fieldNames = getFieldNames(dataObject);
+          String headerRow = Joiner.on(",").join(fieldNames);
+          mostRecentStream = new PrintStream(new FileOutputStream(mostRecentFile, true));
+          mostRecentStream.println(headerRow);
+        }
       }
 
-      copyRowToArchiveFile(dataObject, mostRecentFile);
+      // todo: Check for duplicate
+      copyRowToArchiveFile(dataObject, mostRecentStream);
       i++;
     }
 
@@ -129,29 +140,34 @@ public class OldDataArchiveRunner implements UpdateRunner {
     System.out.println(new Date() + ": " + str);
   }
 
-  private void copyRowToArchiveFile(DataObject dataObject, @NotNull File file) throws FileNotFoundException {
-    FileOutputStream fos = new FileOutputStream(file, true);
-
-    PrintStream printStream = new PrintStream(fos);
-
-    List<String> values = dataObject.getAllFieldValues().stream()
+  private void copyRowToArchiveFile(DataObject dataObject, @NotNull PrintStream printStream) {
+    List<String> values = dataObject.getAllFieldValuesIncludingId().stream()
         .sorted(Comparator.comparing(FieldValue::getFieldName))
         .map(fieldValue -> fieldValue.getValue() == null ? "" : fieldValue.getValue().toString())
         .collect(Collectors.toList());
 
-    String valueText = Joiner.on(", ").join(values);
+    String valueText = Joiner.on(",").join(values);
 
     printStream.println(valueText);
   }
 
-  private Boolean validateHeaderRow(DataObject dataObject, String existingHeader) {
-    List<String> headerValues = Lists.newArrayList(existingHeader.split(", "));
-    List<String> expectedValues = dataObject.getAllFieldValues()
+  private void validateHeaderRow(DataObject dataObject, String existingHeader) {
+    List<String> headerValues = Lists.newArrayList(existingHeader.split(","));
+    List<String> expectedValues = getFieldNames(dataObject);
+
+    if (!expectedValues.equals(headerValues)) {
+      throw new RuntimeException("Header row on existing file doesn't match data model of " + dataObject.getTableName() + ". " +
+          "Expected: " + expectedValues + ", " +
+          "Actual: " + headerValues);
+    }
+  }
+
+  private List<String> getFieldNames(DataObject dataObject) {
+    return dataObject.getAllFieldValuesIncludingId()
         .stream()
         .map(FieldValue::getFieldName)
+        .sorted()
         .collect(Collectors.toList());
-
-    return expectedValues.equals(headerValues);
   }
 
   private void deleteOldData(ArchiveableFactory factory, List<Integer> archivedIds) throws SQLException {
