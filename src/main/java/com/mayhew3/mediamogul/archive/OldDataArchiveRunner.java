@@ -1,6 +1,7 @@
 package com.mayhew3.mediamogul.archive;
 
 import com.google.common.base.Joiner;
+import com.google.common.collect.Lists;
 import com.mayhew3.mediamogul.ArgumentChecker;
 import com.mayhew3.mediamogul.dataobject.DataObject;
 import com.mayhew3.mediamogul.dataobject.FieldValue;
@@ -9,8 +10,10 @@ import com.mayhew3.mediamogul.db.PostgresConnectionFactory;
 import com.mayhew3.mediamogul.db.SQLConnection;
 import com.mayhew3.mediamogul.scheduler.UpdateRunner;
 import com.mayhew3.mediamogul.tv.helper.UpdateMode;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeComparator;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -25,7 +28,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class OldDataArchiveRunner implements UpdateRunner {
@@ -81,9 +83,14 @@ public class OldDataArchiveRunner implements UpdateRunner {
     DateTime lastDateToKeep = today.minusMonths(monthsToKeep);
     Timestamp lastDateInTimestamp = new Timestamp(lastDateToKeep.toDate().getTime());
 
+    File mostRecentFile = null;
+    DateTime mostRecentDate = null;
+
     String sql = "SELECT * " +
         " FROM " + tableName +
-        " WHERE " + dateColumnName + " < ? ";
+        " WHERE " + dateColumnName + " IS NOT NULL " +
+        " AND " + dateColumnName + " < ? " +
+        " ORDER BY " + dateColumnName;
 
     Integer i = 1;
 
@@ -97,13 +104,23 @@ public class OldDataArchiveRunner implements UpdateRunner {
       dataObject.initializeFromDBObject(resultSet);
 
       FieldValueTimestamp dateValue = (FieldValueTimestamp) dataObject.getFieldValueWithName(dateColumnName);
-      copyRowToArchiveFile(dataObject, tableName, dateValue);
+      assert dateValue != null;
+
+      Timestamp rowTimestamp = dateValue.getValue();
+      DateTime rowDateTime = new DateTime(rowTimestamp);
+
+      if (mostRecentDate == null || DateTimeComparator.getDateOnlyInstance().compare(mostRecentDate, rowDateTime) < 1) {
+        mostRecentDate = rowDateTime;
+        mostRecentFile = getFile(tableName, rowTimestamp);
+      }
+
+      copyRowToArchiveFile(dataObject, mostRecentFile);
       i++;
     }
 
     debug(i + " rows processed. Deleting from table...");
 
-    deleteOldData(factory);
+    deleteOldData(factory, new ArrayList<>());
 
     debug("Done.");
   }
@@ -112,8 +129,10 @@ public class OldDataArchiveRunner implements UpdateRunner {
     System.out.println(new Date() + ": " + str);
   }
 
-  private void copyRowToArchiveFile(DataObject dataObject, String tableName, FieldValueTimestamp dateValue) throws FileNotFoundException {
-    PrintStream printStream = openStream(tableName, dateValue.getValue());
+  private void copyRowToArchiveFile(DataObject dataObject, @NotNull File file) throws FileNotFoundException {
+    FileOutputStream fos = new FileOutputStream(file, true);
+
+    PrintStream printStream = new PrintStream(fos);
 
     List<String> values = dataObject.getAllFieldValues().stream()
         .sorted(Comparator.comparing(FieldValue::getFieldName))
@@ -125,21 +144,40 @@ public class OldDataArchiveRunner implements UpdateRunner {
     printStream.println(valueText);
   }
 
-  private void deleteOldData(ArchiveableFactory factory) {
+  private Boolean validateHeaderRow(DataObject dataObject, String existingHeader) {
+    List<String> headerValues = Lists.newArrayList(existingHeader.split(", "));
+    List<String> expectedValues = dataObject.getAllFieldValues()
+        .stream()
+        .map(FieldValue::getFieldName)
+        .collect(Collectors.toList());
 
+    return expectedValues.equals(headerValues);
+  }
+
+  private void deleteOldData(ArchiveableFactory factory, List<Integer> archivedIds) throws SQLException {
+    if (archivedIds.isEmpty()) {
+      return;
+    }
+
+    List<String> questionMarks = new ArrayList<>();
+    for (String ignored : questionMarks) {
+      questionMarks.add("?");
+    }
+
+    String sql = "DELETE FROM " + factory.tableName() +
+        " WHERE ID IN (" + Joiner.on(",").join(questionMarks) + ")";
+    connection.prepareAndExecuteStatementUpdate(sql, archivedIds);
   }
 
 
-  private PrintStream openStream(String tableName, Timestamp rowDate) throws FileNotFoundException {
+  @NotNull
+  private File getFile(String tableName, Timestamp rowDate) {
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
     String dateFormatted = simpleDateFormat.format(rowDate);
 
     String mediaMogulLogs = System.getenv("MediaMogulArchives");
 
-    File file = new File(mediaMogulLogs + "\\Archive_" + tableName + "_" + dateFormatted + ".csv");
-    FileOutputStream fos = new FileOutputStream(file, true);
-
-    return new PrintStream(fos);
+    return new File(mediaMogulLogs + "\\Archive_" + tableName + "_" + dateFormatted + ".csv");
   }
 
 }
