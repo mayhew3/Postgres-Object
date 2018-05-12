@@ -217,9 +217,9 @@
       <find>UpdateType</find>
       <find>contains(this.updateMode)</find>
       <find>IllegalArgumentException</find>
-      <find>-db Heroku</find>
-      <find>new PostgresConnectionFactory().createConnection(identifier);</find>
-      <find>String identifier = new ArgumentChecker(args).getDBIdentifier();</find>
+      <find />
+      <find />
+      <find />
       <find>identifier</find>
       <find>Test</find>
       <find>setNull</find>
@@ -232,10 +232,10 @@
       <find>unwatched_unrecorded</find>
       <find>most_recent</find>
       <find>System.getenv</find>
-      <find>return null</find>
+      <find />
       <find>tvdb_confirm_date</find>
       <find>Duplicate</find>
-      <find>Needs Hint</find>
+      <find />
       <find>series.id</find>
       <find>unwatched_episodes</find>
       <find>IN</find>
@@ -244,16 +244,16 @@
       <find>tvdb_migration_log</find>
     </findStrings>
     <replaceStrings>
-      <replace>&lt;module name=&quot;media-mogul-data_main&quot;</replace>
+      <replace />
       <replace>TVDBUpdateRunner</replace>
       <replace>-mode</replace>
       <replace>com.mayhew3.mediamogul</replace>
       <replace>UpdateMode</replace>
       <replace>PostgresConnectionFactory.createConnection(argumentChecker);</replace>
-      <replace>ArgumentChecker argumentChecker = new ArgumentChecker(args);</replace>
+      <replace />
       <replace>argumentChecker.getDBIdentifier()</replace>
-      <replace>-db Heroku</replace>
-      <replace>-db Test</replace>
+      <replace />
+      <replace />
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -648,7 +648,7 @@
   <component name="NamedScopeManager">
     <scope name="AllButLogs" pattern="!file[media-mogul-data]:logs//*" />
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="-7" />
     <option name="width" value="1294" />
     <option name="height" value="1577" />
@@ -779,7 +779,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.OldDataArchiveRunner (Heroku)">
+  <component name="RunManager" selected="Gradle.media-mogul-data [assemble]">
     <configuration name="BlogRankingsCreator" type="Application" factoryName="Application" nameIsGenerated="true">
       <envs>
         <env name="postgresURL_local" value="jdbc:postgresql://localhost:5432/tv?user=postgres&amp;password=m3mysql" />

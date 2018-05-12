@@ -3,6 +3,7 @@ package com.mayhew3.mediamogul.scheduler;
 import com.google.common.collect.Lists;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mayhew3.mediamogul.ArgumentChecker;
+import com.mayhew3.mediamogul.archive.OldDataArchiveRunner;
 import com.mayhew3.mediamogul.db.PostgresConnectionFactory;
 import com.mayhew3.mediamogul.db.SQLConnection;
 import com.mayhew3.mediamogul.games.*;
@@ -98,6 +99,7 @@ public class TaskScheduleRunner {
         30);
     addPeriodicTask(new SteamGameUpdater(connection),
         60);
+    addPeriodicTask(new OldDataArchiveRunner(connection), 30);
 
     // NIGHTLY
     addNightlyTask(new TiVoCommunicator(connection, tiVoDataProvider, UpdateMode.FULL));

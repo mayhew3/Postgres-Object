@@ -45,7 +45,7 @@ public class OldDataArchiveRunner implements UpdateRunner {
   }
 
 
-  private OldDataArchiveRunner(SQLConnection connection) {
+  public OldDataArchiveRunner(SQLConnection connection) {
     this.connection = connection;
 
     tablesToArchive = new ArrayList<>();
