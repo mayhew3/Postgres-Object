@@ -21,7 +21,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class OldDataArchiveRunner implements UpdateRunner {
@@ -49,6 +52,8 @@ public class OldDataArchiveRunner implements UpdateRunner {
 
     // ADD NEW TABLES TO ARCHIVE HERE!
     tablesToArchive.add(new ConnectLogFactory());
+    tablesToArchive.add(new TVDBMigrationLogFactory());
+    tablesToArchive.add(new TVDBConnectionLogFactory());
   }
 
   @Override
@@ -77,7 +82,7 @@ public class OldDataArchiveRunner implements UpdateRunner {
     DateTime lastDateToKeep = today.minusMonths(monthsToKeep);
     Timestamp lastDateInTimestamp = new Timestamp(lastDateToKeep.toDate().getTime());
 
-    File mostRecentFile = null;
+    File mostRecentFile;
     DateTime mostRecentDate = null;
     PrintStream mostRecentStream = null;
 
@@ -87,7 +92,7 @@ public class OldDataArchiveRunner implements UpdateRunner {
         " AND " + dateColumnName + " < ? " +
         " ORDER BY " + dateColumnName;
 
-    Integer i = 1;
+    Integer i = 0;
 
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, lastDateInTimestamp);
 
@@ -108,7 +113,6 @@ public class OldDataArchiveRunner implements UpdateRunner {
         mostRecentDate = rowDateTime;
         mostRecentFile = getFile(tableName, rowTimestamp);
 
-
         if (mostRecentFile.exists()) {
           BufferedReader bufferedReader = new BufferedReader(new FileReader(mostRecentFile));
           String firstLine = bufferedReader.readLine();
@@ -126,14 +130,15 @@ public class OldDataArchiveRunner implements UpdateRunner {
 
       // todo: Check for duplicate
       copyRowToArchiveFile(dataObject, mostRecentStream);
+      deleteOldData(factory, dataObject.id.getValue());
       i++;
+
+      if (i % 100 == 0) {
+        debug(i + " rows processed.");
+      }
     }
 
-    debug(i + " rows processed. Deleting from table...");
-
-    deleteOldData(factory, new ArrayList<>());
-
-    debug("Done.");
+    debug(i + " rows processed. Done with table " + tableName);
   }
 
   private void debug(String str) {
@@ -170,21 +175,11 @@ public class OldDataArchiveRunner implements UpdateRunner {
         .collect(Collectors.toList());
   }
 
-  private void deleteOldData(ArchiveableFactory factory, List<Integer> archivedIds) throws SQLException {
-    if (archivedIds.isEmpty()) {
-      return;
-    }
-
-    List<String> questionMarks = new ArrayList<>();
-    for (String ignored : questionMarks) {
-      questionMarks.add("?");
-    }
-
+  private void deleteOldData(ArchiveableFactory factory, Integer rowId) throws SQLException {
     String sql = "DELETE FROM " + factory.tableName() +
-        " WHERE ID IN (" + Joiner.on(",").join(questionMarks) + ")";
-    connection.prepareAndExecuteStatementUpdate(sql, archivedIds);
+        " WHERE ID = ? ";
+    connection.prepareAndExecuteStatementUpdate(sql, rowId);
   }
-
 
   @NotNull
   private File getFile(String tableName, Timestamp rowDate) {

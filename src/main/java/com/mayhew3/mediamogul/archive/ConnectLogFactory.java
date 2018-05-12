@@ -10,7 +10,7 @@ public class ConnectLogFactory extends ArchiveableFactory<ConnectLog> {
 
   @Override
   public Integer monthsToKeep() {
-    return 41;
+    return 3;
   }
 
   @Override
