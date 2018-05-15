@@ -1,12 +1,10 @@
 package com.mayhew3.mediamogul.tv.utility;
 
 import com.mayhew3.mediamogul.ArgumentChecker;
-import com.mayhew3.mediamogul.dataobject.DataObject;
-import com.mayhew3.mediamogul.dataobject.DataSchema;
-import com.mayhew3.mediamogul.dataobject.FieldValue;
-import com.mayhew3.mediamogul.dataobject.FieldValueTimestamp;
+import com.mayhew3.mediamogul.dataobject.*;
 import com.mayhew3.mediamogul.db.PostgresConnectionFactory;
 import com.mayhew3.mediamogul.db.SQLConnection;
+import com.mayhew3.mediamogul.model.games.GamesSchema;
 import com.mayhew3.mediamogul.model.tv.TVSchema;
 
 import java.net.URISyntaxException;
@@ -25,28 +23,29 @@ public class TimestampTimeZoneUpgrader {
     ArgumentChecker argumentChecker = new ArgumentChecker(args);
     SQLConnection connection = PostgresConnectionFactory.createConnection(argumentChecker);
 
-    TimestampTimeZoneUpgrader upgrader = new TimestampTimeZoneUpgrader(TVSchema.tv_schema, connection);
+    TimestampTimeZoneUpgrader upgrader = new TimestampTimeZoneUpgrader(GamesSchema.games_schema, connection);
     upgrader.upgradeColumns();
   }
 
   private void upgradeColumns() throws SQLException {
     for (DataObject table : schema.getAllTables()) {
       for (FieldValue fieldValue : table.getAllFieldValues()) {
-        if ("timestamp without time zone".equalsIgnoreCase(fieldValue.getInformationSchemaType())) {
-          upgradeColumn((FieldValueTimestamp) fieldValue, table);
+        if ("timestamp without time zone".equalsIgnoreCase(fieldValue.getInformationSchemaType()) ||
+            "date_added".equalsIgnoreCase(fieldValue.getFieldName())) {
+          upgradeColumn(fieldValue, table);
         }
       }
     }
   }
 
-  private void upgradeColumn(FieldValueTimestamp fieldValue, DataObject table) throws SQLException {
+  private void upgradeColumn(FieldValue fieldValue, DataObject table) throws SQLException {
     debug("Updating {" + table.getTableName() + ", " + fieldValue.getFieldName() + "}");
 
     String sql =
         "ALTER TABLE " + table.getTableName() + " " +
         "ALTER COLUMN " + fieldValue.getFieldName() + " " +
         "TYPE timestamp with time zone " +
-        "USING " + fieldValue.getFieldName() + " AT TIME ZONE 'PST'";
+        "USING " + fieldValue.getFieldName() + " AT TIME ZONE 'America/Los_Angeles'";
     connection.prepareAndExecuteStatementUpdate(sql);
   }
 
