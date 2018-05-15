@@ -1,3 +1,9 @@
+plugins {
+    // This plugin allows me to check if there are any updates available for any of the dependencies.
+    // From the root directory, run 'gradle dependencyUpdates'. It won't make changes, but print out the latest versions.
+    id 'com.github.ben-manes.versions' version '0.17.0'
+}
+
 apply plugin: 'idea'
 apply plugin: 'java'
 apply plugin: 'application'
@@ -18,13 +24,12 @@ dependencies {
     compile 'com.google.guava:guava:21.0'
     compile 'com.mashape.unirest:unirest-java:1.4.9'
     compile 'info.debatty:java-string-similarity:0.23'
-    compile 'joda-time:joda-time:2.6'
+    compile 'joda-time:joda-time:2.9.9'
     compile 'net.sf.cotta.core:cotta:3.0'
     compile 'org.apache.logging.log4j:log4j-core:2.3'
     compile 'org.jsoup:jsoup:1.8.1'
     compile 'org.postgresql:postgresql:42.0.0'
-    compile 'org.seleniumhq.selenium:selenium-server:2.+'
-    // https://mvnrepository.com/artifact/commons-cli/commons-cli
+    compile 'org.seleniumhq.selenium:selenium-server:3.12.0'
     compile group: 'commons-cli', name: 'commons-cli', version: '1.4'
     compile name: 'annotations-java8'
 
