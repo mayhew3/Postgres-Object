@@ -107,7 +107,7 @@ public class TaskScheduleRunner {
     addNightlyTask(new MetacriticGameUpdateRunner(connection, UpdateMode.UNMATCHED));
     addNightlyTask(new TVDBUpdateRunner(connection, tvdbjwtProvider, jsonReader, UpdateMode.SANITY));
     addNightlyTask(new EpisodeGroupUpdater(connection));
-    addNightlyTask(new SteamAttributeUpdateRunner(connection));
+    addNightlyTask(new SteamAttributeUpdateRunner(connection, UpdateMode.FULL));
     addNightlyTask(new HowLongToBeatUpdateRunner(connection, UpdateMode.QUICK));
     addNightlyTask(new GiantBombUpdater(connection));
   }

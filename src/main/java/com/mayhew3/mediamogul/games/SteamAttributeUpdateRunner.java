@@ -2,10 +2,10 @@ package com.mayhew3.mediamogul.games;
 
 import com.google.common.collect.Lists;
 import com.mayhew3.mediamogul.ArgumentChecker;
-import com.mayhew3.mediamogul.scheduler.UpdateRunner;
 import com.mayhew3.mediamogul.db.PostgresConnectionFactory;
 import com.mayhew3.mediamogul.db.SQLConnection;
 import com.mayhew3.mediamogul.model.games.Game;
+import com.mayhew3.mediamogul.scheduler.UpdateRunner;
 import com.mayhew3.mediamogul.tv.helper.UpdateMode;
 import org.jetbrains.annotations.Nullable;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -17,20 +17,35 @@ import java.io.PrintStream;
 import java.net.URISyntaxException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SteamAttributeUpdateRunner implements UpdateRunner {
 
   private SQLConnection connection;
+  private UpdateMode updateMode;
 
-  public SteamAttributeUpdateRunner(SQLConnection connection) {
+  private final Map<UpdateMode, Runnable> methodMap;
+
+  public SteamAttributeUpdateRunner(SQLConnection connection, UpdateMode updateMode) {
+    this.updateMode = updateMode;
+    methodMap = new HashMap<>();
+    methodMap.put(UpdateMode.FULL, this::runUpdateFull);
+    methodMap.put(UpdateMode.SINGLE, this::runUpdateOnSingle);
+
     this.connection = connection;
+
+    if (!methodMap.keySet().contains(updateMode)) {
+      throw new IllegalArgumentException("Update type '" + updateMode + "' is not applicable for this updater.");
+    }
+
+    this.updateMode = updateMode;
   }
 
   public static void main(String[] args) throws FileNotFoundException, SQLException, URISyntaxException {
     List<String> argList = Lists.newArrayList(args);
     Boolean logToFile = argList.contains("LogToFile");
-    Boolean redo = false;
     ArgumentChecker argumentChecker = new ArgumentChecker(args);
 
     if (logToFile) {
@@ -43,26 +58,49 @@ public class SteamAttributeUpdateRunner implements UpdateRunner {
       System.setOut(ps);
     }
 
+    UpdateMode updateMode = UpdateMode.getUpdateModeOrDefault(argumentChecker, UpdateMode.FULL);
     SQLConnection connection = PostgresConnectionFactory.createConnection(argumentChecker);
-
-    // don't do this.
-    if (redo) {
-      connection.executeUpdate("TRUNCATE TABLE steam_attributes");
-      connection.executeUpdate("ALTER SEQUENCE steam_attributes_id_seq RESTART WITH 1");
-      connection.executeUpdate("UPDATE games SET steam_attributes = NULL");
-    }
 
     setDriverPath();
 
-    SteamAttributeUpdateRunner updateRunner = new SteamAttributeUpdateRunner(connection);
-
+    SteamAttributeUpdateRunner updateRunner = new SteamAttributeUpdateRunner(connection, updateMode);
     updateRunner.runUpdate();
 
   }
 
-  public void runUpdate() throws SQLException {
+  public void runUpdate() {
+    methodMap.get(updateMode).run();
+  }
+
+  private void runUpdateFull() {
     String sql = "SELECT * FROM games WHERE steamid is not null AND steam_attributes IS NULL AND steam_page_gone IS NULL";
-    ResultSet resultSet = connection.executeQuery(sql);
+
+    try {
+      ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql);
+      runUpdateOnResultSet(resultSet);
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+
+  }
+
+  private void runUpdateOnSingle() {
+    String gameTitle = "Fallout 4 VR";
+
+    String sql = "SELECT * FROM games " +
+        "WHERE title = ? ";
+
+    try {
+      ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, gameTitle);
+      runUpdateOnResultSet(resultSet);
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+
+  }
+
+  private void runUpdateOnResultSet(ResultSet resultSet) throws SQLException {
+
 
     int i = 0;
 
