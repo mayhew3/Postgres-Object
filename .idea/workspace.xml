@@ -2,16 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1e099498-ec9e-4703-ab18-cce3963e4d0c" name="Default" comment="Move annotation directory">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/GiantBombUpdater.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/GiantBombUpdater.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/HowLongToBeatUpdateRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/HowLongToBeatUpdateRunner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/MetacriticGameUpdateRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/MetacriticGameUpdateRunner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/SteamAttributeUpdateRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/SteamAttributeUpdateRunner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/SteamGameUpdater.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/SteamGameUpdater.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/GameLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/GameLog.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/SteamAttribute.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/SteamAttribute.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/model/games/GameSchemaHerokuTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/model/games/GameSchemaHerokuTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/model/games/GameSchemaLocalTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/model/games/GameSchemaLocalTest.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -99,11 +91,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="GameSchemaHerokuTest.java" pinned="false" current-in-tab="true">
+          <file leaf-file-name="GameSchemaHerokuTest.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/model/games/GameSchemaHerokuTest.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="133">
-                  <caret line="16" column="26" selection-start-line="16" selection-start-column="26" selection-end-line="16" selection-end-column="26" />
+                <state relative-caret-position="589">
+                  <caret line="40" lean-forward="true" selection-start-line="40" selection-end-line="40" />
                 </state>
               </provider>
             </entry>
@@ -120,20 +112,20 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="PostgresConnectionFactory.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/db/PostgresConnectionFactory.java">
+          <file leaf-file-name="SteamAttribute.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/SteamAttribute.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="209">
-                  <caret line="20" column="31" selection-start-line="20" selection-start-column="31" selection-end-line="20" selection-end-column="31" />
+                <state relative-caret-position="266">
+                  <caret line="15" column="27" selection-start-line="15" selection-start-column="12" selection-end-line="15" selection-end-column="27" />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="SteamAttribute.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/SteamAttribute.java">
+          <file leaf-file-name="SteamAttributeUpdater.java" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/SteamAttributeUpdater.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="361">
-                  <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
+                <state relative-caret-position="611">
+                  <caret line="72" column="37" lean-forward="true" selection-start-line="72" selection-start-column="37" selection-end-line="72" selection-end-column="37" />
                 </state>
               </provider>
             </entry>
@@ -141,8 +133,8 @@
           <file leaf-file-name="Game.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/Game.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="612">
-                  <caret line="99" column="28" lean-forward="true" selection-start-line="99" selection-start-column="28" selection-end-line="99" selection-end-column="28" />
+                <state relative-caret-position="403">
+                  <caret line="86" column="31" selection-start-line="86" selection-start-column="31" selection-end-line="86" selection-end-column="31" />
                 </state>
               </provider>
             </entry>
@@ -159,8 +151,12 @@
           <file leaf-file-name="GameLog.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/GameLog.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="361">
-                  <caret line="22" lean-forward="true" selection-start-line="22" selection-end-line="22" />
+                <state relative-caret-position="551">
+                  <caret line="32" column="1" lean-forward="true" selection-start-line="32" selection-start-column="1" selection-end-line="32" selection-end-column="1" />
+                  <folding>
+                    <element signature="e#1031#1032#0" expanded="true" />
+                    <element signature="e#1058#1059#0" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -210,9 +206,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>String identifier = new ArgumentChecker(args).getDBIdentifier();</find>
-      <find>identifier</find>
-      <find>Test</find>
       <find>setNull</find>
       <find>my_rating</find>
       <find>active_episodes</find>
@@ -240,6 +233,9 @@
       <find>cotta</find>
       <find>jsoup</find>
       <find>games</find>
+      <find>game_id</find>
+      <find>gamelogs</find>
+      <find>steam_attributes</find>
     </findStrings>
     <replaceStrings>
       <replace>&lt;module name=&quot;media-mogul-data_main&quot;</replace>
@@ -254,6 +250,7 @@
       <replace>-db Test</replace>
       <replace>registerTimestampOldField</replace>
       <replace>game</replace>
+      <replace>steam_attribute</replace>
     </replaceStrings>
     <dirStrings>
       <dir>D:\OneDrive\Projects\MediaMogul\SQL</dir>
@@ -649,12 +646,12 @@
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/utility/TimestampTimeZoneUpgrader.java" />
         <option value="$PROJECT_DIR$/build.gradle" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/GameplayLog.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/GameLog.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/SteamAttribute.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/Game.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/SteamGameUpdater.java" />
         <option value="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/model/games/GameSchemaHerokuTest.java" />
         <option value="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/model/games/GameSchemaLocalTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/GameLog.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/SteamAttribute.java" />
       </list>
     </option>
   </component>
@@ -732,6 +729,27 @@
               <item name="mediamogul" type="462c0819:PsiDirectoryNode" />
               <item name="model" type="462c0819:PsiDirectoryNode" />
               <item name="games" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="media-mogul-data" type="b2602c69:ProjectViewProjectNode" />
+              <item name="media-mogul-data" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+            </path>
+            <path>
+              <item name="media-mogul-data" type="b2602c69:ProjectViewProjectNode" />
+              <item name="media-mogul-data" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="media-mogul-data" type="b2602c69:ProjectViewProjectNode" />
+              <item name="media-mogul-data" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="mediamogul" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -2505,9 +2523,9 @@
       <list>
         <item itemvalue="JUnit.GameSchemaHerokuTest.testHerokuSchemaUpToDate" />
         <item itemvalue="JUnit.GameSchemaLocalTest.testLocalSchemaUpToDate" />
+        <item itemvalue="JUnit.com.mayhew3.mediamogul in media-mogul-data_test" />
         <item itemvalue="JUnit.TVSchemaLocalTest.testHerokuLocalUpToDate" />
         <item itemvalue="JUnit.All in media-mogul-data_test (1)" />
-        <item itemvalue="JUnit.com.mayhew3.mediamogul in media-mogul-data_test" />
       </list>
     </recent_temporary>
   </component>
@@ -2531,27 +2549,6 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="GameSchemaLocalTest_testLocalSchemaUpToDate - 2018.05.16 at 20h 10m 59s.xml">
-      <configuration name="GameSchemaLocalTest.testLocalSchemaUpToDate" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="TVSchemaLocalTest_testHerokuLocalUpToDate - 2018.05.16 at 20h 11m 12s.xml">
-      <configuration name="TVSchemaLocalTest.testHerokuLocalUpToDate" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="GameSchemaHerokuTest_testHerokuSchemaUpToDate - 2018.05.16 at 20h 11m 23s.xml">
-      <configuration name="GameSchemaHerokuTest.testHerokuSchemaUpToDate" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="GameSchemaHerokuTest_testHerokuSchemaUpToDate - 2018.05.16 at 20h 11m 47s.xml">
-      <configuration name="GameSchemaHerokuTest.testHerokuSchemaUpToDate" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="GameSchemaLocalTest_testLocalSchemaUpToDate - 2018.05.16 at 20h 31m 48s.xml">
-      <configuration name="GameSchemaLocalTest.testLocalSchemaUpToDate" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="GameSchemaLocalTest_testLocalSchemaUpToDate - 2018.05.16 at 20h 32m 39s.xml">
-      <configuration name="GameSchemaLocalTest.testLocalSchemaUpToDate" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="GameSchemaLocalTest_testLocalSchemaUpToDate - 2018.05.16 at 20h 43m 38s.xml">
-      <configuration name="GameSchemaLocalTest.testLocalSchemaUpToDate" configurationId="JUnit" />
-    </history-entry>
     <history-entry file="GameSchemaLocalTest_testLocalSchemaUpToDate - 2018.05.16 at 20h 44m 58s.xml">
       <configuration name="GameSchemaLocalTest.testLocalSchemaUpToDate" configurationId="JUnit" />
     </history-entry>
@@ -2560,6 +2557,27 @@
     </history-entry>
     <history-entry file="GameSchemaLocalTest_testLocalSchemaUpToDate - 2018.05.16 at 20h 46m 17s.xml">
       <configuration name="GameSchemaLocalTest.testLocalSchemaUpToDate" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="GameSchemaHerokuTest_testHerokuSchemaUpToDate - 2018.05.16 at 20h 48m 50s.xml">
+      <configuration name="GameSchemaHerokuTest.testHerokuSchemaUpToDate" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="com_mayhew3_mediamogul_in_media-mogul-data_test - 2018.05.16 at 20h 52m 03s.xml">
+      <configuration name="com.mayhew3.mediamogul in media-mogul-data_test" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="GameSchemaLocalTest_testLocalSchemaUpToDate - 2018.05.16 at 20h 53m 49s.xml">
+      <configuration name="GameSchemaLocalTest.testLocalSchemaUpToDate" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="GameSchemaLocalTest_testLocalSchemaUpToDate - 2018.05.16 at 20h 54m 19s.xml">
+      <configuration name="GameSchemaLocalTest.testLocalSchemaUpToDate" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="GameSchemaLocalTest_testLocalSchemaUpToDate - 2018.05.16 at 20h 55m 22s.xml">
+      <configuration name="GameSchemaLocalTest.testLocalSchemaUpToDate" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="GameSchemaHerokuTest_testHerokuSchemaUpToDate - 2018.05.16 at 20h 56m 39s.xml">
+      <configuration name="GameSchemaHerokuTest.testHerokuSchemaUpToDate" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="GameSchemaHerokuTest_testHerokuSchemaUpToDate - 2018.05.16 at 20h 57m 14s.xml">
+      <configuration name="GameSchemaHerokuTest.testHerokuSchemaUpToDate" configurationId="JUnit" />
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
@@ -2878,13 +2896,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/SteamAttributeUpdater.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1786">
-          <caret line="106" column="42" selection-start-line="106" selection-start-column="42" selection-end-line="106" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://D:/OneDrive/Projects/MediaMogul/SQL/DateAdded upgrade triggers.sql">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -2978,27 +2989,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/GameLog.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="361">
-          <caret line="22" lean-forward="true" selection-start-line="22" selection-end-line="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/SteamAttribute.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="361">
-          <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/Game.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="612">
-          <caret line="99" column="28" lean-forward="true" selection-start-line="99" selection-start-column="28" selection-end-line="99" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/SteamGameUpdater.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="463">
@@ -3025,8 +3015,40 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/model/games/GameSchemaHerokuTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="133">
-          <caret line="16" column="26" selection-start-line="16" selection-start-column="26" selection-end-line="16" selection-end-column="26" />
+        <state relative-caret-position="589">
+          <caret line="40" lean-forward="true" selection-start-line="40" selection-end-line="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/GameLog.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="551">
+          <caret line="32" column="1" lean-forward="true" selection-start-line="32" selection-start-column="1" selection-end-line="32" selection-end-column="1" />
+          <folding>
+            <element signature="e#1031#1032#0" expanded="true" />
+            <element signature="e#1058#1059#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/SteamAttribute.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="266">
+          <caret line="15" column="27" selection-start-line="15" selection-start-column="12" selection-end-line="15" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/Game.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="403">
+          <caret line="86" column="31" selection-start-line="86" selection-start-column="31" selection-end-line="86" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/SteamAttributeUpdater.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="611">
+          <caret line="72" column="37" lean-forward="true" selection-start-line="72" selection-start-column="37" selection-end-line="72" selection-end-column="37" />
         </state>
       </provider>
     </entry>

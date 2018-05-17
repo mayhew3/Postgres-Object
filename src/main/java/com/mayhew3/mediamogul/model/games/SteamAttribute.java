@@ -13,7 +13,7 @@ public class SteamAttribute extends DataObject {
 
   @Override
   public String getTableName() {
-    return "steam_attributes";
+    return "steam_attribute";
   }
 
   @Override

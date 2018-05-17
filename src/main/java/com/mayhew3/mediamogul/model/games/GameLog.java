@@ -23,7 +23,7 @@ public class GameLog extends DataObject {
 
   @Override
   public String getTableName() {
-    return "gamelogs";
+    return "game_log";
   }
 
   @Override
