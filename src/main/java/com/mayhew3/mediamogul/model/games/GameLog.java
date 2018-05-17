@@ -8,11 +8,11 @@ import java.sql.Timestamp;
 public class GameLog extends DataObject {
 
 
-  public FieldValue<Timestamp> eventdate = registerTimestampField("eventdate", Nullability.NOT_NULL);
+  public FieldValueTimestamp eventdate = registerTimestampField("eventdate", Nullability.NOT_NULL);
 
-  public FieldValue<BigDecimal> previousPlaytime = registerBigDecimalField("previousplaytime", Nullability.NULLABLE);
-  public FieldValue<BigDecimal> updatedplaytime = registerBigDecimalField("updatedplaytime", Nullability.NULLABLE);
-  public FieldValue<BigDecimal> diff = registerBigDecimalField("diff", Nullability.NULLABLE);
+  public FieldValueBigDecimal previousPlaytime = registerBigDecimalField("previousplaytime", Nullability.NULLABLE);
+  public FieldValueBigDecimal updatedplaytime = registerBigDecimalField("updatedplaytime", Nullability.NULLABLE);
+  public FieldValueBigDecimal diff = registerBigDecimalField("diff", Nullability.NULLABLE);
 
   public FieldValueInteger steamID = registerIntegerField("steamid", Nullability.NULLABLE);
 
@@ -21,6 +21,8 @@ public class GameLog extends DataObject {
   public FieldValueString eventtype = registerStringField("eventtype", Nullability.NULLABLE);
 
   public FieldValueForeignKey gameID = registerForeignKey(new Game(), Nullability.NOT_NULL);
+
+  public FieldValueForeignKey gameplaySessionID = registerForeignKey(new GameplaySession(), Nullability.NULLABLE);
 
   @Override
   public String getTableName() {

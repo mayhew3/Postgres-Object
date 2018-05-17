@@ -6,7 +6,6 @@ import com.mayhew3.mediamogul.xml.BadlyFormattedXMLException;
 import org.apache.http.auth.AuthenticationException;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
 
