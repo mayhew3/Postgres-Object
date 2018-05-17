@@ -1,9 +1,6 @@
 package com.mayhew3.mediamogul.model.games;
 
-import com.mayhew3.mediamogul.dataobject.DataObject;
-import com.mayhew3.mediamogul.dataobject.FieldValueInteger;
-import com.mayhew3.mediamogul.dataobject.FieldValueString;
-import com.mayhew3.mediamogul.dataobject.Nullability;
+import com.mayhew3.mediamogul.dataobject.*;
 
 public class SteamAttribute extends DataObject {
 
@@ -12,6 +9,7 @@ public class SteamAttribute extends DataObject {
 
   public FieldValueString attribute = registerStringField("attribute", Nullability.NOT_NULL);
 
+  public FieldValueForeignKey gameID = registerForeignKey(new Game(), Nullability.NOT_NULL);
 
   @Override
   public String getTableName() {

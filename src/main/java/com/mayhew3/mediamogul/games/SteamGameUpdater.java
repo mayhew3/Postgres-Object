@@ -98,7 +98,7 @@ public class SteamGameUpdater extends DatabaseUtility implements UpdateRunner {
     debug("Updating ownership of games no longer in steam library...");
     debug("");
 
-    ResultSet resultSet = connection.executeQuery("SELECT * FROM games WHERE steamid is not null AND owned = 'owned'");
+    ResultSet resultSet = connection.executeQuery("SELECT * FROM game WHERE steamid is not null AND owned = 'owned'");
 
     while (resultSet.next()) {
       Integer steamid = resultSet.getInt("steamid");
@@ -132,7 +132,7 @@ public class SteamGameUpdater extends DatabaseUtility implements UpdateRunner {
     //    log is just a stamp of the date of checking and the total time?
     //    LOG: Previous Hours, Current Hours, Change. For first time, Prev and Curr are the same, and Change is 0.
 
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch("SELECT * FROM games WHERE steamid = ?", steamID);
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch("SELECT * FROM game WHERE steamid = ?", steamID);
 
     Game game = new Game();
     if (resultSet.next()) {

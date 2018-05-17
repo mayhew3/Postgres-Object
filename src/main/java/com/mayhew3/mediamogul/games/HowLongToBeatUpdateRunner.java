@@ -90,7 +90,7 @@ public class HowLongToBeatUpdateRunner implements UpdateRunner {
     Date date = new DateTime().minusDays(7).toDate();
     Timestamp timestamp = new Timestamp(date.getTime());
 
-    String sql = "SELECT * FROM games WHERE howlong_updated IS NULL "
+    String sql = "SELECT * FROM game WHERE howlong_updated IS NULL "
         + " AND (howlong_failed IS NULL OR howlong_failed < ?)";
 
     try {
@@ -103,7 +103,7 @@ public class HowLongToBeatUpdateRunner implements UpdateRunner {
   }
 
   private void runUpdateOnAllFailed() {
-    String sql = "SELECT * FROM games WHERE howlong_updated IS NULL ";
+    String sql = "SELECT * FROM game WHERE howlong_updated IS NULL ";
 
     try {
       ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql);
@@ -115,7 +115,7 @@ public class HowLongToBeatUpdateRunner implements UpdateRunner {
 
   private void runUpdateOnSingle() {
     String gameTitle = "Middle-earth™: Shadow of War™";
-    String sql = "SELECT * FROM games WHERE title = ? ";
+    String sql = "SELECT * FROM game WHERE title = ? ";
 
     try {
       ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, gameTitle);

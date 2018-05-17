@@ -93,7 +93,7 @@ public class Game extends DataObject {
 
   @Override
   public String getTableName() {
-    return "games";
+    return "game";
   }
 
   @Override

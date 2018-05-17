@@ -32,8 +32,8 @@ public class GameSchemaHerokuTest {
           }
         }
       }
+      fail();
     }
-    fail();
   }
 
 }

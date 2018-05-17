@@ -32,8 +32,8 @@ public class GameSchemaLocalTest {
           }
         }
       }
+      fail();
     }
-    fail();
   }
 
 }

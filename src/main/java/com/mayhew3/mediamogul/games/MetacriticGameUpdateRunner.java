@@ -83,7 +83,7 @@ public class MetacriticGameUpdateRunner implements UpdateRunner {
   private void updateSingleGame() {
     String nameOfSingleGame = "DOOM";
 
-    String sql = "SELECT * FROM games"
+    String sql = "SELECT * FROM game"
         + " WHERE title = ?";
 
     try {
@@ -96,7 +96,7 @@ public class MetacriticGameUpdateRunner implements UpdateRunner {
   }
 
   private void updateAllGames() {
-    String sql = "SELECT * FROM games";
+    String sql = "SELECT * FROM game";
 
     try {
       ResultSet resultSet = connection.executeQuery(sql);
@@ -107,7 +107,7 @@ public class MetacriticGameUpdateRunner implements UpdateRunner {
   }
 
   private void updateUnmatchedGames() {
-    String sql = "SELECT * FROM games"
+    String sql = "SELECT * FROM game"
      + " WHERE metacritic_matched IS NULL";
 
     try {
