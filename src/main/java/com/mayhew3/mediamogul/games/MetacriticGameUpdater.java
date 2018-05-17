@@ -112,6 +112,7 @@ public class MetacriticGameUpdater {
         gameLog.eventtype.changeValue("Metacritic");
         gameLog.eventdate.changeValue(new Timestamp(new Date().getTime()));
 
+        gameLog.gameID.changeValue(game.id.getValue());
         gameLog.commit(connection);
       }
 

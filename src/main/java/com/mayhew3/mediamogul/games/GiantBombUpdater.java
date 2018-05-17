@@ -2,11 +2,10 @@ package com.mayhew3.mediamogul.games;
 
 import com.google.common.collect.Lists;
 import com.mayhew3.mediamogul.ArgumentChecker;
-import com.mayhew3.mediamogul.scheduler.UpdateRunner;
 import com.mayhew3.mediamogul.db.PostgresConnectionFactory;
 import com.mayhew3.mediamogul.db.SQLConnection;
 import com.mayhew3.mediamogul.model.games.Game;
-import com.mayhew3.mediamogul.model.games.GameLog;
+import com.mayhew3.mediamogul.scheduler.UpdateRunner;
 import com.mayhew3.mediamogul.tv.helper.UpdateMode;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -15,7 +14,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.*;
-import java.math.BigDecimal;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -262,22 +260,6 @@ public class GiantBombUpdater implements UpdateRunner {
     } else {
       return parentArray.getJSONObject(0);
     }
-  }
-
-  private void logUpdateToPlaytime(String name, Integer steamID, BigDecimal previousPlaytime, BigDecimal updatedPlaytime) throws SQLException {
-    GameLog gameLog = new GameLog();
-    gameLog.initializeForInsert();
-
-    gameLog.game.changeValue(name);
-    gameLog.steamID.changeValue(steamID);
-    gameLog.platform.changeValue("Steam");
-    gameLog.previousPlaytime.changeValue(previousPlaytime);
-    gameLog.updatedplaytime.changeValue(updatedPlaytime);
-    gameLog.diff.changeValue(updatedPlaytime.subtract(previousPlaytime));
-    gameLog.eventtype.changeValue("Played");
-    gameLog.eventdate.changeValue(new Timestamp(new Date().getTime()));
-
-    gameLog.commit(connection);
   }
 
   protected String getFullUrl(String search) throws UnsupportedEncodingException {

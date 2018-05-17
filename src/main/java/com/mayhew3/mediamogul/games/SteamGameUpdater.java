@@ -157,7 +157,7 @@ public class SteamGameUpdater extends DatabaseUtility implements UpdateRunner {
 
     BigDecimal previousPlaytime = game.playtime.getValue() == null ? BigDecimal.ZERO : game.playtime.getValue();
     if (!(playtime.compareTo(previousPlaytime) == 0)) {
-      logUpdateToPlaytime(name, steamID, previousPlaytime, playtime);
+      logUpdateToPlaytime(name, steamID, previousPlaytime, playtime, game.id.getValue());
       game.playtime.changeValue(playtime);
       game.lastPlayed.changeValue(new Timestamp(bumpDateIfLateNight().toDate().getTime()));
     }
@@ -167,10 +167,7 @@ public class SteamGameUpdater extends DatabaseUtility implements UpdateRunner {
   private void addNewGame(String name, Integer steamID, BigDecimal playtime, String icon, String logo, Game game) throws SQLException {
     game.initializeForInsert();
 
-    if (playtime.compareTo(BigDecimal.ZERO) > 0) {
-      logUpdateToPlaytime(name, steamID, BigDecimal.ZERO, playtime);
-      game.lastPlayed.changeValue(new Timestamp(bumpDateIfLateNight().toDate().getTime()));
-    }
+    Boolean needsPlaytimeUpdate = playtime.compareTo(BigDecimal.ZERO) > 0;
 
     game.platform.changeValue("Steam");
     game.owned.changeValue("owned");
@@ -184,9 +181,15 @@ public class SteamGameUpdater extends DatabaseUtility implements UpdateRunner {
     game.metacriticPage.changeValue(false);
 
     game.commit(connection);
+
+    if (needsPlaytimeUpdate) {
+      logUpdateToPlaytime(name, steamID, BigDecimal.ZERO, playtime, game.id.getValue());
+      game.lastPlayed.changeValue(new Timestamp(bumpDateIfLateNight().toDate().getTime()));
+      game.commit(connection);
+    }
   }
 
-  private void logUpdateToPlaytime(String name, Integer steamID, BigDecimal previousPlaytime, BigDecimal updatedPlaytime) throws SQLException {
+  private void logUpdateToPlaytime(String name, Integer steamID, BigDecimal previousPlaytime, BigDecimal updatedPlaytime, Integer gameID) throws SQLException {
     GameLog gameLog = new GameLog();
     gameLog.initializeForInsert();
 
@@ -198,6 +201,7 @@ public class SteamGameUpdater extends DatabaseUtility implements UpdateRunner {
     gameLog.diff.changeValue(updatedPlaytime.subtract(previousPlaytime));
     gameLog.eventtype.changeValue("Played");
     gameLog.eventdate.changeValue(new Timestamp(new Date().getTime()));
+    gameLog.gameID.changeValue(gameID);
 
     gameLog.commit(connection);
   }

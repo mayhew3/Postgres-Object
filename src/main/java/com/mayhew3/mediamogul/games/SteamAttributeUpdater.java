@@ -62,6 +62,7 @@ public class SteamAttributeUpdater {
 
       steamAttribute.steamID.changeValue(steamID);
       steamAttribute.attribute.changeValue(attribute);
+      steamAttribute.gameID.changeValue(game.id.getValue());
       steamAttribute.commit(connection);
 
       if (attribute.equalsIgnoreCase("Steam Cloud")) {
