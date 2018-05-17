@@ -20,6 +20,7 @@ public class GameLog extends DataObject {
   public FieldValueString platform = registerStringField("platform", Nullability.NOT_NULL);
   public FieldValueString eventtype = registerStringField("eventtype", Nullability.NULLABLE);
 
+  public FieldValueForeignKey gameID = registerForeignKey(new Game(), Nullability.NOT_NULL);
 
   @Override
   public String getTableName() {

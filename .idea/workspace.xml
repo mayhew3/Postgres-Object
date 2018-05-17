@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1e099498-ec9e-4703-ab18-cce3963e4d0c" name="Default" comment="Move annotation directory">
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/GameLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/GameLog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/SteamAttribute.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/SteamAttribute.java" afterDir="false" />
-    </list>
+    <list default="true" id="1e099498-ec9e-4703-ab18-cce3963e4d0c" name="Default" comment="Move annotation directory" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
     <ignored path="$PROJECT_DIR$/out/" />
@@ -807,7 +804,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.GameSchemaHerokuTest.testHerokuSchemaUpToDate">
+  <component name="RunManager" selected="JUnit.GameSchemaLocalTest.testLocalSchemaUpToDate">
     <configuration name="BlogRankingsCreator" type="Application" factoryName="Application" nameIsGenerated="true">
       <envs>
         <env name="postgresURL_local" value="jdbc:postgresql://localhost:5432/tv?user=postgres&amp;password=m3mysql" />
@@ -2521,8 +2518,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.GameSchemaHerokuTest.testHerokuSchemaUpToDate" />
         <item itemvalue="JUnit.GameSchemaLocalTest.testLocalSchemaUpToDate" />
+        <item itemvalue="JUnit.GameSchemaHerokuTest.testHerokuSchemaUpToDate" />
         <item itemvalue="JUnit.com.mayhew3.mediamogul in media-mogul-data_test" />
         <item itemvalue="JUnit.TVSchemaLocalTest.testHerokuLocalUpToDate" />
         <item itemvalue="JUnit.All in media-mogul-data_test (1)" />
