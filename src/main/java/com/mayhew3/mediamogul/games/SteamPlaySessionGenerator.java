@@ -16,13 +16,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class SteamPlaySessionGenerator implements UpdateRunner {
 
   private SQLConnection connection;
 
-  private SteamPlaySessionGenerator(SQLConnection connection) {
+  public SteamPlaySessionGenerator(SQLConnection connection) {
     this.connection = connection;
   }
 
@@ -38,48 +39,76 @@ public class SteamPlaySessionGenerator implements UpdateRunner {
 
   @Override
   public void runUpdate() throws SQLException {
+    Integer numberOfGames = getNumberOfGames();
+
+    debug("Found " + numberOfGames + " newly played Steam games. Grouping into sessions.");
+
     String sql = "SELECT DISTINCT game_id " +
-        "FROM game_log " +
-        "WHERE eventtype = ? " +
-        "AND gameplay_session_id IS NULL " +
+        getNewlyPlayedGameQuery() +
         "ORDER BY game_id ";
 
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, "Played");
 
+    Integer i = 0;
     while (resultSet.next()) {
+      i++;
       int gameID = resultSet.getInt("game_id");
+      debug("Processing game " + i + " of " + numberOfGames + ": id " + gameID);
       updateSessions(gameID);
+      debug("Finished game " + i + " of " + numberOfGames + ".");
     }
   }
 
+  private Integer getNumberOfGames() throws SQLException {
+    String sql = "SELECT COUNT(DISTINCT game_id) as game_count " +
+        getNewlyPlayedGameQuery();
+
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, "Played");
+    if (resultSet.next()) {
+      return resultSet.getInt("game_count");
+    }
+
+    throw new RuntimeException("No returned value for my game count query.");
+  }
+
+  @NotNull
+  private String getNewlyPlayedGameQuery() {
+    return "FROM game_log " +
+        "WHERE eventtype = ? " +
+        "AND gameplay_session_id IS NULL ";
+  }
+
   private void updateSessions(Integer gameID) throws SQLException {
+    Integer numberOfUnprocessedGameLogs = getNumberOfUnprocessedGameLogs(gameID);
+
+    debug("Found " + numberOfUnprocessedGameLogs + " of new logs for game id " + gameID);
+
     String sql = "SELECT * " +
-        "FROM game_log " +
-        "WHERE game_id = ? " +
-        "AND eventtype = ? " +
-        "AND gameplay_session_id IS NULL " +
+        getUnprocessedGameLogQuery() +
         "ORDER BY eventdate ";
+
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, gameID, "Played");
 
     GameLog previousGameLog = null;
     List<GameLog> connectedLogs = new ArrayList<>();
     GameplaySession sessionToContinue = null;
 
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, gameID, "Played");
+    Integer i = 0;
     while (resultSet.next()) {
+      i++;
+
       GameLog gameLog = new GameLog();
       gameLog.initializeFromDBObject(resultSet);
+
+      debug("  - (" + i + "/" + numberOfUnprocessedGameLogs + "): " + gameLog.eventdate.getValue());
 
       if (previousGameLog == null) {
         // check if we can append this to an existing session.
         sessionToContinue = findSessionToContinue(gameLog);
       } else {
         if (areDifferentSessions(previousGameLog, gameLog)) {
-          if (sessionToContinue == null) {
-            createGameplaySession(connectedLogs);
-          } else {
-            appendToGameplaySession(sessionToContinue, connectedLogs);
-            sessionToContinue = null;
-          }
+          createOrUpdateGameplaySession(connectedLogs, sessionToContinue);
+          sessionToContinue = null;
           connectedLogs = new ArrayList<>();
         }
       }
@@ -89,11 +118,41 @@ public class SteamPlaySessionGenerator implements UpdateRunner {
     }
 
     if (previousGameLog != null) {
-      if (sessionToContinue == null) {
-        createGameplaySession(connectedLogs);
-      } else {
-        appendToGameplaySession(sessionToContinue, connectedLogs);
-      }
+      createOrUpdateGameplaySession(connectedLogs, sessionToContinue);
+    }
+  }
+
+  private Integer getNumberOfUnprocessedGameLogs(Integer gameID) throws SQLException {
+    String sql = "SELECT COUNT(1) as log_count " + getUnprocessedGameLogQuery();
+
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, gameID, "Played");
+    if (resultSet.next()) {
+      return resultSet.getInt("log_count");
+    }
+
+    throw new RuntimeException("No returned value for my log count query.");
+  }
+
+  @NotNull
+  private String getUnprocessedGameLogQuery() {
+    return "FROM game_log " +
+        "WHERE game_id = ? " +
+        "AND eventtype = ? " +
+        "AND gameplay_session_id IS NULL ";
+  }
+
+  protected static void debug(Object message) {
+    System.out.println(new Date() + ": " + message);
+  }
+
+  private void createOrUpdateGameplaySession(List<GameLog> connectedLogs, GameplaySession sessionToContinue) throws SQLException {
+    debug(" End of session found. Grouping " + connectedLogs.size() + " logs into session.");
+    if (sessionToContinue == null) {
+      debug(" Creating new session.");
+      createGameplaySession(connectedLogs);
+    } else {
+      debug(" Appending to existing session: " + sessionToContinue.startTime.getValue());
+      appendToGameplaySession(sessionToContinue, connectedLogs);
     }
   }
 

@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1e099498-ec9e-4703-ab18-cce3963e4d0c" name="Default" comment="Move annotation directory">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/SteamPlaySessionGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/SteamPlaySessionGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/GameplaySession.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/GameplaySession.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/scheduler/TaskScheduleRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/scheduler/TaskScheduleRunner.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -118,16 +119,33 @@
           <file leaf-file-name="SteamPlaySessionGenerator.java" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/SteamPlaySessionGenerator.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="687">
-                  <caret line="95" column="7" selection-start-line="95" selection-start-column="7" selection-end-line="95" selection-end-column="7" />
+                <state relative-caret-position="638">
+                  <caret line="151" column="43" lean-forward="true" selection-start-line="151" selection-start-column="43" selection-end-line="151" selection-end-column="43" />
                   <folding>
                     <element signature="imports" expanded="true" />
-                    <element signature="e#6959#6960#0" expanded="true" />
-                    <element signature="e#6996#6997#0" expanded="true" />
-                    <element signature="e#7933#7934#0" expanded="true" />
-                    <element signature="e#7980#7981#0" expanded="true" />
-                    <element signature="e#8041#8042#0" expanded="true" />
-                    <element signature="e#8062#8063#0" expanded="true" />
+                    <element signature="e#893#894#0" expanded="true" />
+                    <element signature="e#931#932#0" expanded="true" />
+                    <element signature="e#4741#4742#0" expanded="true" />
+                    <element signature="e#4798#4799#0" expanded="true" />
+                    <element signature="e#9294#9295#0" expanded="true" />
+                    <element signature="e#9331#9332#0" expanded="true" />
+                    <element signature="e#10268#10269#0" expanded="true" />
+                    <element signature="e#10315#10316#0" expanded="true" />
+                    <element signature="e#10376#10377#0" expanded="true" />
+                    <element signature="e#10397#10398#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="TaskScheduleRunner.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/scheduler/TaskScheduleRunner.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="876">
+                  <caret line="210" lean-forward="true" selection-start-line="206" selection-end-line="210" />
+                  <folding>
+                    <element signature="e#7549#7550#0" expanded="true" />
+                    <element signature="e#7606#7607#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -180,11 +198,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="GameplaySession.java" pinned="false" current-in-tab="true">
+          <file leaf-file-name="GameplaySession.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/GameplaySession.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="266">
-                  <caret line="14" column="67" selection-start-line="14" selection-start-column="66" selection-end-line="14" selection-end-column="67" />
+                <state relative-caret-position="247">
+                  <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
                 </state>
               </provider>
             </entry>
@@ -192,8 +210,25 @@
           <file leaf-file-name="HowLongToBeatUpdateRunner.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/HowLongToBeatUpdateRunner.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="418">
-                  <caret line="45" selection-start-line="45" selection-end-line="45" />
+                <state relative-caret-position="871">
+                  <caret line="181" lean-forward="true" selection-start-line="181" selection-end-line="181" />
+                  <folding>
+                    <element signature="e#5529#5530#0" expanded="true" />
+                    <element signature="e#5565#5566#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="TVDBEpisodeUpdater.java" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBEpisodeUpdater.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="439">
+                  <caret line="611" column="28" lean-forward="true" selection-start-line="611" selection-start-column="28" selection-end-line="611" selection-end-column="28" />
+                  <folding>
+                    <element signature="e#22977#22978#0" expanded="true" />
+                    <element signature="e#23013#23014#0" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -647,7 +682,6 @@
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/archive/TVDBConnectionLogFactory.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/archive/OldDataArchiveRunner.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/SteamAttributeUpdateRunner.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/scheduler/TaskScheduleRunner.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/SteamGameUpdateRunner.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/dataobject/FieldValueTimestampOld.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/dataobject/DataObject.java" />
@@ -666,6 +700,7 @@
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/GameLog.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/GamesSchema.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/GameplaySession.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/scheduler/TaskScheduleRunner.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/SteamPlaySessionGenerator.java" />
       </list>
     </option>
@@ -831,7 +866,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.GameSchemaHerokuTest.testHerokuSchemaUpToDate">
+  <component name="RunManager" selected="Gradle.media-mogul-data [assemble]">
     <configuration name="BlogRankingsCreator" type="Application" factoryName="Application" nameIsGenerated="true">
       <envs>
         <env name="postgresURL_local" value="jdbc:postgresql://localhost:5432/tv?user=postgres&amp;password=m3mysql" />
@@ -1289,7 +1324,18 @@
         <option name="Make" enabled="false" />
       </method>
     </configuration>
-    <configuration name="SteamPlaySessionGenerator (local)" type="Application" factoryName="Application">
+    <configuration name="SteamPlaySessionGenerator (heroku)" type="Application" factoryName="Application" folderName="Games">
+      <envs>
+        <env name="postgresURL_local" value="jdbc:postgresql://localhost:5432/tv?user=postgres&amp;password=m3mysql" />
+        <env name="postgresURL_local_test" value="jdbc:postgresql://localhost:5432/tv_copy?user=postgres&amp;password=m3mysql" />
+        <env name="postgresURL" value="postgres://ijxuheufucvnyu:h16h_LnZi4fHgIUjBANnzITEyR@ec2-54-204-30-115.compute-1.amazonaws.com:5432/dcg1rtode4vgk9" />
+      </envs>
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.games.SteamPlaySessionGenerator" />
+      <module name="media-mogul-data_main" />
+      <option name="PROGRAM_PARAMETERS" value="-db Heroku" />
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+    </configuration>
+    <configuration name="SteamPlaySessionGenerator (local)" type="Application" factoryName="Application" folderName="Games">
       <envs>
         <env name="postgresURL_local" value="jdbc:postgresql://localhost:5432/tv?user=postgres&amp;password=m3mysql" />
         <env name="postgresURL_local_test" value="jdbc:postgresql://localhost:5432/tv_copy?user=postgres&amp;password=m3mysql" />
@@ -2463,6 +2509,8 @@
       <item itemvalue="Application.SteamGameUpdater (LogToFile)" />
       <item itemvalue="Application.SteamGameUpdater (local)" />
       <item itemvalue="Application.SteamGameUpdater (test/LogToFile)" />
+      <item itemvalue="Application.SteamPlaySessionGenerator (heroku)" />
+      <item itemvalue="Application.SteamPlaySessionGenerator (local)" />
       <item itemvalue="Application.SeriesDenormUpdater (local)" />
       <item itemvalue="Application.TVDBDuplicateDataFixer (local)" />
       <item itemvalue="Application.TVDBUpdateRunner (local)" />
@@ -2540,7 +2588,6 @@
       <item itemvalue="Application.BlogRankingsCreator" />
       <item itemvalue="Application.OldDataArchiveRunner (Local)" />
       <item itemvalue="Application.OldDataArchiveRunner (Heroku)" />
-      <item itemvalue="Application.SteamPlaySessionGenerator (local)" />
       <item itemvalue="Gradle.media-mogul-data [build]" />
       <item itemvalue="Gradle.media-mogul-data [assemble]" />
       <item itemvalue="JUnit.TVSchemaLocalTest.testHerokuTestUpToDate" />
@@ -2585,12 +2632,6 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="GameSchemaLocalTest_testLocalSchemaUpToDate - 2018.05.16 at 21h 25m 26s.xml">
-      <configuration name="GameSchemaLocalTest.testLocalSchemaUpToDate" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="GameSchemaHerokuTest_testHerokuSchemaUpToDate - 2018.05.16 at 21h 25m 34s.xml">
-      <configuration name="GameSchemaHerokuTest.testHerokuSchemaUpToDate" configurationId="JUnit" />
-    </history-entry>
     <history-entry file="GameSchemaLocalTest_testLocalSchemaUpToDate - 2018.05.16 at 21h 50m 43s.xml">
       <configuration name="GameSchemaLocalTest.testLocalSchemaUpToDate" configurationId="JUnit" />
     </history-entry>
@@ -2615,6 +2656,12 @@
     <history-entry file="GameSchemaHerokuTest_testHerokuSchemaUpToDate - 2018.05.17 at 17h 46m 32s.xml">
       <configuration name="GameSchemaHerokuTest.testHerokuSchemaUpToDate" configurationId="JUnit" />
     </history-entry>
+    <history-entry file="GameSchemaLocalTest_testLocalSchemaUpToDate - 2018.05.17 at 19h 03m 28s.xml">
+      <configuration name="GameSchemaLocalTest.testLocalSchemaUpToDate" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="GameSchemaHerokuTest_testHerokuSchemaUpToDate - 2018.05.17 at 19h 03m 47s.xml">
+      <configuration name="GameSchemaHerokuTest.testHerokuSchemaUpToDate" configurationId="JUnit" />
+    </history-entry>
   </component>
   <component name="TimeTrackingManager">
     <option name="totallyTimeSpent" value="38000" />
@@ -2628,13 +2675,13 @@
       <window_info anchor="right" id="Palette&#9;" order="3" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="right" id="Maven Projects" order="3" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.2617544" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.2617544" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.32842106" />
       <window_info id="Designer" order="2" />
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16971382" />
       <window_info anchor="right" id="Gradle" order="3" weight="0.15916955" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.4" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -2700,20 +2747,8 @@
           <properties />
           <option name="timeStamp" value="50" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/SteamPlaySessionGenerator.java</url>
-          <line>66</line>
-          <properties />
-          <option name="timeStamp" value="81" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/SteamPlaySessionGenerator.java</url>
-          <line>145</line>
-          <properties />
-          <option name="timeStamp" value="83" />
-        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="84" />
+      <option name="time" value="85" />
     </breakpoint-manager>
   </component>
   <component name="debuggerHistoryManager">
@@ -2803,13 +2838,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="114">
           <caret line="6" column="26" selection-start-line="6" selection-start-column="26" selection-end-line="6" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBEpisodeUpdater.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="440">
-          <caret line="290" lean-forward="true" selection-start-line="290" selection-end-line="290" />
         </state>
       </provider>
     </entry>
@@ -2905,13 +2933,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/SteamGameUpdateRunner.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/scheduler/TaskScheduleRunner.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1710">
-          <caret line="120" column="3" selection-start-line="120" selection-start-column="3" selection-end-line="120" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.seleniumhq.selenium/selenium-support/2.47.1/88490f19fd4f5c9ff667cfd6d2ffa4ed2bac91d4/selenium-support-2.47.1-sources.jar!/org/openqa/selenium/support/ui/Select.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3306">
@@ -3078,13 +3099,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/HowLongToBeatUpdateRunner.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="418">
-          <caret line="45" selection-start-line="45" selection-end-line="45" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/MetacriticGameUpdater.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1634">
@@ -3097,23 +3111,60 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/GameplaySession.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="14" column="67" selection-start-line="14" selection-start-column="66" selection-end-line="14" selection-end-column="67" />
+        <state relative-caret-position="247">
+          <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/HowLongToBeatUpdateRunner.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="871">
+          <caret line="181" lean-forward="true" selection-start-line="181" selection-end-line="181" />
+          <folding>
+            <element signature="e#5529#5530#0" expanded="true" />
+            <element signature="e#5565#5566#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/scheduler/TaskScheduleRunner.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="876">
+          <caret line="210" lean-forward="true" selection-start-line="206" selection-end-line="210" />
+          <folding>
+            <element signature="e#7549#7550#0" expanded="true" />
+            <element signature="e#7606#7607#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBEpisodeUpdater.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="439">
+          <caret line="611" column="28" lean-forward="true" selection-start-line="611" selection-start-column="28" selection-end-line="611" selection-end-column="28" />
+          <folding>
+            <element signature="e#22977#22978#0" expanded="true" />
+            <element signature="e#23013#23014#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/SteamPlaySessionGenerator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="687">
-          <caret line="95" column="7" selection-start-line="95" selection-start-column="7" selection-end-line="95" selection-end-column="7" />
+        <state relative-caret-position="638">
+          <caret line="151" column="43" lean-forward="true" selection-start-line="151" selection-start-column="43" selection-end-line="151" selection-end-column="43" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#6959#6960#0" expanded="true" />
-            <element signature="e#6996#6997#0" expanded="true" />
-            <element signature="e#7933#7934#0" expanded="true" />
-            <element signature="e#7980#7981#0" expanded="true" />
-            <element signature="e#8041#8042#0" expanded="true" />
-            <element signature="e#8062#8063#0" expanded="true" />
+            <element signature="e#893#894#0" expanded="true" />
+            <element signature="e#931#932#0" expanded="true" />
+            <element signature="e#4741#4742#0" expanded="true" />
+            <element signature="e#4798#4799#0" expanded="true" />
+            <element signature="e#9294#9295#0" expanded="true" />
+            <element signature="e#9331#9332#0" expanded="true" />
+            <element signature="e#10268#10269#0" expanded="true" />
+            <element signature="e#10315#10316#0" expanded="true" />
+            <element signature="e#10376#10377#0" expanded="true" />
+            <element signature="e#10397#10398#0" expanded="true" />
           </folding>
         </state>
       </provider>
