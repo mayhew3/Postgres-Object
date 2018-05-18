@@ -10,7 +10,6 @@ import com.mayhew3.mediamogul.tv.helper.UpdateMode;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joda.time.DateTime;
-import org.joda.time.Period;
 
 import java.net.URISyntaxException;
 import java.sql.ResultSet;
@@ -78,18 +77,19 @@ public class SteamPlaySessionGenerator implements UpdateRunner {
       connectedLogs.add(gameLog);
       previousGameLog = gameLog;
     }
+
+    if (previousGameLog != null) {
+      createGameplaySession(connectedLogs);
+    }
   }
 
   private void createGameplaySession(@NotNull List<GameLog> connectedLogs) throws SQLException {
     GameplaySession gameplaySession = new GameplaySession();
     gameplaySession.initializeForInsert();
 
-    GameLog firstLog = connectedLogs.get(0);
-    Timestamp startTime = getStartTime(connectedLogs);
-
-    gameplaySession.gameID.changeValue(firstLog.gameID.getValue());
-    gameplaySession.startTime.changeValue(startTime);
-    gameplaySession.minutes.changeValue(getTotalMinutes(startTime, connectedLogs));
+    gameplaySession.gameID.changeValue(getFirstLog(connectedLogs).gameID.getValue());
+    gameplaySession.startTime.changeValue(getStartTime(connectedLogs));
+    gameplaySession.minutes.changeValue(getTotalMinutes(connectedLogs));
     gameplaySession.currentlyPlaying.changeValue(false);
 
     gameplaySession.commit(connection);
@@ -106,12 +106,18 @@ public class SteamPlaySessionGenerator implements UpdateRunner {
     return new Timestamp(eventDate.minusMinutes(diff).toDate().getTime());
   }
 
-  private Integer getTotalMinutes(@NotNull Timestamp startTime, List<GameLog> connectedLogs) {
+  private Integer getTotalMinutes(List<GameLog> connectedLogs) {
+    GameLog firstLog = getFirstLog(connectedLogs);
     GameLog lastLog = getLastLog(connectedLogs);
-    DateTime eventDate = new DateTime(lastLog.eventdate.getValue());
 
-    Period period = new Period(new DateTime(startTime), eventDate);
-    return period.getMinutes();
+    Integer initialMinutes = firstLog.previousPlaytime.getValue().intValue();
+    Integer finalMinutes = lastLog.updatedplaytime.getValue().intValue();
+
+    return finalMinutes - initialMinutes;
+  }
+
+  private GameLog getFirstLog(@NotNull List<GameLog> connectedLogs) {
+    return connectedLogs.get(0);
   }
 
   private GameLog getLastLog(@NotNull List<GameLog> connectedLogs) {
