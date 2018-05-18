@@ -62,16 +62,26 @@ public class SteamPlaySessionGenerator implements UpdateRunner {
 
     GameLog previousGameLog = null;
     List<GameLog> connectedLogs = new ArrayList<>();
+    GameplaySession sessionToContinue = null;
 
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, gameID, "Played");
     while (resultSet.next()) {
       GameLog gameLog = new GameLog();
       gameLog.initializeFromDBObject(resultSet);
 
-      if (previousGameLog != null && areDifferentSessions(previousGameLog, gameLog)) {
-        createGameplaySession(connectedLogs);
-
-        connectedLogs = new ArrayList<>();
+      if (previousGameLog == null) {
+        // check if we can append this to an existing session.
+        sessionToContinue = findSessionToContinue(gameLog);
+      } else {
+        if (areDifferentSessions(previousGameLog, gameLog)) {
+          if (sessionToContinue == null) {
+            createGameplaySession(connectedLogs);
+          } else {
+            appendToGameplaySession(sessionToContinue, connectedLogs);
+            sessionToContinue = null;
+          }
+          connectedLogs = new ArrayList<>();
+        }
       }
 
       connectedLogs.add(gameLog);
@@ -79,7 +89,86 @@ public class SteamPlaySessionGenerator implements UpdateRunner {
     }
 
     if (previousGameLog != null) {
-      createGameplaySession(connectedLogs);
+      if (sessionToContinue == null) {
+        createGameplaySession(connectedLogs);
+      } else {
+        appendToGameplaySession(sessionToContinue, connectedLogs);
+      }
+    }
+  }
+
+  private void appendToGameplaySession(@NotNull GameplaySession gameplaySession, @NotNull List<GameLog> connectedLogs) throws SQLException {
+    Integer initialMinutes = getInitialMinutes(gameplaySession);
+    if (initialMinutes == null) {
+      throw new IllegalStateException("No previousplaytime found with gameplay_session_id " + gameplaySession.id.getValue());
+    }
+
+    GameLog lastLog = getLastLog(connectedLogs);
+
+    Integer totalMinutes = lastLog.updatedplaytime.getValue().intValue() - initialMinutes;
+
+    gameplaySession.minutes.changeValue(totalMinutes);
+    gameplaySession.commit(connection);
+
+    markGameLogsUsed(connectedLogs, gameplaySession);
+  }
+
+  private @Nullable Integer getInitialMinutes(@NotNull GameplaySession gameplaySession) throws SQLException {
+    String sql = "SELECT MIN(previousplaytime) AS initial_playtime " +
+        "FROM game_log " +
+        "WHERE gameplay_session_id = ? ";
+
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, gameplaySession.id.getValue());
+    if (resultSet.next()) {
+      return resultSet.getBigDecimal("initial_playtime").intValue();
+    } else {
+      return null;
+    }
+  }
+
+  private @Nullable GameplaySession findSessionToContinue(@NotNull GameLog gameLog) throws SQLException {
+    DateTime finishTime = new DateTime(gameLog.eventdate.getValue());
+    Integer diff = gameLog.diff.getValue().intValue();
+
+    DateTime threshold = finishTime.minusMinutes(diff + 30);
+
+    String sql = "SELECT gameplay_session_id, MAX(eventdate) " +
+        "FROM game_log " +
+        "WHERE game_id = ? " +
+        "AND eventdate > ? " +
+        "AND gameplay_session_id IS NOT NULL " +
+        "GROUP BY gameplay_session_id " +
+        "ORDER BY MAX(eventdate) DESC ";
+
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, gameLog.gameID.getValue(),
+        new Timestamp(threshold.toDate().getTime()));
+
+    if (resultSet.next()) {
+      Integer gameplaySessionId = resultSet.getInt("gameplay_session_id");
+      GameplaySession foundSession = getGameplaySessionWithID(gameplaySessionId);
+
+      if (foundSession == null) {
+        throw new IllegalStateException("game_log found with gameplay_session_id " + gameplaySessionId + " that doesn't correspond to a gameplay_session.id.");
+      }
+
+      return foundSession;
+    }
+
+    return null;
+  }
+
+  private @Nullable GameplaySession getGameplaySessionWithID(@NotNull Integer id) throws SQLException {
+    String sql = "SELECT * " +
+        "FROM gameplay_session " +
+        "WHERE id = ? ";
+
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, id);
+    if (resultSet.next()) {
+      GameplaySession gameplaySession = new GameplaySession();
+      gameplaySession.initializeFromDBObject(resultSet);
+      return gameplaySession;
+    } else {
+      return null;
     }
   }
 
@@ -90,7 +179,7 @@ public class SteamPlaySessionGenerator implements UpdateRunner {
     gameplaySession.gameID.changeValue(getFirstLog(connectedLogs).gameID.getValue());
     gameplaySession.startTime.changeValue(getStartTime(connectedLogs));
     gameplaySession.minutes.changeValue(getTotalMinutes(connectedLogs));
-    gameplaySession.currentlyPlaying.changeValue(false);
+    gameplaySession.manualAdjustment.changeValue(0);
 
     gameplaySession.commit(connection);
 

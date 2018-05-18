@@ -10,8 +10,7 @@ public class GameplaySession extends RetireableDataObject {
 
   public FieldValueInteger minutes = registerIntegerField("minutes", Nullability.NOT_NULL);
   public FieldValueInteger rating = registerIntegerField("rating", Nullability.NULLABLE);
-
-  public FieldValueBoolean currentlyPlaying = registerBooleanField("currently_playing", Nullability.NOT_NULL).defaultValue(false);
+  public FieldValueInteger manualAdjustment = registerIntegerField("manual_adjustment", Nullability.NOT_NULL).defaultValue(0);
 
   @Override
   public String getTableName() {

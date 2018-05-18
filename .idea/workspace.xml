@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1e099498-ec9e-4703-ab18-cce3963e4d0c" name="Default" comment="Move annotation directory">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/SteamPlaySessionGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/SteamPlaySessionGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/GameplaySession.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/GameplaySession.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -118,16 +118,16 @@
           <file leaf-file-name="SteamPlaySessionGenerator.java" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/SteamPlaySessionGenerator.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="383">
-                  <caret line="75" lean-forward="true" selection-start-line="75" selection-end-line="75" />
+                <state relative-caret-position="687">
+                  <caret line="95" column="7" selection-start-line="95" selection-start-column="7" selection-end-line="95" selection-end-column="7" />
                   <folding>
                     <element signature="imports" expanded="true" />
-                    <element signature="e#4153#4154#0" expanded="true" />
-                    <element signature="e#4182#4183#0" expanded="true" />
-                    <element signature="e#4878#4879#0" expanded="true" />
-                    <element signature="e#4925#4926#0" expanded="true" />
-                    <element signature="e#4986#4987#0" expanded="true" />
-                    <element signature="e#5007#5008#0" expanded="true" />
+                    <element signature="e#6959#6960#0" expanded="true" />
+                    <element signature="e#6996#6997#0" expanded="true" />
+                    <element signature="e#7933#7934#0" expanded="true" />
+                    <element signature="e#7980#7981#0" expanded="true" />
+                    <element signature="e#8041#8042#0" expanded="true" />
+                    <element signature="e#8062#8063#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -183,8 +183,8 @@
           <file leaf-file-name="GameplaySession.java" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/GameplaySession.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="133">
-                  <caret line="7" selection-start-line="7" selection-end-line="7" />
+                <state relative-caret-position="266">
+                  <caret line="14" column="67" selection-start-line="14" selection-start-column="66" selection-end-line="14" selection-end-column="67" />
                 </state>
               </provider>
             </entry>
@@ -664,8 +664,8 @@
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/GiantBombUpdater.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/scheduler/UpdateRunner.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/GameLog.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/GameplaySession.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/GamesSchema.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/GameplaySession.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/SteamPlaySessionGenerator.java" />
       </list>
     </option>
@@ -831,7 +831,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.SteamPlaySessionGenerator (local)">
+  <component name="RunManager" selected="JUnit.GameSchemaHerokuTest.testHerokuSchemaUpToDate">
     <configuration name="BlogRankingsCreator" type="Application" factoryName="Application" nameIsGenerated="true">
       <envs>
         <env name="postgresURL_local" value="jdbc:postgresql://localhost:5432/tv?user=postgres&amp;password=m3mysql" />
@@ -2557,8 +2557,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.GameSchemaLocalTest.testLocalSchemaUpToDate" />
         <item itemvalue="JUnit.GameSchemaHerokuTest.testHerokuSchemaUpToDate" />
+        <item itemvalue="JUnit.GameSchemaLocalTest.testLocalSchemaUpToDate" />
         <item itemvalue="JUnit.com.mayhew3.mediamogul in media-mogul-data_test" />
         <item itemvalue="JUnit.TVSchemaLocalTest.testHerokuLocalUpToDate" />
         <item itemvalue="JUnit.All in media-mogul-data_test (1)" />
@@ -2585,15 +2585,6 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="GameSchemaHerokuTest_testHerokuSchemaUpToDate - 2018.05.16 at 20h 57m 14s.xml">
-      <configuration name="GameSchemaHerokuTest.testHerokuSchemaUpToDate" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="GameSchemaLocalTest_testLocalSchemaUpToDate - 2018.05.16 at 21h 12m 46s.xml">
-      <configuration name="GameSchemaLocalTest.testLocalSchemaUpToDate" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="GameSchemaLocalTest_testLocalSchemaUpToDate - 2018.05.16 at 21h 13m 17s.xml">
-      <configuration name="GameSchemaLocalTest.testLocalSchemaUpToDate" configurationId="JUnit" />
-    </history-entry>
     <history-entry file="GameSchemaLocalTest_testLocalSchemaUpToDate - 2018.05.16 at 21h 25m 26s.xml">
       <configuration name="GameSchemaLocalTest.testLocalSchemaUpToDate" configurationId="JUnit" />
     </history-entry>
@@ -2614,6 +2605,15 @@
     </history-entry>
     <history-entry file="GameSchemaLocalTest_testLocalSchemaUpToDate - 2018.05.16 at 21h 54m 48s.xml">
       <configuration name="GameSchemaLocalTest.testLocalSchemaUpToDate" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="GameSchemaLocalTest_testLocalSchemaUpToDate - 2018.05.17 at 17h 45m 45s.xml">
+      <configuration name="GameSchemaLocalTest.testLocalSchemaUpToDate" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="GameSchemaHerokuTest_testHerokuSchemaUpToDate - 2018.05.17 at 17h 45m 54s.xml">
+      <configuration name="GameSchemaHerokuTest.testHerokuSchemaUpToDate" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="GameSchemaHerokuTest_testHerokuSchemaUpToDate - 2018.05.17 at 17h 46m 32s.xml">
+      <configuration name="GameSchemaHerokuTest.testHerokuSchemaUpToDate" configurationId="JUnit" />
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
@@ -2701,27 +2701,32 @@
           <option name="timeStamp" value="50" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <condition expression="gameID == 323" language="JAVA" />
           <url>file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/SteamPlaySessionGenerator.java</url>
-          <line>65</line>
+          <line>66</line>
           <properties />
-          <option name="timeStamp" value="71" />
+          <option name="timeStamp" value="81" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/SteamPlaySessionGenerator.java</url>
+          <line>145</line>
+          <properties />
+          <option name="timeStamp" value="83" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="80" />
+      <option name="time" value="84" />
     </breakpoint-manager>
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="breakpointCondition">
       <expression>
-        <expression-string>gameID == 323</expression-string>
+        <expression-string />
         <language-id>JAVA</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
     </expressions>
     <expressions id="evaluateExpression">
       <expression>
-        <expression-string>areDifferentSessions(previousGameLog, gameLog)</expression-string>
+        <expression-string />
         <language-id>JAVA</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
@@ -3092,23 +3097,23 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/GameplaySession.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="133">
-          <caret line="7" selection-start-line="7" selection-end-line="7" />
+        <state relative-caret-position="266">
+          <caret line="14" column="67" selection-start-line="14" selection-start-column="66" selection-end-line="14" selection-end-column="67" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/SteamPlaySessionGenerator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="383">
-          <caret line="75" lean-forward="true" selection-start-line="75" selection-end-line="75" />
+        <state relative-caret-position="687">
+          <caret line="95" column="7" selection-start-line="95" selection-start-column="7" selection-end-line="95" selection-end-column="7" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#4153#4154#0" expanded="true" />
-            <element signature="e#4182#4183#0" expanded="true" />
-            <element signature="e#4878#4879#0" expanded="true" />
-            <element signature="e#4925#4926#0" expanded="true" />
-            <element signature="e#4986#4987#0" expanded="true" />
-            <element signature="e#5007#5008#0" expanded="true" />
+            <element signature="e#6959#6960#0" expanded="true" />
+            <element signature="e#6996#6997#0" expanded="true" />
+            <element signature="e#7933#7934#0" expanded="true" />
+            <element signature="e#7980#7981#0" expanded="true" />
+            <element signature="e#8041#8042#0" expanded="true" />
+            <element signature="e#8062#8063#0" expanded="true" />
           </folding>
         </state>
       </provider>
