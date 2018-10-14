@@ -8,7 +8,8 @@ public class GamesSchema {
       new Game(),
       new GameLog(),
       new GameplaySession(),
-      new SteamAttribute()
+      new SteamAttribute(),
+      new PossibleGameMatch()
   );
 
 }

@@ -13,6 +13,7 @@ repositories {
     // Use jcenter for resolving your dependencies.
     // You can declare any Maven/Ivy/file repository here.
     jcenter()
+    maven { url 'https://jitpack.io' }
     flatDir {
         dirs "$System.env.IDEA_ANNOTATIONS_DIR"
     }
@@ -30,6 +31,7 @@ dependencies {
     compile 'org.seleniumhq.selenium:selenium-server:3.12.0'
     compile group: 'commons-cli', name: 'commons-cli', version: '1.4'
     compile name: 'annotations-java8'
+    compile 'com.github.igdb:api-java:2.0.0'
 
     // Use JUnit test framework
     testCompile 'junit:junit:4.12'
