@@ -12,8 +12,8 @@ public class PossibleGameMatch extends RetireableDataObject {
   public FieldValueString igdbGameTitle = registerStringField("igdb_game_title", Nullability.NOT_NULL);
   public FieldValueString poster = registerStringField("poster", Nullability.NULLABLE);
 
-  FieldValueInteger poster_w = registerIntegerField("poster_w", Nullability.NULLABLE);
-  FieldValueInteger poster_h = registerIntegerField("poster_h", Nullability.NULLABLE);
+  public FieldValueInteger poster_w = registerIntegerField("poster_w", Nullability.NULLABLE);
+  public FieldValueInteger poster_h = registerIntegerField("poster_h", Nullability.NULLABLE);
 
   public FieldValueBoolean alreadyExists = registerBooleanField("already_exists", Nullability.NOT_NULL).defaultValue(false);
 

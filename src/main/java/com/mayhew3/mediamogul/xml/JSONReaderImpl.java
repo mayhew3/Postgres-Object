@@ -5,20 +5,20 @@ import org.jetbrains.annotations.Nullable;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
+
 public class JSONReaderImpl implements JSONReader {
 
   @Override
   public @NotNull JSONObject getObjectWithKey(JSONObject jsonObject, String key) {
     return jsonObject.getJSONObject(key);
-  }
-
-  @Override
-  public @Nullable JSONObject getNullableObjectWithKey(JSONObject jsonObject, String key) {
-    if (!jsonObject.has(key) || JSONObject.NULL.equals(jsonObject.get(key))) {
-      return null;
-    } else {
-      return jsonObject.getJSONObject(key);
-    }
   }
 
   @Override
@@ -71,4 +71,40 @@ public class JSONReaderImpl implements JSONReader {
       return jsonObject.getDouble(key);
     }
   }
+
+  @Override
+  public void forEach(JSONArray jsonArray, Consumer<JSONObject> jsonObjectConsumer) {
+    for (int i = 0; i < jsonArray.length(); i++) {
+      JSONObject jsonObject = jsonArray.getJSONObject(i);
+      jsonObjectConsumer.accept(jsonObject);
+    }
+  }
+
+  @NotNull
+  @Override
+  public List<JSONObject> findMatches(JSONArray jsonArray, Predicate<JSONObject> conditionToLookFor) {
+    List<JSONObject> matches = new ArrayList<>();
+    for (int i = 0; i < jsonArray.length(); i++) {
+      JSONObject jsonObject = jsonArray.getJSONObject(i);
+      if (conditionToLookFor.test(jsonObject)) {
+        matches.add(jsonObject);
+      }
+    }
+    return matches;
+  }
+
+
+  @NotNull
+  @Override
+  public JSONArray parseJSONArray(String filepath) {
+    try {
+      byte[] bytes = Files.readAllBytes(Paths.get(filepath));
+      String text = new String(bytes, Charset.defaultCharset());
+      return new JSONArray(text);
+    } catch (IOException e) {
+      e.printStackTrace();
+      throw new RuntimeException("Unable to read from file path: " + filepath);
+    }
+  }
+
 }

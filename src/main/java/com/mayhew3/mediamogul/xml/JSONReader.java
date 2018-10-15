@@ -5,13 +5,14 @@ import org.jetbrains.annotations.Nullable;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
+
 public interface JSONReader {
 
   @NotNull
   JSONObject getObjectWithKey(JSONObject jsonObject, String key);
-
-  @Nullable
-  JSONObject getNullableObjectWithKey(JSONObject jsonObject, String key);
 
   @NotNull
   JSONArray getArrayWithKey(JSONObject jsonObject, String key);
@@ -31,4 +32,11 @@ public interface JSONReader {
   @Nullable
   Double getNullableDoubleWithKey(JSONObject jsonObject, String key);
 
+  void forEach(JSONArray jsonArray, Consumer<JSONObject> jsonObjectConsumer);
+
+  @NotNull
+  List<JSONObject> findMatches(JSONArray jsonArray, Predicate<JSONObject> conditionToLookFor);
+
+  @NotNull
+  JSONArray parseJSONArray(String filepath);
 }
