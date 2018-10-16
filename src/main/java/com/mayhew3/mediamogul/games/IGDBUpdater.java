@@ -29,27 +29,31 @@ public class IGDBUpdater {
   }
 
   void updateGame() {
-    igdbProvider.findGameMatches(game.title.getValue(), results -> {
+    igdbProvider.findGameMatches(getFormattedTitle(), results -> {
       try {
         processPossibleMatches(results);
-      } catch (SQLException e) {
+      } catch (Exception e) {
         throw new RuntimeException(e);
       }
     });
   }
 
-  private void processPossibleMatches(JSONArray results) throws SQLException {
-    Optional<JSONObject> exactMatchWithYear = findExactMatchWithYear(results);
-    if (exactMatchWithYear.isPresent()) {
-      saveExactMatch(exactMatchWithYear.get());
-    } else {
-      Optional<JSONObject> exactTitleMatch = findExactTitleMatch(results);
-      if (exactTitleMatch.isPresent()) {
-        saveExactMatch(exactTitleMatch.get());
-      } else {
-        savePossibleMatches(results);
+  private String getFormattedTitle() {
+    String title = game.title.getValue();
+    title = title.replace("™", "");
+    return title;
+  }
 
-      }
+  private void processPossibleMatches(JSONArray results) throws SQLException {
+    debug("Processing game: '" + getFormattedTitle() + "'");
+
+    Optional<JSONObject> exactMatch = findExactMatch(results);
+    if (exactMatch.isPresent()) {
+      debug(" - Exact match found!");
+      saveExactMatch(exactMatch.get());
+    } else {
+      debug(" - No exact match.");
+      savePossibleMatches(results);
     }
   }
 
@@ -68,49 +72,55 @@ public class IGDBUpdater {
 
   private void saveExactMatch(JSONObject exactMatch) throws SQLException {
     @NotNull Integer id = jsonReader.getIntegerWithKey(exactMatch, "id");
-    @NotNull JSONObject cover = jsonReader.getObjectWithKey(exactMatch, "cover");
-    @NotNull String cloudinary_id = jsonReader.getStringWithKey(cover, "cloudinary_id");
-    @NotNull Integer width = jsonReader.getIntegerWithKey(cover, "width");
-    @NotNull Integer height = jsonReader.getIntegerWithKey(cover, "height");
 
     game.igdb_id.changeValue(id);
     game.igdb_success.changeValue(new Date());
-    game.igdb_poster.changeValue(cloudinary_id);
-    game.igdb_poster_w.changeValue(width);
-    game.igdb_poster_h.changeValue(height);
+
+    Optional<JSONObject> optionalCover = jsonReader.getOptionalObjectWithKey(exactMatch, "cover");
+    if (optionalCover.isPresent()) {
+      JSONObject cover = optionalCover.get();
+
+      @NotNull String cloudinary_id = jsonReader.getStringWithKey(cover, "cloudinary_id");
+      @NotNull Integer width = jsonReader.getIntegerWithKey(cover, "width");
+      @NotNull Integer height = jsonReader.getIntegerWithKey(cover, "height");
+
+      game.igdb_poster.changeValue(cloudinary_id);
+      game.igdb_poster_w.changeValue(width);
+      game.igdb_poster_h.changeValue(height);
+    }
 
     game.commit(connection);
   }
 
   private void savePossibleMatch(JSONObject possibleMatch) throws SQLException {
-    @NotNull Integer id = jsonReader.getIntegerWithKey(possibleMatch, "id");
-    @NotNull String name = jsonReader.getStringWithKey(possibleMatch, "name");
-    @NotNull JSONObject cover = jsonReader.getObjectWithKey(possibleMatch, "cover");
-    @NotNull String cloudinary_id = jsonReader.getStringWithKey(cover, "cloudinary_id");
-    @NotNull Integer width = jsonReader.getIntegerWithKey(cover, "width");
-    @NotNull Integer height = jsonReader.getIntegerWithKey(cover, "height");
-
     PossibleGameMatch possibleGameMatch = new PossibleGameMatch();
     possibleGameMatch.initializeForInsert();
+
+    @NotNull Integer id = jsonReader.getIntegerWithKey(possibleMatch, "id");
+    @NotNull String name = jsonReader.getStringWithKey(possibleMatch, "name");
 
     possibleGameMatch.gameId.changeValue(game.id.getValue());
     possibleGameMatch.igdbGameExtId.changeValue(id);
     possibleGameMatch.igdbGameTitle.changeValue(name);
-    possibleGameMatch.poster.changeValue(cloudinary_id);
-    possibleGameMatch.poster_w.changeValue(width);
-    possibleGameMatch.poster_h.changeValue(height);
+
+    Optional<JSONObject> optionalCover = jsonReader.getOptionalObjectWithKey(possibleMatch, "cover");
+
+    if (optionalCover.isPresent()) {
+      JSONObject cover = optionalCover.get();
+      @NotNull String cloudinary_id = jsonReader.getStringWithKey(cover, "cloudinary_id");
+      @NotNull Integer width = jsonReader.getIntegerWithKey(cover, "width");
+      @NotNull Integer height = jsonReader.getIntegerWithKey(cover, "height");
+
+      possibleGameMatch.poster.changeValue(cloudinary_id);
+      possibleGameMatch.poster_w.changeValue(width);
+      possibleGameMatch.poster_h.changeValue(height);
+    }
 
     possibleGameMatch.commit(connection);
   }
 
-  private Optional<JSONObject> findExactTitleMatch(JSONArray possibleMatches) {
-    String searchString = game.title.getValue();
-
-    return findExactMatchForString(possibleMatches, searchString);
-  }
-
-  private Optional<JSONObject> findExactMatchWithYear(JSONArray possibleMatches) {
-    String searchString = game.title.getValue() + " (" + game.year.getValue() + ")";
+  private Optional<JSONObject> findExactMatch(JSONArray possibleMatches) {
+    String searchString = getFormattedTitle();
 
     return findExactMatchForString(possibleMatches, searchString);
   }

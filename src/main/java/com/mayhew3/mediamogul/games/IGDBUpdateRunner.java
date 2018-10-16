@@ -30,6 +30,7 @@ public class IGDBUpdateRunner implements UpdateRunner {
   public IGDBUpdateRunner(SQLConnection connection, IGDBProvider igdbProvider, JSONReader jsonReader, UpdateMode updateMode) {
     methodMap = new HashMap<>();
     methodMap.put(UpdateMode.FULL, this::runUpdateFull);
+    methodMap.put(UpdateMode.SMART, this::runUpdateSmart);
     methodMap.put(UpdateMode.SINGLE, this::runUpdateSingle);
 
     this.connection = connection;
@@ -89,8 +90,22 @@ public class IGDBUpdateRunner implements UpdateRunner {
     throw new RuntimeException("Not done.");
   }
 
+  private void runUpdateSmart() {
+    String sql = "SELECT * " +
+        "FROM game " +
+        "WHERE igdb_success IS NULL " +
+        "AND igdb_failed IS NULL ";
+
+    try {
+      ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql);
+      runUpdateOnResultSet(resultSet);
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
   private void runUpdateSingle() {
-    String gameTitle = "Forza Horizon 4";
+    String gameTitle = "Operation Apex";
     String sql = "select * " +
         "from game " +
         "where title = ? ";

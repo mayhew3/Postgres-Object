@@ -6,6 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
@@ -39,4 +40,7 @@ public interface JSONReader {
 
   @NotNull
   JSONArray parseJSONArray(String filepath);
+
+  @NotNull
+  Optional<JSONObject> getOptionalObjectWithKey(JSONObject jsonObject, String key);
 }

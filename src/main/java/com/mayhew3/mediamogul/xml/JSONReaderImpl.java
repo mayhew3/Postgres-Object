@@ -11,6 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
@@ -93,6 +94,15 @@ public class JSONReaderImpl implements JSONReader {
     return matches;
   }
 
+
+  @Override
+  public @NotNull Optional<JSONObject> getOptionalObjectWithKey(JSONObject jsonObject, String key) {
+    if (!jsonObject.has(key) || JSONObject.NULL.equals(jsonObject.get(key))) {
+      return Optional.empty();
+    } else {
+      return Optional.of(jsonObject.getJSONObject(key));
+    }
+  }
 
   @NotNull
   @Override

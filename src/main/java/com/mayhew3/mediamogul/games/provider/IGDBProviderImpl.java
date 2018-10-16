@@ -28,6 +28,7 @@ public class IGDBProviderImpl implements IGDBProvider {
       @Override
       public void onSuccess(@NotNull JSONArray jsonArray) {
         resultHandler.accept(jsonArray);
+        System.out.println(" - Finished code path.");
       }
 
       @Override
