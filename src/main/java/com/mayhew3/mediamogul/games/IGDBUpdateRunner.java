@@ -94,7 +94,8 @@ public class IGDBUpdateRunner implements UpdateRunner {
     String sql = "SELECT * " +
         "FROM game " +
         "WHERE igdb_success IS NULL " +
-        "AND igdb_failed IS NULL ";
+        "AND igdb_failed IS NULL " +
+        "AND igdb_ignored IS NULL ";
 
     try {
       ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql);

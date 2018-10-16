@@ -77,6 +77,7 @@ public class Game extends DataObject {
   public FieldValueInteger igdb_id = registerIntegerField("igdb_id", Nullability.NULLABLE);
   public FieldValueTimestamp igdb_failed = registerTimestampField("igdb_failed", Nullability.NULLABLE);
   public FieldValueTimestamp igdb_success = registerTimestampField("igdb_success", Nullability.NULLABLE);
+  public FieldValueTimestamp igdb_ignored = registerTimestampField("igdb_ignored", Nullability.NULLABLE);
   public FieldValueString igdb_poster = registerStringField("igdb_poster", Nullability.NULLABLE);
   public FieldValueInteger igdb_poster_w = registerIntegerField("igdb_poster_w", Nullability.NULLABLE);
   public FieldValueInteger igdb_poster_h = registerIntegerField("igdb_poster_h", Nullability.NULLABLE);
