@@ -29,7 +29,7 @@ public class IGDBUpdater {
   }
 
   void updateGame() {
-    JSONArray gameMatches = igdbProvider.getGameMatches(getFormattedTitle());
+    JSONArray gameMatches = igdbProvider.findGameMatches(getFormattedTitle());
     try {
       processPossibleMatches(gameMatches);
     } catch (UnsupportedOperationException | SQLException e) {

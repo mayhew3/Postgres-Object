@@ -7,7 +7,6 @@ import com.mayhew3.mediamogul.model.games.Game;
 import com.mayhew3.mediamogul.model.games.PossibleGameMatch;
 import com.mayhew3.mediamogul.xml.JSONReaderImpl;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.junit.Test;
 
 import java.net.URISyntaxException;
@@ -34,7 +33,7 @@ public class IGDBUpdaterTest extends GamesDatabaseTest {
   public void testManyResultsOneExactMatch() throws SQLException {
     String gameTitle = "Forza Horizon 4";
 
-    Game game = createGame(gameTitle, "PC", null);
+    Game game = createGame(gameTitle, "PC");
 
     IGDBUpdater igdbUpdater = new IGDBUpdater(game, connection, igdbProvider, jsonReader);
     igdbUpdater.updateGame();
@@ -58,37 +57,38 @@ public class IGDBUpdaterTest extends GamesDatabaseTest {
   }
 
   @Test
-  public void testTwoResultsOneYearMatch() throws SQLException {
+  public void testTwoResultsTwoExactMatches() throws SQLException {
     String gameTitle = "Doom";
 
-    Game game = createGame(gameTitle, "PC", 2016);
+    Game game = createGame(gameTitle, "PC");
 
     IGDBUpdater igdbUpdater = new IGDBUpdater(game, connection, igdbProvider, jsonReader);
     igdbUpdater.updateGame();
 
     assertThat(game.igdb_id.getValue())
-        .isEqualTo(3047);
-    assertThat(game.igdb_poster.getValue())
-        .isEqualTo("ht1cef3fa2zdyumdyrzl");
-    assertThat(game.igdb_poster_w.getValue())
-        .isEqualTo(1528);
-    assertThat(game.igdb_poster_h.getValue())
-        .isEqualTo(1802);
-    assertThat(game.igdb_failed.getValue())
         .isNull();
-    assertThat(game.igdb_success.getValue())
+    assertThat(game.igdb_poster.getValue())
+        .isNull();
+    assertThat(game.igdb_poster_w.getValue())
+        .isNull();
+    assertThat(game.igdb_poster_h.getValue())
+        .isNull();
+    assertThat(game.igdb_failed.getValue())
         .isNotNull();
+    assertThat(game.igdb_success.getValue())
+        .isNull();
 
     List<PossibleGameMatch> possibleGameMatches = findPossibleGameMatches(game);
     assertThat(possibleGameMatches)
-        .isEmpty();
+        .hasSize(2);
+
   }
 
   @Test
   public void testNoResults() throws SQLException {
     String gameTitle = "Gorfond";
 
-    Game game = createGame(gameTitle, "Xbox One", 2018);
+    Game game = createGame(gameTitle, "Xbox One");
 
     IGDBUpdater igdbUpdater = new IGDBUpdater(game, connection, igdbProvider, jsonReader);
     igdbUpdater.updateGame();
@@ -116,7 +116,7 @@ public class IGDBUpdaterTest extends GamesDatabaseTest {
   public void testManyResultsNoExactMatch() throws SQLException {
     String gameTitle = "Forza Horizon 4 Awesome";
 
-    Game game = createGame(gameTitle, "Xbox One", 2018);
+    Game game = createGame(gameTitle, "Xbox One");
 
     IGDBUpdater igdbUpdater = new IGDBUpdater(game, connection, igdbProvider, jsonReader);
     igdbUpdater.updateGame();
@@ -154,12 +154,11 @@ public class IGDBUpdaterTest extends GamesDatabaseTest {
 
 
   // utility methods
-  private Game createGame(String gameName, @NotNull String platform, @Nullable Integer year) throws SQLException {
+  private Game createGame(String gameName, @NotNull String platform) throws SQLException {
     Game game = new Game();
     game.initializeForInsert();
     game.title.changeValue(gameName);
     game.platform.changeValue(platform);
-    game.year.changeValue(year);
 
     game.commit(connection);
 

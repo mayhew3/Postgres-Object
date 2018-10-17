@@ -16,10 +16,10 @@ public class IGDBTestProvider implements IGDBProvider {
   }
 
   @Override
-  public void findGameMatches(String gameTitle, Consumer<JSONArray> resultHandler) {
+  public JSONArray findGameMatches(String gameTitle) {
     String filepath = filePrefix + "search_" + gameTitle + ".json";
     @NotNull JSONArray jsonArrayFromFile = jsonReader.parseJSONArray(filepath);
-    resultHandler.accept(jsonArrayFromFile);
+     return jsonArrayFromFile;
   }
 
 }

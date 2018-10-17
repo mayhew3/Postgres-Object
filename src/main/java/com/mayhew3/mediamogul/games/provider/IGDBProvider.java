@@ -6,5 +6,5 @@ import java.util.function.Consumer;
 
 public interface IGDBProvider {
 
-  JSONArray getGameMatches(String gameTitle);
+  JSONArray findGameMatches(String gameTitle);
 }

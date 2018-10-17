@@ -14,7 +14,7 @@ import java.util.Map;
 public class IGDBProviderImpl implements IGDBProvider {
 
   @Override
-  public JSONArray getGameMatches(String gameTitle) {
+  public JSONArray findGameMatches(String gameTitle) {
 
     String gameTitleEncoded = encodeGameTitle(gameTitle);
 
