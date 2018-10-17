@@ -29,13 +29,12 @@ public class IGDBUpdater {
   }
 
   void updateGame() {
-    igdbProvider.findGameMatches(getFormattedTitle(), results -> {
-      try {
-        processPossibleMatches(results);
-      } catch (UnsupportedOperationException | SQLException e) {
-        throw new RuntimeException(e);
-      }
-    });
+    JSONArray gameMatches = igdbProvider.getGameMatches(getFormattedTitle());
+    try {
+      processPossibleMatches(gameMatches);
+    } catch (UnsupportedOperationException | SQLException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   private String getFormattedTitle() {

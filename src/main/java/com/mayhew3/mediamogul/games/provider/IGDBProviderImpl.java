@@ -10,12 +10,11 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Consumer;
 
 public class IGDBProviderImpl implements IGDBProvider {
 
   @Override
-  public void findGameMatches(String gameTitle, Consumer<JSONArray> resultHandler) {
+  public JSONArray getGameMatches(String gameTitle) {
 
     String gameTitleEncoded = encodeGameTitle(gameTitle);
 
@@ -26,9 +25,7 @@ public class IGDBProviderImpl implements IGDBProvider {
     queryVars.put("limit", "5");
     queryVars.put("offset", "0");
 
-    JSONArray gameMatches = getArrayData(url, queryVars);
-
-    resultHandler.accept(gameMatches);
+    return getArrayData(url, queryVars);
   }
 
   private String encodeGameTitle(String gameTitle) {
