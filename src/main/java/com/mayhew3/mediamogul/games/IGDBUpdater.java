@@ -32,7 +32,7 @@ public class IGDBUpdater {
     igdbProvider.findGameMatches(getFormattedTitle(), results -> {
       try {
         processPossibleMatches(results);
-      } catch (Exception e) {
+      } catch (UnsupportedOperationException | SQLException e) {
         throw new RuntimeException(e);
       }
     });

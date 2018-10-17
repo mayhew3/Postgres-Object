@@ -11,7 +11,7 @@ public class IGDBUpdateTestRunner {
 
 
   /*
-  
+
     Test utility to see if threads close in most basic case. They don't.
 
   * */
