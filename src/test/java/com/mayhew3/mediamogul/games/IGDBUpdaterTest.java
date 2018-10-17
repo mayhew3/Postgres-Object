@@ -66,7 +66,7 @@ public class IGDBUpdaterTest extends GamesDatabaseTest {
     igdbUpdater.updateGame();
 
     assertThat(game.igdb_id.getValue())
-        .isNull();
+        .isEqualTo(82090);
     assertThat(game.igdb_poster.getValue())
         .isNull();
     assertThat(game.igdb_poster_w.getValue())
@@ -122,7 +122,7 @@ public class IGDBUpdaterTest extends GamesDatabaseTest {
     igdbUpdater.updateGame();
 
     assertThat(game.igdb_id.getValue())
-        .isNull();
+        .isEqualTo(82090);
     assertThat(game.igdb_poster.getValue())
         .isNull();
     assertThat(game.igdb_poster_w.getValue())

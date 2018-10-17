@@ -65,8 +65,18 @@ public class IGDBUpdater {
       }
     });
 
+    maybeUpdateGameWithBestMatch(results);
     game.igdb_failed.changeValue(new Date());
     game.commit(connection);
+  }
+
+  private void maybeUpdateGameWithBestMatch(JSONArray results) {
+    if (results.length() > 0) {
+      JSONObject firstMatch = results.getJSONObject(0);
+      Integer igdb_id = jsonReader.getIntegerWithKey(firstMatch, "id");
+
+      game.igdb_id.changeValue(igdb_id);
+    }
   }
 
   private void saveExactMatch(JSONObject exactMatch) throws SQLException {
