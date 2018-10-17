@@ -7,6 +7,8 @@ import com.mayhew3.mediamogul.archive.OldDataArchiveRunner;
 import com.mayhew3.mediamogul.db.PostgresConnectionFactory;
 import com.mayhew3.mediamogul.db.SQLConnection;
 import com.mayhew3.mediamogul.games.*;
+import com.mayhew3.mediamogul.games.provider.IGDBProvider;
+import com.mayhew3.mediamogul.games.provider.IGDBProviderImpl;
 import com.mayhew3.mediamogul.tv.*;
 import com.mayhew3.mediamogul.tv.helper.ConnectionLogger;
 import com.mayhew3.mediamogul.tv.helper.UpdateMode;
@@ -41,6 +43,7 @@ public class TaskScheduleRunner {
   private TVDBJWTProvider tvdbjwtProvider;
   private JSONReader jsonReader;
   private TiVoDataProvider tiVoDataProvider;
+  private IGDBProvider igdbProvider;
 
   private String identifier;
 
@@ -49,11 +52,12 @@ public class TaskScheduleRunner {
   private Boolean logToFile;
   private PrintStream logOutput = null;
 
-  private TaskScheduleRunner(SQLConnection connection, @Nullable TVDBJWTProvider tvdbjwtProvider, JSONReader jsonReader, TiVoDataProvider tiVoDataProvider, String identifier, Boolean logToFile) {
+  private TaskScheduleRunner(SQLConnection connection, @Nullable TVDBJWTProvider tvdbjwtProvider, JSONReader jsonReader, TiVoDataProvider tiVoDataProvider, IGDBProvider igdbProvider, String identifier, Boolean logToFile) {
     this.connection = connection;
     this.tvdbjwtProvider = tvdbjwtProvider;
     this.jsonReader = jsonReader;
     this.tiVoDataProvider = tiVoDataProvider;
+    this.igdbProvider = igdbProvider;
     this.identifier = identifier;
     this.logToFile = logToFile;
   }
@@ -74,10 +78,11 @@ public class TaskScheduleRunner {
     SQLConnection connection = PostgresConnectionFactory.createConnection(argumentChecker);
     JSONReader jsonReader = new JSONReaderImpl();
     TiVoDataProvider tiVoDataProvider = new RemoteFileDownloader(false);
+    IGDBProviderImpl igdbProvider = new IGDBProviderImpl();
 
     setDriverPath();
 
-    TaskScheduleRunner taskScheduleRunner = new TaskScheduleRunner(connection, tvdbjwtProvider, jsonReader, tiVoDataProvider, argumentChecker.getDBIdentifier(), logToFile);
+    TaskScheduleRunner taskScheduleRunner = new TaskScheduleRunner(connection, tvdbjwtProvider, jsonReader, tiVoDataProvider, igdbProvider, argumentChecker.getDBIdentifier(), logToFile);
     taskScheduleRunner.runUpdates();
   }
 
@@ -101,7 +106,10 @@ public class TaskScheduleRunner {
         30);
     addPeriodicTask(new SteamGameUpdater(connection),
         60);
-    addPeriodicTask(new OldDataArchiveRunner(connection), 30);
+    addPeriodicTask(new OldDataArchiveRunner(connection),
+        30);
+    addPeriodicTask(new IGDBUpdateRunner(connection, igdbProvider, jsonReader, UpdateMode.SMART),
+        5);
 
     // NIGHTLY
     addNightlyTask(new TiVoCommunicator(connection, tiVoDataProvider, UpdateMode.FULL));
