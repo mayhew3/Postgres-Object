@@ -73,16 +73,18 @@ public class IGDBUpdater {
   private void maybeUpdateGameWithBestMatch(JSONArray results) {
     if (results.length() > 0) {
       JSONObject firstMatch = results.getJSONObject(0);
-      Integer igdb_id = jsonReader.getIntegerWithKey(firstMatch, "id");
 
-      game.igdb_id.changeValue(igdb_id);
+      game.igdb_id.changeValue(jsonReader.getIntegerWithKey(firstMatch, "id"));
+      game.igdb_title.changeValue(jsonReader.getStringWithKey(firstMatch, "name"));
     }
   }
 
   private void saveExactMatch(JSONObject exactMatch) throws SQLException {
     @NotNull Integer id = jsonReader.getIntegerWithKey(exactMatch, "id");
+    String name = jsonReader.getStringWithKey(exactMatch, "name");
 
     game.igdb_id.changeValue(id);
+    game.igdb_title.changeValue(name);
     game.igdb_success.changeValue(new Date());
 
     Optional<JSONObject> optionalCover = jsonReader.getOptionalObjectWithKey(exactMatch, "cover");

@@ -40,6 +40,8 @@ public class IGDBUpdaterTest extends GamesDatabaseTest {
 
     assertThat(game.igdb_id.getValue())
         .isEqualTo(82090);
+    assertThat(game.igdb_title.getValue())
+        .isEqualTo(gameTitle);
     assertThat(game.igdb_poster.getValue())
         .isEqualTo("ogznieioyzvsiok1sl2m");
     assertThat(game.igdb_poster_w.getValue())
@@ -67,6 +69,8 @@ public class IGDBUpdaterTest extends GamesDatabaseTest {
 
     assertThat(game.igdb_id.getValue())
         .isEqualTo(82090);
+    assertThat(game.igdb_title.getValue())
+        .isEqualTo(gameTitle);
     assertThat(game.igdb_poster.getValue())
         .isNull();
     assertThat(game.igdb_poster_w.getValue())
@@ -94,6 +98,8 @@ public class IGDBUpdaterTest extends GamesDatabaseTest {
     igdbUpdater.updateGame();
 
     assertThat(game.igdb_id.getValue())
+        .isNull();
+    assertThat(game.igdb_title.getValue())
         .isNull();
     assertThat(game.igdb_poster.getValue())
         .isNull();
@@ -123,6 +129,8 @@ public class IGDBUpdaterTest extends GamesDatabaseTest {
 
     assertThat(game.igdb_id.getValue())
         .isEqualTo(82090);
+    assertThat(game.igdb_title.getValue())
+        .isEqualTo("Forza Horizon 4");
     assertThat(game.igdb_poster.getValue())
         .isNull();
     assertThat(game.igdb_poster_w.getValue())
