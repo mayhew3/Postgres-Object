@@ -29,7 +29,6 @@ public class IGDBUpdateRunner implements UpdateRunner {
 
   public IGDBUpdateRunner(SQLConnection connection, IGDBProvider igdbProvider, JSONReader jsonReader, UpdateMode updateMode) {
     methodMap = new HashMap<>();
-    methodMap.put(UpdateMode.FULL, this::runUpdateFull);
     methodMap.put(UpdateMode.SMART, this::runUpdateSmart);
     methodMap.put(UpdateMode.SINGLE, this::runUpdateSingle);
 
@@ -84,10 +83,6 @@ public class IGDBUpdateRunner implements UpdateRunner {
       e.printStackTrace();
     }
 
-  }
-
-  private void runUpdateFull() {
-    throw new RuntimeException("Not done.");
   }
 
   private void runUpdateSmart() {
