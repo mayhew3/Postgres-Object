@@ -5,7 +5,6 @@ import com.mayhew3.mediamogul.games.provider.IGDBProvider;
 import com.mayhew3.mediamogul.model.games.Game;
 import com.mayhew3.mediamogul.model.games.PossibleGameMatch;
 import com.mayhew3.mediamogul.xml.JSONReader;
-import javafx.geometry.Pos;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -85,7 +84,7 @@ public class IGDBUpdater {
       debug(" - Getting possible matches for alternate title: '" + alternateTitle + "'");
       JSONArray gameMatches = igdbProvider.findGameMatches(alternateTitle);
       List<PossibleGameMatch> possibleMatches = getPossibleMatches(gameMatches);
-      Integer matchCount = originalMatches.size();
+      int matchCount = originalMatches.size();
       for (PossibleGameMatch possibleMatch : possibleMatches) {
         maybeAddToList(originalMatches, possibleMatch);
       }
@@ -114,9 +113,7 @@ public class IGDBUpdater {
   private List<PossibleGameMatch> getPossibleMatches(JSONArray results) {
     List<PossibleGameMatch> possibleGameMatches = new ArrayList<>();
 
-    jsonReader.forEach(results, possibleMatch -> {
-      possibleGameMatches.add(createPossibleMatch(possibleMatch));
-    });
+    jsonReader.forEach(results, possibleMatch -> possibleGameMatches.add(createPossibleMatch(possibleMatch)));
 
     return possibleGameMatches;
   }
