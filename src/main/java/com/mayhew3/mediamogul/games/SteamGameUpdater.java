@@ -153,6 +153,7 @@ public class SteamGameUpdater extends DatabaseUtility implements UpdateRunner {
     game.logo.changeValue(logo);
     game.icon.changeValue(icon);
     game.title.changeValue(name);
+    game.steam_title.changeValue(name);
     game.owned.changeValue("owned");
 
     BigDecimal previousPlaytime = game.playtime.getValue() == null ? BigDecimal.ZERO : game.playtime.getValue();
@@ -174,6 +175,7 @@ public class SteamGameUpdater extends DatabaseUtility implements UpdateRunner {
     game.started.changeValue(false);
     game.added.changeValue(new Timestamp(new Date().getTime()));
     game.title.changeValue(name);
+    game.steam_title.changeValue(name);
     game.steamID.changeValue(steamID);
     game.playtime.changeValue(playtime);
     game.icon.changeValue(icon);
