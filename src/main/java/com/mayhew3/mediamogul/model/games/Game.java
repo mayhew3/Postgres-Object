@@ -73,6 +73,7 @@ public class Game extends DataObject {
   public FieldValueString giantbomb_best_guess = registerStringField("giantbomb_best_guess", Nullability.NULLABLE);
   public FieldValueString giantbomb_manual_guess = registerStringField("giantbomb_manual_guess", Nullability.NULLABLE);
   public FieldValueString howlong_title = registerStringField("howlong_title", Nullability.NULLABLE);
+  public FieldValueString steam_title = registerStringField("steam_title", Nullability.NULLABLE);
 
   public FieldValueInteger igdb_id = registerIntegerField("igdb_id", Nullability.NULLABLE);
   public FieldValueString igdb_title = registerStringField("igdb_title", Nullability.NULLABLE);

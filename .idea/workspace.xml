@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1e099498-ec9e-4703-ab18-cce3963e4d0c" name="Default" comment="Move annotation directory">
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/IGDBUpdater.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/IGDBUpdater.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/games/IGDBUpdaterTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/games/IGDBUpdaterTest.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -75,7 +73,7 @@
         <counts>
           <entry key="dummy" value="54" />
           <entry key="gradle" value="50" />
-          <entry key="java" value="7735" />
+          <entry key="java" value="7808" />
           <entry key="json" value="24" />
           <entry key="txt" value="24" />
         </counts>
@@ -83,7 +81,7 @@
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="Groovy" value="50" />
-          <entry key="JAVA" value="7735" />
+          <entry key="JAVA" value="7808" />
           <entry key="JSON" value="24" />
           <entry key="PLAIN_TEXT" value="78" />
         </counts>
@@ -125,11 +123,11 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/games/IGDBUpdaterTest.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="513">
-                  <caret line="129" column="39" lean-forward="true" selection-start-line="129" selection-start-column="39" selection-end-line="129" selection-end-column="39" />
+                <state relative-caret-position="532">
+                  <caret line="130" column="26" lean-forward="true" selection-start-line="130" selection-start-column="26" selection-end-line="130" selection-end-column="26" />
                   <folding>
                     <element signature="imports" expanded="true" />
                   </folding>
@@ -137,11 +135,11 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="false">
+          <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/IGDBUpdater.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="589">
-                  <caret line="78" column="5" lean-forward="true" selection-start-line="78" selection-start-column="5" selection-end-line="78" selection-end-column="5" />
+                <state relative-caret-position="513">
+                  <caret line="71" lean-forward="true" selection-start-line="71" selection-end-line="71" />
                   <folding>
                     <element signature="imports" expanded="true" />
                     <element signature="e#5134#5135#0" expanded="true" />
@@ -221,11 +219,11 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="false">
+          <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/Game.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="779">
-                  <caret line="80" column="53" selection-start-line="80" selection-start-column="53" selection-end-line="80" selection-end-column="53" />
+                <state relative-caret-position="570">
+                  <caret line="75" column="97" selection-start-line="75" selection-start-column="97" selection-end-line="75" selection-end-column="97" />
                 </state>
               </provider>
             </entry>
@@ -287,7 +285,7 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/test/resources/IGDBTest/search_Doom.json">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="399">
@@ -299,8 +297,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/test/resources/IGDBTest/search_Forza Horizon 4 Awesome.json">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="589">
-                  <caret line="31" column="3" lean-forward="true" selection-start-line="31" selection-start-column="3" selection-end-line="31" selection-end-column="3" />
+                <state relative-caret-position="342">
+                  <caret line="18" column="28" lean-forward="true" selection-start-line="18" selection-start-column="28" selection-end-line="18" selection-end-column="28" />
                 </state>
               </provider>
             </entry>
@@ -319,7 +317,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>series.id</find>
       <find>unwatched_episodes</find>
       <find>IN</find>
       <find>connect_log</find>
@@ -349,6 +346,7 @@
       <find>application/json</find>
       <find>getJsonArray</find>
       <find>URLEnc</find>
+      <find>steam</find>
     </findStrings>
     <replaceStrings>
       <replace>&lt;module name=&quot;media-mogul-data_main&quot;</replace>
@@ -761,9 +759,9 @@
         <option value="$PROJECT_DIR$/src/test/resources/IGDBTest/search_Doom.json" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/provider/IGDBProvider.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/scheduler/TaskScheduleRunner.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/Game.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/IGDBUpdater.java" />
         <option value="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/games/IGDBUpdaterTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/IGDBUpdater.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/Game.java" />
       </list>
     </option>
   </component>
@@ -975,7 +973,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Gradle.media-mogul-data [build]">
+  <component name="RunManager" selected="JUnit.All in media-mogul-data_test">
     <configuration name="BlogRankingsCreator" type="Application" factoryName="Application" nameIsGenerated="true">
       <envs>
         <env name="postgresURL_local" value="jdbc:postgresql://localhost:5432/tv?user=postgres&amp;password=m3mysql" />
@@ -2236,23 +2234,27 @@
       </ExternalSystemSettings>
       <method v="2" />
     </configuration>
-    <configuration name="media-mogul-data [clean]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="clean" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <method v="2" />
+    <configuration name="All in media-mogul-data_test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="media-mogul-data_test" />
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs>
+        <env name="postgresURL_local" value="jdbc:postgresql://localhost:5432/tv?user=postgres&amp;password=m3mysql" />
+        <env name="postgresURL_local_test" value="jdbc:postgresql://localhost:5432/tv_copy?user=postgres&amp;password=m3mysql" />
+        <env name="postgresURL" value="postgres://ijxuheufucvnyu:h16h_LnZi4fHgIUjBANnzITEyR@ec2-54-204-30-115.compute-1.amazonaws.com:5432/dcg1rtode4vgk9" />
+      </envs>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="DatabaseRecreatorTest (Demo)" type="JUnit" factoryName="JUnit">
       <module name="media-mogul-data_test" />
@@ -2655,19 +2657,19 @@
       <item itemvalue="JUnit.TVSchemaLocalTest" />
       <item itemvalue="JUnit.GameSchemaHerokuTest" />
       <item itemvalue="JUnit.GameSchemaLocalTest" />
-      <item itemvalue="Gradle.media-mogul-data [clean]" />
       <item itemvalue="JUnit.IGDBUpdaterTest" />
       <item itemvalue="JUnit.GameSchemaLocalTest.testLocalSchemaUpToDate" />
       <item itemvalue="JUnit.GameSchemaHerokuTest.testHerokuSchemaUpToDate" />
       <item itemvalue="JUnit.com.mayhew3.mediamogul in media-mogul-data_test" />
+      <item itemvalue="JUnit.All in media-mogul-data_test" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.All in media-mogul-data_test" />
         <item itemvalue="JUnit.IGDBUpdaterTest" />
         <item itemvalue="JUnit.com.mayhew3.mediamogul in media-mogul-data_test" />
         <item itemvalue="JUnit.GameSchemaHerokuTest.testHerokuSchemaUpToDate" />
         <item itemvalue="JUnit.GameSchemaLocalTest.testLocalSchemaUpToDate" />
-        <item itemvalue="Gradle.media-mogul-data [clean]" />
       </list>
     </recent_temporary>
   </component>
@@ -2691,12 +2693,6 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="GameSchemaHerokuTest - 2018.10.16 at 00h 43m 51s.xml">
-      <configuration name="GameSchemaHerokuTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="com_mayhew3_mediamogul_in_media-mogul-data_test - 2018.10.17 at 14h 22m 52s.xml">
-      <configuration name="com.mayhew3.mediamogul in media-mogul-data_test" configurationId="JUnit" />
-    </history-entry>
     <history-entry file="IGDBUpdaterTest - 2018.10.17 at 14h 26m 56s.xml">
       <configuration name="IGDBUpdaterTest" configurationId="JUnit" />
     </history-entry>
@@ -2721,6 +2717,12 @@
     <history-entry file="GameSchemaHerokuTest - 2018.10.17 at 14h 58m 49s.xml">
       <configuration name="GameSchemaHerokuTest" configurationId="JUnit" />
     </history-entry>
+    <history-entry file="IGDBUpdaterTest - 2018.10.17 at 15h 02m 18s.xml">
+      <configuration name="IGDBUpdaterTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="IGDBUpdaterTest - 2018.10.17 at 15h 02m 40s.xml">
+      <configuration name="IGDBUpdaterTest" configurationId="JUnit" />
+    </history-entry>
   </component>
   <component name="TimeTrackingManager">
     <option name="totallyTimeSpent" value="38000" />
@@ -2734,8 +2736,8 @@
       <window_info id="Designer" order="2" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info active="true" anchor="bottom" id="Find" order="1" visible="true" weight="0.32680196" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49920508" weight="0.2617215" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32680196" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49920508" visible="true" weight="0.2617215" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49960256" weight="0.39958012" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -3186,20 +3188,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/resources/IGDBTest/search_Forza Horizon 4 Awesome.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="589">
-          <caret line="31" column="3" lean-forward="true" selection-start-line="31" selection-start-column="3" selection-end-line="31" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/Game.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="779">
-          <caret line="80" column="53" selection-start-line="80" selection-start-column="53" selection-end-line="80" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/resources/IGDBTest/search_Doom.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="399">
@@ -3207,24 +3195,38 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/IGDBUpdater.java">
+    <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/games/IGDBUpdaterTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="589">
-          <caret line="78" column="5" lean-forward="true" selection-start-line="78" selection-start-column="5" selection-end-line="78" selection-end-column="5" />
+        <state relative-caret-position="532">
+          <caret line="130" column="26" lean-forward="true" selection-start-line="130" selection-start-column="26" selection-end-line="130" selection-end-column="26" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#5134#5135#0" expanded="true" />
-            <element signature="e#5170#5171#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/games/IGDBUpdaterTest.java">
+    <entry file="file://$PROJECT_DIR$/src/test/resources/IGDBTest/search_Forza Horizon 4 Awesome.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="18" column="28" lean-forward="true" selection-start-line="18" selection-start-column="28" selection-end-line="18" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/Game.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="570">
+          <caret line="75" column="97" selection-start-line="75" selection-start-column="97" selection-end-line="75" selection-end-column="97" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/IGDBUpdater.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="513">
-          <caret line="129" column="39" lean-forward="true" selection-start-line="129" selection-start-column="39" selection-end-line="129" selection-end-column="39" />
+          <caret line="71" lean-forward="true" selection-start-line="71" selection-end-line="71" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#5134#5135#0" expanded="true" />
+            <element signature="e#5170#5171#0" expanded="true" />
           </folding>
         </state>
       </provider>
