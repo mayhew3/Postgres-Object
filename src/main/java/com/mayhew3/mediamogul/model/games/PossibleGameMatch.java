@@ -31,4 +31,13 @@ public class PossibleGameMatch extends RetireableDataObject {
     return gameId.getValue() + ", Title " + igdbGameTitle.getValue();
   }
 
+  @Override
+  public boolean equals(Object obj) {
+    if (obj instanceof PossibleGameMatch) {
+      PossibleGameMatch otherMatch = (PossibleGameMatch) obj;
+      return gameId.getValue().equals(otherMatch.gameId.getValue()) &&
+          igdbGameExtId.getValue().equals(otherMatch.igdbGameExtId.getValue());
+    }
+    return false;
+  }
 }

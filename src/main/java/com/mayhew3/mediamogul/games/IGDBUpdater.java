@@ -5,6 +5,7 @@ import com.mayhew3.mediamogul.games.provider.IGDBProvider;
 import com.mayhew3.mediamogul.model.games.Game;
 import com.mayhew3.mediamogul.model.games.PossibleGameMatch;
 import com.mayhew3.mediamogul.xml.JSONReader;
+import javafx.geometry.Pos;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -59,30 +60,73 @@ public class IGDBUpdater {
       saveExactMatch(exactMatch.get());
     } else {
       debug(" - No exact match.");
-      savePossibleMatches(results);
+      List<PossibleGameMatch> possibleMatches = getPossibleMatches(results);
+      tryAlternateTitles(possibleMatches);
+      savePossibleMatches(possibleMatches);
     }
   }
 
-  private void savePossibleMatches(JSONArray results) throws SQLException {
-    jsonReader.forEach(results, possibleMatch -> {
-      try {
-        savePossibleMatch(possibleMatch);
-      } catch (SQLException e) {
-        throw new RuntimeException(e);
-      }
-    });
+  private Set<String> getAlternateTitles() {
+    HashSet<String> alternateTitles = new HashSet<>();
+    alternateTitles.add(game.title.getValue());
+    alternateTitles.add(game.howlong_title.getValue());
+    alternateTitles.add(game.giantbomb_name.getValue());
+    alternateTitles.add(game.steam_title.getValue());
 
-    maybeUpdateGameWithBestMatch(results);
+    alternateTitles.remove(null);
+    alternateTitles.remove(game.title.getValue());
+
+    return alternateTitles;
+  }
+
+  private void tryAlternateTitles(List<PossibleGameMatch> originalMatches) {
+    Set<String> alternateTitles = getAlternateTitles();
+    for (String alternateTitle : alternateTitles) {
+      debug(" - Getting possible matches for alternate title: '" + alternateTitle + "'");
+      JSONArray gameMatches = igdbProvider.findGameMatches(alternateTitle);
+      List<PossibleGameMatch> possibleMatches = getPossibleMatches(gameMatches);
+      Integer matchCount = originalMatches.size();
+      for (PossibleGameMatch possibleMatch : possibleMatches) {
+        maybeAddToList(originalMatches, possibleMatch);
+      }
+      if (originalMatches.size() > matchCount) {
+        debug(" - Found " + (originalMatches.size() - matchCount) + " additional matches.");
+      }
+    }
+  }
+
+  private void maybeAddToList(List<PossibleGameMatch> existingMatches, PossibleGameMatch possibleGameMatch) {
+    if (!existingMatches.contains(possibleGameMatch)) {
+      existingMatches.add(possibleGameMatch);
+    }
+  }
+
+  private void savePossibleMatches(List<PossibleGameMatch> matches) throws SQLException {
+    for (PossibleGameMatch match : matches) {
+      match.commit(connection);
+    }
+
+    maybeUpdateGameWithBestMatch(matches);
     game.igdb_failed.changeValue(new Date());
     game.commit(connection);
   }
 
-  private void maybeUpdateGameWithBestMatch(JSONArray results) {
-    if (results.length() > 0) {
-      JSONObject firstMatch = results.getJSONObject(0);
+  private List<PossibleGameMatch> getPossibleMatches(JSONArray results) {
+    List<PossibleGameMatch> possibleGameMatches = new ArrayList<>();
 
-      game.igdb_id.changeValue(jsonReader.getIntegerWithKey(firstMatch, "id"));
-      game.igdb_title.changeValue(jsonReader.getStringWithKey(firstMatch, "name"));
+    jsonReader.forEach(results, possibleMatch -> {
+      possibleGameMatches.add(createPossibleMatch(possibleMatch));
+    });
+
+    return possibleGameMatches;
+  }
+
+  private void maybeUpdateGameWithBestMatch(List<PossibleGameMatch> matches) {
+    if (matches.size() > 0) {
+      PossibleGameMatch firstMatch = matches.get(0);
+
+      game.igdb_id.changeValue(firstMatch.igdbGameExtId.getValue());
+      game.igdb_title.changeValue(firstMatch.igdbGameTitle.getValue());
     }
   }
 
@@ -110,7 +154,7 @@ public class IGDBUpdater {
     game.commit(connection);
   }
 
-  private void savePossibleMatch(JSONObject possibleMatch) throws SQLException {
+  private PossibleGameMatch createPossibleMatch(JSONObject possibleMatch) {
     @NotNull Integer id = jsonReader.getIntegerWithKey(possibleMatch, "id");
 
     PossibleGameMatch possibleGameMatch = getOrCreateMatch(id);
@@ -134,7 +178,7 @@ public class IGDBUpdater {
       possibleGameMatch.poster_h.changeValue(height);
     }
 
-    possibleGameMatch.commit(connection);
+    return possibleGameMatch;
   }
 
   private PossibleGameMatch getOrCreateMatch(Integer igdb_id) {

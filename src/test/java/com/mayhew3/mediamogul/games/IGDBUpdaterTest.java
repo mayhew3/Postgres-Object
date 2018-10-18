@@ -279,6 +279,138 @@ public class IGDBUpdaterTest extends GamesDatabaseTest {
         .isEqualTo(2160);
   }
 
+  @Test
+  public void testHowlongTitleHasExactMatch() throws SQLException {
+    String gameTitle = "Fahrbot";
+    String howlongTitle = "Forza Horizon 4";
+
+    Game game = createGame(gameTitle, "Xbox One");
+
+    game.howlong_title.changeValue(howlongTitle);
+    game.commit(connection);
+
+    IGDBUpdater igdbUpdater = new IGDBUpdater(game, connection, igdbProvider, jsonReader);
+    igdbUpdater.updateGame();
+
+    assertThat(game.igdb_failed.getValue())
+        .isNotNull();
+    assertThat(game.igdb_id.getValue())
+        .isEqualTo(82090);
+    assertThat(game.igdb_title.getValue())
+        .isEqualTo("Forza Horizon 4");
+    assertThat(game.igdb_poster.getValue())
+        .isNull();
+    assertThat(game.igdb_poster_w.getValue())
+        .isNull();
+    assertThat(game.igdb_poster_h.getValue())
+        .isNull();
+    assertThat(game.igdb_success.getValue())
+        .isNull();
+
+    List<PossibleGameMatch> possibleGameMatches = findPossibleGameMatches(game);
+    assertThat(possibleGameMatches)
+        .hasSize(5);
+
+    PossibleGameMatch firstMatch = possibleGameMatches.get(0);
+    assertThat(firstMatch.igdbGameTitle.getValue())
+        .isEqualTo("Forza Horizon 4");
+    assertThat(firstMatch.igdbGameExtId.getValue())
+        .isEqualTo(82090);
+    assertThat(firstMatch.poster.getValue())
+        .isEqualTo("ogznieioyzvsiok1sl2m");
+    assertThat(firstMatch.poster_w.getValue())
+        .isEqualTo(1440);
+    assertThat(firstMatch.poster_h.getValue())
+        .isEqualTo(2160);
+  }
+
+  @Test
+  public void testGiantBombHasNoExactMatch() throws SQLException {
+    String gameTitle = "Fahrbot";
+    String giantBombName = "Forza Horizon 4 Awesome";
+
+    Game game = createGame(gameTitle, "Xbox One");
+
+    game.giantbomb_name.changeValue(giantBombName);
+    game.commit(connection);
+
+    IGDBUpdater igdbUpdater = new IGDBUpdater(game, connection, igdbProvider, jsonReader);
+    igdbUpdater.updateGame();
+
+    assertThat(game.igdb_failed.getValue())
+        .isNotNull();
+    assertThat(game.igdb_id.getValue())
+        .isEqualTo(82090);
+    assertThat(game.igdb_title.getValue())
+        .isEqualTo("Forza Horizon 4");
+    assertThat(game.igdb_poster.getValue())
+        .isNull();
+    assertThat(game.igdb_poster_w.getValue())
+        .isNull();
+    assertThat(game.igdb_poster_h.getValue())
+        .isNull();
+    assertThat(game.igdb_success.getValue())
+        .isNull();
+
+    List<PossibleGameMatch> possibleGameMatches = findPossibleGameMatches(game);
+    assertThat(possibleGameMatches)
+        .hasSize(5);
+
+    PossibleGameMatch firstMatch = possibleGameMatches.get(0);
+    assertThat(firstMatch.igdbGameTitle.getValue())
+        .isEqualTo("Forza Horizon 4");
+    assertThat(firstMatch.igdbGameExtId.getValue())
+        .isEqualTo(82090);
+    assertThat(firstMatch.poster.getValue())
+        .isEqualTo("ogznieioyzvsiok1sl2m");
+    assertThat(firstMatch.poster_w.getValue())
+        .isEqualTo(1440);
+    assertThat(firstMatch.poster_h.getValue())
+        .isEqualTo(2160);
+  }
+
+  @Test
+  public void testSteamNameIsSameAsRealName() throws SQLException {
+    String gameTitle = "Forza Horizon 4 Awesome";
+
+    Game game = createGame(gameTitle, "Xbox One");
+    game.steam_title.changeValue(gameTitle);
+    game.commit(connection);
+
+    String matchTitle = "Forza Horizon 4";
+    Integer matchId = 82090;
+    createExistingMatch(game, matchTitle, matchId);
+
+    IGDBUpdater igdbUpdater = new IGDBUpdater(game, connection, igdbProvider, jsonReader);
+    igdbUpdater.updateGame();
+
+    assertThat(game.igdb_id.getValue())
+        .isEqualTo(matchId);
+    assertThat(game.igdb_title.getValue())
+        .isEqualTo(matchTitle);
+    assertThat(game.igdb_poster.getValue())
+        .isNull();
+    assertThat(game.igdb_poster_w.getValue())
+        .isNull();
+    assertThat(game.igdb_poster_h.getValue())
+        .isNull();
+    assertThat(game.igdb_failed.getValue())
+        .isNotNull();
+    assertThat(game.igdb_success.getValue())
+        .isNull();
+
+    List<PossibleGameMatch> possibleGameMatches = findPossibleGameMatches(game);
+    assertThat(possibleGameMatches)
+        .hasSize(5);
+
+    List<PossibleGameMatch> matchesWithId = possibleGameMatches.stream()
+        .filter(possibleGameMatch -> matchId.equals(possibleGameMatch.igdbGameExtId.getValue()))
+        .collect(Collectors.toList());
+
+    assertThat(matchesWithId)
+        .hasSize(1);
+  }
+
 
 
   // utility methods
