@@ -9,26 +9,33 @@ import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class IGDBUpdater {
   private Game game;
+  private String titleToSearch;
 
   private SQLConnection connection;
   private IGDBProvider igdbProvider;
   private JSONReader jsonReader;
+
+  private Set<Integer> existingGameMatches = new HashSet<>();
 
   IGDBUpdater(@NotNull Game game, SQLConnection connection, IGDBProvider igdbProvider, JSONReader jsonReader) {
     this.game = game;
     this.connection = connection;
     this.igdbProvider = igdbProvider;
     this.jsonReader = jsonReader;
+
+    String hint = game.igdb_hint.getValue();
+    titleToSearch = hint == null ? game.title.getValue() : hint;
   }
 
   void updateGame() {
+    updateExistingMatches();
+
     JSONArray gameMatches = igdbProvider.findGameMatches(getFormattedTitle());
     try {
       processPossibleMatches(gameMatches);
@@ -38,13 +45,13 @@ public class IGDBUpdater {
   }
 
   private String getFormattedTitle() {
-    String title = game.title.getValue();
-    title = title.replace("™", "");
-    return title;
+    String formattedTitle = titleToSearch;
+    formattedTitle = formattedTitle.replace("™", "");
+    return formattedTitle;
   }
 
   private void processPossibleMatches(JSONArray results) throws SQLException {
-    debug("Processing game: '" + getFormattedTitle() + "'");
+    debug("Processing game: '" + game.title.getValue() + "', Formatted: '" + getFormattedTitle() + "'");
 
     Optional<JSONObject> exactMatch = findExactMatch(results);
     if (exactMatch.isPresent()) {
@@ -104,10 +111,10 @@ public class IGDBUpdater {
   }
 
   private void savePossibleMatch(JSONObject possibleMatch) throws SQLException {
-    PossibleGameMatch possibleGameMatch = new PossibleGameMatch();
-    possibleGameMatch.initializeForInsert();
-
     @NotNull Integer id = jsonReader.getIntegerWithKey(possibleMatch, "id");
+
+    PossibleGameMatch possibleGameMatch = getOrCreateMatch(id);
+
     @NotNull String name = jsonReader.getStringWithKey(possibleMatch, "name");
 
     possibleGameMatch.gameId.changeValue(game.id.getValue());
@@ -128,6 +135,56 @@ public class IGDBUpdater {
     }
 
     possibleGameMatch.commit(connection);
+  }
+
+  private PossibleGameMatch getOrCreateMatch(Integer igdb_id) {
+    try {
+      PossibleGameMatch possibleGameMatch = new PossibleGameMatch();
+
+      if (existingGameMatches.contains(igdb_id)) {
+        ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
+            "SELECT * " +
+                "FROM possible_game_match " +
+                "WHERE game_id = ? " +
+                "AND igdb_game_ext_id = ? " +
+                "AND retired = ? ",
+            game.id.getValue(),
+            igdb_id,
+            0
+        );
+
+        if (resultSet.next()) {
+          possibleGameMatch.initializeFromDBObject(resultSet);
+        } else {
+          throw new IllegalStateException("Found possible match on first pass with IGDB ID " + igdb_id + " and " +
+              "Game ID " + game.id.getValue() + ", but no longer found.");
+        }
+      } else {
+        possibleGameMatch.initializeForInsert();
+      }
+      return possibleGameMatch;
+    } catch (SQLException e) {
+      e.printStackTrace();
+      throw new RuntimeException(e);
+    }
+  }
+
+  private void updateExistingMatches() {
+    try {
+      ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
+          "SELECT igdb_game_ext_id " +
+              "FROM possible_game_match " +
+              "WHERE game_id = ? " +
+              "AND retired = ? ", game.id.getValue(), 0);
+
+      while (resultSet.next()) {
+        Integer igdb_game_ext_id = resultSet.getInt("igdb_game_ext_id");
+        existingGameMatches.add(igdb_game_ext_id);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+      throw new RuntimeException(e);
+    }
   }
 
   private Optional<JSONObject> findExactMatch(JSONArray possibleMatches) {

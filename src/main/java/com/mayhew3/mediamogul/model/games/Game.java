@@ -83,6 +83,7 @@ public class Game extends DataObject {
   public FieldValueString igdb_poster = registerStringField("igdb_poster", Nullability.NULLABLE);
   public FieldValueInteger igdb_poster_w = registerIntegerField("igdb_poster_w", Nullability.NULLABLE);
   public FieldValueInteger igdb_poster_h = registerIntegerField("igdb_poster_h", Nullability.NULLABLE);
+  public FieldValueString igdb_hint = registerStringField("igdb_hint", Nullability.NULLABLE);
 
   public FieldValueBoolean giantbomb_guess_confirmed = registerBooleanFieldAllowingNulls("giantbomb_guess_confirmed", Nullability.NULLABLE);
 
