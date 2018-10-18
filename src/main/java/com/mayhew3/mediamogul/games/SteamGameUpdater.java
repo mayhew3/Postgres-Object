@@ -152,7 +152,6 @@ public class SteamGameUpdater extends DatabaseUtility implements UpdateRunner {
   private void updateGame(String name, Integer steamID, BigDecimal playtime, String icon, String logo, Game game) throws SQLException {
     game.logo.changeValue(logo);
     game.icon.changeValue(icon);
-    game.title.changeValue(name);
     game.steam_title.changeValue(name);
     game.owned.changeValue("owned");
 

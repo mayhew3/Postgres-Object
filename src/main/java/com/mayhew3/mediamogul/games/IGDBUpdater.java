@@ -51,7 +51,8 @@ public class IGDBUpdater {
   }
 
   private void processPossibleMatches(JSONArray results) throws SQLException {
-    debug("Processing game: '" + game.title.getValue() + "', Formatted: '" + getFormattedTitle() + "'");
+    debug("Processing game: ID " + game.id.getValue() + ", Title: " +
+        " '" + game.title.getValue() + "', Formatted: '" + getFormattedTitle() + "'");
 
     Optional<JSONObject> exactMatch = findExactMatch(results);
     if (exactMatch.isPresent()) {

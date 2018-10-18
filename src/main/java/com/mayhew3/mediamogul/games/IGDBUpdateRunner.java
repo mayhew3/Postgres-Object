@@ -141,7 +141,7 @@ public class IGDBUpdateRunner implements UpdateRunner {
       updateIGDB(game);
     } catch (Exception e) {
       e.printStackTrace();
-      debug("Game failed IGDB: " + game.title.getValue());
+      debug("Game failed IGDB: " + game.title.getValue() + " (ID " + game.id.getValue() + ")");
     }
   }
 
