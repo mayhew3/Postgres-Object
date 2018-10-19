@@ -5,6 +5,7 @@ import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -26,6 +27,15 @@ public class IGDBProviderImpl implements IGDBProvider {
     queryVars.put("offset", "0");
 
     return getArrayData(url, queryVars);
+  }
+
+  @Override
+  public JSONObject getUpdatedInfo(Integer igdb_id) {
+    String url = "https://api-endpoint.igdb.com/games/" + igdb_id;
+    HashMap<String, Object> queryVars = new HashMap<>();
+    queryVars.put("fields", "name,cover");
+
+    return getObjectData(url, queryVars);
   }
 
   private String encodeGameTitle(String gameTitle) {
@@ -68,6 +78,25 @@ public class IGDBProviderImpl implements IGDBProvider {
   private JSONArray getArrayData(String url, Map<String, Object> queryParams) {
     try {
       return getJsonArray(getDataInternal(url, queryParams));
+    } catch (UnirestException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  private JSONObject getJsonObject(HttpResponse<String> stringData) {
+    String body = stringData.getBody();
+    try {
+      return new JSONObject(body);
+    } catch (JSONException e) {
+      System.out.println("Unable to parse response: ");
+      System.out.println(body);
+      throw e;
+    }
+  }
+
+  private JSONObject getObjectData(String url, Map<String, Object> queryParams) {
+    try {
+      return getJsonObject(getDataInternal(url, queryParams));
     } catch (UnirestException e) {
       throw new RuntimeException(e);
     }

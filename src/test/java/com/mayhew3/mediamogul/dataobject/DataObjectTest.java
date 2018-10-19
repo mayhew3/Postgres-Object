@@ -16,7 +16,7 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
-import static org.fest.assertions.Assertions.assertThat;
+import static org.fest.assertions.api.Assertions.assertThat;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 

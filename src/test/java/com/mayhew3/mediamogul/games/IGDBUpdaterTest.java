@@ -7,6 +7,8 @@ import com.mayhew3.mediamogul.model.games.Game;
 import com.mayhew3.mediamogul.model.games.PossibleGameMatch;
 import com.mayhew3.mediamogul.xml.JSONReaderImpl;
 import org.jetbrains.annotations.NotNull;
+import org.joda.time.DateTime;
+import org.joda.time.Days;
 import org.junit.Test;
 
 import java.net.URISyntaxException;
@@ -16,7 +18,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.fest.assertions.Assertions.assertThat;
+//import static com.mayhew3.mediamogul.DateTimeAssert.assertThat;
+import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.jodatime.api.Assertions.assertThat;
+import static org.fest.assertions.api.Assertions.fail;
 
 public class IGDBUpdaterTest extends GamesDatabaseTest {
 
@@ -411,6 +416,69 @@ public class IGDBUpdaterTest extends GamesDatabaseTest {
         .hasSize(1);
   }
 
+
+  @Test
+  public void testUpdateFieldsOnAlreadyMatched() throws SQLException {
+    DateTime startOfTest = new DateTime();
+
+    DateTime scheduledDate = startOfTest.minusDays(7);
+    DateTime lastSuccess = scheduledDate.minusDays(30);
+    DateTime nextScheduledDate = scheduledDate.plusDays(30);
+
+    String gameTitle = "Forza Horizon 4";
+    Integer igdb_id = 12345;
+
+    Game game = createGame(gameTitle, "PC");
+
+    game.igdb_id.changeValue(igdb_id);
+    game.igdb_title.changeValue("Forza Horizon Four");
+    game.igdb_poster.changeValue("fake_123456");
+    game.igdb_poster_w.changeValue(3);
+    game.igdb_poster_h.changeValue(4);
+    game.igdb_success.changeValue(lastSuccess.toDate());
+    game.igdb_next_update.changeValue(scheduledDate.toDate());
+
+
+    IGDBUpdater igdbUpdater = new IGDBUpdater(game, connection, igdbProvider, jsonReader);
+    igdbUpdater.updateGame();
+
+    assertThat(game.title.getValue())
+        .isEqualTo(gameTitle);
+    assertThat(game.igdb_id.getValue())
+        .isEqualTo(igdb_id);
+    assertThat(game.igdb_title.getValue())
+        .isEqualTo("Quidditch");
+    assertThat(game.igdb_poster.getValue())
+        .isEqualTo("aqbsdjsafgkdg");
+    assertThat(game.igdb_poster_w.getValue())
+        .isEqualTo(1440);
+    assertThat(game.igdb_poster_h.getValue())
+        .isEqualTo(2160);
+    assertThat(game.igdb_failed.getValue())
+        .isNull();
+    assertThat(new DateTime(game.igdb_success.getValue()))
+        .isAfterOrEqualTo(startOfTest);
+
+    DateTime nextUpdateActual = new DateTime(game.igdb_next_update.getValue());
+    assertThat(nextUpdateActual)
+        .isAfterOrEqualTo(nextScheduledDate);
+    assertThat(Days.daysBetween(startOfTest, nextUpdateActual).getDays())
+        .isEqualTo(23);
+
+    List<PossibleGameMatch> possibleGameMatches = findPossibleGameMatches(game);
+    assertThat(possibleGameMatches)
+        .isEmpty();
+  }
+
+  @Test
+  public void testFailedIfNoResultFromID() throws SQLException {
+    fail("Implement me.");
+  }
+
+  @Test
+  public void testFailedIfWrongIDReturned() throws SQLException {
+    fail("Implement me.");
+  }
 
 
   // utility methods

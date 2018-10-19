@@ -31,6 +31,7 @@ public class IGDBUpdateRunner implements UpdateRunner {
     methodMap = new HashMap<>();
     methodMap.put(UpdateMode.SMART, this::runUpdateSmart);
     methodMap.put(UpdateMode.SINGLE, this::runUpdateSingle);
+    methodMap.put(UpdateMode.SANITY, this::runUpdateSanity);
 
     this.connection = connection;
     this.igdbProvider = igdbProvider;
@@ -114,6 +115,21 @@ public class IGDBUpdateRunner implements UpdateRunner {
     }
   }
 
+  private void runUpdateSanity() {
+    String sql = "SELECT * " +
+        "FROM game " +
+        "WHERE igdb_next_update < now() " +
+        "AND igdb_ignored IS NULL ";
+
+    try {
+      ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql);
+
+      runUpdateOnResultSet(resultSet);
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
 
   private void runUpdateOnResultSet(ResultSet resultSet) throws SQLException {
     debug("Starting update.");
@@ -145,7 +161,7 @@ public class IGDBUpdateRunner implements UpdateRunner {
     }
   }
 
-  private void updateIGDB(Game game) {
+  private void updateIGDB(Game game) throws SQLException {
     IGDBUpdater updater = new IGDBUpdater(game, connection, igdbProvider, jsonReader);
     updater.updateGame();
   }

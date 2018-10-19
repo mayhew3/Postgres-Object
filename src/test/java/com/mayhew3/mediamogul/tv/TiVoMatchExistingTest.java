@@ -14,7 +14,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.fest.assertions.Assertions.assertThat;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 public class TiVoMatchExistingTest extends TVDatabaseTest {
   private TiVoLocalProvider tiVoLocalProvider;

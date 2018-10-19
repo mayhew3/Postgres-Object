@@ -6,11 +6,13 @@ import com.mayhew3.mediamogul.model.games.Game;
 import com.mayhew3.mediamogul.model.games.PossibleGameMatch;
 import com.mayhew3.mediamogul.xml.JSONReader;
 import org.jetbrains.annotations.NotNull;
+import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.*;
 
 public class IGDBUpdater {
@@ -33,15 +35,24 @@ public class IGDBUpdater {
     titleToSearch = hint == null ? game.title.getValue() : hint;
   }
 
-  void updateGame() {
-    updateExistingMatches();
+  void updateGame() throws SQLException {
+    if (isMatched()) {
+      updateAlreadyMatched();
+    } else {
+      tryToMatch();
+    }
+  }
+
+  private void tryToMatch() throws SQLException {
+    updatePossibleMatches();
 
     JSONArray gameMatches = igdbProvider.findGameMatches(getFormattedTitle());
-    try {
-      processPossibleMatches(gameMatches);
-    } catch (UnsupportedOperationException | SQLException e) {
-      throw new RuntimeException(e);
-    }
+    processPossibleMatches(gameMatches);
+  }
+
+  private void updateAlreadyMatched() throws SQLException {
+    JSONObject updatedInfo = igdbProvider.getUpdatedInfo(game.igdb_id.getValue());
+    saveExactMatch(updatedInfo);
   }
 
   private String getFormattedTitle() {
@@ -64,6 +75,13 @@ public class IGDBUpdater {
       tryAlternateTitles(possibleMatches);
       savePossibleMatches(possibleMatches);
     }
+  }
+
+  private Boolean isMatched() {
+    return game.igdb_id.getValue() != null &&
+        game.igdb_success.getValue() != null &&
+        game.igdb_failed.getValue() == null &&
+        game.igdb_ignored.getValue() == null;
   }
 
   private Set<String> getAlternateTitles() {
@@ -136,6 +154,8 @@ public class IGDBUpdater {
     game.igdb_title.changeValue(name);
     game.igdb_success.changeValue(new Date());
 
+    incrementNextUpdate();
+
     Optional<JSONObject> optionalCover = jsonReader.getOptionalObjectWithKey(exactMatch, "cover");
     if (optionalCover.isPresent()) {
       JSONObject cover = optionalCover.get();
@@ -150,6 +170,14 @@ public class IGDBUpdater {
     }
 
     game.commit(connection);
+  }
+
+  private void incrementNextUpdate() {
+    Timestamp nextUpdate = game.igdb_next_update.getValue();
+    if (nextUpdate != null) {
+      DateTime nextScheduled = new DateTime(nextUpdate).plusDays(30);
+      game.igdb_next_update.changeValue(nextScheduled.toDate());
+    }
   }
 
   private PossibleGameMatch createPossibleMatch(JSONObject possibleMatch) {
@@ -211,7 +239,7 @@ public class IGDBUpdater {
     }
   }
 
-  private void updateExistingMatches() {
+  private void updatePossibleMatches() {
     try {
       ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
           "SELECT igdb_game_ext_id " +

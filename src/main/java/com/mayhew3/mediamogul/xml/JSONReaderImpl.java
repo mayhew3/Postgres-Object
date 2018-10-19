@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class JSONReaderImpl implements JSONReader {
@@ -104,17 +105,31 @@ public class JSONReaderImpl implements JSONReader {
     }
   }
 
-  @NotNull
   @Override
-  public JSONArray parseJSONArray(String filepath) {
+  public @NotNull JSONArray parseJSONArray(String filepath) {
+    return parseJSON(filepath, this::createJSONArray);
+  }
+
+  @Override
+  public @NotNull JSONObject parseJSONObject(String filepath) {
+    return parseJSON(filepath, this::createJSONObject);
+  }
+
+  private @NotNull <T> T parseJSON(String filepath, Function<String, T> creationCallback) {
     try {
       byte[] bytes = Files.readAllBytes(Paths.get(filepath));
       String text = new String(bytes, Charset.defaultCharset());
-      return new JSONArray(text);
+      return creationCallback.apply(text);
     } catch (IOException e) {
       e.printStackTrace();
       throw new RuntimeException("Unable to read from file path: " + filepath);
     }
   }
 
+  private JSONArray createJSONArray(String text) {
+    return new JSONArray(text);
+  }
+  private JSONObject createJSONObject(String text) {
+    return new JSONObject(text);
+  }
 }

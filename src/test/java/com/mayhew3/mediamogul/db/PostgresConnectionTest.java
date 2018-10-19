@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.sql.*;
 import java.util.List;
 
-import static org.fest.assertions.Assertions.assertThat;
+import static org.fest.assertions.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 public class PostgresConnectionTest {

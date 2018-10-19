@@ -24,7 +24,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 
-import static org.fest.assertions.Assertions.assertThat;
+import static org.fest.assertions.api.Assertions.assertThat;
 import static org.junit.Assert.fail;
 
 @SuppressWarnings({"SameParameterValue", "OptionalGetWithoutIsPresent"})

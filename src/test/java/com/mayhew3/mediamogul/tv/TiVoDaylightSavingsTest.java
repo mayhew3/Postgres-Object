@@ -17,7 +17,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.fest.assertions.Assertions.assertThat;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 @SuppressWarnings("ConstantConditions")
 public class TiVoDaylightSavingsTest extends TVDatabaseTest {
