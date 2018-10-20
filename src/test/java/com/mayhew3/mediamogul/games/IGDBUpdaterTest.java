@@ -472,12 +472,86 @@ public class IGDBUpdaterTest extends GamesDatabaseTest {
 
   @Test
   public void testFailedIfNoResultFromID() throws SQLException {
-    fail("Implement me.");
-  }
+    DateTime startOfTest = new DateTime();
 
-  @Test
-  public void testFailedIfWrongIDReturned() throws SQLException {
-    fail("Implement me.");
+    DateTime scheduledDate = startOfTest.minusDays(7);
+    DateTime lastSuccess = scheduledDate.minusDays(30);
+    DateTime nextScheduledDate = scheduledDate.plusDays(30);
+
+    String gameTitle = "Crumbles";
+    Integer igdb_id = 23456;
+
+    Game game = createGame(gameTitle, "PC");
+
+    game.igdb_id.changeValue(igdb_id);
+    game.igdb_title.changeValue("Forza Horizon Four");
+    game.igdb_poster.changeValue("fake_123456");
+    game.igdb_poster_w.changeValue(3);
+    game.igdb_poster_h.changeValue(4);
+    game.igdb_success.changeValue(lastSuccess.toDate());
+    game.igdb_next_update.changeValue(scheduledDate.toDate());
+
+
+    IGDBUpdater igdbUpdater = new IGDBUpdater(game, connection, igdbProvider, jsonReader);
+    igdbUpdater.updateGame();
+
+    assertThat(game.title.getValue())
+        .isEqualTo(gameTitle);
+    assertThat(game.igdb_id.getValue())
+        .isEqualTo(igdb_id);
+    assertThat(game.igdb_title.getValue())
+        .isEqualTo("Forza Horizon Four");
+    assertThat(game.igdb_poster.getValue())
+        .isEqualTo("fake_123456");
+    assertThat(game.igdb_poster_w.getValue())
+        .isEqualTo(3);
+    assertThat(game.igdb_poster_h.getValue())
+        .isEqualTo(4);
+    assertThat(game.igdb_success.getValue())
+        .isNull();
+    assertThat(new DateTime(game.igdb_failed.getValue()))
+        .isAfterOrEqualTo(startOfTest);
+
+    DateTime nextUpdateActual = new DateTime(game.igdb_next_update.getValue());
+    assertThat(nextUpdateActual)
+        .isAfterOrEqualTo(startOfTest);
+    assertThat(Days.daysBetween(startOfTest, nextUpdateActual).getDays())
+        .isEqualTo(1);
+
+    List<PossibleGameMatch> possibleGameMatches = findPossibleGameMatches(game);
+    assertThat(possibleGameMatches)
+        .isEmpty();
+
+    igdbUpdater.updateGame();
+
+
+    assertThat(game.title.getValue())
+        .isEqualTo(gameTitle);
+    assertThat(game.igdb_id.getValue())
+        .isEqualTo(igdb_id);
+    assertThat(game.igdb_title.getValue())
+        .isEqualTo("Crumbles");
+    assertThat(game.igdb_poster.getValue())
+        .isEqualTo("haiouwnfdakjlhedw");
+    assertThat(game.igdb_poster_w.getValue())
+        .isEqualTo(1440);
+    assertThat(game.igdb_poster_h.getValue())
+        .isEqualTo(2160);
+    assertThat(game.igdb_failed.getValue())
+        .isNull();
+    assertThat(new DateTime(game.igdb_success.getValue()))
+        .isAfterOrEqualTo(startOfTest);
+
+    nextUpdateActual = new DateTime(game.igdb_next_update.getValue());
+    assertThat(nextUpdateActual)
+        .isAfterOrEqualTo(nextScheduledDate);
+    assertThat(Days.daysBetween(startOfTest, nextUpdateActual).getDays())
+        .isEqualTo(31);
+
+    possibleGameMatches = findPossibleGameMatches(game);
+    assertThat(possibleGameMatches)
+        .isEmpty();
+
   }
 
 

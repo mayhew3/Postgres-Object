@@ -42,8 +42,5 @@ public interface JSONReader {
   JSONArray parseJSONArray(String filepath);
 
   @NotNull
-  JSONObject parseJSONObject(String filepath);
-
-  @NotNull
   Optional<JSONObject> getOptionalObjectWithKey(JSONObject jsonObject, String key);
 }

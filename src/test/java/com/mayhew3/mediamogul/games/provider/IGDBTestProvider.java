@@ -5,8 +5,6 @@ import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.function.Consumer;
-
 public class IGDBTestProvider implements IGDBProvider {
   private String filePrefix;
   private JSONReader jsonReader;
@@ -24,9 +22,9 @@ public class IGDBTestProvider implements IGDBProvider {
   }
 
   @Override
-  public JSONObject getUpdatedInfo(Integer igdb_id) {
+  public JSONArray getUpdatedInfo(Integer igdb_id) {
     String filepath = filePrefix + "id_" + igdb_id + ".json";
-    @NotNull JSONObject jsonArrayFromFile = jsonReader.parseJSONObject(filepath);
+    @NotNull JSONArray jsonArrayFromFile = jsonReader.parseJSONArray(filepath);
     return jsonArrayFromFile;
   }
 

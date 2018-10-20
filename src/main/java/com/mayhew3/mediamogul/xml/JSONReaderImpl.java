@@ -110,11 +110,6 @@ public class JSONReaderImpl implements JSONReader {
     return parseJSON(filepath, this::createJSONArray);
   }
 
-  @Override
-  public @NotNull JSONObject parseJSONObject(String filepath) {
-    return parseJSON(filepath, this::createJSONObject);
-  }
-
   private @NotNull <T> T parseJSON(String filepath, Function<String, T> creationCallback) {
     try {
       byte[] bytes = Files.readAllBytes(Paths.get(filepath));
@@ -128,8 +123,5 @@ public class JSONReaderImpl implements JSONReader {
 
   private JSONArray createJSONArray(String text) {
     return new JSONArray(text);
-  }
-  private JSONObject createJSONObject(String text) {
-    return new JSONObject(text);
   }
 }

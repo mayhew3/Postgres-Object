@@ -30,12 +30,12 @@ public class IGDBProviderImpl implements IGDBProvider {
   }
 
   @Override
-  public JSONObject getUpdatedInfo(Integer igdb_id) {
+  public JSONArray getUpdatedInfo(Integer igdb_id) {
     String url = "https://api-endpoint.igdb.com/games/" + igdb_id;
     HashMap<String, Object> queryVars = new HashMap<>();
     queryVars.put("fields", "name,cover");
 
-    return getObjectData(url, queryVars);
+    return getArrayData(url, queryVars);
   }
 
   private String encodeGameTitle(String gameTitle) {
@@ -96,7 +96,8 @@ public class IGDBProviderImpl implements IGDBProvider {
 
   private JSONObject getObjectData(String url, Map<String, Object> queryParams) {
     try {
-      return getJsonObject(getDataInternal(url, queryParams));
+      HttpResponse<String> dataInternal = getDataInternal(url, queryParams);
+      return getJsonObject(dataInternal);
     } catch (UnirestException e) {
       throw new RuntimeException(e);
     }

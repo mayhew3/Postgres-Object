@@ -51,8 +51,23 @@ public class IGDBUpdater {
   }
 
   private void updateAlreadyMatched() throws SQLException {
-    JSONObject updatedInfo = igdbProvider.getUpdatedInfo(game.igdb_id.getValue());
-    saveExactMatch(updatedInfo);
+    JSONArray updatedInfoArray = igdbProvider.getUpdatedInfo(game.igdb_id.getValue());
+    if (updatedInfoArray.length() != 1) {
+      debug("Expected exactly one match for game with igdb_id: " + game.igdb_id.getValue() + ", " +
+          "but there are " + updatedInfoArray.length());
+      changeToFailed();
+    } else {
+      JSONObject updatedInfo = updatedInfoArray.getJSONObject(0);
+      saveExactMatch(updatedInfo);
+    }
+  }
+
+  private void changeToFailed() throws SQLException {
+    game.igdb_failed.changeValue(new Date());
+    game.igdb_success.changeValue(null);
+    DateTime nextScheduled = new DateTime(new Date()).plusDays(1);
+    game.igdb_next_update.changeValue(nextScheduled.toDate());
+    game.commit(connection);
   }
 
   private String getFormattedTitle() {
@@ -153,6 +168,7 @@ public class IGDBUpdater {
     game.igdb_id.changeValue(id);
     game.igdb_title.changeValue(name);
     game.igdb_success.changeValue(new Date());
+    game.igdb_failed.changeValue(null);
 
     incrementNextUpdate();
 
