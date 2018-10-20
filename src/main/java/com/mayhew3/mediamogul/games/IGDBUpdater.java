@@ -51,12 +51,14 @@ public class IGDBUpdater {
   }
 
   private void updateAlreadyMatched() throws SQLException {
+    debug("Updating already matched game '" + game.title.getValue() + "' with igdb_id " + game.igdb_id.getValue());
     JSONArray updatedInfoArray = igdbProvider.getUpdatedInfo(game.igdb_id.getValue());
     if (updatedInfoArray.length() != 1) {
       debug("Expected exactly one match for game with igdb_id: " + game.igdb_id.getValue() + ", " +
           "but there are " + updatedInfoArray.length());
       changeToFailed();
     } else {
+      debug(" - Found IGDB data matching existing ID. Updating.");
       JSONObject updatedInfo = updatedInfoArray.getJSONObject(0);
       saveExactMatch(updatedInfo);
     }

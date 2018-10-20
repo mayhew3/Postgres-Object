@@ -17,15 +17,12 @@ import java.util.Date;
 import java.util.List;
 
 import static org.fest.assertions.api.Assertions.assertThat;
-import static org.mockito.Matchers.anyString;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 public class DataObjectTest {
 
   private DataObjectMock dataObject;
-
-  @Captor
-  ArgumentCaptor<List<Object>> listCaptor;
 
   @Captor
   ArgumentCaptor<List<FieldValue>> fieldValueCaptor;
@@ -245,7 +242,7 @@ public class DataObjectTest {
   }
 
   @Test
-  public void testGetForeignKeys() throws SQLException {
+  public void testGetForeignKeys() {
     DataObjectMock dataObjectMock = new DataObjectMock();
     FieldValueForeignKey butter = dataObjectMock.registerForeignKey(new Series(), Nullability.NULLABLE);
 

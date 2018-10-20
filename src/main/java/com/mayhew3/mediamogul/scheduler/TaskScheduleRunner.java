@@ -112,6 +112,7 @@ public class TaskScheduleRunner {
         30);
 
     // NIGHTLY
+    addNightlyTask(new IGDBUpdateRunner(connection, igdbProvider, jsonReader, UpdateMode.SANITY));
     addNightlyTask(new TiVoCommunicator(connection, tiVoDataProvider, UpdateMode.FULL));
     addNightlyTask(new MetacriticTVUpdater(connection, UpdateMode.FULL));
     addNightlyTask(new MetacriticGameUpdateRunner(connection, UpdateMode.UNMATCHED));
