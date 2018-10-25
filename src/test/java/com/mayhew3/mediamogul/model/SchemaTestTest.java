@@ -12,11 +12,11 @@ import java.util.List;
 
 import static org.junit.Assert.fail;
 
-public class MediaMogulSchemaLocalTest {
+public class SchemaTestTest {
 
   @Test
-  public void testHerokuLocalUpToDate() throws URISyntaxException, SQLException {
-    SQLConnection connection = PostgresConnectionFactory.getSqlConnection(PostgresConnectionFactory.LOCAL);
+  public void testHerokuTestUpToDate() throws URISyntaxException, SQLException {
+    SQLConnection connection = PostgresConnectionFactory.getSqlConnection(PostgresConnectionFactory.TEST);
     List<DataObjectMismatch> mismatches = MediaMogulSchema.schema.validateSchemaAgainstDatabase(connection);
 
     if (!mismatches.isEmpty()) {

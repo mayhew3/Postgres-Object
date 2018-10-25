@@ -163,6 +163,7 @@ public class SteamGameUpdater implements UpdateRunner {
     game.icon.changeValue(icon);
     game.steam_title.changeValue(name);
     game.owned.changeValue("owned");
+    game.playtime.changeValue(new BigDecimal(playtime));
 
     PersonGame personGame = getOrCreatePersonGame(game);
 
@@ -172,6 +173,8 @@ public class SteamGameUpdater implements UpdateRunner {
       personGame.minutes_played.changeValue(playtime);
       personGame.last_played.changeValue(new Timestamp(bumpDateIfLateNight().toDate().getTime()));
     }
+
+    personGame.commit(connection);
     game.commit(connection);
   }
 
@@ -222,6 +225,8 @@ public class SteamGameUpdater implements UpdateRunner {
     personGame.person_id.changeValue(person_id);
     personGame.tier.changeValue(2);
     personGame.minutes_played.changeValue(playtime);
+
+    personGame.commit(connection);
 
     if (needsPlaytimeUpdate) {
       logUpdateToPlaytime(name, steamID, BigDecimal.ZERO, new BigDecimal(playtime), game.id.getValue());
