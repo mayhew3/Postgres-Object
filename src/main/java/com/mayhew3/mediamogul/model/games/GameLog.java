@@ -1,6 +1,7 @@
 package com.mayhew3.mediamogul.model.games;
 
 import com.mayhew3.mediamogul.dataobject.*;
+import com.mayhew3.mediamogul.model.Person;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -23,6 +24,8 @@ public class GameLog extends DataObject {
   public FieldValueForeignKey gameID = registerForeignKey(new Game(), Nullability.NOT_NULL);
 
   public FieldValueForeignKey gameplaySessionID = registerForeignKey(new GameplaySession(), Nullability.NULLABLE);
+
+  public FieldValueForeignKey person_id = registerForeignKey(new Person(), Nullability.NOT_NULL);
 
   @Override
   public String getTableName() {

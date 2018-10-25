@@ -1,11 +1,13 @@
-package com.mayhew3.mediamogul.model.tv;
+package com.mayhew3.mediamogul.model;
 
 import com.mayhew3.mediamogul.dataobject.DataSchema;
 import com.mayhew3.mediamogul.model.Person;
+import com.mayhew3.mediamogul.model.games.*;
+import com.mayhew3.mediamogul.model.tv.*;
 
-public class TVSchema {
+public class MediaMogulSchema {
 
-  public static DataSchema tv_schema = new DataSchema(
+  public static DataSchema schema = new DataSchema(
       new ConnectLog(),
       new EdgeTiVoEpisode(),
       new Episode(),
@@ -34,7 +36,13 @@ public class TVSchema {
       new TVDBConnectionLog(),
       new TVDBUpdateError(),
       new TVDBWorkItem(),
-      new ViewingLocation()
+      new ViewingLocation(),
+      new Game(),
+      new GameLog(),
+      new GameplaySession(),
+      new SteamAttribute(),
+      new PossibleGameMatch(),
+      new PersonGame()
   );
 
 }

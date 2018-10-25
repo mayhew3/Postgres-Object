@@ -1,6 +1,6 @@
 package com.mayhew3.mediamogul.tv;
 
-import com.mayhew3.mediamogul.TVDatabaseTest;
+import com.mayhew3.mediamogul.DatabaseTest;
 import com.mayhew3.mediamogul.dataobject.TiVoLocalProvider;
 import com.mayhew3.mediamogul.model.tv.Series;
 import com.mayhew3.mediamogul.model.tv.TiVoEpisode;
@@ -20,7 +20,7 @@ import java.util.List;
 import static org.fest.assertions.api.Assertions.assertThat;
 
 @SuppressWarnings("ConstantConditions")
-public class TiVoDaylightSavingsTest extends TVDatabaseTest {
+public class TiVoDaylightSavingsTest extends DatabaseTest {
   private TiVoLocalProvider tiVoLocalProvider;
 
   private static Timestamp errorTimestamp = Timestamp.valueOf("2016-11-06 01:01:59.0");

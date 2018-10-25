@@ -1,6 +1,6 @@
 package com.mayhew3.mediamogul.dataobject;
 
-import com.mayhew3.mediamogul.TVDatabaseTest;
+import com.mayhew3.mediamogul.DatabaseTest;
 import org.junit.Test;
 
 import java.sql.ResultSet;
@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
-public class DataObjectCommitTest extends TVDatabaseTest {
+public class DataObjectCommitTest extends DatabaseTest {
 
   @Test
   public void testInsertDataObjectMock() throws SQLException {

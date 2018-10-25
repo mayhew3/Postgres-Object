@@ -1,6 +1,6 @@
 package com.mayhew3.mediamogul.tv;
 
-import com.mayhew3.mediamogul.TVDatabaseTest;
+import com.mayhew3.mediamogul.DatabaseTest;
 import com.mayhew3.mediamogul.dataobject.TiVoLocalProvider;
 import com.mayhew3.mediamogul.model.tv.Series;
 import com.mayhew3.mediamogul.model.tv.TVDBSeries;
@@ -16,7 +16,7 @@ import java.util.List;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
-public class TiVoMatchExistingTest extends TVDatabaseTest {
+public class TiVoMatchExistingTest extends DatabaseTest {
   private TiVoLocalProvider tiVoLocalProvider;
 
   @Override

@@ -1,8 +1,9 @@
-package com.mayhew3.mediamogul.model.games;
+package com.mayhew3.mediamogul.model;
 
 import com.mayhew3.mediamogul.dataobject.DataObjectMismatch;
 import com.mayhew3.mediamogul.db.PostgresConnectionFactory;
 import com.mayhew3.mediamogul.db.SQLConnection;
+import com.mayhew3.mediamogul.model.MediaMogulSchema;
 import org.junit.Test;
 
 import java.net.URISyntaxException;
@@ -11,12 +12,12 @@ import java.util.List;
 
 import static org.junit.Assert.fail;
 
-public class GameSchemaHerokuTest {
+public class MediaMogulSchemaHerokuTest {
 
   @Test
   public void testHerokuSchemaUpToDate() throws URISyntaxException, SQLException {
     SQLConnection connection = PostgresConnectionFactory.getSqlConnection(PostgresConnectionFactory.HEROKU);
-    List<DataObjectMismatch> mismatches = GamesSchema.games_schema.validateSchemaAgainstDatabase(connection);
+    List<DataObjectMismatch> mismatches = MediaMogulSchema.schema.validateSchemaAgainstDatabase(connection);
 
     if (!mismatches.isEmpty()) {
       System.out.println("Mismatches found: ");
@@ -34,7 +35,7 @@ public class GameSchemaHerokuTest {
       }
       fail();
     }
+
   }
 
 }
-

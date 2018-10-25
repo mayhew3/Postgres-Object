@@ -1,7 +1,7 @@
 package com.mayhew3.mediamogul.tv;
 
 import com.mashape.unirest.http.exceptions.UnirestException;
-import com.mayhew3.mediamogul.TVDatabaseTest;
+import com.mayhew3.mediamogul.DatabaseTest;
 import com.mayhew3.mediamogul.model.tv.Episode;
 import com.mayhew3.mediamogul.model.tv.Series;
 import com.mayhew3.mediamogul.model.tv.TVDBEpisode;
@@ -28,7 +28,7 @@ import static org.fest.assertions.api.Assertions.assertThat;
 import static org.junit.Assert.fail;
 
 @SuppressWarnings({"SameParameterValue", "OptionalGetWithoutIsPresent"})
-public class TVDBSeriesUpdaterTest extends TVDatabaseTest {
+public class TVDBSeriesUpdaterTest extends DatabaseTest {
 
   private final String SCHUMER_EPISODE_NAME1 = "The World's Most Interesting Woman in the World";
   private final String SCHUMER_EPISODE_NAME2 = "Welcome to the Gun Show";

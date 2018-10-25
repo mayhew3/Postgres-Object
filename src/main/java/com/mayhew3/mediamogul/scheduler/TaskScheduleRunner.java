@@ -9,6 +9,8 @@ import com.mayhew3.mediamogul.db.SQLConnection;
 import com.mayhew3.mediamogul.games.*;
 import com.mayhew3.mediamogul.games.provider.IGDBProvider;
 import com.mayhew3.mediamogul.games.provider.IGDBProviderImpl;
+import com.mayhew3.mediamogul.games.provider.SteamProvider;
+import com.mayhew3.mediamogul.games.provider.SteamProviderImpl;
 import com.mayhew3.mediamogul.tv.*;
 import com.mayhew3.mediamogul.tv.helper.ConnectionLogger;
 import com.mayhew3.mediamogul.tv.helper.UpdateMode;
@@ -44,22 +46,26 @@ public class TaskScheduleRunner {
   private JSONReader jsonReader;
   private TiVoDataProvider tiVoDataProvider;
   private IGDBProvider igdbProvider;
+  private SteamProvider steamProvider;
 
   private String identifier;
 
   private PrintStream originalStream = System.out;
+  private Integer person_id;
 
   private Boolean logToFile;
   private PrintStream logOutput = null;
 
-  private TaskScheduleRunner(SQLConnection connection, @Nullable TVDBJWTProvider tvdbjwtProvider, JSONReader jsonReader, TiVoDataProvider tiVoDataProvider, IGDBProvider igdbProvider, String identifier, Boolean logToFile) {
+  private TaskScheduleRunner(SQLConnection connection, @Nullable TVDBJWTProvider tvdbjwtProvider, JSONReader jsonReader, TiVoDataProvider tiVoDataProvider, IGDBProvider igdbProvider, String identifier, Integer person_id, Boolean logToFile, SteamProviderImpl steamProvider) {
     this.connection = connection;
     this.tvdbjwtProvider = tvdbjwtProvider;
     this.jsonReader = jsonReader;
     this.tiVoDataProvider = tiVoDataProvider;
     this.igdbProvider = igdbProvider;
     this.identifier = identifier;
+    this.person_id = person_id;
     this.logToFile = logToFile;
+    this.steamProvider = steamProvider;
   }
 
   public static void main(String... args) throws URISyntaxException, SQLException, FileNotFoundException, InterruptedException {
@@ -82,7 +88,17 @@ public class TaskScheduleRunner {
 
     setDriverPath();
 
-    TaskScheduleRunner taskScheduleRunner = new TaskScheduleRunner(connection, tvdbjwtProvider, jsonReader, tiVoDataProvider, igdbProvider, argumentChecker.getDBIdentifier(), logToFile);
+    Integer person_id = Integer.parseInt(System.getenv("MediaMogulPersonID"));
+    TaskScheduleRunner taskScheduleRunner = new TaskScheduleRunner(
+        connection,
+        tvdbjwtProvider,
+        jsonReader,
+        tiVoDataProvider,
+        igdbProvider,
+        argumentChecker.getDBIdentifier(),
+        person_id,
+        logToFile,
+        new SteamProviderImpl());
     taskScheduleRunner.runUpdates();
   }
 
@@ -96,8 +112,6 @@ public class TaskScheduleRunner {
         1);
     addPeriodicTask(new TVDBUpdateFinder(connection, tvdbjwtProvider, jsonReader),
         2);
-//    addPeriodicTask(new TiVoCommunicator(connection, tiVoDataProvider, UpdateMode.QUICK),
-//        10);
     addPeriodicTask(new TVDBUpdateProcessor(connection, tvdbjwtProvider, jsonReader),
         1);
     addPeriodicTask(new TVDBSeriesMatchRunner(connection, tvdbjwtProvider, jsonReader, UpdateMode.SMART),
@@ -106,7 +120,7 @@ public class TaskScheduleRunner {
         10);
     addPeriodicTask(new TVDBUpdateRunner(connection, tvdbjwtProvider, jsonReader, UpdateMode.SMART),
         30);
-    addPeriodicTask(new SteamGameUpdater(connection),
+    addPeriodicTask(new SteamGameUpdater(connection, person_id, steamProvider),
         60);
     addPeriodicTask(new OldDataArchiveRunner(connection),
         30);

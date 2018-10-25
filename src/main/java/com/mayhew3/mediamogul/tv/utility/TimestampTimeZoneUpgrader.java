@@ -4,8 +4,8 @@ import com.mayhew3.mediamogul.ArgumentChecker;
 import com.mayhew3.mediamogul.dataobject.*;
 import com.mayhew3.mediamogul.db.PostgresConnectionFactory;
 import com.mayhew3.mediamogul.db.SQLConnection;
+import com.mayhew3.mediamogul.model.MediaMogulSchema;
 import com.mayhew3.mediamogul.model.games.GamesSchema;
-import com.mayhew3.mediamogul.model.tv.TVSchema;
 
 import java.net.URISyntaxException;
 import java.sql.SQLException;
@@ -23,7 +23,7 @@ public class TimestampTimeZoneUpgrader {
     ArgumentChecker argumentChecker = new ArgumentChecker(args);
     SQLConnection connection = PostgresConnectionFactory.createConnection(argumentChecker);
 
-    TimestampTimeZoneUpgrader upgrader = new TimestampTimeZoneUpgrader(GamesSchema.games_schema, connection);
+    TimestampTimeZoneUpgrader upgrader = new TimestampTimeZoneUpgrader(MediaMogulSchema.schema, connection);
     upgrader.upgradeColumns();
   }
 

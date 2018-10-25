@@ -1,10 +1,11 @@
 package com.mayhew3.mediamogul.games;
 
-import com.mayhew3.mediamogul.GamesDatabaseTest;
+import com.mayhew3.mediamogul.DatabaseTest;
 import com.mayhew3.mediamogul.games.provider.IGDBProvider;
-import com.mayhew3.mediamogul.games.provider.IGDBTestProvider;
+import com.mayhew3.mediamogul.games.provider.IGDBTestProviderImpl;
 import com.mayhew3.mediamogul.model.games.Game;
 import com.mayhew3.mediamogul.model.games.PossibleGameMatch;
+import com.mayhew3.mediamogul.xml.JSONReader;
 import com.mayhew3.mediamogul.xml.JSONReaderImpl;
 import org.jetbrains.annotations.NotNull;
 import org.joda.time.DateTime;
@@ -18,21 +19,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-//import static com.mayhew3.mediamogul.DateTimeAssert.assertThat;
-import static org.fest.assertions.api.Assertions.assertThat;
 import static org.assertj.jodatime.api.Assertions.assertThat;
-import static org.fest.assertions.api.Assertions.fail;
+import static org.fest.assertions.api.Assertions.assertThat;
 
-public class IGDBUpdaterTest extends GamesDatabaseTest {
+public class IGDBUpdaterTest extends DatabaseTest {
 
   private IGDBProvider igdbProvider;
-  private JSONReaderImpl jsonReader;
+  private JSONReader jsonReader;
 
   @Override
   public void setUp() throws URISyntaxException, SQLException {
     super.setUp();
     jsonReader = new JSONReaderImpl();
-    igdbProvider = new IGDBTestProvider("src\\test\\resources\\IGDBTest\\", jsonReader);
+    igdbProvider = new IGDBTestProviderImpl("src\\test\\resources\\IGDBTest\\", jsonReader);
   }
 
   @Test

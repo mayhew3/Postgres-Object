@@ -5,11 +5,11 @@ import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class IGDBTestProvider implements IGDBProvider {
+public class IGDBTestProviderImpl implements IGDBProvider {
   private String filePrefix;
   private JSONReader jsonReader;
 
-  public IGDBTestProvider(String filePrefix, JSONReader jsonReader) {
+  public IGDBTestProviderImpl(String filePrefix, JSONReader jsonReader) {
     this.filePrefix = filePrefix;
     this.jsonReader = jsonReader;
   }

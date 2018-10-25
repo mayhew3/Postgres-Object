@@ -39,6 +39,9 @@ public interface JSONReader {
   List<JSONObject> findMatches(JSONArray jsonArray, Predicate<JSONObject> conditionToLookFor);
 
   @NotNull
+  JSONObject parseJSONObject(String filepath);
+
+  @NotNull
   JSONArray parseJSONArray(String filepath);
 
   @NotNull

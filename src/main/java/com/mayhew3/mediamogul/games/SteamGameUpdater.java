@@ -3,12 +3,14 @@ package com.mayhew3.mediamogul.games;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.mayhew3.mediamogul.ArgumentChecker;
-import com.mayhew3.mediamogul.DatabaseUtility;
-import com.mayhew3.mediamogul.scheduler.UpdateRunner;
 import com.mayhew3.mediamogul.db.PostgresConnectionFactory;
 import com.mayhew3.mediamogul.db.SQLConnection;
+import com.mayhew3.mediamogul.games.provider.SteamProvider;
+import com.mayhew3.mediamogul.games.provider.SteamProviderImpl;
 import com.mayhew3.mediamogul.model.games.Game;
 import com.mayhew3.mediamogul.model.games.GameLog;
+import com.mayhew3.mediamogul.model.games.PersonGame;
+import com.mayhew3.mediamogul.scheduler.UpdateRunner;
 import com.mayhew3.mediamogul.tv.helper.UpdateMode;
 import org.jetbrains.annotations.Nullable;
 import org.joda.time.DateTime;
@@ -24,18 +26,27 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class SteamGameUpdater extends DatabaseUtility implements UpdateRunner {
+public class SteamGameUpdater implements UpdateRunner {
 
   private SQLConnection connection;
+  private Integer person_id;
+  private SteamProvider steamProvider;
 
-  public SteamGameUpdater(SQLConnection connection) {
+  public SteamGameUpdater(SQLConnection connection, Integer person_id, SteamProvider steamProvider) {
     this.connection = connection;
+    this.person_id = person_id;
+    this.steamProvider = steamProvider;
   }
 
-  public static void main(String... args) throws SQLException, FileNotFoundException, URISyntaxException, InterruptedException {
+  public static void main(String... args) throws SQLException, FileNotFoundException, URISyntaxException {
     List<String> argList = Lists.newArrayList(args);
-    Boolean logToFile = argList.contains("LogToFile");
+    boolean logToFile = argList.contains("LogToFile");
     ArgumentChecker argumentChecker = new ArgumentChecker(args);
+
+    String personIDString = System.getenv("MediaMogulPersonID");
+    assert personIDString != null;
+
+    Integer person_id = Integer.parseInt(personIDString);
 
     if (logToFile) {
       SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
@@ -61,7 +72,7 @@ public class SteamGameUpdater extends DatabaseUtility implements UpdateRunner {
     debug("");
 
     SQLConnection connection = PostgresConnectionFactory.createConnection(argumentChecker);
-    SteamGameUpdater steamGameUpdater = new SteamGameUpdater(connection);
+    SteamGameUpdater steamGameUpdater = new SteamGameUpdater(connection, person_id, new SteamProviderImpl());
     steamGameUpdater.runUpdate();
 
     debug(" --- ");
@@ -72,12 +83,10 @@ public class SteamGameUpdater extends DatabaseUtility implements UpdateRunner {
     Map<Integer, String> unfoundGames = new HashMap<>();
     ArrayList<String> duplicateGames = new ArrayList<>();
 
-    String fullURL = getFullUrl();
-
     Set<Integer> jsonSteamIDs = Sets.newHashSet();
 
     try {
-      JSONObject jsonObject = readJsonFromUrl(fullURL);
+      JSONObject jsonObject = steamProvider.getSteamInfo();
       JSONArray jsonArray = jsonObject.getJSONObject("response").getJSONArray("games");
 
       for (int i = 0; i < jsonArray.length(); i++) {
@@ -90,7 +99,7 @@ public class SteamGameUpdater extends DatabaseUtility implements UpdateRunner {
 
       debug("Operation finished!");
     } catch (IOException e) {
-      debug("Error reading from URL: " + fullURL);
+      debug("Error reading from URL: " + steamProvider.getFullUrl());
       e.printStackTrace();
     }
 
@@ -118,7 +127,7 @@ public class SteamGameUpdater extends DatabaseUtility implements UpdateRunner {
   private void processSteamGame(Map<Integer, String> unfoundGames, ArrayList<String> duplicateGames, JSONObject jsonGame) throws SQLException {
     String name = jsonGame.getString("name");
     Integer steamID = jsonGame.getInt("appid");
-    BigDecimal playtime = new BigDecimal(jsonGame.getInt("playtime_forever"));
+    Integer playtime = jsonGame.getInt("playtime_forever");
     String icon = jsonGame.getString("img_icon_url");
     String logo = jsonGame.getString("img_logo_url");
 
@@ -149,25 +158,49 @@ public class SteamGameUpdater extends DatabaseUtility implements UpdateRunner {
     }
   }
 
-  private void updateGame(String name, Integer steamID, BigDecimal playtime, String icon, String logo, Game game) throws SQLException {
+  private void updateGame(String name, Integer steamID, Integer playtime, String icon, String logo, Game game) throws SQLException {
     game.logo.changeValue(logo);
     game.icon.changeValue(icon);
     game.steam_title.changeValue(name);
     game.owned.changeValue("owned");
 
-    BigDecimal previousPlaytime = game.playtime.getValue() == null ? BigDecimal.ZERO : game.playtime.getValue();
+    PersonGame personGame = getOrCreatePersonGame(game);
+
+    Integer previousPlaytime = personGame.minutes_played.getValue() == null ? 0 : personGame.minutes_played.getValue();
     if (!(playtime.compareTo(previousPlaytime) == 0)) {
-      logUpdateToPlaytime(name, steamID, previousPlaytime, playtime, game.id.getValue());
-      game.playtime.changeValue(playtime);
-      game.lastPlayed.changeValue(new Timestamp(bumpDateIfLateNight().toDate().getTime()));
+      logUpdateToPlaytime(name, steamID, new BigDecimal(previousPlaytime), new BigDecimal(playtime), game.id.getValue());
+      personGame.minutes_played.changeValue(playtime);
+      personGame.last_played.changeValue(new Timestamp(bumpDateIfLateNight().toDate().getTime()));
     }
     game.commit(connection);
   }
 
-  private void addNewGame(String name, Integer steamID, BigDecimal playtime, String icon, String logo, Game game) throws SQLException {
+  private PersonGame getOrCreatePersonGame(Game game) throws SQLException {
+    String sql = "SELECT * FROM person_game " +
+        "WHERE game_id = ? " +
+        "AND person_id = ? " +
+        "AND retired = ? ";
+
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, game.id.getValue(), person_id, 0);
+
+    PersonGame personGame = new PersonGame();
+
+    if (resultSet.next()) {
+      personGame.initializeFromDBObject(resultSet);
+    } else {
+      personGame.initializeForInsert();
+      personGame.game_id.changeValue(game.id.getValue());
+      personGame.person_id.changeValue(person_id);
+      personGame.tier.changeValue(2);
+    }
+
+    return personGame;
+  }
+
+  private void addNewGame(String name, Integer steamID, Integer playtime, String icon, String logo, Game game) throws SQLException {
     game.initializeForInsert();
 
-    Boolean needsPlaytimeUpdate = playtime.compareTo(BigDecimal.ZERO) > 0;
+    boolean needsPlaytimeUpdate = playtime > 0;
 
     game.platform.changeValue("Steam");
     game.owned.changeValue("owned");
@@ -176,15 +209,22 @@ public class SteamGameUpdater extends DatabaseUtility implements UpdateRunner {
     game.title.changeValue(name);
     game.steam_title.changeValue(name);
     game.steamID.changeValue(steamID);
-    game.playtime.changeValue(playtime);
+    game.playtime.changeValue(new BigDecimal(playtime));
     game.icon.changeValue(icon);
     game.logo.changeValue(logo);
     game.metacriticPage.changeValue(false);
 
     game.commit(connection);
 
+    PersonGame personGame = new PersonGame();
+    personGame.initializeForInsert();
+    personGame.game_id.changeValue(game.id.getValue());
+    personGame.person_id.changeValue(person_id);
+    personGame.tier.changeValue(2);
+    personGame.minutes_played.changeValue(playtime);
+
     if (needsPlaytimeUpdate) {
-      logUpdateToPlaytime(name, steamID, BigDecimal.ZERO, playtime, game.id.getValue());
+      logUpdateToPlaytime(name, steamID, BigDecimal.ZERO, new BigDecimal(playtime), game.id.getValue());
       game.lastPlayed.changeValue(new Timestamp(bumpDateIfLateNight().toDate().getTime()));
       game.commit(connection);
     }
@@ -203,6 +243,7 @@ public class SteamGameUpdater extends DatabaseUtility implements UpdateRunner {
     gameLog.eventtype.changeValue("Played");
     gameLog.eventdate.changeValue(new Timestamp(new Date().getTime()));
     gameLog.gameID.changeValue(gameID);
+    gameLog.person_id.changeValue(person_id);
 
     gameLog.commit(connection);
   }
@@ -220,6 +261,10 @@ public class SteamGameUpdater extends DatabaseUtility implements UpdateRunner {
     } else {
       return today.minusDays(1).withHourOfDay(20);
     }
+  }
+
+  protected static void debug(Object object) {
+    System.out.println(object);
   }
 
   @Override

@@ -5,6 +5,7 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mayhew3.mediamogul.db.PostgresConnectionFactory;
 import com.mayhew3.mediamogul.db.SQLConnection;
 import com.mayhew3.mediamogul.games.SteamGameUpdater;
+import com.mayhew3.mediamogul.games.provider.SteamProviderImpl;
 import com.mayhew3.mediamogul.scheduler.UpdateRunner;
 import com.mayhew3.mediamogul.tv.*;
 import com.mayhew3.mediamogul.tv.helper.ConnectionLogger;
@@ -51,13 +52,13 @@ public class QuickBatchUpdater {
     debug("");
 
     SQLConnection connection = PostgresConnectionFactory.createConnection(argumentChecker);
-
+    Integer person_id = Integer.parseInt(System.getenv("MediaMogulPersonID"));
 
     // INITIALIZE UPDATERS
 
     List<UpdateRunner> updateRunners = Lists.newArrayList(
         new TiVoCommunicator(connection, new RemoteFileDownloader(saveTiVoXML), UpdateMode.QUICK),
-        new SteamGameUpdater(connection)
+        new SteamGameUpdater(connection, person_id, new SteamProviderImpl())
     );
 
     try {
