@@ -119,6 +119,13 @@ public class SteamGameUpdater implements UpdateRunner {
         game.initializeFromDBObject(resultSet);
         game.owned.changeValue("not owned");
         game.commit(connection);
+
+        Optional<PersonGame> personGameOptional = game.getPersonGame(person_id, connection);
+        if (personGameOptional.isPresent()) {
+          PersonGame personGame = personGameOptional.get();
+          personGame.retire();
+          personGame.commit(connection);
+        }
       }
     }
 
@@ -165,7 +172,7 @@ public class SteamGameUpdater implements UpdateRunner {
     game.owned.changeValue("owned");
     game.playtime.changeValue(new BigDecimal(playtime));
 
-    PersonGame personGame = getOrCreatePersonGame(game);
+    PersonGame personGame = game.getOrCreatePersonGame(person_id, connection);
 
     Integer previousPlaytime = personGame.minutes_played.getValue() == null ? 0 : personGame.minutes_played.getValue();
     if (!(playtime.compareTo(previousPlaytime) == 0)) {
@@ -176,28 +183,6 @@ public class SteamGameUpdater implements UpdateRunner {
 
     personGame.commit(connection);
     game.commit(connection);
-  }
-
-  private PersonGame getOrCreatePersonGame(Game game) throws SQLException {
-    String sql = "SELECT * FROM person_game " +
-        "WHERE game_id = ? " +
-        "AND person_id = ? " +
-        "AND retired = ? ";
-
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, game.id.getValue(), person_id, 0);
-
-    PersonGame personGame = new PersonGame();
-
-    if (resultSet.next()) {
-      personGame.initializeFromDBObject(resultSet);
-    } else {
-      personGame.initializeForInsert();
-      personGame.game_id.changeValue(game.id.getValue());
-      personGame.person_id.changeValue(person_id);
-      personGame.tier.changeValue(2);
-    }
-
-    return personGame;
   }
 
   private void addNewGame(String name, Integer steamID, Integer playtime, String icon, String logo, Game game) throws SQLException {

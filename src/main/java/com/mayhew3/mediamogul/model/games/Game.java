@@ -1,9 +1,13 @@
 package com.mayhew3.mediamogul.model.games;
 
 import com.mayhew3.mediamogul.dataobject.*;
+import com.mayhew3.mediamogul.db.SQLConnection;
 
 import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.Optional;
 
 public class Game extends DataObject {
 
@@ -115,5 +119,39 @@ public class Game extends DataObject {
       msg += " (Steam: " + steamID + ")";
     }
     return msg;
+  }
+
+  public Optional<PersonGame> getPersonGame(Integer person_id, SQLConnection connection) throws SQLException {
+    String sql = "SELECT * FROM person_game " +
+        "WHERE game_id = ? " +
+        "AND person_id = ? " +
+        "AND retired = ? ";
+
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, id.getValue(), person_id, 0);
+
+    PersonGame personGame = new PersonGame();
+
+    if (resultSet.next()) {
+      personGame.initializeFromDBObject(resultSet);
+      return Optional.of(personGame);
+    } else {
+      return Optional.empty();
+    }
+  }
+
+  public PersonGame getOrCreatePersonGame(Integer person_id, SQLConnection connection) throws SQLException {
+    Optional<PersonGame> personGameOptional = getPersonGame(person_id, connection);
+
+    if (personGameOptional.isPresent()) {
+      return personGameOptional.get();
+    } else {
+      PersonGame personGame = new PersonGame();
+      personGame.initializeForInsert();
+      personGame.game_id.changeValue(id.getValue());
+      personGame.person_id.changeValue(person_id);
+      personGame.tier.changeValue(2);
+      personGame.minutes_played.changeValue(0);
+      return personGame;
+    }
   }
 }

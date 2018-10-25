@@ -15,7 +15,7 @@ import static org.junit.Assert.fail;
 public class SchemaLocalTest {
 
   @Test
-  public void testHerokuLocalUpToDate() throws URISyntaxException, SQLException {
+  public void testLocalSchemaUpToDate() throws URISyntaxException, SQLException {
     SQLConnection connection = PostgresConnectionFactory.getSqlConnection(PostgresConnectionFactory.LOCAL);
     List<DataObjectMismatch> mismatches = MediaMogulSchema.schema.validateSchemaAgainstDatabase(connection);
 

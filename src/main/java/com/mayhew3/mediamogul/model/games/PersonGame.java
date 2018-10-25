@@ -25,7 +25,7 @@ public class PersonGame extends RetireableDataObject {
   public FieldValueInteger tier = registerIntegerField("tier", Nullability.NOT_NULL);
 
   public PersonGame() {
-    addUniqueConstraint(game_id, person_id);
+    addUniqueConstraint(game_id, person_id, retired);
   }
 
   @Override

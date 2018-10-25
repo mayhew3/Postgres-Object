@@ -217,6 +217,88 @@ public class SteamUpdaterTest extends DatabaseTest {
         .isEqualTo(steamName);
   }
 
+  @Test
+  public void testSteamGameChangedToNotOwned() throws SQLException {
+    steamProvider.setFileSuffix("xcom2");
+
+    createOwnedGame("Clunkers", "Steam", 48762);
+
+    SteamGameUpdater steamGameUpdater = new SteamGameUpdater(connection, person_id, steamProvider);
+    steamGameUpdater.runUpdate();
+
+
+    Optional<Game> optionalGame = findGameFromDB("Clunkers");
+
+    assertThat(optionalGame.isPresent())
+        .as("Expected game Clunkers to exist in database.")
+        .isTrue();
+
+    Game game = optionalGame.get();
+
+    assertThat(game.owned.getValue())
+        .isEqualTo("not owned");
+
+    Optional<PersonGame> optionalPersonGame = game.getPersonGame(person_id, connection);
+
+    assertThat(optionalPersonGame.isPresent())
+        .isFalse();
+
+  }
+
+  @Test
+  public void testUnlinkThenLinkSteamGame() throws SQLException {
+    steamProvider.setFileSuffix("xcom2");
+
+    createOwnedGame("Clunkers", "Steam", 48762);
+
+    SteamGameUpdater steamGameUpdater = new SteamGameUpdater(connection, person_id, steamProvider);
+    steamGameUpdater.runUpdate();
+
+
+    Optional<Game> optionalGame = findGameFromDB("Clunkers");
+
+    assertThat(optionalGame.isPresent())
+        .as("Expected game Clunkers to exist in database.")
+        .isTrue();
+
+    Game game = optionalGame.get();
+
+    assertThat(game.owned.getValue())
+        .isEqualTo("not owned");
+
+    Optional<PersonGame> optionalPersonGame = game.getPersonGame(person_id, connection);
+
+    assertThat(optionalPersonGame.isPresent())
+        .isFalse();
+
+    steamProvider.setFileSuffix("clunkers");
+
+    steamGameUpdater.runUpdate();
+
+    optionalGame = findGameFromDB("Clunkers");
+
+    assertThat(optionalGame.isPresent())
+        .as("Expected game Clunkers to exist in database.")
+        .isTrue();
+
+    game = optionalGame.get();
+
+    assertThat(game.owned.getValue())
+        .isEqualTo("owned");
+
+    optionalPersonGame = game.getPersonGame(person_id, connection);
+
+    assertThat(optionalPersonGame.isPresent())
+        .isTrue();
+
+    PersonGame personGame = optionalPersonGame.get();
+
+    assertThat(personGame.minutes_played.getValue())
+        .isEqualTo(10234);
+    assertThat(personGame.tier.getValue())
+        .isEqualTo(2);
+  }
+
   // utility methods
 
   private void createPerson() throws SQLException {
@@ -237,6 +319,7 @@ public class SteamUpdaterTest extends DatabaseTest {
     game.platform.changeValue(platform);
     game.steamID.changeValue(steamID);
     game.steam_title.changeValue(gameName);
+    game.owned.changeValue("owned");
 
     game.commit(connection);
 
