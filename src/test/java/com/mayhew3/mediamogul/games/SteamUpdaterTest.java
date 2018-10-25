@@ -182,6 +182,41 @@ public class SteamUpdaterTest extends DatabaseTest {
 
   }
 
+  @Test
+  public void testModifyDoesntChangeName() throws SQLException {
+    steamProvider.setFileSuffix("xcom2");
+    String steamName = "XCOM 2";
+    String myName = "X-Com 2";
+
+    int steamID = 268500;
+
+    createOwnedGame(myName, "Steam", steamID);
+
+    SteamGameUpdater steamGameUpdater = new SteamGameUpdater(connection, person_id, steamProvider);
+    steamGameUpdater.runUpdate();
+
+    Optional<Game> optionalGame = findGameFromDB(myName);
+
+    assertThat(optionalGame.isPresent())
+        .as("Expected game XCOM 2 to exist in database.")
+        .isTrue();
+
+    Game game = optionalGame.get();
+
+    assertThat(game.steam_title.getValue())
+        .isEqualTo(steamName);
+    assertThat(game.title.getValue())
+        .isEqualTo(myName);
+
+    List<GameLog> gameLogs = findGameLogs(game);
+    assertThat(gameLogs)
+        .hasSize(1);
+
+    GameLog gameLog = gameLogs.get(0);
+    assertThat(gameLog.game.getValue())
+        .isEqualTo(steamName);
+  }
+
   // utility methods
 
   private void createPerson() throws SQLException {
@@ -201,6 +236,7 @@ public class SteamUpdaterTest extends DatabaseTest {
     game.title.changeValue(gameName);
     game.platform.changeValue(platform);
     game.steamID.changeValue(steamID);
+    game.steam_title.changeValue(gameName);
 
     game.commit(connection);
 

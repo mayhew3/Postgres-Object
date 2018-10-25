@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1e099498-ec9e-4703-ab18-cce3963e4d0c" name="Default" comment="Move annotation directory">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/SteamGameUpdater.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/SteamGameUpdater.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/games/SteamUpdaterTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/games/SteamUpdaterTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/model/MediaMogulSchemaHerokuTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/model/SchemaHerokuTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/model/MediaMogulSchemaLocalTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/model/SchemaLocalTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/model/MediaMogulSchemaTestTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/model/SchemaTestTest.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -79,7 +74,7 @@
         <counts>
           <entry key="dummy" value="54" />
           <entry key="gradle" value="124" />
-          <entry key="java" value="19319" />
+          <entry key="java" value="19570" />
           <entry key="json" value="121" />
           <entry key="txt" value="31" />
         </counts>
@@ -87,7 +82,7 @@
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="Groovy" value="124" />
-          <entry key="JAVA" value="19319" />
+          <entry key="JAVA" value="19570" />
           <entry key="JSON" value="121" />
           <entry key="PLAIN_TEXT" value="85" />
         </counts>
@@ -133,8 +128,8 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/games/SteamUpdaterTest.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="403">
-                  <caret line="51" column="59" lean-forward="true" selection-start-line="51" selection-start-column="59" selection-end-line="51" selection-end-column="59" />
+                <state relative-caret-position="399">
+                  <caret line="199" lean-forward="true" selection-start-line="199" selection-end-line="199" />
                   <folding>
                     <element signature="imports" expanded="true" />
                     <element signature="e#706#754#0" expanded="true" />
@@ -254,8 +249,8 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/SteamGameUpdater.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="422">
-                  <caret line="143" column="102" selection-start-line="143" selection-start-column="102" selection-end-line="143" selection-end-column="102" />
+                <state relative-caret-position="384">
+                  <caret line="162" column="32" lean-forward="true" selection-start-line="162" selection-start-column="32" selection-end-line="162" selection-end-column="32" />
                   <folding>
                     <element signature="imports" expanded="true" />
                   </folding>
@@ -1018,7 +1013,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.SteamUpdaterTest.testModifySteamGame">
+  <component name="RunManager" selected="JUnit.SteamUpdaterTest.testModifyDoesntChangeName">
     <configuration name="BlogRankingsCreator" type="Application" factoryName="Application" nameIsGenerated="true">
       <envs>
         <env name="postgresURL_local" value="jdbc:postgresql://localhost:5432/tv?user=postgres&amp;password=m3mysql" />
@@ -2398,28 +2393,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="IGDBUpdaterTest.testUpdateFieldsOnAlreadyMatched" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="media-mogul-data_test" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="PACKAGE_NAME" value="com.mayhew3.mediamogul.games" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.games.IGDBUpdaterTest" />
-      <option name="METHOD_NAME" value="testUpdateFieldsOnAlreadyMatched" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="VM_PARAMETERS" value="" />
-      <option name="PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="moduleWithDependencies" />
-      </option>
-      <envs>
-        <env name="postgresURL_local" value="jdbc:postgresql://localhost:5432/tv?user=postgres&amp;password=m3mysql" />
-        <env name="postgresURL_local_test" value="jdbc:postgresql://localhost:5432/tv_copy?user=postgres&amp;password=m3mysql" />
-        <env name="postgresURL" value="postgres://ijxuheufucvnyu:h16h_LnZi4fHgIUjBANnzITEyR@ec2-54-204-30-115.compute-1.amazonaws.com:5432/dcg1rtode4vgk9" />
-      </envs>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="SchemaHerokuTest" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
       <module name="media-mogul-data_test" />
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
@@ -2490,6 +2463,28 @@
       <option name="PACKAGE_NAME" value="com.mayhew3.mediamogul.model" />
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.model.SchemaLocalTest" />
       <option name="METHOD_NAME" value="testHerokuTestUpToDate" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs>
+        <env name="postgresURL_local" value="jdbc:postgresql://localhost:5432/tv?user=postgres&amp;password=m3mysql" />
+        <env name="postgresURL_local_test" value="jdbc:postgresql://localhost:5432/tv_copy?user=postgres&amp;password=m3mysql" />
+        <env name="postgresURL" value="postgres://ijxuheufucvnyu:h16h_LnZi4fHgIUjBANnzITEyR@ec2-54-204-30-115.compute-1.amazonaws.com:5432/dcg1rtode4vgk9" />
+      </envs>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SteamUpdaterTest.testModifyDoesntChangeName" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="media-mogul-data_test" />
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="PACKAGE_NAME" value="com.mayhew3.mediamogul.games" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.games.SteamUpdaterTest" />
+      <option name="METHOD_NAME" value="testModifyDoesntChangeName" />
       <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PARAMETERS" value="" />
@@ -2693,18 +2688,18 @@
       <item itemvalue="JUnit.MediaMogulSchemaHerokuTest.testHerokuSchemaUpToDate" />
       <item itemvalue="JUnit.MediaMogulSchemaLocalTest" />
       <item itemvalue="JUnit.IGDBUpdaterTest" />
-      <item itemvalue="JUnit.IGDBUpdaterTest.testUpdateFieldsOnAlreadyMatched" />
       <item itemvalue="JUnit.IGDBUpdaterTest.testFailedIfNoResultFromID" />
       <item itemvalue="JUnit.SteamUpdaterTest.testNewSteamGame" />
       <item itemvalue="JUnit.SteamUpdaterTest.testModifySteamGame" />
+      <item itemvalue="JUnit.SteamUpdaterTest.testModifyDoesntChangeName" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.SteamUpdaterTest.testModifyDoesntChangeName" />
         <item itemvalue="JUnit.SteamUpdaterTest.testModifySteamGame" />
         <item itemvalue="JUnit.SteamUpdaterTest.testNewSteamGame" />
         <item itemvalue="JUnit.IGDBUpdaterTest" />
         <item itemvalue="JUnit.IGDBUpdaterTest.testFailedIfNoResultFromID" />
-        <item itemvalue="JUnit.IGDBUpdaterTest.testUpdateFieldsOnAlreadyMatched" />
       </list>
     </recent_temporary>
   </component>
@@ -2728,24 +2723,6 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="SteamUpdaterTest_testNewSteamGame - 2018.10.24 at 21h 07m 00s.xml">
-      <configuration name="SteamUpdaterTest.testNewSteamGame" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="SteamUpdaterTest_testNewSteamGame - 2018.10.24 at 21h 08m 19s.xml">
-      <configuration name="SteamUpdaterTest.testNewSteamGame" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="SteamUpdaterTest_testNewSteamGame - 2018.10.24 at 21h 18m 41s.xml">
-      <configuration name="SteamUpdaterTest.testNewSteamGame" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="SteamUpdaterTest_testModifySteamGame - 2018.10.24 at 21h 28m 33s.xml">
-      <configuration name="SteamUpdaterTest.testModifySteamGame" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="SteamUpdaterTest_testModifySteamGame - 2018.10.24 at 21h 28m 55s.xml">
-      <configuration name="SteamUpdaterTest.testModifySteamGame" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="SteamUpdaterTest_testNewSteamGame - 2018.10.24 at 21h 29m 35s.xml">
-      <configuration name="SteamUpdaterTest.testNewSteamGame" configurationId="JUnit" />
-    </history-entry>
     <history-entry file="SteamUpdaterTest_testNewSteamGame - 2018.10.24 at 21h 29m 54s.xml">
       <configuration name="SteamUpdaterTest.testNewSteamGame" configurationId="JUnit" />
     </history-entry>
@@ -2756,6 +2733,24 @@
       <configuration name="SteamUpdaterTest.testModifySteamGame" configurationId="JUnit" />
     </history-entry>
     <history-entry file="SteamUpdaterTest_testModifySteamGame - 2018.10.24 at 21h 33m 11s.xml">
+      <configuration name="SteamUpdaterTest.testModifySteamGame" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="SteamUpdaterTest_testNewSteamGame - 2018.10.24 at 21h 43m 29s.xml">
+      <configuration name="SteamUpdaterTest.testNewSteamGame" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="SteamUpdaterTest_testModifySteamGame - 2018.10.24 at 21h 43m 35s.xml">
+      <configuration name="SteamUpdaterTest.testModifySteamGame" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="SteamUpdaterTest_testModifySteamGame - 2018.10.24 at 21h 44m 16s.xml">
+      <configuration name="SteamUpdaterTest.testModifySteamGame" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="SteamUpdaterTest_testModifySteamGame - 2018.10.24 at 21h 45m 05s.xml">
+      <configuration name="SteamUpdaterTest.testModifySteamGame" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="SteamUpdaterTest_testModifySteamGame - 2018.10.24 at 21h 45m 58s.xml">
+      <configuration name="SteamUpdaterTest.testModifySteamGame" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="SteamUpdaterTest_testModifySteamGame - 2018.10.24 at 21h 46m 18s.xml">
       <configuration name="SteamUpdaterTest.testModifySteamGame" configurationId="JUnit" />
     </history-entry>
   </component>
@@ -2772,8 +2767,8 @@
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.26871938" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49920508" weight="0.2617215" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" sideWeight="0.49960256" visible="true" weight="0.39958012" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49920508" visible="true" weight="0.2617215" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49960256" weight="0.39958012" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -2848,18 +2843,6 @@
           <line>101</line>
           <properties />
           <option name="timeStamp" value="58" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/SteamGameUpdater.java</url>
-          <line>163</line>
-          <properties />
-          <option name="timeStamp" value="63" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/SteamGameUpdater.java</url>
-          <line>146</line>
-          <properties />
-          <option name="timeStamp" value="64" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -3277,16 +3260,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/SteamGameUpdater.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="422">
-          <caret line="143" column="102" selection-start-line="143" selection-start-column="102" selection-end-line="143" selection-end-column="102" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/model/SchemaHerokuTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="95">
@@ -3294,10 +3267,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/SteamGameUpdater.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="384">
+          <caret line="162" column="32" lean-forward="true" selection-start-line="162" selection-start-column="32" selection-end-line="162" selection-end-column="32" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/games/SteamUpdaterTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="403">
-          <caret line="51" column="59" lean-forward="true" selection-start-line="51" selection-start-column="59" selection-end-line="51" selection-end-column="59" />
+        <state relative-caret-position="399">
+          <caret line="199" lean-forward="true" selection-start-line="199" selection-end-line="199" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#706#754#0" expanded="true" />
