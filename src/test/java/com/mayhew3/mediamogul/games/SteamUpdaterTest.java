@@ -5,10 +5,9 @@ import com.mayhew3.mediamogul.games.provider.SteamTestProviderImpl;
 import com.mayhew3.mediamogul.model.Person;
 import com.mayhew3.mediamogul.model.games.Game;
 import com.mayhew3.mediamogul.model.games.GameLog;
+import com.mayhew3.mediamogul.model.games.GameplaySession;
 import com.mayhew3.mediamogul.model.games.PersonGame;
-import com.mayhew3.mediamogul.xml.JSONReader;
 import com.mayhew3.mediamogul.xml.JSONReaderImpl;
-import org.jetbrains.annotations.NotNull;
 import org.junit.Test;
 
 import java.math.BigDecimal;
@@ -23,15 +22,13 @@ import static org.fest.assertions.api.Assertions.assertThat;
 
 @SuppressWarnings("OptionalGetWithoutIsPresent")
 public class SteamUpdaterTest extends DatabaseTest {
-  private JSONReader jsonReader;
   private SteamTestProviderImpl steamProvider;
   private int person_id;
 
   @Override
   public void setUp() throws URISyntaxException, SQLException {
     super.setUp();
-    jsonReader = new JSONReaderImpl();
-    steamProvider = new SteamTestProviderImpl("src\\test\\resources\\Steam\\steam_", jsonReader);
+    steamProvider = new SteamTestProviderImpl("src\\test\\resources\\Steam\\steam_", new JSONReaderImpl());
     person_id = 1;
     createPerson();
   }
@@ -43,7 +40,7 @@ public class SteamUpdaterTest extends DatabaseTest {
     int playtime = 11558;
     int steamID = 268500;
 
-    createOwnedGame("Clunkers", "Steam", 48762);
+    createOwnedGame("Clunkers", 48762, 10234);
 
     SteamGameUpdater steamGameUpdater = new SteamGameUpdater(connection, person_id, steamProvider);
     steamGameUpdater.runUpdate();
@@ -116,7 +113,7 @@ public class SteamUpdaterTest extends DatabaseTest {
     int playtime = 11558;
     int steamID = 268500;
 
-    createOwnedGame(gameName, "Steam", steamID);
+    createOwnedGame(gameName, steamID, 10234);
 
     SteamGameUpdater steamGameUpdater = new SteamGameUpdater(connection, person_id, steamProvider);
     steamGameUpdater.runUpdate();
@@ -190,7 +187,7 @@ public class SteamUpdaterTest extends DatabaseTest {
 
     int steamID = 268500;
 
-    createOwnedGame(myName, "Steam", steamID);
+    createOwnedGame(myName, steamID, 10234);
 
     SteamGameUpdater steamGameUpdater = new SteamGameUpdater(connection, person_id, steamProvider);
     steamGameUpdater.runUpdate();
@@ -221,7 +218,7 @@ public class SteamUpdaterTest extends DatabaseTest {
   public void testSteamGameChangedToNotOwned() throws SQLException {
     steamProvider.setFileSuffix("xcom2");
 
-    createOwnedGame("Clunkers", "Steam", 48762);
+    createOwnedGame("Clunkers", 48762, 10234);
 
     SteamGameUpdater steamGameUpdater = new SteamGameUpdater(connection, person_id, steamProvider);
     steamGameUpdater.runUpdate();
@@ -249,7 +246,10 @@ public class SteamUpdaterTest extends DatabaseTest {
   public void testUnlinkThenLinkSteamGame() throws SQLException {
     steamProvider.setFileSuffix("xcom2");
 
-    createOwnedGame("Clunkers", "Steam", 48762);
+    int originalMinutesPlayed = 987;
+    int updatedMinutesPlayed = 1321;
+
+    createOwnedGame("Clunkers", 48762, originalMinutesPlayed);
 
     SteamGameUpdater steamGameUpdater = new SteamGameUpdater(connection, person_id, steamProvider);
     steamGameUpdater.runUpdate();
@@ -294,9 +294,104 @@ public class SteamUpdaterTest extends DatabaseTest {
     PersonGame personGame = optionalPersonGame.get();
 
     assertThat(personGame.minutes_played.getValue())
-        .isEqualTo(10234);
+        .isEqualTo(updatedMinutesPlayed);
     assertThat(personGame.tier.getValue())
         .isEqualTo(2);
+  }
+
+  @Test
+  public void testGameplaySessionMadeOnNewGame() throws SQLException {
+    steamProvider.setFileSuffix("xcom2");
+    String gameName = "XCOM 2";
+    int playtime = 11558;
+
+    createOwnedGame("Clunkers", 48762, 10234);
+
+    SteamGameUpdater steamGameUpdater = new SteamGameUpdater(connection, person_id, steamProvider);
+    steamGameUpdater.runUpdate();
+
+    SteamPlaySessionGenerator steamPlaySessionGenerator = new SteamPlaySessionGenerator(connection, person_id);
+    steamPlaySessionGenerator.runUpdate();
+
+    Optional<Game> optionalGame = findGameFromDB(gameName);
+
+    assertThat(optionalGame.isPresent())
+        .as("Expected game XCOM 2 to exist in database.")
+        .isTrue();
+
+    Game game = optionalGame.get();
+
+    List<GameLog> gameLogs = findGameLogs(game);
+    assertThat(gameLogs)
+        .hasSize(1);
+
+    GameLog gameLog = gameLogs.get(0);
+    assertThat(gameLog.gameplaySessionID.getValue())
+        .isNotNull();
+
+    Optional<GameplaySession> gameplaySessionOptional = gameLog.getGameplaySession(connection);
+    assertThat(gameplaySessionOptional.isPresent())
+        .isTrue();
+
+    GameplaySession gameplaySession = gameplaySessionOptional.get();
+    assertThat(gameplaySession.gameID.getValue())
+        .isEqualTo(game.id.getValue());
+    assertThat(gameplaySession.startTime.getValue())
+        .isNotNull();
+    assertThat(gameplaySession.minutes.getValue())
+        .isEqualTo(playtime);
+    assertThat(gameplaySession.manualAdjustment.getValue())
+        .isEqualTo(0);
+    assertThat(gameplaySession.person_id.getValue())
+        .isEqualTo(person_id);
+  }
+
+  @Test
+  public void testGameplaySessionMadeOnUpdatedGame() throws SQLException {
+    steamProvider.setFileSuffix("xcom2");
+    String gameName = "XCOM 2";
+    int playtime = 11558;
+    int steamID = 268500;
+
+    createOwnedGame(gameName, steamID, 10234);
+
+    SteamGameUpdater steamGameUpdater = new SteamGameUpdater(connection, person_id, steamProvider);
+    steamGameUpdater.runUpdate();
+
+    SteamPlaySessionGenerator steamPlaySessionGenerator = new SteamPlaySessionGenerator(connection, person_id);
+    steamPlaySessionGenerator.runUpdate();
+
+    Optional<Game> optionalGame = findGameFromDB(gameName);
+
+    assertThat(optionalGame.isPresent())
+        .as("Expected game XCOM 2 to exist in database.")
+        .isTrue();
+
+    Game game = optionalGame.get();
+
+    List<GameLog> gameLogs = findGameLogs(game);
+    assertThat(gameLogs)
+        .hasSize(1);
+
+    GameLog gameLog = gameLogs.get(0);
+    assertThat(gameLog.gameplaySessionID.getValue())
+        .isNotNull();
+
+    Optional<GameplaySession> gameplaySessionOptional = gameLog.getGameplaySession(connection);
+    assertThat(gameplaySessionOptional.isPresent())
+        .isTrue();
+
+    GameplaySession gameplaySession = gameplaySessionOptional.get();
+    assertThat(gameplaySession.gameID.getValue())
+        .isEqualTo(game.id.getValue());
+    assertThat(gameplaySession.startTime.getValue())
+        .isNotNull();
+    assertThat(gameplaySession.minutes.getValue())
+        .isEqualTo(playtime - 10234);
+    assertThat(gameplaySession.manualAdjustment.getValue())
+        .isEqualTo(0);
+    assertThat(gameplaySession.person_id.getValue())
+        .isEqualTo(person_id);
   }
 
   // utility methods
@@ -312,11 +407,11 @@ public class SteamUpdaterTest extends DatabaseTest {
     person.commit(connection);
   }
 
-  private Game createOwnedGame(String gameName, @NotNull String platform, Integer steamID) throws SQLException {
+  private void createOwnedGame(String gameName, Integer steamID, int minutesPlayed) throws SQLException {
     Game game = new Game();
     game.initializeForInsert();
     game.title.changeValue(gameName);
-    game.platform.changeValue(platform);
+    game.platform.changeValue("Steam");
     game.steamID.changeValue(steamID);
     game.steam_title.changeValue(gameName);
     game.owned.changeValue("owned");
@@ -328,11 +423,10 @@ public class SteamUpdaterTest extends DatabaseTest {
     personGame.game_id.changeValue(game.id.getValue());
     personGame.person_id.changeValue(person_id);
     personGame.tier.changeValue(2);
-    personGame.minutes_played.changeValue(10234);
+    personGame.minutes_played.changeValue(minutesPlayed);
 
     personGame.commit(connection);
 
-    return game;
   }
 
 

@@ -22,9 +22,11 @@ import java.util.List;
 public class SteamPlaySessionGenerator implements UpdateRunner {
 
   private SQLConnection connection;
+  private Integer person_id;
 
-  public SteamPlaySessionGenerator(SQLConnection connection) {
+  public SteamPlaySessionGenerator(SQLConnection connection, Integer person_id) {
     this.connection = connection;
+    this.person_id = person_id;
   }
 
   public static void main(String[] args) throws SQLException, URISyntaxException {
@@ -32,7 +34,12 @@ public class SteamPlaySessionGenerator implements UpdateRunner {
 
     SQLConnection connection = PostgresConnectionFactory.createConnection(argumentChecker);
 
-    SteamPlaySessionGenerator updateRunner = new SteamPlaySessionGenerator(connection);
+    String personIDString = System.getenv("MediaMogulPersonID");
+    assert personIDString != null;
+
+    Integer person_id = Integer.parseInt(personIDString);
+
+    SteamPlaySessionGenerator updateRunner = new SteamPlaySessionGenerator(connection, person_id);
     updateRunner.runUpdate();
   }
 
@@ -239,6 +246,7 @@ public class SteamPlaySessionGenerator implements UpdateRunner {
     gameplaySession.startTime.changeValue(getStartTime(connectedLogs));
     gameplaySession.minutes.changeValue(getTotalMinutes(connectedLogs));
     gameplaySession.manualAdjustment.changeValue(0);
+    gameplaySession.person_id.changeValue(person_id);
 
     gameplaySession.commit(connection);
 

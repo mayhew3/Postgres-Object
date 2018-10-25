@@ -1,10 +1,15 @@
 package com.mayhew3.mediamogul.model.games;
 
 import com.mayhew3.mediamogul.dataobject.*;
+import com.mayhew3.mediamogul.db.SQLConnection;
+import com.mayhew3.mediamogul.games.GameFailedException;
 import com.mayhew3.mediamogul.model.Person;
 
 import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.Optional;
 
 public class GameLog extends DataObject {
 
@@ -35,5 +40,26 @@ public class GameLog extends DataObject {
   @Override
   public String toString() {
     return game.getValue() + ": " + eventdate.getValue() + " (" + diff.getValue() + " minutes)";
+  }
+
+  public Optional<GameplaySession> getGameplaySession(SQLConnection connection) throws SQLException {
+    if (gameplaySessionID.getValue() == null) {
+      return Optional.empty();
+    }
+
+    String sql =
+        "SELECT * FROM gameplay_session " +
+        "WHERE id = ? ";
+
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, gameplaySessionID.getValue());
+
+    GameplaySession gameplaySession = new GameplaySession();
+
+    if (resultSet.next()) {
+      gameplaySession.initializeFromDBObject(resultSet);
+      return Optional.of(gameplaySession);
+    } else {
+      throw new RuntimeException("GameLog with reference to invalid gameplay_session: ID " + gameplaySessionID.getValue());
+    }
   }
 }

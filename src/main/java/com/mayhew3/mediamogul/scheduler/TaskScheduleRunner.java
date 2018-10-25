@@ -116,7 +116,7 @@ public class TaskScheduleRunner {
         1);
     addPeriodicTask(new TVDBSeriesMatchRunner(connection, tvdbjwtProvider, jsonReader, UpdateMode.SMART),
         3);
-    addPeriodicTask(new SteamPlaySessionGenerator(connection),
+    addPeriodicTask(new SteamPlaySessionGenerator(connection, person_id),
         10);
     addPeriodicTask(new TVDBUpdateRunner(connection, tvdbjwtProvider, jsonReader, UpdateMode.SMART),
         30);
