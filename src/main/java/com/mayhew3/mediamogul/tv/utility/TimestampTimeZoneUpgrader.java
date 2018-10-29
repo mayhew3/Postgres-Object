@@ -5,7 +5,6 @@ import com.mayhew3.mediamogul.dataobject.*;
 import com.mayhew3.mediamogul.db.PostgresConnectionFactory;
 import com.mayhew3.mediamogul.db.SQLConnection;
 import com.mayhew3.mediamogul.model.MediaMogulSchema;
-import com.mayhew3.mediamogul.model.games.GamesSchema;
 
 import java.net.URISyntaxException;
 import java.sql.SQLException;
