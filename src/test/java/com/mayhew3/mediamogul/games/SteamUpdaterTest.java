@@ -82,6 +82,8 @@ public class SteamUpdaterTest extends DatabaseTest {
         .isEqualTo(playtime);
     assertThat(personGame.tier.getValue())
         .isEqualTo(2);
+    assertThat(personGame.last_played.getValue())
+        .isNotNull();
 
     List<GameLog> gameLogs = findGameLogs(game);
     assertThat(gameLogs)

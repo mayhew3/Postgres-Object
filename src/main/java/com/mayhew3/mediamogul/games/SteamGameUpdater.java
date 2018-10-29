@@ -215,8 +215,8 @@ public class SteamGameUpdater implements UpdateRunner {
 
     if (needsPlaytimeUpdate) {
       logUpdateToPlaytime(name, steamID, BigDecimal.ZERO, new BigDecimal(playtime), game.id.getValue());
-      game.lastPlayed.changeValue(new Timestamp(bumpDateIfLateNight().toDate().getTime()));
-      game.commit(connection);
+      personGame.last_played.changeValue(new Timestamp(bumpDateIfLateNight().toDate().getTime()));
+      personGame.commit(connection);
     }
   }
 
