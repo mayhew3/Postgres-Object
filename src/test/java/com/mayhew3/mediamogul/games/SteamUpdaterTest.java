@@ -69,14 +69,10 @@ public class SteamUpdaterTest extends DatabaseTest {
         .isEqualTo("f275aeb0b1b947262810569356a199848c643754");
     assertThat(game.logo.getValue())
         .isEqualTo("10a6157d6614f63cd8a95d002d022778c207c218");
-    assertThat(game.playtime.getValue())
-        .isEqualByComparingTo(new BigDecimal(playtime));
     assertThat(game.owned.getValue())
         .isEqualTo("owned");
     assertThat(game.metacriticPage.getValue())
         .isFalse();
-  /*  assertThat(game.started.getValue())
-        .isTrue();*/
 
     assertThat(personGame.minutes_played.getValue())
         .isEqualTo(playtime);
@@ -145,8 +141,6 @@ public class SteamUpdaterTest extends DatabaseTest {
         .isEqualTo("f275aeb0b1b947262810569356a199848c643754");
     assertThat(game.logo.getValue())
         .isEqualTo("10a6157d6614f63cd8a95d002d022778c207c218");
-    assertThat(game.playtime.getValue())
-        .isEqualByComparingTo(new BigDecimal(playtime));
     assertThat(game.owned.getValue())
         .isEqualTo("owned");
     assertThat(game.metacriticPage.getValue())
