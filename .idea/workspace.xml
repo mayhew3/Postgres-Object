@@ -2,11 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1e099498-ec9e-4703-ab18-cce3963e4d0c" name="Default" comment="Move annotation directory">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TVGroup.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TVGroupPerson.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TVGroupSeries.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TVGroupEpisode.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/MediaMogulSchema.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/MediaMogulSchema.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TVGroupSeries.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TVGroupSeries.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -79,7 +78,7 @@
         <counts>
           <entry key="dummy" value="54" />
           <entry key="gradle" value="124" />
-          <entry key="java" value="21715" />
+          <entry key="java" value="21850" />
           <entry key="json" value="181" />
           <entry key="txt" value="31" />
         </counts>
@@ -87,7 +86,7 @@
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="Groovy" value="124" />
-          <entry key="JAVA" value="21715" />
+          <entry key="JAVA" value="21850" />
           <entry key="JSON" value="181" />
           <entry key="PLAIN_TEXT" value="85" />
         </counts>
@@ -97,7 +96,7 @@
           <entry key="class" value="4" />
           <entry key="gradle" value="4" />
           <entry key="html" value="1" />
-          <entry key="java" value="139" />
+          <entry key="java" value="140" />
           <entry key="json" value="29" />
           <entry key="xml" value="3" />
         </counts>
@@ -107,7 +106,7 @@
           <entry key="CLASS" value="4" />
           <entry key="Groovy" value="4" />
           <entry key="HTML" value="1" />
-          <entry key="JAVA" value="139" />
+          <entry key="JAVA" value="140" />
           <entry key="JSON" value="29" />
           <entry key="XML" value="3" />
         </counts>
@@ -134,8 +133,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TVGroup.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="209">
-                  <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
+                <state relative-caret-position="361">
+                  <caret line="25" lean-forward="true" selection-start-line="25" selection-end-line="25" />
                   <folding>
                     <element signature="e#442#443#0" expanded="true" />
                     <element signature="e#458#459#0" expanded="true" />
@@ -144,11 +143,11 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/dataobject/RetireableDataObject.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="266">
-                  <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
+                <state relative-caret-position="247">
+                  <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
                 </state>
               </provider>
             </entry>
@@ -169,17 +168,31 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TVGroupSeries.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="247">
-                  <caret line="18" column="27" selection-start-line="18" selection-start-column="27" selection-end-line="18" selection-end-column="27" />
+                <state relative-caret-position="361">
+                  <caret line="21" column="11" lean-forward="true" selection-start-line="21" selection-start-column="11" selection-end-line="21" selection-end-column="11" />
+                  <folding>
+                    <element signature="e#522#523#0" expanded="true" />
+                    <element signature="e#575#576#0" expanded="true" />
+                    <element signature="e#621#622#0" expanded="true" />
+                    <element signature="e#655#656#0" expanded="true" />
+                    <element signature="e#697#698#0" expanded="true" />
+                    <element signature="e#787#788#0" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/GameLog.java">
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TVGroupEpisode.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="703">
-                  <caret line="48" selection-start-line="48" selection-end-line="48" />
+                <state relative-caret-position="361">
+                  <caret line="21" column="30" lean-forward="true" selection-start-line="21" selection-start-column="30" selection-end-line="21" selection-end-column="30" />
+                  <folding>
+                    <element signature="e#623#624#0" expanded="true" />
+                    <element signature="e#657#658#0" expanded="true" />
+                    <element signature="e#699#700#0" expanded="true" />
+                    <element signature="e#789#790#0" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -187,8 +200,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/MediaMogulSchema.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="475">
-                  <caret line="28" column="24" lean-forward="true" selection-start-line="28" selection-start-column="24" selection-end-line="28" selection-end-column="24" />
+                <state relative-caret-position="361">
+                  <caret line="22" column="19" lean-forward="true" selection-start-line="22" selection-start-column="19" selection-end-line="22" selection-end-column="19" />
                 </state>
               </provider>
             </entry>
@@ -732,8 +745,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/test/java/DateTimeAssertion.java" />
-        <option value="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/DateTimeAssertion.java" />
         <option value="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/DateTimeAssert.java" />
         <option value="$PROJECT_DIR$/build.gradle" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/provider/IGDBProviderImpl.java" />
@@ -780,9 +791,11 @@
         <option value="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/games/SteamUpdaterTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/Game.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TVGroup.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/MediaMogulSchema.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TVGroupSeries.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TVGroupPerson.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/dataobject/RetireableDataObject.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TVGroupSeries.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/MediaMogulSchema.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TVGroupEpisode.java" />
       </list>
     </option>
   </component>
@@ -2657,24 +2670,6 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="SchemaLocalTest - 2018.10.29 at 15h 28m 02s.xml">
-      <configuration name="SchemaLocalTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="SteamUpdaterTest - 2018.10.29 at 15h 28m 14s.xml">
-      <configuration name="SteamUpdaterTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="SchemaLocalTest - 2018.10.29 at 15h 31m 36s.xml">
-      <configuration name="SchemaLocalTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="SchemaLocalTest - 2018.10.29 at 15h 31m 43s.xml">
-      <configuration name="SchemaLocalTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="SchemaHerokuTest - 2018.10.29 at 15h 32m 11s.xml">
-      <configuration name="SchemaHerokuTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="SchemaLocalTest - 2018.11.10 at 13h 30m 07s.xml">
-      <configuration name="SchemaLocalTest" configurationId="JUnit" />
-    </history-entry>
     <history-entry file="SchemaLocalTest - 2018.11.10 at 13h 30m 38s.xml">
       <configuration name="SchemaLocalTest" configurationId="JUnit" />
     </history-entry>
@@ -2687,12 +2682,31 @@
     <history-entry file="SchemaLocalTest - 2018.11.10 at 13h 34m 22s.xml">
       <configuration name="SchemaLocalTest" configurationId="JUnit" />
     </history-entry>
+    <history-entry file="SchemaLocalTest - 2018.11.10 at 13h 35m 38s.xml">
+      <configuration name="SchemaLocalTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="SchemaHerokuTest - 2018.11.10 at 14h 34m 12s.xml">
+      <configuration name="SchemaHerokuTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="SchemaHerokuTest - 2018.11.10 at 14h 34m 58s.xml">
+      <configuration name="SchemaHerokuTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="SchemaLocalTest - 2018.11.10 at 16h 54m 29s.xml">
+      <configuration name="SchemaLocalTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="SchemaLocalTest - 2018.11.10 at 16h 55m 57s.xml">
+      <configuration name="SchemaLocalTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="SchemaLocalTest - 2018.11.10 at 16h 56m 20s.xml">
+      <configuration name="SchemaLocalTest" configurationId="JUnit" />
+    </history-entry>
   </component>
   <component name="TimeTrackingManager">
     <option name="totallyTimeSpent" value="38000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="2576" height="1586" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.15898252" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -2829,13 +2843,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.mockito/mockito-core/2.18.3/9abc0fd07d5eeb415057984ce04633038f41592b/mockito-core-2.18.3-sources.jar!/org/mockito/Matchers.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/resources/IGDBTest/id_12345.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="95">
@@ -3120,42 +3127,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/MediaMogulSchema.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="475">
-          <caret line="28" column="24" lean-forward="true" selection-start-line="28" selection-start-column="24" selection-end-line="28" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TVGroup.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
-          <folding>
-            <element signature="e#442#443#0" expanded="true" />
-            <element signature="e#458#459#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TVGroupSeries.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="247">
-          <caret line="18" column="27" selection-start-line="18" selection-start-column="27" selection-end-line="18" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TVGroupPerson.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="76">
-          <caret line="7" column="48" lean-forward="true" selection-start-line="7" selection-start-column="48" selection-end-line="7" selection-end-column="48" />
-          <folding>
-            <element signature="e#736#737#0" expanded="true" />
-            <element signature="e#826#827#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/Game.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="285">
@@ -3172,8 +3143,65 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/dataobject/RetireableDataObject.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
+        <state relative-caret-position="247">
+          <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TVGroupPerson.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="76">
+          <caret line="7" column="48" lean-forward="true" selection-start-line="7" selection-start-column="48" selection-end-line="7" selection-end-column="48" />
+          <folding>
+            <element signature="e#736#737#0" expanded="true" />
+            <element signature="e#826#827#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TVGroup.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="361">
+          <caret line="25" lean-forward="true" selection-start-line="25" selection-end-line="25" />
+          <folding>
+            <element signature="e#442#443#0" expanded="true" />
+            <element signature="e#458#459#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TVGroupSeries.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="361">
+          <caret line="21" column="11" lean-forward="true" selection-start-line="21" selection-start-column="11" selection-end-line="21" selection-end-column="11" />
+          <folding>
+            <element signature="e#522#523#0" expanded="true" />
+            <element signature="e#575#576#0" expanded="true" />
+            <element signature="e#621#622#0" expanded="true" />
+            <element signature="e#655#656#0" expanded="true" />
+            <element signature="e#697#698#0" expanded="true" />
+            <element signature="e#787#788#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/MediaMogulSchema.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="361">
+          <caret line="22" column="19" lean-forward="true" selection-start-line="22" selection-start-column="19" selection-end-line="22" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TVGroupEpisode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="361">
+          <caret line="21" column="30" lean-forward="true" selection-start-line="21" selection-start-column="30" selection-end-line="21" selection-end-column="30" />
+          <folding>
+            <element signature="e#623#624#0" expanded="true" />
+            <element signature="e#657#658#0" expanded="true" />
+            <element signature="e#699#700#0" expanded="true" />
+            <element signature="e#789#790#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

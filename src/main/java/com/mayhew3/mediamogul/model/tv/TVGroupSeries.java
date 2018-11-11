@@ -21,7 +21,7 @@ public class TVGroupSeries extends RetireableDataObject {
 
   @Override
   public String toString() {
-    return "tv_group_person " + tv_group_id.getValue() + ", " + series_id.getValue();
+    return "tv_group_series " + tv_group_id.getValue() + ", " + series_id.getValue();
   }
 
 }
