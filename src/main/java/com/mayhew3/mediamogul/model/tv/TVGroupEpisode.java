@@ -14,6 +14,10 @@ public class TVGroupEpisode extends RetireableDataObject {
   public TVGroupEpisode() {
     registerBooleanField("watched", Nullability.NOT_NULL);
     registerTimestampField("watched_date", Nullability.NULLABLE);
+
+    registerBooleanField("skipped", Nullability.NOT_NULL);
+    registerStringField("skip_reason", Nullability.NULLABLE);
+
     addUniqueConstraint(tv_group_id, episode_id);
   }
 
