@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1e099498-ec9e-4703-ab18-cce3963e4d0c" name="Default" comment="Move annotation directory">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TVGroupEpisode.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/MediaMogulSchema.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/MediaMogulSchema.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TVGroupSeries.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TVGroupSeries.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -61,106 +58,15 @@
       </state>
     </system>
   </component>
-  <component name="FUSProjectUsageTrigger">
-    <session id="738204678">
-      <usages-collector id="statistics.lifecycle.project">
-        <counts>
-          <entry key="project.closed" value="17" />
-          <entry key="project.open.time.5" value="3" />
-          <entry key="project.open.time.6" value="7" />
-          <entry key="project.open.time.7" value="3" />
-          <entry key="project.open.time.8" value="3" />
-          <entry key="project.open.time.9" value="1" />
-          <entry key="project.opened" value="18" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.extensions.edit">
-        <counts>
-          <entry key="dummy" value="54" />
-          <entry key="gradle" value="124" />
-          <entry key="java" value="21850" />
-          <entry key="json" value="181" />
-          <entry key="txt" value="31" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.types.edit">
-        <counts>
-          <entry key="Groovy" value="124" />
-          <entry key="JAVA" value="21850" />
-          <entry key="JSON" value="181" />
-          <entry key="PLAIN_TEXT" value="85" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.extensions.open">
-        <counts>
-          <entry key="class" value="4" />
-          <entry key="gradle" value="4" />
-          <entry key="html" value="1" />
-          <entry key="java" value="140" />
-          <entry key="json" value="29" />
-          <entry key="xml" value="3" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.types.open">
-        <counts>
-          <entry key="CLASS" value="4" />
-          <entry key="Groovy" value="4" />
-          <entry key="HTML" value="1" />
-          <entry key="JAVA" value="140" />
-          <entry key="JSON" value="29" />
-          <entry key="XML" value="3" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.vcs.git.usages" />
-    </session>
-  </component>
   <component name="FileEditorManager">
     <splitter split-orientation="horizontal" split-proportion="0.5138889">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/games/SteamUpdaterTest.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="559">
-                  <caret line="56" column="64" selection-start-line="56" selection-start-column="64" selection-end-line="56" selection-end-column="64" />
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TVGroup.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="361">
-                  <caret line="25" lean-forward="true" selection-start-line="25" selection-end-line="25" />
-                  <folding>
-                    <element signature="e#442#443#0" expanded="true" />
-                    <element signature="e#458#459#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/dataobject/RetireableDataObject.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="247">
-                  <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TVGroupPerson.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="76">
-                  <caret line="7" column="48" lean-forward="true" selection-start-line="7" selection-start-column="48" selection-end-line="7" selection-end-column="48" />
-                  <folding>
-                    <element signature="e#736#737#0" expanded="true" />
-                    <element signature="e#826#827#0" expanded="true" />
-                  </folding>
+                <state relative-caret-position="221">
+                  <caret line="14" selection-start-line="14" selection-end-line="14" />
                 </state>
               </provider>
             </entry>
@@ -168,8 +74,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TVGroupSeries.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="361">
-                  <caret line="21" column="11" lean-forward="true" selection-start-line="21" selection-start-column="11" selection-end-line="21" selection-end-column="11" />
+                <state relative-caret-position="255">
+                  <caret line="21" column="11" selection-start-line="21" selection-start-column="11" selection-end-line="21" selection-end-column="11" />
                   <folding>
                     <element signature="e#522#523#0" expanded="true" />
                     <element signature="e#575#576#0" expanded="true" />
@@ -182,35 +88,20 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TVGroupEpisode.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="361">
-                  <caret line="21" column="30" lean-forward="true" selection-start-line="21" selection-start-column="30" selection-end-line="21" selection-end-column="30" />
-                  <folding>
-                    <element signature="e#623#624#0" expanded="true" />
-                    <element signature="e#657#658#0" expanded="true" />
-                    <element signature="e#699#700#0" expanded="true" />
-                    <element signature="e#789#790#0" expanded="true" />
-                  </folding>
+                <state relative-caret-position="289">
+                  <caret line="19" column="11" selection-start-line="19" selection-start-column="11" selection-end-line="19" selection-end-column="11" />
                 </state>
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/MediaMogulSchema.java">
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/games/IGDBUpdaterTest.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="361">
-                  <caret line="22" column="19" lean-forward="true" selection-start-line="22" selection-start-column="19" selection-end-line="22" selection-end-column="19" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/games/provider/SteamTestProviderImpl.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="380">
-                  <caret line="21" selection-start-line="21" selection-end-line="21" />
+                <state relative-caret-position="374">
+                  <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
                   <folding>
                     <element signature="imports" expanded="true" />
                   </folding>
@@ -219,19 +110,19 @@
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/model/SchemaHerokuTest.java">
+            <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/provider/IGDBProvider.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="133">
-                  <caret line="17" column="28" selection-start-line="17" selection-start-column="28" selection-end-line="17" selection-end-column="28" />
+                <state relative-caret-position="170">
+                  <caret line="10" selection-start-line="10" selection-end-line="10" />
                 </state>
               </provider>
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/model/SchemaLocalTest.java">
+            <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/MediaMogulSchema.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="494">
-                  <caret line="36" column="5" selection-start-line="36" selection-start-column="5" selection-end-line="36" selection-end-column="5" />
+                <state relative-caret-position="323">
+                  <caret line="22" column="19" selection-start-line="22" selection-start-column="19" selection-end-line="22" selection-end-column="19" />
                 </state>
               </provider>
             </entry>
@@ -243,8 +134,11 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/Game.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="285">
-                  <caret line="22" selection-start-line="22" selection-end-line="22" />
+                <state relative-caret-position="187">
+                  <caret line="18" selection-start-line="18" selection-end-line="18" />
+                  <folding>
+                    <marker date="1542591321022" expanded="true" signature="7917:7921" ph="{...}" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -252,7 +146,7 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/db/SQLConnection.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="513">
+                <state relative-caret-position="459">
                   <caret line="34" column="5" selection-start-line="34" selection-start-column="5" selection-end-line="34" selection-end-column="5" />
                 </state>
               </provider>
@@ -261,7 +155,7 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/resources/view-source_howlongtobeat.com.html">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="5738">
+                <state relative-caret-position="5134">
                   <caret line="302" column="47" selection-start-line="302" selection-start-column="47" selection-end-line="302" selection-end-column="47" />
                 </state>
               </provider>
@@ -270,20 +164,13 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/SteamGameUpdater.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="3382">
-                  <caret line="202" column="45" selection-start-line="202" selection-start-column="45" selection-end-line="202" selection-end-column="45" />
+                <state relative-caret-position="3570">
+                  <caret line="234" column="3" selection-start-line="234" selection-start-column="3" selection-end-line="234" selection-end-column="3" />
                   <folding>
                     <element signature="imports" expanded="true" />
+                    <element signature="e#9622#9623#0" expanded="true" />
+                    <element signature="e#9658#9659#0" expanded="true" />
                   </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/SteamPlaySessionGenerator.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="323">
-                  <caret line="34" column="24" selection-start-line="34" selection-start-column="24" selection-end-line="34" selection-end-column="24" />
                 </state>
               </provider>
             </entry>
@@ -291,17 +178,8 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/dataobject/DataObject.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="342">
-                  <caret line="30" column="51" lean-forward="true" selection-start-line="30" selection-start-column="51" selection-end-line="30" selection-end-column="51" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/utility/TimestampTimeZoneUpgrader.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="95">
-                  <caret line="12" column="28" selection-start-line="12" selection-start-column="28" selection-end-line="12" selection-end-column="28" />
+                <state relative-caret-position="187">
+                  <caret line="21" column="38" selection-start-line="21" selection-start-column="38" selection-end-line="21" selection-end-column="38" />
                   <folding>
                     <element signature="imports" expanded="true" />
                   </folding>
@@ -310,28 +188,31 @@
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/dataobject/MediaMogulTestSchema.java">
+            <entry file="file://$PROJECT_DIR$/build.gradle">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="133">
-                  <caret line="7" column="1" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
+                <state relative-caret-position="272">
+                  <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
                 </state>
               </provider>
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/test/resources/Steam/steam_xcom2.json">
+            <entry file="file://$PROJECT_DIR$/.gitignore">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="209">
-                  <caret line="11" column="7" selection-start-line="11" selection-start-column="7" selection-end-line="11" selection-end-column="7" />
+                <state relative-caret-position="170">
+                  <caret line="10" column="21" selection-start-line="10" selection-start-column="21" selection-end-line="10" selection-end-column="21" />
                 </state>
               </provider>
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/test/resources/Steam/steam_clunkers.json">
+            <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/utility/TimestampTimeZoneUpgrader.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="418">
-                  <caret line="22" column="1" selection-start-line="22" selection-start-column="1" selection-end-line="22" selection-end-column="1" />
+                <state relative-caret-position="153">
+                  <caret line="9" column="28" selection-start-line="9" selection-start-column="28" selection-end-line="9" selection-end-column="28" />
+                  <folding>
+                    <marker date="1542591321131" expanded="true" signature="1862:1923" ph="{...}" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -405,343 +286,6 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GradleLocalSettings">
-    <option name="myGradleHomes">
-      <map>
-        <entry key="$PROJECT_DIR$" value="D:\Program Files (x86)\gradle-3.5" />
-      </map>
-    </option>
-    <option name="myGradleVersions">
-      <map>
-        <entry key="$PROJECT_DIR$" value="3.5" />
-      </map>
-    </option>
-    <option name="availableProjects">
-      <map>
-        <entry>
-          <key>
-            <ExternalProjectPojo>
-              <option name="name" value="media-mogul-data" />
-              <option name="path" value="$PROJECT_DIR$" />
-            </ExternalProjectPojo>
-          </key>
-          <value>
-            <list>
-              <ExternalProjectPojo>
-                <option name="name" value="media-mogul-data" />
-                <option name="path" value="$PROJECT_DIR$" />
-              </ExternalProjectPojo>
-            </list>
-          </value>
-        </entry>
-      </map>
-    </option>
-    <option name="availableTasks">
-      <map>
-        <entry key="$PROJECT_DIR$">
-          <value>
-            <list>
-              <ExternalTaskPojo>
-                <option name="description" value="Displays the components produced by root project 'media-mogul-data'. [incubating]" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="components" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Assembles and tests this project and all projects that depend on it." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="buildDependents" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Displays the sub-projects of root project 'media-mogul-data'." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="projects" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Assembles main classes." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="classes" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Displays the dependent components of components in root project 'media-mogul-data'. [incubating]" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="dependentComponents" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Displays all buildscript dependencies declared in root project 'media-mogul-data'." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="buildEnvironment" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Runs this project as a JVM application" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="run" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Generates Gradle wrapper files." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="wrapper" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Assembles test classes." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="testClasses" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Generates Javadoc API documentation for the main source code." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="javadoc" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Creates OS specific scripts to run the project as a JVM application." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="startScripts" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Assembles a jar archive containing the main classes." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="jar" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Displays the configuration model of root project 'media-mogul-data'. [incubating]" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="model" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Installs the project as a distribution as-is." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="installDist" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Processes main resources." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="processResources" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Displays the tasks runnable from root project 'media-mogul-data'." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="tasks" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Assembles the main distributions" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="assembleDist" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Initializes a new Gradle build." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="init" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Runs the unit tests." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="test" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Compiles main Java source." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="compileJava" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Displays the insight into a specific dependency in root project 'media-mogul-data'." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="dependencyInsight" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Runs all checks." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="check" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Assembles the outputs of this project." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="assemble" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Deletes the build directory." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="clean" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Compiles test Java source." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="compileTestJava" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Displays all dependencies declared in root project 'media-mogul-data'." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="dependencies" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="runTaskScheduleRunner" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Processes test resources." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="processTestResources" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Displays a help message." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="help" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Assembles and tests this project." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="build" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Assembles and tests this project and all projects it depends on." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="buildNeeded" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Bundles the project as a distribution." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="distTar" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Displays the dependency updates for the project." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="dependencyUpdates" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Bundles the project as a distribution." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="distZip" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Displays the properties of root project 'media-mogul-data'." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="properties" />
-              </ExternalTaskPojo>
-            </list>
-          </value>
-        </entry>
-      </map>
-    </option>
-    <option name="modificationStamps">
-      <map>
-        <entry key="$PROJECT_DIR$" value="3034784796791" />
-        <entry key="$PROJECT_DIR$/.gradle" value="0" />
-        <entry key="$PROJECT_DIR$/IO.gradle" value="4046186073" />
-        <entry key="$PROJECT_DIR$/build.gradle" value="3041267219" />
-        <entry key="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" value="1114575256" />
-      </map>
-    </option>
-    <option name="projectBuildClasspath">
-      <map>
-        <entry key="$PROJECT_DIR$">
-          <value>
-            <ExternalProjectBuildClasspathPojo>
-              <option name="modulesBuildClasspath">
-                <map>
-                  <entry key="$PROJECT_DIR$">
-                    <value>
-                      <ExternalModuleBuildClasspathPojo>
-                        <option name="entries">
-                          <list>
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.ben-manes/gradle-versions-plugin/0.17.0/78199a64bc53507db4fc071c29ab2cf593d56f3f/gradle-versions-plugin-0.17.0-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.thoughtworks.xstream/xstream/1.4.10/24b0de5fa33b368f5fe8f9eb5242343bb39d3abb/xstream-1.4.10-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/xpp3/xpp3_min/1.1.4c/fffe25ec1f20ec1cfdc0edd41c6e0d55bc0dbaf5/xpp3_min-1.1.4c-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.ben-manes/gradle-versions-plugin/0.17.0/76d94d6cf55abcb74a002ddb4263baa8e356ba08/gradle-versions-plugin-0.17.0.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.thoughtworks.xstream/xstream/1.4.10/dfecae23647abc9d9fd0416629a4213a3882b101/xstream-1.4.10.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/xmlpull/xmlpull/1.1.3.1/2b8e230d2ab644e4ecaa94db7cdedbc40c805dfa/xmlpull-1.1.3.1.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/xpp3/xpp3_min/1.1.4c/19d4e90b43059058f6e056f794f0ea4030d60b86/xpp3_min-1.1.4c.jar" />
-                          </list>
-                        </option>
-                        <option name="path" value="$PROJECT_DIR$" />
-                      </ExternalModuleBuildClasspathPojo>
-                    </value>
-                  </entry>
-                </map>
-              </option>
-              <option name="name" value="media-mogul-data" />
-              <option name="projectBuildClasspath">
-                <list>
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/ant-1.9.6.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/ant-launcher-1.9.6.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/gradle-base-services-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/gradle-base-services-groovy-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/gradle-cli-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/gradle-core-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/gradle-docs-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/gradle-installation-beacon-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/gradle-jvm-services-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/gradle-launcher-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/gradle-logging-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/gradle-messaging-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/gradle-model-core-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/gradle-model-groovy-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/gradle-native-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/gradle-open-api-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/gradle-process-services-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/gradle-resources-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/gradle-runtime-api-info-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/gradle-script-kotlin-0.8.0.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/gradle-tooling-api-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/gradle-ui-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/gradle-version-info-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/gradle-wrapper-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/groovy-all-2.4.10.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/plugins/gradle-announce-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/plugins/gradle-antlr-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/plugins/gradle-build-cache-http-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/plugins/gradle-build-comparison-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/plugins/gradle-build-init-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/plugins/gradle-code-quality-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/plugins/gradle-composite-builds-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/plugins/gradle-dependency-management-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/plugins/gradle-diagnostics-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/plugins/gradle-ear-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/plugins/gradle-ide-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/plugins/gradle-ide-native-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/plugins/gradle-ide-play-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/plugins/gradle-ivy-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/plugins/gradle-jacoco-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/plugins/gradle-javascript-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/plugins/gradle-jetty-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/plugins/gradle-language-groovy-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/plugins/gradle-language-java-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/plugins/gradle-language-jvm-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/plugins/gradle-language-native-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/plugins/gradle-language-scala-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/plugins/gradle-maven-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/plugins/gradle-osgi-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/plugins/gradle-platform-base-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/plugins/gradle-platform-jvm-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/plugins/gradle-platform-native-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/plugins/gradle-platform-play-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/plugins/gradle-plugin-development-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/plugins/gradle-plugin-use-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/plugins/gradle-plugins-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/plugins/gradle-publish-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/plugins/gradle-reporting-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/plugins/gradle-resources-http-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/plugins/gradle-resources-s3-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/plugins/gradle-resources-sftp-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/plugins/gradle-scala-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/plugins/gradle-signing-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/plugins/gradle-test-kit-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/plugins/gradle-testing-base-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/plugins/gradle-testing-jvm-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/plugins/gradle-testing-native-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/plugins/gradle-tooling-api-builders-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/plugins/gradle-workers-3.5.jar" />
-                  <option value="D:/Program Files (x86)/gradle-3.5/lib/plugins/ivy-2.2.0.jar" />
-                </list>
-              </option>
-            </ExternalProjectBuildClasspathPojo>
-          </value>
-        </entry>
-      </map>
-    </option>
-    <option name="projectSyncType">
-      <map>
-        <entry key="$PROJECT_DIR$" value="RE_IMPORT" />
-      </map>
-    </option>
-  </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
@@ -772,7 +316,6 @@
         <option value="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/GamesDatabaseTest.java" />
         <option value="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/dataobject/TVTestSchema.java" />
         <option value="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/dataobject/MediaMogulTestSchema.java" />
-        <option value="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/games/IGDBUpdaterTest.java" />
         <option value="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/TVDatabaseTest.java" />
         <option value="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/DatabaseTest.java" />
         <option value="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/model/MediaMogulSchemaHerokuTest.java" />
@@ -796,6 +339,7 @@
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TVGroupSeries.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/MediaMogulSchema.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TVGroupEpisode.java" />
+        <option value="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/games/IGDBUpdaterTest.java" />
       </list>
     </option>
   </component>
@@ -809,10 +353,10 @@
     <scope name="AllButLogs" pattern="!file[media-mogul-data]:logs//*" />
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
-    <option name="width" value="2576" />
-    <option name="height" value="1586" />
+    <option name="x" value="-9" />
+    <option name="y" value="-9" />
+    <option name="width" value="2577" />
+    <option name="height" value="1587" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -822,6 +366,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -862,7 +408,7 @@
               <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="mediamogul" type="462c0819:PsiDirectoryNode" />
-              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="games" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="media-mogul-data" type="b2602c69:ProjectViewProjectNode" />
@@ -871,8 +417,8 @@
               <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="mediamogul" type="462c0819:PsiDirectoryNode" />
-              <item name="model" type="462c0819:PsiDirectoryNode" />
-              <item name="tv" type="462c0819:PsiDirectoryNode" />
+              <item name="games" type="462c0819:PsiDirectoryNode" />
+              <item name="provider" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="media-mogul-data" type="b2602c69:ProjectViewProjectNode" />
@@ -899,8 +445,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -917,7 +461,7 @@
     <property name="add_unversioned_files" value="$PROJECT_DIR$/.idea/workspace.xml&#10;D:/Code/git/media-mogul-data/scripts/media-mogul-data CMD.lnk" />
     <property name="extract.method.default.visibility" value="private" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/src/test/resources/IGDBTest" />
-    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.31923383" />
     <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Console Font" />
@@ -970,8 +514,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.blog.BlogRankingsCreator" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Heroku -blog &quot;D:\OneDrive\Projects\Criticism\Blog\2017&quot; -template &quot;D:\Code\git\media-mogul-data\resources\Blog Templates&quot;" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="DaylightSavingCorrector (Heroku)" type="Application" factoryName="Application" folderName="Utilities">
       <envs>
@@ -982,8 +527,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.utility.DaylightSavingCorrector" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Heroku" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="DaylightSavingCorrector (Test)" type="Application" factoryName="Application" folderName="Utilities">
       <envs>
@@ -994,8 +540,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.utility.DaylightSavingCorrector" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Test" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="EpisodeGroupUpdater (Heroku)" type="Application" factoryName="Application">
       <envs>
@@ -1006,8 +553,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.EpisodeGroupUpdater" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Heroku" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="EpisodeGroupUpdater (test)" type="Application" factoryName="Application">
       <envs>
@@ -1018,8 +566,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.EpisodeGroupUpdater" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Test" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="GamePostgresMongoSyncer" type="Application" factoryName="Application" folderName="Games" nameIsGenerated="true">
       <envs>
@@ -1030,7 +579,6 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.gamesutil.games.GamePostgresMongoSyncer" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Heroku" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <RunnerSettings RunnerId="Debug">
         <option name="DEBUG_PORT" value="" />
         <option name="TRANSPORT" value="0" />
@@ -1039,7 +587,9 @@
       <RunnerSettings RunnerId="Run" />
       <ConfigurationWrapper RunnerId="Debug" />
       <ConfigurationWrapper RunnerId="Run" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="GiantBombUpdater (SingleGame)" type="Application" factoryName="Application" folderName="Games">
       <envs>
@@ -1050,8 +600,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.games.GiantBombUpdater" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Heroku SingleGame" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="GiantBombUpdater (test)" type="Application" factoryName="Application" folderName="Games">
       <envs>
@@ -1062,8 +613,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.games.GiantBombUpdater" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Test" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="GiantBombUpdater" type="Application" factoryName="Application" folderName="Games">
       <envs>
@@ -1074,8 +626,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.games.GiantBombUpdater" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Heroku" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="HowLongToBeatUpdateRunner (Heroku/FullMode)" type="Application" factoryName="Application" folderName="Games">
       <envs>
@@ -1086,8 +639,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.games.HowLongToBeatUpdateRunner" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Heroku FullMode" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="HowLongToBeatUpdateRunner (heroku/quick)" type="Application" factoryName="Application" folderName="Games">
       <envs>
@@ -1098,8 +652,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.games.HowLongToBeatUpdateRunner" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Heroku -mode Quick" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="HowLongToBeatUpdateRunner (local)" type="Application" factoryName="Application" folderName="Games">
       <envs>
@@ -1110,8 +665,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.games.HowLongToBeatUpdateRunner" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Local -mode Quick" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="HowLongToBeatUpdateRunner (local/single)" type="Application" factoryName="Application" folderName="Games">
       <envs>
@@ -1122,8 +678,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.games.HowLongToBeatUpdateRunner" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Local -mode Single" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="IGDBUpdateRunner (heroku/sanity)" type="Application" factoryName="Application" folderName="IGDBUpdater">
       <envs>
@@ -1135,7 +692,6 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.games.IGDBUpdateRunner" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Heroku -mode Sanity" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -1150,7 +706,6 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.games.IGDBUpdateRunner" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Heroku -mode Single" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -1165,7 +720,6 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.games.IGDBUpdateRunner" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Heroku -mode Smart" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -1180,7 +734,6 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.games.IGDBUpdateRunner" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Local -mode Sanity" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -1195,7 +748,6 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.games.IGDBUpdateRunner" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Local -mode Single" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -1210,7 +762,6 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.games.IGDBUpdateRunner" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Local -mode Smart" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -1224,7 +775,6 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.games.IGDBUpdateTestRunner" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Local" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -1237,7 +787,6 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.games.MetacriticGameUpdateRunner" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Heroku" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <RunnerSettings RunnerId="Debug">
         <option name="DEBUG_PORT" value="" />
         <option name="TRANSPORT" value="0" />
@@ -1246,7 +795,9 @@
       <RunnerSettings RunnerId="Run" />
       <ConfigurationWrapper RunnerId="Debug" />
       <ConfigurationWrapper RunnerId="Run" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="MetacriticTVUpdater (prod/single)" type="Application" factoryName="Application" folderName="MetacriticTV">
       <envs>
@@ -1255,8 +806,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.MetacriticTVUpdater" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="SingleSeries Local" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="MetacriticTVUpdater (test)" type="Application" factoryName="Application" folderName="MetacriticTV">
       <envs>
@@ -1265,8 +817,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.MetacriticTVUpdater" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Test" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="MetacriticTVUpdater (test/single)" type="Application" factoryName="Application" folderName="MetacriticTV">
       <envs>
@@ -1275,8 +828,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.MetacriticTVUpdater" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="SingleSeries -db Test" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="MetacriticTVUpdater" type="Application" factoryName="Application" folderName="MetacriticTV" nameIsGenerated="true">
       <envs>
@@ -1287,8 +841,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.MetacriticTVUpdater" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="Local" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="OldDataArchiveRunner (Heroku)" type="Application" factoryName="Application">
       <envs>
@@ -1299,7 +854,6 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.archive.OldDataArchiveRunner" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Heroku" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -1313,7 +867,6 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.archive.OldDataArchiveRunner" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Local" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -1327,8 +880,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.QuickBatchUpdater" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Test" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="SeriesDeleter (heroku)" type="Application" factoryName="Application" folderName="Utilities">
       <envs>
@@ -1339,8 +893,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.utility.SeriesDeleter" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Heroku" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="SeriesDeleter (test)" type="Application" factoryName="Application" folderName="Utilities">
       <envs>
@@ -1351,8 +906,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.utility.SeriesDeleter" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Test" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="SeriesDenormUpdater (heroku)" type="Application" factoryName="Application">
       <envs>
@@ -1361,8 +917,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.SeriesDenormUpdater" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Heroku" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="SeriesDenormUpdater (local)" type="Application" factoryName="Application" folderName="Local (Old)">
       <envs>
@@ -1371,8 +928,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.SeriesDenormUpdater" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="Local" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="SeriesDenormUpdater (test)" type="Application" factoryName="Application">
       <envs>
@@ -1381,8 +939,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.SeriesDenormUpdater" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Test" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="SeriesMerger (test)" type="Application" factoryName="Application" folderName="Utilities">
       <envs>
@@ -1393,8 +952,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.helper.SeriesMerger" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Test" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="SteamAttributeUpdateRunner (local/full)" type="Application" factoryName="Application" folderName="Games">
       <envs>
@@ -1404,8 +964,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.games.SteamAttributeUpdateRunner" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Local -mode Full" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="SteamAttributeUpdateRunner (local/single)" type="Application" factoryName="Application">
       <envs>
@@ -1415,8 +976,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.games.SteamAttributeUpdateRunner" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Local -mode Single" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="SteamGameUpdater (LogToFile)" type="Application" factoryName="Application" folderName="Games">
       <envs>
@@ -1425,8 +987,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.games.SteamGameUpdater" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Heroku LogToFile" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="SteamGameUpdater (local)" type="Application" factoryName="Application" folderName="Games">
       <envs>
@@ -1435,7 +998,6 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.games.SteamGameUpdater" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Local" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -1447,8 +1009,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.games.SteamGameUpdater" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Test LogToFile" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="SteamGameUpdater" type="Application" factoryName="Application" folderName="Games" nameIsGenerated="true">
       <envs>
@@ -1457,7 +1020,6 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.games.SteamGameUpdater" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Heroku" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <RunnerSettings RunnerId="Debug">
         <option name="DEBUG_PORT" value="" />
         <option name="TRANSPORT" value="0" />
@@ -1466,7 +1028,9 @@
       <RunnerSettings RunnerId="Run" />
       <ConfigurationWrapper RunnerId="Debug" />
       <ConfigurationWrapper RunnerId="Run" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="SteamPlaySessionGenerator (heroku)" type="Application" factoryName="Application" folderName="Games">
       <envs>
@@ -1477,7 +1041,6 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.games.SteamPlaySessionGenerator" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Heroku" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -1491,7 +1054,6 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.games.SteamPlaySessionGenerator" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Local" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -1503,8 +1065,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.utility.TVDBDuplicateDataFixer" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="Local" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="TVDBDuplicateDataFixer (test)" type="Application" factoryName="Application" folderName="Utilities">
       <envs>
@@ -1513,8 +1076,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.utility.TVDBDuplicateDataFixer" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Test" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="TVDBJSONFetcher (test)" type="Application" factoryName="Application" folderName="Utilities">
       <envs>
@@ -1525,8 +1089,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.utility.TVDBJSONFetcher" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Test" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="TVDBSeriesMatchRunner (heroku/episodes)" type="Application" factoryName="Application" folderName="TVDBSeriesMatchRunner">
       <envs>
@@ -1537,8 +1102,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBSeriesMatchRunner" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Heroku -mode EpisodeMatch" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="TVDBSeriesMatchRunner (heroku/full)" type="Application" factoryName="Application" folderName="TVDBSeriesMatchRunner">
       <envs>
@@ -1549,8 +1115,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBSeriesMatchRunner" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Heroku" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="TVDBSeriesMatchRunner (heroku/single)" type="Application" factoryName="Application" folderName="TVDBSeriesMatchRunner">
       <envs>
@@ -1561,8 +1128,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBSeriesMatchRunner" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Heroku -mode Single" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="TVDBSeriesMatchRunner (local/first pass)" type="Application" factoryName="Application" folderName="TVDBSeriesMatchRunner">
       <envs>
@@ -1573,8 +1141,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBSeriesMatchRunner" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Local -mode FirstPass" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="TVDBSeriesMatchRunner (test/episodes)" type="Application" factoryName="Application" folderName="TVDBSeriesMatchRunner">
       <envs>
@@ -1585,8 +1154,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBSeriesMatchRunner" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Test -mode EpisodeMatch" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="TVDBSeriesMatchRunner (test/single)" type="Application" factoryName="Application" folderName="TVDBSeriesMatchRunner">
       <envs>
@@ -1597,8 +1167,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBSeriesMatchRunner" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Test -mode Single" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="TVDBUpdateFinder (heroku)" type="Application" factoryName="Application" folderName="TVDBUpdateFinder">
       <envs>
@@ -1609,8 +1180,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBUpdateFinderRunner" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Heroku" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="TVDBUpdateFinder (heroku/lastweek)" type="Application" factoryName="Application" folderName="TVDBUpdateFinder">
       <envs>
@@ -1621,8 +1193,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBUpdateFinderRunner" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Heroku LastWeek" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="TVDBUpdateFinder (test)" type="Application" factoryName="Application" folderName="TVDBUpdateFinder">
       <envs>
@@ -1633,8 +1206,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBUpdateFinderRunner" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Test" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="TVDBUpdateFinder (test/LogToFile)" type="Application" factoryName="Application" folderName="TVDBUpdateFinder">
       <envs>
@@ -1645,8 +1219,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBUpdateFinderRunner" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Test LogToFile" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="TVDBUpdateProcessor (heroku)" type="Application" factoryName="Application" folderName="TVDBUpdateProcessor">
       <envs>
@@ -1657,8 +1232,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBUpdateProcessorRunner" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Heroku" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="TVDBUpdateProcessor (test)" type="Application" factoryName="Application" folderName="TVDBUpdateProcessor">
       <envs>
@@ -1669,8 +1245,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBUpdateProcessorRunner" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Test" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="TVDBUpdateProcessor (test/LogToFile)" type="Application" factoryName="Application" folderName="TVDBUpdateProcessor">
       <envs>
@@ -1681,8 +1258,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBUpdateProcessorRunner" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Test LogToFile" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="TVDBUpdateRunner (demo)" type="Application" factoryName="Application" folderName="TVDBUpdateRunner">
       <envs>
@@ -1694,8 +1272,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBUpdateRunner" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="Demo" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="TVDBUpdateRunner (heroku/airtimes)" type="Application" factoryName="Application" folderName="TVDBUpdateRunner">
       <envs>
@@ -1706,8 +1285,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBUpdateRunner" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Heroku -mode AirTimes" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="TVDBUpdateRunner (heroku/quick)" type="Application" factoryName="Application" folderName="TVDBUpdateRunner">
       <envs>
@@ -1718,8 +1298,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBUpdateRunner" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Heroku -mode Quick" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="TVDBUpdateRunner (heroku/sanity)" type="Application" factoryName="Application" folderName="TVDBUpdateRunner">
       <envs>
@@ -1730,8 +1311,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBUpdateRunner" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Heroku -mode SanityCheck" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="TVDBUpdateRunner (heroku/single)" type="Application" factoryName="Application" folderName="TVDBUpdateRunner">
       <envs>
@@ -1742,8 +1324,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBUpdateRunner" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Heroku -mode Single" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="TVDBUpdateRunner (heroku/smart)" type="Application" factoryName="Application" folderName="TVDBUpdateRunner">
       <envs>
@@ -1754,8 +1337,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBUpdateRunner" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Heroku -mode Smart" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="TVDBUpdateRunner (local)" type="Application" factoryName="Application" folderName="Local (Old)">
       <envs>
@@ -1766,8 +1350,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBUpdateRunner" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="Local" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="TVDBUpdateRunner (local/single)" type="Application" factoryName="Application" folderName="Local (Old)">
       <envs>
@@ -1778,8 +1363,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBUpdateRunner" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="Local SingleSeries" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="TVDBUpdateRunner (local/single)" type="Application" factoryName="Application" folderName="TVDBUpdateRunner">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
@@ -1808,8 +1394,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBUpdateRunner" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="Local Smart" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="TVDBUpdateRunner (local/smart)" type="Application" factoryName="Application" folderName="TVDBUpdateRunner">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
@@ -1838,8 +1425,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBUpdateRunner" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Test" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="TVDBUpdateRunner (test/LogToFile)" type="Application" factoryName="Application" folderName="TVDBUpdateRunner">
       <envs>
@@ -1850,8 +1438,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBUpdateRunner" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Test LogToFile" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="TVDBUpdateRunner (test/airtimes)" type="Application" factoryName="Application" folderName="TVDBUpdateRunner">
       <envs>
@@ -1862,8 +1451,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBUpdateRunner" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Test -mode AirTimes" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="TVDBUpdateRunner (test/episodeMatch)" type="Application" factoryName="Application">
       <envs>
@@ -1874,8 +1464,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBUpdateRunner" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Test -mode EpisodeMatch" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="TVDBUpdateRunner (test/fewerrors)" type="Application" factoryName="Application" folderName="TVDBUpdateRunner">
       <envs>
@@ -1886,8 +1477,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBUpdateRunner" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Test -mode FewErrors" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="TVDBUpdateRunner (test/manual)" type="Application" factoryName="Application" folderName="TVDBUpdateRunner">
       <envs>
@@ -1898,8 +1490,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBUpdateRunner" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Test -mode Manual" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="TVDBUpdateRunner (test/olderrors)" type="Application" factoryName="Application" folderName="TVDBUpdateRunner">
       <envs>
@@ -1910,8 +1503,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBUpdateRunner" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Test -mode OldErrors" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="TVDBUpdateRunner (test/quick)" type="Application" factoryName="Application" folderName="TVDBUpdateRunner">
       <envs>
@@ -1922,8 +1516,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBUpdateRunner" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Test -mode Quick" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="TVDBUpdateRunner (test/sanity)" type="Application" factoryName="Application" folderName="TVDBUpdateRunner">
       <envs>
@@ -1934,8 +1529,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TVDBUpdateRunner" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Test -mode Sanity" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="TVDBXMLFetcher (test)" type="Application" factoryName="Application" folderName="Utilities">
       <envs>
@@ -1946,8 +1542,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.utility.TVDBXMLFetcher" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Test" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="TVRatingSpreadsheetCopier (local)" type="Application" factoryName="Application" folderName="Local (Old)">
       <envs>
@@ -1958,8 +1555,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.utility.TVRatingSpreadsheetCopier" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="Local" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="TVRatingSpreadsheetCopier (test)" type="Application" factoryName="Application" folderName="Utilities">
       <envs>
@@ -1970,8 +1568,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.utility.TVRatingSpreadsheetCopier" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Test" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="TaskScheduleRunner (test)" type="Application" factoryName="Application">
       <envs>
@@ -1982,8 +1581,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.scheduler.TaskScheduleRunner" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Test" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="TaskScheduleRunner (test/LogToFile)" type="Application" factoryName="Application">
       <envs>
@@ -1994,8 +1594,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.scheduler.TaskScheduleRunner" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="LogToFile -db Test" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="TiVoCommunicator (Heroku/Quick)" type="Application" factoryName="Application" folderName="TiVoCommunicator">
       <envs>
@@ -2005,8 +1606,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TiVoCommunicator" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Heroku" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="TiVoCommunicator (Local/Dev)" type="Application" factoryName="Application" folderName="Local (Old)">
       <envs>
@@ -2015,8 +1617,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TiVoCommunicator" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="Dev FullMode Local" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="TiVoCommunicator (Local/Full)" type="Application" factoryName="Application" folderName="Local (Old)">
       <envs>
@@ -2025,8 +1628,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TiVoCommunicator" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="FullMode Local" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="TiVoCommunicator (Local/Quick)" type="Application" factoryName="Application" folderName="Local (Old)">
       <envs>
@@ -2035,8 +1639,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TiVoCommunicator" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="Local" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="TiVoCommunicator (demo/Full)" type="Application" factoryName="Application" folderName="TiVoCommunicator">
       <envs>
@@ -2046,8 +1651,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TiVoCommunicator" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="FullMode Demo" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="TiVoCommunicator (test/Full)" type="Application" factoryName="Application" folderName="TiVoCommunicator">
       <envs>
@@ -2056,8 +1662,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TiVoCommunicator" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="FullMode -db Test" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="TiVoCommunicator (test/Full/Dev)" type="Application" factoryName="Application" folderName="TiVoCommunicator">
       <envs>
@@ -2066,8 +1673,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TiVoCommunicator" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="FullMode Dev -db Test" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="TiVoCommunicator (test/Full/XML)" type="Application" factoryName="Application" folderName="TiVoCommunicator">
       <envs>
@@ -2076,8 +1684,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TiVoCommunicator" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Test SaveTiVoXML FullMode" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="TiVoCommunicator (test/Quick)" type="Application" factoryName="Application" folderName="TiVoCommunicator">
       <envs>
@@ -2086,8 +1695,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TiVoCommunicator" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Test" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="TiVoCommunicator (test/Quick/XML)" type="Application" factoryName="Application" folderName="TiVoCommunicator">
       <envs>
@@ -2096,8 +1706,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TiVoCommunicator" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Test SaveTiVoXML" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="TiVoLibraryUpdater (Quick)" type="Application" factoryName="Application" folderName="Local (Old)">
       <envs>
@@ -2106,8 +1717,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TiVoLibraryUpdater" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="TiVoOnly Local" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="TiVoLibraryUpdater (heroku/quick)" type="Application" factoryName="Application" folderName="TiVoLibraryUpdater">
       <envs>
@@ -2116,8 +1728,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TiVoLibraryUpdater" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Heroku" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="TiVoLibraryUpdater (test)" type="Application" factoryName="Application" folderName="TiVoLibraryUpdater">
       <envs>
@@ -2126,8 +1739,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TiVoLibraryUpdater" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="FullMode -db Test" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="TiVoLibraryUpdater (test/LogToFile/TVDB)" type="Application" factoryName="Application" folderName="TiVoLibraryUpdater">
       <envs>
@@ -2136,8 +1750,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TiVoLibraryUpdater" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="FullMode LogToFile TVDBOnly -db Test" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="TiVoLibraryUpdater (test/Quick)" type="Application" factoryName="Application" folderName="TiVoLibraryUpdater">
       <envs>
@@ -2146,8 +1761,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TiVoLibraryUpdater" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Test" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="TiVoLibraryUpdater (test/Quick/LogToFile)" type="Application" factoryName="Application" folderName="TiVoLibraryUpdater">
       <envs>
@@ -2156,8 +1772,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TiVoLibraryUpdater" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Test LogToFile" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="TiVoLibraryUpdater" type="Application" factoryName="Application" folderName="Local (Old)" nameIsGenerated="true">
       <envs>
@@ -2166,8 +1783,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.TiVoLibraryUpdater" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="FullMode Local" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="TimestampTimeZoneUpgrader (heroku)" type="Application" factoryName="Application" folderName="Utilities">
       <envs>
@@ -2177,8 +1795,9 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.utility.TimestampTimeZoneUpgrader" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Heroku" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="TimestampTimeZoneUpgrader (local)" type="Application" factoryName="Application" folderName="Utilities">
       <envs>
@@ -2189,7 +1808,6 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.tv.utility.TimestampTimeZoneUpgrader" />
       <module name="media-mogul-data_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Local" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -2201,7 +1819,6 @@
         <env name="postgresURL" value="postgres://ijxuheufucvnyu:h16h_LnZi4fHgIUjBANnzITEyR@ec2-54-204-30-115.compute-1.amazonaws.com:5432/dcg1rtode4vgk9" />
       </envs>
       <option name="PROGRAM_PARAMETERS" value="-db Local" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -2233,6 +1850,7 @@
         </option>
         <option name="vmOptions" />
       </ExternalSystemSettings>
+      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
       <method v="2" />
     </configuration>
     <configuration name="media-mogul-data [build]" type="GradleRunConfiguration" factoryName="Gradle">
@@ -2251,11 +1869,11 @@
         </option>
         <option name="vmOptions" value="" />
       </ExternalSystemSettings>
+      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
       <method v="2" />
     </configuration>
     <configuration name="DatabaseRecreatorTest (Demo)" type="JUnit" factoryName="JUnit">
       <module name="media-mogul-data_test" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="PACKAGE_NAME" value="com.mayhew3.mediamogul.dataobject" />
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.dataobject.DatabaseRecreatorTest" />
       <option name="METHOD_NAME" value="" />
@@ -2277,7 +1895,6 @@
     </configuration>
     <configuration name="DatabaseRecreatorTest (Test)" type="JUnit" factoryName="JUnit">
       <module name="media-mogul-data_test" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="PACKAGE_NAME" value="com.mayhew3.mediamogul.dataobject" />
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.dataobject.DatabaseRecreatorTest" />
       <option name="METHOD_NAME" value="" />
@@ -2299,7 +1916,6 @@
     </configuration>
     <configuration name="SchemaHerokuTest" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
       <module name="media-mogul-data_test" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="PACKAGE_NAME" value="com.mayhew3.mediamogul.model" />
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.model.SchemaHerokuTest" />
       <option name="METHOD_NAME" value="" />
@@ -2320,7 +1936,6 @@
     </configuration>
     <configuration name="SchemaHerokuTest.testHerokuSchemaUpToDate" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
       <module name="media-mogul-data_test" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="PACKAGE_NAME" value="com.mayhew3.mediamogul.model" />
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.model.SchemaHerokuTest" />
       <option name="METHOD_NAME" value="testHerokuSchemaUpToDate" />
@@ -2342,7 +1957,6 @@
     </configuration>
     <configuration name="SchemaLocalTest" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
       <module name="media-mogul-data_test" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="PACKAGE_NAME" value="com.mayhew3.mediamogul.model" />
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.model.SchemaLocalTest" />
       <option name="METHOD_NAME" value="" />
@@ -2363,7 +1977,6 @@
     </configuration>
     <configuration name="SchemaLocalTest.testHerokuTestUpToDate" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
       <module name="media-mogul-data_test" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="PACKAGE_NAME" value="com.mayhew3.mediamogul.model" />
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.model.SchemaLocalTest" />
       <option name="METHOD_NAME" value="testHerokuTestUpToDate" />
@@ -2385,7 +1998,6 @@
     </configuration>
     <configuration name="SteamUpdaterTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="media-mogul-data_test" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="PACKAGE_NAME" value="com.mayhew3.mediamogul.games" />
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.games.SteamUpdaterTest" />
       <option name="METHOD_NAME" value="" />
@@ -2406,7 +2018,6 @@
     </configuration>
     <configuration name="SteamUpdaterTest.testGameplaySessionMadeOnNewGame" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="media-mogul-data_test" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="PACKAGE_NAME" value="com.mayhew3.mediamogul.games" />
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.games.SteamUpdaterTest" />
       <option name="METHOD_NAME" value="testGameplaySessionMadeOnNewGame" />
@@ -2428,7 +2039,6 @@
     </configuration>
     <configuration name="SteamUpdaterTest.testGameplaySessionMadeOnUpdatedGame" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="media-mogul-data_test" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="PACKAGE_NAME" value="com.mayhew3.mediamogul.games" />
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.games.SteamUpdaterTest" />
       <option name="METHOD_NAME" value="testGameplaySessionMadeOnUpdatedGame" />
@@ -2450,7 +2060,6 @@
     </configuration>
     <configuration name="SteamUpdaterTest.testNewSteamGame" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="media-mogul-data_test" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="PACKAGE_NAME" value="com.mayhew3.mediamogul.games" />
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.games.SteamUpdaterTest" />
       <option name="METHOD_NAME" value="testNewSteamGame" />
@@ -2472,7 +2081,6 @@
     </configuration>
     <configuration name="SteamUpdaterTest.testUnlinkThenLinkSteamGame" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="media-mogul-data_test" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="PACKAGE_NAME" value="com.mayhew3.mediamogul.games" />
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.games.SteamUpdaterTest" />
       <option name="METHOD_NAME" value="testUnlinkThenLinkSteamGame" />
@@ -2493,7 +2101,6 @@
       </method>
     </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="MAIN_CLASS_NAME" value="" />
       <option name="METHOD_NAME" value="" />
       <option name="VM_PARAMETERS" value="" />
@@ -2513,7 +2120,6 @@
     </configuration>
     <configuration default="true" type="JetRunConfigurationType" factoryName="Kotlin">
       <module name="media-mogul-data_main" />
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="VM_PARAMETERS" />
       <option name="PROGRAM_PARAMETERS" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -2526,127 +2132,127 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.GamePostgresMongoSyncer" />
-      <item itemvalue="Application.GiantBombUpdater" />
-      <item itemvalue="Application.GiantBombUpdater (SingleGame)" />
       <item itemvalue="Application.GiantBombUpdater (test)" />
-      <item itemvalue="Application.HowLongToBeatUpdateRunner (heroku/quick)" />
-      <item itemvalue="Application.HowLongToBeatUpdateRunner (Heroku/FullMode)" />
-      <item itemvalue="Application.HowLongToBeatUpdateRunner (local)" />
-      <item itemvalue="Application.HowLongToBeatUpdateRunner (local/single)" />
-      <item itemvalue="Application.MetacriticGameUpdateRunner" />
-      <item itemvalue="Application.SteamAttributeUpdateRunner (local/full)" />
-      <item itemvalue="Application.SteamGameUpdater" />
-      <item itemvalue="Application.SteamGameUpdater (LogToFile)" />
       <item itemvalue="Application.SteamGameUpdater (local)" />
-      <item itemvalue="Application.SteamGameUpdater (test/LogToFile)" />
+      <item itemvalue="Application.GiantBombUpdater (SingleGame)" />
       <item itemvalue="Application.SteamPlaySessionGenerator (heroku)" />
       <item itemvalue="Application.SteamPlaySessionGenerator (local)" />
-      <item itemvalue="Application.IGDBUpdateRunner (local/single)" />
-      <item itemvalue="Application.IGDBUpdateRunner (local/smart)" />
-      <item itemvalue="Application.IGDBUpdateRunner (local/sanity)" />
+      <item itemvalue="Application.GamePostgresMongoSyncer" />
+      <item itemvalue="Application.SteamAttributeUpdateRunner (local/full)" />
+      <item itemvalue="Application.GiantBombUpdater" />
+      <item itemvalue="Application.SteamGameUpdater" />
+      <item itemvalue="Application.HowLongToBeatUpdateRunner (Heroku/FullMode)" />
+      <item itemvalue="Application.SteamGameUpdater (test/LogToFile)" />
+      <item itemvalue="Application.HowLongToBeatUpdateRunner (local/single)" />
+      <item itemvalue="Application.SteamGameUpdater (LogToFile)" />
+      <item itemvalue="Application.HowLongToBeatUpdateRunner (heroku/quick)" />
+      <item itemvalue="Application.HowLongToBeatUpdateRunner (local)" />
+      <item itemvalue="Application.MetacriticGameUpdateRunner" />
       <item itemvalue="Application.IGDBUpdateRunner (heroku/single)" />
-      <item itemvalue="Application.IGDBUpdateRunner (heroku/smart)" />
+      <item itemvalue="Application.IGDBUpdateRunner (local/single)" />
       <item itemvalue="Application.IGDBUpdateRunner (heroku/sanity)" />
-      <item itemvalue="Application.SeriesDenormUpdater (local)" />
-      <item itemvalue="Application.TVDBDuplicateDataFixer (local)" />
-      <item itemvalue="Application.TVDBUpdateRunner (local)" />
-      <item itemvalue="Application.TVRatingSpreadsheetCopier (local)" />
-      <item itemvalue="Application.TiVoCommunicator (Local/Dev)" />
-      <item itemvalue="Application.TiVoCommunicator (Local/Full)" />
-      <item itemvalue="Application.TiVoCommunicator (Local/Quick)" />
+      <item itemvalue="Application.IGDBUpdateRunner (local/sanity)" />
+      <item itemvalue="Application.IGDBUpdateRunner (heroku/smart)" />
+      <item itemvalue="Application.IGDBUpdateRunner (local/smart)" />
       <item itemvalue="Application.TiVoLibraryUpdater" />
-      <item itemvalue="Application.TiVoLibraryUpdater (Quick)" />
       <item itemvalue="Application.TVDBUpdateRunner (local/single)" />
+      <item itemvalue="Application.TVDBDuplicateDataFixer (local)" />
+      <item itemvalue="Application.TiVoCommunicator (Local/Quick)" />
+      <item itemvalue="Application.TVRatingSpreadsheetCopier (local)" />
+      <item itemvalue="Application.TiVoCommunicator (Local/Full)" />
+      <item itemvalue="Application.SeriesDenormUpdater (local)" />
       <item itemvalue="Application.TVDBUpdateRunner (local/smart)" />
-      <item itemvalue="Application.MetacriticTVUpdater" />
-      <item itemvalue="Application.MetacriticTVUpdater (prod/single)" />
+      <item itemvalue="Application.TVDBUpdateRunner (local)" />
+      <item itemvalue="Application.TiVoLibraryUpdater (Quick)" />
+      <item itemvalue="Application.TiVoCommunicator (Local/Dev)" />
       <item itemvalue="Application.MetacriticTVUpdater (test)" />
+      <item itemvalue="Application.MetacriticTVUpdater" />
       <item itemvalue="Application.MetacriticTVUpdater (test/single)" />
+      <item itemvalue="Application.MetacriticTVUpdater (prod/single)" />
       <item itemvalue="Application.TiVoCommunicator (Heroku/Quick)" />
       <item itemvalue="Application.TiVoCommunicator (demo/Full)" />
-      <item itemvalue="Application.TiVoCommunicator (test/Full)" />
-      <item itemvalue="Application.TiVoCommunicator (test/Full/Dev)" />
-      <item itemvalue="Application.TiVoCommunicator (test/Full/XML)" />
       <item itemvalue="Application.TiVoCommunicator (test/Quick)" />
+      <item itemvalue="Application.TiVoCommunicator (test/Full/XML)" />
+      <item itemvalue="Application.TiVoCommunicator (test/Full/Dev)" />
+      <item itemvalue="Application.TiVoCommunicator (test/Full)" />
       <item itemvalue="Application.TiVoCommunicator (test/Quick/XML)" />
-      <item itemvalue="Application.TiVoLibraryUpdater (heroku/quick)" />
       <item itemvalue="Application.TiVoLibraryUpdater (test)" />
       <item itemvalue="Application.TiVoLibraryUpdater (test/LogToFile/TVDB)" />
-      <item itemvalue="Application.TiVoLibraryUpdater (test/Quick)" />
       <item itemvalue="Application.TiVoLibraryUpdater (test/Quick/LogToFile)" />
-      <item itemvalue="Application.TVDBSeriesMatchRunner (heroku/episodes)" />
-      <item itemvalue="Application.TVDBSeriesMatchRunner (heroku/full)" />
+      <item itemvalue="Application.TiVoLibraryUpdater (heroku/quick)" />
+      <item itemvalue="Application.TiVoLibraryUpdater (test/Quick)" />
       <item itemvalue="Application.TVDBSeriesMatchRunner (heroku/single)" />
+      <item itemvalue="Application.TVDBSeriesMatchRunner (heroku/episodes)" />
       <item itemvalue="Application.TVDBSeriesMatchRunner (test/episodes)" />
       <item itemvalue="Application.TVDBSeriesMatchRunner (local/first pass)" />
       <item itemvalue="Application.TVDBSeriesMatchRunner (test/single)" />
-      <item itemvalue="Application.TVDBUpdateFinder (heroku)" />
-      <item itemvalue="Application.TVDBUpdateFinder (heroku/lastweek)" />
-      <item itemvalue="Application.TVDBUpdateFinder (test)" />
+      <item itemvalue="Application.TVDBSeriesMatchRunner (heroku/full)" />
       <item itemvalue="Application.TVDBUpdateFinder (test/LogToFile)" />
-      <item itemvalue="Application.TVDBUpdateProcessor (heroku)" />
+      <item itemvalue="Application.TVDBUpdateFinder (heroku)" />
+      <item itemvalue="Application.TVDBUpdateFinder (test)" />
+      <item itemvalue="Application.TVDBUpdateFinder (heroku/lastweek)" />
       <item itemvalue="Application.TVDBUpdateProcessor (test)" />
       <item itemvalue="Application.TVDBUpdateProcessor (test/LogToFile)" />
-      <item itemvalue="Application.TVDBUpdateRunner (demo)" />
-      <item itemvalue="Application.TVDBUpdateRunner (heroku/airtimes)" />
-      <item itemvalue="Application.TVDBUpdateRunner (heroku/quick)" />
-      <item itemvalue="Application.TVDBUpdateRunner (heroku/sanity)" />
+      <item itemvalue="Application.TVDBUpdateProcessor (heroku)" />
       <item itemvalue="Application.TVDBUpdateRunner (heroku/single)" />
-      <item itemvalue="Application.TVDBUpdateRunner (heroku/smart)" />
+      <item itemvalue="Application.TVDBUpdateRunner (demo)" />
+      <item itemvalue="Application.TVDBUpdateRunner (test/olderrors)" />
+      <item itemvalue="Application.TVDBUpdateRunner (test/fewerrors)" />
+      <item itemvalue="Application.TVDBUpdateRunner (heroku/quick)" />
+      <item itemvalue="Application.TVDBUpdateRunner (heroku/airtimes)" />
       <item itemvalue="Application.TVDBUpdateRunner (test)" />
+      <item itemvalue="Application.TVDBUpdateRunner (heroku/smart)" />
+      <item itemvalue="Application.TVDBUpdateRunner (test/manual)" />
+      <item itemvalue="Application.TVDBUpdateRunner (test/sanity)" />
+      <item itemvalue="Application.TVDBUpdateRunner (heroku/sanity)" />
+      <item itemvalue="Application.TVDBUpdateRunner (test/quick)" />
       <item itemvalue="Application.TVDBUpdateRunner (test/LogToFile)" />
       <item itemvalue="Application.TVDBUpdateRunner (test/airtimes)" />
-      <item itemvalue="Application.TVDBUpdateRunner (test/fewerrors)" />
-      <item itemvalue="Application.TVDBUpdateRunner (test/olderrors)" />
-      <item itemvalue="Application.TVDBUpdateRunner (test/quick)" />
-      <item itemvalue="Application.TVDBUpdateRunner (test/sanity)" />
-      <item itemvalue="Application.TVDBUpdateRunner (test/manual)" />
-      <item itemvalue="Application.DaylightSavingCorrector (Heroku)" />
-      <item itemvalue="Application.DaylightSavingCorrector (Test)" />
-      <item itemvalue="Application.SeriesDeleter (heroku)" />
-      <item itemvalue="Application.SeriesDeleter (test)" />
-      <item itemvalue="Application.SeriesMerger (test)" />
-      <item itemvalue="Application.TVDBDuplicateDataFixer (test)" />
-      <item itemvalue="Application.TVDBJSONFetcher (test)" />
-      <item itemvalue="Application.TVDBXMLFetcher (test)" />
-      <item itemvalue="Application.TimestampTimeZoneUpgrader (heroku)" />
       <item itemvalue="Application.TimestampTimeZoneUpgrader (local)" />
+      <item itemvalue="Application.TVDBDuplicateDataFixer (test)" />
+      <item itemvalue="Application.TVDBXMLFetcher (test)" />
+      <item itemvalue="Application.DaylightSavingCorrector (Test)" />
+      <item itemvalue="Application.SeriesMerger (test)" />
+      <item itemvalue="Application.TimestampTimeZoneUpgrader (heroku)" />
+      <item itemvalue="Application.TVDBJSONFetcher (test)" />
+      <item itemvalue="Application.SeriesDeleter (test)" />
+      <item itemvalue="Application.DaylightSavingCorrector (Heroku)" />
+      <item itemvalue="Application.SeriesDeleter (heroku)" />
       <item itemvalue="Application.TVRatingSpreadsheetCopier (test)" />
-      <item itemvalue="JUnit.SchemaHerokuTest" />
-      <item itemvalue="JUnit.SchemaHerokuTest.testHerokuSchemaUpToDate" />
-      <item itemvalue="JUnit.SchemaLocalTest" />
-      <item itemvalue="JUnit.SchemaLocalTest.testHerokuTestUpToDate" />
-      <item itemvalue="Application.SteamAttributeUpdateRunner (local/single)" />
-      <item itemvalue="Application.TVDBUpdateRunner (test/episodeMatch)" />
       <item itemvalue="Application.EpisodeGroupUpdater (Heroku)" />
-      <item itemvalue="Application.EpisodeGroupUpdater (test)" />
       <item itemvalue="Application.SeriesDenormUpdater (heroku)" />
-      <item itemvalue="Application.SeriesDenormUpdater (test)" />
-      <item itemvalue="Application.QuickBatchUpdater (test)" />
       <item itemvalue="Application.TaskScheduleRunner (test)" />
       <item itemvalue="Application.TaskScheduleRunner (test/LogToFile)" />
-      <item itemvalue="Application.BlogRankingsCreator" />
-      <item itemvalue="Application.OldDataArchiveRunner (Local)" />
-      <item itemvalue="Application.OldDataArchiveRunner (Heroku)" />
       <item itemvalue="Application.IGDBUpdateTestRunner" />
+      <item itemvalue="Application.QuickBatchUpdater (test)" />
+      <item itemvalue="Application.SteamAttributeUpdateRunner (local/single)" />
+      <item itemvalue="Application.OldDataArchiveRunner (Heroku)" />
+      <item itemvalue="Application.EpisodeGroupUpdater (test)" />
+      <item itemvalue="Application.SeriesDenormUpdater (test)" />
+      <item itemvalue="Application.OldDataArchiveRunner (Local)" />
+      <item itemvalue="Application.BlogRankingsCreator" />
+      <item itemvalue="Application.TVDBUpdateRunner (test/episodeMatch)" />
       <item itemvalue="Gradle.media-mogul-data [build]" />
       <item itemvalue="Gradle.media-mogul-data [assemble]" />
-      <item itemvalue="JUnit.DatabaseRecreatorTest (Demo)" />
+      <item itemvalue="JUnit.SchemaLocalTest" />
+      <item itemvalue="JUnit.SchemaLocalTest.testHerokuTestUpToDate" />
+      <item itemvalue="JUnit.SchemaHerokuTest" />
+      <item itemvalue="JUnit.SchemaHerokuTest.testHerokuSchemaUpToDate" />
       <item itemvalue="JUnit.DatabaseRecreatorTest (Test)" />
+      <item itemvalue="JUnit.DatabaseRecreatorTest (Demo)" />
+      <item itemvalue="JUnit.SteamUpdaterTest.testNewSteamGame" />
       <item itemvalue="JUnit.SteamUpdaterTest" />
-      <item itemvalue="JUnit.SteamUpdaterTest.testUnlinkThenLinkSteamGame" />
       <item itemvalue="JUnit.SteamUpdaterTest.testGameplaySessionMadeOnNewGame" />
       <item itemvalue="JUnit.SteamUpdaterTest.testGameplaySessionMadeOnUpdatedGame" />
-      <item itemvalue="JUnit.SteamUpdaterTest.testNewSteamGame" />
+      <item itemvalue="JUnit.SteamUpdaterTest.testUnlinkThenLinkSteamGame" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.SteamUpdaterTest" />
-        <item itemvalue="JUnit.SteamUpdaterTest.testNewSteamGame" />
         <item itemvalue="JUnit.SteamUpdaterTest.testUnlinkThenLinkSteamGame" />
         <item itemvalue="JUnit.SteamUpdaterTest.testGameplaySessionMadeOnUpdatedGame" />
         <item itemvalue="JUnit.SteamUpdaterTest.testGameplaySessionMadeOnNewGame" />
+        <item itemvalue="JUnit.SteamUpdaterTest" />
+        <item itemvalue="JUnit.SteamUpdaterTest.testNewSteamGame" />
       </list>
     </recent_temporary>
   </component>
@@ -2705,31 +2311,34 @@
     <option name="totallyTimeSpent" value="38000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="2576" height="1586" extended-state="6" />
+    <frame x="-7" y="-7" width="1935" height="1064" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.15898252" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Project" order="0" visible="true" weight="0.1568" />
+      <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Designer" order="2" />
-      <window_info id="Favorites" order="3" side_tool="true" />
+      <window_info id="UI Designer" order="3" />
+      <window_info id="Favorites" order="4" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.26871938" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49920508" visible="true" weight="0.2617215" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49960256" weight="0.39958012" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32893288" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.5007949" side_tool="true" weight="0.2617215" />
-      <window_info anchor="bottom" id="Version Control" order="8" sideWeight="0.49920508" weight="0.32820153" />
-      <window_info anchor="bottom" id="Messages" order="9" sideWeight="0.49880764" weight="0.32750174" />
-      <window_info anchor="bottom" id="Terminal" order="10" />
-      <window_info anchor="bottom" id="Build" order="11" />
+      <window_info anchor="bottom" id="Terminal" order="7" />
+      <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
+      <window_info anchor="bottom" id="Version Control" order="9" />
+      <window_info anchor="bottom" id="Build" order="10" />
+      <window_info anchor="bottom" id="Messages" order="11" weight="0.32893288" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="Gradle" order="3" weight="0.15898252" />
-      <window_info anchor="right" id="Palette&#9;" order="4" />
-      <window_info anchor="right" id="Maven Projects" order="5" />
+      <window_info anchor="right" id="Palette" order="3" />
+      <window_info anchor="right" id="Gradle" order="4" />
+      <window_info anchor="right" id="Palette&#9;" order="5" />
+      <window_info anchor="right" id="Maven Projects" order="6" />
+      <window_info anchor="right" id="Maven" order="7" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -2744,9 +2353,6 @@
         <option value="1" />
       </list>
     </option>
-  </component>
-  <component name="VcsContentAnnotationSettings">
-    <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Fix gradle config for finder/processor" />
@@ -2763,7 +2369,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBSeriesUpdater.java</url>
-          <line>71</line>
+          <line>72</line>
           <properties />
           <option name="timeStamp" value="41" />
         </line-breakpoint>
@@ -2775,7 +2381,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBSeriesUpdater.java</url>
-          <line>191</line>
+          <line>232</line>
           <properties />
           <option name="timeStamp" value="50" />
         </line-breakpoint>
@@ -2843,20 +2449,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/test/resources/IGDBTest/id_12345.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="95">
-          <caret line="5" column="16" selection-start-line="5" selection-start-column="16" selection-end-line="5" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/resources/IGDBTest/id_23456.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="19">
-          <caret line="1" selection-start-line="1" selection-end-line="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/PersonSeries.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="456">
@@ -2869,13 +2461,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="893">
           <caret line="57" column="5" selection-start-line="57" selection-start-column="5" selection-end-line="57" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/provider/IGDBProvider.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="114">
-          <caret line="6" column="46" selection-start-line="6" selection-start-column="2" selection-end-line="6" selection-end-column="46" />
         </state>
       </provider>
     </entry>
@@ -2893,13 +2478,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/PossibleGameMatch.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="665">
-          <caret line="41" column="3" selection-start-line="41" selection-start-column="3" selection-end-line="41" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/PossibleGameMatch.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/GiantBombUpdater.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="779">
@@ -2928,13 +2507,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/resources/Steam/steam_example.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="658">
-          <caret line="3515" column="5" lean-forward="true" selection-start-line="3515" selection-start-column="5" selection-end-line="3515" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/Steam/steam_example.json" />
     <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/xml/JSONReader.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="624">
@@ -2949,13 +2522,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/games/provider/IGDBTestProviderImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/games/provider/IGDBTestProviderImpl.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/QuickBatchUpdater.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="785">
@@ -2974,39 +2541,10 @@
     <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/dataobject/GamesTestSchema.java" />
     <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/model/games/GameSchemaHerokuTest.java" />
     <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/model/games/GameSchemaLocalTest.java" />
-    <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/DatabaseTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="95">
-          <caret line="12" column="22" selection-start-line="12" selection-start-column="22" selection-end-line="12" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/model/SchemaTestTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="19" column="51" selection-start-line="19" selection-start-column="51" selection-end-line="19" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/games/IGDBUpdaterTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="38">
-          <caret line="2" selection-start-line="2" selection-end-line="2" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/DatabaseTest.java" />
+    <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/model/SchemaTestTest.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/GamesSchema.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/PersonGame.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="570">
-          <caret line="40" selection-start-line="40" selection-end-line="40" />
-          <folding>
-            <element signature="e#1293#1294#0" expanded="true" />
-            <element signature="e#1351#1352#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/PersonGame.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/scheduler/TaskScheduleRunner.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1748">
@@ -3014,16 +2552,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/GameplaySession.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="361">
-          <caret line="22" selection-start-line="22" selection-end-line="22" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/GameplaySession.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/GameLog.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="703">
@@ -3031,149 +2560,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/games/provider/SteamTestProviderImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
-          <caret line="21" selection-start-line="21" selection-end-line="21" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/model/SchemaHerokuTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="133">
-          <caret line="17" column="28" selection-start-line="17" selection-start-column="28" selection-end-line="17" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/model/SchemaLocalTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="494">
-          <caret line="36" column="5" selection-start-line="36" selection-start-column="5" selection-end-line="36" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/db/SQLConnection.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="513">
-          <caret line="34" column="5" selection-start-line="34" selection-start-column="5" selection-end-line="34" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/view-source_howlongtobeat.com.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5738">
-          <caret line="302" column="47" selection-start-line="302" selection-start-column="47" selection-end-line="302" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/SteamGameUpdater.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3382">
-          <caret line="202" column="45" selection-start-line="202" selection-start-column="45" selection-end-line="202" selection-end-column="45" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/SteamPlaySessionGenerator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="34" column="24" selection-start-line="34" selection-start-column="24" selection-end-line="34" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/utility/TimestampTimeZoneUpgrader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="95">
-          <caret line="12" column="28" selection-start-line="12" selection-start-column="28" selection-end-line="12" selection-end-column="28" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/dataobject/MediaMogulTestSchema.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="133">
-          <caret line="7" column="1" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/resources/Steam/steam_xcom2.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="11" column="7" selection-start-line="11" selection-start-column="7" selection-end-line="11" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/resources/Steam/steam_clunkers.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="418">
-          <caret line="22" column="1" selection-start-line="22" selection-start-column="1" selection-end-line="22" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/games/SteamUpdaterTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="559">
-          <caret line="56" column="64" selection-start-line="56" selection-start-column="64" selection-end-line="56" selection-end-column="64" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/Game.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="22" selection-start-line="22" selection-end-line="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/dataobject/DataObject.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="30" column="51" lean-forward="true" selection-start-line="30" selection-start-column="51" selection-end-line="30" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/games/provider/SteamTestProviderImpl.java" />
+    <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/model/SchemaHerokuTest.java" />
+    <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/model/SchemaLocalTest.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/SteamPlaySessionGenerator.java" />
+    <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/dataobject/MediaMogulTestSchema.java" />
+    <entry file="file://$PROJECT_DIR$/src/test/resources/Steam/steam_xcom2.json" />
+    <entry file="file://$PROJECT_DIR$/src/test/resources/Steam/steam_clunkers.json" />
+    <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/games/SteamUpdaterTest.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TVGroupPerson.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TVGroup.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/dataobject/RetireableDataObject.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="247">
-          <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TVGroupPerson.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="76">
-          <caret line="7" column="48" lean-forward="true" selection-start-line="7" selection-start-column="48" selection-end-line="7" selection-end-column="48" />
-          <folding>
-            <element signature="e#736#737#0" expanded="true" />
-            <element signature="e#826#827#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TVGroup.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="361">
-          <caret line="25" lean-forward="true" selection-start-line="25" selection-end-line="25" />
-          <folding>
-            <element signature="e#442#443#0" expanded="true" />
-            <element signature="e#458#459#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="221">
+          <caret line="14" selection-start-line="14" selection-end-line="14" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TVGroupSeries.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="361">
-          <caret line="21" column="11" lean-forward="true" selection-start-line="21" selection-start-column="11" selection-end-line="21" selection-end-column="11" />
+        <state relative-caret-position="255">
+          <caret line="21" column="11" selection-start-line="21" selection-start-column="11" selection-end-line="21" selection-end-column="11" />
           <folding>
             <element signature="e#522#523#0" expanded="true" />
             <element signature="e#575#576#0" expanded="true" />
@@ -3185,22 +2592,103 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/MediaMogulSchema.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TVGroupEpisode.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="361">
-          <caret line="22" column="19" lean-forward="true" selection-start-line="22" selection-start-column="19" selection-end-line="22" selection-end-column="19" />
+        <state relative-caret-position="289">
+          <caret line="19" column="11" selection-start-line="19" selection-start-column="11" selection-end-line="19" selection-end-column="11" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TVGroupEpisode.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/MediaMogulSchema.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="361">
-          <caret line="21" column="30" lean-forward="true" selection-start-line="21" selection-start-column="30" selection-end-line="21" selection-end-column="30" />
+        <state relative-caret-position="323">
+          <caret line="22" column="19" selection-start-line="22" selection-start-column="19" selection-end-line="22" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/Game.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="18" selection-start-line="18" selection-end-line="18" />
           <folding>
-            <element signature="e#623#624#0" expanded="true" />
-            <element signature="e#657#658#0" expanded="true" />
-            <element signature="e#699#700#0" expanded="true" />
-            <element signature="e#789#790#0" expanded="true" />
+            <marker date="1542591321022" expanded="true" signature="7917:7921" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/db/SQLConnection.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="459">
+          <caret line="34" column="5" selection-start-line="34" selection-start-column="5" selection-end-line="34" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/view-source_howlongtobeat.com.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5134">
+          <caret line="302" column="47" selection-start-line="302" selection-start-column="47" selection-end-line="302" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/SteamGameUpdater.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3570">
+          <caret line="234" column="3" selection-start-line="234" selection-start-column="3" selection-end-line="234" selection-end-column="3" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#9622#9623#0" expanded="true" />
+            <element signature="e#9658#9659#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/utility/TimestampTimeZoneUpgrader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="28" selection-start-line="9" selection-start-column="28" selection-end-line="9" selection-end-column="28" />
+          <folding>
+            <marker date="1542591321131" expanded="true" signature="1862:1923" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="21" selection-start-line="10" selection-start-column="21" selection-end-line="10" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/dataobject/DataObject.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="21" column="38" selection-start-line="21" selection-start-column="38" selection-end-line="21" selection-end-column="38" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/provider/IGDBProvider.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" selection-start-line="10" selection-end-line="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/games/IGDBUpdaterTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
