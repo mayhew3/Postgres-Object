@@ -1,9 +1,9 @@
 package com.mayhew3.mediamogul.model;
 
 import com.mayhew3.mediamogul.dataobject.DataSchema;
-import com.mayhew3.mediamogul.model.Person;
 import com.mayhew3.mediamogul.model.games.*;
 import com.mayhew3.mediamogul.model.tv.*;
+import com.mayhew3.mediamogul.model.tv.group.*;
 
 public class MediaMogulSchema {
 
@@ -32,6 +32,8 @@ public class MediaMogulSchema {
       new TVGroupPerson(),
       new TVGroupSeries(),
       new TVGroupEpisode(),
+      new TVGroupBallot(),
+      new TVGroupVote(),
       new TVDBEpisode(),
       new TVDBPoster(),
       new TVDBSeries(),

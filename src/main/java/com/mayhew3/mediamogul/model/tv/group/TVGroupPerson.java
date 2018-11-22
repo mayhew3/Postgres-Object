@@ -1,4 +1,4 @@
-package com.mayhew3.mediamogul.model.tv;
+package com.mayhew3.mediamogul.model.tv.group;
 
 import com.mayhew3.mediamogul.dataobject.FieldValueForeignKey;
 import com.mayhew3.mediamogul.dataobject.Nullability;
