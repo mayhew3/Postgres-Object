@@ -20,7 +20,7 @@ public class TVGroupDataImporter {
 
   private Map<Pair<Integer, Date>, TVGroupBallot> ballotCache;
 
-  public TVGroupDataImporter(SQLConnection connection) {
+  private TVGroupDataImporter(SQLConnection connection) {
     this.connection = connection;
     this.ballotCache = new HashMap<>();
   }
@@ -97,7 +97,7 @@ public class TVGroupDataImporter {
     }
   }
 
-  private TVGroup getGroup(String name) throws SQLException {
+  private TVGroup getGroup(@SuppressWarnings("SameParameterValue") String name) throws SQLException {
     String sql = "SELECT * " +
         "FROM tv_group " +
         "WHERE name = ? ";
