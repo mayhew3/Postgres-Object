@@ -8,8 +8,8 @@ import com.mayhew3.mediamogul.model.tv.Series;
 public class TVGroupSeries extends RetireableDataObject {
 
   /* Data */
-  private FieldValueForeignKey tv_group_id = registerForeignKey(new TVGroup(), Nullability.NOT_NULL);
-  private FieldValueForeignKey series_id = registerForeignKey(new Series(), Nullability.NOT_NULL);
+  public FieldValueForeignKey tv_group_id = registerForeignKey(new TVGroup(), Nullability.NOT_NULL);
+  public FieldValueForeignKey series_id = registerForeignKey(new Series(), Nullability.NOT_NULL);
 
   public TVGroupSeries() {
     addUniqueConstraint(tv_group_id, series_id);

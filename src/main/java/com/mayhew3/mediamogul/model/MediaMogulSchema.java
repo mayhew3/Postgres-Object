@@ -34,6 +34,7 @@ public class MediaMogulSchema {
       new TVGroupEpisode(),
       new TVGroupBallot(),
       new TVGroupVote(),
+      new TVGroupVoteImport(),
       new TVDBEpisode(),
       new TVDBPoster(),
       new TVDBSeries(),
