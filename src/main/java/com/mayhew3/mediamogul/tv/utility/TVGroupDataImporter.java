@@ -6,6 +6,7 @@ import com.mayhew3.mediamogul.db.SQLConnection;
 import com.mayhew3.mediamogul.model.Person;
 import com.mayhew3.mediamogul.model.tv.Series;
 import com.mayhew3.mediamogul.model.tv.group.*;
+import com.mayhew3.mediamogul.tv.TVDBMatchStatus;
 import javafx.util.Pair;
 
 import java.net.URISyntaxException;
@@ -45,11 +46,11 @@ public class TVGroupDataImporter {
       String title = tvGroupVoteImport.show.getValue();
       Timestamp voteDate = tvGroupVoteImport.vote_date.getValue();
 
-      Optional<Series> optionalSeries = Series.findSeriesFromTitle(title, connection);
+      Optional<Series> optionalSeries = findSeriesFromTitle(title, connection);
       if (optionalSeries.isPresent()) {
         Series series = optionalSeries.get();
         Person person = getPerson(tvGroupVoteImport.email.getValue());
-        TVGroup group = getGroup("Krazy Kats");
+        TVGroup group = getGroup(null);
         Integer voteValue = tvGroupVoteImport.vote.getValue();
 
         TVGroupBallot ballot = getOrCreateBallot(group.id.getValue(), voteDate, series);
@@ -60,6 +61,24 @@ public class TVGroupDataImporter {
       } else {
         debug("No series found with title: '" + title + "'");
       }
+    }
+  }
+
+  private Optional<Series> findSeriesFromTitle(String seriesTitle, SQLConnection connection) throws SQLException {
+    String sql = "SELECT * " +
+        "FROM series " +
+        "WHERE title = ? " +
+        "AND retired = ? " +
+        "AND tvdb_match_status = ? ";
+
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, seriesTitle, 0, TVDBMatchStatus.MATCH_COMPLETED);
+
+    if (resultSet.next()) {
+      Series series = new Series();
+      series.initializeFromDBObject(resultSet);
+      return Optional.of(series);
+    } else {
+      return Optional.empty();
     }
   }
 
