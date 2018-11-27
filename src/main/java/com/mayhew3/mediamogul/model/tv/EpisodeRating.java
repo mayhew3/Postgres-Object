@@ -6,7 +6,6 @@ import com.mayhew3.mediamogul.model.Person;
 public class EpisodeRating extends RetireableDataObject {
 
   public FieldValueForeignKey episodeId = registerForeignKey(new Episode(), Nullability.NOT_NULL);
-  public FieldValueForeignKey personId = registerForeignKey(new Person(), Nullability.NOT_NULL);
 
   public FieldValueBoolean watched = registerBooleanField("watched", Nullability.NOT_NULL).defaultValue(true);
   public FieldValueTimestamp watchedDate = registerTimestampField("watched_date", Nullability.NULLABLE);
@@ -19,6 +18,11 @@ public class EpisodeRating extends RetireableDataObject {
   public FieldValueBigDecimal ratingValue = registerBigDecimalField("rating_value", Nullability.NULLABLE);
 
   public FieldValueString review = registerStringField("review", Nullability.NULLABLE);
+
+  public EpisodeRating() {
+    registerForeignKey(new Person(), Nullability.NOT_NULL);
+    registerBooleanField("rating_pending", Nullability.NOT_NULL).defaultValue(false);
+  }
 
   @Override
   public String getTableName() {
