@@ -12,6 +12,7 @@ public class Person extends RetireableDataObject {
 
   public Person() {
     registerStringField("user_role", Nullability.NOT_NULL).defaultValue("user");
+    registerBooleanField("rating_notifications", Nullability.NOT_NULL).defaultValue(false);
     addUniqueConstraint(email);
   }
 
