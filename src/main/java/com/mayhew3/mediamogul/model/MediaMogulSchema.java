@@ -24,6 +24,7 @@ public class MediaMogulSchema {
       new SeasonViewingLocation(),
       new Series(),
       new SeriesGenre(),
+      new SeriesRequest(),
       new SeriesViewingLocation(),
       new SystemVars(),
       new TiVoEpisode(),
