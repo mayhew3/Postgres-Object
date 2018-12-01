@@ -11,8 +11,9 @@ public class SeriesRequest extends RetireableDataObject {
     registerIntegerField("tvdb_series_ext_id", Nullability.NOT_NULL);
     registerStringField("title", Nullability.NOT_NULL);
     registerStringField("poster", Nullability.NULLABLE);
-    registerTimestampField("completed", Nullability.NULLABLE);
+    registerTimestampField("approved", Nullability.NULLABLE);
     registerTimestampField("rejected", Nullability.NULLABLE);
+    registerTimestampField("completed", Nullability.NULLABLE);
   }
 
   @Override
