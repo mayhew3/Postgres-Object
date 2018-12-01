@@ -2,20 +2,18 @@ package com.mayhew3.mediamogul.tv;
 
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mayhew3.mediamogul.ArgumentChecker;
-import com.mayhew3.mediamogul.scheduler.UpdateRunner;
 import com.mayhew3.mediamogul.db.PostgresConnectionFactory;
 import com.mayhew3.mediamogul.db.SQLConnection;
 import com.mayhew3.mediamogul.model.tv.Series;
 import com.mayhew3.mediamogul.model.tv.TVDBConnectionLog;
 import com.mayhew3.mediamogul.model.tv.TVDBUpdateError;
+import com.mayhew3.mediamogul.scheduler.UpdateRunner;
 import com.mayhew3.mediamogul.tv.exception.ShowFailedException;
 import com.mayhew3.mediamogul.tv.helper.UpdateMode;
 import com.mayhew3.mediamogul.tv.provider.TVDBJWTProvider;
 import com.mayhew3.mediamogul.tv.provider.TVDBJWTProviderImpl;
-import com.mayhew3.mediamogul.xml.BadlyFormattedXMLException;
 import com.mayhew3.mediamogul.xml.JSONReader;
 import com.mayhew3.mediamogul.xml.JSONReaderImpl;
-import org.apache.commons.cli.*;
 import org.apache.http.auth.AuthenticationException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -76,7 +74,7 @@ public class TVDBUpdateRunner implements UpdateRunner {
     this.updateMode = updateMode;
   }
 
-  public static void main(String... args) throws URISyntaxException, SQLException, UnirestException, ParseException {
+  public static void main(String... args) throws URISyntaxException, SQLException, UnirestException {
     ArgumentChecker argumentChecker = new ArgumentChecker(args);
 
     UpdateMode updateMode = UpdateMode.getUpdateModeOrDefault(argumentChecker, UpdateMode.SMART);
@@ -469,12 +467,17 @@ public class TVDBUpdateRunner implements UpdateRunner {
 
   @NotNull
   private SeriesUpdateResult processSingleSeries(ResultSet resultSet, Series series) throws SQLException {
+    boolean addingSeries = false;
     if (!series.isInitialized()) {
       series.initializeFromDBObject(resultSet);
+      addingSeries = true;
     }
 
     try {
       updateTVDB(series);
+      if (addingSeries) {
+        maybeUpdateSeriesRequest(series);
+      }
       resetTVDBErrors(series);
       return SeriesUpdateResult.UPDATE_SUCCESS;
     } catch (Exception e) {
@@ -484,6 +487,19 @@ public class TVDBUpdateRunner implements UpdateRunner {
       addUpdateError(e, series);
       return SeriesUpdateResult.UPDATE_FAILED;
     }
+  }
+
+  private void maybeUpdateSeriesRequest(Series series) throws SQLException {
+    String sql = "UPDATE series_request " +
+        "SET completed = ? " +
+        "WHERE tvdb_series_ext_id = ? " +
+        "AND completed IS NULL " +
+        "AND retired = ? ";
+
+    connection.prepareAndExecuteStatementUpdate(sql,
+        new Timestamp(new Date().getTime()),
+        series.tvdbSeriesExtId.getValue(),
+        0);
   }
 
   private void addUpdateError(Exception e, Series series) throws SQLException {
@@ -536,7 +552,7 @@ public class TVDBUpdateRunner implements UpdateRunner {
     series.commit(connection);
   }
 
-  private void updateTVDB(Series series) throws SQLException, BadlyFormattedXMLException, ShowFailedException, UnirestException, AuthenticationException {
+  private void updateTVDB(Series series) throws SQLException, ShowFailedException, UnirestException, AuthenticationException {
     TVDBSeriesUpdater updater = new TVDBSeriesUpdater(connection, series, tvdbjwtProvider, jsonReader);
     updater.updateSeries();
 
@@ -544,7 +560,7 @@ public class TVDBUpdateRunner implements UpdateRunner {
     episodesUpdated += updater.getEpisodesUpdated();
   }
 
-  public Integer getSeriesUpdates() {
+  private Integer getSeriesUpdates() {
     return seriesUpdates;
   }
 
