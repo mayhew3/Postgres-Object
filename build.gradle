@@ -2,11 +2,12 @@ plugins {
     // This plugin allows me to check if there are any updates available for any of the dependencies.
     // From the root directory, run 'gradle dependencyUpdates'. It won't make changes, but print out the latest versions.
     id 'com.github.ben-manes.versions' version '0.17.0'
+    id 'java-library'
 }
 
 apply plugin: 'idea'
 apply plugin: 'java'
-apply plugin: 'application'
+apply plugin: 'java-library'
 
 // In this section you declare where to find the dependencies of your project
 repositories {
@@ -39,15 +40,3 @@ dependencies {
     testCompile 'org.assertj:assertj-joda-time:2.2.0'
     testCompile 'org.mockito:mockito-core:2.18.3'
 }
-
-task runTaskScheduleRunner(type:JavaExec) {
-    main = 'com.mayhew3.mediamogul.scheduler.TaskScheduleRunner'
-    classpath = sourceSets.main.runtimeClasspath
-    args = ['-db', 'Heroku', 'LogToFile']
-}
-
-run {
-    args = ['-db', 'Test']
-}
-
-mainClassName = 'com.mayhew3.mediamogul.scheduler.TaskScheduleRunner'

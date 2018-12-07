@@ -1,10 +1,6 @@
 package com.mayhew3.mediamogul.dataobject;
 
 import com.mayhew3.mediamogul.db.PostgresConnection;
-import com.mayhew3.mediamogul.model.tv.Episode;
-import com.mayhew3.mediamogul.model.tv.Genre;
-import com.mayhew3.mediamogul.model.tv.Series;
-import com.mayhew3.mediamogul.model.tv.SeriesGenre;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -229,37 +225,6 @@ public class DataObjectTest {
         .isEqualTo("CREATE TABLE test (id serial NOT NULL, date_added TIMESTAMP(6) WITH TIME ZONE DEFAULT now(), title TEXT NOT NULL, kernels INTEGER DEFAULT 0, PRIMARY KEY (id), UNIQUE (title), UNIQUE (kernels, date_added))");
   }
 
-  @Test
-  public void testGenerateActualObject() {
-    DataObject series = new Series();
-    System.out.println(series.generateTableCreateStatement());
-
-    DataObject episode = new Episode();
-    System.out.println(episode.generateTableCreateStatement());
-
-    DataObject seriesGenre = new SeriesGenre();
-    System.out.println(seriesGenre.generateTableCreateStatement());
-  }
-
-  @Test
-  public void testGetForeignKeys() {
-    DataObjectMock dataObjectMock = new DataObjectMock();
-    FieldValueForeignKey butter = dataObjectMock.registerForeignKey(new Series(), Nullability.NULLABLE);
-
-    assertThat(dataObjectMock.getForeignKeys())
-        .as("Expect adding a foreign key to be included in the foreign key collection.")
-        .contains(butter);
-
-    FieldValueForeignKey genreFK = dataObjectMock.registerForeignKey(new Genre(), Nullability.NULLABLE);
-
-    assertThat(dataObjectMock.getForeignKeys())
-        .as("SANITY: Expect adding a foreign key still to be included in the foreign key collection.")
-        .contains(butter)
-        .as("Expect adding a foreign key using method variation with integer size to also add to collection.")
-        .contains(genreFK);
-
-  }
-  
   // utility methods
 
   private ResultSet mockDBRow() throws SQLException {

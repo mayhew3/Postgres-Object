@@ -1,19 +1,16 @@
 package com.mayhew3.mediamogul.dataobject;
 
-import com.mayhew3.mediamogul.db.PostgresConnectionFactory;
 import com.mayhew3.mediamogul.db.SQLConnection;
-import com.mayhew3.mediamogul.model.tv.TVDBEpisode;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.net.URISyntaxException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class DataObjectTableValidator {
+class DataObjectTableValidator {
   private DataObject dataObject;
   private SQLConnection connection;
 
@@ -24,23 +21,6 @@ public class DataObjectTableValidator {
     this.connection = connection;
 
     mismatches = new ArrayList<>();
-  }
-
-  // todo: remove. just for testing purposes.
-  public static void main(String... args) throws URISyntaxException, SQLException {
-    TVDBEpisode episode = new TVDBEpisode();
-    SQLConnection connection = PostgresConnectionFactory.getSqlConnection(PostgresConnectionFactory.TEST);
-
-    List<DataObjectMismatch> results = new DataObjectTableValidator(episode, connection).matchSchema();
-
-    if (results.isEmpty()) {
-      debug("Table " + episode.getTableName() + " checks out!");
-    } else {
-      debug("Issues found for table " + episode.getTableName() + ":");
-      for (DataObjectMismatch result : results) {
-        debug(" - " + result);
-      }
-    }
   }
 
   List<DataObjectMismatch> matchSchema() throws SQLException {
@@ -182,7 +162,4 @@ public class DataObjectTableValidator {
     mismatches.add(new DataObjectMismatch(dataObject, fieldValue, message));
   }
 
-  private static void debug(String s) {
-    System.out.println(s);
-  }
 }

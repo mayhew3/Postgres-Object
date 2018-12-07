@@ -2,7 +2,6 @@ package com.mayhew3.mediamogul.dataobject;
 
 import com.mayhew3.mediamogul.db.PostgresConnectionFactory;
 import com.mayhew3.mediamogul.db.SQLConnection;
-import com.mayhew3.mediamogul.model.MediaMogulSchema;
 import org.junit.Test;
 
 import java.net.URISyntaxException;
@@ -16,9 +15,9 @@ public class DatabaseRecreatorTest {
   @Test
   public void testRecreateTestDatabase() throws URISyntaxException, SQLException {
     SQLConnection connection = PostgresConnectionFactory.getSqlConnection(PostgresConnectionFactory.TEST);
-    new DatabaseRecreator(connection).recreateDatabase(MediaMogulSchema.schema);
+    new DatabaseRecreator(connection).recreateDatabase(DataSchemaMock.schema);
 
-    List<DataObjectMismatch> mismatches = MediaMogulSchema.schema.validateSchemaAgainstDatabase(connection);
+    List<DataObjectMismatch> mismatches = DataSchemaMock.schema.validateSchemaAgainstDatabase(connection);
 
     if (!mismatches.isEmpty()) {
       System.out.println("Mismatches found: ");

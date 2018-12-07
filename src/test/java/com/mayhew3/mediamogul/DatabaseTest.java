@@ -1,7 +1,7 @@
 package com.mayhew3.mediamogul;
 
+import com.mayhew3.mediamogul.dataobject.DataSchemaMock;
 import com.mayhew3.mediamogul.dataobject.DatabaseRecreator;
-import com.mayhew3.mediamogul.dataobject.MediaMogulTestSchema;
 import com.mayhew3.mediamogul.db.PostgresConnectionFactory;
 import com.mayhew3.mediamogul.db.SQLConnection;
 import org.junit.Before;
@@ -17,7 +17,7 @@ public abstract class DatabaseTest {
   public void setUp() throws URISyntaxException, SQLException {
     System.out.println("Setting up test DB...");
     connection = PostgresConnectionFactory.getSqlConnection(PostgresConnectionFactory.TEST);
-    new DatabaseRecreator(connection).recreateDatabase(MediaMogulTestSchema.test_schema);
+    new DatabaseRecreator(connection).recreateDatabase(DataSchemaMock.schema);
     System.out.println("DB re-created.");
   }
 
