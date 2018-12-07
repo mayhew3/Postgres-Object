@@ -15,7 +15,7 @@ public class DataSchema {
     allTables = Lists.newArrayList(dataObjects);
   }
 
-  DataSchema(List<DataObject> dataObjects) {
+  public DataSchema(List<DataObject> dataObjects) {
     allTables = Lists.newArrayList(dataObjects);
   }
 
@@ -27,7 +27,7 @@ public class DataSchema {
     return allResults;
   }
 
-  DataSchema addDataObject(DataObject dataObject) {
+  public DataSchema addDataObject(DataObject dataObject) {
     allTables.add(dataObject);
     return this;
   }
