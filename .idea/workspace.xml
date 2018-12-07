@@ -2,323 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1e099498-ec9e-4703-ab18-cce3963e4d0c" name="Default" comment="Move annotation directory">
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/dataobject/DataSchemaMock.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/InputGetter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/QuickBatchUpdater.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/SSLTool.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/archive/ArchiveableFactory.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/archive/ConnectLogFactory.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/archive/OldDataArchiveRunner.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/archive/TVDBConnectionLogFactory.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/archive/TVDBMigrationLogFactory.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/dataobject/DataObjectTableValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/dataobject/DataObjectTableValidator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/GameFailedException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/GiantBombUpdater.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/HowLongToBeatUpdateRunner.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/HowLongToBeatUpdater.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/IGDBUpdateRunner.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/IGDBUpdateTestRunner.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/IGDBUpdater.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/MetacriticGameUpdateRunner.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/MetacriticGameUpdater.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/SteamAttributeUpdateRunner.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/SteamAttributeUpdater.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/SteamGameUpdater.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/SteamPlaySessionGenerator.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/provider/IGDBProvider.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/provider/IGDBProviderImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/provider/SteamProvider.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/games/provider/SteamProviderImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/MediaMogulSchema.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/Person.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/Game.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/GameLog.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/GameplaySession.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/PersonGame.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/PossibleGameMatch.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/SteamAttribute.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/ConnectLog.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/EdgeTiVoEpisode.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/Episode.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/EpisodeGroupRating.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/EpisodeRating.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/ErrorLog.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/Genre.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/Movie.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/PersonSeries.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/PossibleEpisodeMatch.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/PossibleSeriesMatch.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/Season.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/SeasonViewingLocation.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/Series.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/SeriesGenre.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/SeriesRequest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/SeriesViewingLocation.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/SystemVars.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TVDBConnectionLog.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TVDBEpisode.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TVDBMigrationError.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TVDBMigrationLog.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TVDBPoster.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TVDBSeries.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TVDBUpdateError.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TVDBWorkItem.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TiVoEpisode.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/TmpRating.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/ViewingLocation.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/group/TVGroup.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/group/TVGroupBallot.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/group/TVGroupEpisode.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/group/TVGroupPerson.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/group/TVGroupSeries.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/group/TVGroupVote.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/tv/group/TVGroupVoteImport.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/scheduler/NightlyTaskSchedule.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/scheduler/PeriodicTaskSchedule.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/scheduler/TaskSchedule.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/scheduler/TaskScheduleRunner.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/scheduler/UpdateRunner.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/EpisodeGroupUpdater.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/MetacriticTVUpdater.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/SeriesDenormUpdater.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBEpisodeMatcher.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBEpisodeUpdater.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBMatchStatus.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBSeriesMatchRunner.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBSeriesMatchUpdater.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBSeriesUpdater.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBUpdateFinder.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBUpdateFinderRunner.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBUpdateProcessor.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBUpdateProcessorRunner.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TVDBUpdateRunner.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TiVoCommunicator.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/TiVoLibraryUpdater.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/blog/BlogRankingsCreator.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/blog/BlogTemplatePrinter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/exception/MalformedTVDBEpisodeException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/exception/MultipleMatchesException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/exception/ShowFailedException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/helper/ConnectionLogger.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/helper/MetacriticException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/helper/SeriesMerger.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/helper/UpdateMode.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/provider/RemoteFileDownloader.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/provider/TVDBDataProvider.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/provider/TVDBJWTProvider.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/provider/TVDBJWTProviderImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/provider/TVDBLocalFileProvider.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/provider/TVDBLocalJSONProvider.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/provider/TVDBWebProvider.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/provider/TiVoDataProvider.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/utility/DaylightSavingCorrector.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/utility/SeriesDeleter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/utility/TVDBDuplicateDataFixer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/utility/TVDBJSONFetcher.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/utility/TVDBXMLFetcher.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/utility/TVGroupDataImporter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/utility/TVRatingSpreadsheetCopier.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/utility/TimestampTimeZoneUpgrader.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/xml/BadlyFormattedXMLException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/xml/JSONReader.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/xml/JSONReaderImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/xml/NodeReader.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/xml/NodeReaderImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/xml/episodes.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/xml/series.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/DatabaseTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/DatabaseTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/DateTimeAssert.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/dataobject/DataObjectTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/dataobject/DataObjectTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/dataobject/DatabaseRecreatorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/dataobject/DatabaseRecreatorTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/dataobject/EpisodeTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/dataobject/MediaMogulTestSchema.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/dataobject/TiVoLocalProvider.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/games/IGDBUpdaterTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/games/SteamUpdaterTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/games/provider/IGDBTestProviderImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/games/provider/SteamTestProviderImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/model/SchemaHerokuTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/model/SchemaLocalTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/model/SchemaTestTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/tv/StringSimilarityTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/tv/TVDBSeriesUpdaterTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/tv/TiVoDaylightSavingsTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/tv/TiVoMatchExistingTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/AtlantaDaylightSavings/SeriesDetail.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/AtlantaDaylightSavings/SeriesList.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/AtlantaDaylightSavings/SeriesListRecordingNow.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/IGDBTest/id_12345.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/IGDBTest/id_23456.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/IGDBTest/search_Crumbles.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/IGDBTest/search_Doom.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/IGDBTest/search_Fahrbot.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/IGDBTest/search_Forza Horizon 4 Awesome.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/IGDBTest/search_Forza Horizon 4.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/IGDBTest/search_Gorfond.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/IGDBTest/search_Rebel Galaxy.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/IGDBTest/search_Zeblos.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/Steam/steam_clunkers.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/Steam/steam_example.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/Steam/steam_xcom2.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/TVDBTest/265374_episodes.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/TVDBTest/265374_posters.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/TVDBTest/265374_summary.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/TVDBTest/E5552985.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/TVDBTest/E5578415.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/TVDBTest/E5580497.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/TVDBTest/search_Inside Amy Schumer.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_09_42/00_index.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_09_42/American Crime_EP0317753099-0369664093.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_09_42/American Crime_EP0317753099-0370233423.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_09_42/Angie Tribeca_EP0318047152-0369261961.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_09_42/Angie Tribeca_EP0318047152-0369261962.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_09_42/Better Call Saul_EP0306092938-0369795786.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_09_42/Better Call Saul_EP0306092938-0370330261.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_09_42/Bob's Burgers_EP0165674492-0370601126.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_09_42/Bob's Burgers_EP0165674492-0370601127.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_09_42/Brooklyn Nine-Nine_EP0269674420-0369970883.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_09_42/Brooklyn Nine-Nine_EP0269674420-0370378037.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_09_42/Conan_EP0171093113-0370233367.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_09_42/Conan_EP0171093113-0370233368.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_09_42/Conan_EP0171093113-0370233369.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_09_42/Conan_EP0171093113-0370557198.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_09_42/Conan_EP0171093113-0370600252.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_09_42/Doctor Who_EP0049457552-0370330238.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_09_42/Fargo_EP0262724987-0369664041.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_09_42/Fargo_EP0262724987-0369664042.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_09_42/Frontline_EP0000017544-0368599308.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_09_42/Frontline_EP0000017544-0368599309.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_09_42/Full Frontal With Samantha Bee_EP0338187382-0368761933.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_09_42/Girls_EP0207829717-0369471673.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_09_42/Great News_EP0349153932-0355598820.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_09_42/Great News_EP0349153932-0370330362.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_09_42/Last Week Tonight With John Oliver_EP0309387513-0369471686.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_09_42/Last Week Tonight With John Oliver_EP0309387513-0369471687.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_09_42/Making History_EP0349153926-0370457275.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_09_42/Powerless_EP0349151181-0370379581.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_09_42/Seinfeld_EP0000016984-0000497864.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_09_42/Silicon Valley_EP0304811178-0370515062.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_09_42/The Americans_EP0244684015-0368896405.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_09_42/The Americans_EP0244684015-0368896408.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_09_42/The Expanse_EP0334289063-0369846940.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_09_42/The Graham Norton Show_EP0097361913-0369514479.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_09_42/The Graham Norton Show_EP0097361913-0370330141.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_09_42/The Last Man on Earth_EP0317679548-0369972592.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_09_42/The Late Show With Stephen Colbert_EP0314839233-0370601097.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_09_42/The Late Show With Stephen Colbert_EP0314839233-0370601098.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_09_42/The Late Show With Stephen Colbert_EP0314839233-0370601099.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_09_42/The Late Show With Stephen Colbert_EP0314839233-0370601100.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_09_42/The Late Show With Stephen Colbert_EP0314839233-0370601101.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_09_42/The Late Show With Stephen Colbert_EP0314839233-0370933684.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_09_42/The Late Show With Stephen Colbert_EP0314839233-0370933686.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_09_42/The Leftovers_EP0304811922-0353675178.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_09_42/The Leftovers_EP0304811922-0369615299.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_09_42/Veep_EP0207829648-0351525850.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_09_42/Veep_EP0207829648-0369846770.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_09_42/iZombie_EP0318047451-0369972566.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_09_42/iZombie_EP0318047451-0370600271.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/00_index.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/A Goodbye to Girls_EP0207829717-0369515458.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/American Crime_EP0317753099-0368718488.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/American Crime_EP0317753099-0369088414.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/American Crime_EP0317753099-0369471488.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/American Crime_EP0317753099-0369664093.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/American Crime_EP0317753099-0370233423.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Angie Tribeca_EP0318047152-0369261241.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Angie Tribeca_EP0318047152-0369261961.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Angie Tribeca_EP0318047152-0369261962.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Better Call Saul" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Better Call Saul_EP0306092938-0369471440.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Better Call Saul_EP0306092938-0369795786.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Better Call Saul_EP0306092938-0370330261.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Black Sails_EP0270535872-0368718378.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Black Sails_EP0270535872-0368718379.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Bob's Burgers_EP0165674492-0368761709.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Bob's Burgers_EP0165674492-0369365049.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Bob's Burgers_EP0165674492-0370601126.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Bob's Burgers_EP0165674492-0370601127.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Brooklyn Nine-Nine_EP0269674420-0369664044.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Brooklyn Nine-Nine_EP0269674420-0369970883.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Brooklyn Nine-Nine_EP0269674420-0370378037.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Colony_EP0334289068-0369088506.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Colony_EP0334289068-0369262621.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Conan_EP0171093113-0370233367.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Conan_EP0171093113-0370233368.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Conan_EP0171093113-0370233369.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Conan_EP0171093113-0370557198.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Conan_EP0171093113-0370600252.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Detroiters_EP0349146144-0368718719.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Detroiters_EP0349146144-0368897618.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Detroiters_EP0349146144-0369514544.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Doctor Who_EP0049457552-0369514478.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Doctor Who_EP0049457552-0370193068.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Doctor Who_EP0049457552-0370330238.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Fargo_EP0262724987-0369664041.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Fargo_EP0262724987-0369664042.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Frontline_EP0000017544-0368599308.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Frontline_EP0000017544-0368599309.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Full Frontal With Samantha Bee_EP0338187382-0368761933.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Full Frontal With Samantha Bee_EP0338187382-0369471433.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Girls_EP0207829717-0368718304.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Girls_EP0207829717-0368761734.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Girls_EP0207829717-0369471672.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Girls_EP0207829717-0369471673.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Great News_EP0349153932-0355598820.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Great News_EP0349153932-0370330362.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Homeland_EP0193655238-0368761731.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Homeland_EP0193655238-0368761732.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Homeland_EP0193655238-0369031995.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Last Week Tonight With John Oliver_EP0309387513-0368761798.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Last Week Tonight With John Oliver_EP0309387513-0369471685.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Last Week Tonight With John Oliver_EP0309387513-0369471686.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Last Week Tonight With John Oliver_EP0309387513-0369471687.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Making History_EP0349153926-0368761958.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Making History_EP0349153926-0369365065.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Making History_EP0349153926-0370457275.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Powerless_EP0349151181-0368718762.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Powerless_EP0349151181-0368720867.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Powerless_EP0349151181-0369847274.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Powerless_EP0349151181-0370379581.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Review_EP0303065687-0368896907.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Rick and Morty_EP0300402734-0351316420.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Seinfeld_EP0000016984-0000497864.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Silicon Valley_EP0304811178-0370515062.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/The Americans_EP0244684015-0368896404.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/The Americans_EP0244684015-0368896405.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/The Americans_EP0244684015-0368896406.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/The Americans_EP0244684015-0368896407.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/The Americans_EP0244684015-0368896408.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/The Expanse_EP0334289063-0368951238.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/The Expanse_EP0334289063-0369558797.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/The Expanse_EP0334289063-0369846939.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/The Expanse_EP0334289063-0369846940.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/The Graham Norton Show_EP0097361913-0369514479.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/The Graham Norton Show_EP0097361913-0370330141.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/The Last Man on Earth_EP0317679548-0368718491.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/The Last Man on Earth_EP0317679548-0368897240.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/The Last Man on Earth_EP0317679548-0369972592.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/The Late Show With Stephen Colbert_EP0314839233-0370601097.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/The Late Show With Stephen Colbert_EP0314839233-0370601098.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/The Late Show With Stephen Colbert_EP0314839233-0370601099.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/The Late Show With Stephen Colbert_EP0314839233-0370601100.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/The Late Show With Stephen Colbert_EP0314839233-0370601101.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/The Late Show With Stephen Colbert_EP0314839233-0370933684.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/The Late Show With Stephen Colbert_EP0314839233-0370933686.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/The Leftovers_EP0304811922-0353675178.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/The Leftovers_EP0304811922-0369615299.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/The Missing_EP0325428475-0367502201.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/The Missing_EP0325428475-0367502202.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/The Walking Dead" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/The Walking Dead_EP0170457235-0368718286.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/The Walking Dead_EP0170457235-0368761729.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Veep_EP0207829648-0351525850.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/Veep_EP0207829648-0369846770.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/iZombie_EP0318047451-0369470994.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/iZombie_EP0318047451-0369615306.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/iZombie_EP0318047451-0369972566.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/tivo_xml/2017_04_26_10_40_57/iZombie_EP0318047451-0370600271.xml" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -349,22 +34,27 @@
             <expand>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="media-mogul-data" type="f1a62948:ProjectNode" />
+                <item name="postgres-object" type="f1a62948:ProjectNode" />
               </path>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="media-mogul-data" type="f1a62948:ProjectNode" />
+                <item name="postgres-object" type="f1a62948:ProjectNode" />
+                <item name="Source Sets" type="e897c970:GradleViewContributor$SourceSetsNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="postgres-object" type="f1a62948:ProjectNode" />
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
               </path>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="media-mogul-data" type="f1a62948:ProjectNode" />
+                <item name="postgres-object" type="f1a62948:ProjectNode" />
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
                 <item name="build" type="c8890929:TasksNode$1" />
               </path>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="media-mogul-data" type="f1a62948:ProjectNode" />
+                <item name="postgres-object" type="f1a62948:ProjectNode" />
                 <item name="Run Configurations" type="7b0102dc:RunConfigurationsNode" />
               </path>
             </expand>
@@ -450,8 +140,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/build.gradle">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="171">
-              <caret line="9" column="27" selection-start-line="9" selection-start-column="27" selection-end-line="9" selection-end-column="27" />
+            <state relative-caret-position="780">
+              <caret line="45" column="5" lean-forward="true" selection-start-line="45" selection-start-column="5" selection-end-line="45" selection-end-column="5" />
             </state>
           </provider>
         </entry>
@@ -614,7 +304,33 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="ProjectPane" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="postgres-object" type="b2602c69:ProjectViewProjectNode" />
+              <item name="postgres-object" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+            </path>
+            <path>
+              <item name="postgres-object" type="b2602c69:ProjectViewProjectNode" />
+              <item name="postgres-object" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="build" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="postgres-object" type="b2602c69:ProjectViewProjectNode" />
+              <item name="postgres-object" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="build" type="462c0819:PsiDirectoryNode" />
+              <item name="libs" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="postgres-object" type="b2602c69:ProjectViewProjectNode" />
+              <item name="postgres-object" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
       <pane id="PackagesPane" />
       <pane id="Scope" />
     </panes>
@@ -676,7 +392,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Gradle.media-mogul-data [assemble]">
+  <component name="RunManager" selected="Gradle.postgres-object [clean]">
     <configuration name="BlogRankingsCreator" type="Application" factoryName="Application" nameIsGenerated="true">
       <envs>
         <env name="postgresURL_local" value="jdbc:postgresql://localhost:5432/tv?user=postgres&amp;password=m3mysql" />
@@ -2090,6 +1806,25 @@
       <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
       <method v="2" />
     </configuration>
+    <configuration name="postgres-object [clean]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="clean" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <method v="2" />
+    </configuration>
     <configuration name="All in postgres-object_test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="postgres-object_test" />
       <option name="PACKAGE_NAME" value="" />
@@ -2112,9 +1847,9 @@
       </method>
     </configuration>
     <configuration name="DatabaseRecreatorTest (Demo)" type="JUnit" factoryName="JUnit">
-      <module name="media-mogul-data_test" />
-      <option name="PACKAGE_NAME" value="com.mayhew3.mediamogul.dataobject" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.dataobject.DatabaseRecreatorTest" />
+      <module name="postgres-object_test" />
+      <option name="PACKAGE_NAME" value="com.mayhew3.postgresobject.dataobject" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.postgresobject.dataobject.DatabaseRecreatorTest" />
       <option name="METHOD_NAME" value="" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PARAMETERS" value="" />
@@ -2133,9 +1868,9 @@
       </method>
     </configuration>
     <configuration name="DatabaseRecreatorTest (Test)" type="JUnit" factoryName="JUnit">
-      <module name="media-mogul-data_test" />
-      <option name="PACKAGE_NAME" value="com.mayhew3.mediamogul.dataobject" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.dataobject.DatabaseRecreatorTest" />
+      <module name="postgres-object_test" />
+      <option name="PACKAGE_NAME" value="com.mayhew3.postgresobject.dataobject" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.postgresobject.dataobject.DatabaseRecreatorTest" />
       <option name="METHOD_NAME" value="" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PARAMETERS" value="" />
@@ -2220,26 +1955,6 @@
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.model.SchemaLocalTest" />
       <option name="METHOD_NAME" value="testHerokuTestUpToDate" />
       <option name="TEST_OBJECT" value="method" />
-      <option name="VM_PARAMETERS" value="" />
-      <option name="PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="moduleWithDependencies" />
-      </option>
-      <envs>
-        <env name="postgresURL_local" value="jdbc:postgresql://localhost:5432/tv?user=postgres&amp;password=m3mysql" />
-        <env name="postgresURL_local_test" value="jdbc:postgresql://localhost:5432/tv_copy?user=postgres&amp;password=m3mysql" />
-        <env name="postgresURL" value="postgres://ijxuheufucvnyu:h16h_LnZi4fHgIUjBANnzITEyR@ec2-54-204-30-115.compute-1.amazonaws.com:5432/dcg1rtode4vgk9" />
-      </envs>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="SteamUpdaterTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="media-mogul-data_test" />
-      <option name="PACKAGE_NAME" value="com.mayhew3.mediamogul.games" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.games.SteamUpdaterTest" />
-      <option name="METHOD_NAME" value="" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -2449,19 +2164,19 @@
       <item itemvalue="JUnit.SchemaHerokuTest.testHerokuSchemaUpToDate" />
       <item itemvalue="JUnit.DatabaseRecreatorTest (Test)" />
       <item itemvalue="JUnit.DatabaseRecreatorTest (Demo)" />
-      <item itemvalue="JUnit.SteamUpdaterTest" />
       <item itemvalue="JUnit.SteamUpdaterTest.testGameplaySessionMadeOnNewGame" />
       <item itemvalue="JUnit.SteamUpdaterTest.testGameplaySessionMadeOnUpdatedGame" />
       <item itemvalue="JUnit.SteamUpdaterTest.testUnlinkThenLinkSteamGame" />
       <item itemvalue="JUnit.All in postgres-object_test" />
+      <item itemvalue="Gradle.postgres-object [clean]" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.postgres-object [clean]" />
         <item itemvalue="JUnit.All in postgres-object_test" />
         <item itemvalue="JUnit.SteamUpdaterTest.testUnlinkThenLinkSteamGame" />
         <item itemvalue="JUnit.SteamUpdaterTest.testGameplaySessionMadeOnUpdatedGame" />
         <item itemvalue="JUnit.SteamUpdaterTest.testGameplaySessionMadeOnNewGame" />
-        <item itemvalue="JUnit.SteamUpdaterTest" />
       </list>
     </recent_temporary>
   </component>
@@ -2523,14 +2238,14 @@
     <frame x="-8" y="-8" width="2576" height="1586" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" order="0" visible="true" weight="0.18322735" />
+      <window_info active="true" id="Project" order="0" visible="true" weight="0.18322735" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="UI Designer" order="3" />
       <window_info id="Favorites" order="4" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32797202" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32797202" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32797202" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39901477" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -2544,7 +2259,7 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Palette" order="3" />
-      <window_info anchor="right" id="Gradle" order="4" />
+      <window_info anchor="right" id="Gradle" order="4" visible="true" weight="0.3298887" />
       <window_info anchor="right" id="Palette&#9;" order="5" />
       <window_info anchor="right" id="Maven Projects" order="6" />
       <window_info anchor="right" id="Maven" order="7" />
@@ -2796,8 +2511,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="9" column="27" selection-start-line="9" selection-start-column="27" selection-end-line="9" selection-end-column="27" />
+        <state relative-caret-position="780">
+          <caret line="45" column="5" lean-forward="true" selection-start-line="45" selection-start-column="5" selection-end-line="45" selection-end-column="5" />
         </state>
       </provider>
     </entry>
