@@ -37,6 +37,15 @@ dependencies {
 
 version = '0.9.0'
 
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allJava
+}
+
+artifacts {
+    archives sourcesJar
+}
+
 jar {
     manifest {
         attributes('Implementation-Title': project.name,
