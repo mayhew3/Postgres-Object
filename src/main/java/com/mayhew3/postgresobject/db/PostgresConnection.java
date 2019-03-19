@@ -11,9 +11,11 @@ import java.util.List;
 public class PostgresConnection implements SQLConnection {
 
   private Connection _connection;
+  private String _connectionString;
 
-  PostgresConnection(Connection connection) {
+  PostgresConnection(Connection connection, String connectionString) {
     _connection = connection;
+    _connectionString = connectionString;
   }
 
 
@@ -21,16 +23,33 @@ public class PostgresConnection implements SQLConnection {
 
   @NotNull
   public ResultSet executeQuery(String sql) throws SQLException {
+    checkConnection();
+
     Statement statement = _connection.createStatement();
     return statement.executeQuery(sql);
   }
 
   @NotNull
   public Statement executeUpdate(String sql) throws SQLException {
+    checkConnection();
+
     Statement statement = _connection.createStatement();
 
     statement.executeUpdate(sql);
     return statement;
+  }
+
+  private void checkConnection() throws SQLException {
+    if (_connection.isClosed()) {
+      System.out.println("Connection lost. Trying to reconnect...");
+      try {
+        _connection = DriverManager.getConnection(_connectionString);
+        System.out.println("Re-connect success!");
+      } catch (SQLException e) {
+        System.out.println("Re-connect failed.");
+        throw new RuntimeException("Failed to reconnect: " + e.getLocalizedMessage());
+      }
+    }
   }
 
   public void closeConnection() throws SQLException {
@@ -49,6 +68,8 @@ public class PostgresConnection implements SQLConnection {
 
   @NotNull
   public ResultSet prepareAndExecuteStatementFetch(String sql, List<Object> params) throws SQLException {
+    checkConnection();
+
     PreparedStatement preparedStatement = prepareStatementWithParams(sql, params);
     return preparedStatement.executeQuery();
   }
@@ -60,6 +81,8 @@ public class PostgresConnection implements SQLConnection {
 
 
   public Integer prepareAndExecuteStatementUpdate(String sql, List<Object> params) throws SQLException {
+    checkConnection();
+
     PreparedStatement preparedStatement = prepareStatementWithParams(sql, params);
 
     int rowsAffected = preparedStatement.executeUpdate();
@@ -75,6 +98,8 @@ public class PostgresConnection implements SQLConnection {
 
   @NotNull
   public PreparedStatement prepareStatementWithParams(String sql, List<Object> params) throws SQLException {
+    checkConnection();
+
     PreparedStatement preparedStatement = _connection.prepareStatement(sql);
     return plugParamsIntoStatement(preparedStatement, params);
   }
@@ -88,11 +113,15 @@ public class PostgresConnection implements SQLConnection {
 
   @NotNull
   public ResultSet executePreparedStatementWithParams(PreparedStatement preparedStatement, List<Object> params) throws SQLException {
+    checkConnection();
+
     PreparedStatement statementWithParams = plugParamsIntoStatement(preparedStatement, params);
     return statementWithParams.executeQuery();
   }
 
   public void executePreparedUpdateWithParams(PreparedStatement preparedStatement, List<Object> paramList) throws SQLException {
+    checkConnection();
+
     PreparedStatement statementWithParams = plugParamsIntoStatement(preparedStatement, paramList);
     statementWithParams.executeUpdate();
   }
@@ -104,11 +133,15 @@ public class PostgresConnection implements SQLConnection {
 
   @NotNull
   public PreparedStatement prepareStatementWithFields(String sql, List<FieldValue> fields) throws SQLException {
+    checkConnection();
+
     PreparedStatement preparedStatement = _connection.prepareStatement(sql);
     return plugFieldsIntoStatement(preparedStatement, fields);
   }
 
   public void prepareAndExecuteStatementUpdateWithFields(String sql, List<FieldValue> fields) throws SQLException {
+    checkConnection();
+
     PreparedStatement preparedStatement = prepareStatementWithFields(sql, fields);
 
     preparedStatement.executeUpdate();
@@ -117,6 +150,8 @@ public class PostgresConnection implements SQLConnection {
 
   @NotNull
   public Integer prepareAndExecuteStatementInsertReturnId(String sql, List<FieldValue> fieldValues) throws SQLException {
+    checkConnection();
+
     PreparedStatement preparedStatement = prepareStatementForInsertId(sql);
     plugFieldsIntoStatement(preparedStatement, fieldValues);
 
@@ -135,6 +170,8 @@ public class PostgresConnection implements SQLConnection {
 
 
   public void executePreparedUpdateWithFields(PreparedStatement preparedStatement, List<FieldValue> fieldValues) throws SQLException {
+    checkConnection();
+
     plugFieldsIntoStatement(preparedStatement, fieldValues);
     preparedStatement.executeUpdate();
   }
@@ -143,6 +180,8 @@ public class PostgresConnection implements SQLConnection {
   // unused but useful
 
   public boolean columnExists(String tableName, String columnName) throws SQLException {
+    checkConnection();
+
     return _connection.getMetaData().getColumns(null, null, tableName, columnName).next();
   }
 
@@ -183,6 +222,8 @@ public class PostgresConnection implements SQLConnection {
   }
 
   PreparedStatement prepareStatementForInsertId(String sql) throws SQLException {
+    checkConnection();
+
     return _connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
   }
 

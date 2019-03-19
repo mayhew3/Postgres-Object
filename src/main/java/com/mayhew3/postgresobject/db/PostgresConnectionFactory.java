@@ -42,7 +42,7 @@ public enum PostgresConnectionFactory {
     if (postgresURL == null) {
       throw new IllegalStateException("No environment variable found with name: " + postgresConnectionFactory.envName);
     }
-    return new PostgresConnection(initiateDBConnect(postgresURL));
+    return initiateDBConnect(postgresURL);
   }
 
   public static Optional<PostgresConnectionFactory> getConnectionType(final String nickname) {
@@ -52,10 +52,11 @@ public enum PostgresConnectionFactory {
         .findAny();
   }
 
-  private static Connection initiateDBConnect(String postgresURL) throws URISyntaxException, SQLException {
+  private static PostgresConnection initiateDBConnect(String postgresURL) throws URISyntaxException, SQLException {
     debug("Connecting to: " + postgresURL);
     try {
-      return DriverManager.getConnection(postgresURL);
+      Connection connection = DriverManager.getConnection(postgresURL);
+      return new PostgresConnection(connection, postgresURL);
     } catch (SQLException e) {
       URI dbUri = new URI(postgresURL);
 
@@ -64,7 +65,8 @@ public enum PostgresConnectionFactory {
       String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath() +
           "?user=" + username + "&password=" + password + "&ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";
 
-      return DriverManager.getConnection(dbUrl);
+      Connection connection = DriverManager.getConnection(dbUrl);
+      return new PostgresConnection(connection, dbUrl);
     }
   }
 
