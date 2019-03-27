@@ -15,9 +15,6 @@ repositories {
     // You can declare any Maven/Ivy/file repository here.
     jcenter()
     maven { url 'https://jitpack.io' }
-    flatDir {
-        dirs "$System.env.IDEA_ANNOTATIONS_DIR"
-    }
 }
 
 
@@ -26,7 +23,7 @@ dependencies {
     compile 'org.postgresql:postgresql:42.2.2'
     compile 'com.google.guava:guava:27.0.1-jre'
     compile group: 'commons-cli', name: 'commons-cli', version: '1.4'
-    compile name: 'annotations-java8'
+    compile group: 'org.jetbrains', name: 'annotations', version: '17.0.0'
 
     // Use JUnit test framework
     testCompile 'junit:junit:4.12'
@@ -35,7 +32,7 @@ dependencies {
     testCompile 'org.mockito:mockito-core:2.18.3'
 }
 
-version = '0.9.1'
+version = '0.9.2'
 
 task sourcesJar(type: Jar) {
     classifier = 'sources'
