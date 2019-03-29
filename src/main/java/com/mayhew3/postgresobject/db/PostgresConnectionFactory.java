@@ -52,7 +52,7 @@ public enum PostgresConnectionFactory {
         .findAny();
   }
 
-  private static PostgresConnection initiateDBConnect(String postgresURL) throws URISyntaxException, SQLException {
+  public static PostgresConnection initiateDBConnect(String postgresURL) throws URISyntaxException, SQLException {
     debug("Connecting to: " + postgresURL);
     try {
       Connection connection = DriverManager.getConnection(postgresURL);
