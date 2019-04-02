@@ -4,6 +4,8 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.mayhew3.postgresobject.db.SQLConnection;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -29,6 +31,8 @@ public abstract class DataObject {
   public FieldValueSerial id = registerId();
 
   public FieldValueTimestamp dateAdded = registerTimestampField("date_added", Nullability.NULLABLE).defaultValueNow();
+
+  private static Logger logger = LogManager.getLogger(DataObject.class);
 
   public void initializeFromDBObject(ResultSet resultSet) throws SQLException {
     editMode = EditMode.UPDATE;
@@ -154,7 +158,7 @@ public abstract class DataObject {
 
     if (!changedFields.isEmpty()) {
       Joiner joiner = Joiner.on(", ");
-      System.out.println(" - Changed: " + joiner.join(changedFieldNames));
+      debug(" - Changed: " + joiner.join(changedFieldNames));
       updateDatabase(db, changedFields);
       updateObjects(changedFields);
     }
@@ -353,4 +357,7 @@ public abstract class DataObject {
     return fieldBooleanValue;
   }
 
+  void debug(Object message) {
+    logger.debug(message);
+  }
 }

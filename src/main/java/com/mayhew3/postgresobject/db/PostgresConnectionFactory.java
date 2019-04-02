@@ -2,6 +2,8 @@ package com.mayhew3.postgresobject.db;
 
 import com.google.common.collect.Lists;
 import com.mayhew3.postgresobject.ArgumentChecker;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.URI;
@@ -19,6 +21,8 @@ public enum PostgresConnectionFactory {
 
   private final String nickname;
   private final String envName;
+
+  private static Logger logger = LogManager.getLogger(PostgresConnectionFactory.class);
 
   PostgresConnectionFactory(String nickname, String envName) {
     this.nickname = nickname;
@@ -71,7 +75,7 @@ public enum PostgresConnectionFactory {
   }
 
   private static void debug(String msg) {
-    System.out.println(msg);
+    logger.debug(msg);
   }
 
 }

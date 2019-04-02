@@ -2,6 +2,8 @@ package com.mayhew3.postgresobject.db;
 
 import com.google.common.collect.Lists;
 import com.mayhew3.postgresobject.dataobject.FieldValue;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
 import java.math.BigDecimal;
@@ -12,6 +14,8 @@ public class PostgresConnection implements SQLConnection {
 
   private Connection _connection;
   private String _connectionString;
+
+  private static Logger logger = LogManager.getLogger(PostgresConnection.class);
 
   PostgresConnection(Connection connection, String connectionString) {
     _connection = connection;
@@ -41,12 +45,12 @@ public class PostgresConnection implements SQLConnection {
 
   private void checkConnection() throws SQLException {
     if (_connection.isClosed()) {
-      System.out.println("Connection lost. Trying to reconnect...");
+      debug("Connection lost. Trying to reconnect...");
       try {
         _connection = DriverManager.getConnection(_connectionString);
-        System.out.println("Re-connect success!");
+        debug("Re-connect success!");
       } catch (SQLException e) {
-        System.out.println("Re-connect failed.");
+        debug("Re-connect failed.");
         throw new RuntimeException("Failed to reconnect: " + e.getLocalizedMessage());
       }
     }
@@ -227,4 +231,7 @@ public class PostgresConnection implements SQLConnection {
     return _connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
   }
 
+  void debug(Object message) {
+    logger.debug(message);
+  }
 }

@@ -2,6 +2,8 @@ package com.mayhew3.postgresobject.dataobject;
 
 import com.mayhew3.postgresobject.db.PostgresConnectionFactory;
 import com.mayhew3.postgresobject.db.SQLConnection;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 
 import java.net.URISyntaxException;
@@ -12,6 +14,8 @@ import static org.junit.Assert.fail;
 
 public class DatabaseRecreatorTest {
 
+  private static Logger logger = LogManager.getLogger(DatabaseRecreatorTest.class);
+  
   @Test
   public void testRecreateTestDatabase() throws URISyntaxException, SQLException {
     SQLConnection connection = PostgresConnectionFactory.getSqlConnection(PostgresConnectionFactory.TEST);
@@ -20,9 +24,9 @@ public class DatabaseRecreatorTest {
     List<DataObjectMismatch> mismatches = DataSchemaMock.schema.validateSchemaAgainstDatabase(connection);
 
     if (!mismatches.isEmpty()) {
-      System.out.println("Mismatches found: ");
+      debug("Mismatches found: ");
       for (DataObjectMismatch mismatch : mismatches) {
-        System.out.println(" - " + mismatch);
+        debug(" - " + mismatch);
       }
       fail();
     }
@@ -36,12 +40,16 @@ public class DatabaseRecreatorTest {
     List<DataObjectMismatch> mismatches = TVSchema.schema.validateSchemaAgainstDatabase(connection);
 
     if (!mismatches.isEmpty()) {
-      System.out.println("Mismatches found: ");
+      debug("Mismatches found: ");
       for (DataObjectMismatch mismatch : mismatches) {
-        System.out.println(" - " + mismatch);
+        debug(" - " + mismatch);
       }
       fail();
     }
   }
   */
+
+  void debug(Object message) {
+    logger.debug(message);
+  }
 }
