@@ -7,6 +7,7 @@ class DataObjectMock extends DataObject {
   DataObjectMock() {
     addUniqueConstraint(title);
     addUniqueConstraint(kernels, dateAdded);
+    addColumnsIndex(title, kernels);
   }
 
   @Override

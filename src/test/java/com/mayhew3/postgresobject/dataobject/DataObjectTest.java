@@ -225,6 +225,18 @@ public class DataObjectTest {
         .isEqualTo("CREATE TABLE test (id serial NOT NULL, date_added TIMESTAMP(6) WITH TIME ZONE DEFAULT now(), title TEXT NOT NULL, kernels INTEGER DEFAULT 0, PRIMARY KEY (id), UNIQUE (title), UNIQUE (kernels, date_added))");
   }
 
+  @Test
+  public void testGenerateIndicesCreateStatement() {
+    List<String> ddls = dataObject.generateAddIndexStatements();
+
+    assertThat(ddls)
+        .hasSize(1);
+    String statement = ddls.get(0);
+
+    assertThat(statement)
+        .isEqualTo("CREATE INDEX test_title_kernels_ix1 ON test (title, kernels) ");
+  }
+
   // utility methods
 
   private ResultSet mockDBRow() throws SQLException {

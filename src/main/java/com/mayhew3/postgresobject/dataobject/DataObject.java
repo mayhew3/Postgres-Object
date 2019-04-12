@@ -25,6 +25,7 @@ public abstract class DataObject {
 
   private List<FieldValue> allFieldValues = new ArrayList<>();
   private List<UniqueConstraint> uniqueConstraints = new ArrayList<>();
+  private List<ColumnsIndex> indices = new ArrayList<>();
   private List<FieldValueForeignKey> foreignKeys = new ArrayList<>();
   private List<String> sequenceNames = new ArrayList<>();
 
@@ -223,6 +224,10 @@ public abstract class DataObject {
     uniqueConstraints.add(new UniqueConstraint(Lists.newArrayList(fieldValues)));
   }
 
+  protected void addColumnsIndex(FieldValue... fieldValues) {
+    indices.add(new ColumnsIndex(Lists.newArrayList(fieldValues)));
+  }
+
   public String generateTableCreateStatement() {
     String statement =
         "CREATE TABLE " + getTableName() +
@@ -276,6 +281,25 @@ public abstract class DataObject {
       statements.add(statement);
 
       fkIndex++;
+    }
+    return statements;
+  }
+
+  public List<String> generateAddIndexStatements() {
+    List<String> statements = new ArrayList<>();
+    int ixIndex = 1;
+    for (ColumnsIndex index : indices) {
+      List<String> fieldNames = index.getFields().stream().map(FieldValue::getFieldName).collect(Collectors.toList());
+      String underJoin = Joiner.on("_").join(fieldNames);
+      String commaJoin = Joiner.on(", ").join(fieldNames);
+      String constraintName = getTableName() + "_" + underJoin + "_ix" + ixIndex;
+      String statement =
+          "CREATE INDEX " + constraintName + " " +
+              "ON " + getTableName() + " " +
+              "(" + commaJoin + ") ";
+      statements.add(statement);
+
+      ixIndex++;
     }
     return statements;
   }

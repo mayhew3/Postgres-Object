@@ -23,6 +23,7 @@ public class DatabaseRecreator {
 
     createAllTables(dataSchema);
     createAllForeignKeys(dataSchema);
+    createAllIndices(dataSchema);
   }
 
 
@@ -78,6 +79,15 @@ public class DatabaseRecreator {
       List<String> fkStatements = dataObject.generateAddForeignKeyStatements();
       for (String fkStatement : fkStatements) {
         connection.prepareAndExecuteStatementUpdate(fkStatement);
+      }
+    }
+  }
+
+  private void createAllIndices(DataSchema dataSchema) throws SQLException {
+    for (DataObject dataObject : dataSchema.getAllTables()) {
+      List<String> ixStatements = dataObject.generateAddIndexStatements();
+      for (String ixStatement : ixStatements) {
+        connection.prepareAndExecuteStatementUpdate(ixStatement);
       }
     }
   }
