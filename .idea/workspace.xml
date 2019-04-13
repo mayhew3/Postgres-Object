@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1e099498-ec9e-4703-ab18-cce3963e4d0c" name="Default" comment="Move annotation directory">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.gradle/" />
@@ -141,8 +142,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/build.gradle">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="211">
-              <caret line="35" column="1" lean-forward="true" selection-start-line="35" selection-start-column="1" selection-end-line="35" selection-end-column="1" />
+            <state relative-caret-position="135">
+              <caret line="37" column="16" selection-start-line="37" selection-start-column="16" selection-end-line="37" selection-end-column="16" />
             </state>
           </provider>
         </entry>
@@ -181,7 +182,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>new Person()</find>
       <find>finalscore</find>
       <find>adj</find>
       <find>replay</find>
@@ -211,6 +211,7 @@
       <find>System.out.println</find>
       <find>LogManager</find>
       <find>sourcesJar</find>
+      <find>archives</find>
     </findStrings>
     <replaceStrings>
       <replace>&lt;module name=&quot;media-mogul-data_main&quot;</replace>
@@ -459,7 +460,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Gradle.media-mogul-data [assemble]">
+  <component name="RunManager" selected="Gradle.postgresobject [testJar]">
     <configuration default="true" type="BatchConfigurationType" factoryName="Batch">
       <module name="media-mogul-data_main" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -1892,7 +1893,7 @@
       <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
       <method v="2" />
     </configuration>
-    <configuration name="postgresobject [sourcesJar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="postgresobject [testJar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -1903,7 +1904,7 @@
         </option>
         <option name="taskNames">
           <list>
-            <option value="sourcesJar" />
+            <option value="testJar" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -2241,7 +2242,6 @@
       <item itemvalue="Gradle.media-mogul-data [build]" />
       <item itemvalue="Gradle.media-mogul-data [assemble]" />
       <item itemvalue="Gradle.postgresobject [jar]" />
-      <item itemvalue="Gradle.postgresobject [sourcesJar]" />
       <item itemvalue="JUnit.SchemaLocalTest" />
       <item itemvalue="JUnit.SchemaLocalTest.testHerokuTestUpToDate" />
       <item itemvalue="JUnit.SchemaHerokuTest" />
@@ -2251,14 +2251,15 @@
       <item itemvalue="JUnit.DataObjectTest.testGenerateIndicesCreateStatement" />
       <item itemvalue="JUnit.DataObjectTest.testGenerateTableCreateStatement" />
       <item itemvalue="JUnit.All in postgres-object.test (1)" />
+      <item itemvalue="Gradle.postgresobject [testJar]" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.postgresobject [testJar]" />
+        <item itemvalue="Gradle.postgresobject [jar]" />
         <item itemvalue="JUnit.All in postgres-object.test (1)" />
         <item itemvalue="JUnit.DataObjectTest.testGenerateIndicesCreateStatement" />
         <item itemvalue="JUnit.DataObjectTest.testGenerateTableCreateStatement" />
-        <item itemvalue="Gradle.postgresobject [sourcesJar]" />
-        <item itemvalue="Gradle.postgresobject [jar]" />
       </list>
     </recent_temporary>
   </component>
@@ -2648,8 +2649,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="211">
-          <caret line="35" column="1" lean-forward="true" selection-start-line="35" selection-start-column="1" selection-end-line="35" selection-end-column="1" />
+        <state relative-caret-position="135">
+          <caret line="37" column="16" selection-start-line="37" selection-start-column="16" selection-end-line="37" selection-end-column="16" />
         </state>
       </provider>
     </entry>

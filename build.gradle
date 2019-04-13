@@ -35,21 +35,25 @@ dependencies {
     testCompile 'org.mockito:mockito-core:2.18.3'
 }
 
-version = '0.9.6'
+version = '0.9.7'
+
+configurations {
+    testArtifacts.extendsFrom testRuntime
+}
+
+task testJar(type: Jar) {
+    classifier 'tests'
+    from sourceSets.test.output
+}
 
 task sourcesJar(type: Jar) {
     classifier = 'sources'
     from sourceSets.main.allJava
 }
 
-task testJar(type: Jar) {
-    classifier = 'tests'
-    from sourceSets.test.allJava
-}
-
 artifacts {
     archives sourcesJar
-    archives testJar
+    testArtifacts testJar
 }
 
 jar {
