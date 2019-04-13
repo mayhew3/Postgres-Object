@@ -42,8 +42,14 @@ task sourcesJar(type: Jar) {
     from sourceSets.main.allJava
 }
 
+task testJar(type: Jar) {
+    classifier = 'tests'
+    from sourceSets.test.allJava
+}
+
 artifacts {
     archives sourcesJar
+    archives testJar
 }
 
 jar {
