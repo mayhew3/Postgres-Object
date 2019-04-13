@@ -19,7 +19,9 @@ class ColumnsIndex {
   }
 
   String getIndexName() {
-    List<String> fieldNames = getFields().stream().map(FieldValue::getFieldName).collect(Collectors.toList());
+    List<String> fieldNames = getFields().stream()
+        .map(FieldValue::getFieldName)
+        .collect(Collectors.toList());
     String underJoin = Joiner.on("_").join(fieldNames);
     return tableName + "_" + underJoin + "_ix" + order;
   }

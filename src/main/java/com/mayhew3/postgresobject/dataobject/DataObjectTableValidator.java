@@ -90,9 +90,10 @@ class DataObjectTableValidator {
 
   private void matchIndexes() throws SQLException {
     List<ColumnsIndex> unfoundIndices = dataObject.getIndices();
+    List<UniqueConstraint> unfoundUniqueIndices = dataObject.getUniqueIndices();
 
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
-        "SELECT indexname " +
+        "SELECT indexname, indexdef " +
             "FROM pg_indexes " +
             "WHERE schemaname = ? " +
             "AND tablename = ? ", "public", dataObject.getTableName()
@@ -100,16 +101,28 @@ class DataObjectTableValidator {
 
     while (resultSet.next()) {
       String indexname = resultSet.getString("indexname");
+      String indexdef = resultSet.getString("indexdef");
 
       // ignore primary key
       if (!indexname.contains("_key") && !indexname.contains("_pkey")) {
-        Optional<ColumnsIndex> matching = unfoundIndices.stream()
-            .filter(index -> index.getIndexName().equals(indexname))
-            .findFirst();
-        if (matching.isPresent()) {
-          unfoundIndices.remove(matching.get());
+        if (indexdef.contains("UNIQUE")) {
+          Optional<UniqueConstraint> matching = unfoundUniqueIndices.stream()
+              .filter(index -> index.getIndexName().equals(indexname))
+              .findFirst();
+          if (matching.isPresent()) {
+            unfoundUniqueIndices.remove(matching.get());
+          } else {
+            addMismatch("DB unique index '" + indexname + "' specified in DB, but not found.");
+          }
         } else {
-          addMismatch("DB index '" + indexname + "' specified in DB, but not found.");
+          Optional<ColumnsIndex> matching = unfoundIndices.stream()
+              .filter(index -> index.getIndexName().equals(indexname))
+              .findFirst();
+          if (matching.isPresent()) {
+            unfoundIndices.remove(matching.get());
+          } else {
+            addMismatch("DB index '" + indexname + "' specified in DB, but not found.");
+          }
         }
       }
 
@@ -118,6 +131,11 @@ class DataObjectTableValidator {
     if (!unfoundIndices.isEmpty()) {
       for (ColumnsIndex unfoundIndex : unfoundIndices) {
         addMismatch(unfoundIndex);
+      }
+    }
+    if (!unfoundUniqueIndices.isEmpty()) {
+      for (UniqueConstraint uniqueConstraint : unfoundUniqueIndices) {
+        addMismatch(uniqueConstraint);
       }
     }
   }
@@ -203,6 +221,12 @@ class DataObjectTableValidator {
   private void addMismatch(@NotNull ColumnsIndex columnsIndex) {
     DataObjectMismatch mismatch = new DataObjectMismatch(dataObject, "Index not found in DB.")
         .withColumnsIndex(columnsIndex);
+    mismatches.add(mismatch);
+  }
+
+  private void addMismatch(@NotNull UniqueConstraint uniqueConstraint) {
+    DataObjectMismatch mismatch = new DataObjectMismatch(dataObject, "Unique Index not found in DB.")
+        .withUniqueConstraint(uniqueConstraint);
     mismatches.add(mismatch);
   }
 

@@ -89,6 +89,11 @@ public abstract class DataObject {
     return Lists.newArrayList(indices);
   }
 
+  List<UniqueConstraint> getUniqueIndices() {
+    return Lists.newArrayList(uniqueConstraints);
+  }
+
+
   @NotNull
   public Boolean isInitialized() {
     return initialized;
@@ -224,10 +229,11 @@ public abstract class DataObject {
     return connection.prepareAndExecuteStatementInsertReturnId(sql, fieldValues);
   }
 
-  protected void addUniqueConstraint(FieldValue... fieldValues) {
-    uniqueConstraints.add(new UniqueConstraint(Lists.newArrayList(fieldValues)));
+  protected void addUniqueConstraint(Integer order, FieldValue... fieldValues) {
+    uniqueConstraints.add(new UniqueConstraint(Lists.newArrayList(fieldValues), getTableName(), order));
   }
 
+  @SuppressWarnings("SameParameterValue")
   protected void addColumnsIndex(Integer order, FieldValue... fieldValues) {
     indices.add(new ColumnsIndex(Lists.newArrayList(fieldValues), getTableName(), order));
   }
@@ -291,19 +297,30 @@ public abstract class DataObject {
 
   public List<String> generateAddIndexStatements() {
     List<String> statements = new ArrayList<>();
-    int ixIndex = 1;
     for (ColumnsIndex index : indices) {
       List<String> fieldNames = index.getFields().stream().map(FieldValue::getFieldName).collect(Collectors.toList());
-      String underJoin = Joiner.on("_").join(fieldNames);
       String commaJoin = Joiner.on(", ").join(fieldNames);
-      String constraintName = getTableName() + "_" + underJoin + "_ix" + ixIndex;
+      String indexName = index.getIndexName();
       String statement =
-          "CREATE INDEX " + constraintName + " " +
+          "CREATE INDEX " + indexName + " " +
               "ON " + getTableName() + " " +
               "(" + commaJoin + ") ";
       statements.add(statement);
+    }
+    return statements;
+  }
 
-      ixIndex++;
+  public List<String> generateAddUniqueIndexStatements() {
+    List<String> statements = new ArrayList<>();
+    for (UniqueConstraint index : uniqueConstraints) {
+      List<String> fieldNames = index.getFields().stream().map(FieldValue::getFieldName).collect(Collectors.toList());
+      String commaJoin = Joiner.on(", ").join(fieldNames);
+      String indexName = index.getIndexName();
+      String statement =
+          "CREATE UNIQUE INDEX " + indexName + " " +
+              "ON " + getTableName() + " " +
+              "(" + commaJoin + ") ";
+      statements.add(statement);
     }
     return statements;
   }

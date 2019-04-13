@@ -7,6 +7,7 @@ public class DataObjectMismatch {
   private DataObject dataObject;
   private FieldValue fieldValue;
   private ColumnsIndex columnsIndex;
+  private UniqueConstraint uniqueConstraint;
   private String message;
 
 
@@ -22,6 +23,11 @@ public class DataObjectMismatch {
 
   public DataObjectMismatch withColumnsIndex(ColumnsIndex index) {
     this.columnsIndex = index;
+    return this;
+  }
+
+  public DataObjectMismatch withUniqueConstraint(UniqueConstraint uniqueConstraint) {
+    this.uniqueConstraint = uniqueConstraint;
     return this;
   }
 
@@ -46,6 +52,9 @@ public class DataObjectMismatch {
     }
     if (columnsIndex != null) {
       printout += ", Index " + columnsIndex.getIndexName();
+    }
+    if (uniqueConstraint != null) {
+      printout += ", Unique Index " + uniqueConstraint.getIndexName();
     }
     return printout + ", Message: " + message;
   }

@@ -234,7 +234,24 @@ public class DataObjectTest {
     String statement = ddls.get(0);
 
     assertThat(statement)
-        .isEqualTo("CREATE INDEX test_title_kernels_ix1 ON test (title, kernels) ");
+        .isEqualTo("CREATE INDEX test_title_kernels_ix3 ON test (title, kernels) ");
+  }
+
+  @Test
+  public void testGenerateUniqueIndicesCreateStatement() {
+    List<String> ddls = dataObject.generateAddUniqueIndexStatements();
+
+    assertThat(ddls)
+        .hasSize(2);
+    String firstStatement = ddls.get(0);
+
+    assertThat(firstStatement)
+        .isEqualTo("CREATE UNIQUE INDEX test_title_ix1 ON test (title) ");
+
+    String secondStatement = ddls.get(1);
+
+    assertThat(secondStatement)
+        .isEqualTo("CREATE UNIQUE INDEX test_kernels_date_added_ix2 ON test (kernels, date_added) ");
   }
 
   // utility methods
