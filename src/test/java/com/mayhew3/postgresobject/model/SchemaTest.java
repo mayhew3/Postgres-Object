@@ -16,12 +16,12 @@ import java.util.List;
 
 import static org.junit.Assert.fail;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "WeakerAccess"})
 public abstract class SchemaTest {
 
   private static Logger logger = LogManager.getLogger(SchemaTest.class);
 
-  abstract DataSchema getDataSchema();
+  public abstract DataSchema getDataSchema();
 
   @Test
   public void testSchemaUpToDate() throws URISyntaxException, SQLException, MissingEnvException {
