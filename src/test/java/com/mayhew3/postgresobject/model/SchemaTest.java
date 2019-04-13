@@ -1,11 +1,9 @@
 package com.mayhew3.postgresobject.model;
 
-import com.mayhew3.postgresobject.EnvironmentChecker;
 import com.mayhew3.postgresobject.dataobject.DataObjectMismatch;
 import com.mayhew3.postgresobject.dataobject.DataSchema;
 import com.mayhew3.postgresobject.db.PostgresConnectionFactory;
 import com.mayhew3.postgresobject.db.SQLConnection;
-import com.mayhew3.postgresobject.exception.MissingEnvException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Test;
@@ -23,9 +21,11 @@ public abstract class SchemaTest {
 
   public abstract DataSchema getDataSchema();
 
+  public abstract String getDBConnectionString();
+
   @Test
-  public void testSchemaUpToDate() throws URISyntaxException, SQLException, MissingEnvException {
-    String database_url = EnvironmentChecker.getOrThrow("DATABASE_URL");
+  public void testSchemaUpToDate() throws URISyntaxException, SQLException {
+    String database_url = getDBConnectionString();
     logger.debug("Database URL: " + database_url);
     SQLConnection connection = PostgresConnectionFactory.initiateDBConnect(database_url);
     List<DataObjectMismatch> mismatches = getDataSchema().validateSchemaAgainstDatabase(connection);
