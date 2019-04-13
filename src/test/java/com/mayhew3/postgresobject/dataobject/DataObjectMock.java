@@ -5,9 +5,9 @@ class DataObjectMock extends DataObject {
   FieldValueInteger kernels = registerIntegerField("kernels", Nullability.NULLABLE).defaultValue(0);
 
   DataObjectMock() {
-    addUniqueConstraint(1, title);
-    addUniqueConstraint(2, kernels, dateAdded);
-    addColumnsIndex(3, title, kernels);
+    addUniqueConstraint(title);
+    addUniqueConstraint(kernels, dateAdded);
+    addColumnsIndex(title, kernels);
   }
 
   @Override

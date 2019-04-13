@@ -10,12 +10,10 @@ class ColumnsIndex {
 
   private List<FieldValue> fields;
   private String tableName;
-  private Integer order;
 
-  ColumnsIndex(ArrayList<FieldValue> fieldValues, String tableName, Integer order) {
+  ColumnsIndex(ArrayList<FieldValue> fieldValues, String tableName) {
     this.fields = fieldValues;
     this.tableName = tableName;
-    this.order = order;
   }
 
   String getIndexName() {
@@ -23,7 +21,7 @@ class ColumnsIndex {
         .map(FieldValue::getFieldName)
         .collect(Collectors.toList());
     String underJoin = Joiner.on("_").join(fieldNames);
-    return tableName + "_" + underJoin + "_ix" + order;
+    return tableName + "_" + underJoin + "_ix";
   }
 
   List<FieldValue> getFields() {

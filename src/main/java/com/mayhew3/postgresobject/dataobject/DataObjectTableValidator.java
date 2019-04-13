@@ -93,7 +93,7 @@ class DataObjectTableValidator {
     List<UniqueConstraint> unfoundUniqueIndices = dataObject.getUniqueIndices();
 
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
-        "SELECT indexname, indexdef " +
+        "SELECT indexname " +
             "FROM pg_indexes " +
             "WHERE schemaname = ? " +
             "AND tablename = ? ", "public", dataObject.getTableName()
@@ -101,28 +101,25 @@ class DataObjectTableValidator {
 
     while (resultSet.next()) {
       String indexname = resultSet.getString("indexname");
-      String indexdef = resultSet.getString("indexdef");
 
       // ignore primary key
-      if (!indexname.contains("_key") && !indexname.contains("_pkey")) {
-        if (indexdef.contains("UNIQUE")) {
-          Optional<UniqueConstraint> matching = unfoundUniqueIndices.stream()
-              .filter(index -> index.getIndexName().equals(indexname))
-              .findFirst();
-          if (matching.isPresent()) {
-            unfoundUniqueIndices.remove(matching.get());
-          } else {
-            addMismatch("DB unique index '" + indexname + "' specified in DB, but not found.");
-          }
+      if (indexname.endsWith("_key")) {
+        Optional<UniqueConstraint> matching = unfoundUniqueIndices.stream()
+            .filter(index -> index.getIndexName().equals(indexname))
+            .findFirst();
+        if (matching.isPresent()) {
+          unfoundUniqueIndices.remove(matching.get());
         } else {
-          Optional<ColumnsIndex> matching = unfoundIndices.stream()
-              .filter(index -> index.getIndexName().equals(indexname))
-              .findFirst();
-          if (matching.isPresent()) {
-            unfoundIndices.remove(matching.get());
-          } else {
-            addMismatch("DB index '" + indexname + "' specified in DB, but not found.");
-          }
+          addMismatch("DB unique index '" + indexname + "' specified in DB, but not found.");
+        }
+      } else if (indexname.endsWith("_ix")) {
+        Optional<ColumnsIndex> matching = unfoundIndices.stream()
+            .filter(index -> index.getIndexName().equals(indexname))
+            .findFirst();
+        if (matching.isPresent()) {
+          unfoundIndices.remove(matching.get());
+        } else {
+          addMismatch("DB index '" + indexname + "' specified in DB, but not found.");
         }
       }
 

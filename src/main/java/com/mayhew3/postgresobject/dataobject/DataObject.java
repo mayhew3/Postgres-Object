@@ -229,13 +229,13 @@ public abstract class DataObject {
     return connection.prepareAndExecuteStatementInsertReturnId(sql, fieldValues);
   }
 
-  protected void addUniqueConstraint(Integer order, FieldValue... fieldValues) {
-    uniqueConstraints.add(new UniqueConstraint(Lists.newArrayList(fieldValues), getTableName(), order));
+  protected void addUniqueConstraint(FieldValue... fieldValues) {
+    uniqueConstraints.add(new UniqueConstraint(Lists.newArrayList(fieldValues), getTableName()));
   }
 
   @SuppressWarnings("SameParameterValue")
-  protected void addColumnsIndex(Integer order, FieldValue... fieldValues) {
-    indices.add(new ColumnsIndex(Lists.newArrayList(fieldValues), getTableName(), order));
+  protected void addColumnsIndex(FieldValue... fieldValues) {
+    indices.add(new ColumnsIndex(Lists.newArrayList(fieldValues), getTableName()));
   }
 
   public String generateTableCreateStatement() {

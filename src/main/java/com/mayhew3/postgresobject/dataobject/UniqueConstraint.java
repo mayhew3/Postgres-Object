@@ -10,12 +10,10 @@ class UniqueConstraint {
 
   private List<FieldValue> fields;
   private String tableName;
-  private Integer order;
 
-  UniqueConstraint(ArrayList<FieldValue> fieldValues, String tableName, Integer order) {
+  UniqueConstraint(ArrayList<FieldValue> fieldValues, String tableName) {
     this.fields = fieldValues;
     this.tableName = tableName;
-    this.order = order;
   }
 
   String getIndexName() {
@@ -23,7 +21,7 @@ class UniqueConstraint {
         .map(FieldValue::getFieldName)
         .collect(Collectors.toList());
     String underJoin = Joiner.on("_").join(fieldNames);
-    return tableName + "_" + underJoin + "_ix" + order;
+    return tableName + "_" + underJoin + "_key";
   }
 
   List<FieldValue> getFields() {
