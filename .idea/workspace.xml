@@ -3,7 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="1e099498-ec9e-4703-ab18-cce3963e4d0c" name="Default" comment="Move annotation directory">
       <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/mayhew3/postgresobject/model/SchemaTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/mayhew3/postgresobject/model/SchemaTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/dataobject/ColumnsIndex.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/dataobject/ColumnsIndex.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/dataobject/DataObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/dataobject/DataObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/dataobject/DataObjectMismatch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/dataobject/DataObjectMismatch.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/dataobject/DataObjectTableValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/dataobject/DataObjectTableValidator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/mayhew3/postgresobject/dataobject/DataObjectMock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/mayhew3/postgresobject/dataobject/DataObjectMock.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -71,103 +75,188 @@
     </system>
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/postgresobject/model/SchemaTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="228">
-              <caret line="24" lean-forward="true" selection-start-line="24" selection-end-line="24" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#636#681#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/dataobject/DataSchema.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="266">
-              <caret line="24" column="42" selection-start-line="24" selection-start-column="42" selection-end-line="24" selection-end-column="42" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/dataobject/DataObjectTableValidator.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="608">
-              <caret line="40" column="23" selection-start-line="40" selection-start-column="23" selection-end-line="40" selection-end-column="23" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/EnvironmentChecker.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="228">
-              <caret line="12" column="3" selection-start-line="12" selection-start-column="3" selection-end-line="12" selection-end-column="3" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/exception/MissingEnvException.java">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/log4j2.xml">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/build.gradle">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="154">
-              <caret line="39" column="25" lean-forward="true" selection-start-line="39" selection-start-column="25" selection-end-line="39" selection-end-column="25" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/.gradle/wrapper/dists/gradle-3.5-all/exhrs6ca08n232b14ue48lbye/gradle-3.5/src/plugins/org/gradle/api/tasks/SourceSet.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="246">
-              <caret line="93" column="20" selection-start-line="93" selection-start-column="20" selection-end-line="93" selection-end-column="20" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.gitignore">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="114">
-              <caret line="6" column="8" selection-start-line="6" selection-start-column="8" selection-end-line="6" selection-end-column="8" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/postgresobject/DatabaseTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="26" selection-start-line="26" selection-end-line="26" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <splitter split-orientation="horizontal" split-proportion="0.5">
+      <split-first>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/postgresobject/model/SchemaTest.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="228">
+                  <caret line="24" selection-start-line="24" selection-end-line="24" />
+                  <folding>
+                    <element signature="imports" expanded="true" />
+                    <element signature="e#636#681#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/dataobject/DataObjectTableValidator.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="349">
+                  <caret line="108" column="35" lean-forward="true" selection-start-line="108" selection-start-column="35" selection-end-line="108" selection-end-column="35" />
+                  <folding>
+                    <element signature="imports" expanded="true" />
+                    <element signature="e#7148#7149#0" expanded="true" />
+                    <element signature="e#7223#7224#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/dataobject/FieldValueForeignKey.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="38">
+                  <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/EnvironmentChecker.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="228">
+                  <caret line="12" column="3" selection-start-line="12" selection-start-column="3" selection-end-line="12" selection-end-column="3" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/exception/MissingEnvException.java">
+              <provider selected="true" editor-type-id="text-editor" />
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/resources/log4j2.xml">
+              <provider selected="true" editor-type-id="text-editor" />
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/build.gradle">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="116">
+                  <caret line="37" column="17" selection-start-line="37" selection-start-column="17" selection-end-line="37" selection-end-column="17" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$USER_HOME$/.gradle/wrapper/dists/gradle-3.5-all/exhrs6ca08n232b14ue48lbye/gradle-3.5/src/plugins/org/gradle/api/tasks/SourceSet.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="246">
+                  <caret line="93" column="20" selection-start-line="93" selection-start-column="20" selection-end-line="93" selection-end-column="20" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/.gitignore">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="114">
+                  <caret line="6" column="8" selection-start-line="6" selection-start-column="8" selection-end-line="6" selection-end-column="8" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/postgresobject/DatabaseTest.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="323">
+                  <caret line="26" selection-start-line="26" selection-end-line="26" />
+                  <folding>
+                    <element signature="imports" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-first>
+      <split-second>
+        <leaf>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/dataobject/DataObjectTableValidator.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="265">
+                  <caret line="43" lean-forward="true" selection-start-line="43" selection-end-line="43" />
+                  <folding>
+                    <element signature="imports" expanded="true" />
+                    <element signature="e#7148#7149#0" expanded="true" />
+                    <element signature="e#7223#7224#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/postgresobject/dataobject/DatabaseRecreatorTest.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="209">
+                  <caret line="21" column="75" selection-start-line="21" selection-start-column="75" selection-end-line="21" selection-end-column="75" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/postgresobject/dataobject/DataSchemaMock.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="76">
+                  <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/dataobject/DataObjectMismatch.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="380">
+                  <caret line="21" lean-forward="true" selection-start-line="21" selection-end-line="21" />
+                  <folding>
+                    <element signature="e#519#520#0" expanded="true" />
+                    <element signature="e#546#547#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/dataobject/ColumnsIndex.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="190">
+                  <caret line="14" column="12" selection-start-line="14" selection-start-column="12" selection-end-line="14" selection-end-column="12" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/dataobject/DataObject.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="226">
+                  <caret line="233" lean-forward="true" selection-start-line="233" selection-end-line="233" />
+                  <folding>
+                    <element signature="e#2561#2562#0" expanded="true" />
+                    <element signature="e#2609#2610#0" expanded="true" />
+                    <element signature="e#2658#2659#0" expanded="true" />
+                    <element signature="e#2706#2707#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/postgresobject/dataobject/DataObjectMock.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="209">
+                  <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-second>
+    </splitter>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -180,8 +269,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>finalscore</find>
-      <find>adj</find>
       <find>replay</find>
       <find>reason</find>
       <find>remainder</find>
@@ -210,6 +297,8 @@
       <find>LogManager</find>
       <find>sourcesJar</find>
       <find>archives</find>
+      <find>key_column_usage</find>
+      <find>addColumnsIndex</find>
     </findStrings>
     <replaceStrings>
       <replace>&lt;module name=&quot;media-mogul-data_main&quot;</replace>
@@ -232,6 +321,7 @@
     </replaceStrings>
     <dirStrings>
       <dir>D:\OneDrive\Projects\MediaMogul\SQL</dir>
+      <dir>C:\Users\Mayhew Seavey\OneDrive\Projects\MediaMogul\SQL</dir>
     </dirStrings>
   </component>
   <component name="Git.Settings">
@@ -240,8 +330,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/model/MediaMogulSchemaTestTest.java" />
-        <option value="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/model/SchemaTestTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/model/games/PersonGame.java" />
         <option value="$PROJECT_DIR$/src/test/java/com/mayhew3/mediamogul/model/SchemaLocalTest.java" />
         <option value="$PROJECT_DIR$/src/test/resources/Steam/steam_xcom2.json" />
@@ -279,10 +367,7 @@
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/db/PostgresConnectionFactory.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/db/PostgresConnection.java" />
         <option value="$PROJECT_DIR$/src/test/java/com/mayhew3/postgresobject/dataobject/DatabaseRecreatorTest.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/dataobject/ColumnsIndex.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/dataobject/DataObject.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/dataobject/DatabaseRecreator.java" />
-        <option value="$PROJECT_DIR$/src/test/java/com/mayhew3/postgresobject/dataobject/DataObjectMock.java" />
         <option value="$PROJECT_DIR$/src/test/java/com/mayhew3/postgresobject/DatabaseTest.java" />
         <option value="$PROJECT_DIR$/src/test/java/com/mayhew3/postgresobject/dataobject/DataObjectTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/EnvironmentChecker.java" />
@@ -290,6 +375,11 @@
         <option value="$PROJECT_DIR$/src/test/java/com/mayhew3/postgresobject/model/SchemaHerokuTest.java" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/src/test/java/com/mayhew3/postgresobject/model/SchemaTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/dataobject/ColumnsIndex.java" />
+        <option value="$PROJECT_DIR$/src/test/java/com/mayhew3/postgresobject/dataobject/DataObjectMock.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/dataobject/DataObject.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/dataobject/DataObjectMismatch.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/dataobject/DataObjectTableValidator.java" />
         <option value="$PROJECT_DIR$/build.gradle" />
       </list>
     </option>
@@ -305,7 +395,7 @@
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-7" />
-    <option name="width" value="1218" />
+    <option name="width" value="974" />
     <option name="height" value="1057" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -414,7 +504,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="add_unversioned_files" value="$PROJECT_DIR$/.idea/workspace.xml&#10;D:/Code/git/media-mogul-data/scripts/media-mogul-data CMD.lnk" />
     <property name="extract.method.default.visibility" value="private" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$USER_HOME$/OneDrive/Projects/MediaMogul/SQL" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.31923383" />
@@ -458,7 +548,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Gradle.media-mogul-data [build]">
+  <component name="RunManager" selected="JUnit.All in postgres-object.test (1)">
     <configuration default="true" type="BatchConfigurationType" factoryName="Batch">
       <module name="media-mogul-data_main" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -1958,33 +2048,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="DataObjectTest.testGenerateTableCreateStatement" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="postgres-object.test" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.mayhew3.postgresobject.dataobject.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.mayhew3.postgresobject.dataobject" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.postgresobject.dataobject.DataObjectTest" />
-      <option name="METHOD_NAME" value="testGenerateTableCreateStatement" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="VM_PARAMETERS" value="" />
-      <option name="PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="moduleWithDependencies" />
-      </option>
-      <envs>
-        <env name="postgresURL_local" value="$postgresURL_local$" />
-        <env name="postgresURL_local_test" value="jdbc:postgresql://localhost:5432/tv_copy?user=postgres&amp;password=m3mysql" />
-        <env name="postgresURL" value="postgres://ijxuheufucvnyu:h16h_LnZi4fHgIUjBANnzITEyR@ec2-54-204-30-115.compute-1.amazonaws.com:5432/dcg1rtode4vgk9" />
-      </envs>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="DatabaseRecreatorTest (Demo)" type="JUnit" factoryName="JUnit">
       <module name="postgres-object_test" />
       <option name="PACKAGE_NAME" value="com.mayhew3.postgresobject.dataobject" />
@@ -2024,6 +2087,33 @@
         <env name="postgresURL_local_test" value="jdbc:postgresql://localhost:5432/tv_copy?user=postgres&amp;password=m3mysql" />
         <env name="postgresURL" value="postgres://ijxuheufucvnyu:h16h_LnZi4fHgIUjBANnzITEyR@ec2-54-204-30-115.compute-1.amazonaws.com:5432/dcg1rtode4vgk9" />
         <env name="postgresURL_local_demo" value="jdbc:postgresql://localhost:5432/tv_demo?user=postgres&amp;password=m3mysql" />
+      </envs>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DatabaseRecreatorTest.testRecreateTestDatabase" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="postgres-object.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.mayhew3.postgresobject.dataobject.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.mayhew3.postgresobject.dataobject" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.postgresobject.dataobject.DatabaseRecreatorTest" />
+      <option name="METHOD_NAME" value="testRecreateTestDatabase" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs>
+        <env name="postgresURL_local" value="$postgresURL_local$" />
+        <env name="postgresURL_local_test" value="jdbc:postgresql://localhost:5432/tv_copy?user=postgres&amp;password=m3mysql" />
+        <env name="postgresURL" value="postgres://ijxuheufucvnyu:h16h_LnZi4fHgIUjBANnzITEyR@ec2-54-204-30-115.compute-1.amazonaws.com:5432/dcg1rtode4vgk9" />
       </envs>
       <method v="2">
         <option name="Make" enabled="true" />
@@ -2247,17 +2337,17 @@
       <item itemvalue="JUnit.DatabaseRecreatorTest (Test)" />
       <item itemvalue="JUnit.DatabaseRecreatorTest (Demo)" />
       <item itemvalue="JUnit.DataObjectTest.testGenerateIndicesCreateStatement" />
-      <item itemvalue="JUnit.DataObjectTest.testGenerateTableCreateStatement" />
       <item itemvalue="JUnit.All in postgres-object.test (1)" />
       <item itemvalue="Gradle.postgresobject [testJar]" />
+      <item itemvalue="JUnit.DatabaseRecreatorTest.testRecreateTestDatabase" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.All in postgres-object.test (1)" />
+        <item itemvalue="JUnit.DatabaseRecreatorTest.testRecreateTestDatabase" />
         <item itemvalue="Gradle.postgresobject [testJar]" />
         <item itemvalue="Gradle.postgresobject [jar]" />
-        <item itemvalue="JUnit.All in postgres-object.test (1)" />
         <item itemvalue="JUnit.DataObjectTest.testGenerateIndicesCreateStatement" />
-        <item itemvalue="JUnit.DataObjectTest.testGenerateTableCreateStatement" />
       </list>
     </recent_temporary>
   </component>
@@ -2281,18 +2371,6 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="All_in_postgres-object_test - 2019.03.19 at 13h 22m 11s.xml">
-      <configuration name="All in postgres-object.test" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="DataObjectTest_testGenerateIndicesCreateStatement - 2019.04.12 at 16h 51m 43s.xml">
-      <configuration name="DataObjectTest.testGenerateIndicesCreateStatement" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="DataObjectTest_testGenerateIndicesCreateStatement - 2019.04.12 at 16h 53m 56s.xml">
-      <configuration name="DataObjectTest.testGenerateIndicesCreateStatement" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="DataObjectTest_testGenerateIndicesCreateStatement - 2019.04.12 at 16h 54m 25s.xml">
-      <configuration name="DataObjectTest.testGenerateIndicesCreateStatement" configurationId="JUnit" />
-    </history-entry>
     <history-entry file="DataObjectTest_testGenerateTableCreateStatement - 2019.04.12 at 16h 54m 32s.xml">
       <configuration name="DataObjectTest.testGenerateTableCreateStatement" configurationId="JUnit" />
     </history-entry>
@@ -2309,6 +2387,18 @@
       <configuration name="All in postgres-object.test (1)" configurationId="JUnit" />
     </history-entry>
     <history-entry file="All_in_postgres-object_test_(1) - 2019.04.12 at 17h 10m 27s.xml">
+      <configuration name="All in postgres-object.test (1)" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="DatabaseRecreatorTest_testRecreateTestDatabase - 2019.04.12 at 18h 59m 21s.xml">
+      <configuration name="DatabaseRecreatorTest.testRecreateTestDatabase" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="DatabaseRecreatorTest_testRecreateTestDatabase - 2019.04.12 at 19h 02m 03s.xml">
+      <configuration name="DatabaseRecreatorTest.testRecreateTestDatabase" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="DatabaseRecreatorTest_testRecreateTestDatabase - 2019.04.12 at 19h 02m 21s.xml">
+      <configuration name="DatabaseRecreatorTest.testRecreateTestDatabase" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="All_in_postgres-object_test_(1) - 2019.04.12 at 19h 02m 29s.xml">
       <configuration name="All in postgres-object.test (1)" configurationId="JUnit" />
     </history-entry>
   </component>
@@ -2341,7 +2431,7 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Palette" order="3" />
-      <window_info anchor="right" id="Gradle" order="4" visible="true" weight="0.31130064" />
+      <window_info anchor="right" id="Gradle" order="4" weight="0.31130064" />
       <window_info anchor="right" id="Palette&#9;" order="5" />
       <window_info anchor="right" id="Maven Projects" order="6" />
       <window_info anchor="right" id="Maven" order="7" />
@@ -2431,8 +2521,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/exception/ShowFailedException.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/exception/MalformedTVDBEpisodeException.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/provider/RemoteFileDownloader.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/scheduler/TaskScheduleRunner.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/mediamogul/tv/provider/TiVoDataProvider.java" />
@@ -2493,13 +2581,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/postgresobject/dataobject/DataSchemaMock.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="114">
-          <caret line="6" column="1" selection-start-line="6" selection-start-column="1" selection-end-line="6" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/postgresobject/db/PostgresConnectionTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="76">
@@ -2531,13 +2612,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/postgresobject/dataobject/DatabaseRecreatorTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="24" selection-start-line="24" selection-end-line="24" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/dataobject/UniqueConstraint.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="76">
@@ -2545,31 +2619,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/dataobject/ColumnsIndex.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="114">
-          <caret line="7" column="34" selection-start-line="7" selection-start-column="34" selection-end-line="7" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/dataobject/DatabaseRecreator.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="321">
           <caret line="28" selection-start-line="28" selection-end-line="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/postgresobject/dataobject/DataObjectMock.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="11" selection-start-line="11" selection-end-line="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/dataobject/DataObject.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-895">
-          <caret line="230" column="16" selection-start-line="230" selection-start-column="16" selection-end-line="230" selection-end-column="16" />
         </state>
       </provider>
     </entry>
@@ -2588,16 +2641,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="266">
           <caret line="24" column="42" selection-start-line="24" selection-start-column="42" selection-end-line="24" selection-end-column="42" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/dataobject/DataObjectTableValidator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="608">
-          <caret line="40" column="23" selection-start-line="40" selection-start-column="23" selection-end-line="40" selection-end-column="23" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -2644,7 +2687,7 @@
     <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/postgresobject/model/SchemaTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="228">
-          <caret line="24" lean-forward="true" selection-start-line="24" selection-end-line="24" />
+          <caret line="24" selection-start-line="24" selection-end-line="24" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#636#681#0" expanded="true" />
@@ -2652,10 +2695,81 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/dataobject/ColumnsIndex.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="190">
+          <caret line="14" column="12" selection-start-line="14" selection-start-column="12" selection-end-line="14" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/dataobject/DataObject.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="226">
+          <caret line="233" lean-forward="true" selection-start-line="233" selection-end-line="233" />
+          <folding>
+            <element signature="e#2561#2562#0" expanded="true" />
+            <element signature="e#2609#2610#0" expanded="true" />
+            <element signature="e#2658#2659#0" expanded="true" />
+            <element signature="e#2706#2707#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/dataobject/FieldValueForeignKey.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="38">
+          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/postgresobject/dataobject/DatabaseRecreatorTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="21" column="75" selection-start-line="21" selection-start-column="75" selection-end-line="21" selection-end-column="75" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/postgresobject/dataobject/DataSchemaMock.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="76">
+          <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/com/mayhew3/postgresobject/dataobject/DataObjectMock.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/dataobject/DataObjectMismatch.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="380">
+          <caret line="21" lean-forward="true" selection-start-line="21" selection-end-line="21" />
+          <folding>
+            <element signature="e#519#520#0" expanded="true" />
+            <element signature="e#546#547#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/dataobject/DataObjectTableValidator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="349">
+          <caret line="108" column="35" lean-forward="true" selection-start-line="108" selection-start-column="35" selection-end-line="108" selection-end-column="35" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#7148#7149#0" expanded="true" />
+            <element signature="e#7223#7224#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="154">
-          <caret line="39" column="25" lean-forward="true" selection-start-line="39" selection-start-column="25" selection-end-line="39" selection-end-column="25" />
+        <state relative-caret-position="116">
+          <caret line="37" column="17" selection-start-line="37" selection-start-column="17" selection-end-line="37" selection-end-column="17" />
         </state>
       </provider>
     </entry>

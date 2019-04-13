@@ -85,6 +85,10 @@ public abstract class DataObject {
     return Lists.newArrayList(foreignKeys);
   }
 
+  List<ColumnsIndex> getIndices() {
+    return Lists.newArrayList(indices);
+  }
+
   @NotNull
   public Boolean isInitialized() {
     return initialized;
@@ -224,8 +228,8 @@ public abstract class DataObject {
     uniqueConstraints.add(new UniqueConstraint(Lists.newArrayList(fieldValues)));
   }
 
-  protected void addColumnsIndex(FieldValue... fieldValues) {
-    indices.add(new ColumnsIndex(Lists.newArrayList(fieldValues)));
+  protected void addColumnsIndex(Integer order, FieldValue... fieldValues) {
+    indices.add(new ColumnsIndex(Lists.newArrayList(fieldValues), getTableName(), order));
   }
 
   public String generateTableCreateStatement() {

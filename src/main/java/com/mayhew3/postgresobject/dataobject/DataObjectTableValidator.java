@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 class DataObjectTableValidator {
@@ -39,6 +40,7 @@ class DataObjectTableValidator {
 
     matchFields();
     matchForeignKeys();
+    matchIndexes();
 
     return mismatches;
   }
@@ -82,6 +84,40 @@ class DataObjectTableValidator {
     if (!unfoundFieldValues.isEmpty()) {
       for (FieldValue fieldValue : unfoundFieldValues) {
         addMismatch(fieldValue, "FieldValue not found in DB.");
+      }
+    }
+  }
+
+  private void matchIndexes() throws SQLException {
+    List<ColumnsIndex> unfoundIndices = dataObject.getIndices();
+
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
+        "SELECT indexname " +
+            "FROM pg_indexes " +
+            "WHERE schemaname = ? " +
+            "AND tablename = ? ", "public", dataObject.getTableName()
+    );
+
+    while (resultSet.next()) {
+      String indexname = resultSet.getString("indexname");
+
+      // ignore primary key
+      if (!indexname.contains("_key") && !indexname.contains("_pkey")) {
+        Optional<ColumnsIndex> matching = unfoundIndices.stream()
+            .filter(index -> index.getIndexName().equals(indexname))
+            .findFirst();
+        if (matching.isPresent()) {
+          unfoundIndices.remove(matching.get());
+        } else {
+          addMismatch("DB index '" + indexname + "' specified in DB, but not found.");
+        }
+      }
+
+    }
+
+    if (!unfoundIndices.isEmpty()) {
+      for (ColumnsIndex unfoundIndex : unfoundIndices) {
+        addMismatch(unfoundIndex);
       }
     }
   }
@@ -155,11 +191,19 @@ class DataObjectTableValidator {
   }
 
   private void addMismatch(String message) {
-    mismatches.add(new DataObjectMismatch(dataObject, null, message));
+    mismatches.add(new DataObjectMismatch(dataObject, message));
   }
 
   private void addMismatch(@NotNull FieldValue fieldValue, String message) {
-    mismatches.add(new DataObjectMismatch(dataObject, fieldValue, message));
+    DataObjectMismatch mismatch = new DataObjectMismatch(dataObject, message)
+        .withFieldValue(fieldValue);
+    mismatches.add(mismatch);
+  }
+
+  private void addMismatch(@NotNull ColumnsIndex columnsIndex) {
+    DataObjectMismatch mismatch = new DataObjectMismatch(dataObject, "Index not found in DB.")
+        .withColumnsIndex(columnsIndex);
+    mismatches.add(mismatch);
   }
 
 }
