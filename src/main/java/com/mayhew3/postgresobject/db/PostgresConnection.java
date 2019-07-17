@@ -5,6 +5,7 @@ import com.mayhew3.postgresobject.dataobject.FieldValue;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
+import org.postgresql.util.PSQLException;
 
 import java.math.BigDecimal;
 import java.sql.*;
@@ -30,7 +31,15 @@ public class PostgresConnection implements SQLConnection {
     checkConnection();
 
     Statement statement = _connection.createStatement();
-    return statement.executeQuery(sql);
+
+    try {
+      return statement.executeQuery(sql);
+    } catch (PSQLException e) {
+      debug("Exception while executing query. Trying to reconnect...");
+      resetConnection();
+      return statement.executeQuery(sql);
+    }
+
   }
 
   @NotNull
@@ -39,20 +48,31 @@ public class PostgresConnection implements SQLConnection {
 
     Statement statement = _connection.createStatement();
 
-    statement.executeUpdate(sql);
+    try {
+      statement.executeUpdate(sql);
+    } catch (PSQLException e) {
+      debug("Exception while executing query. Trying to reconnect...");
+      resetConnection();
+      statement.executeUpdate(sql);
+    }
+
     return statement;
   }
 
   private void checkConnection() throws SQLException {
     if (_connection.isClosed()) {
       debug("Connection lost. Trying to reconnect...");
-      try {
-        _connection = DriverManager.getConnection(_connectionString);
-        debug("Re-connect success!");
-      } catch (SQLException e) {
-        debug("Re-connect failed.");
-        throw new RuntimeException("Failed to reconnect: " + e.getLocalizedMessage());
-      }
+      resetConnection();
+    }
+  }
+
+  private void resetConnection() {
+    try {
+      _connection = DriverManager.getConnection(_connectionString);
+      debug("Re-connect success!");
+    } catch (SQLException e) {
+      debug("Re-connect failed.");
+      throw new RuntimeException("Failed to reconnect: " + e.getLocalizedMessage());
     }
   }
 
