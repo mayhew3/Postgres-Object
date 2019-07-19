@@ -119,13 +119,22 @@ public interface SQLConnection {
    * - Execute PreparedStatement. (NOTE: doesn't close PreparedStatement. Be sure to close it when done.)
    *
    * @param preparedStatement that will be parameterized and executed.
-   * @param params vararg of parameters that will be plugged in.
+   * @param params List of parameters that will be plugged in.
    * @return ResultSet of data from query
    * @throws SQLException
    */
   @NotNull
   ResultSet executePreparedStatementWithParams(PreparedStatement preparedStatement, List<Object> params) throws SQLException;
 
+  /**
+   * - Plug given parameters into given PreparedStatement.
+   * - Execute PreparedStatement. (NOTE: doesn't close PreparedStatement. Be sure to close it when done.)
+   *
+   * @param preparedStatement that will be parameterized and executed.
+   * @param paramList List of parameters that will be plugged in.
+   * @throws SQLException
+   */
+  void executePreparedUpdateWithParams(PreparedStatement preparedStatement, List<Object> paramList) throws SQLException;
 
 
   // Using FieldValue

@@ -95,7 +95,7 @@ public class PostgresConnection implements SQLConnection {
     checkConnection();
 
     PreparedStatement preparedStatement = prepareStatementWithParams(sql, params);
-    return preparedStatement.executeQuery();
+    return executePreparedStatement(preparedStatement);
   }
 
 
@@ -109,7 +109,7 @@ public class PostgresConnection implements SQLConnection {
 
     PreparedStatement preparedStatement = prepareStatementWithParams(sql, params);
 
-    int rowsAffected = preparedStatement.executeUpdate();
+    int rowsAffected = executePreparedUpdate(preparedStatement);
     preparedStatement.close();
     return rowsAffected;
   }
@@ -140,16 +140,37 @@ public class PostgresConnection implements SQLConnection {
     checkConnection();
 
     PreparedStatement statementWithParams = plugParamsIntoStatement(preparedStatement, params);
-    return statementWithParams.executeQuery();
+    return executePreparedStatement(statementWithParams);
   }
 
+  @Override
   public void executePreparedUpdateWithParams(PreparedStatement preparedStatement, List<Object> paramList) throws SQLException {
     checkConnection();
 
     PreparedStatement statementWithParams = plugParamsIntoStatement(preparedStatement, paramList);
-    statementWithParams.executeUpdate();
+    executePreparedUpdate(statementWithParams);
   }
 
+  private ResultSet executePreparedStatement(PreparedStatement preparedStatement) throws SQLException {
+    try {
+      return preparedStatement.executeQuery();
+    } catch (PSQLException e) {
+      debug("Exception while executing query. Trying to reconnect...");
+      resetConnection();
+      return preparedStatement.executeQuery();
+    }
+  }
+
+
+  private int executePreparedUpdate(PreparedStatement preparedUpdate) throws SQLException {
+    try {
+      return preparedUpdate.executeUpdate();
+    } catch (PSQLException e) {
+      debug("Exception while executing query. Trying to reconnect...");
+      resetConnection();
+      return preparedUpdate.executeUpdate();
+    }
+  }
 
 
   // Using FieldValue
@@ -168,7 +189,7 @@ public class PostgresConnection implements SQLConnection {
 
     PreparedStatement preparedStatement = prepareStatementWithFields(sql, fields);
 
-    preparedStatement.executeUpdate();
+    executePreparedUpdate(preparedStatement);
     preparedStatement.close();
   }
 
@@ -179,7 +200,7 @@ public class PostgresConnection implements SQLConnection {
     PreparedStatement preparedStatement = prepareStatementForInsertId(sql);
     plugFieldsIntoStatement(preparedStatement, fieldValues);
 
-    preparedStatement.executeUpdate();
+    executePreparedUpdate(preparedStatement);
 
     ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
 
@@ -197,7 +218,7 @@ public class PostgresConnection implements SQLConnection {
     checkConnection();
 
     plugFieldsIntoStatement(preparedStatement, fieldValues);
-    preparedStatement.executeUpdate();
+    executePreparedUpdate(preparedStatement);
   }
 
 
