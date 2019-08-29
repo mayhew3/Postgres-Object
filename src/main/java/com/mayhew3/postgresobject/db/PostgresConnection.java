@@ -5,6 +5,7 @@ import com.mayhew3.postgresobject.dataobject.FieldValue;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
+import org.joda.time.DateTime;
 import org.postgresql.util.PSQLException;
 
 import java.math.BigDecimal;
@@ -15,6 +16,7 @@ public class PostgresConnection implements SQLConnection {
 
   private Connection _connection;
   private String _connectionString;
+  private DateTime lastQueryExecuted;
 
   private static Logger logger = LogManager.getLogger(PostgresConnection.class);
 
@@ -30,8 +32,16 @@ public class PostgresConnection implements SQLConnection {
   public ResultSet executeQuery(String sql) throws SQLException {
     checkConnection();
 
-    Statement statement = _connection.createStatement();
+    ResultSet resultSet = executeSelectInternal(sql);
 
+    updateLastExecuted();
+
+    return resultSet;
+  }
+
+  @NotNull
+  private ResultSet executeSelectInternal(String sql) throws SQLException {
+    Statement statement = _connection.createStatement();
     try {
       return statement.executeQuery(sql);
     } catch (PSQLException e) {
@@ -39,7 +49,6 @@ public class PostgresConnection implements SQLConnection {
       resetConnection();
       return statement.executeQuery(sql);
     }
-
   }
 
   @NotNull
@@ -56,12 +65,17 @@ public class PostgresConnection implements SQLConnection {
       statement.executeUpdate(sql);
     }
 
+    updateLastExecuted();
+
     return statement;
   }
 
   private void checkConnection() throws SQLException {
     if (_connection.isClosed()) {
       debug("Connection lost. Trying to reconnect...");
+      resetConnection();
+    } else if (isExpired()) {
+      debug("30 minute threshold reached. Renewing connection.");
       resetConnection();
     }
   }
@@ -95,7 +109,9 @@ public class PostgresConnection implements SQLConnection {
     checkConnection();
 
     PreparedStatement preparedStatement = prepareStatementWithParams(sql, params);
-    return executePreparedStatement(preparedStatement);
+    ResultSet resultSet = executePreparedStatement(preparedStatement);
+    updateLastExecuted();
+    return resultSet;
   }
 
 
@@ -111,6 +127,7 @@ public class PostgresConnection implements SQLConnection {
 
     int rowsAffected = executePreparedUpdate(preparedStatement);
     preparedStatement.close();
+    updateLastExecuted();
     return rowsAffected;
   }
 
@@ -140,7 +157,9 @@ public class PostgresConnection implements SQLConnection {
     checkConnection();
 
     PreparedStatement statementWithParams = plugParamsIntoStatement(preparedStatement, params);
-    return executePreparedStatement(statementWithParams);
+    ResultSet resultSet = executePreparedStatement(statementWithParams);
+    updateLastExecuted();
+    return resultSet;
   }
 
   @Override
@@ -149,6 +168,7 @@ public class PostgresConnection implements SQLConnection {
 
     PreparedStatement statementWithParams = plugParamsIntoStatement(preparedStatement, paramList);
     executePreparedUpdate(statementWithParams);
+    updateLastExecuted();
   }
 
   private ResultSet executePreparedStatement(PreparedStatement preparedStatement) throws SQLException {
@@ -219,6 +239,7 @@ public class PostgresConnection implements SQLConnection {
 
     plugFieldsIntoStatement(preparedStatement, fieldValues);
     executePreparedUpdate(preparedStatement);
+    updateLastExecuted();
   }
 
 
@@ -270,6 +291,15 @@ public class PostgresConnection implements SQLConnection {
     checkConnection();
 
     return _connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+  }
+
+  private void updateLastExecuted() {
+    lastQueryExecuted = new DateTime();
+  }
+
+  private boolean isExpired() {
+    DateTime threshold = DateTime.now().minusMinutes(30);
+    return threshold.isAfter(lastQueryExecuted);
   }
 
   void debug(Object message) {
