@@ -11,28 +11,27 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
-@SuppressWarnings({"WeakerAccess", "OptionalUsedAsFieldOrParameterType", "unused"})
-public class DataBackupExecutor {
+@SuppressWarnings({"WeakerAccess", "unused"})
+abstract public class DataBackupExecutor {
 
   public static final List<Integer> supportedVersions = Lists.newArrayList(9, 10);
 
-  private Logger logger = LogManager.getLogger(DataBackupExecutor.class);
+  Logger logger = LogManager.getLogger(DataBackupExecutor.class);
   
   private String backupEnv;
-  private Integer pgVersion;
+  Integer pgVersion;
   private String folderName;
-  private Optional<String> optionalDBName;
 
-  private String postgres_program_dir;
-  private String postgres_pgpass;
+  String postgres_program_dir;
+  String postgres_pgpass;
 
-  public DataBackupExecutor(String backupEnv, Integer pgVersion, String folderName, Optional<String> optionalDBName) {
+  public DataBackupExecutor(String backupEnv,
+                            Integer pgVersion,
+                            String folderName) {
     this.backupEnv = backupEnv;
     this.pgVersion = pgVersion;
     this.folderName = folderName;
-    this.optionalDBName = optionalDBName;
   }
 
   public void runUpdate() throws MissingEnvException, IOException, InterruptedException {
@@ -41,14 +40,9 @@ public class DataBackupExecutor {
     assert DataBackupExecutor.supportedVersions.contains(pgVersion);
 
     String programEnvLabel = "POSTGRES" + pgVersion + "_PROGRAM_DIR";
-    String db_url = null;
     postgres_program_dir = EnvironmentChecker.getOrThrow(programEnvLabel);
     String backup_dir_location = EnvironmentChecker.getOrThrow("DB_BACKUP_DIR");
-    if (isLocal()) {
-      assert optionalDBName.isPresent();
-    } else {
-      db_url = EnvironmentChecker.getOrThrow("DATABASE_URL");
-    }
+
     postgres_pgpass = EnvironmentChecker.getOrThrow("postgres_pgpass_local");
 
     logger.info("Backing up from environment '" + backupEnv + "'");
@@ -82,54 +76,11 @@ public class DataBackupExecutor {
 
     logger.info("Saving backup to file: " + fullBackupPath);
 
-    if (isLocal()) {
-      //noinspection OptionalGetWithoutIsPresent
-      backupLocal(fullBackupPath, optionalDBName.get());
-    } else {
-      backupRemote(fullBackupPath, db_url);
-    }
+    executeBackup(fullBackupPath);
 
     logger.info("Finished db backup process!");
   }
 
-  private void backupLocal(String fullBackupPath, String local_db_name) throws IOException, InterruptedException {
-    ProcessBuilder processBuilder = new ProcessBuilder(
-        postgres_program_dir + "\\pg_dump.exe",
-        "--host=localhost",
-        "--dbname=" + local_db_name,
-        "--username=postgres",
-        "--format=custom",
-        "--verbose",
-        "--file=" + fullBackupPath);
-    processBuilder.environment().put("PGPASSFILE", postgres_pgpass);
-
-    processBuilder.inheritIO();
-
-    logger.info("Starting db backup process...");
-
-    Process process = processBuilder.start();
-    process.waitFor();
-  }
-
-  private void backupRemote(String fullBackupPath, String db_url) throws IOException, InterruptedException {
-    ProcessBuilder processBuilder = new ProcessBuilder(
-        postgres_program_dir + "\\pg_dump.exe",
-        "--format=custom",
-        "--verbose",
-        "--file=" + fullBackupPath,
-        "\"" + db_url + "\"");
-    processBuilder.environment().put("PGPASSFILE", postgres_pgpass);
-
-    processBuilder.inheritIO();
-
-    logger.info("Starting db backup process...");
-
-    Process process = processBuilder.start();
-    process.waitFor();
-  }
-
-  private Boolean isLocal() {
-    return "local".equalsIgnoreCase(backupEnv);
-  }
+  abstract void executeBackup(String fullBackupPath) throws IOException, InterruptedException;
 
 }
