@@ -1,5 +1,6 @@
 package com.mayhew3.postgresobject.db;
 
+import com.google.common.collect.Lists;
 import com.mayhew3.postgresobject.EnvironmentChecker;
 import com.mayhew3.postgresobject.exception.MissingEnvException;
 import org.apache.logging.log4j.LogManager;
@@ -15,7 +16,7 @@ import java.util.Optional;
 @SuppressWarnings({"WeakerAccess", "OptionalUsedAsFieldOrParameterType", "unused"})
 public class DataBackupExecutor {
 
-  public static final List<Integer> supportedVersions = org.fest.util.Lists.newArrayList(9, 10);
+  public static final List<Integer> supportedVersions = Lists.newArrayList(9, 10);
 
   private Logger logger = LogManager.getLogger(DataBackupExecutor.class);
   
