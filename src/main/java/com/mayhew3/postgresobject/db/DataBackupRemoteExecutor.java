@@ -18,6 +18,8 @@ public class DataBackupRemoteExecutor extends DataBackupExecutor {
         postgres_program_dir + "\\pg_dump.exe",
         "--format=custom",
         "--verbose",
+        "--no-privileges",
+        "--no-owner",
         "--file=" + fullBackupPath,
         "\"" + databaseUrl + "\"");
     processBuilder.environment().put("PGPASSFILE", postgres_pgpass);

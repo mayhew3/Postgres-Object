@@ -2,14 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1e099498-ec9e-4703-ab18-cce3963e4d0c" name="Default" comment="Move annotation directory">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/db/DataBackupLocalExecutor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/db/DataBackupRemoteExecutor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/db/DataRestoreLocalExecutor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/db/DataRestoreRemoteExecutor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/db/GenericDataBackupExecutor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/db/GenericDataRestoreExecutor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradlew" beforeDir="false" afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/db/DataBackupExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/db/DataBackupExecutor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/db/DataBackupLocalExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/db/DataBackupLocalExecutor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/db/DataBackupRemoteExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/db/DataBackupRemoteExecutor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/db/DataRestoreExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/db/DataRestoreExecutor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/db/DataRestoreLocalExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/db/DataRestoreLocalExecutor.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -113,22 +117,22 @@
     <property name="add_unversioned_files" value="$PROJECT_DIR$/.idea/workspace.xml&#10;D:/Code/git/media-mogul-data/scripts/media-mogul-data CMD.lnk" />
     <property name="extract.method.default.visibility" value="private" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.31923383" />
     <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Code\git\postgresobject\src\test" />
-      <recent name="D:\Code\git\media-mogul-data\scripts\old" />
-      <recent name="D:\Code\git\media-mogul-data" />
-      <recent name="D:\Code\git\media-mogul-data\scripts" />
-      <recent name="D:\Projects\mean_projects\GamesDBUtil\src\test\resources" />
-    </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="com.mayhew3.mediamogul.games" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Code\git\postgresobject\src\main\resources" />
+      <recent name="C:\Code\git\postgresobject\src\resources" />
+      <recent name="D:\Code\git\media-mogul-data\src\test\resources\Steam" />
+      <recent name="D:\Code\git\media-mogul-data\src\test\resources\IGDBTest" />
+      <recent name="D:\Code\git\media-mogul-data\resources\Blog Templates" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.mayhew3.postgresobject.db" />
@@ -137,12 +141,12 @@
       <recent name="com.mayhew3.postgresobject.model" />
       <recent name="com.mayhew3.postgresobject.dataobject" />
     </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Code\git\postgresobject\src\main\resources" />
-      <recent name="C:\Code\git\postgresobject\src\resources" />
-      <recent name="D:\Code\git\media-mogul-data\src\test\resources\Steam" />
-      <recent name="D:\Code\git\media-mogul-data\src\test\resources\IGDBTest" />
-      <recent name="D:\Code\git\media-mogul-data\resources\Blog Templates" />
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Code\git\postgresobject\src\test" />
+      <recent name="D:\Code\git\media-mogul-data\scripts\old" />
+      <recent name="D:\Code\git\media-mogul-data" />
+      <recent name="D:\Code\git\media-mogul-data\scripts" />
+      <recent name="D:\Projects\mean_projects\GamesDBUtil\src\test\resources" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -157,7 +161,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.OscarsRestoreExecutor">
+  <component name="RunManager">
     <configuration name="BlogRankingsCreator" type="Application" factoryName="Application" nameIsGenerated="true">
       <envs>
         <env name="postgresURL_local" value="$postgresURL_local$" />
@@ -240,6 +244,45 @@
       <RunnerSettings RunnerId="Run" />
       <ConfigurationWrapper RunnerId="Debug" />
       <ConfigurationWrapper RunnerId="Run" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GenericDataBackupExecutor" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <envs>
+        <env name="postgresURL_local" value="$postgresURL_local$" />
+        <env name="postgresURL_local_test" value="jdbc:postgresql://localhost:5432/tv_copy?user=postgres&amp;password=m3mysql" />
+        <env name="postgresURL" value="postgres://ijxuheufucvnyu:h16h_LnZi4fHgIUjBANnzITEyR@ec2-54-204-30-115.compute-1.amazonaws.com:5432/dcg1rtode4vgk9" />
+      </envs>
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.postgresobject.db.GenericDataBackupExecutor" />
+      <module name="postgres-object_main" />
+      <option name="PROGRAM_PARAMETERS" value="-db Local" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GenericDataRestoreExecutor" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <envs>
+        <env name="postgresURL_local" value="$postgresURL_local$" />
+        <env name="postgresURL_local_test" value="jdbc:postgresql://localhost:5432/tv_copy?user=postgres&amp;password=m3mysql" />
+        <env name="postgresURL" value="postgres://ijxuheufucvnyu:h16h_LnZi4fHgIUjBANnzITEyR@ec2-54-204-30-115.compute-1.amazonaws.com:5432/dcg1rtode4vgk9" />
+      </envs>
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.postgresobject.db.GenericDataRestoreExecutor" />
+      <module name="postgres-object_main" />
+      <option name="PROGRAM_PARAMETERS" value="-db Local" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GenericDataRestoreExecutor" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <envs>
+        <env name="postgresURL_local" value="$postgresURL_local$" />
+        <env name="postgresURL_local_test" value="jdbc:postgresql://localhost:5432/tv_copy?user=postgres&amp;password=m3mysql" />
+        <env name="postgresURL" value="postgres://ijxuheufucvnyu:h16h_LnZi4fHgIUjBANnzITEyR@ec2-54-204-30-115.compute-1.amazonaws.com:5432/dcg1rtode4vgk9" />
+      </envs>
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.postgresobject.db.GenericDataRestoreExecutor" />
+      <module name="postgres-object_test" />
+      <option name="PROGRAM_PARAMETERS" value="-db Local" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -427,30 +470,6 @@
       </envs>
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.games.IGDBUpdateTestRunner" />
       <module name="media-mogul-data_main" />
-      <option name="PROGRAM_PARAMETERS" value="-db Local" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="MediaMogulBackupExecutor" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <envs>
-        <env name="DATABASE_URL" value="postgres://hwubispysgwomv:BaALtFDVH8rP28ulM0yjKg3VwZ@ec2-23-23-199-72.compute-1.amazonaws.com:5432/dlo6ch087btcf" />
-      </envs>
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.postgresobject.db.MediaMogulBackupExecutor" />
-      <module name="postgres-object_test" />
-      <option name="PROGRAM_PARAMETERS" value="-db Local" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="MediaMogulRestoreExecutor" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <envs>
-        <env name="postgresURL_local" value="$postgresURL_local$" />
-        <env name="postgresURL_local_test" value="jdbc:postgresql://localhost:5432/tv_copy?user=postgres&amp;password=m3mysql" />
-        <env name="postgresURL" value="postgres://ijxuheufucvnyu:h16h_LnZi4fHgIUjBANnzITEyR@ec2-54-204-30-115.compute-1.amazonaws.com:5432/dcg1rtode4vgk9" />
-      </envs>
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.postgresobject.db.MediaMogulRestoreExecutor" />
-      <module name="postgres-object_test" />
       <option name="PROGRAM_PARAMETERS" value="-db Local" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -1664,27 +1683,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="DatabaseRecreatorTest.testRecreateTestDatabase (1)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="postgres-object_test" />
-      <option name="PACKAGE_NAME" value="com.mayhew3.postgresobject.dataobject" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.postgresobject.dataobject.DatabaseRecreatorTest" />
-      <option name="METHOD_NAME" value="testRecreateTestDatabase" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="VM_PARAMETERS" value="" />
-      <option name="PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="moduleWithDependencies" />
-      </option>
-      <envs>
-        <env name="postgresURL_local" value="$postgresURL_local$" />
-        <env name="postgresURL_local_test" value="jdbc:postgresql://localhost:5432/tv_copy?user=postgres&amp;password=m3mysql" />
-        <env name="postgresURL" value="postgres://ijxuheufucvnyu:h16h_LnZi4fHgIUjBANnzITEyR@ec2-54-204-30-115.compute-1.amazonaws.com:5432/dcg1rtode4vgk9" />
-      </envs>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="SchemaHerokuTest" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
       <module name="media-mogul-data_test" />
       <option name="PACKAGE_NAME" value="com.mayhew3.mediamogul.model" />
@@ -1893,9 +1891,11 @@
       <item itemvalue="Application.TVDBUpdateRunner (test/episodeMatch)" />
       <item itemvalue="Application.TVGroupDataImporter (heroku)" />
       <item itemvalue="Application.TVGroupDataImporter (local)" />
-      <item itemvalue="Application.MediaMogulBackupExecutor" />
-      <item itemvalue="Application.MediaMogulRestoreExecutor" />
+      <item itemvalue="Application.GenericDataRestoreExecutor" />
       <item itemvalue="Application.OscarsBackupExecutor" />
+      <item itemvalue="Application.OscarsRestoreExecutor" />
+      <item itemvalue="Application.GenericDataBackupExecutor" />
+      <item itemvalue="Application.GenericDataRestoreExecutor" />
       <item itemvalue="Gradle.media-mogul-data [build]" />
       <item itemvalue="Gradle.media-mogul-data [assemble]" />
       <item itemvalue="JUnit.SchemaLocalTest" />
@@ -1904,16 +1904,14 @@
       <item itemvalue="JUnit.SchemaHerokuTest.testHerokuSchemaUpToDate" />
       <item itemvalue="JUnit.DatabaseRecreatorTest (Test)" />
       <item itemvalue="JUnit.DatabaseRecreatorTest (Demo)" />
-      <item itemvalue="JUnit.DatabaseRecreatorTest.testRecreateTestDatabase (1)" />
-      <item itemvalue="Application.OscarsRestoreExecutor" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.GenericDataRestoreExecutor" />
+        <item itemvalue="Application.GenericDataBackupExecutor" />
         <item itemvalue="Application.OscarsRestoreExecutor" />
         <item itemvalue="Application.OscarsBackupExecutor" />
-        <item itemvalue="Application.MediaMogulRestoreExecutor" />
-        <item itemvalue="Application.MediaMogulBackupExecutor" />
-        <item itemvalue="JUnit.DatabaseRecreatorTest.testRecreateTestDatabase (1)" />
+        <item itemvalue="Application.GenericDataRestoreExecutor" />
       </list>
     </recent_temporary>
   </component>
@@ -1992,119 +1990,11 @@
           <line>237</line>
           <option name="timeStamp" value="63" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/db/DataRestoreExecutor.java</url>
-          <line>111</line>
-          <option name="timeStamp" value="69" />
-        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="gradleExecuteTaskHistory">
     <option value="$PROJECT_DIR$" />
     <option value="build" />
-  </component>
-  <component name="masterDetails">
-    <states>
-      <state key="ArtifactsStructureConfigurable.UI">
-        <settings>
-          <artifact-editor />
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.31923383" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="FacetStructureConfigurable.UI">
-        <settings>
-          <last-edited>No facets are configured</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.31923383" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="GlobalLibrariesConfigurable.UI">
-        <settings>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.31923383" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="JdkListConfigurable.UI">
-        <settings>
-          <last-edited>1.8</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.31923383" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="ModuleStructureConfigurable.UI">
-        <settings>
-          <last-edited>postgres-object</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.31923383" />
-                <option value="0.6" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="ProjectJDKs.UI">
-        <settings>
-          <last-edited>1.8</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="ProjectLibrariesConfigurable.UI">
-        <settings>
-          <last-edited>Gradle: :annotations-java8:</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.31923383" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="ScopeChooserConfigurable.UI">
-        <settings>
-          <last-edited>AllButLogs</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.31923383" />
-              </list>
-            </option>
-          </splitter-proportions>
-          <order>
-            <scope name="AllButLogs" />
-          </order>
-        </settings>
-      </state>
-    </states>
   </component>
 </project>

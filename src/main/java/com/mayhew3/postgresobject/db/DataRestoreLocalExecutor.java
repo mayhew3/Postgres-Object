@@ -15,12 +15,16 @@ public class DataRestoreLocalExecutor extends DataRestoreExecutor {
 
   @Override
   void executeRestore(Path latestBackup) throws IOException, InterruptedException {
+    int port = DataBackupExecutor.portMap.get(pgVersion);
 
     ProcessBuilder processBuilder = new ProcessBuilder(
         postgres_program_dir + "\\pg_restore.exe",
         "--host=localhost",
         "--dbname=" + localDBName,
         "--username=postgres",
+        "--port=" + port,
+        "--no-privileges",
+        "--no-owner",
         "--clean",
         "--format=custom",
         "--verbose",

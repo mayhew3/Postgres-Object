@@ -2,7 +2,7 @@ package com.mayhew3.postgresobject.db;
 
 import java.io.IOException;
 
-@SuppressWarnings("WeakerAccess")
+@SuppressWarnings("unused")
 public class DataBackupLocalExecutor extends DataBackupExecutor {
 
   private final String localDBName;
@@ -14,7 +14,7 @@ public class DataBackupLocalExecutor extends DataBackupExecutor {
 
   @Override
   void executeBackup(String fullBackupPath) throws IOException, InterruptedException {
-    int port = pgVersion == 9 ? 5432 : 5433;
+    int port = DataBackupExecutor.portMap.get(pgVersion);
 
     ProcessBuilder processBuilder = new ProcessBuilder(
         postgres_program_dir + "\\pg_dump.exe",

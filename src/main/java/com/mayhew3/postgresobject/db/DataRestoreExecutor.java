@@ -21,7 +21,7 @@ abstract public class DataRestoreExecutor {
 
   private String restoreEnv;
   private String backupEnv;
-  private Integer pgVersion;
+  Integer pgVersion;
   private String folderName;
 
   String postgres_program_dir;
@@ -51,7 +51,7 @@ abstract public class DataRestoreExecutor {
   public void runUpdate() throws MissingEnvException, IOException, InterruptedException {
     logger.info("Beginning execution of executor: restoring '" + restoreEnv + "' from '" + backupEnv + "' backup");
 
-    assert DataBackupExecutor.supportedVersions.contains(pgVersion);
+    assert DataBackupExecutor.portMap.containsKey(pgVersion);
 
     String programEnvLabel = "POSTGRES" + pgVersion + "_PROGRAM_DIR";
     postgres_program_dir = EnvironmentChecker.getOrThrow(programEnvLabel);

@@ -1,6 +1,5 @@
 package com.mayhew3.postgresobject.db;
 
-import com.google.common.collect.Lists;
 import com.mayhew3.postgresobject.EnvironmentChecker;
 import com.mayhew3.postgresobject.exception.MissingEnvException;
 import org.apache.logging.log4j.LogManager;
@@ -9,13 +8,18 @@ import org.apache.logging.log4j.Logger;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.AbstractMap;
 import java.util.Date;
-import java.util.List;
+import java.util.Map;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 abstract public class DataBackupExecutor {
 
-  public static final List<Integer> supportedVersions = Lists.newArrayList(9, 10);
+  public static final Map<Integer, Integer> portMap = Map.ofEntries(
+      new AbstractMap.SimpleEntry<>(9, 5432),
+      new AbstractMap.SimpleEntry<>(10, 5433),
+      new AbstractMap.SimpleEntry<>(11, 5434)
+  );
 
   Logger logger = LogManager.getLogger(DataBackupExecutor.class);
   
@@ -37,7 +41,7 @@ abstract public class DataBackupExecutor {
   public void runUpdate() throws MissingEnvException, IOException, InterruptedException {
     logger.info("Beginning execution of executor!");
 
-    assert DataBackupExecutor.supportedVersions.contains(pgVersion);
+    assert DataBackupExecutor.portMap.containsKey(pgVersion);
 
     String programEnvLabel = "POSTGRES" + pgVersion + "_PROGRAM_DIR";
     postgres_program_dir = EnvironmentChecker.getOrThrow(programEnvLabel);
