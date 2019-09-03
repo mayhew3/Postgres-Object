@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1e099498-ec9e-4703-ab18-cce3963e4d0c" name="Default" comment="Move annotation directory">
+      <change afterPath="$PROJECT_DIR$/jitpack.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
     </list>
@@ -151,7 +152,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.GiantBombUpdater (test)">
     <configuration name="BlogRankingsCreator" type="Application" factoryName="Application" nameIsGenerated="true">
       <envs>
         <env name="postgresURL_local" value="$postgresURL_local$" />
@@ -1881,7 +1882,6 @@
       <item itemvalue="Application.TVDBUpdateRunner (test/episodeMatch)" />
       <item itemvalue="Application.TVGroupDataImporter (heroku)" />
       <item itemvalue="Application.TVGroupDataImporter (local)" />
-      <item itemvalue="Application.GenericDataRestoreExecutor" />
       <item itemvalue="Application.OscarsBackupExecutor" />
       <item itemvalue="Application.OscarsRestoreExecutor" />
       <item itemvalue="Application.GenericDataBackupExecutor" />
