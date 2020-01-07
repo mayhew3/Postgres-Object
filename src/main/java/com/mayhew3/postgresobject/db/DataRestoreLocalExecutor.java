@@ -1,5 +1,7 @@
 package com.mayhew3.postgresobject.db;
 
+import org.joda.time.DateTime;
+
 import java.io.IOException;
 import java.nio.file.Path;
 
@@ -10,6 +12,11 @@ public class DataRestoreLocalExecutor extends DataRestoreExecutor {
 
   public DataRestoreLocalExecutor(String restoreEnv, String backupEnv, Integer pgVersion, String folderName, String localDBName) {
     super(restoreEnv, backupEnv, pgVersion, folderName);
+    this.localDBName = localDBName;
+  }
+
+  public DataRestoreLocalExecutor(String restoreEnv, String backupEnv, Integer pgVersion, String folderName, String localDBName, DateTime backupDate) {
+    super(restoreEnv, backupEnv, pgVersion, folderName, backupDate);
     this.localDBName = localDBName;
   }
 

@@ -4,6 +4,7 @@ import com.mayhew3.postgresobject.EnvironmentChecker;
 import com.mayhew3.postgresobject.exception.MissingEnvException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.joda.time.DateTime;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,6 +13,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -23,6 +26,7 @@ abstract public class DataRestoreExecutor {
   private String backupEnv;
   Integer pgVersion;
   private String folderName;
+  private DateTime backupDate;
 
   String postgres_program_dir;
   String postgres_pgpass_local;
@@ -46,6 +50,11 @@ abstract public class DataRestoreExecutor {
     this.backupEnv = backupEnv;
     this.pgVersion = pgVersion;
     this.folderName = folderName;
+  }
+
+  public DataRestoreExecutor(String restoreEnv, String backupEnv, Integer pgVersion, String folderName, DateTime backupDate) {
+    this(restoreEnv, backupEnv, pgVersion, folderName);
+    this.backupDate = backupDate;
   }
 
   public void runUpdate() throws MissingEnvException, IOException, InterruptedException {
@@ -82,13 +91,48 @@ abstract public class DataRestoreExecutor {
       env_backup_dir.mkdir();
     }
 
-    Path latestBackup = getLatestBackup(env_backup_dir.getPath());
+    Path latestBackup = getBackup(env_backup_dir.getPath());
     logger.info("File to restore: " + latestBackup.toString());
 
     executeRestore(latestBackup);
   }
 
   abstract void executeRestore(Path latestBackup) throws IOException, InterruptedException;
+
+  private Path getBackup(String backup_directory) throws IOException {
+    if (backupDate == null) {
+      return getLatestBackup(backup_directory);
+    } else {
+      return getBackupForDate(backup_directory);
+    }
+  }
+
+  private Path getBackupForDate(String backup_directory) throws IOException {
+    Path path = Paths.get(backup_directory);
+    List<Path> files = new ArrayList<>();
+
+    logger.info("Finding newest backup before date: " + backupDate);
+
+    DirectoryStream<Path> paths = Files.newDirectoryStream(path);
+    for (Path path1 : paths) {
+      File file = new File(path1.toString());
+      if (file.isFile() && fileCreatedBeforeDate(path1, backupDate)) {
+        files.add(path1);
+      }
+    }
+    if (files.isEmpty()) {
+      throw new IllegalStateException("No files found before date: " + backupDate + " in directory: " + backup_directory);
+    }
+    files.sort(created);
+    return files.get(0);
+  }
+
+  private boolean fileCreatedBeforeDate(Path path, DateTime comparisonDate) throws IOException {
+    BasicFileAttributes attributes = Files.readAttributes(path, BasicFileAttributes.class);
+    Instant createTime = attributes.creationTime().toInstant();
+    Instant backupTime = comparisonDate.toDate().toInstant();
+    return createTime.isBefore(backupTime);
+  }
 
   private Path getLatestBackup(String backup_directory) throws IOException {
     Path path = Paths.get(backup_directory);

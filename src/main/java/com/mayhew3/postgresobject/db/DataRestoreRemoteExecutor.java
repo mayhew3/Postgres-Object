@@ -3,6 +3,7 @@ package com.mayhew3.postgresobject.db;
 import com.mayhew3.postgresobject.EnvironmentChecker;
 import com.mayhew3.postgresobject.exception.MissingEnvException;
 import org.jetbrains.annotations.NotNull;
+import org.joda.time.DateTime;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -25,6 +26,18 @@ public class DataRestoreRemoteExecutor extends DataRestoreExecutor {
     this.appName = appName;
     this.databaseUrl = databaseUrl;
 
+    checkEnvironment();
+  }
+
+  public DataRestoreRemoteExecutor(String restoreEnv, String backupEnv, Integer pgVersion, String folderName, String appName, String databaseUrl, DateTime backupDate) throws MissingEnvException {
+    super(restoreEnv, backupEnv, pgVersion, folderName, backupDate);
+    this.appName = appName;
+    this.databaseUrl = databaseUrl;
+
+    checkEnvironment();
+  }
+
+  private void checkEnvironment() throws MissingEnvException {
     aws_program_dir = EnvironmentChecker.getOrThrow("AWS_PROGRAM_DIR");
     aws_user_dir = EnvironmentChecker.getOrThrow("AWS_USER_DIR");
     heroku_program_dir = EnvironmentChecker.getOrThrow("HEROKU_PROGRAM_DIR");
