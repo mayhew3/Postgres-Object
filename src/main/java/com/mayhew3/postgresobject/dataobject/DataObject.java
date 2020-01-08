@@ -93,6 +93,7 @@ public abstract class DataObject {
     return Lists.newArrayList(uniqueConstraints);
   }
 
+  abstract void preInsert();
 
   @NotNull
   public Boolean isInitialized() {
@@ -113,6 +114,7 @@ public abstract class DataObject {
     if (editMode == EditMode.UPDATE) {
       update(connection);
     } else if (editMode == EditMode.INSERT) {
+      preInsert();
       insert(connection);
     } else {
       throw new IllegalStateException("Attempting to commit MediaObject that wasn't properly initialized!");

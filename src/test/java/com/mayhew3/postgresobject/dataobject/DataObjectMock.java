@@ -11,6 +11,11 @@ class DataObjectMock extends DataObject {
   }
 
   @Override
+  void preInsert() {
+    // nothing to do
+  }
+
+  @Override
   public String getTableName() {
     return "test";
   }

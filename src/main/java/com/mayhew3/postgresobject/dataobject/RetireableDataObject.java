@@ -12,6 +12,13 @@ public abstract class RetireableDataObject extends DataObject {
     retiredDate.changeValue(new Timestamp(new Date().getTime()));
   }
 
+  @Override
+  void preInsert() {
+    if (retired.getValue() == null) {
+      unRetire();
+    }
+  }
+
   public void unRetire() {
     retired.changeValue(0);
     retiredDate.nullValue();
