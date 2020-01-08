@@ -14,6 +14,7 @@ public abstract class RetireableDataObject extends DataObject {
 
   @Override
   void preInsert() {
+    super.preInsert();
     if (retired.getValue() == null) {
       unRetire();
     }

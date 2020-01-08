@@ -93,7 +93,9 @@ public abstract class DataObject {
     return Lists.newArrayList(uniqueConstraints);
   }
 
-  abstract void preInsert();
+  void preInsert() {
+    // nothing by default
+  }
 
   @NotNull
   public Boolean isInitialized() {

@@ -6,7 +6,6 @@
       <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/dataobject/DataObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/dataobject/DataObject.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/dataobject/RetireableDataObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/dataobject/RetireableDataObject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/mayhew3/postgresobject/dataobject/DataObjectMock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/mayhew3/postgresobject/dataobject/DataObjectMock.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -2041,12 +2040,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/dataobject/DataObject.java</url>
-          <line>234</line>
+          <line>236</line>
           <option name="timeStamp" value="62" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/dataobject/DataObject.java</url>
-          <line>239</line>
+          <line>241</line>
           <option name="timeStamp" value="63" />
         </line-breakpoint>
       </breakpoints>
