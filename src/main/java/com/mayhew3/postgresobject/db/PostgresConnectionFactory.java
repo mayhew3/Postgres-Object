@@ -15,8 +15,10 @@ import java.util.Optional;
 
 public enum PostgresConnectionFactory {
   HEROKU("heroku", "postgresURL_heroku"),
+  STAGING("staging", "postgresURL_heroku_staging"),
   LOCAL("local", "postgresURL_local"),
   TEST("test", "postgresURL_local_test"),
+  E2E("e2e", "postgresURL_local_e2e"),
   DEMO("demo", "postgresURL_local_demo");
 
   private final String nickname;
