@@ -160,7 +160,9 @@ public class DataArchiver {
 
   private String formatFieldValue(FieldValue fieldValue) {
     if (fieldValue.getValue() instanceof String) {
-      return "\"" + fieldValue.getValue() + "\"";
+      String exportValue = (String) fieldValue.getValue();
+      String replaced = exportValue.replace("\"", "\"\"");
+      return "\"" + replaced + "\"";
     } else {
       return fieldValue.getValue().toString();
     }
