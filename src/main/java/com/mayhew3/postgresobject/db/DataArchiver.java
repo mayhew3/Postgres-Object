@@ -150,12 +150,20 @@ public class DataArchiver {
   private void copyRowToArchiveFile(DataObject dataObject, @NotNull PrintStream printStream) {
     List<String> values = dataObject.getAllFieldValuesIncludingId().stream()
         .sorted(Comparator.comparing(FieldValue::getFieldName))
-        .map(fieldValue -> fieldValue.getValue() == null ? "" : fieldValue.getValue().toString())
+        .map(fieldValue -> fieldValue.getValue() == null ? "" : formatFieldValue(fieldValue))
         .collect(Collectors.toList());
 
     String valueText = Joiner.on(",").join(values);
 
     printStream.println(valueText);
+  }
+
+  private String formatFieldValue(FieldValue fieldValue) {
+    if (fieldValue.getValue() instanceof String) {
+      return "\"" + fieldValue.getValue() + "\"";
+    } else {
+      return fieldValue.getValue().toString();
+    }
   }
 
   private void validateHeaderRow(DataObject dataObject, String existingHeader) {
