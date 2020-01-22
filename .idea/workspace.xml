@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1e099498-ec9e-4703-ab18-cce3963e4d0c" name="Default" comment="Move annotation directory">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/db/ArchiveableFactory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/db/DataArchiver.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/db/PostgresConnectionFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/db/PostgresConnectionFactory.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,15 +88,15 @@
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Code\git\postgresobject\src\test" />
+      <recent name="D:\Code\git\media-mogul-data\scripts\old" />
+      <recent name="D:\Code\git\media-mogul-data" />
+      <recent name="D:\Code\git\media-mogul-data\scripts" />
+      <recent name="D:\Projects\mean_projects\GamesDBUtil\src\test\resources" />
+    </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="com.mayhew3.mediamogul.games" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Code\git\postgresobject\src\main\resources" />
-      <recent name="C:\Code\git\postgresobject\src\resources" />
-      <recent name="D:\Code\git\media-mogul-data\src\test\resources\Steam" />
-      <recent name="D:\Code\git\media-mogul-data\src\test\resources\IGDBTest" />
-      <recent name="D:\Code\git\media-mogul-data\resources\Blog Templates" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.mayhew3.postgresobject.db" />
@@ -105,12 +105,12 @@
       <recent name="com.mayhew3.postgresobject.model" />
       <recent name="com.mayhew3.postgresobject.dataobject" />
     </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Code\git\postgresobject\src\test" />
-      <recent name="D:\Code\git\media-mogul-data\scripts\old" />
-      <recent name="D:\Code\git\media-mogul-data" />
-      <recent name="D:\Code\git\media-mogul-data\scripts" />
-      <recent name="D:\Projects\mean_projects\GamesDBUtil\src\test\resources" />
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Code\git\postgresobject\src\main\resources" />
+      <recent name="C:\Code\git\postgresobject\src\resources" />
+      <recent name="D:\Code\git\media-mogul-data\src\test\resources\Steam" />
+      <recent name="D:\Code\git\media-mogul-data\src\test\resources\IGDBTest" />
+      <recent name="D:\Code\git\media-mogul-data\resources\Blog Templates" />
     </key>
   </component>
   <component name="RunManager" selected="Application.GenericDataRestoreExecutor">
@@ -1939,6 +1939,10 @@
       <screen x="0" y="0" width="2560" height="1410" />
     </state>
     <state x="1123" y="595" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.0.2560.1410/2560.465.1600.1170@0.0.2560.1410" timestamp="1579318863435" />
+    <state x="268" y="88" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1579725879060">
+      <screen x="0" y="0" width="2560" height="1410" />
+    </state>
+    <state x="268" y="88" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.2560.1410/2560.465.1600.1170@0.0.2560.1410" timestamp="1579725879060" />
     <state x="1391" y="190" width="702" height="767" key="#xdebugger.evaluate" timestamp="1578438562704">
       <screen x="0" y="0" width="2560" height="1410" />
     </state>
