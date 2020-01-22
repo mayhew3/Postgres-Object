@@ -53,55 +53,38 @@ public class DataArchiver {
     String dateColumnName = factory.dateColumnName();
     Integer monthsToKeep = factory.monthsToKeep();
 
-    DateTime today = new DateTime();
-    DateTime lastDateToKeep = today.minusMonths(monthsToKeep);
-    Timestamp lastDateInTimestamp = new Timestamp(lastDateToKeep.toDate().getTime());
+    String otherColumnName = factory.otherColumnName();
+    Object otherColumnValue = factory.otherColumnValue();
 
-    File mostRecentFile;
+    File mostRecentFile = null;
     DateTime mostRecentDate = null;
-    PrintStream mostRecentStream = null;
+    PrintStream mostRecentStream;
 
-    String sql = "SELECT * " +
-        " FROM " + tableName +
-        " WHERE " + dateColumnName + " IS NOT NULL " +
-        " AND " + dateColumnName + " < ? " +
-        " ORDER BY " + dateColumnName;
+    ResultSet resultSet = monthsToKeep == null ?
+        getResultSetForOther(tableName, otherColumnName, otherColumnValue) :
+        getResultSetForDates(tableName, dateColumnName, monthsToKeep);
 
     Integer i = 0;
-
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, lastDateInTimestamp);
-
-    logger.info("Query executed on table " + tableName + " before " + lastDateToKeep + ". Processing rows...");
-
-
     while (resultSet.next()) {
       DataObject dataObject = factory.createEntity();
       dataObject.initializeFromDBObject(resultSet);
 
-      FieldValueTimestamp dateValue = (FieldValueTimestamp) dataObject.getFieldValueWithName(dateColumnName);
-      assert dateValue != null;
+      if (monthsToKeep != null) {
+        FieldValueTimestamp dateValue = (FieldValueTimestamp) dataObject.getFieldValueWithName(dateColumnName);
+        assert dateValue != null;
 
-      Timestamp rowTimestamp = dateValue.getValue();
-      DateTime rowDateTime = new DateTime(rowTimestamp);
+        Timestamp rowTimestamp = dateValue.getValue();
+        DateTime rowDateTime = new DateTime(rowTimestamp);
 
-      if (mostRecentDate == null || DateTimeComparator.getDateOnlyInstance().compare(mostRecentDate, rowDateTime) < 0) {
-        mostRecentDate = rowDateTime;
-        mostRecentFile = getFile(tableName, rowTimestamp);
-
-        if (mostRecentFile.exists()) {
-          BufferedReader bufferedReader = new BufferedReader(new FileReader(mostRecentFile));
-          String firstLine = bufferedReader.readLine();
-          if (firstLine != null) {
-            validateHeaderRow(dataObject, firstLine);
-          }
-          mostRecentStream = new PrintStream(new FileOutputStream(mostRecentFile, true));
-        } else {
-          List<String> fieldNames = getFieldNames(dataObject);
-          String headerRow = Joiner.on(",").join(fieldNames);
-          mostRecentStream = new PrintStream(new FileOutputStream(mostRecentFile, true));
-          mostRecentStream.println(headerRow);
+        if (mostRecentDate == null || DateTimeComparator.getDateOnlyInstance().compare(mostRecentDate, rowDateTime) < 0) {
+          mostRecentDate = rowDateTime;
+          mostRecentFile = getDateBasedFile(tableName, rowTimestamp);
         }
+      } else {
+        mostRecentFile = getColumnBasedFile(tableName, otherColumnValue);
       }
+
+      mostRecentStream = createValidStream(mostRecentFile, dataObject);
 
       // todo: Check for duplicate
       copyRowToArchiveFile(dataObject, mostRecentStream);
@@ -114,6 +97,50 @@ public class DataArchiver {
     }
 
     logger.info(i + " rows processed. Done with table " + tableName);
+  }
+
+  private PrintStream createValidStream(File file, DataObject dataObject) throws IOException {
+    if (file.exists()) {
+      BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+      String firstLine = bufferedReader.readLine();
+      if (firstLine != null) {
+        validateHeaderRow(dataObject, firstLine);
+      }
+      return new PrintStream(new FileOutputStream(file, true));
+    } else {
+      List<String> fieldNames = getFieldNames(dataObject);
+      String headerRow = Joiner.on(",").join(fieldNames);
+      PrintStream printStream = new PrintStream(new FileOutputStream(file, true));
+      printStream.println(headerRow);
+      return printStream;
+    }
+  }
+
+  private ResultSet getResultSetForDates(String tableName, String dateColumnName, Integer monthsToKeep) throws SQLException {
+    DateTime today = new DateTime();
+    DateTime lastDateToKeep = today.minusMonths(monthsToKeep);
+    Timestamp lastDateInTimestamp = new Timestamp(lastDateToKeep.toDate().getTime());
+
+    String sql = "SELECT * " +
+        " FROM " + tableName +
+        " WHERE " + dateColumnName + " IS NOT NULL " +
+        " AND " + dateColumnName + " < ? " +
+        " ORDER BY " + dateColumnName;
+
+    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(sql, lastDateInTimestamp);
+
+    logger.info("Query executed on table " + tableName + " before " + lastDateToKeep + ". Processing rows...");
+
+    return resultSet;
+  }
+
+  private ResultSet getResultSetForOther(String tableName, String columnName, Object columnValue) throws SQLException {
+    String sql = "SELECT * " +
+        " FROM " + tableName +
+        " WHERE " + columnName + " IS NOT NULL " +
+        " AND " + columnName + " = ? ";
+    logger.info("Query executing on table " + tableName + " using " + columnName + " with value '" + columnValue + "'. Processing rows...");
+    return connection.prepareAndExecuteStatementFetch(sql, columnValue);
   }
 
   private void debug(String message) {
@@ -156,8 +183,18 @@ public class DataArchiver {
     connection.prepareAndExecuteStatementUpdate(sql, rowId);
   }
 
+  private File getColumnBasedFile(String tableName, Object fileBase) {
+    File directory = new File(logDirectory + "\\" + dbIdentifier);
+    if (!directory.exists()) {
+      //noinspection ResultOfMethodCallIgnored
+      directory.mkdir();
+    }
+
+    return new File(logDirectory + "\\" + dbIdentifier + "\\Archive_" + tableName + "_" + fileBase + ".csv");
+  }
+
   @NotNull
-  private File getFile(String tableName, Timestamp rowDate) {
+  private File getDateBasedFile(String tableName, Timestamp rowDate) {
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
     String dateFormatted = simpleDateFormat.format(rowDate);
 

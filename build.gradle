@@ -39,7 +39,7 @@ dependencies {
     testCompile 'org.mockito:mockito-core:2.18.3'
 }
 
-version = '0.10.8'
+version = '0.10.9'
 
 task testJar(type: Jar) {
     classifier 'tests'
