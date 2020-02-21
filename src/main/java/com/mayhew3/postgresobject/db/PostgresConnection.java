@@ -76,6 +76,12 @@ public class PostgresConnection implements SQLConnection {
       resetConnection();
     } else if (isExpired()) {
       debug("30 minute threshold reached. Renewing connection.");
+      try {
+        closeConnection();
+        debug("Connection closed. Resetting.");
+      } catch (SQLException ignored) {
+        debug("Tried to close connection, but failed.");
+      }
       resetConnection();
     }
   }
