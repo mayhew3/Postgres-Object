@@ -89,6 +89,7 @@ public class PostgresConnection implements SQLConnection {
   private void resetConnection() {
     try {
       _connection = DriverManager.getConnection(_connectionString);
+      updateLastExecuted();
       debug("Re-connect success!");
     } catch (SQLException e) {
       debug("Re-connect failed.");
