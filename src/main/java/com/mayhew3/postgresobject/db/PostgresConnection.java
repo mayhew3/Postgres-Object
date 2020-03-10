@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 import java.sql.*;
 import java.util.List;
 
+@SuppressWarnings({"rawtypes", "unused"})
 public class PostgresConnection implements SQLConnection {
 
   private Connection _connection;
@@ -136,6 +137,11 @@ public class PostgresConnection implements SQLConnection {
     preparedStatement.close();
     updateLastExecuted();
     return rowsAffected;
+  }
+
+  @Override
+  public @NotNull PreparedStatement prepareStatementNoParams(String sql) throws SQLException {
+    return _connection.prepareStatement(sql);
   }
 
   // Operations with user handle on PreparedStatement

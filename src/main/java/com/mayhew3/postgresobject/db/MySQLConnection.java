@@ -80,6 +80,11 @@ public class MySQLConnection implements SQLConnection {
     return updatedRowCount;
   }
 
+  @Override
+  public @NotNull PreparedStatement prepareStatementNoParams(String sql) throws SQLException {
+    return _connection.prepareStatement(sql);
+  }
+
   // Operations with user handle on PreparedStatement
 
   @NotNull

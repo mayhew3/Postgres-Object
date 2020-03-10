@@ -93,6 +93,16 @@ public interface SQLConnection {
 
   /**
    * - Create PreparedStatement using SQL.
+   *
+   * @param sql SQL query that should be run
+   * @return PreparedStatement object
+   * @throws SQLException
+   */
+  @NotNull
+  PreparedStatement prepareStatementNoParams(String sql) throws SQLException;
+
+  /**
+   * - Create PreparedStatement using SQL.
    * - Plug given parameters into PreparedStatement.
    *
    * @param sql SQL query that should be run
