@@ -21,13 +21,11 @@ public abstract class SchemaTest {
 
   public abstract DataSchema getDataSchema();
 
-  public abstract String getDBConnectionString();
+  public abstract SQLConnection createConnection() throws URISyntaxException, SQLException;
 
   @Test
   public void testSchemaUpToDate() throws URISyntaxException, SQLException {
-    String database_url = getDBConnectionString();
-    logger.debug("Database URL: " + database_url);
-    SQLConnection connection = PostgresConnectionFactory.initiateDBConnect(database_url);
+    SQLConnection connection = createConnection();
     List<DataObjectMismatch> mismatches = getDataSchema().validateSchemaAgainstDatabase(connection);
 
     if (!mismatches.isEmpty()) {
