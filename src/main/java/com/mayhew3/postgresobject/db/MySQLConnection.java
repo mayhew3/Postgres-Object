@@ -61,7 +61,7 @@ public class MySQLConnection implements SQLConnection {
   @Override
   public ResultSet prepareAndExecuteStatementFetch(String sql, List<Object> params) throws SQLException {
     PreparedStatement preparedStatement = prepareStatementWithParams(sql, params);
-    logger.log(Level.INFO, preparedStatement.toString());
+//    logger.log(Level.INFO, preparedStatement.toString());
     return preparedStatement.executeQuery();
   }
 
@@ -74,7 +74,7 @@ public class MySQLConnection implements SQLConnection {
   @Override
   public Integer prepareAndExecuteStatementUpdate(String sql, List<Object> params) throws SQLException {
     PreparedStatement preparedStatement = prepareStatementWithParams(sql, params);
-    logger.log(Level.INFO, preparedStatement.toString());
+//    logger.log(Level.INFO, preparedStatement.toString());
     int updatedRowCount = preparedStatement.executeUpdate();
     preparedStatement.close();
     return updatedRowCount;

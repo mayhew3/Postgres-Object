@@ -63,15 +63,9 @@ public abstract class FieldValue<T> {
     this.wasText = true;
   }
 
-  // todo: make abstract, and force all subtypes to implement.
-  String getDDLType() {
-    throw new UnsupportedOperationException("This method needs to be implemented on all subtypes that call it.");
-  }
+  public abstract String getDDLType();
 
-  // todo: make abstract, and force all subtypes to implement.
-  public String getInformationSchemaType() {
-    throw new UnsupportedOperationException("This method needs to be implemented on all subtypes that call it.");
-  }
+  public abstract String getInformationSchemaType();
 
   abstract protected void initializeValue(ResultSet resultSet) throws SQLException;
 

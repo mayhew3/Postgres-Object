@@ -12,6 +12,16 @@ public class FieldValueDate extends FieldValue<Date> {
   }
 
   @Override
+  public String getDDLType() {
+    return "DATE";
+  }
+
+  @Override
+  public String getInformationSchemaType() {
+    return "date";
+  }
+
+  @Override
   protected void initializeValue(ResultSet resultSet) throws SQLException {
     initializeValue(resultSet.getDate(getFieldName()));
   }
