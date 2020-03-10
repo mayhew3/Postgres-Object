@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@SuppressWarnings({"SameParameterValue", "unused", "rawtypes"})
 public abstract class DataObject {
 
   private enum EditMode {INSERT, UPDATE}
@@ -284,7 +285,7 @@ public abstract class DataObject {
 
   public List<String> generateAddForeignKeyStatements() {
     List<String> statements = new ArrayList<>();
-    Integer fkIndex = 1;
+    int fkIndex = 1;
     for (FieldValueForeignKey foreignKey : foreignKeys) {
       String constraintName = getTableName() + "_fk" + fkIndex;
       String statement =
@@ -359,6 +360,12 @@ public abstract class DataObject {
     FieldValueBoolean fieldBooleanValue = new FieldValueBoolean(fieldName, new FieldConversionBoolean(), nullability);
     allFieldValues.add(fieldBooleanValue);
     return fieldBooleanValue;
+  }
+
+  protected final FieldValueDate registerDateField(String fieldName, Nullability nullability) {
+    FieldValueDate fieldDateValue = new FieldValueDate(fieldName, new FieldConversionDate(), nullability);
+    allFieldValues.add(fieldDateValue);
+    return fieldDateValue;
   }
 
   protected final FieldValueTimestamp registerTimestampField(String fieldName, Nullability nullability) {
