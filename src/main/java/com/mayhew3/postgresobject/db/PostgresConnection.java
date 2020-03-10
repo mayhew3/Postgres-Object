@@ -29,6 +29,11 @@ public class PostgresConnection implements SQLConnection {
 
   // Simple executes without use of PreparedStatement
 
+  @Override
+  public String getSchemaName() {
+    return "public";
+  }
+
   @NotNull
   public ResultSet executeQuery(String sql) throws SQLException {
     checkConnection();

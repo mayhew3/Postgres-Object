@@ -8,7 +8,6 @@ import org.jetbrains.annotations.NotNull;
 import java.math.BigDecimal;
 import java.sql.*;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @SuppressWarnings({"unused", "rawtypes"})
@@ -17,13 +16,20 @@ public class MySQLConnection implements SQLConnection {
   private Logger logger = Logger.getLogger(MySQLConnection.class.getName());
 
   private Connection _connection;
+  private final String schemaName;
 
-  MySQLConnection(Connection connection) {
+  MySQLConnection(Connection connection, String schemaName) {
     _connection = connection;
+    this.schemaName = schemaName;
   }
 
 
   // Simple executes without use of PreparedStatement
+
+  @Override
+  public String getSchemaName() {
+    return this.schemaName;
+  }
 
   @Override
   @NotNull

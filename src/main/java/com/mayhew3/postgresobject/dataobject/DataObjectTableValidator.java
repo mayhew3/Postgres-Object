@@ -30,7 +30,7 @@ class DataObjectTableValidator {
             "FROM information_schema.tables " +
             "WHERE table_schema = ? " +
             "AND table_name = ? ",
-        "public", dataObject.getTableName()
+        connection.getSchemaName(), dataObject.getTableName()
     );
     resultSet.next();
     if (resultSet.getInt("num_tables") != 1) {
@@ -53,7 +53,7 @@ class DataObjectTableValidator {
             "FROM information_schema.columns " +
             "WHERE table_schema = ? " +
             "AND table_name = ? ",
-        "public", dataObject.getTableName()
+        connection.getSchemaName(), dataObject.getTableName()
     );
 
     while (resultSet.next()) {
@@ -96,7 +96,7 @@ class DataObjectTableValidator {
         "SELECT indexname " +
             "FROM pg_indexes " +
             "WHERE schemaname = ? " +
-            "AND tablename = ? ", "public", dataObject.getTableName()
+            "AND tablename = ? ", connection.getSchemaName(), dataObject.getTableName()
     );
 
     while (resultSet.next()) {
@@ -153,7 +153,7 @@ class DataObjectTableValidator {
             "WHERE tc.constraint_schema = ? " +
             "AND tc.TABLE_NAME <> ccu.table_name " +
             "AND tc.table_name = ? ",
-        "public", dataObject.getTableName()
+        connection.getSchemaName(), dataObject.getTableName()
     );
 
     while (resultSet.next()) {

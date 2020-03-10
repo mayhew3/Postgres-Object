@@ -35,7 +35,7 @@ public class DatabaseRecreator {
             "FROM information_schema.table_constraints " +
             "WHERE table_schema = ? " +
             "AND constraint_type = ?",
-        "public", "FOREIGN KEY"
+        connection.getSchemaName(), "FOREIGN KEY"
     );
     while (resultSet.next()) {
       String table_name = resultSet.getString("table_name");

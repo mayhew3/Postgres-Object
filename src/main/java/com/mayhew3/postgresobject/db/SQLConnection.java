@@ -13,6 +13,8 @@ import java.util.List;
 public interface SQLConnection {
 
 
+  String getSchemaName();
+
   // Simple executes without use of PreparedStatements.
 
   @NotNull

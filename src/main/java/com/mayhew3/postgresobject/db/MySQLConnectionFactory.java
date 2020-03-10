@@ -12,8 +12,8 @@ public class MySQLConnectionFactory {
 
   protected final Logger logger = Logger.getLogger(MySQLConnectionFactory.class.getName());
 
-  public SQLConnection createConnection(String dbhost, String dbuser, String dbpassword) throws URISyntaxException, SQLException {
-    return new MySQLConnection(initiateDBConnect(dbhost, dbuser, dbpassword));
+  public SQLConnection createConnection(String dbhost, String dbuser, String dbpassword, String schemaName) throws URISyntaxException, SQLException {
+    return new MySQLConnection(initiateDBConnect(dbhost, dbuser, dbpassword), schemaName);
   }
 
   private Connection initiateDBConnect(String dbhost, String dbuser, String dbpassword) {

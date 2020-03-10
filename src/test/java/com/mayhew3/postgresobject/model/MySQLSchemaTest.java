@@ -12,9 +12,10 @@ public abstract class MySQLSchemaTest extends SchemaTest {
   public abstract String getDBHost();
   public abstract String getDBUser();
   public abstract String getDBPassword();
+  public abstract String getSchemaName();
 
   @Override
   public SQLConnection createConnection() throws URISyntaxException, SQLException {
-    return new MySQLConnectionFactory().createConnection(getDBHost(), getDBUser(), getDBPassword());
+    return new MySQLConnectionFactory().createConnection(getDBHost(), getDBUser(), getDBPassword(), getSchemaName());
   }
 }
