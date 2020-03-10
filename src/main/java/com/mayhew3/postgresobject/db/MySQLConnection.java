@@ -1,102 +1,47 @@
 package com.mayhew3.postgresobject.db;
 
+
 import com.google.common.collect.Lists;
 import com.mayhew3.postgresobject.dataobject.FieldValue;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
-import org.joda.time.DateTime;
-import org.postgresql.util.PSQLException;
 
 import java.math.BigDecimal;
 import java.sql.*;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class PostgresConnection implements SQLConnection {
+@SuppressWarnings({"unused", "rawtypes"})
+public class MySQLConnection implements SQLConnection {
+
+  private Logger logger = Logger.getLogger(MySQLConnection.class.getName());
 
   private Connection _connection;
-  private String _connectionString;
-  private DateTime lastQueryExecuted;
 
-  private static Logger logger = LogManager.getLogger(PostgresConnection.class);
-
-  PostgresConnection(Connection connection, String connectionString) {
+  MySQLConnection(Connection connection) {
     _connection = connection;
-    _connectionString = connectionString;
   }
 
 
   // Simple executes without use of PreparedStatement
 
+  @Override
   @NotNull
   public ResultSet executeQuery(String sql) throws SQLException {
-    checkConnection();
-
-    ResultSet resultSet = executeSelectInternal(sql);
-
-    updateLastExecuted();
-
-    return resultSet;
-  }
-
-  @NotNull
-  private ResultSet executeSelectInternal(String sql) throws SQLException {
     Statement statement = _connection.createStatement();
-    try {
-      return statement.executeQuery(sql);
-    } catch (PSQLException e) {
-      debug("Exception while executing query. Trying to reconnect...");
-      resetConnection();
-      return statement.executeQuery(sql);
-    }
+    return statement.executeQuery(sql);
   }
 
+  @Override
   @NotNull
   public Statement executeUpdate(String sql) throws SQLException {
-    checkConnection();
-
     Statement statement = _connection.createStatement();
 
-    try {
-      statement.executeUpdate(sql);
-    } catch (PSQLException e) {
-      debug("Exception while executing query. Trying to reconnect...");
-      resetConnection();
-      statement.executeUpdate(sql);
-    }
-
-    updateLastExecuted();
-
+    statement.executeUpdate(sql);
     return statement;
   }
 
-  private void checkConnection() throws SQLException {
-    if (_connection.isClosed()) {
-      debug("Connection lost. Trying to reconnect...");
-      resetConnection();
-    } else if (isExpired()) {
-      debug("30 minute threshold reached. Renewing connection.");
-      try {
-        closeConnection();
-        debug("Connection closed. Resetting.");
-      } catch (SQLException ignored) {
-        debug("Tried to close connection, but failed.");
-      }
-      resetConnection();
-    }
-  }
-
-  private void resetConnection() {
-    try {
-      _connection = DriverManager.getConnection(_connectionString);
-      updateLastExecuted();
-      debug("Re-connect success!");
-    } catch (SQLException e) {
-      debug("Re-connect failed.");
-      throw new RuntimeException("Failed to reconnect: " + e.getLocalizedMessage());
-    }
-  }
-
+  @Override
   public void closeConnection() throws SQLException {
     _connection.close();
   }
@@ -107,71 +52,56 @@ public class PostgresConnection implements SQLConnection {
 
 
   @NotNull
+  @Override
   public ResultSet prepareAndExecuteStatementFetch(String sql, Object... params) throws SQLException {
     return prepareAndExecuteStatementFetch(sql, Lists.newArrayList(params));
   }
 
   @NotNull
+  @Override
   public ResultSet prepareAndExecuteStatementFetch(String sql, List<Object> params) throws SQLException {
-    checkConnection();
-
     PreparedStatement preparedStatement = prepareStatementWithParams(sql, params);
-    ResultSet resultSet = executePreparedStatement(preparedStatement);
-    updateLastExecuted();
-    return resultSet;
+    logger.log(Level.INFO, preparedStatement.toString());
+    return preparedStatement.executeQuery();
   }
 
 
+  @Override
   public Integer prepareAndExecuteStatementUpdate(String sql, Object... params) throws SQLException {
     return prepareAndExecuteStatementUpdate(sql, Lists.newArrayList(params));
   }
 
-
+  @Override
   public Integer prepareAndExecuteStatementUpdate(String sql, List<Object> params) throws SQLException {
-    checkConnection();
-
     PreparedStatement preparedStatement = prepareStatementWithParams(sql, params);
-
-    int rowsAffected = executePreparedUpdate(preparedStatement);
+    logger.log(Level.INFO, preparedStatement.toString());
+    int updatedRowCount = preparedStatement.executeUpdate();
     preparedStatement.close();
-    updateLastExecuted();
-    return rowsAffected;
+    return updatedRowCount;
   }
 
   // Operations with user handle on PreparedStatement
 
   @NotNull
+  @Override
   public PreparedStatement prepareStatementWithParams(String sql, List<Object> params) throws SQLException {
-    checkConnection();
-
     PreparedStatement preparedStatement = _connection.prepareStatement(sql);
     return plugParamsIntoStatement(preparedStatement, params);
   }
 
 
   @NotNull
+  @Override
   public ResultSet executePreparedStatementWithParams(PreparedStatement preparedStatement, Object... params) throws SQLException {
     List<Object> paramList = Lists.newArrayList(params);
     return executePreparedStatementWithParams(preparedStatement, paramList);
   }
 
   @NotNull
-  public ResultSet executePreparedStatementWithParams(PreparedStatement preparedStatement, List<Object> params) throws SQLException {
-    checkConnection();
-
-    PreparedStatement statementWithParams = plugParamsIntoStatement(preparedStatement, params);
-    ResultSet resultSet = executePreparedStatement(statementWithParams);
-    updateLastExecuted();
-    return resultSet;
-  }
-
   @Override
-  public void executePreparedUpdateWithParams(PreparedStatement preparedStatement, List<Object> paramList) throws SQLException {
-    checkConnection();
-
-    PreparedStatement statementWithParams = plugParamsIntoStatement(preparedStatement, paramList);
-    executePreparedUpdate(statementWithParams);
-    updateLastExecuted();
+  public ResultSet executePreparedStatementWithParams(PreparedStatement preparedStatement, List<Object> params) throws SQLException {
+    PreparedStatement statementWithParams = plugParamsIntoStatement(preparedStatement, params);
+    return statementWithParams.executeQuery();
   }
 
   @Override
@@ -179,56 +109,39 @@ public class PostgresConnection implements SQLConnection {
     executePreparedUpdateWithParams(preparedStatement, Lists.newArrayList(paramList));
   }
 
-  private ResultSet executePreparedStatement(PreparedStatement preparedStatement) throws SQLException {
-    try {
-      return preparedStatement.executeQuery();
-    } catch (PSQLException e) {
-      debug("Exception while executing query. Trying to reconnect...");
-      resetConnection();
-      return preparedStatement.executeQuery();
-    }
+  @Override
+  public void executePreparedUpdateWithParams(PreparedStatement preparedStatement, List<Object> paramList) throws SQLException {
+    PreparedStatement statementWithParams = plugParamsIntoStatement(preparedStatement, paramList);
+    statementWithParams.executeUpdate();
   }
 
-
-  private int executePreparedUpdate(PreparedStatement preparedUpdate) throws SQLException {
-    try {
-      return preparedUpdate.executeUpdate();
-    } catch (PSQLException e) {
-      debug("Exception while executing query. Trying to reconnect...");
-      resetConnection();
-      return preparedUpdate.executeUpdate();
-    }
-  }
 
 
   // Using FieldValue
 
 
   @NotNull
+  @Override
   public PreparedStatement prepareStatementWithFields(String sql, List<FieldValue> fields) throws SQLException {
-    checkConnection();
-
     PreparedStatement preparedStatement = _connection.prepareStatement(sql);
     return plugFieldsIntoStatement(preparedStatement, fields);
   }
 
+  @Override
   public void prepareAndExecuteStatementUpdateWithFields(String sql, List<FieldValue> fields) throws SQLException {
-    checkConnection();
-
     PreparedStatement preparedStatement = prepareStatementWithFields(sql, fields);
 
-    executePreparedUpdate(preparedStatement);
+    preparedStatement.executeUpdate();
     preparedStatement.close();
   }
 
   @NotNull
+  @Override
   public Integer prepareAndExecuteStatementInsertReturnId(String sql, List<FieldValue> fieldValues) throws SQLException {
-    checkConnection();
-
     PreparedStatement preparedStatement = prepareStatementForInsertId(sql);
     plugFieldsIntoStatement(preparedStatement, fieldValues);
 
-    executePreparedUpdate(preparedStatement);
+    preparedStatement.executeUpdate();
 
     ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
 
@@ -236,26 +149,22 @@ public class PostgresConnection implements SQLConnection {
       throw new RuntimeException("No rows in ResultSet from Inserted object!");
     }
 
-    int id = generatedKeys.getInt("ID");
+    int id = generatedKeys.getInt(1);
     preparedStatement.close();
     return id;
   }
 
 
+  @Override
   public void executePreparedUpdateWithFields(PreparedStatement preparedStatement, List<FieldValue> fieldValues) throws SQLException {
-    checkConnection();
-
     plugFieldsIntoStatement(preparedStatement, fieldValues);
-    executePreparedUpdate(preparedStatement);
-    updateLastExecuted();
+    preparedStatement.executeUpdate();
   }
 
 
   // unused but useful
 
   public boolean columnExists(String tableName, String columnName) throws SQLException {
-    checkConnection();
-
     return _connection.getMetaData().getColumns(null, null, tableName, columnName).next();
   }
 
@@ -283,8 +192,8 @@ public class PostgresConnection implements SQLConnection {
         preparedStatement.setBigDecimal(i, (BigDecimal) param);
       } else if (param instanceof Double) {
         preparedStatement.setDouble(i, (Double) param);
-      } else if (param instanceof Timestamp) {
-        preparedStatement.setTimestamp(i, (Timestamp) param);
+      } else if (param instanceof Date) {
+        preparedStatement.setDate(i, (Date) param);
       } else if (param instanceof Boolean) {
         preparedStatement.setBoolean(i, (Boolean) param);
       } else {
@@ -296,21 +205,7 @@ public class PostgresConnection implements SQLConnection {
   }
 
   PreparedStatement prepareStatementForInsertId(String sql) throws SQLException {
-    checkConnection();
-
     return _connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
   }
 
-  private void updateLastExecuted() {
-    lastQueryExecuted = new DateTime();
-  }
-
-  private boolean isExpired() {
-    DateTime threshold = DateTime.now().minusMinutes(30);
-    return threshold.isAfter(lastQueryExecuted);
-  }
-
-  void debug(Object message) {
-    logger.debug(message);
-  }
 }
