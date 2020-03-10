@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Objects;
 
+@SuppressWarnings("unused")
 public abstract class FieldValue<T> {
   private String fieldName;
   private T originalValue;
@@ -16,7 +17,7 @@ public abstract class FieldValue<T> {
   private Boolean explicitNull = false;
   private T defaultValue;
 
-  Nullability nullability = Nullability.NULLABLE;
+  Nullability nullability;
 
   private Boolean wasText = false;
   Boolean isText = false;
@@ -112,13 +113,11 @@ public abstract class FieldValue<T> {
     changedValue = null;
   }
 
-  /*
   public void discardChange() {
     changedValue = originalValue;
   }
-*/
 
-  Boolean isChanged() {
+  public Boolean isChanged() {
     return shouldUpgradeText() || valueHasChanged();
   }
 
