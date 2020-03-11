@@ -172,6 +172,23 @@ public class MySQLConnection implements SQLConnection {
     preparedStatement.executeUpdate();
   }
 
+  @Override
+  public ResultSet getFKInfoForTable(String tableName) throws SQLException {
+    return prepareAndExecuteStatementFetch(
+        "SELECT " +
+            "  tc.constraint_name, " +
+            "  tc.table_name AS original_table, " +
+            "  tc.column_name AS original_column, " +
+            "  tc.REFERENCED_TABLE_NAME as referenced_table, " +
+            "  tc.REFERENCED_COLUMN_NAME as referenced_column " +
+            "FROM information_schema.key_column_usage AS tc " +
+            "WHERE tc.constraint_schema = ? " +
+            "AND tc.REFERENCED_TABLE_NAME IS NOT NULL " +
+            "AND tc.table_name = ? ",
+        getSchemaName(), tableName
+    );
+  }
+
 
   // unused but useful
 

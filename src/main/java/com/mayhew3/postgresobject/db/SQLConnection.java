@@ -210,4 +210,7 @@ public interface SQLConnection {
    * @throws SQLException
    */
   void executePreparedUpdateWithFields(PreparedStatement preparedStatement, List<FieldValue> fieldValues) throws SQLException;
+
+
+  ResultSet getFKInfoForTable(String tableName) throws SQLException;
 }

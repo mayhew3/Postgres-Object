@@ -140,21 +140,7 @@ class DataObjectTableValidator {
   private void matchForeignKeys() throws SQLException {
     List<FieldValueForeignKey> unfoundForeignKeys = dataObject.getForeignKeys();
 
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
-        "SELECT " +
-            "  tc.constraint_name, " +
-            "  tc.table_name AS original_table, " +
-            "  tc.column_name AS original_column, " +
-            "  ccu.table_name AS referenced_table, " +
-            "  ccu.column_name AS referenced_column " +
-            "FROM information_schema.key_column_usage AS tc " +
-            "  INNER JOIN information_schema.constraint_column_usage AS ccu " +
-            "     ON tc.constraint_name = ccu.constraint_name " +
-            "WHERE tc.constraint_schema = ? " +
-            "AND tc.TABLE_NAME <> ccu.table_name " +
-            "AND tc.table_name = ? ",
-        connection.getSchemaName(), dataObject.getTableName()
-    );
+    ResultSet resultSet = connection.getFKInfoForTable(dataObject.getTableName());
 
     while (resultSet.next()) {
       String constraintName = resultSet.getString("constraint_name");

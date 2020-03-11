@@ -261,6 +261,25 @@ public class PostgresConnection implements SQLConnection {
     updateLastExecuted();
   }
 
+  @Override
+  public ResultSet getFKInfoForTable(String tableName) throws SQLException {
+    return prepareAndExecuteStatementFetch(
+        "SELECT " +
+            "  tc.constraint_name, " +
+            "  tc.table_name AS original_table, " +
+            "  tc.column_name AS original_column, " +
+            "  ccu.table_name AS referenced_table, " +
+            "  ccu.column_name AS referenced_column " +
+            "FROM information_schema.key_column_usage AS tc " +
+            "  INNER JOIN information_schema.constraint_column_usage AS ccu " +
+            "     ON tc.constraint_name = ccu.constraint_name " +
+            "WHERE tc.constraint_schema = ? " +
+            "AND tc.TABLE_NAME <> ccu.table_name " +
+            "AND tc.table_name = ? ",
+        getSchemaName(), tableName
+    );
+  }
+
 
   // unused but useful
 
