@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@SuppressWarnings("rawtypes")
 class DataObjectTableValidator {
   private DataObject dataObject;
   private SQLConnection connection;

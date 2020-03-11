@@ -3,11 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="1e099498-ec9e-4703-ab18-cce3963e4d0c" name="Default" comment="Move annotation directory">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/dataobject/DataObjectTableValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/dataobject/DataObjectTableValidator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/db/MySQLConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/db/MySQLConnection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/db/PostgresConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/db/PostgresConnection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/db/SQLConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/db/SQLConnection.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,11 +79,11 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="add_unversioned_files" value="$PROJECT_DIR$/.idea/workspace.xml&#10;D:/Code/git/media-mogul-data/scripts/media-mogul-data CMD.lnk" />
     <property name="extract.method.default.visibility" value="private" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../UnchartedDownloader" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../Fantasy Baseball/DraftTowerPrep" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.31923383" />
-    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.project.gradle" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RecentsManager">
@@ -117,6 +113,17 @@
     </key>
   </component>
   <component name="RunManager" selected="Application.GenericDataRestoreExecutor">
+    <configuration default="true" type="BatchConfigurationType" factoryName="Batch">
+      <module name="media-mogul-data_main" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="BlogRankingsCreator" type="Application" factoryName="Application" nameIsGenerated="true">
       <envs>
         <env name="postgresURL_local" value="$postgresURL_local$" />
@@ -1545,17 +1552,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="BatchConfigurationType" factoryName="Batch">
-      <module name="media-mogul-data_main" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="PARAMETERS" value="" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="media-mogul-data [assemble]" type="GradleRunConfiguration" factoryName="Gradle">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -1951,9 +1947,10 @@
       <screen x="0" y="0" width="2560" height="1410" />
     </state>
     <state x="1391" y="190" width="702" height="767" key="#xdebugger.evaluate/0.0.2560.1410/2560.429.1600.1170@0.0.2560.1410" timestamp="1578438562704" />
-    <state x="420" y="460" key="FileChooserDialogImpl" timestamp="1583558323225">
-      <screen x="0" y="0" width="2560" height="1410" />
+    <state x="315" y="343" key="FileChooserDialogImpl" timestamp="1583901796336">
+      <screen x="0" y="0" width="1920" height="1050" />
     </state>
+    <state x="315" y="343" key="FileChooserDialogImpl/0.0.1920.1050@0.0.1920.1050" timestamp="1583901796336" />
     <state x="420" y="460" key="FileChooserDialogImpl/0.0.2560.1410/2560.465.1600.1170@0.0.2560.1410" timestamp="1583558323225" />
     <state width="2517" height="463" key="GridCell.Tab.0.bottom" timestamp="1578439940242">
       <screen x="0" y="0" width="2560" height="1410" />
@@ -1991,6 +1988,10 @@
       <screen x="0" y="0" width="2560" height="1410" />
     </state>
     <state x="1095" y="638" key="ReplaceDuplicatesPrompt/0.0.2560.1410/2560.429.1600.1170@0.0.2560.1410" timestamp="1578437247436" />
+    <state x="440" y="99" key="SettingsEditor" timestamp="1583902066140">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state x="440" y="99" key="SettingsEditor/0.0.1920.1050@0.0.1920.1050" timestamp="1583902066140" />
     <state x="1001" y="446" width="585" height="540" key="StructurePopup" timestamp="1583878442483">
       <screen x="0" y="0" width="2560" height="1410" />
     </state>
@@ -2009,9 +2010,10 @@
       <screen x="0" y="0" width="2560" height="1410" />
     </state>
     <state x="1022" y="315" key="refactoring.ChangeSignatureDialog/0.0.2560.1410/2560.465.1600.1170@0.0.2560.1410" timestamp="1583889697238" />
-    <state x="943" y="317" width="672" height="678" key="search.everywhere.popup" timestamp="1583896483622">
-      <screen x="0" y="0" width="2560" height="1410" />
+    <state x="707" y="236" width="672" height="505" key="search.everywhere.popup" timestamp="1583902088741">
+      <screen x="0" y="0" width="1920" height="1050" />
     </state>
+    <state x="707" y="236" width="672" height="505" key="search.everywhere.popup/0.0.1920.1050@0.0.1920.1050" timestamp="1583902088741" />
     <state x="943" y="317" width="672" height="678" key="search.everywhere.popup/0.0.2560.1410/2560.429.1600.1170@0.0.2560.1410" timestamp="1578510923175" />
     <state x="943" y="317" width="672" height="678" key="search.everywhere.popup/0.0.2560.1410/2560.465.1600.1170@0.0.2560.1410" timestamp="1583896483622" />
   </component>

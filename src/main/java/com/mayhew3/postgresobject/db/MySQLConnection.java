@@ -192,7 +192,7 @@ public class MySQLConnection implements SQLConnection {
   @Override
   public ResultSet getIndexesForTable(String tableName) throws SQLException {
     return prepareAndExecuteStatementFetch(
-        "SELECT DISTINCT INDEX_NAME " +
+        "SELECT DISTINCT INDEX_NAME AS indexname " +
             "FROM information_schema.STATISTICS " +
             "WHERE TABLE_SCHEMA = ? " +
             "AND TABLE_NAME = ? ", getSchemaName(), tableName
