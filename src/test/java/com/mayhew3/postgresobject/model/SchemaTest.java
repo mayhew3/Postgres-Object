@@ -2,7 +2,6 @@ package com.mayhew3.postgresobject.model;
 
 import com.mayhew3.postgresobject.dataobject.DataObjectMismatch;
 import com.mayhew3.postgresobject.dataobject.DataSchema;
-import com.mayhew3.postgresobject.db.PostgresConnectionFactory;
 import com.mayhew3.postgresobject.db.SQLConnection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
