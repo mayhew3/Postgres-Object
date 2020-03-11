@@ -1,6 +1,7 @@
 package com.mayhew3.postgresobject.dataobject;
 
 import com.mayhew3.postgresobject.db.DatabaseType;
+import com.mayhew3.postgresobject.db.MySQLConnection;
 import com.mayhew3.postgresobject.db.PostgresConnection;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,6 +18,7 @@ import static org.fest.assertions.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
+@SuppressWarnings("rawtypes")
 public class DataObjectTest {
 
   private DataObjectMock dataObject;
@@ -114,6 +116,7 @@ public class DataObjectTest {
     PostgresConnection connection = mock(PostgresConnection.class);
 
     when(connection.prepareAndExecuteStatementInsertReturnId(anyString(), anyList())).thenReturn(initial_id);
+    when(connection.getDatabaseType()).thenReturn(DatabaseType.POSTGRES);
 
     dataObject.initializeForInsert();
 
@@ -157,8 +160,57 @@ public class DataObjectTest {
   }
 
   @Test
+  public void testSimpleInsertMySQL() throws SQLException {
+    MySQLConnection connection = mock(MySQLConnection.class);
+
+    when(connection.prepareAndExecuteStatementInsertReturnId(anyString(), anyList())).thenReturn(initial_id);
+    when(connection.getDatabaseType()).thenReturn(DatabaseType.MYSQL);
+
+    dataObject.initializeForInsert();
+
+    String newTitle = "Booty";
+    Integer newKernels = 46;
+    dataObject.title.changeValue(newTitle);
+    dataObject.kernels.changeValue(newKernels);
+
+    dataObject.commit(connection);
+
+    String sql = "INSERT INTO test (`date_added`, `title`, `kernels`) VALUES (?, ?, ?)";
+    verify(connection).prepareAndExecuteStatementInsertReturnId(eq(sql), fieldValueCaptor.capture());
+
+    List<FieldValue> fieldValues = fieldValueCaptor.getValue();
+    assertThat(fieldValues)
+        .hasSize(3);
+
+    FieldValue dateAddedField = fieldValues.get(0);
+    assertThat(dateAddedField.getFieldName())
+        .isEqualTo("date_added");
+    assertThat(dateAddedField.getChangedValue())
+        .isInstanceOf(Date.class)
+        .isNotNull();
+
+    FieldValue titleField = fieldValues.get(1);
+    assertThat(titleField.getFieldName())
+        .isEqualTo("title");
+    assertThat(titleField.getChangedValue())
+        .isEqualTo(newTitle);
+
+    FieldValue kernelField = fieldValues.get(2);
+    assertThat(kernelField.getFieldName())
+        .isEqualTo("kernels");
+    assertThat(kernelField.getChangedValue())
+        .isEqualTo(newKernels);
+
+    assertThat(dataObject.isForUpdate())
+        .isTrue();
+    assertThat(dataObject.isForInsert())
+        .isFalse();
+  }
+
+  @Test
   public void testSimpleUpdate() throws SQLException {
     PostgresConnection connection = mock(PostgresConnection.class);
+    when(connection.getDatabaseType()).thenReturn(DatabaseType.POSTGRES);
 
     ResultSet resultSet = mockDBRow();
 
@@ -172,6 +224,52 @@ public class DataObjectTest {
     dataObject.commit(connection);
 
     verify(connection).prepareAndExecuteStatementUpdateWithFields(eq("UPDATE test SET \"title\" = ?, \"kernels\" = ? WHERE ID = ?"), fieldValueCaptor.capture());
+
+    List<FieldValue> fieldValues = fieldValueCaptor.getValue();
+    assertThat(fieldValues)
+        .hasSize(3);
+
+    FieldValue titleField = fieldValues.get(0);
+    assertThat(titleField.getFieldName())
+        .isEqualTo("title");
+    assertThat(titleField.getChangedValue())
+        .isEqualTo(newTitle);
+
+    FieldValue kernelField = fieldValues.get(1);
+    assertThat(kernelField.getFieldName())
+        .isEqualTo("kernels");
+    assertThat(kernelField.getChangedValue())
+        .isEqualTo(newKernels);
+
+    FieldValue idField = fieldValues.get(2);
+    assertThat(idField.getFieldName())
+        .isEqualTo("id");
+    assertThat(idField.getValue())
+        .isEqualTo(initial_id);
+
+    assertThat(dataObject.isForUpdate())
+        .isTrue();
+    assertThat(dataObject.isForInsert())
+        .isFalse();
+  }
+
+  @Test
+  public void testSimpleUpdateMySQL() throws SQLException {
+    PostgresConnection connection = mock(PostgresConnection.class);
+    when(connection.getDatabaseType()).thenReturn(DatabaseType.MYSQL);
+
+    ResultSet resultSet = mockDBRow();
+
+    dataObject.initializeFromDBObject(resultSet);
+
+    String newTitle = "Booty plz";
+    Integer newKernels = 113;
+    dataObject.title.changeValue(newTitle);
+    dataObject.kernels.changeValue(newKernels);
+
+    dataObject.commit(connection);
+
+    verify(connection).prepareAndExecuteStatementUpdateWithFields(eq("UPDATE test SET `title` = ?, `kernels` = ? WHERE ID = ?"), fieldValueCaptor.capture());
 
     List<FieldValue> fieldValues = fieldValueCaptor.getValue();
     assertThat(fieldValues)

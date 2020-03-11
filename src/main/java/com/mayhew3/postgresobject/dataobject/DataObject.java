@@ -204,7 +204,7 @@ public abstract class DataObject {
 
     fieldNames.addAll(fieldValues
         .stream()
-        .map(fieldValue -> "\"" + fieldValue.getFieldName() + "\" = ?")
+        .map(fieldValue -> fieldValue.getFieldNameDBSafe(connection.getDatabaseType()) + " = ?")
         .collect(Collectors.toList()));
 
     fieldValues.add(id);
@@ -222,7 +222,7 @@ public abstract class DataObject {
     List<String> questionMarks = Lists.newArrayList();
 
     for (FieldValue fieldValue : fieldValues) {
-      fieldNames.add("\"" + fieldValue.getFieldName() + "\"");
+      fieldNames.add(fieldValue.getFieldNameDBSafe(connection.getDatabaseType()));
       questionMarks.add("?");
     }
 

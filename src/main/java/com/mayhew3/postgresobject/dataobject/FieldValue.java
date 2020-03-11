@@ -86,6 +86,20 @@ public abstract class FieldValue<T> {
     return fieldName;
   }
 
+  private String getDBFieldSurrounder(DatabaseType databaseType) {
+    if (databaseType == DatabaseType.POSTGRES) {
+      return "\"";
+    } else if (databaseType == DatabaseType.MYSQL) {
+      return "`";
+    } else {
+      throw new IllegalStateException("Only PostgreSQL and MySQL supported.");
+    }
+  }
+
+  public String getFieldNameDBSafe(DatabaseType databaseType) {
+    String dbFieldSurrounder = getDBFieldSurrounder(databaseType);
+    return dbFieldSurrounder + getFieldName() + dbFieldSurrounder;
+  }
 
   public T getChangedValue() {
     return changedValue;

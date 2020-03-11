@@ -4,6 +4,9 @@
     <list default="true" id="1e099498-ec9e-4703-ab18-cce3963e4d0c" name="Default" comment="Move annotation directory">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/dataobject/DataObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/dataobject/DataObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/dataobject/FieldValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/dataobject/FieldValue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/mayhew3/postgresobject/dataobject/DataObjectTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/mayhew3/postgresobject/dataobject/DataObjectTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -113,7 +116,7 @@
       <recent name="D:\Code\git\media-mogul-data\resources\Blog Templates" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.MySQLTestTest">
+  <component name="RunManager" selected="JUnit.DataObjectTest.testSimpleUpdateMySQL">
     <configuration name="BlogRankingsCreator" type="Application" factoryName="Application" nameIsGenerated="true">
       <envs>
         <env name="postgresURL_local" value="$postgresURL_local$" />
@@ -196,32 +199,6 @@
       <RunnerSettings RunnerId="Run" />
       <ConfigurationWrapper RunnerId="Debug" />
       <ConfigurationWrapper RunnerId="Run" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="GenericDataBackupExecutor" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <envs>
-        <env name="postgresURL_local" value="$postgresURL_local$" />
-        <env name="postgresURL_local_test" value="jdbc:postgresql://localhost:5432/tv_copy?user=postgres&amp;password=m3mysql" />
-        <env name="postgresURL" value="postgres://ijxuheufucvnyu:h16h_LnZi4fHgIUjBANnzITEyR@ec2-54-204-30-115.compute-1.amazonaws.com:5432/dcg1rtode4vgk9" />
-      </envs>
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.postgresobject.db.GenericDataBackupExecutor" />
-      <module name="postgres-object_main" />
-      <option name="PROGRAM_PARAMETERS" value="-db Local" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="GenericDataRestoreExecutor" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <envs>
-        <env name="postgresURL_local" value="$postgresURL_local$" />
-        <env name="postgresURL_local_test" value="jdbc:postgresql://localhost:5432/tv_copy?user=postgres&amp;password=m3mysql" />
-        <env name="postgresURL" value="postgres://ijxuheufucvnyu:h16h_LnZi4fHgIUjBANnzITEyR@ec2-54-204-30-115.compute-1.amazonaws.com:5432/dcg1rtode4vgk9" />
-      </envs>
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.postgresobject.db.GenericDataRestoreExecutor" />
-      <module name="postgres-object_main" />
-      <option name="PROGRAM_PARAMETERS" value="-db Local" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -514,19 +491,6 @@
       </envs>
       <option name="MAIN_CLASS_NAME" value="com.mayhew3.mediamogul.archive.OldDataArchiveRunner" />
       <module name="media-mogul-data_main" />
-      <option name="PROGRAM_PARAMETERS" value="-db Local" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="OscarsRestoreExecutor" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <envs>
-        <env name="postgresURL_local" value="$postgresURL_local$" />
-        <env name="postgresURL_local_test" value="jdbc:postgresql://localhost:5432/tv_copy?user=postgres&amp;password=m3mysql" />
-        <env name="postgresURL" value="postgres://ijxuheufucvnyu:h16h_LnZi4fHgIUjBANnzITEyR@ec2-54-204-30-115.compute-1.amazonaws.com:5432/dcg1rtode4vgk9" />
-      </envs>
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.postgresobject.db.OscarsRestoreExecutor" />
-      <module name="postgres-object_main" />
       <option name="PROGRAM_PARAMETERS" value="-db Local" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -1580,11 +1544,100 @@
       <method v="2" />
     </configuration>
     <configuration name="All Tests" type="JUnit" factoryName="JUnit">
-      <module name="postgres-object.test" />
+      <module name="postgres-object_test" />
+      <useClassPathOnly />
       <option name="PACKAGE_NAME" value="" />
       <option name="MAIN_CLASS_NAME" value="" />
       <option name="METHOD_NAME" value="" />
       <option name="TEST_OBJECT" value="package" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs>
+        <env name="postgresURL" value="postgres://ijxuheufucvnyu:h16h_LnZi4fHgIUjBANnzITEyR@ec2-54-204-30-115.compute-1.amazonaws.com:5432/dcg1rtode4vgk9" />
+        <env name="dbhost" value="jdbc:mysql://localhost:3306/uncharted" />
+        <env name="dbuser" value="root" />
+        <env name="dbpassword" value="m3mysql" />
+      </envs>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DataObjectTest.testSimpleInsert" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="postgres-object_test" />
+      <option name="PACKAGE_NAME" value="com.mayhew3.postgresobject.dataobject" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.postgresobject.dataobject.DataObjectTest" />
+      <option name="METHOD_NAME" value="testSimpleInsert" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs>
+        <env name="postgresURL" value="postgres://ijxuheufucvnyu:h16h_LnZi4fHgIUjBANnzITEyR@ec2-54-204-30-115.compute-1.amazonaws.com:5432/dcg1rtode4vgk9" />
+        <env name="dbhost" value="jdbc:mysql://localhost:3306/uncharted" />
+        <env name="dbuser" value="root" />
+        <env name="dbpassword" value="m3mysql" />
+      </envs>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DataObjectTest.testSimpleInsertMySQL" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="postgres-object_test" />
+      <option name="PACKAGE_NAME" value="com.mayhew3.postgresobject.dataobject" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.postgresobject.dataobject.DataObjectTest" />
+      <option name="METHOD_NAME" value="testSimpleInsertMySQL" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs>
+        <env name="postgresURL" value="postgres://ijxuheufucvnyu:h16h_LnZi4fHgIUjBANnzITEyR@ec2-54-204-30-115.compute-1.amazonaws.com:5432/dcg1rtode4vgk9" />
+        <env name="dbhost" value="jdbc:mysql://localhost:3306/uncharted" />
+        <env name="dbuser" value="root" />
+        <env name="dbpassword" value="m3mysql" />
+      </envs>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DataObjectTest.testSimpleUpdate" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="postgres-object_test" />
+      <option name="PACKAGE_NAME" value="com.mayhew3.postgresobject.dataobject" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.postgresobject.dataobject.DataObjectTest" />
+      <option name="METHOD_NAME" value="testSimpleUpdate" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs>
+        <env name="postgresURL" value="postgres://ijxuheufucvnyu:h16h_LnZi4fHgIUjBANnzITEyR@ec2-54-204-30-115.compute-1.amazonaws.com:5432/dcg1rtode4vgk9" />
+        <env name="dbhost" value="jdbc:mysql://localhost:3306/uncharted" />
+        <env name="dbuser" value="root" />
+        <env name="dbpassword" value="m3mysql" />
+      </envs>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DataObjectTest.testSimpleUpdateMySQL" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="postgres-object_test" />
+      <option name="PACKAGE_NAME" value="com.mayhew3.postgresobject.dataobject" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.postgresobject.dataobject.DataObjectTest" />
+      <option name="METHOD_NAME" value="testSimpleUpdateMySQL" />
+      <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" />
       <option name="PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1748,20 +1801,22 @@
       <item itemvalue="Application.TVDBUpdateRunner (test/episodeMatch)" />
       <item itemvalue="Application.TVGroupDataImporter (heroku)" />
       <item itemvalue="Application.TVGroupDataImporter (local)" />
-      <item itemvalue="Application.OscarsRestoreExecutor" />
-      <item itemvalue="Application.GenericDataBackupExecutor" />
-      <item itemvalue="Application.GenericDataRestoreExecutor" />
       <item itemvalue="Gradle.media-mogul-data [build]" />
       <item itemvalue="Gradle.media-mogul-data [assemble]" />
       <item itemvalue="JUnit.All Tests" />
       <item itemvalue="JUnit.MySQLTestTest" />
+      <item itemvalue="JUnit.DataObjectTest.testSimpleInsert" />
+      <item itemvalue="JUnit.DataObjectTest.testSimpleInsertMySQL" />
+      <item itemvalue="JUnit.DataObjectTest.testSimpleUpdate" />
+      <item itemvalue="JUnit.DataObjectTest.testSimpleUpdateMySQL" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.DataObjectTest.testSimpleUpdateMySQL" />
+        <item itemvalue="JUnit.DataObjectTest.testSimpleUpdate" />
+        <item itemvalue="JUnit.DataObjectTest.testSimpleInsertMySQL" />
+        <item itemvalue="JUnit.DataObjectTest.testSimpleInsert" />
         <item itemvalue="JUnit.MySQLTestTest" />
-        <item itemvalue="Application.GenericDataRestoreExecutor" />
-        <item itemvalue="Application.GenericDataBackupExecutor" />
-        <item itemvalue="Application.OscarsRestoreExecutor" />
       </list>
     </recent_temporary>
   </component>
@@ -1830,10 +1885,15 @@
     <option name="LAST_COMMIT_MESSAGE" value="Fix gradle config for finder/processor" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="828" y="179" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1583951758215">
-      <screen x="0" y="0" width="1920" height="1050" />
+    <state x="244" y="296" key="#All_Tests" timestamp="1583963329117">
+      <screen x="0" y="0" width="2560" height="1410" />
+    </state>
+    <state x="244" y="296" key="#All_Tests/0.0.2560.1410/2560.465.1600.1170@0.0.2560.1410" timestamp="1583963329117" />
+    <state x="1104" y="240" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1583963345353">
+      <screen x="0" y="0" width="2560" height="1410" />
     </state>
     <state x="828" y="179" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1583951758215" />
+    <state x="1104" y="240" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.2560.1410/2560.465.1600.1170@0.0.2560.1410" timestamp="1583963345353" />
     <state x="814" y="304" key="#com.intellij.ide.util.MemberChooser" timestamp="1583903415999">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
@@ -1861,30 +1921,30 @@
     </state>
     <state x="315" y="343" key="FileChooserDialogImpl/0.0.1920.1050@0.0.1920.1050" timestamp="1583901796336" />
     <state x="420" y="460" key="FileChooserDialogImpl/0.0.2560.1410/2560.465.1600.1170@0.0.2560.1410" timestamp="1583558323225" />
-    <state width="1234" height="370" key="GridCell.Tab.0.bottom" timestamp="1583959697271">
+    <state width="2517" height="369" key="GridCell.Tab.0.bottom" timestamp="1583963760819">
       <screen x="0" y="0" width="2560" height="1410" />
     </state>
     <state width="1877" height="258" key="GridCell.Tab.0.bottom/0.0.1920.1050@0.0.1920.1050" timestamp="1583951710927" />
     <state width="2517" height="463" key="GridCell.Tab.0.bottom/0.0.2560.1410/2560.429.1600.1170@0.0.2560.1410" timestamp="1578439940242" />
-    <state width="1234" height="370" key="GridCell.Tab.0.bottom/0.0.2560.1410/2560.465.1600.1170@0.0.2560.1410" timestamp="1583959697271" />
-    <state width="1234" height="370" key="GridCell.Tab.0.center" timestamp="1583959697271">
+    <state width="2517" height="369" key="GridCell.Tab.0.bottom/0.0.2560.1410/2560.465.1600.1170@0.0.2560.1410" timestamp="1583963760819" />
+    <state width="2517" height="369" key="GridCell.Tab.0.center" timestamp="1583963760819">
       <screen x="0" y="0" width="2560" height="1410" />
     </state>
     <state width="1877" height="258" key="GridCell.Tab.0.center/0.0.1920.1050@0.0.1920.1050" timestamp="1583951710927" />
     <state width="2517" height="463" key="GridCell.Tab.0.center/0.0.2560.1410/2560.429.1600.1170@0.0.2560.1410" timestamp="1578439940242" />
-    <state width="1234" height="370" key="GridCell.Tab.0.center/0.0.2560.1410/2560.465.1600.1170@0.0.2560.1410" timestamp="1583959697271" />
-    <state width="1234" height="370" key="GridCell.Tab.0.left" timestamp="1583959697270">
+    <state width="2517" height="369" key="GridCell.Tab.0.center/0.0.2560.1410/2560.465.1600.1170@0.0.2560.1410" timestamp="1583963760819" />
+    <state width="2517" height="369" key="GridCell.Tab.0.left" timestamp="1583963760819">
       <screen x="0" y="0" width="2560" height="1410" />
     </state>
     <state width="1877" height="258" key="GridCell.Tab.0.left/0.0.1920.1050@0.0.1920.1050" timestamp="1583951710927" />
     <state width="2517" height="463" key="GridCell.Tab.0.left/0.0.2560.1410/2560.429.1600.1170@0.0.2560.1410" timestamp="1578439940242" />
-    <state width="1234" height="370" key="GridCell.Tab.0.left/0.0.2560.1410/2560.465.1600.1170@0.0.2560.1410" timestamp="1583959697270" />
-    <state width="1234" height="370" key="GridCell.Tab.0.right" timestamp="1583959697271">
+    <state width="2517" height="369" key="GridCell.Tab.0.left/0.0.2560.1410/2560.465.1600.1170@0.0.2560.1410" timestamp="1583963760819" />
+    <state width="2517" height="369" key="GridCell.Tab.0.right" timestamp="1583963760819">
       <screen x="0" y="0" width="2560" height="1410" />
     </state>
     <state width="1877" height="258" key="GridCell.Tab.0.right/0.0.1920.1050@0.0.1920.1050" timestamp="1583951710927" />
     <state width="2517" height="463" key="GridCell.Tab.0.right/0.0.2560.1410/2560.429.1600.1170@0.0.2560.1410" timestamp="1578439940242" />
-    <state width="1234" height="370" key="GridCell.Tab.0.right/0.0.2560.1410/2560.465.1600.1170@0.0.2560.1410" timestamp="1583959697271" />
+    <state width="2517" height="369" key="GridCell.Tab.0.right/0.0.2560.1410/2560.465.1600.1170@0.0.2560.1410" timestamp="1583963760819" />
     <state width="1877" height="319" key="GridCell.Tab.1.bottom" timestamp="1583910155728">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
@@ -1915,12 +1975,12 @@
     </state>
     <state x="440" y="99" key="SettingsEditor/0.0.1920.1050@0.0.1920.1050" timestamp="1583902066140" />
     <state x="587" y="133" key="SettingsEditor/0.0.2560.1410/2560.465.1600.1170@0.0.2560.1410" timestamp="1583956078156" />
-    <state x="751" y="332" width="585" height="403" key="StructurePopup" timestamp="1583909654437">
-      <screen x="0" y="0" width="1920" height="1050" />
+    <state x="1001" y="446" width="585" height="540" key="StructurePopup" timestamp="1583963301416">
+      <screen x="0" y="0" width="2560" height="1410" />
     </state>
     <state x="751" y="332" width="585" height="403" key="StructurePopup/0.0.1920.1050@0.0.1920.1050" timestamp="1583909654437" />
     <state x="1001" y="446" width="540" height="540" key="StructurePopup/0.0.2560.1410/2560.429.1600.1170@0.0.2560.1410" timestamp="1578510792501" />
-    <state x="1001" y="446" width="585" height="540" key="StructurePopup/0.0.2560.1410/2560.465.1600.1170@0.0.2560.1410" timestamp="1583878442483" />
+    <state x="1001" y="446" width="585" height="540" key="StructurePopup/0.0.2560.1410/2560.465.1600.1170@0.0.2560.1410" timestamp="1583963301416" />
     <state x="578" y="140" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1583909895092">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
@@ -1930,23 +1990,23 @@
     </state>
     <state x="1010" y="464" key="extract.method.dialog/0.0.2560.1410/2560.429.1600.1170@0.0.2560.1410" timestamp="1578437245957" />
     <state x="1010" y="464" key="extract.method.dialog/0.0.2560.1410/2560.465.1600.1170@0.0.2560.1410" timestamp="1583959648799" />
-    <state x="725" y="317" width="627" height="558" key="find.popup" timestamp="1583949450417">
-      <screen x="0" y="0" width="1920" height="1050" />
+    <state x="966" y="426" width="627" height="568" key="find.popup" timestamp="1583963651999">
+      <screen x="0" y="0" width="2560" height="1410" />
     </state>
     <state x="725" y="317" width="627" height="558" key="find.popup/0.0.1920.1050@0.0.1920.1050" timestamp="1583949450417" />
     <state x="966" y="426" width="627" height="558" key="find.popup/0.0.2560.1410/2560.429.1600.1170@0.0.2560.1410" timestamp="1578436792385" />
-    <state x="966" y="426" width="627" height="568" key="find.popup/0.0.2560.1410/2560.465.1600.1170@0.0.2560.1410" timestamp="1583893943438" />
+    <state x="966" y="426" width="627" height="568" key="find.popup/0.0.2560.1410/2560.465.1600.1170@0.0.2560.1410" timestamp="1583963651999" />
     <state x="1022" y="315" key="refactoring.ChangeSignatureDialog" timestamp="1583956272365">
       <screen x="0" y="0" width="2560" height="1410" />
     </state>
     <state x="767" y="235" key="refactoring.ChangeSignatureDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1583950572677" />
     <state x="1022" y="315" key="refactoring.ChangeSignatureDialog/0.0.2560.1410/2560.465.1600.1170@0.0.2560.1410" timestamp="1583956272365" />
-    <state x="943" y="317" width="672" height="678" key="search.everywhere.popup" timestamp="1583959219448">
+    <state x="943" y="317" width="672" height="678" key="search.everywhere.popup" timestamp="1583963554776">
       <screen x="0" y="0" width="2560" height="1410" />
     </state>
     <state x="707" y="236" width="672" height="505" key="search.everywhere.popup/0.0.1920.1050@0.0.1920.1050" timestamp="1583950971303" />
     <state x="943" y="317" width="672" height="678" key="search.everywhere.popup/0.0.2560.1410/2560.429.1600.1170@0.0.2560.1410" timestamp="1578510923175" />
-    <state x="943" y="317" width="672" height="678" key="search.everywhere.popup/0.0.2560.1410/2560.465.1600.1170@0.0.2560.1410" timestamp="1583959219448" />
+    <state x="943" y="317" width="672" height="678" key="search.everywhere.popup/0.0.2560.1410/2560.465.1600.1170@0.0.2560.1410" timestamp="1583963554776" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
