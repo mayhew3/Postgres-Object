@@ -280,6 +280,16 @@ public class PostgresConnection implements SQLConnection {
     );
   }
 
+  @Override
+  public ResultSet getIndexesForTable(String tableName) throws SQLException {
+    return prepareAndExecuteStatementFetch(
+        "SELECT indexname " +
+            "FROM pg_indexes " +
+            "WHERE schemaname = ? " +
+            "AND tablename = ? ", getSchemaName(), tableName
+    );
+  }
+
 
   // unused but useful
 

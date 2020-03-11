@@ -92,12 +92,7 @@ class DataObjectTableValidator {
     List<ColumnsIndex> unfoundIndices = dataObject.getIndices();
     List<UniqueConstraint> unfoundUniqueIndices = dataObject.getUniqueIndices();
 
-    ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
-        "SELECT indexname " +
-            "FROM pg_indexes " +
-            "WHERE schemaname = ? " +
-            "AND tablename = ? ", connection.getSchemaName(), dataObject.getTableName()
-    );
+    ResultSet resultSet = connection.getIndexesForTable(dataObject.getTableName());
 
     while (resultSet.next()) {
       String indexname = resultSet.getString("indexname");

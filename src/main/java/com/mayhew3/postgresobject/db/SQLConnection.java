@@ -213,4 +213,6 @@ public interface SQLConnection {
 
 
   ResultSet getFKInfoForTable(String tableName) throws SQLException;
+
+  ResultSet getIndexesForTable(String tableName) throws SQLException;
 }

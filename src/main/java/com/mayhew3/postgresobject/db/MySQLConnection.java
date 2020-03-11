@@ -189,6 +189,16 @@ public class MySQLConnection implements SQLConnection {
     );
   }
 
+  @Override
+  public ResultSet getIndexesForTable(String tableName) throws SQLException {
+    return prepareAndExecuteStatementFetch(
+        "SELECT DISTINCT INDEX_NAME " +
+            "FROM information_schema.STATISTICS " +
+            "WHERE TABLE_SCHEMA = ? " +
+            "AND TABLE_NAME = ? ", getSchemaName(), tableName
+    );
+  }
+
 
   // unused but useful
 
