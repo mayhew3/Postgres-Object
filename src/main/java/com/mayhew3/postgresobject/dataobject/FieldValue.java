@@ -16,7 +16,7 @@ public abstract class FieldValue<T> {
   private T changedValue;
   private FieldConversion<T> converter;
   private Boolean explicitNull = false;
-  private T defaultValue;
+  T defaultValue;
 
   Nullability nullability;
 

@@ -21,6 +21,7 @@ public class FieldValueTimestamp extends FieldValue<Timestamp> {
     return this;
   }
 
+  @Override
   public String getDefaultValue(DatabaseType databaseType) {
     if (defaultNow) {
       if (databaseType == DatabaseType.POSTGRES) {

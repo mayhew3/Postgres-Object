@@ -1,6 +1,7 @@
 package com.mayhew3.postgresobject.dataobject;
 
 import com.mayhew3.postgresobject.db.DatabaseType;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.sql.PreparedStatement;
@@ -29,13 +30,35 @@ public class FieldValueBoolean extends FieldValue<Boolean> {
   }
 
   @Override
+  public String getDefaultValue(DatabaseType databaseType) {
+    if (databaseType == DatabaseType.POSTGRES) {
+      return super.getDefaultValue(databaseType);
+    } else if (databaseType == DatabaseType.MYSQL) {
+      return defaultValue ? "1" : "0";
+    } else {
+      throw new IllegalStateException("Only PostgreSQL and MySQL supported.");
+    }
+  }
+
+  @Override
   public String getDDLType(DatabaseType databaseType) {
-    return "BOOLEAN";
+    return getDataType(databaseType);
   }
 
   @Override
   public String getInformationSchemaType(DatabaseType databaseType) {
-    return "boolean";
+    return getDataType(databaseType);
+  }
+
+  @NotNull
+  private String getDataType(DatabaseType databaseType) {
+    if (databaseType == DatabaseType.POSTGRES) {
+      return "BOOLEAN";
+    } else if (databaseType == DatabaseType.MYSQL) {
+      return "tinyint";
+    } else {
+      throw new IllegalStateException("Only PostgreSQL and MySQL supported.");
+    }
   }
 
   @Override
