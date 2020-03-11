@@ -1,5 +1,6 @@
 package com.mayhew3.postgresobject.dataobject;
 
+import com.mayhew3.postgresobject.db.SQLConnection;
 import org.jetbrains.annotations.Nullable;
 
 import java.math.BigDecimal;
@@ -14,12 +15,12 @@ public class FieldValueBigDecimal extends FieldValue<BigDecimal> {
   }
 
   @Override
-  public String getDDLType() {
+  public String getDDLType(SQLConnection connection) {
     return "NUMERIC";
   }
 
   @Override
-  public String getInformationSchemaType() {
+  public String getInformationSchemaType(SQLConnection connection) {
     return "numeric";
   }
 

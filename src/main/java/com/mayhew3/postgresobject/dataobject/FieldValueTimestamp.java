@@ -1,5 +1,6 @@
 package com.mayhew3.postgresobject.dataobject;
 
+import com.mayhew3.postgresobject.db.SQLConnection;
 import org.jetbrains.annotations.Nullable;
 
 import java.sql.*;
@@ -28,12 +29,12 @@ public class FieldValueTimestamp extends FieldValue<Timestamp> {
   }
 
   @Override
-  public String getDDLType() {
+  public String getDDLType(SQLConnection connection) {
     return "TIMESTAMP(6) WITH TIME ZONE";
   }
 
   @Override
-  public String getInformationSchemaType() {
+  public String getInformationSchemaType(SQLConnection connection) {
     return "timestamp with time zone";
   }
 

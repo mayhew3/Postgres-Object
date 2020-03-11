@@ -1,5 +1,7 @@
 package com.mayhew3.postgresobject.dataobject;
 
+import com.mayhew3.postgresobject.db.SQLConnection;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,12 +14,12 @@ public class FieldValueDate extends FieldValue<Date> {
   }
 
   @Override
-  public String getDDLType() {
+  public String getDDLType(SQLConnection connection) {
     return "DATE";
   }
 
   @Override
-  public String getInformationSchemaType() {
+  public String getInformationSchemaType(SQLConnection connection) {
     return "date";
   }
 

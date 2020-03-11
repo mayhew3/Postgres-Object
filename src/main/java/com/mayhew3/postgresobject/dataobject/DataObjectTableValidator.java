@@ -74,8 +74,8 @@ class DataObjectTableValidator {
         if (!is_nullable.equals(fieldValue.nullability.getAllowNulls())) {
           addMismatch(fieldValue, "is_nullable mismatch: DB value: " + is_nullable + ", Field value: " + fieldValue.nullability.getAllowNulls());
         }
-        if (!matchesIgnoreCase(data_type, fieldValue.getInformationSchemaType())) {
-          addMismatch(fieldValue, "data_type mismatch: DB value: " + data_type + ", Field value: " + fieldValue.getDDLType());
+        if (!matchesIgnoreCase(data_type, fieldValue.getInformationSchemaType(connection))) {
+          addMismatch(fieldValue, "data_type mismatch: DB value: " + data_type + ", Field value: " + fieldValue.getDDLType(connection));
         }
 
         unfoundFieldValues.remove(fieldValue);

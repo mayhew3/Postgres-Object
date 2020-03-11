@@ -243,7 +243,7 @@ public abstract class DataObject {
     indices.add(new ColumnsIndex(Lists.newArrayList(fieldValues), getTableName()));
   }
 
-  public String generateTableCreateStatement() {
+  public String generateTableCreateStatement(SQLConnection connection) {
     String statement =
         "CREATE TABLE " + getTableName() +
             " (";
@@ -257,7 +257,7 @@ public abstract class DataObject {
     statementPieces.add(idPiece);
 
     for (FieldValue fieldValue : allFieldValues) {
-      String statementPiece = fieldValue.getFieldName() + " " + fieldValue.getDDLType();
+      String statementPiece = fieldValue.getFieldName() + " " + fieldValue.getDDLType(connection);
       if (fieldValue.getDefaultValue() != null) {
         statementPiece += " DEFAULT " + fieldValue.getDefaultValue();
       }

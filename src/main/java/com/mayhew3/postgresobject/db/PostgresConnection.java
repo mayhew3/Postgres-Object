@@ -30,6 +30,11 @@ public class PostgresConnection implements SQLConnection {
   // Simple executes without use of PreparedStatement
 
   @Override
+  public DatabaseType getDatabaseType() {
+    return DatabaseType.POSTGRES;
+  }
+
+  @Override
   public String getSchemaName() {
     return "public";
   }

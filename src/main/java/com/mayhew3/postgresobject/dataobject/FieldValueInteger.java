@@ -1,5 +1,6 @@
 package com.mayhew3.postgresobject.dataobject;
 
+import com.mayhew3.postgresobject.db.SQLConnection;
 import org.jetbrains.annotations.Nullable;
 
 import java.sql.PreparedStatement;
@@ -24,23 +25,19 @@ public class FieldValueInteger extends FieldValue<Integer> {
     return size;
   }
 
-  void setSize(IntegerSize size) {
-    this.size = size;
-  }
-
   public FieldValueInteger defaultValue(Integer defaultValue) {
     super.defaultValue(defaultValue);
     return this;
   }
 
   @Override
-  public String getDDLType() {
-    return size.getDdlIdentifier();
+  public String getDDLType(SQLConnection connection) {
+    return size.getDdlIdentifier(connection);
   }
 
   @Override
-  public String getInformationSchemaType() {
-    return size.getDdlIdentifier();
+  public String getInformationSchemaType(SQLConnection connection) {
+    return size.getDdlIdentifier(connection);
   }
 
   @Override

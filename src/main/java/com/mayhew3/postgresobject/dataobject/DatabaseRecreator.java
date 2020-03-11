@@ -69,7 +69,7 @@ public class DatabaseRecreator {
 
   private void createAllTables(DataSchema dataSchema) throws SQLException {
     for (DataObject dataObject : dataSchema.getAllTables()) {
-      String createStatement = dataObject.generateTableCreateStatement();
+      String createStatement = dataObject.generateTableCreateStatement(connection);
       connection.prepareAndExecuteStatementUpdate(createStatement);
     }
   }

@@ -27,6 +27,11 @@ public class MySQLConnection implements SQLConnection {
   // Simple executes without use of PreparedStatement
 
   @Override
+  public DatabaseType getDatabaseType() {
+    return DatabaseType.MYSQL;
+  }
+
+  @Override
   public String getSchemaName() {
     return this.schemaName;
   }
