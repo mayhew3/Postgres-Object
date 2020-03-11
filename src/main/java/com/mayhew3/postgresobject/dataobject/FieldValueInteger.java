@@ -1,6 +1,6 @@
 package com.mayhew3.postgresobject.dataobject;
 
-import com.mayhew3.postgresobject.db.SQLConnection;
+import com.mayhew3.postgresobject.db.DatabaseType;
 import org.jetbrains.annotations.Nullable;
 
 import java.sql.PreparedStatement;
@@ -31,13 +31,13 @@ public class FieldValueInteger extends FieldValue<Integer> {
   }
 
   @Override
-  public String getDDLType(SQLConnection connection) {
-    return size.getDdlIdentifier(connection);
+  public String getDDLType(DatabaseType databaseType) {
+    return size.getDdlIdentifier(databaseType);
   }
 
   @Override
-  public String getInformationSchemaType(SQLConnection connection) {
-    return size.getDdlIdentifier(connection);
+  public String getInformationSchemaType(DatabaseType databaseType) {
+    return size.getDdlIdentifier(databaseType);
   }
 
   @Override

@@ -1,5 +1,6 @@
 package com.mayhew3.postgresobject.dataobject;
 
+import com.mayhew3.postgresobject.db.DatabaseType;
 import com.mayhew3.postgresobject.db.SQLConnection;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -47,6 +48,8 @@ class DataObjectTableValidator {
   }
 
   private void matchFields() throws SQLException {
+    DatabaseType databaseType = connection.getDatabaseType();
+
     List<FieldValue> unfoundFieldValues = dataObject.getAllFieldValues();
 
     ResultSet resultSet = connection.prepareAndExecuteStatementFetch(
@@ -68,14 +71,19 @@ class DataObjectTableValidator {
         Boolean is_nullable = resultSet.getString("is_nullable").equals("YES");
         String data_type = resultSet.getString("data_type");
 
-        if (!matchesIgnoreCase(column_default, fieldValue.getInformationSchemaDefault())) {
-          addMismatch(fieldValue, "DEFAULT mismatch: DB value: " + column_default + ", Field value: " + fieldValue.getInformationSchemaDefault());
+        String fieldDefault = fieldValue.getInformationSchemaDefault(databaseType);
+        if (!matchesIgnoreCase(column_default, fieldDefault)) {
+          addMismatch(fieldValue, "DEFAULT mismatch: DB value: " + column_default + ", Field value: " + fieldDefault);
         }
-        if (!is_nullable.equals(fieldValue.nullability.getAllowNulls())) {
-          addMismatch(fieldValue, "is_nullable mismatch: DB value: " + is_nullable + ", Field value: " + fieldValue.nullability.getAllowNulls());
+
+        Boolean allowNulls = fieldValue.nullability.getAllowNulls();
+        if (!is_nullable.equals(allowNulls)) {
+          addMismatch(fieldValue, "is_nullable mismatch: DB value: " + is_nullable + ", Field value: " + allowNulls);
         }
-        if (!matchesIgnoreCase(data_type, fieldValue.getInformationSchemaType(connection))) {
-          addMismatch(fieldValue, "data_type mismatch: DB value: " + data_type + ", Field value: " + fieldValue.getDDLType(connection));
+
+        String fieldSchemaType = fieldValue.getInformationSchemaType(databaseType);
+        if (!matchesIgnoreCase(data_type, fieldSchemaType)) {
+          addMismatch(fieldValue, "data_type mismatch: DB value: " + data_type + ", Field value: " + fieldSchemaType);
         }
 
         unfoundFieldValues.remove(fieldValue);

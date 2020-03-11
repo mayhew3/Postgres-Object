@@ -3,6 +3,7 @@ package com.mayhew3.postgresobject.dataobject;
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
+import com.mayhew3.postgresobject.db.DatabaseType;
 import com.mayhew3.postgresobject.db.SQLConnection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -243,7 +244,7 @@ public abstract class DataObject {
     indices.add(new ColumnsIndex(Lists.newArrayList(fieldValues), getTableName()));
   }
 
-  public String generateTableCreateStatement(SQLConnection connection) {
+  public String generateTableCreateStatement(DatabaseType databaseType) {
     String statement =
         "CREATE TABLE " + getTableName() +
             " (";
@@ -257,7 +258,7 @@ public abstract class DataObject {
     statementPieces.add(idPiece);
 
     for (FieldValue fieldValue : allFieldValues) {
-      String statementPiece = fieldValue.getFieldName() + " " + fieldValue.getDDLType(connection);
+      String statementPiece = fieldValue.getFieldName() + " " + fieldValue.getDDLType(databaseType);
       if (fieldValue.getDefaultValue() != null) {
         statementPiece += " DEFAULT " + fieldValue.getDefaultValue();
       }

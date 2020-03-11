@@ -1,6 +1,6 @@
 package com.mayhew3.postgresobject.dataobject;
 
-import com.mayhew3.postgresobject.db.SQLConnection;
+import com.mayhew3.postgresobject.db.DatabaseType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -40,7 +40,7 @@ public abstract class FieldValue<T> {
   }
 
   @Nullable
-  public String getInformationSchemaDefault() {
+  public String getInformationSchemaDefault(DatabaseType databaseType) {
     return getDefaultValue();
   }
 
@@ -64,9 +64,9 @@ public abstract class FieldValue<T> {
     this.wasText = true;
   }
 
-  public abstract String getDDLType(SQLConnection connection);
+  public abstract String getDDLType(DatabaseType databaseType);
 
-  public abstract String getInformationSchemaType(SQLConnection connection);
+  public abstract String getInformationSchemaType(DatabaseType databaseType);
 
   abstract protected void initializeValue(ResultSet resultSet) throws SQLException;
 

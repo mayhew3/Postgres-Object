@@ -32,7 +32,7 @@ public abstract class SchemaTest {
       for (DataObjectMismatch mismatch : mismatches) {
         logger.error(" - " + mismatch);
         if (mismatch.getMessage().equals("Table not found!")) {
-          logger.error("    - " + mismatch.getDataObject().generateTableCreateStatement(connection));
+          logger.error("    - " + mismatch.getDataObject().generateTableCreateStatement(connection.getDatabaseType()));
         }
         if (mismatch.getMessage().equals("ForeignKey restraint not found in DB.")) {
           List<String> stringList = mismatch.getDataObject().generateAddForeignKeyStatements();

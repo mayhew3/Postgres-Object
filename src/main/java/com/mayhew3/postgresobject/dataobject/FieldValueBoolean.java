@@ -1,6 +1,6 @@
 package com.mayhew3.postgresobject.dataobject;
 
-import com.mayhew3.postgresobject.db.SQLConnection;
+import com.mayhew3.postgresobject.db.DatabaseType;
 import org.jetbrains.annotations.Nullable;
 
 import java.sql.PreparedStatement;
@@ -29,12 +29,12 @@ public class FieldValueBoolean extends FieldValue<Boolean> {
   }
 
   @Override
-  public String getDDLType(SQLConnection connection) {
+  public String getDDLType(DatabaseType databaseType) {
     return "BOOLEAN";
   }
 
   @Override
-  public String getInformationSchemaType(SQLConnection connection) {
+  public String getInformationSchemaType(DatabaseType databaseType) {
     return "boolean";
   }
 

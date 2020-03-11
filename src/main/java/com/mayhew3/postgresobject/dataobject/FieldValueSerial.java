@@ -1,5 +1,7 @@
 package com.mayhew3.postgresobject.dataobject;
 
+import com.mayhew3.postgresobject.db.DatabaseType;
+
 @SuppressWarnings("WeakerAccess")
 public class FieldValueSerial extends FieldValueInteger {
   private String sequenceName;
@@ -10,7 +12,11 @@ public class FieldValueSerial extends FieldValueInteger {
   }
 
   @Override
-  public String getInformationSchemaDefault() {
-    return "nextval('" + sequenceName + "'::regclass)";
+  public String getInformationSchemaDefault(DatabaseType databaseType) {
+    if (databaseType == DatabaseType.POSTGRES) {
+      return "nextval('" + sequenceName + "'::regclass)";
+    } else {
+      return null;
+    }
   }
 }

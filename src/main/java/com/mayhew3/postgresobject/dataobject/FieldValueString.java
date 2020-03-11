@@ -1,6 +1,6 @@
 package com.mayhew3.postgresobject.dataobject;
 
-import com.mayhew3.postgresobject.db.SQLConnection;
+import com.mayhew3.postgresobject.db.DatabaseType;
 import org.jetbrains.annotations.Nullable;
 
 import java.sql.PreparedStatement;
@@ -27,8 +27,8 @@ public class FieldValueString extends FieldValue<String> {
 
   @Nullable
   @Override
-  public String getInformationSchemaDefault() {
-    return super.getInformationSchemaDefault() == null ? null : super.getInformationSchemaDefault() + "::text";
+  public String getInformationSchemaDefault(DatabaseType databaseType) {
+    return super.getInformationSchemaDefault(databaseType) == null ? null : super.getInformationSchemaDefault(databaseType) + "::text";
   }
 
   @Override
@@ -44,13 +44,21 @@ public class FieldValueString extends FieldValue<String> {
   }
 
   @Override
-  public String getDDLType(SQLConnection connection) {
-    return "TEXT";
+  public String getDDLType(DatabaseType databaseType) {
+    if (databaseType == DatabaseType.POSTGRES) {
+      return "TEXT";
+    } else {
+      return "varchar";
+    }
   }
 
   @Override
-  public String getInformationSchemaType(SQLConnection connection) {
-    return "text";
+  public String getInformationSchemaType(DatabaseType databaseType) {
+    if (databaseType == DatabaseType.POSTGRES) {
+      return "TEXT";
+    } else {
+      return "varchar";
+    }
   }
 
   @Override

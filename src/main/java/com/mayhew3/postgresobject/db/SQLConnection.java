@@ -12,8 +12,6 @@ import java.util.List;
 @SuppressWarnings({"JavaDoc", "unused", "UnusedReturnValue", "rawtypes"})
 public interface SQLConnection {
 
-  enum DatabaseType {MYSQL, POSTGRES}
-
   DatabaseType getDatabaseType();
 
   String getSchemaName();

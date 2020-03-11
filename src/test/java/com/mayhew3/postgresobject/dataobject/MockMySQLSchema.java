@@ -1,7 +1,8 @@
 package com.mayhew3.postgresobject.dataobject;
 
-public class PretendSchema extends DataSchema {
+public class MockMySQLSchema extends DataSchema {
   public static DataSchema schema = new DataSchema(
-      new CBSId()
+      new CBSId(),
+      new TmpDraftAverages()
   );
 }

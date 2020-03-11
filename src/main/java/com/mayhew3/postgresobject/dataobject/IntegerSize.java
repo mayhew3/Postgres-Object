@@ -1,6 +1,6 @@
 package com.mayhew3.postgresobject.dataobject;
 
-import com.mayhew3.postgresobject.db.SQLConnection;
+import com.mayhew3.postgresobject.db.DatabaseType;
 
 public enum IntegerSize {
   SMALLINT("SMALLINT", "SMALLINT"),
@@ -15,8 +15,8 @@ public enum IntegerSize {
     this.mySqlIdentifier = mySqlIdentifier;
   }
 
-  public String getDdlIdentifier(SQLConnection connection) {
-    if (connection.getDatabaseType() == SQLConnection.DatabaseType.POSTGRES) {
+  public String getDdlIdentifier(DatabaseType databaseType) {
+    if (databaseType == DatabaseType.POSTGRES) {
       return postgresIdentifier;
     } else {
       return mySqlIdentifier;

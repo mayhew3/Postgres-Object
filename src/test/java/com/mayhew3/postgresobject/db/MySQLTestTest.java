@@ -2,7 +2,7 @@ package com.mayhew3.postgresobject.db;
 
 import com.mayhew3.postgresobject.EnvironmentChecker;
 import com.mayhew3.postgresobject.dataobject.DataSchema;
-import com.mayhew3.postgresobject.dataobject.PretendSchema;
+import com.mayhew3.postgresobject.dataobject.MockMySQLSchema;
 import com.mayhew3.postgresobject.exception.MissingEnvException;
 import com.mayhew3.postgresobject.model.MySQLSchemaTest;
 
@@ -10,7 +10,7 @@ public class MySQLTestTest extends MySQLSchemaTest {
 
   @Override
   public DataSchema getDataSchema() {
-    return PretendSchema.schema;
+    return MockMySQLSchema.schema;
   }
 
   @Override
