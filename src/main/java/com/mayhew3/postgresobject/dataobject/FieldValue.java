@@ -35,13 +35,13 @@ public abstract class FieldValue<T> {
   }
 
   @Nullable
-  public String getDefaultValue() {
+  public String getDefaultValue(DatabaseType databaseType) {
     return defaultValue == null ? null : defaultValue.toString();
   }
 
   @Nullable
   public String getInformationSchemaDefault(DatabaseType databaseType) {
-    return getDefaultValue();
+    return getDefaultValue(databaseType);
   }
 
   public T getOriginalValue() {

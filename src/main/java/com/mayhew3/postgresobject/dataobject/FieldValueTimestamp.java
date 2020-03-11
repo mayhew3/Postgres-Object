@@ -21,21 +21,40 @@ public class FieldValueTimestamp extends FieldValue<Timestamp> {
     return this;
   }
 
-  public String getDefaultValue() {
+  public String getDefaultValue(DatabaseType databaseType) {
     if (defaultNow) {
-      return "now()";
+      if (databaseType == DatabaseType.POSTGRES) {
+        return "now()";
+      } else if (databaseType == DatabaseType.MYSQL) {
+        return "CURRENT_TIMESTAMP";
+      } else {
+        throw new IllegalStateException("Only PostgreSQL and MySQL supported.");
+      }
+    } else {
+      return null;
     }
-    return null;
   }
 
   @Override
   public String getDDLType(DatabaseType databaseType) {
-    return "TIMESTAMP(6) WITH TIME ZONE";
+    if (databaseType == DatabaseType.POSTGRES) {
+      return "TIMESTAMP(6) WITH TIME ZONE";
+    } else if (databaseType == DatabaseType.MYSQL) {
+      return "TIMESTAMP";
+    } else {
+      throw new IllegalStateException("Only PostgreSQL and MySQL supported.");
+    }
   }
 
   @Override
   public String getInformationSchemaType(DatabaseType databaseType) {
-    return "timestamp with time zone";
+    if (databaseType == DatabaseType.POSTGRES) {
+      return "timestamp with time zone";
+    } else if (databaseType == DatabaseType.MYSQL) {
+      return "TIMESTAMP";
+    } else {
+      throw new IllegalStateException("Only PostgreSQL and MySQL supported.");
+    }
   }
 
   @Override

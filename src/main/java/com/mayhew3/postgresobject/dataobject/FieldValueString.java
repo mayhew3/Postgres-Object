@@ -39,8 +39,8 @@ public class FieldValueString extends FieldValue<String> {
 
   @Nullable
   @Override
-  public String getDefaultValue() {
-    return super.getDefaultValue() == null ? null : "'" + super.getDefaultValue() + "'";
+  public String getDefaultValue(DatabaseType databaseType) {
+    return super.getDefaultValue(databaseType) == null ? null : "'" + super.getDefaultValue(databaseType) + "'";
   }
 
   @Override
