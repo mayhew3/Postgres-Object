@@ -71,15 +71,15 @@ public enum PostgresConnectionFactory {
       String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath() +
           "?user=" + username + "&password=" + password + "&ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";
 
-      logger.info("Drivers found: ");
+      logger.debug("Drivers found: ");
       DriverManager.drivers()
-          .forEach(driver -> logger.info(" - " + driver.toString()));
+          .forEach(driver -> logger.debug(" - " + driver.toString()));
 
       DriverManager.registerDriver(new org.postgresql.Driver());
 
-      logger.info("Drivers found (after registering Postgres): ");
+      logger.debug("Drivers found (after registering Postgres): ");
       DriverManager.drivers()
-          .forEach(driver -> logger.info(" - " + driver.toString()));
+          .forEach(driver -> logger.debug(" - " + driver.toString()));
 
       Connection connection = DriverManager.getConnection(dbUrl);
       return new PostgresConnection(connection, dbUrl);
