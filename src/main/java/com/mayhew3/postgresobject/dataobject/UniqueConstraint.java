@@ -21,7 +21,11 @@ class UniqueConstraint {
         .map(FieldValue::getFieldName)
         .collect(Collectors.toList());
     String underJoin = Joiner.on("_").join(fieldNames);
-    return tableName + "_" + underJoin + "_key";
+    if ("id".equals(underJoin)) {
+      return tableName + "_pkey";
+    } else {
+      return tableName + "_" + underJoin + "_key";
+    }
   }
 
   List<FieldValue> getFields() {

@@ -37,6 +37,11 @@ public abstract class DataObject {
 
   private static Logger logger = LogManager.getLogger(DataObject.class);
 
+  public DataObject() {
+    super();
+    addUniqueConstraint(id);
+  }
+
   public void initializeFromDBObject(ResultSet resultSet) throws SQLException {
     editMode = EditMode.UPDATE;
 
@@ -273,7 +278,9 @@ public abstract class DataObject {
     for (UniqueConstraint index : uniqueConstraints) {
       List<String> fieldNames = index.getFields().stream().map(FieldValue::getFieldName).collect(Collectors.toList());
       String join = Joiner.on(", ").join(fieldNames);
-      statementPieces.add("UNIQUE (" + join + ")");
+      if (!"id".equals(join)) {
+        statementPieces.add("UNIQUE (" + join + ")");
+      }
     }
 
     String allFieldDeclarations = Joiner.on(", ").join(statementPieces);
@@ -321,12 +328,14 @@ public abstract class DataObject {
     for (UniqueConstraint index : uniqueConstraints) {
       List<String> fieldNames = index.getFields().stream().map(FieldValue::getFieldName).collect(Collectors.toList());
       String commaJoin = Joiner.on(", ").join(fieldNames);
-      String indexName = index.getIndexName();
-      String statement =
-          "CREATE UNIQUE INDEX " + indexName + " " +
-              "ON " + getTableName() + " " +
-              "(" + commaJoin + ") ";
-      statements.add(statement);
+      if (!"id".equals(commaJoin)) {
+        String indexName = index.getIndexName();
+        String statement =
+            "CREATE UNIQUE INDEX " + indexName + " " +
+                "ON " + getTableName() + " " +
+                "(" + commaJoin + ") ";
+        statements.add(statement);
+      }
     }
     return statements;
   }

@@ -14,10 +14,10 @@ import java.util.stream.Collectors;
 
 @SuppressWarnings("rawtypes")
 class DataObjectTableValidator {
-  private DataObject dataObject;
-  private SQLConnection connection;
+  private final DataObject dataObject;
+  private final SQLConnection connection;
 
-  private List<DataObjectMismatch> mismatches;
+  private final List<DataObjectMismatch> mismatches;
 
   DataObjectTableValidator(DataObject dataObject, SQLConnection connection) {
     this.dataObject = dataObject;
@@ -107,7 +107,7 @@ class DataObjectTableValidator {
       String indexname = resultSet.getString("indexname");
 
       // ignore primary key
-      if (indexname.endsWith("_key")) {
+      if (indexname.endsWith("_key") || indexname.endsWith("_pkey")) {
         Optional<UniqueConstraint> matching = unfoundUniqueIndices.stream()
             .filter(index -> index.getIndexName().equals(indexname))
             .findFirst();

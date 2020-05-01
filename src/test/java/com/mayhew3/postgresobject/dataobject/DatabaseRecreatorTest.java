@@ -14,7 +14,7 @@ import static org.junit.Assert.fail;
 
 public class DatabaseRecreatorTest {
 
-  private static Logger logger = LogManager.getLogger(DatabaseRecreatorTest.class);
+  private static final Logger logger = LogManager.getLogger(DatabaseRecreatorTest.class);
   
   @Test
   public void testRecreateTestDatabase() throws URISyntaxException, SQLException {
