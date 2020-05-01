@@ -75,6 +75,12 @@ public enum PostgresConnectionFactory {
       DriverManager.drivers()
           .forEach(driver -> logger.info(" - " + driver.toString()));
 
+      DriverManager.registerDriver(new org.postgresql.Driver());
+
+      logger.info("Drivers found (after registering Postgres): ");
+      DriverManager.drivers()
+          .forEach(driver -> logger.info(" - " + driver.toString()));
+
       Connection connection = DriverManager.getConnection(dbUrl);
       return new PostgresConnection(connection, dbUrl);
     }
