@@ -71,6 +71,10 @@ public enum PostgresConnectionFactory {
       String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath() +
           "?user=" + username + "&password=" + password + "&ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";
 
+      logger.info("Drivers found: ");
+      DriverManager.drivers()
+          .forEach(driver -> logger.info(" - " + driver.toString()));
+
       Connection connection = DriverManager.getConnection(dbUrl);
       return new PostgresConnection(connection, dbUrl);
     }
