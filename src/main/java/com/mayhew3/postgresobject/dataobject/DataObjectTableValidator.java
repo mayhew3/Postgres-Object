@@ -167,11 +167,22 @@ class DataObjectTableValidator {
         if (!originalColumn.equalsIgnoreCase(foreignKey.getFieldName())) {
           addMismatch(foreignKey, "DB constraint found to table '" + referencedTable + "', but column names don't match: '" +
               originalColumn + "' in DB, '" + foreignKey.getFieldName() + "' in Schema.");
+        } else {
+          unfoundForeignKeys.remove(foreignKey);
         }
-        unfoundForeignKeys.remove(foreignKey);
       } else {
-        addMismatch("DB constraint '" + constraintName + "' exists, but " + eligibleForeignKeys.size() +
-            " foreign keys exist in Schema pointing at table '" + referencedTable + "'. Expected exactly 1.");
+        List<FieldValueForeignKey> matchedForeignKeys = eligibleForeignKeys
+            .stream()
+            .filter(fk -> fk.getFieldName().equals(originalColumn))
+            .collect(Collectors.toList());
+
+        if (matchedForeignKeys.size() != 1) {
+          addMismatch("DB constraint '" + constraintName + "' exists, but " + matchedForeignKeys.size() +
+              " foreign keys exist in Schema pointing at table '" + referencedTable + "' with column name '" +
+              originalColumn + "'. Expected exactly 1.");
+        } else {
+          unfoundForeignKeys.remove(matchedForeignKeys.get(0));
+        }
       }
     }
 

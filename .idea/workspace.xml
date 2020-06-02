@@ -2,10 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1e099498-ec9e-4703-ab18-cce3963e4d0c" name="Default" comment="Move annotation directory">
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/mayhew3/postgresobject/dataobject/SecondDataObjectMock.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/mayhew3/postgresobject/dataobject/DataObjectTableValidatorTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/dataobject/DataObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/dataobject/DataObject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/mayhew3/postgresobject/dataobject/DataObjectMock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/mayhew3/postgresobject/dataobject/DataObjectMock.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/dataobject/DataObjectTableValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/dataobject/DataObjectTableValidator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/mayhew3/postgresobject/dataobject/DataSchemaMock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/mayhew3/postgresobject/dataobject/DataSchemaMock.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -126,7 +126,7 @@
       <recent name="D:\Projects\mean_projects\GamesDBUtil\src\test\resources" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.DataObjectTest">
+  <component name="RunManager" selected="JUnit.DataObjectTableValidatorTest.testInsertDataObjectMock">
     <configuration default="true" type="BatchConfigurationType" factoryName="Batch">
       <module name="media-mogul-data_main" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -1361,28 +1361,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="All in postgres-object_test (1)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="postgres-object_test" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="TEST_OBJECT" value="package" />
-      <option name="VM_PARAMETERS" />
-      <option name="PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="moduleWithDependencies" />
-      </option>
-      <envs>
-        <env name="postgresURL" value="postgres://ijxuheufucvnyu:h16h_LnZi4fHgIUjBANnzITEyR@ec2-54-204-30-115.compute-1.amazonaws.com:5432/dcg1rtode4vgk9" />
-        <env name="dbhost" value="jdbc:mysql://localhost:3306/uncharted" />
-        <env name="dbuser" value="root" />
-        <env name="dbpassword" value="m3mysql" />
-      </envs>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="All in postgres-object_test (2)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="postgres-object_test" />
       <option name="PACKAGE_NAME" value="" />
@@ -1427,7 +1405,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="DataObjectTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="DataObjectTableValidatorTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="postgres-object.test" />
       <extension name="coverage">
         <pattern>
@@ -1436,7 +1414,7 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="com.mayhew3.postgresobject.dataobject" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.postgresobject.dataobject.DataObjectTest" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.postgresobject.dataobject.DataObjectTableValidatorTest" />
       <option name="METHOD_NAME" value="" />
       <option name="TEST_OBJECT" value="class" />
       <option name="VM_PARAMETERS" />
@@ -1455,12 +1433,46 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="DatabaseRecreatorTest.testRecreateTestDatabase" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="postgres-object_test" />
+    <configuration name="DataObjectTableValidatorTest.testInsertDataObjectMock" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="postgres-object.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.mayhew3.postgresobject.dataobject.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
       <option name="PACKAGE_NAME" value="com.mayhew3.postgresobject.dataobject" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.postgresobject.dataobject.DatabaseRecreatorTest" />
-      <option name="METHOD_NAME" value="testRecreateTestDatabase" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.postgresobject.dataobject.DataObjectTableValidatorTest" />
+      <option name="METHOD_NAME" value="testInsertDataObjectMock" />
       <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs>
+        <env name="postgresURL" value="postgres://ijxuheufucvnyu:h16h_LnZi4fHgIUjBANnzITEyR@ec2-54-204-30-115.compute-1.amazonaws.com:5432/dcg1rtode4vgk9" />
+        <env name="dbhost" value="jdbc:mysql://localhost:3306/uncharted" />
+        <env name="dbuser" value="root" />
+        <env name="dbpassword" value="m3mysql" />
+      </envs>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DataObjectTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="postgres-object.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.mayhew3.postgresobject.dataobject.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.mayhew3.postgresobject.dataobject" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.postgresobject.dataobject.DataObjectTest" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="class" />
       <option name="VM_PARAMETERS" />
       <option name="PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1591,18 +1603,18 @@
       <item itemvalue="Gradle.media-mogul-data [build]" />
       <item itemvalue="JUnit.All Tests" />
       <item itemvalue="JUnit.DataObjectCommitTest" />
-      <item itemvalue="JUnit.DatabaseRecreatorTest.testRecreateTestDatabase" />
-      <item itemvalue="JUnit.All in postgres-object_test (1)" />
       <item itemvalue="JUnit.All in postgres-object_test (2)" />
       <item itemvalue="JUnit.DataObjectTest" />
+      <item itemvalue="JUnit.DataObjectTableValidatorTest.testInsertDataObjectMock" />
+      <item itemvalue="JUnit.DataObjectTableValidatorTest" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.DataObjectTableValidatorTest.testInsertDataObjectMock" />
+        <item itemvalue="JUnit.DataObjectTableValidatorTest" />
         <item itemvalue="JUnit.DataObjectTest" />
         <item itemvalue="JUnit.DataObjectCommitTest" />
         <item itemvalue="JUnit.All in postgres-object_test (2)" />
-        <item itemvalue="JUnit.All in postgres-object_test (1)" />
-        <item itemvalue="JUnit.DatabaseRecreatorTest.testRecreateTestDatabase" />
       </list>
     </recent_temporary>
   </component>
@@ -1685,53 +1697,54 @@
     </state>
     <state x="315" y="343" key="FileChooserDialogImpl/0.0.1920.1050@0.0.1920.1050" timestamp="1583901796336" />
     <state x="420" y="460" key="FileChooserDialogImpl/0.0.2560.1410/2560.465.1600.1170@0.0.2560.1410" timestamp="1583558323225" />
-    <state width="1234" height="379" key="GridCell.Tab.0.bottom" timestamp="1588376840113">
-      <screen x="0" y="0" width="2560" height="1410" />
+    <state width="1877" height="272" key="GridCell.Tab.0.bottom" timestamp="1591138366807">
+      <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state width="1877" height="258" key="GridCell.Tab.0.bottom/0.0.1920.1050@0.0.1920.1050" timestamp="1583951710927" />
+    <state width="1877" height="272" key="GridCell.Tab.0.bottom/0.0.1920.1050@0.0.1920.1050" timestamp="1591138366807" />
     <state width="1234" height="379" key="GridCell.Tab.0.bottom/0.0.2560.1410/2560.465.1600.1170@0.0.2560.1410" timestamp="1588376840113" />
-    <state width="1234" height="379" key="GridCell.Tab.0.center" timestamp="1588376840113">
-      <screen x="0" y="0" width="2560" height="1410" />
+    <state width="1877" height="272" key="GridCell.Tab.0.center" timestamp="1591138366807">
+      <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state width="1877" height="258" key="GridCell.Tab.0.center/0.0.1920.1050@0.0.1920.1050" timestamp="1583951710927" />
+    <state width="1877" height="272" key="GridCell.Tab.0.center/0.0.1920.1050@0.0.1920.1050" timestamp="1591138366807" />
     <state width="1234" height="379" key="GridCell.Tab.0.center/0.0.2560.1410/2560.465.1600.1170@0.0.2560.1410" timestamp="1588376840113" />
-    <state width="1234" height="379" key="GridCell.Tab.0.left" timestamp="1588376840113">
-      <screen x="0" y="0" width="2560" height="1410" />
+    <state width="1877" height="272" key="GridCell.Tab.0.left" timestamp="1591138366806">
+      <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state width="1877" height="258" key="GridCell.Tab.0.left/0.0.1920.1050@0.0.1920.1050" timestamp="1583951710927" />
+    <state width="1877" height="272" key="GridCell.Tab.0.left/0.0.1920.1050@0.0.1920.1050" timestamp="1591138366806" />
     <state width="1234" height="379" key="GridCell.Tab.0.left/0.0.2560.1410/2560.465.1600.1170@0.0.2560.1410" timestamp="1588376840113" />
-    <state width="1234" height="379" key="GridCell.Tab.0.right" timestamp="1588376840113">
-      <screen x="0" y="0" width="2560" height="1410" />
+    <state width="1877" height="272" key="GridCell.Tab.0.right" timestamp="1591138366807">
+      <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state width="1877" height="258" key="GridCell.Tab.0.right/0.0.1920.1050@0.0.1920.1050" timestamp="1583951710927" />
+    <state width="1877" height="272" key="GridCell.Tab.0.right/0.0.1920.1050@0.0.1920.1050" timestamp="1591138366807" />
     <state width="1234" height="379" key="GridCell.Tab.0.right/0.0.2560.1410/2560.465.1600.1170@0.0.2560.1410" timestamp="1588376840113" />
-    <state width="1236" height="473" key="GridCell.Tab.1.bottom" timestamp="1588369972948">
-      <screen x="0" y="0" width="2560" height="1410" />
+    <state width="1877" height="333" key="GridCell.Tab.1.bottom" timestamp="1591138203038">
+      <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state width="1877" height="319" key="GridCell.Tab.1.bottom/0.0.1920.1050@0.0.1920.1050" timestamp="1583910155728" />
+    <state width="1877" height="333" key="GridCell.Tab.1.bottom/0.0.1920.1050@0.0.1920.1050" timestamp="1591138203038" />
     <state width="1236" height="473" key="GridCell.Tab.1.bottom/0.0.2560.1410/2560.465.1600.1170@0.0.2560.1410" timestamp="1588369972948" />
-    <state width="1236" height="473" key="GridCell.Tab.1.center" timestamp="1588369972948">
-      <screen x="0" y="0" width="2560" height="1410" />
+    <state width="1877" height="333" key="GridCell.Tab.1.center" timestamp="1591138203037">
+      <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state width="1877" height="319" key="GridCell.Tab.1.center/0.0.1920.1050@0.0.1920.1050" timestamp="1583910155728" />
+    <state width="1877" height="333" key="GridCell.Tab.1.center/0.0.1920.1050@0.0.1920.1050" timestamp="1591138203037" />
     <state width="1236" height="473" key="GridCell.Tab.1.center/0.0.2560.1410/2560.465.1600.1170@0.0.2560.1410" timestamp="1588369972948" />
-    <state width="1236" height="473" key="GridCell.Tab.1.left" timestamp="1588369972948">
-      <screen x="0" y="0" width="2560" height="1410" />
+    <state width="1877" height="333" key="GridCell.Tab.1.left" timestamp="1591138203037">
+      <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state width="1877" height="319" key="GridCell.Tab.1.left/0.0.1920.1050@0.0.1920.1050" timestamp="1583910155728" />
+    <state width="1877" height="333" key="GridCell.Tab.1.left/0.0.1920.1050@0.0.1920.1050" timestamp="1591138203037" />
     <state width="1236" height="473" key="GridCell.Tab.1.left/0.0.2560.1410/2560.465.1600.1170@0.0.2560.1410" timestamp="1588369972948" />
-    <state width="1236" height="473" key="GridCell.Tab.1.right" timestamp="1588369972948">
-      <screen x="0" y="0" width="2560" height="1410" />
+    <state width="1877" height="333" key="GridCell.Tab.1.right" timestamp="1591138203037">
+      <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state width="1877" height="319" key="GridCell.Tab.1.right/0.0.1920.1050@0.0.1920.1050" timestamp="1583910155728" />
+    <state width="1877" height="333" key="GridCell.Tab.1.right/0.0.1920.1050@0.0.1920.1050" timestamp="1591138203037" />
     <state width="1236" height="473" key="GridCell.Tab.1.right/0.0.2560.1410/2560.465.1600.1170@0.0.2560.1410" timestamp="1588369972948" />
     <state x="1095" y="638" key="ReplaceDuplicatesPrompt" timestamp="1583959650771">
       <screen x="0" y="0" width="2560" height="1410" />
     </state>
     <state x="1095" y="638" key="ReplaceDuplicatesPrompt/0.0.2560.1410/2560.465.1600.1170@0.0.2560.1410" timestamp="1583959650771" />
-    <state x="393" y="324" key="RollbackChangesDialog" timestamp="1588174482121">
-      <screen x="0" y="0" width="2560" height="1410" />
+    <state x="295" y="241" key="RollbackChangesDialog" timestamp="1591138087747">
+      <screen x="0" y="0" width="1920" height="1050" />
     </state>
+    <state x="295" y="241" key="RollbackChangesDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1591138087747" />
     <state x="393" y="324" key="RollbackChangesDialog/0.0.2560.1410/2560.465.1600.1170@0.0.2560.1410" timestamp="1588174482121" />
     <state x="587" y="133" key="SettingsEditor" timestamp="1588374212829">
       <screen x="0" y="0" width="2560" height="1410" />
@@ -1743,6 +1756,10 @@
     </state>
     <state x="751" y="332" width="585" height="403" key="StructurePopup/0.0.1920.1050@0.0.1920.1050" timestamp="1583909654437" />
     <state x="1001" y="446" width="585" height="540" key="StructurePopup/0.0.2560.1410/2560.465.1600.1170@0.0.2560.1410" timestamp="1583963301416" />
+    <state x="92" y="92" width="1736" height="866" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1591138391389">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state x="92" y="92" width="1736" height="866" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1591138391389" />
     <state x="578" y="140" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1583909895092">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
@@ -1751,20 +1768,20 @@
       <screen x="0" y="0" width="2560" height="1410" />
     </state>
     <state x="1010" y="464" key="extract.method.dialog/0.0.2560.1410/2560.465.1600.1170@0.0.2560.1410" timestamp="1583959648799" />
-    <state x="725" y="317" width="627" height="566" key="find.popup" timestamp="1591134037169">
+    <state x="725" y="317" width="627" height="566" key="find.popup" timestamp="1591137883864">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="725" y="317" width="627" height="566" key="find.popup/0.0.1920.1050@0.0.1920.1050" timestamp="1591134037169" />
+    <state x="725" y="317" width="627" height="566" key="find.popup/0.0.1920.1050@0.0.1920.1050" timestamp="1591137883864" />
     <state x="966" y="426" width="627" height="568" key="find.popup/0.0.2560.1410/2560.465.1600.1170@0.0.2560.1410" timestamp="1588368210759" />
     <state x="1022" y="315" key="refactoring.ChangeSignatureDialog" timestamp="1583956272365">
       <screen x="0" y="0" width="2560" height="1410" />
     </state>
     <state x="767" y="235" key="refactoring.ChangeSignatureDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1583950572677" />
     <state x="1022" y="315" key="refactoring.ChangeSignatureDialog/0.0.2560.1410/2560.465.1600.1170@0.0.2560.1410" timestamp="1583956272365" />
-    <state x="707" y="236" width="672" height="505" key="search.everywhere.popup" timestamp="1591133955491">
+    <state x="707" y="236" width="672" height="505" key="search.everywhere.popup" timestamp="1591138270106">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="707" y="236" width="672" height="505" key="search.everywhere.popup/0.0.1920.1050@0.0.1920.1050" timestamp="1591133955491" />
+    <state x="707" y="236" width="672" height="505" key="search.everywhere.popup/0.0.1920.1050@0.0.1920.1050" timestamp="1591138270106" />
     <state x="943" y="317" width="672" height="678" key="search.everywhere.popup/0.0.2560.1410/2560.465.1600.1170@0.0.2560.1410" timestamp="1588376305482" />
   </component>
   <component name="XDebuggerManager">
@@ -1781,9 +1798,9 @@
           <option name="timeStamp" value="58" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/dataobject/DataObject.java</url>
-          <line>312</line>
-          <option name="timeStamp" value="60" />
+          <url>file://$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/dataobject/DataObjectTableValidator.java</url>
+          <line>144</line>
+          <option name="timeStamp" value="62" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
