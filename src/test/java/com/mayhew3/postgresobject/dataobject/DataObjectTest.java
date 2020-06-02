@@ -321,7 +321,7 @@ public class DataObjectTest {
     String ddl = dataObject.generateTableCreateStatement(DatabaseType.POSTGRES);
 
     assertThat(ddl)
-        .isEqualTo("CREATE TABLE test (id serial NOT NULL, date_added TIMESTAMP(6) WITH TIME ZONE DEFAULT now(), title TEXT NOT NULL, kernels INTEGER DEFAULT 0, PRIMARY KEY (id), UNIQUE (title), UNIQUE (kernels, date_added))");
+        .isEqualTo("CREATE TABLE test (id serial NOT NULL, date_added TIMESTAMP(6) WITH TIME ZONE DEFAULT now(), title TEXT NOT NULL, kernels INTEGER DEFAULT 0, test_second_id INTEGER, reverse_other_id INTEGER, PRIMARY KEY (id), UNIQUE (title), UNIQUE (kernels, date_added))");
   }
 
   @Test

@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1e099498-ec9e-4703-ab18-cce3963e4d0c" name="Default" comment="Move annotation directory">
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/mayhew3/postgresobject/dataobject/SecondDataObjectMock.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/dataobject/DataObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mayhew3/postgresobject/dataobject/DataObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/mayhew3/postgresobject/dataobject/DataObjectMock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/mayhew3/postgresobject/dataobject/DataObjectMock.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,22 +101,8 @@
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Code\git\postgresobject\src\test" />
-      <recent name="D:\Code\git\media-mogul-data\scripts\old" />
-      <recent name="D:\Code\git\media-mogul-data" />
-      <recent name="D:\Code\git\media-mogul-data\scripts" />
-      <recent name="D:\Projects\mean_projects\GamesDBUtil\src\test\resources" />
-    </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="com.mayhew3.mediamogul.games" />
-    </key>
-    <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="com.mayhew3.postgresobject.db" />
-      <recent name="exception" />
-      <recent name="com.mayhew3.postgresobject" />
-      <recent name="com.mayhew3.postgresobject.model" />
-      <recent name="com.mayhew3.postgresobject.dataobject" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Code\git\postgresobject\src\main\resources" />
@@ -122,8 +111,33 @@
       <recent name="D:\Code\git\media-mogul-data\src\test\resources\IGDBTest" />
       <recent name="D:\Code\git\media-mogul-data\resources\Blog Templates" />
     </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.mayhew3.postgresobject.dataobject" />
+      <recent name="com.mayhew3.postgresobject.db" />
+      <recent name="exception" />
+      <recent name="com.mayhew3.postgresobject" />
+      <recent name="com.mayhew3.postgresobject.model" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Code\git\postgresobject\src\test" />
+      <recent name="D:\Code\git\media-mogul-data\scripts\old" />
+      <recent name="D:\Code\git\media-mogul-data" />
+      <recent name="D:\Code\git\media-mogul-data\scripts" />
+      <recent name="D:\Projects\mean_projects\GamesDBUtil\src\test\resources" />
+    </key>
   </component>
-  <component name="RunManager" selected="JUnit.DataObjectCommitTest">
+  <component name="RunManager" selected="JUnit.DataObjectTest">
+    <configuration default="true" type="BatchConfigurationType" factoryName="Batch">
+      <module name="media-mogul-data_main" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="DaylightSavingCorrector (Heroku)" type="Application" factoryName="Application" folderName="Utilities">
       <envs>
         <env name="postgresURL_local" value="$postgresURL_local$" />
@@ -1286,17 +1300,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="BatchConfigurationType" factoryName="Batch">
-      <module name="media-mogul-data_main" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="PARAMETERS" value="" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="media-mogul-data [assemble]" type="GradleRunConfiguration" factoryName="Gradle">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -1402,12 +1405,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="All in postgres-object_test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="DataObjectCommitTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="postgres-object_test" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="" />
+      <option name="PACKAGE_NAME" value="com.mayhew3.postgresobject.dataobject" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.postgresobject.dataobject.DataObjectCommitTest" />
       <option name="METHOD_NAME" value="" />
-      <option name="TEST_OBJECT" value="package" />
+      <option name="TEST_OBJECT" value="class" />
       <option name="VM_PARAMETERS" />
       <option name="PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1424,10 +1427,16 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="DataObjectCommitTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="postgres-object_test" />
+    <configuration name="DataObjectTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="postgres-object.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.mayhew3.postgresobject.dataobject.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
       <option name="PACKAGE_NAME" value="com.mayhew3.postgresobject.dataobject" />
-      <option name="MAIN_CLASS_NAME" value="com.mayhew3.postgresobject.dataobject.DataObjectCommitTest" />
+      <option name="MAIN_CLASS_NAME" value="com.mayhew3.postgresobject.dataobject.DataObjectTest" />
       <option name="METHOD_NAME" value="" />
       <option name="TEST_OBJECT" value="class" />
       <option name="VM_PARAMETERS" />
@@ -1582,18 +1591,18 @@
       <item itemvalue="Gradle.media-mogul-data [build]" />
       <item itemvalue="JUnit.All Tests" />
       <item itemvalue="JUnit.DataObjectCommitTest" />
-      <item itemvalue="JUnit.All in postgres-object_test" />
       <item itemvalue="JUnit.DatabaseRecreatorTest.testRecreateTestDatabase" />
       <item itemvalue="JUnit.All in postgres-object_test (1)" />
       <item itemvalue="JUnit.All in postgres-object_test (2)" />
+      <item itemvalue="JUnit.DataObjectTest" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.DataObjectTest" />
         <item itemvalue="JUnit.DataObjectCommitTest" />
         <item itemvalue="JUnit.All in postgres-object_test (2)" />
         <item itemvalue="JUnit.All in postgres-object_test (1)" />
         <item itemvalue="JUnit.DatabaseRecreatorTest.testRecreateTestDatabase" />
-        <item itemvalue="JUnit.All in postgres-object_test" />
       </list>
     </recent_temporary>
   </component>
@@ -1742,20 +1751,20 @@
       <screen x="0" y="0" width="2560" height="1410" />
     </state>
     <state x="1010" y="464" key="extract.method.dialog/0.0.2560.1410/2560.465.1600.1170@0.0.2560.1410" timestamp="1583959648799" />
-    <state x="966" y="426" width="627" height="568" key="find.popup" timestamp="1588368210759">
-      <screen x="0" y="0" width="2560" height="1410" />
+    <state x="725" y="317" width="627" height="566" key="find.popup" timestamp="1591134037169">
+      <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="725" y="317" width="627" height="558" key="find.popup/0.0.1920.1050@0.0.1920.1050" timestamp="1583949450417" />
+    <state x="725" y="317" width="627" height="566" key="find.popup/0.0.1920.1050@0.0.1920.1050" timestamp="1591134037169" />
     <state x="966" y="426" width="627" height="568" key="find.popup/0.0.2560.1410/2560.465.1600.1170@0.0.2560.1410" timestamp="1588368210759" />
     <state x="1022" y="315" key="refactoring.ChangeSignatureDialog" timestamp="1583956272365">
       <screen x="0" y="0" width="2560" height="1410" />
     </state>
     <state x="767" y="235" key="refactoring.ChangeSignatureDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1583950572677" />
     <state x="1022" y="315" key="refactoring.ChangeSignatureDialog/0.0.2560.1410/2560.465.1600.1170@0.0.2560.1410" timestamp="1583956272365" />
-    <state x="943" y="317" width="672" height="678" key="search.everywhere.popup" timestamp="1588376305482">
-      <screen x="0" y="0" width="2560" height="1410" />
+    <state x="707" y="236" width="672" height="505" key="search.everywhere.popup" timestamp="1591133955491">
+      <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="707" y="236" width="672" height="505" key="search.everywhere.popup/0.0.1920.1050@0.0.1920.1050" timestamp="1583950971303" />
+    <state x="707" y="236" width="672" height="505" key="search.everywhere.popup/0.0.1920.1050@0.0.1920.1050" timestamp="1591133955491" />
     <state x="943" y="317" width="672" height="678" key="search.everywhere.popup/0.0.2560.1410/2560.465.1600.1170@0.0.2560.1410" timestamp="1588376305482" />
   </component>
   <component name="XDebuggerManager">

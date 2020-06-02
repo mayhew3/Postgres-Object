@@ -411,6 +411,13 @@ public abstract class DataObject {
     return fieldValueForeignKey;
   }
 
+  protected final FieldValueForeignKey registerForeignKeyWithName(DataObject dataObject, Nullability nullability, String columnName) {
+    FieldValueForeignKey fieldValueForeignKey = new FieldValueForeignKey(columnName, new FieldConversionInteger(), nullability, dataObject);
+    allFieldValues.add(fieldValueForeignKey);
+    foreignKeys.add(fieldValueForeignKey);
+    return fieldValueForeignKey;
+  }
+
   protected final FieldValueBigDecimal registerBigDecimalField(String fieldName, Nullability nullability) {
     FieldValueBigDecimal fieldBigDecimalValue = new FieldValueBigDecimal(fieldName, new FieldConversionBigDecimal(), nullability);
     allFieldValues.add(fieldBigDecimalValue);
