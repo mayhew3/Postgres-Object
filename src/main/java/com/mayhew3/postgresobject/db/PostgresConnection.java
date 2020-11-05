@@ -98,6 +98,11 @@ public class PostgresConnection implements SQLConnection {
   }
 
   private void resetConnection() {
+    // first, close existing connection so we don't explode active clients
+    try {
+      closeConnection();
+    } catch (SQLException ignored) {}
+
     try {
       _connection = DriverManager.getConnection(_connectionString);
       updateLastExecuted();
