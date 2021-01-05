@@ -398,13 +398,17 @@ public abstract class DataObject {
 
   protected final FieldValueSerial registerSerialField(String fieldName) {
     String sequenceName = getTableName() + "_" + fieldName + "_seq";
-    FieldValueSerial fieldIntegerValue = new FieldValueSerial(fieldName, new FieldConversionInteger(), Nullability.NOT_NULL, sequenceName);
+    FieldValueSerial fieldSerialValue = new FieldValueSerial(fieldName, new FieldConversionInteger(), Nullability.NOT_NULL, sequenceName);
     sequenceNames.add(sequenceName);
-    return fieldIntegerValue;
+    allFieldValues.add(fieldSerialValue);
+    return fieldSerialValue;
   }
 
   private FieldValueSerial registerId() {
-    return registerSerialField("id");
+    String sequenceName = getTableName() + "_id_seq";
+    FieldValueSerial fieldIntegerValue = new FieldValueSerial("id", new FieldConversionInteger(), Nullability.NOT_NULL, sequenceName);
+    sequenceNames.add(sequenceName);
+    return fieldIntegerValue;
   }
 
   protected final FieldValueForeignKey registerForeignKey(DataObject dataObject, Nullability nullability) {
