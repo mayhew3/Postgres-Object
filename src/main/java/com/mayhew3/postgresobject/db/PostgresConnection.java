@@ -204,7 +204,8 @@ public class PostgresConnection implements SQLConnection {
     try {
       return preparedStatement.executeQuery();
     } catch (PSQLException e) {
-      debug("Exception while executing query. Trying to reconnect...");
+      debug("Exception while executing query: " + e.getLocalizedMessage());
+      debug("Trying to reconnect...");
       resetConnection();
       return preparedStatement.executeQuery();
     }
