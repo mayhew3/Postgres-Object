@@ -18,7 +18,9 @@ abstract public class DataBackupExecutor {
   public static final Map<Integer, Integer> portMap = Map.ofEntries(
       new AbstractMap.SimpleEntry<>(9, 5432),
       new AbstractMap.SimpleEntry<>(10, 5433),
-      new AbstractMap.SimpleEntry<>(11, 5434)
+      new AbstractMap.SimpleEntry<>(11, 5434),
+      new AbstractMap.SimpleEntry<>(12, 5435),
+      new AbstractMap.SimpleEntry<>(13, 5436)
   );
 
   Logger logger = LogManager.getLogger(DataBackupExecutor.class);
