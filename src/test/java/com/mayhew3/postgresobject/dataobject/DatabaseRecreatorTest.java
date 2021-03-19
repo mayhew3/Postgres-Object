@@ -1,7 +1,10 @@
 package com.mayhew3.postgresobject.dataobject;
 
+import com.mayhew3.postgresobject.db.DatabaseEnvironment;
+import com.mayhew3.postgresobject.db.DatabaseEnvironments;
 import com.mayhew3.postgresobject.db.PostgresConnectionFactory;
 import com.mayhew3.postgresobject.db.SQLConnection;
+import com.mayhew3.postgresobject.exception.MissingEnvException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Test;
@@ -15,10 +18,12 @@ import static org.junit.Assert.fail;
 public class DatabaseRecreatorTest {
 
   private static final Logger logger = LogManager.getLogger(DatabaseRecreatorTest.class);
-  
+
   @Test
-  public void testRecreateTestDatabase() throws URISyntaxException, SQLException {
-    SQLConnection connection = PostgresConnectionFactory.getSqlConnection(PostgresConnectionFactory.TEST);
+  public void testRecreateTestDatabase() throws URISyntaxException, SQLException, MissingEnvException {
+    DatabaseEnvironment databaseEnvironment = DatabaseEnvironments.test;
+
+    SQLConnection connection = PostgresConnectionFactory.createConnection(databaseEnvironment);
     new DatabaseRecreator(connection).recreateDatabase(DataSchemaMock.schema);
 
     List<DataObjectMismatch> mismatches = DataSchemaMock.schema.validateSchemaAgainstDatabase(connection);
@@ -31,23 +36,6 @@ public class DatabaseRecreatorTest {
       fail();
     }
   }
-/*
-  @Test
-  public void testRecreateDemoDatabase() throws URISyntaxException, SQLException {
-    SQLConnection connection = new PostgresConnectionFactory().createConnection("demo");
-    new DatabaseRecreator(connection).recreateDatabase(TVSchema.schema);
-
-    List<DataObjectMismatch> mismatches = TVSchema.schema.validateSchemaAgainstDatabase(connection);
-
-    if (!mismatches.isEmpty()) {
-      debug("Mismatches found: ");
-      for (DataObjectMismatch mismatch : mismatches) {
-        debug(" - " + mismatch);
-      }
-      fail();
-    }
-  }
-  */
 
   void debug(Object message) {
     logger.debug(message);

@@ -1,6 +1,8 @@
 package com.mayhew3.postgresobject.dataobject;
 
 import com.mayhew3.postgresobject.DatabaseTest;
+import com.mayhew3.postgresobject.db.DatabaseEnvironment;
+import com.mayhew3.postgresobject.db.DatabaseEnvironments;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Test;
@@ -13,6 +15,11 @@ import static org.junit.Assert.fail;
 public class DataObjectTableValidatorTest extends DatabaseTest {
 
   private static final Logger logger = LogManager.getLogger(DataObjectTableValidatorTest.class);
+
+  @Override
+  public DatabaseEnvironment getTestEnvironment() {
+    return DatabaseEnvironments.test;
+  }
 
   @Test
   public void testTestSchemaHasNoMismatches() throws SQLException {

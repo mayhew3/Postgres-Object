@@ -1,6 +1,8 @@
 package com.mayhew3.postgresobject.dataobject;
 
 import com.mayhew3.postgresobject.DatabaseTest;
+import com.mayhew3.postgresobject.db.DatabaseEnvironment;
+import com.mayhew3.postgresobject.db.DatabaseEnvironments;
 import org.junit.Test;
 
 import java.sql.ResultSet;
@@ -9,6 +11,11 @@ import java.sql.SQLException;
 import static org.fest.assertions.api.Assertions.assertThat;
 
 public class DataObjectCommitTest extends DatabaseTest {
+
+  @Override
+  public DatabaseEnvironment getTestEnvironment() {
+    return DatabaseEnvironments.test;
+  }
 
   @Test
   public void testInsertDataObjectMock() throws SQLException {

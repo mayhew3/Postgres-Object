@@ -1,61 +1,22 @@
 package com.mayhew3.postgresobject.db;
 
-import com.google.common.collect.Lists;
-import com.mayhew3.postgresobject.ArgumentChecker;
+import com.mayhew3.postgresobject.exception.MissingEnvException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.jetbrains.annotations.NotNull;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Optional;
 
-public enum PostgresConnectionFactory {
-  HEROKU("heroku", "postgresURL_heroku"),
-  STAGING("staging", "postgresURL_heroku_staging"),
-  LOCAL("local", "postgresURL_local"),
-  TEST("test", "postgresURL_local_test"),
-  E2E("e2e", "postgresURL_local_e2e"),
-  DEMO("demo", "postgresURL_local_demo");
+public class PostgresConnectionFactory {
 
-  private final String nickname;
-  private final String envName;
+  private static final Logger logger = LogManager.getLogger(PostgresConnectionFactory.class);
 
-  private static Logger logger = LogManager.getLogger(PostgresConnectionFactory.class);
-
-  PostgresConnectionFactory(String nickname, String envName) {
-    this.nickname = nickname;
-    this.envName = envName;
-  }
-
-  public static SQLConnection createConnection(ArgumentChecker argumentChecker) throws URISyntaxException, SQLException {
-    String dbIdentifier = argumentChecker.getDBIdentifier();
-    Optional<PostgresConnectionFactory> connectionType = getConnectionType(dbIdentifier);
-    if (connectionType.isPresent()) {
-      PostgresConnectionFactory postgresConnectionFactory = connectionType.get();
-      return getSqlConnection(postgresConnectionFactory);
-    } else {
-      throw new IllegalStateException("No connection type with nickname: " + dbIdentifier);
-    }
-  }
-
-  @NotNull
-  public static SQLConnection getSqlConnection(PostgresConnectionFactory postgresConnectionFactory) throws URISyntaxException, SQLException {
-    String postgresURL = System.getenv(postgresConnectionFactory.envName);
-    if (postgresURL == null) {
-      throw new IllegalStateException("No environment variable found with name: " + postgresConnectionFactory.envName);
-    }
-    return initiateDBConnect(postgresURL);
-  }
-
-  public static Optional<PostgresConnectionFactory> getConnectionType(final String nickname) {
-    return Lists.newArrayList(PostgresConnectionFactory.values())
-        .stream()
-        .filter(postgresConnectionFactory -> postgresConnectionFactory.nickname.equalsIgnoreCase(nickname))
-        .findAny();
+  public static PostgresConnection createConnection(DatabaseEnvironment databaseEnvironment) throws MissingEnvException, URISyntaxException, SQLException {
+    String databaseUrl = databaseEnvironment.getDatabaseUrl();
+    return initiateDBConnect(databaseUrl);
   }
 
   public static PostgresConnection initiateDBConnect(String postgresURL) throws URISyntaxException, SQLException {
