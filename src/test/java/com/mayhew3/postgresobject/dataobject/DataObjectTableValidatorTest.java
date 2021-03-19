@@ -2,7 +2,7 @@ package com.mayhew3.postgresobject.dataobject;
 
 import com.mayhew3.postgresobject.DatabaseTest;
 import com.mayhew3.postgresobject.db.DatabaseEnvironment;
-import com.mayhew3.postgresobject.db.DatabaseEnvironments;
+import com.mayhew3.postgresobject.db.InternalDatabaseEnvironments;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Test;
@@ -18,7 +18,7 @@ public class DataObjectTableValidatorTest extends DatabaseTest {
 
   @Override
   public DatabaseEnvironment getTestEnvironment() {
-    return DatabaseEnvironments.test;
+    return InternalDatabaseEnvironments.test;
   }
 
   @Test

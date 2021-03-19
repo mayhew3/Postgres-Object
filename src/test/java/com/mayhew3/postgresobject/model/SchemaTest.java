@@ -3,6 +3,7 @@ package com.mayhew3.postgresobject.model;
 import com.mayhew3.postgresobject.dataobject.DataObjectMismatch;
 import com.mayhew3.postgresobject.dataobject.DataSchema;
 import com.mayhew3.postgresobject.db.SQLConnection;
+import com.mayhew3.postgresobject.exception.MissingEnvException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Test;
@@ -20,10 +21,10 @@ public abstract class SchemaTest {
 
   public abstract DataSchema getDataSchema();
 
-  public abstract SQLConnection createConnection() throws URISyntaxException, SQLException;
+  public abstract SQLConnection createConnection() throws URISyntaxException, SQLException, MissingEnvException;
 
   @Test
-  public void testSchemaUpToDate() throws URISyntaxException, SQLException {
+  public void testSchemaUpToDate() throws URISyntaxException, SQLException, MissingEnvException {
     SQLConnection connection = createConnection();
     List<DataObjectMismatch> mismatches = getDataSchema().validateSchemaAgainstDatabase(connection);
 

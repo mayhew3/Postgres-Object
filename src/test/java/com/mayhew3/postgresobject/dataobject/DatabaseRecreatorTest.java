@@ -1,7 +1,7 @@
 package com.mayhew3.postgresobject.dataobject;
 
 import com.mayhew3.postgresobject.db.DatabaseEnvironment;
-import com.mayhew3.postgresobject.db.DatabaseEnvironments;
+import com.mayhew3.postgresobject.db.InternalDatabaseEnvironments;
 import com.mayhew3.postgresobject.db.PostgresConnectionFactory;
 import com.mayhew3.postgresobject.db.SQLConnection;
 import com.mayhew3.postgresobject.exception.MissingEnvException;
@@ -21,7 +21,7 @@ public class DatabaseRecreatorTest {
 
   @Test
   public void testRecreateTestDatabase() throws URISyntaxException, SQLException, MissingEnvException {
-    DatabaseEnvironment databaseEnvironment = DatabaseEnvironments.test;
+    DatabaseEnvironment databaseEnvironment = InternalDatabaseEnvironments.test;
 
     SQLConnection connection = PostgresConnectionFactory.createConnection(databaseEnvironment);
     new DatabaseRecreator(connection).recreateDatabase(DataSchemaMock.schema);
