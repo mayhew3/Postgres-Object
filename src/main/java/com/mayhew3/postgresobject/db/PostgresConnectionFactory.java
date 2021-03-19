@@ -19,7 +19,7 @@ public class PostgresConnectionFactory {
     return initiateDBConnect(databaseUrl);
   }
 
-  @Deprecated(since = "0.13.2")
+  @Deprecated(since = "0.13.3")
   public static PostgresConnection initiateDBConnect(String postgresURL) throws URISyntaxException, SQLException {
     debug("Connecting to: " + postgresURL);
     try {
