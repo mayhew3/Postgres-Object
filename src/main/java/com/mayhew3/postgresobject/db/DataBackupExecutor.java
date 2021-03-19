@@ -24,34 +24,28 @@ abstract public class DataBackupExecutor {
   );
 
   Logger logger = LogManager.getLogger(DataBackupExecutor.class);
-  
-  private String backupEnv;
-  Integer pgVersion;
-  private String folderName;
+
+  private final DatabaseEnvironment backupEnvironment;
+  private final String folderName;
 
   String postgres_program_dir;
   String postgres_pgpass;
 
-  public DataBackupExecutor(String backupEnv,
-                            Integer pgVersion,
-                            String folderName) {
-    this.backupEnv = backupEnv;
-    this.pgVersion = pgVersion;
+  public DataBackupExecutor(DatabaseEnvironment backupEnvironment, String folderName) {
+    this.backupEnvironment = backupEnvironment;
     this.folderName = folderName;
   }
 
   public void runUpdate() throws MissingEnvException, IOException, InterruptedException {
     logger.info("Beginning execution of executor!");
 
-    assert DataBackupExecutor.portMap.containsKey(pgVersion);
-
-    String programEnvLabel = "POSTGRES" + pgVersion + "_PROGRAM_DIR";
+    String programEnvLabel = "POSTGRES" + backupEnvironment.getPgVersion() + "_PROGRAM_DIR";
     postgres_program_dir = EnvironmentChecker.getOrThrow(programEnvLabel);
     String backup_dir_location = EnvironmentChecker.getOrThrow("DB_BACKUP_DIR");
 
     postgres_pgpass = EnvironmentChecker.getOrThrow("postgres_pgpass_local");
 
-    logger.info("Backing up from environment '" + backupEnv + "'");
+    logger.info("Backing up from environment '" + backupEnvironment.getEnvironmentName() + "'");
 
     File pgpass_file = new File(postgres_pgpass);
     assert pgpass_file.exists() && pgpass_file.isFile();
@@ -68,7 +62,7 @@ abstract public class DataBackupExecutor {
       app_backup_dir.mkdir();
     }
 
-    File env_backup_dir = new File(app_backup_dir.getPath() + "\\" + backupEnv);
+    File env_backup_dir = new File(app_backup_dir.getPath() + "\\" + backupEnvironment.getEnvironmentName());
     if (!env_backup_dir.exists()) {
       //noinspection ResultOfMethodCallIgnored
       env_backup_dir.mkdir();
@@ -87,6 +81,6 @@ abstract public class DataBackupExecutor {
     logger.info("Finished db backup process!");
   }
 
-  abstract void executeBackup(String fullBackupPath) throws IOException, InterruptedException;
+  abstract void executeBackup(String fullBackupPath) throws IOException, InterruptedException, MissingEnvException;
 
 }

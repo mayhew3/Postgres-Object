@@ -1,19 +1,23 @@
 package com.mayhew3.postgresobject.db;
 
+import com.mayhew3.postgresobject.exception.MissingEnvException;
+
 import java.io.IOException;
 
 @SuppressWarnings("unused")
 public class DataBackupRemoteExecutor extends DataBackupExecutor {
 
-  private final String databaseUrl;
+  private final RemoteDatabaseEnvironment remoteDatabaseEnvironment;
 
-  public DataBackupRemoteExecutor(String backupEnv, Integer pgVersion, String folderName, String databaseUrl) {
-    super(backupEnv, pgVersion, folderName);
-    this.databaseUrl = databaseUrl;
+  public DataBackupRemoteExecutor(RemoteDatabaseEnvironment backupEnvironment, String folderName) {
+    super(backupEnvironment, folderName);
+    this.remoteDatabaseEnvironment = backupEnvironment;
   }
 
   @Override
-  void executeBackup(String fullBackupPath) throws IOException, InterruptedException {
+  void executeBackup(String fullBackupPath) throws IOException, InterruptedException, MissingEnvException {
+    String databaseUrl = remoteDatabaseEnvironment.getDatabaseUrl();
+
     ProcessBuilder processBuilder = new ProcessBuilder(
         postgres_program_dir + "\\pg_dump.exe",
         "--format=custom",

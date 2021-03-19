@@ -7,14 +7,11 @@ import java.io.IOException;
 
 public class GenericDataBackupExecutor {
 
-  private static final String backupEnv = "local";
-  private static final Integer pgVersion = 10;
-  private static final String backupFolder = "OscarsAngular";
-  private static final String localDBName = "oscars";
+  private static final DatabaseEnvironment backupEnv = DatabaseEnvironments.test;
+  private static final String backupFolder = "PostgresObject";
 
   public static void main(String[] args) throws MissingEnvException, IOException, InterruptedException {
-    //noinspection ConstantConditions
-    if ("local".equals(backupEnv)) {
+    if (backupEnv.isLocal()) {
       updateLocal();
     } else {
       updateRemote();
@@ -22,22 +19,12 @@ public class GenericDataBackupExecutor {
   }
 
   private static void updateLocal() throws MissingEnvException, InterruptedException, IOException {
-    DataBackupLocalExecutor executor = new DataBackupLocalExecutor(
-        backupEnv,
-        pgVersion,
-        backupFolder,
-        localDBName
-    );
+    DataBackupLocalExecutor executor = new DataBackupLocalExecutor((LocalDatabaseEnvironment) backupEnv, backupFolder);
     executor.runUpdate();
   }
 
   private static void updateRemote() throws MissingEnvException, IOException, InterruptedException {
-    String databaseUrl = EnvironmentChecker.getOrThrow("postgresURL_heroku");
-    DataBackupRemoteExecutor executor = new DataBackupRemoteExecutor(
-        backupEnv,
-        pgVersion,
-        backupFolder,
-        databaseUrl);
+    DataBackupRemoteExecutor executor = new DataBackupRemoteExecutor((RemoteDatabaseEnvironment) backupEnv, backupFolder);
     executor.runUpdate();
   }
 }
