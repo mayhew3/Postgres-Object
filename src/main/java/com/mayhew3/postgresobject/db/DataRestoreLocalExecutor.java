@@ -8,28 +8,26 @@ import java.nio.file.Path;
 @SuppressWarnings("unused")
 public class DataRestoreLocalExecutor extends DataRestoreExecutor {
 
-  private final String localDBName;
+  private final LocalDatabaseEnvironment localRestoreEnvironment;
 
-  public DataRestoreLocalExecutor(String restoreEnv, String backupEnv, Integer pgVersion, String folderName, String localDBName) {
-    super(restoreEnv, backupEnv, pgVersion, folderName);
-    this.localDBName = localDBName;
+  public DataRestoreLocalExecutor(LocalDatabaseEnvironment restoreEnvironment, DatabaseEnvironment backupEnvironment, String folderName) {
+    super(restoreEnvironment, backupEnvironment, folderName);
+    this.localRestoreEnvironment = restoreEnvironment;
   }
 
-  public DataRestoreLocalExecutor(String restoreEnv, String backupEnv, Integer pgVersion, String folderName, String localDBName, DateTime backupDate) {
-    super(restoreEnv, backupEnv, pgVersion, folderName, backupDate);
-    this.localDBName = localDBName;
+  public DataRestoreLocalExecutor(LocalDatabaseEnvironment restoreEnvironment, DatabaseEnvironment backupEnvironment, String folderName, DateTime backupDate) {
+    super(restoreEnvironment, backupEnvironment, folderName, backupDate);
+    this.localRestoreEnvironment = restoreEnvironment;
   }
 
   @Override
   void executeRestore(Path latestBackup) throws IOException, InterruptedException {
-    int port = DataBackupExecutor.portMap.get(pgVersion);
-
     ProcessBuilder processBuilder = new ProcessBuilder(
         postgres_program_dir + "\\pg_restore.exe",
         "--host=localhost",
-        "--dbname=" + localDBName,
+        "--dbname=" + localRestoreEnvironment.getDatabaseName(),
         "--username=postgres",
-        "--port=" + port,
+        "--port=" + localRestoreEnvironment.port,
         "--no-privileges",
         "--no-owner",
         "--clean",

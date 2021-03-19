@@ -13,7 +13,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -22,10 +21,10 @@ import java.util.List;
 @SuppressWarnings("WeakerAccess")
 abstract public class DataRestoreExecutor {
 
-  private String restoreEnv;
-  private String backupEnv;
-  Integer pgVersion;
-  private String folderName;
+  private final DatabaseEnvironment restoreEnvironment;
+  private final DatabaseEnvironment backupEnvironment;
+
+  private final String folderName;
   private DateTime backupDate;
 
   String postgres_program_dir;
@@ -33,7 +32,7 @@ abstract public class DataRestoreExecutor {
 
   Logger logger = LogManager.getLogger(DataRestoreExecutor.class);
 
-  private Comparator<Path> created = (file1, file2) -> {
+  private final Comparator<Path> created = (file1, file2) -> {
     try {
       BasicFileAttributes attr1 = Files.readAttributes(file1, BasicFileAttributes.class);
       BasicFileAttributes attr2 = Files.readAttributes(file2, BasicFileAttributes.class);
@@ -45,24 +44,21 @@ abstract public class DataRestoreExecutor {
     return 0;
   };
 
-  public DataRestoreExecutor(String restoreEnv, String backupEnv, Integer pgVersion, String folderName) {
-    this.restoreEnv = restoreEnv;
-    this.backupEnv = backupEnv;
-    this.pgVersion = pgVersion;
+  public DataRestoreExecutor(DatabaseEnvironment restoreEnvironment, DatabaseEnvironment backupEnvironment, String folderName) {
+    this.restoreEnvironment = restoreEnvironment;
+    this.backupEnvironment = backupEnvironment;
     this.folderName = folderName;
   }
 
-  public DataRestoreExecutor(String restoreEnv, String backupEnv, Integer pgVersion, String folderName, DateTime backupDate) {
-    this(restoreEnv, backupEnv, pgVersion, folderName);
+  public DataRestoreExecutor(DatabaseEnvironment restoreEnvironment, DatabaseEnvironment backupEnvironment, String folderName, DateTime backupDate) {
+    this(restoreEnvironment, backupEnvironment, folderName);
     this.backupDate = backupDate;
   }
 
   public void runUpdate() throws MissingEnvException, IOException, InterruptedException {
-    logger.info("Beginning execution of executor: restoring '" + restoreEnv + "' from '" + backupEnv + "' backup");
+    logger.info("Beginning execution of executor: restoring '" + restoreEnvironment.getEnvironmentName() + "' from '" + backupEnvironment.getEnvironmentName() + "' backup");
 
-    assert DataBackupExecutor.portMap.containsKey(pgVersion);
-
-    String programEnvLabel = "POSTGRES" + pgVersion + "_PROGRAM_DIR";
+    String programEnvLabel = "POSTGRES" + restoreEnvironment.getPgVersion() + "_PROGRAM_DIR";
     postgres_program_dir = EnvironmentChecker.getOrThrow(programEnvLabel);
     postgres_pgpass_local = EnvironmentChecker.getOrThrow("postgres_pgpass_local");
     String backup_dir_location = EnvironmentChecker.getOrThrow("DB_BACKUP_DIR");
@@ -85,7 +81,7 @@ abstract public class DataRestoreExecutor {
       app_backup_dir.mkdir();
     }
 
-    File env_backup_dir = new File(app_backup_dir.getPath() + "\\" + backupEnv);
+    File env_backup_dir = new File(app_backup_dir.getPath() + "\\" + backupEnvironment.getEnvironmentName());
     if (!env_backup_dir.exists()) {
       //noinspection ResultOfMethodCallIgnored
       env_backup_dir.mkdir();
@@ -97,7 +93,7 @@ abstract public class DataRestoreExecutor {
     executeRestore(latestBackup);
   }
 
-  abstract void executeRestore(Path latestBackup) throws IOException, InterruptedException;
+  abstract void executeRestore(Path latestBackup) throws IOException, InterruptedException, MissingEnvException;
 
   private Path getBackup(String backup_directory) throws IOException {
     if (backupDate == null) {

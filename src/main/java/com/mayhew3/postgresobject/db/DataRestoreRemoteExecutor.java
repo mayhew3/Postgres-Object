@@ -14,26 +14,21 @@ import java.nio.file.Path;
 @SuppressWarnings("WeakerAccess")
 public class DataRestoreRemoteExecutor extends DataRestoreExecutor {
 
-  private final String appName;
-  private final String databaseUrl;
+  private final RemoteDatabaseEnvironment remoteDatabaseEnvironment;
 
   private String aws_program_dir;
   private String aws_user_dir;
   private String heroku_program_dir;
 
-  public DataRestoreRemoteExecutor(String restoreEnv, String backupEnv, Integer pgVersion, String folderName, String appName, String databaseUrl) throws MissingEnvException {
-    super(restoreEnv, backupEnv, pgVersion, folderName);
-    this.appName = appName;
-    this.databaseUrl = databaseUrl;
-
+  public DataRestoreRemoteExecutor(RemoteDatabaseEnvironment restoreEnvironment, DatabaseEnvironment backupEnvironment, String folderName) throws MissingEnvException {
+    super(restoreEnvironment, backupEnvironment, folderName);
+    remoteDatabaseEnvironment = restoreEnvironment;
     checkEnvironment();
   }
 
-  public DataRestoreRemoteExecutor(String restoreEnv, String backupEnv, Integer pgVersion, String folderName, String appName, String databaseUrl, DateTime backupDate) throws MissingEnvException {
-    super(restoreEnv, backupEnv, pgVersion, folderName, backupDate);
-    this.appName = appName;
-    this.databaseUrl = databaseUrl;
-
+  public DataRestoreRemoteExecutor(RemoteDatabaseEnvironment restoreEnvironment, DatabaseEnvironment backupEnvironment, String folderName, DateTime backupDate) throws MissingEnvException {
+    super(restoreEnvironment, backupEnvironment, folderName, backupDate);
+    remoteDatabaseEnvironment = restoreEnvironment;
     checkEnvironment();
   }
 
@@ -44,7 +39,10 @@ public class DataRestoreRemoteExecutor extends DataRestoreExecutor {
   }
 
   @Override
-  void executeRestore(Path latestBackup) throws IOException, InterruptedException {
+  void executeRestore(Path latestBackup) throws IOException, InterruptedException, MissingEnvException {
+    String appName = remoteDatabaseEnvironment.getRemoteAppName();
+    String databaseUrl = remoteDatabaseEnvironment.getDatabaseUrl();
+
     logger.info("Restoring to Heroku app '" + appName + "'");
     String outputPath = getAWSPath(latestBackup);
     copyDBtoAWS(latestBackup, outputPath);
