@@ -16,6 +16,9 @@ public class PostgresConnectionFactory {
 
   public static PostgresConnection createConnection(DatabaseEnvironment databaseEnvironment) throws MissingEnvException, URISyntaxException, SQLException {
     String databaseUrl = databaseEnvironment.getDatabaseUrl();
+    if (databaseUrl == null) {
+      throw new IllegalStateException("Null database URL from database environment: " + databaseEnvironment.getEnvironmentName());
+    }
     return initiateDBConnect(databaseUrl);
   }
 

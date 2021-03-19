@@ -15,6 +15,10 @@ public abstract class PostgresSchemaTest extends SchemaTest {
 
   @Override
   public SQLConnection createConnection() throws URISyntaxException, SQLException, MissingEnvException {
-    return PostgresConnectionFactory.createConnection(getDatabaseEnvironment());
+    DatabaseEnvironment databaseEnvironment = getDatabaseEnvironment();
+    if (databaseEnvironment == null) {
+      throw new IllegalStateException("Null database environment in schema test!");
+    }
+    return PostgresConnectionFactory.createConnection(databaseEnvironment);
   }
 }
