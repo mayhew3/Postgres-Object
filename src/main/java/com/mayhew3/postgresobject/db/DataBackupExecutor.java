@@ -68,11 +68,18 @@ abstract public class DataBackupExecutor {
       env_backup_dir.mkdir();
     }
 
+    File schema_backup_dir = backupEnvironment.getSchemaName() == null ? env_backup_dir :
+        new File(env_backup_dir.getPath() + "\\" + backupEnvironment.getSchemaName());
+    if (!schema_backup_dir.exists()) {
+      //noinspection ResultOfMethodCallIgnored
+      schema_backup_dir.mkdir();
+    }
+
 
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_hh_mm_ss");
     String formattedDate = dateFormat.format(new Date());
 
-    String fullBackupPath = env_backup_dir.getPath() + "\\" + formattedDate + ".dump";
+    String fullBackupPath = schema_backup_dir.getPath() + "\\" + formattedDate + ".dump";
 
     logger.info("Saving backup to file: " + fullBackupPath);
 

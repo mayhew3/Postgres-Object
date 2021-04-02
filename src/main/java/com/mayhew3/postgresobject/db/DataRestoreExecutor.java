@@ -76,18 +76,11 @@ abstract public class DataRestoreExecutor {
     assert base_backup_dir.exists() && base_backup_dir.isDirectory();
 
     File app_backup_dir = new File(backup_dir_location + "\\" + folderName);
-    if (!app_backup_dir.exists()) {
-      //noinspection ResultOfMethodCallIgnored
-      app_backup_dir.mkdir();
-    }
-
     File env_backup_dir = new File(app_backup_dir.getPath() + "\\" + backupEnvironment.getEnvironmentName());
-    if (!env_backup_dir.exists()) {
-      //noinspection ResultOfMethodCallIgnored
-      env_backup_dir.mkdir();
-    }
+    File schema_backup_dir = backupEnvironment.getSchemaName() == null ? env_backup_dir :
+        new File(env_backup_dir.getPath() + "\\" + backupEnvironment.getSchemaName());
 
-    Path latestBackup = getBackup(env_backup_dir.getPath());
+    Path latestBackup = getBackup(schema_backup_dir.getPath());
     logger.info("File to restore: " + latestBackup.toString());
 
     executeRestore(latestBackup);
