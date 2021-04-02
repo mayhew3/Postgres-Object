@@ -1,29 +1,36 @@
 package com.mayhew3.postgresobject.db;
 
+import com.mayhew3.postgresobject.ArgumentChecker;
 import com.mayhew3.postgresobject.exception.MissingEnvException;
 
 import java.io.IOException;
 
 public class GenericDataBackupExecutor {
 
-  private static final DatabaseEnvironment backupEnv = InternalDatabaseEnvironments.test;
-  private static final String backupFolder = "PostgresObject";
+  private final DatabaseEnvironment databaseEnvironment;
 
-  public static void main(String[] args) throws MissingEnvException, IOException, InterruptedException {
-    if (backupEnv.isLocal()) {
-      updateLocal();
-    } else {
-      updateRemote();
-    }
+  public static void main(String[] args) throws MissingEnvException, InterruptedException, IOException {
+
+    com.mayhew3.postgresobject.ArgumentChecker argumentChecker = new ArgumentChecker(args);
+    argumentChecker.removeExpectedOption("db");
+    argumentChecker.addExpectedOption("backupEnv", true, "Name of environment to backup (local, heroku, heroku-staging)");
+
+    String backupEnv = argumentChecker.getRequiredValue("backupEnv");
+    DatabaseEnvironment databaseEnvironment = InternalDatabaseEnvironments.environments.get(backupEnv);
+
+    GenericDataBackupExecutor backupExecutor = new GenericDataBackupExecutor(databaseEnvironment);
+    backupExecutor.runUpdate();
   }
 
-  private static void updateLocal() throws MissingEnvException, InterruptedException, IOException {
-    DataBackupLocalExecutor executor = new DataBackupLocalExecutor((LocalDatabaseEnvironment) backupEnv, backupFolder);
+  public GenericDataBackupExecutor(DatabaseEnvironment databaseEnvironment) {
+    this.databaseEnvironment = databaseEnvironment;
+  }
+
+  public void runUpdate() throws MissingEnvException, InterruptedException, IOException {
+    LocalDatabaseEnvironment localDatabaseEnvironment = (LocalDatabaseEnvironment) databaseEnvironment;
+
+    DataBackupExecutor executor = new DataBackupLocalExecutor(localDatabaseEnvironment, "PostgresObject");
     executor.runUpdate();
   }
 
-  private static void updateRemote() throws MissingEnvException, IOException, InterruptedException {
-    DataBackupRemoteExecutor executor = new DataBackupRemoteExecutor((RemoteDatabaseEnvironment) backupEnv, backupFolder);
-    executor.runUpdate();
-  }
 }

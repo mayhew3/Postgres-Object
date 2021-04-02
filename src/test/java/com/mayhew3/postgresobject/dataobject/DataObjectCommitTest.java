@@ -14,7 +14,7 @@ public class DataObjectCommitTest extends DatabaseTest {
 
   @Override
   public DatabaseEnvironment getTestEnvironment() {
-    return InternalDatabaseEnvironments.test;
+    return InternalDatabaseEnvironments.environments.get("test_schema");
   }
 
   @Test

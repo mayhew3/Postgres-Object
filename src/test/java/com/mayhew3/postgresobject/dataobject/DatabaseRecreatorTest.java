@@ -21,7 +21,7 @@ public class DatabaseRecreatorTest {
 
   @Test
   public void testRecreateTestDatabase() throws URISyntaxException, SQLException, MissingEnvException {
-    DatabaseEnvironment databaseEnvironment = InternalDatabaseEnvironments.test;
+    DatabaseEnvironment databaseEnvironment = InternalDatabaseEnvironments.environments.get("test_schema");
 
     SQLConnection connection = PostgresConnectionFactory.createConnection(databaseEnvironment);
     new DatabaseRecreator(connection).recreateDatabase(DataSchemaMock.schemaDef);

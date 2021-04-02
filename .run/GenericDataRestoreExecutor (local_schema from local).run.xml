@@ -1,13 +1,13 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="GenericDataBackupExecutor (test)" type="Application" factoryName="Application" folderName="Backup">
+  <configuration default="false" name="GenericDataRestoreExecutor (test_schema from test)" type="Application" factoryName="Application" folderName="Restore">
     <envs>
       <env name="postgresURL_local" value="$postgresURL_local$" />
       <env name="postgresURL_local_test" value="jdbc:postgresql://localhost:5432/tv_copy?user=postgres&amp;password=m3mysql" />
       <env name="postgresURL" value="postgres://ijxuheufucvnyu:h16h_LnZi4fHgIUjBANnzITEyR@ec2-54-204-30-115.compute-1.amazonaws.com:5432/dcg1rtode4vgk9" />
     </envs>
-    <option name="MAIN_CLASS_NAME" value="com.mayhew3.postgresobject.db.GenericDataBackupExecutor" />
+    <option name="MAIN_CLASS_NAME" value="com.mayhew3.postgresobject.db.GenericDataRestoreExecutor" />
     <module name="postgres-object.main" />
-    <option name="PROGRAM_PARAMETERS" value="-backupEnv test" />
+    <option name="PROGRAM_PARAMETERS" value="-restoreEnv test_schema -backupEnv test -oldBackup false" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>

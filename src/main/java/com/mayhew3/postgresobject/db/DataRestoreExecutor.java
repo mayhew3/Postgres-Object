@@ -22,7 +22,7 @@ import java.util.List;
 abstract public class DataRestoreExecutor {
 
   private final DatabaseEnvironment restoreEnvironment;
-  private final DatabaseEnvironment backupEnvironment;
+  final DatabaseEnvironment backupEnvironment;
 
   private final String folderName;
   private DateTime backupDate;
