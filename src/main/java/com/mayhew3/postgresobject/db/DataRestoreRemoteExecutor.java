@@ -1,5 +1,6 @@
 package com.mayhew3.postgresobject.db;
 
+import com.google.common.collect.Lists;
 import com.mayhew3.postgresobject.EnvironmentChecker;
 import com.mayhew3.postgresobject.exception.MissingEnvException;
 import org.jetbrains.annotations.NotNull;
@@ -9,9 +10,12 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URISyntaxException;
 import java.nio.file.Path;
+import java.sql.SQLException;
+import java.util.List;
 
-@SuppressWarnings("WeakerAccess")
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class DataRestoreRemoteExecutor extends DataRestoreExecutor {
 
   private final RemoteDatabaseEnvironment remoteDatabaseEnvironment;
@@ -43,19 +47,31 @@ public class DataRestoreRemoteExecutor extends DataRestoreExecutor {
     String appName = remoteDatabaseEnvironment.getRemoteAppName();
     String databaseUrl = remoteDatabaseEnvironment.getDatabaseUrl();
 
+    String maybeNullBackupSchemaName = backupEnvironment.getSchemaName();
+    String backupSchemaName = maybeNullBackupSchemaName == null ? "public" : maybeNullBackupSchemaName;
+    String restoreSchemaName = remoteDatabaseEnvironment.getSchemaName();
+
     logger.info("Restoring to Heroku app '" + appName + "'");
     String outputPath = getAWSPath(latestBackup);
     copyDBtoAWS(latestBackup, outputPath);
     String result = getSignedUrl(outputPath);
 
-    ProcessBuilder processBuilder = new ProcessBuilder(
-        heroku_program_dir + "\\heroku.cmd",
+    List<String> args = Lists.newArrayList(heroku_program_dir + "\\heroku.cmd",
         "pg:backups:restore",
         "--app=" + appName,
         "\"" + result + "\"",
-        "--confirm=" + appName,
-        "DATABASE_URL"
-    );
+        "--confirm=" + appName);
+
+    if (restoreSchemaName != null) {
+      dropSchema(restoreSchemaName);
+      createSchema(backupSchemaName);
+      args.add("--schema=" + backupSchemaName);
+    }
+
+    args.add("DATABASE_URL");
+
+    ProcessBuilder processBuilder = new ProcessBuilder(args);
+
     processBuilder.environment().put("DATABASE_URL", databaseUrl);
 
     processBuilder.inheritIO();
@@ -126,4 +142,33 @@ public class DataRestoreRemoteExecutor extends DataRestoreExecutor {
     return result;
   }
 
+  private void dropSchema(String restoreSchemaName) throws MissingEnvException {
+    try {
+      PostgresConnection connection = PostgresConnectionFactory.createConnection(remoteDatabaseEnvironment);
+      connection.prepareAndExecuteStatementUpdate("DROP SCHEMA IF EXISTS " + restoreSchemaName + " CASCADE");
+      connection.closeConnection();
+    } catch (SQLException | URISyntaxException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  private void createSchema(String backupSchemaName) throws MissingEnvException {
+    try {
+      PostgresConnection connection = PostgresConnectionFactory.createConnection(remoteDatabaseEnvironment);
+      connection.prepareAndExecuteStatementUpdate("CREATE SCHEMA IF NOT EXISTS " + backupSchemaName);
+      connection.closeConnection();
+    } catch (SQLException | URISyntaxException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  private void renameSchema(String restoreSchemaName, String backupSchemaName) throws MissingEnvException {
+    try {
+      PostgresConnection connection = PostgresConnectionFactory.createConnection(remoteDatabaseEnvironment);
+      connection.prepareAndExecuteStatementUpdate("ALTER SCHEMA " + backupSchemaName + " RENAME TO " + restoreSchemaName);
+      connection.closeConnection();
+    } catch (SQLException | URISyntaxException e) {
+      throw new RuntimeException(e);
+    }
+  }
 }

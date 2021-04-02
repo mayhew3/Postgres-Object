@@ -31,7 +31,8 @@ public class DataRestoreLocalExecutor extends DataRestoreExecutor {
     String backupSchemaName = maybeNullBackupSchemaName == null ? "public" : maybeNullBackupSchemaName;
     String restoreSchemaName = localRestoreEnvironment.getSchemaName();
 
-    List<String> args = Lists.newArrayList(postgres_program_dir + "\\pg_restore.exe",
+    List<String> args = Lists.newArrayList(
+        postgres_program_dir + "\\pg_restore.exe",
         "--host=localhost",
         "--dbname=" + localRestoreEnvironment.getDatabaseName(),
         "--username=postgres",
