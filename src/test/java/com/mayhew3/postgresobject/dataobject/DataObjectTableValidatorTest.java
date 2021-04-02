@@ -23,7 +23,7 @@ public class DataObjectTableValidatorTest extends DatabaseTest {
 
   @Test
   public void testTestSchemaHasNoMismatches() throws SQLException {
-    List<DataObjectMismatch> mismatches = DataSchemaMock.schema.validateSchemaAgainstDatabase(connection);
+    List<DataObjectMismatch> mismatches = DataSchemaMock.schemaDef.validateSchemaAgainstDatabase(connection);
 
     if (!mismatches.isEmpty()) {
       logger.error("Mismatches found: ");

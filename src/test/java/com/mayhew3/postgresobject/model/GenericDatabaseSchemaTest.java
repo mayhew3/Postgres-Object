@@ -8,7 +8,7 @@ import com.mayhew3.postgresobject.db.InternalDatabaseEnvironments;
 public class GenericDatabaseSchemaTest extends PostgresSchemaTest {
   @Override
   public DataSchema getDataSchema() {
-    return DataSchemaMock.schema;
+    return DataSchemaMock.schemaDef;
   }
 
   @Override

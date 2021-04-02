@@ -34,10 +34,13 @@ public class PostgresConnectionFactory {
     } catch (SQLException e) {
       URI dbUri = new URI(postgresURL);
 
+      String schemaStr = PostgresConnectionFactory.schemaName == null ? "" : "&currentSchema=" + PostgresConnectionFactory.schemaName;
+
       String username = dbUri.getUserInfo().split(":")[0];
       String password = dbUri.getUserInfo().split(":")[1];
       String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath() +
-          "?user=" + username + "&password=" + password + "&ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";
+          "?user=" + username + "&password=" + password + "&ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory" +
+          schemaStr;
 
       logger.debug("Drivers found: ");
       DriverManager.drivers()

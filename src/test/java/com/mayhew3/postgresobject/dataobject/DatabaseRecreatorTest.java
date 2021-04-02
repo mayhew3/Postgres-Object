@@ -24,9 +24,9 @@ public class DatabaseRecreatorTest {
     DatabaseEnvironment databaseEnvironment = InternalDatabaseEnvironments.test;
 
     SQLConnection connection = PostgresConnectionFactory.createConnection(databaseEnvironment);
-    new DatabaseRecreator(connection).recreateDatabase(DataSchemaMock.schema);
+    new DatabaseRecreator(connection).recreateDatabase(DataSchemaMock.schemaDef);
 
-    List<DataObjectMismatch> mismatches = DataSchemaMock.schema.validateSchemaAgainstDatabase(connection);
+    List<DataObjectMismatch> mismatches = DataSchemaMock.schemaDef.validateSchemaAgainstDatabase(connection);
 
     if (!mismatches.isEmpty()) {
       debug("Mismatches found: ");

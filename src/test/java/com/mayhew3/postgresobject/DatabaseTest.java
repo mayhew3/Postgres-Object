@@ -25,7 +25,7 @@ public abstract class DatabaseTest {
   public void setUp() throws URISyntaxException, SQLException, MissingEnvException {
     debug("Setting up test DB...");
     connection = PostgresConnectionFactory.createConnection(getTestEnvironment());
-    new DatabaseRecreator(connection).recreateDatabase(DataSchemaMock.schema);
+    new DatabaseRecreator(connection).recreateDatabase(DataSchemaMock.schemaDef);
     debug("DB re-created.");
   }
 
