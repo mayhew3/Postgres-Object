@@ -9,6 +9,11 @@ public abstract class RemoteDatabaseEnvironment extends DatabaseEnvironment {
     this.remoteAppName = remoteAppName;
   }
 
+  public RemoteDatabaseEnvironment(String environmentName, Integer pgVersion, String remoteAppName, String schemaName) {
+    super(environmentName, schemaName, pgVersion);
+    this.remoteAppName = remoteAppName;
+  }
+
   public String getRemoteAppName() {
     return remoteAppName;
   }

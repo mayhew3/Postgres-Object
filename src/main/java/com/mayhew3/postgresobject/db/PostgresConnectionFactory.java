@@ -14,11 +14,14 @@ public class PostgresConnectionFactory {
 
   private static final Logger logger = LogManager.getLogger(PostgresConnectionFactory.class);
 
+  private static String schemaName = null;
+
   public static PostgresConnection createConnection(DatabaseEnvironment databaseEnvironment) throws MissingEnvException, URISyntaxException, SQLException {
     String databaseUrl = databaseEnvironment.getDatabaseUrl();
     if (databaseUrl == null) {
       throw new IllegalStateException("Null database URL from database environment: " + databaseEnvironment.getEnvironmentName());
     }
+    PostgresConnectionFactory.schemaName = databaseEnvironment.getSchemaName();
     return initiateDBConnect(databaseUrl);
   }
 
@@ -27,7 +30,7 @@ public class PostgresConnectionFactory {
     debug("Connecting to: " + postgresURL);
     try {
       Connection connection = DriverManager.getConnection(postgresURL);
-      return new PostgresConnection(connection, postgresURL);
+      return new PostgresConnection(connection, postgresURL, PostgresConnectionFactory.schemaName);
     } catch (SQLException e) {
       URI dbUri = new URI(postgresURL);
 
@@ -47,7 +50,7 @@ public class PostgresConnectionFactory {
           .forEach(driver -> logger.debug(" - " + driver.toString()));
 
       Connection connection = DriverManager.getConnection(dbUrl);
-      return new PostgresConnection(connection, dbUrl);
+      return new PostgresConnection(connection, dbUrl, PostgresConnectionFactory.schemaName);
     }
   }
 

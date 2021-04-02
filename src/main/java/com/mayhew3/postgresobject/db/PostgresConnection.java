@@ -16,14 +16,16 @@ import java.util.List;
 public class PostgresConnection implements SQLConnection {
 
   private Connection _connection;
-  private String _connectionString;
+  private final String _connectionString;
   private DateTime lastQueryExecuted;
+  private final String schemaName;
 
   private static Logger logger = LogManager.getLogger(PostgresConnection.class);
 
-  PostgresConnection(Connection connection, String connectionString) {
+  PostgresConnection(Connection connection, String connectionString, String schemaName) {
     _connection = connection;
     _connectionString = connectionString;
+    this.schemaName = schemaName;
   }
 
 
@@ -36,7 +38,7 @@ public class PostgresConnection implements SQLConnection {
 
   @Override
   public String getSchemaName() {
-    return "public";
+    return this.schemaName == null ? "public" : this.schemaName;
   }
 
   @NotNull
