@@ -1,6 +1,9 @@
 package com.mayhew3.postgresobject.db;
 
+import com.google.common.collect.Lists;
+
 import java.io.IOException;
+import java.util.List;
 
 @SuppressWarnings("unused")
 public class DataBackupLocalExecutor extends DataBackupExecutor {
@@ -16,8 +19,8 @@ public class DataBackupLocalExecutor extends DataBackupExecutor {
   void executeBackup(String fullBackupPath) throws IOException, InterruptedException {
     int port = localDatabaseEnvironment.port;
 
-    ProcessBuilder processBuilder = new ProcessBuilder(
-        postgres_program_dir + "\\pg_dump.exe",
+    String schemaName = localDatabaseEnvironment.getSchemaName();
+    List<String> args = Lists.newArrayList(postgres_program_dir + "\\pg_dump.exe",
         "--host=localhost",
         "--port=" + port,
         "--dbname=" + localDatabaseEnvironment.getDatabaseName(),
@@ -25,6 +28,12 @@ public class DataBackupLocalExecutor extends DataBackupExecutor {
         "--format=custom",
         "--verbose",
         "--file=" + fullBackupPath);
+
+    if (schemaName != null) {
+      args.add("--schema=" + schemaName);
+    }
+
+    ProcessBuilder processBuilder = new ProcessBuilder(args);
     processBuilder.environment().put("PGPASSFILE", postgres_pgpass);
 
     processBuilder.inheritIO();

@@ -1,9 +1,11 @@
 package com.mayhew3.postgresobject.db;
 
+import com.google.common.collect.Lists;
 import org.joda.time.DateTime;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.List;
 
 @SuppressWarnings("unused")
 public class DataRestoreLocalExecutor extends DataRestoreExecutor {
@@ -22,8 +24,9 @@ public class DataRestoreLocalExecutor extends DataRestoreExecutor {
 
   @Override
   void executeRestore(Path latestBackup) throws IOException, InterruptedException {
-    ProcessBuilder processBuilder = new ProcessBuilder(
-        postgres_program_dir + "\\pg_restore.exe",
+    String schemaName = localRestoreEnvironment.getSchemaName();
+
+    List<String> args = Lists.newArrayList(postgres_program_dir + "\\pg_restore.exe",
         "--host=localhost",
         "--dbname=" + localRestoreEnvironment.getDatabaseName(),
         "--username=postgres",
@@ -32,8 +35,15 @@ public class DataRestoreLocalExecutor extends DataRestoreExecutor {
         "--no-owner",
         "--clean",
         "--format=custom",
-        "--verbose",
-        latestBackup.toString());
+        "--verbose");
+
+    if (schemaName != null) {
+      args.add("--schema=" + schemaName);
+    }
+
+    args.add(latestBackup.toString());
+
+    ProcessBuilder processBuilder = new ProcessBuilder(args);
     processBuilder.environment().put("PGPASSFILE", postgres_pgpass_local);
 
     processBuilder.inheritIO();
