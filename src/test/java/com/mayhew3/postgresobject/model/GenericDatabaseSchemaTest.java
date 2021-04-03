@@ -13,6 +13,6 @@ public class GenericDatabaseSchemaTest extends PostgresSchemaTest {
 
   @Override
   public DatabaseEnvironment getDatabaseEnvironment() {
-    return InternalDatabaseEnvironments.environments.get("test_schema");
+    return InternalDatabaseEnvironments.test;
   }
 }

@@ -20,7 +20,7 @@ public class PostgresConnectionTest {
   @Before
   public void setUp() {
     connection = mock(Connection.class);
-    postgresConnection = new PostgresConnection(connection, "test", "test_schema");
+    postgresConnection = new PostgresConnection(connection, "test", null);
   }
 
   @Test

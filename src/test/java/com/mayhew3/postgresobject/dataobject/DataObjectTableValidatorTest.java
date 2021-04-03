@@ -18,7 +18,7 @@ public class DataObjectTableValidatorTest extends DatabaseTest {
 
   @Override
   public DatabaseEnvironment getTestEnvironment() {
-    return InternalDatabaseEnvironments.environments.get("test_schema");
+    return InternalDatabaseEnvironments.test;
   }
 
   @Test
