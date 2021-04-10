@@ -58,8 +58,10 @@ public class PostgresConnectionFactory {
       String username = dbUri.getUserInfo().split(":")[0];
       String password = dbUri.getUserInfo().split(":")[1];
       String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath() +
-          "?user=" + username + "&password=" + password + "&ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory" +
+          "?user=" + username + "&password=" + password + "&ssl=require" +
           schemaStr;
+
+      logger.info("Connecting to " + dbUrl + "...");
 
       Connection connection = DriverManager.getConnection(dbUrl);
       return new PostgresConnection(connection, dbUrl, PostgresConnectionFactory.schemaName);

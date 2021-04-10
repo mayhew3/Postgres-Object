@@ -9,7 +9,7 @@ apply plugin: 'idea'
 apply plugin: 'java'
 apply plugin: 'java-library'
 
-version = '0.14.5'
+version = '0.14.10'
 
 
 sourceCompatibility = 11
