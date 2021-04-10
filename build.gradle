@@ -9,11 +9,11 @@ apply plugin: 'idea'
 apply plugin: 'java'
 apply plugin: 'java-library'
 
-version = '0.14.4'
+version = '0.14.5'
 
 
-sourceCompatibility = 1.9
-targetCompatibility = 1.9
+sourceCompatibility = 11
+targetCompatibility = 11
 
 // In this section you declare where to find the dependencies of your project
 repositories {
