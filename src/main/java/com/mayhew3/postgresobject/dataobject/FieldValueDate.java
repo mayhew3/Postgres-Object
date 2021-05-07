@@ -14,6 +14,12 @@ public class FieldValueDate extends FieldValue<Date> {
   }
 
   @Override
+  public FieldValueDate defaultValue(Date defaultValue) {
+    super.defaultValue(defaultValue);
+    return this;
+  }
+
+  @Override
   public String getDDLType(DatabaseType databaseType) {
     return "DATE";
   }

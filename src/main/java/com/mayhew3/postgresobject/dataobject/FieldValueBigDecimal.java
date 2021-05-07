@@ -15,6 +15,12 @@ public class FieldValueBigDecimal extends FieldValue<BigDecimal> {
   }
 
   @Override
+  public FieldValueBigDecimal defaultValue(BigDecimal defaultValue) {
+    super.defaultValue(defaultValue);
+    return this;
+  }
+
+  @Override
   public String getDDLType(DatabaseType databaseType) {
     if (databaseType == DatabaseType.POSTGRES) {
       return "NUMERIC";
