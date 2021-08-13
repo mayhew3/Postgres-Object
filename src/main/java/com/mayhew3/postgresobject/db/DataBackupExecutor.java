@@ -76,7 +76,7 @@ abstract public class DataBackupExecutor {
     }
 
 
-    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_hh_mm_ss");
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
     String formattedDate = dateFormat.format(new Date());
 
     String fullBackupPath = schema_backup_dir.getPath() + "\\" + formattedDate + ".dump";
