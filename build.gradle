@@ -6,10 +6,11 @@ plugins {
 }
 
 apply plugin: 'idea'
+apply plugin: 'maven'
 apply plugin: 'java'
 apply plugin: 'java-library'
 
-version = '0.15.4'
+version = '0.15.5'
 
 java {
     targetCompatibility = JavaVersion.VERSION_16
