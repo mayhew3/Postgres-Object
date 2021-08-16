@@ -9,12 +9,12 @@ apply plugin: 'idea'
 apply plugin: 'java'
 apply plugin: 'java-library'
 
-version = '0.15.0'
+version = '0.15.1'
 
-
-sourceCompatibility = 11
-targetCompatibility = 11
-
+java {
+    targetCompatibility = JavaVersion.VERSION_16
+    sourceCompatibility = JavaVersion.VERSION_16
+}
 // In this section you declare where to find the dependencies of your project
 repositories {
     // Use jcenter for resolving your dependencies.
@@ -26,20 +26,20 @@ repositories {
 
 dependencies {
     // This dependency is found on compile classpath of this component and consumers.
-    compile 'org.postgresql:postgresql:42.2.2'
-    compile 'com.google.guava:guava:27.0.1-jre'
-    compile 'joda-time:joda-time:2.9.9'
-    compile group: 'commons-cli', name: 'commons-cli', version: '1.4'
-    compile group: 'org.jetbrains', name: 'annotations', version: '17.0.0'
+    implementation 'org.postgresql:postgresql:42.2.2'
+    implementation 'com.google.guava:guava:27.0.1-jre'
+    implementation 'joda-time:joda-time:2.9.9'
+    implementation group: 'commons-cli', name: 'commons-cli', version: '1.4'
+    implementation group: 'org.jetbrains', name: 'annotations', version: '17.0.0'
     // https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core
-    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.11.2'
-    compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.22'
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.11.2'
+    implementation group: 'mysql', name: 'mysql-connector-java', version: '5.1.22'
 
     // Use JUnit test framework
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.easytesting:fest-assert-core:2.0M10'
-    testCompile 'org.assertj:assertj-joda-time:2.2.0'
-    testCompile 'org.mockito:mockito-core:2.18.3'
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.easytesting:fest-assert-core:2.0M10'
+    testImplementation 'org.assertj:assertj-joda-time:2.2.0'
+    testImplementation 'org.mockito:mockito-core:2.18.3'
 }
 
 task testJar(type: Jar) {
