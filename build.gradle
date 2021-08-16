@@ -10,12 +10,11 @@ apply plugin: 'java'
 apply plugin: 'java-library'
 apply plugin: 'maven-publish'
 
-version = '0.15.9'
+version = '0.15.10'
 
-java {
-    targetCompatibility = JavaVersion.VERSION_16
-    sourceCompatibility = JavaVersion.VERSION_16
-}
+sourceCompatibility = 11
+targetCompatibility = 11
+
 // In this section you declare where to find the dependencies of your project
 repositories {
     // Use jcenter for resolving your dependencies.
