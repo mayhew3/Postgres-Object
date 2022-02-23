@@ -38,7 +38,7 @@ dependencies {
     implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.11.2'
     implementation group: 'mysql', name: 'mysql-connector-java', version: '5.1.22'
 
-    implementation sourceSets.main.output
+//    implementation sourceSets.main.output
 
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
@@ -46,7 +46,7 @@ dependencies {
     testImplementation 'org.assertj:assertj-joda-time:2.2.0'
     testImplementation 'org.mockito:mockito-core:2.18.3'
 
-    testImplementation sourceSets.test.output
+//    testImplementation sourceSets.test.output
 
 //    runtime configurations.mainRuntime
 //    runtime configurations.testRuntime
