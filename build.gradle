@@ -8,8 +8,11 @@ plugins {
 apply plugin: 'idea'
 apply plugin: 'java'
 apply plugin: 'java-library'
+apply plugin: 'maven'
 
-version = '0.15.12'
+group = 'com.mayhew3.postgresobject'
+
+version = '0.16.0'
 
 sourceCompatibility = 11
 targetCompatibility = 11
@@ -28,37 +31,52 @@ dependencies {
     implementation 'org.postgresql:postgresql:42.2.2'
     implementation 'com.google.guava:guava:27.0.1-jre'
     implementation 'joda-time:joda-time:2.9.9'
+    implementation 'com.github.jitpack:gradle-simple:1.0'
     implementation group: 'commons-cli', name: 'commons-cli', version: '1.4'
     implementation group: 'org.jetbrains', name: 'annotations', version: '17.0.0'
     // https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core
     implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.11.2'
     implementation group: 'mysql', name: 'mysql-connector-java', version: '5.1.22'
 
+    implementation sourceSets.api.output
+
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.easytesting:fest-assert-core:2.0M10'
     testImplementation 'org.assertj:assertj-joda-time:2.2.0'
     testImplementation 'org.mockito:mockito-core:2.18.3'
+
+    testImplementation sourceSets.test.output
+
+    runtime configurations.mainRuntime
+    runtime configurations.testRuntime
 }
 
-task testJar(type: Jar) {
-    classifier = 'tests'
-    from sourceSets.test.output + sourceSets.test.allJava
+sourceSets.all { set ->
+    def jarTask = task("${set.name}Jar", type: Jar) {
+        baseName = "$set.name"
+        from set.output
+    }
+
+    artifacts {
+        archives jarTask
+    }
 }
 
-task sourcesJar(type: Jar) {
-    classifier = 'sources'
-    from sourceSets.main.allJava
-}
-
-artifacts {
-    archives sourcesJar
-    archives testJar
+sourceSets {
+    main
+    test
 }
 
 jar {
-    manifest {
-        attributes('Implementation-Title': project.name,
-                'Implementation-Version': project.version)
+    from sourceSets.main.output
+    from sourceSets.test.output
+}
+
+// this step is necessary when installing both jars in the local maven repository
+install {
+    repositories.mavenInstaller {
+        addFilter('main') { artifact, file -> artifact.name.endsWith('main') }
+        addFilter('test') { artifact, file -> artifact.name.endsWith('test') }
     }
 }
