@@ -48,8 +48,8 @@ dependencies {
 
     testImplementation sourceSets.test.output
 
-    runtime configurations.mainRuntime
-    runtime configurations.testRuntime
+//    runtime configurations.mainRuntime
+//    runtime configurations.testRuntime
 }
 
 sourceSets.all { set ->
