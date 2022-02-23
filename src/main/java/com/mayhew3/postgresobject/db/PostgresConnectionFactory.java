@@ -58,7 +58,7 @@ public class PostgresConnectionFactory {
       String username = dbUri.getUserInfo().split(":")[0];
       String password = dbUri.getUserInfo().split(":")[1];
       String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath() +
-          "?user=" + username + "&password=" + password + "&ssl=require" +
+          "?user=" + username + "&password=" + password + "&sslmode=require" +
           schemaStr;
 
       logger.info("Connecting to " + dbUrl + "...");
