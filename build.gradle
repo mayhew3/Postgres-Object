@@ -45,12 +45,12 @@ dependencies {
 }
 
 task mainJar(type: Jar) {
-    archiveName('main')
+    baseName = 'main'
     from sourceSets.main.output + sourceSets.main.allJava
 }
 
 task testJar(type: Jar) {
-    archiveName('tests')
+    baseName = 'tests'
     from sourceSets.test.output + sourceSets.test.allJava
 }
 
