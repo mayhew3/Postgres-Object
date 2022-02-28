@@ -37,7 +37,7 @@ abstract public class DataBackupExecutor {
     this.folderName = folderName;
   }
 
-  public void runUpdate() throws MissingEnvException, IOException, InterruptedException {
+  public void runUpdate() throws MissingEnvException, IOException, InterruptedException, SQLException {
     logger.info("Beginning execution of executor!");
 
     String programEnvLabel = "POSTGRES" + backupEnvironment.getPgVersion() + "_PROGRAM_DIR";

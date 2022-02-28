@@ -4,12 +4,13 @@ import com.mayhew3.postgresobject.ArgumentChecker;
 import com.mayhew3.postgresobject.exception.MissingEnvException;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class GenericDataBackupExecutor {
 
   private final DatabaseEnvironment databaseEnvironment;
 
-  public static void main(String[] args) throws MissingEnvException, InterruptedException, IOException {
+  public static void main(String[] args) throws MissingEnvException, InterruptedException, IOException, SQLException {
 
     com.mayhew3.postgresobject.ArgumentChecker argumentChecker = new ArgumentChecker(args);
     argumentChecker.removeExpectedOption("db");
@@ -26,7 +27,7 @@ public class GenericDataBackupExecutor {
     this.databaseEnvironment = databaseEnvironment;
   }
 
-  public void runUpdate() throws MissingEnvException, InterruptedException, IOException {
+  public void runUpdate() throws MissingEnvException, InterruptedException, IOException, SQLException {
     LocalDatabaseEnvironment localDatabaseEnvironment = (LocalDatabaseEnvironment) databaseEnvironment;
 
     DataBackupExecutor executor = new DataBackupLocalExecutor(localDatabaseEnvironment, "PostgresObject");

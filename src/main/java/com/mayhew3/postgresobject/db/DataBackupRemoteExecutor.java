@@ -31,8 +31,6 @@ public class DataBackupRemoteExecutor extends DataBackupExecutor {
         "\"" + databaseUrl + "\"");
     processBuilder.environment().put("PGPASSFILE", postgres_pgpass);
 
-    processBuilder.inheritIO();
-
     logger.info("Starting db backup process...");
 
     Process process = processBuilder.start();
@@ -42,12 +40,14 @@ public class DataBackupRemoteExecutor extends DataBackupExecutor {
 
   private void monitorOutput(Process process) throws IOException, SQLException {
     BufferedReader reader =
-        new BufferedReader(new InputStreamReader(process.getInputStream()));
+        new BufferedReader(new InputStreamReader(process.getErrorStream()));
     StringBuilder builder = new StringBuilder();
     String line;
     while ( (line = reader.readLine()) != null) {
       if (line.contains("aborting")) {
         throw new SQLException("Backup process aborted: '" + line + "'");
+      } else {
+        System.err.println(line);
       }
     }
   }
