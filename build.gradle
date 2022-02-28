@@ -12,7 +12,7 @@ apply plugin: 'maven'
 
 group = 'com.mayhew3.postgresobject'
 
-version = '0.17.6'
+version = '0.17.7'
 
 sourceCompatibility = 11
 targetCompatibility = 11
@@ -44,6 +44,11 @@ dependencies {
     testImplementation 'org.mockito:mockito-core:2.18.3'
 }
 
+task mainJar(type: Jar) {
+    baseName = 'main'
+    from sourceSets.main.output
+}
+
 task testJar(type: Jar) {
     baseName = 'tests'
     from sourceSets.test.output + sourceSets.test.allJava
@@ -55,6 +60,7 @@ task sourcesJar(type: Jar) {
 }
 
 artifacts {
+    archives mainJar
     archives testJar
     archives sourcesJar
 }
@@ -69,6 +75,7 @@ jar {
 // this step is necessary when installing both jars in the local maven repository
 install {
     repositories.mavenInstaller {
+        addFilter('main') { artifact, file -> artifact.name.endsWith('main') }
         addFilter('tests') { artifact, file -> artifact.name.endsWith('tests') }
         addFilter('sources') { artifact, file -> artifact.name.endsWith('sources') }
     }
