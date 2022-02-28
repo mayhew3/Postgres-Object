@@ -2,7 +2,10 @@ package com.mayhew3.postgresobject.db;
 
 import com.mayhew3.postgresobject.exception.MissingEnvException;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.sql.SQLException;
 
 @SuppressWarnings("unused")
 public class DataBackupRemoteExecutor extends DataBackupExecutor {
@@ -15,7 +18,7 @@ public class DataBackupRemoteExecutor extends DataBackupExecutor {
   }
 
   @Override
-  void executeBackup(String fullBackupPath) throws IOException, InterruptedException, MissingEnvException {
+  void executeBackup(String fullBackupPath) throws IOException, InterruptedException, MissingEnvException, SQLException {
     String databaseUrl = remoteDatabaseEnvironment.getDatabaseUrl();
 
     ProcessBuilder processBuilder = new ProcessBuilder(
@@ -33,6 +36,19 @@ public class DataBackupRemoteExecutor extends DataBackupExecutor {
     logger.info("Starting db backup process...");
 
     Process process = processBuilder.start();
+    monitorOutput(process);
     process.waitFor();
+  }
+
+  private void monitorOutput(Process process) throws IOException, SQLException {
+    BufferedReader reader =
+        new BufferedReader(new InputStreamReader(process.getInputStream()));
+    StringBuilder builder = new StringBuilder();
+    String line;
+    while ( (line = reader.readLine()) != null) {
+      if (line.contains("aborting")) {
+        throw new SQLException("Backup process aborted: '" + line + "'");
+      }
+    }
   }
 }

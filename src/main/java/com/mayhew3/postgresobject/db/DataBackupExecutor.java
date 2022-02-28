@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.AbstractMap;
 import java.util.Date;
@@ -88,6 +89,6 @@ abstract public class DataBackupExecutor {
     logger.info("Finished db backup process!");
   }
 
-  abstract void executeBackup(String fullBackupPath) throws IOException, InterruptedException, MissingEnvException;
+  abstract void executeBackup(String fullBackupPath) throws IOException, InterruptedException, MissingEnvException, SQLException;
 
 }
