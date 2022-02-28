@@ -12,7 +12,7 @@ apply plugin: 'maven'
 
 group = 'com.mayhew3.postgresobject'
 
-version = '0.17.2'
+version = '0.17.4'
 
 sourceCompatibility = 11
 targetCompatibility = 11
@@ -23,11 +23,6 @@ repositories {
     // You can declare any Maven/Ivy/file repository here.
     mavenCentral()
     maven { url 'https://jitpack.io' }
-}
-
-java {
-    withSourcesJar()
-    withJavadocJar()
 }
 
 dependencies {
@@ -73,8 +68,8 @@ sourceSets {
 }
 
 jar {
-    from sourceSets.main.output
-    from sourceSets.test.output
+    from sourceSets.main.output+sourceSets.main.allSource
+    from sourceSets.test.output+sourceSets.test.allSource
 }
 
 // this step is necessary when installing both jars in the local maven repository
