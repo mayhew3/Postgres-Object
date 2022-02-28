@@ -12,7 +12,7 @@ apply plugin: 'maven'
 
 group = 'com.mayhew3.postgresobject'
 
-version = '0.17.4'
+version = '0.17.5'
 
 sourceCompatibility = 11
 targetCompatibility = 11
@@ -37,45 +37,39 @@ dependencies {
     implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.11.2'
     implementation group: 'mysql', name: 'mysql-connector-java', version: '5.1.22'
 
-//    implementation sourceSets.main.output
-
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.easytesting:fest-assert-core:2.0M10'
     testImplementation 'org.assertj:assertj-joda-time:2.2.0'
     testImplementation 'org.mockito:mockito-core:2.18.3'
-
-//    testImplementation sourceSets.test.output
-
-//    runtime configurations.mainRuntime
-//    runtime configurations.testRuntime
 }
 
-sourceSets.all { set ->
-    def jarTask = task("${set.name}Jar", type: Jar) {
-        baseName = "$set.name"
-        from set.output
-    }
-
-    artifacts {
-        archives jarTask
-    }
+task testJar(type: Jar) {
+    archivesBaseName('tests')
+    from sourceSets.test.output + sourceSets.test.allJava
 }
 
-sourceSets {
-    main
-    test
+task sourcesJar(type: Jar) {
+    archivesBaseName('sources')
+    from sourceSets.main.allJava
+}
+
+artifacts {
+    archives testJar
+    archives sourcesJar
 }
 
 jar {
-    from sourceSets.main.output+sourceSets.main.allSource
-    from sourceSets.test.output+sourceSets.test.allSource
+    manifest {
+        attributes('Implementation-Title': project.name,
+                'Implementation-Version': project.version)
+    }
 }
 
 // this step is necessary when installing both jars in the local maven repository
 install {
     repositories.mavenInstaller {
-        addFilter('main') { artifact, file -> artifact.name.endsWith('main') }
-        addFilter('test') { artifact, file -> artifact.name.endsWith('test') }
+        addFilter('tests') { artifact, file -> artifact.name.endsWith('tests') }
+        addFilter('sources') { artifact, file -> artifact.name.endsWith('sources') }
     }
 }
