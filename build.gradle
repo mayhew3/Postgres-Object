@@ -12,7 +12,7 @@ apply plugin: 'maven'
 
 group = 'com.mayhew3.postgresobject'
 
-version = '0.17.7'
+version = '0.17.8'
 
 sourceCompatibility = 11
 targetCompatibility = 11
@@ -46,7 +46,7 @@ dependencies {
 
 task mainJar(type: Jar) {
     baseName = 'main'
-    from sourceSets.main.output
+    from sourceSets.main.output + sourceSets.main.allJava
 }
 
 task testJar(type: Jar) {
@@ -54,15 +54,9 @@ task testJar(type: Jar) {
     from sourceSets.test.output + sourceSets.test.allJava
 }
 
-task sourcesJar(type: Jar) {
-    baseName = 'sources'
-    from sourceSets.main.allJava
-}
-
 artifacts {
     archives mainJar
     archives testJar
-    archives sourcesJar
 }
 
 jar {
@@ -77,6 +71,5 @@ install {
     repositories.mavenInstaller {
         addFilter('main') { artifact, file -> artifact.name.endsWith('main') }
         addFilter('tests') { artifact, file -> artifact.name.endsWith('tests') }
-        addFilter('sources') { artifact, file -> artifact.name.endsWith('sources') }
     }
 }
