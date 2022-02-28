@@ -12,7 +12,7 @@ apply plugin: 'maven'
 
 group = 'com.mayhew3.postgresobject'
 
-version = '0.17.5'
+version = '0.17.6'
 
 sourceCompatibility = 11
 targetCompatibility = 11
@@ -45,12 +45,12 @@ dependencies {
 }
 
 task testJar(type: Jar) {
-    archivesBaseName('tests')
+    baseName = 'tests'
     from sourceSets.test.output + sourceSets.test.allJava
 }
 
 task sourcesJar(type: Jar) {
-    archivesBaseName('sources')
+    baseName = 'sources'
     from sourceSets.main.allJava
 }
 
