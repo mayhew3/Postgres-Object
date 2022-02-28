@@ -25,6 +25,10 @@ repositories {
     maven { url 'https://jitpack.io' }
 }
 
+java {
+    withSourcesJar()
+    withJavadocJar()
+}
 
 dependencies {
     // This dependency is found on compile classpath of this component and consumers.
