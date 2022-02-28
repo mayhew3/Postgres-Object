@@ -3,19 +3,21 @@ plugins {
     // From the root directory, run 'gradle dependencyUpdates'. It won't make changes, but print out the latest versions.
     id 'com.github.ben-manes.versions' version '0.17.0'
     id 'java-library'
+    id 'maven-publish'
 }
 
 apply plugin: 'idea'
 apply plugin: 'java'
 apply plugin: 'java-library'
-apply plugin: 'maven'
 
 group = 'com.mayhew3.postgresobject'
 
-version = '0.17.9'
+version = '0.17.10'
 
-sourceCompatibility = 11
-targetCompatibility = 11
+java {
+    targetCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility = JavaVersion.VERSION_11
+}
 
 // In this section you declare where to find the dependencies of your project
 repositories {
@@ -67,9 +69,11 @@ jar {
 }
 
 // this step is necessary when installing both jars in the local maven repository
-install {
-    repositories.mavenInstaller {
-        addFilter('main') { artifact, file -> artifact.name.endsWith('main') }
-        addFilter('tests') { artifact, file -> artifact.name.endsWith('tests') }
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifact mainJar
+            artifact testJar
+        }
     }
 }
