@@ -13,6 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.sql.SQLException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -55,7 +56,7 @@ abstract public class DataRestoreExecutor {
     this.backupDate = backupDate;
   }
 
-  public void runUpdate() throws MissingEnvException, IOException, InterruptedException {
+  public void runUpdate() throws MissingEnvException, IOException, InterruptedException, SQLException {
     logger.info("Beginning execution of executor: restoring '" + restoreEnvironment.getEnvironmentName() + "' from '" + backupEnvironment.getEnvironmentName() + "' backup");
 
     String programEnvLabel = "POSTGRES" + restoreEnvironment.getPgVersion() + "_PROGRAM_DIR";
@@ -86,7 +87,7 @@ abstract public class DataRestoreExecutor {
     executeRestore(latestBackup);
   }
 
-  abstract void executeRestore(Path latestBackup) throws IOException, InterruptedException, MissingEnvException;
+  abstract void executeRestore(Path latestBackup) throws IOException, InterruptedException, MissingEnvException, SQLException;
 
   private Path getBackup(String backup_directory) throws IOException {
     if (backupDate == null) {
