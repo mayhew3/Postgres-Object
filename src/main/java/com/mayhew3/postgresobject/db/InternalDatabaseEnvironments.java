@@ -8,6 +8,7 @@ public class InternalDatabaseEnvironments {
 
   public static LocalDatabaseEnvironment test = addLocal("test", "pg_object_test", 13);
   public static LocalDatabaseEnvironment testSchema = addLocal("test_schema", "pg_object_test_schema", "test_schema", 13);
+  public static LocalDatabaseEnvironment localSchema = addLocal("local", "softball", "softball", 13);
   public static HerokuDatabaseEnvironment staging = addHeroku("heroku-staging", "postgresURL_softball", "softball", 13, "honeybadger-softball");
 
   @SuppressWarnings("SameParameterValue")

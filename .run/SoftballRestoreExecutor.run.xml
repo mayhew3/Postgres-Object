@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="SoftballRestoreExecutor" type="Application" factoryName="Application" nameIsGenerated="true">
+  <configuration default="false" name="SoftballRestoreExecutor (local to heroku-schema)" type="Application" factoryName="Application">
     <envs>
       <env name="postgresURL_local" value="$postgresURL_local$" />
       <env name="postgresURL_local_test" value="jdbc:postgresql://localhost:5432/tv_copy?user=postgres&amp;password=m3mysql" />
@@ -7,7 +7,7 @@
     </envs>
     <option name="MAIN_CLASS_NAME" value="com.mayhew3.postgresobject.SoftballRestoreExecutor" />
     <module name="postgres-object.main" />
-    <option name="PROGRAM_PARAMETERS" value="-backupEnv heroku-staging -restoreEnv heroku-staging -oldBackup false" />
+    <option name="PROGRAM_PARAMETERS" value="-backupEnv local -restoreEnv heroku-staging -oldBackup false" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>

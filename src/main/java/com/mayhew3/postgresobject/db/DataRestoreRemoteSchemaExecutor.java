@@ -3,7 +3,6 @@ package com.mayhew3.postgresobject.db;
 import com.google.common.collect.Lists;
 import com.mayhew3.postgresobject.EnvironmentChecker;
 import com.mayhew3.postgresobject.exception.MissingEnvException;
-import org.jetbrains.annotations.NotNull;
 import org.joda.time.DateTime;
 
 import java.io.BufferedReader;
@@ -21,146 +20,56 @@ public class DataRestoreRemoteSchemaExecutor extends DataRestoreExecutor {
   private final RemoteDatabaseEnvironment remoteDatabaseEnvironment;
   private final String schemaName;
 
-  private String aws_program_dir;
-  private String aws_user_dir;
-  private String heroku_program_dir;
-
-  public DataRestoreRemoteSchemaExecutor(RemoteDatabaseEnvironment restoreEnvironment, DatabaseEnvironment backupEnvironment, String folderName, String schemaName) throws MissingEnvException {
+  public DataRestoreRemoteSchemaExecutor(RemoteDatabaseEnvironment restoreEnvironment, DatabaseEnvironment backupEnvironment, String folderName, String schemaName) {
     super(restoreEnvironment, backupEnvironment, folderName);
     remoteDatabaseEnvironment = restoreEnvironment;
     this.schemaName = schemaName;
-    checkEnvironment();
   }
 
-  public DataRestoreRemoteSchemaExecutor(RemoteDatabaseEnvironment restoreEnvironment, DatabaseEnvironment backupEnvironment, String folderName, String schemaName, DateTime backupDate) throws MissingEnvException {
+  public DataRestoreRemoteSchemaExecutor(RemoteDatabaseEnvironment restoreEnvironment, DatabaseEnvironment backupEnvironment, String folderName, String schemaName, DateTime backupDate) {
     super(restoreEnvironment, backupEnvironment, folderName, backupDate);
     remoteDatabaseEnvironment = restoreEnvironment;
     this.schemaName = schemaName;
-    checkEnvironment();
-  }
-
-  private void checkEnvironment() throws MissingEnvException {
-    aws_program_dir = EnvironmentChecker.getOrThrow("AWS_PROGRAM_DIR");
-    aws_user_dir = EnvironmentChecker.getOrThrow("AWS_USER_DIR");
-    heroku_program_dir = EnvironmentChecker.getOrThrow("HEROKU_PROGRAM_DIR");
   }
 
   @Override
   void executeRestore(Path latestBackup) throws IOException, InterruptedException, MissingEnvException, SQLException {
+    String postgres_pgpass_heroku = EnvironmentChecker.getOrThrow("postgres_pgpass_heroku");
+
+    File pgpass_file = new File(postgres_pgpass_heroku);
+    assert pgpass_file.exists() && pgpass_file.isFile();
+
     String appName = remoteDatabaseEnvironment.getRemoteAppName();
     String databaseUrl = remoteDatabaseEnvironment.getDatabaseUrl();
 
-    String maybeNullBackupSchemaName = backupEnvironment.getSchemaName();
-    String backupSchemaName = maybeNullBackupSchemaName == null ? "public" : maybeNullBackupSchemaName;
+    String backupSchemaName = backupEnvironment.getSchemaName();
     String restoreSchemaName = remoteDatabaseEnvironment.getSchemaName();
 
     logger.info("Restoring to Heroku app '" + appName + "'");
 
-    /*
-    String outputPath = getAWSPath(latestBackup);
-    copyDBtoAWS(latestBackup, outputPath);
-    String result = getSignedUrl(outputPath);
+    List<String> args = Lists.newArrayList(
+        postgres_program_dir + "\\pg_restore.exe",
+        "--dbname=" + databaseUrl,
+        "--schema=" + backupSchemaName,
+        latestBackup.toString());
+/*
 
-
-    List<String> args = Lists.newArrayList(heroku_program_dir + "\\heroku.cmd",
-        "run",
-        "pg_restore",
-        "--app=" + appName,
-        "--schemaName=" + schemaName,
-        "\"" + databaseUrl + "\"",
-        "|",
-        "aws",
-        "s3",
-        "cp",
-        "\"" + result + "\"",
-        "-");
+    dropSchema(restoreSchemaName);
+    createSchema(backupSchemaName);
 */
-    List<String> args = Lists.newArrayList(heroku_program_dir + "\\heroku.cmd",
-        "run",
-        "pg_restore",
-        "--app=" + appName,
-        "--schema=" + schemaName,
-        "--file=" + latestBackup.toString());
-
-    if (restoreSchemaName != null) {
-      dropSchema(restoreSchemaName);
-      createSchema(backupSchemaName);
-//      args.add("--schema=" + backupSchemaName);
-    }
-
-//    args.add("DATABASE_URL");
 
     ProcessBuilder processBuilder = new ProcessBuilder(args);
+    processBuilder.environment().put("PGPASSFILE", postgres_pgpass_heroku);
 
-    processBuilder.environment().put("DATABASE_URL", databaseUrl);
-
-    processBuilder.inheritIO();
+//    processBuilder.inheritIO();
 
     logger.info("Starting db restore process...");
-
-    Process process = processBuilder.start();
-    process.waitFor();
-
-    logger.info("Finished db restore process!");
-  }
-
-  private void copyDBtoAWS(Path latestBackup, String outputPath) throws IOException, InterruptedException, SQLException {
-    ProcessBuilder processBuilder = new ProcessBuilder(
-        aws_program_dir + "\\aws.exe",
-        "s3",
-        "cp",
-        latestBackup.toString(),
-        outputPath);
-
-    processBuilder.inheritIO();
-
-    logger.info("Starting db copy to aws...");
 
     Process process = processBuilder.start();
     monitorOutput(process);
     process.waitFor();
 
-    logger.info("Finished db copy process!");
-  }
-
-  @NotNull
-  private String getAWSPath(Path latestBackup) {
-    File aws_credentials = new File(aws_user_dir + "/credentials");
-    assert aws_credentials.exists() && aws_credentials.isFile() :
-        "Need to configure aws. See aws_info.txt";
-
-    String bucketName = "s3://mediamogulbackups";
-    return bucketName + "/" + latestBackup.getFileName();
-  }
-
-  @NotNull
-  private String getSignedUrl(String outputPath) throws IOException {
-
-    ProcessBuilder processBuilder = new ProcessBuilder(
-        aws_program_dir + "\\aws.exe",
-        "s3",
-        "presign",
-        outputPath
-    );
-
-    logger.info("Starting aws signed url generation...");
-
-    Process process = processBuilder.start();
-
-    BufferedReader reader =
-        new BufferedReader(new InputStreamReader(process.getInputStream()));
-    StringBuilder builder = new StringBuilder();
-    String line;
-    while ( (line = reader.readLine()) != null) {
-      builder.append(line);
-    }
-    String result = builder.toString();
-
-    assert !"".equals(result) : "No text found in AWS signed url!";
-
-    logger.info("Finished aws signed url generation: ");
-    logger.info("URL: " + result);
-    return result;
+    logger.info("Finished db restore process!");
   }
 
   private void monitorOutput(Process process) throws IOException, SQLException {

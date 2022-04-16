@@ -29,7 +29,6 @@ abstract public class DataRestoreExecutor {
   private DateTime backupDate;
 
   String postgres_program_dir;
-  String postgres_pgpass_local;
 
   Logger logger = LogManager.getLogger(DataRestoreExecutor.class);
 
@@ -61,11 +60,7 @@ abstract public class DataRestoreExecutor {
 
     String programEnvLabel = "POSTGRES" + restoreEnvironment.getPgVersion() + "_PROGRAM_DIR";
     postgres_program_dir = EnvironmentChecker.getOrThrow(programEnvLabel);
-    postgres_pgpass_local = EnvironmentChecker.getOrThrow("postgres_pgpass_local");
     String backup_dir_location = EnvironmentChecker.getOrThrow("DB_BACKUP_DIR");
-
-    File pgpass_file = new File(postgres_pgpass_local);
-    assert pgpass_file.exists() && pgpass_file.isFile();
 
     File postgres_program = new File(postgres_program_dir);
     assert postgres_program.exists() && postgres_program.isDirectory();
