@@ -1,11 +1,9 @@
 package com.mayhew3.postgresobject.db;
 
 import com.google.common.collect.Lists;
-import com.mayhew3.postgresobject.EnvironmentChecker;
 import com.mayhew3.postgresobject.exception.MissingEnvException;
 import org.joda.time.DateTime;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
@@ -17,22 +15,18 @@ public class DataRestoreLocalExecutor extends DataRestoreExecutor {
 
   private final LocalDatabaseEnvironment localRestoreEnvironment;
 
-  public DataRestoreLocalExecutor(LocalDatabaseEnvironment restoreEnvironment, DatabaseEnvironment backupEnvironment, String folderName) throws MissingEnvException {
+  public DataRestoreLocalExecutor(LocalDatabaseEnvironment restoreEnvironment, DatabaseEnvironment backupEnvironment, String folderName) {
     super(restoreEnvironment, backupEnvironment, folderName);
     this.localRestoreEnvironment = restoreEnvironment;
   }
 
-  public DataRestoreLocalExecutor(LocalDatabaseEnvironment restoreEnvironment, DatabaseEnvironment backupEnvironment, String folderName, DateTime backupDate) throws MissingEnvException {
+  public DataRestoreLocalExecutor(LocalDatabaseEnvironment restoreEnvironment, DatabaseEnvironment backupEnvironment, String folderName, DateTime backupDate) {
     super(restoreEnvironment, backupEnvironment, folderName, backupDate);
     this.localRestoreEnvironment = restoreEnvironment;
   }
 
   @Override
   void executeRestore(Path latestBackup) throws IOException, InterruptedException, MissingEnvException {
-    String postgres_pgpass_local = EnvironmentChecker.getOrThrow("postgres_pgpass_local");
-
-    File pgpass_file = new File(postgres_pgpass_local);
-    assert pgpass_file.exists() && pgpass_file.isFile();
 
     String maybeNullBackupSchemaName = backupEnvironment.getSchemaName();
     String backupSchemaName = maybeNullBackupSchemaName == null ? "public" : maybeNullBackupSchemaName;
@@ -59,7 +53,6 @@ public class DataRestoreLocalExecutor extends DataRestoreExecutor {
     args.add(latestBackup.toString());
 
     ProcessBuilder processBuilder = new ProcessBuilder(args);
-    processBuilder.environment().put("PGPASSFILE", postgres_pgpass_local);
 
     processBuilder.inheritIO();
 

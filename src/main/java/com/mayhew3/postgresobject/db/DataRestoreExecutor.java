@@ -58,6 +58,11 @@ abstract public class DataRestoreExecutor {
   public void runUpdate() throws MissingEnvException, IOException, InterruptedException, SQLException {
     logger.info("Beginning execution of executor: restoring '" + restoreEnvironment.getEnvironmentName() + "' from '" + backupEnvironment.getEnvironmentName() + "' backup");
 
+    String postgres_pgpass = EnvironmentChecker.getOrThrow("PGPASSFILE");
+
+    File pgpass_file = new File(postgres_pgpass);
+    assert pgpass_file.exists() && pgpass_file.isFile();
+
     String programEnvLabel = "POSTGRES" + restoreEnvironment.getPgVersion() + "_PROGRAM_DIR";
     postgres_program_dir = EnvironmentChecker.getOrThrow(programEnvLabel);
     String backup_dir_location = EnvironmentChecker.getOrThrow("DB_BACKUP_DIR");

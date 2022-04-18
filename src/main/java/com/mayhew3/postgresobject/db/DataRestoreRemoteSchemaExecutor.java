@@ -1,12 +1,10 @@
 package com.mayhew3.postgresobject.db;
 
 import com.google.common.collect.Lists;
-import com.mayhew3.postgresobject.EnvironmentChecker;
 import com.mayhew3.postgresobject.exception.MissingEnvException;
 import org.joda.time.DateTime;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URISyntaxException;
@@ -34,10 +32,6 @@ public class DataRestoreRemoteSchemaExecutor extends DataRestoreExecutor {
 
   @Override
   void executeRestore(Path latestBackup) throws IOException, InterruptedException, MissingEnvException, SQLException {
-    String postgres_pgpass_heroku = EnvironmentChecker.getOrThrow("postgres_pgpass_heroku");
-
-    File pgpass_file = new File(postgres_pgpass_heroku);
-    assert pgpass_file.exists() && pgpass_file.isFile();
 
     String appName = remoteDatabaseEnvironment.getRemoteAppName();
     String databaseUrl = remoteDatabaseEnvironment.getDatabaseUrl();
@@ -52,16 +46,13 @@ public class DataRestoreRemoteSchemaExecutor extends DataRestoreExecutor {
         "--dbname=" + databaseUrl,
         "--schema=" + backupSchemaName,
         latestBackup.toString());
-/*
 
     dropSchema(restoreSchemaName);
     createSchema(backupSchemaName);
-*/
 
     ProcessBuilder processBuilder = new ProcessBuilder(args);
-    processBuilder.environment().put("PGPASSFILE", postgres_pgpass_heroku);
 
-//    processBuilder.inheritIO();
+    processBuilder.inheritIO();
 
     logger.info("Starting db restore process...");
 
