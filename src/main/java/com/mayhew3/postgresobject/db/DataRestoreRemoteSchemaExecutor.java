@@ -44,6 +44,7 @@ public class DataRestoreRemoteSchemaExecutor extends DataRestoreExecutor {
     List<String> args = Lists.newArrayList(
         postgres_program_dir + "\\pg_restore.exe",
         "--dbname=" + databaseUrl,
+        "--no-owner",
         "--schema=" + backupSchemaName,
         latestBackup.toString());
 
