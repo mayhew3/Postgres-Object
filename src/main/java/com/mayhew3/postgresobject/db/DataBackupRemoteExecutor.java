@@ -29,7 +29,6 @@ public class DataBackupRemoteExecutor extends DataBackupExecutor {
         "--no-owner",
         "--file=" + fullBackupPath,
         "\"" + databaseUrl + "\"");
-    processBuilder.environment().put("PGPASSFILE", postgres_pgpass);
 
     logger.info("Starting db backup process...");
 

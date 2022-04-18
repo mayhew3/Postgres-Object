@@ -1,8 +1,10 @@
 package com.mayhew3.postgresobject.db;
 
+import com.mayhew3.postgresobject.EnvironmentChecker;
 import com.mayhew3.postgresobject.exception.MissingEnvException;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.SQLException;
@@ -32,7 +34,6 @@ public class DataBackupRemoteSchemaExecutor extends DataBackupExecutor {
         "--schema=" + schemaName,
         "--file=" + fullBackupPath,
         "\"" + databaseUrl + "\"");
-    processBuilder.environment().put("PGPASSFILE", postgres_pgpass);
 
     logger.info("Starting db backup process...");
 

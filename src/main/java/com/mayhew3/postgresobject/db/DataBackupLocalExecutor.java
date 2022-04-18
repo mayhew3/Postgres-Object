@@ -34,7 +34,6 @@ public class DataBackupLocalExecutor extends DataBackupExecutor {
     }
 
     ProcessBuilder processBuilder = new ProcessBuilder(args);
-    processBuilder.environment().put("PGPASSFILE", postgres_pgpass);
 
     processBuilder.inheritIO();
 

@@ -44,7 +44,7 @@ abstract public class DataBackupExecutor {
     postgres_program_dir = EnvironmentChecker.getOrThrow(programEnvLabel);
     String backup_dir_location = EnvironmentChecker.getOrThrow("DB_BACKUP_DIR");
 
-    postgres_pgpass = EnvironmentChecker.getOrThrow("postgres_pgpass_local");
+    postgres_pgpass = EnvironmentChecker.getOrThrow("PGPASSFILE");
 
     logger.info("Backing up from environment '" + backupEnvironment.getEnvironmentName() + "'");
 
