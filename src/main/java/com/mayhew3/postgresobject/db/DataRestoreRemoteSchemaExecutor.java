@@ -16,18 +16,15 @@ import java.util.List;
 public class DataRestoreRemoteSchemaExecutor extends DataRestoreExecutor {
 
   private final RemoteDatabaseEnvironment remoteDatabaseEnvironment;
-  private final String schemaName;
 
-  public DataRestoreRemoteSchemaExecutor(RemoteDatabaseEnvironment restoreEnvironment, DatabaseEnvironment backupEnvironment, String folderName, String schemaName) {
+  public DataRestoreRemoteSchemaExecutor(RemoteDatabaseEnvironment restoreEnvironment, DatabaseEnvironment backupEnvironment, String folderName) {
     super(restoreEnvironment, backupEnvironment, folderName);
     remoteDatabaseEnvironment = restoreEnvironment;
-    this.schemaName = schemaName;
   }
 
-  public DataRestoreRemoteSchemaExecutor(RemoteDatabaseEnvironment restoreEnvironment, DatabaseEnvironment backupEnvironment, String folderName, String schemaName, DateTime backupDate) {
+  public DataRestoreRemoteSchemaExecutor(RemoteDatabaseEnvironment restoreEnvironment, DatabaseEnvironment backupEnvironment, String folderName, DateTime backupDate) {
     super(restoreEnvironment, backupEnvironment, folderName, backupDate);
     remoteDatabaseEnvironment = restoreEnvironment;
-    this.schemaName = schemaName;
   }
 
   @Override

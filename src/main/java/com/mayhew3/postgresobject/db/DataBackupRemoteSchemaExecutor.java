@@ -11,17 +11,16 @@ import java.sql.SQLException;
 public class DataBackupRemoteSchemaExecutor extends DataBackupExecutor {
 
   private final RemoteDatabaseEnvironment remoteDatabaseEnvironment;
-  private final String schemaName;
 
-  public DataBackupRemoteSchemaExecutor(RemoteDatabaseEnvironment backupEnvironment, String folderName, String schemaName) {
+  public DataBackupRemoteSchemaExecutor(RemoteDatabaseEnvironment backupEnvironment, String folderName) {
     super(backupEnvironment, folderName);
     this.remoteDatabaseEnvironment = backupEnvironment;
-    this.schemaName = schemaName;
   }
 
   @Override
   void executeBackup(String fullBackupPath) throws IOException, InterruptedException, MissingEnvException, SQLException {
     String databaseUrl = remoteDatabaseEnvironment.getDatabaseUrl();
+    String schemaName = remoteDatabaseEnvironment.getSchemaName();
 
     ProcessBuilder processBuilder = new ProcessBuilder(
         postgres_program_dir + "\\pg_dump.exe",

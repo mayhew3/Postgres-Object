@@ -45,7 +45,7 @@ public class SoftballBackupExecutor {
   private void updateRemote() throws MissingEnvException, IOException, InterruptedException, SQLException {
     HerokuDatabaseEnvironment herokuDatabaseEnvironment = (HerokuDatabaseEnvironment) databaseEnvironment;
 
-    DataBackupExecutor executor = new DataBackupRemoteSchemaExecutor(herokuDatabaseEnvironment, "Softball", "public");
+    DataBackupExecutor executor = new DataBackupRemoteSchemaExecutor(herokuDatabaseEnvironment, "Softball");
     executor.runUpdate();
   }
 

@@ -74,9 +74,9 @@ public class SoftballRestoreExecutor {
 
     DataRestoreExecutor dataRestoreExecutor;
     if (oldBackup) {
-      dataRestoreExecutor = new DataRestoreRemoteSchemaExecutor(herokuRestoreEnvironment, backupEnvironment, "Softball", "softball", backupDate);
+      dataRestoreExecutor = new DataRestoreRemoteSchemaExecutor(herokuRestoreEnvironment, backupEnvironment, "Softball", backupDate);
     } else {
-      dataRestoreExecutor = new DataRestoreRemoteSchemaExecutor(herokuRestoreEnvironment, backupEnvironment, "Softball", "softball");
+      dataRestoreExecutor = new DataRestoreRemoteSchemaExecutor(herokuRestoreEnvironment, backupEnvironment, "Softball");
     }
     dataRestoreExecutor.runUpdate();
   }
