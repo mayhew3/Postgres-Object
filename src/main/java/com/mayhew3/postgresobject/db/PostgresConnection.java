@@ -286,10 +286,11 @@ public class PostgresConnection implements SQLConnection {
             "  ccu.column_name AS referenced_column " +
             "FROM information_schema.key_column_usage AS tc " +
             "  INNER JOIN information_schema.constraint_column_usage AS ccu " +
-            "     ON tc.constraint_name = ccu.constraint_name " +
+            "     ON (tc.constraint_name = ccu.constraint_name AND tc.constraint_schema = ccu.constraint_schema) " +
             "WHERE tc.constraint_schema = ? " +
             "AND tc.TABLE_NAME <> ccu.table_name " +
-            "AND tc.table_name = ? ",
+            "AND tc.table_name = ? " +
+            "ORDER BY tc.constraint_schema, tc.constraint_name ",
         getSchemaName(), tableName
     );
   }

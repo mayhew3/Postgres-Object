@@ -37,24 +37,6 @@ public class DatabaseRecreatorTest {
     }
   }
 
-  @Test
-  public void testRecreateTestSchemaDatabase() throws URISyntaxException, SQLException, MissingEnvException {
-    DatabaseEnvironment databaseEnvironment = InternalDatabaseEnvironments.testSchema;
-
-    SQLConnection connection = PostgresConnectionFactory.createConnection(databaseEnvironment);
-    new DatabaseRecreator(connection).recreateDatabase(DataSchemaMock.schemaDef);
-
-    List<DataObjectMismatch> mismatches = DataSchemaMock.schemaDef.validateSchemaAgainstDatabase(connection);
-
-    if (!mismatches.isEmpty()) {
-      debug("Mismatches found: ");
-      for (DataObjectMismatch mismatch : mismatches) {
-        debug(" - " + mismatch);
-      }
-      fail();
-    }
-  }
-
   void debug(Object message) {
     logger.debug(message);
   }
