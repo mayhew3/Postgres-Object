@@ -60,7 +60,7 @@ public class PostgresConnection implements SQLConnection {
     } catch (PSQLException e) {
       debug("Exception while executing query. Trying to reconnect...");
       resetConnection();
-      return statement.executeQuery(sql);
+      throw e;
     }
   }
 
@@ -75,7 +75,7 @@ public class PostgresConnection implements SQLConnection {
     } catch (PSQLException e) {
       debug("Exception while executing query. Trying to reconnect...");
       resetConnection();
-      statement.executeUpdate(sql);
+      throw e;
     }
 
     updateLastExecuted();
@@ -209,7 +209,7 @@ public class PostgresConnection implements SQLConnection {
       debug("Exception while executing query: " + e.getLocalizedMessage());
       debug("Trying to reconnect...");
       resetConnection();
-      return preparedStatement.executeQuery();
+      throw e;
     }
   }
 
@@ -221,7 +221,7 @@ public class PostgresConnection implements SQLConnection {
       debug("Exception while executing query: " + e.getLocalizedMessage());
       debug("Trying to reconnect...");
       resetConnection();
-      return preparedUpdate.executeUpdate();
+      throw e;
     }
   }
 
