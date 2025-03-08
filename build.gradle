@@ -12,7 +12,7 @@ apply plugin: 'maven'
 
 group = 'com.mayhew3.postgresobject'
 
-version = '0.19.6'
+version = '0.19.8'
 
 sourceCompatibility = 11
 targetCompatibility = 11

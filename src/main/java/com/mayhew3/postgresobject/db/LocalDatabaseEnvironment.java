@@ -1,7 +1,11 @@
 package com.mayhew3.postgresobject.db;
 
+import com.google.common.base.Joiner;
 import com.mayhew3.postgresobject.EnvironmentChecker;
 import com.mayhew3.postgresobject.exception.MissingEnvException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class LocalDatabaseEnvironment extends DatabaseEnvironment {
 
@@ -23,8 +27,17 @@ public class LocalDatabaseEnvironment extends DatabaseEnvironment {
   @Override
   public String getDatabaseUrl() throws MissingEnvException {
     String localPassword = EnvironmentChecker.getOrThrow("postgres_local_password");
-    String schemaStr = this.schemaName == null ? "" : "&currentSchema=" + this.schemaName;
-    return "jdbc:postgresql://localhost:" + port + "/" + databaseName + "?user=postgres&password=" + localPassword + schemaStr;
+
+    List<String> params = new ArrayList<>();
+    if (this.schemaName != null) {
+      params.add("currentSchema=" + this.schemaName);
+    }
+    params.add("characterEncoding=UTF-8");
+    params.add("user=postgres");
+    params.add("password=" + localPassword);
+    String paramConcatStr = Joiner.on("&").join(params);
+
+    return "jdbc:postgresql://localhost:" + port + "/" + databaseName + "?" + paramConcatStr;
   }
 
   public String getDatabaseName() {
