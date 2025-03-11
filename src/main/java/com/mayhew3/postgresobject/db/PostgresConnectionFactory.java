@@ -1,5 +1,6 @@
 package com.mayhew3.postgresobject.db;
 
+import com.google.common.base.Joiner;
 import com.mayhew3.postgresobject.exception.MissingEnvException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -7,10 +8,10 @@ import org.apache.logging.log4j.Logger;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.Connection;
-import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.stream.Stream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PostgresConnectionFactory {
 
@@ -53,15 +54,24 @@ public class PostgresConnectionFactory {
     } catch (SQLException e) {
       URI dbUri = new URI(postgresURL);
 
-      String schemaStr = PostgresConnectionFactory.schemaName == null ? "" : "&currentSchema=" + PostgresConnectionFactory.schemaName;
-
       String username = dbUri.getUserInfo().split(":")[0];
       String password = dbUri.getUserInfo().split(":")[1];
-      String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath() +
-          "?user=" + username + "&password=" + password + "&sslmode=require" +
-          schemaStr;
 
-      logger.info("Connecting to " + dbUrl + "...");
+      List<String> paramParts = new ArrayList<>();
+      paramParts.add("user=" + username);
+      paramParts.add("password=" + password);
+      paramParts.add("sslmode=require");
+      paramParts.add("characterEncoding=UTF-8");
+
+      if (PostgresConnectionFactory.schemaName != null) {
+        paramParts.add("currentSchema=" + PostgresConnectionFactory.schemaName);
+      }
+
+      String paramStr = "?" + Joiner.on("&").join(paramParts);
+
+      String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath() + paramStr;
+
+      logger.info("Connecting to {}...", dbUrl);
 
       Connection connection = DriverManager.getConnection(dbUrl);
       return new PostgresConnection(connection, dbUrl, PostgresConnectionFactory.schemaName);
