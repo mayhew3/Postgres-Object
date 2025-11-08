@@ -1,21 +1,22 @@
 plugins {
     // This plugin allows me to check if there are any updates available for any of the dependencies.
     // From the root directory, run 'gradle dependencyUpdates'. It won't make changes, but print out the latest versions.
-    id 'com.github.ben-manes.versions' version '0.17.0'
+    id 'com.github.ben-manes.versions' version '0.51.0'
     id 'java-library'
+    id 'maven-publish'
+    id 'idea'
 }
-
-apply plugin: 'idea'
-apply plugin: 'java'
-apply plugin: 'java-library'
-apply plugin: 'maven'
 
 group = 'com.mayhew3.postgresobject'
 
 version = '0.19.8'
 
-sourceCompatibility = 11
-targetCompatibility = 11
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+    withSourcesJar()
+    withJavadocJar()
+}
 
 // In this section you declare where to find the dependencies of your project
 repositories {
@@ -26,50 +27,66 @@ repositories {
 }
 
 dependencies {
-    // This dependency is found on compile classpath of this component and consumers.
-    implementation 'org.postgresql:postgresql:42.2.2'
-    implementation 'com.google.guava:guava:27.0.1-jre'
-    implementation 'joda-time:joda-time:2.9.9'
-    implementation 'com.github.jitpack:gradle-simple:1.0'
-    implementation group: 'commons-cli', name: 'commons-cli', version: '1.4'
-    implementation group: 'org.jetbrains', name: 'annotations', version: '17.0.0'
-    // https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core
-    implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.11.2'
-    implementation group: 'mysql', name: 'mysql-connector-java', version: '5.1.22'
+    // Database drivers - UPDATED to latest versions
+    implementation 'org.postgresql:postgresql:42.7.7'
+    implementation 'com.mysql:mysql-connector-j:9.1.0'
 
-    // Use JUnit test framework
-    testImplementation 'junit:junit:4.12'
+    // Utility libraries
+    implementation 'com.google.guava:guava:33.3.1-jre'
+    implementation 'joda-time:joda-time:2.13.0'
+    implementation 'commons-cli:commons-cli:1.9.0'
+    implementation 'org.jetbrains:annotations:26.0.1'
+
+    // Logging - CRITICAL SECURITY UPDATE from 2.11.2 (vulnerable to Log4Shell)
+    implementation 'org.apache.logging.log4j:log4j-core:2.24.2'
+    implementation 'org.apache.logging.log4j:log4j-api:2.24.2'
+
+    // JitPack dependency
+    implementation 'com.github.jitpack:gradle-simple:1.0'
+
+    // Test dependencies
+    testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.easytesting:fest-assert-core:2.0M10'
     testImplementation 'org.assertj:assertj-joda-time:2.2.0'
-    testImplementation 'org.mockito:mockito-core:2.18.3'
+    testImplementation 'org.mockito:mockito-core:5.14.2'
 }
 
-task mainJar(type: Jar) {
-    baseName = 'main'
-    from sourceSets.main.output + sourceSets.main.allJava
+tasks.register('mainJar', Jar) {
+    archiveBaseName = 'main'
+    from sourceSets.main.output
+    from sourceSets.main.allJava
 }
 
-task testJar(type: Jar) {
-    baseName = 'tests'
-    from sourceSets.test.output + sourceSets.test.allJava
-}
-
-artifacts {
-    archives mainJar
-    archives testJar
+tasks.register('testJar', Jar) {
+    archiveBaseName = 'tests'
+    from sourceSets.test.output
+    from sourceSets.test.allJava
 }
 
 jar {
     manifest {
-        attributes('Implementation-Title': project.name,
-                'Implementation-Version': project.version)
+        attributes(
+            'Implementation-Title': project.name,
+            'Implementation-Version': project.version
+        )
     }
 }
 
-// this step is necessary when installing both jars in the local maven repository
-install {
-    repositories.mavenInstaller {
-        addFilter('main') { artifact, file -> artifact.name.endsWith('main') }
-        addFilter('tests') { artifact, file -> artifact.name.endsWith('tests') }
+publishing {
+    publications {
+        main(MavenPublication) {
+            artifact mainJar
+            artifactId = 'postgres-object-main'
+        }
+        tests(MavenPublication) {
+            artifact testJar
+            artifactId = 'postgres-object-tests'
+        }
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+    repositories {
+        mavenLocal()
     }
 }
