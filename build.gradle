@@ -9,7 +9,7 @@ plugins {
 
 group = 'com.mayhew3.postgresobject'
 
-version = '0.20.0'
+version = '0.20.1'
 
 java {
     sourceCompatibility = JavaVersion.VERSION_21
@@ -75,12 +75,16 @@ jar {
 publishing {
     publications {
         main(MavenPublication) {
+            groupId = 'com.mayhew3.postgresobject'
+            artifactId = 'main'
+            version = project.version
             artifact mainJar
-            artifactId = 'postgres-object-main'
         }
         tests(MavenPublication) {
+            groupId = 'com.mayhew3.postgresobject'
+            artifactId = 'tests'
+            version = project.version
             artifact testJar
-            artifactId = 'postgres-object-tests'
         }
         mavenJava(MavenPublication) {
             from components.java
