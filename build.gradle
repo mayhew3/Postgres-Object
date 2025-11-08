@@ -118,8 +118,12 @@ jacocoTestCoverageVerification {
 test {
     finalizedBy jacocoTestReport
 
-    // Exclude tests that require environment setup
+    // Exclude tests that require local database environment setup
     exclude '**/MySQLTestTest.class'
+    exclude '**/DataObjectCommitTest.class'
+    exclude '**/DatabaseRecreatorTest.class'
+    exclude '**/PostgresConnectionTest.class'
+    exclude '**/GenericDatabaseSchemaTest.class'
 
     testLogging {
         events "passed", "skipped", "failed"
