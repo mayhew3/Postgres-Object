@@ -52,10 +52,22 @@ public class PostgresConnectionFactory {
       Connection connection = DriverManager.getConnection(postgresURL);
       return new PostgresConnection(connection, postgresURL, PostgresConnectionFactory.schemaName);
     } catch (SQLException e) {
+      // Only retry with URI parsing if the URL is in URI format (postgres://...) not JDBC format (jdbc:postgresql://...)
+      // JDBC URLs already have credentials in query parameters, so this retry logic doesn't apply
+      if (postgresURL.startsWith("jdbc:")) {
+        // Rethrow the original exception for JDBC URLs
+        throw e;
+      }
+
       URI dbUri = new URI(postgresURL);
 
-      String username = dbUri.getUserInfo().split(":")[0];
-      String password = dbUri.getUserInfo().split(":")[1];
+      String userInfo = dbUri.getUserInfo();
+      if (userInfo == null) {
+        throw new SQLException("Database URL missing user credentials: " + postgresURL, e);
+      }
+
+      String username = userInfo.split(":")[0];
+      String password = userInfo.split(":")[1];
 
       List<String> paramParts = new ArrayList<>();
       paramParts.add("user=" + username);
