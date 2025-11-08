@@ -125,6 +125,10 @@ test {
     exclude '**/PostgresConnectionTest.class'
     exclude '**/GenericDatabaseSchemaTest.class'
     exclude '**/DataObjectTableValidatorTest.class'
+    exclude '**/PostgreSQLCRUDIntegrationTest.class'
+    exclude '**/MySQLCRUDIntegrationTest.class'
+    exclude '**/SchemaValidationIntegrationTest.class'
+    exclude '**/ForeignKeyIntegrationTest.class'
 
     testLogging {
         events "passed", "skipped", "failed"

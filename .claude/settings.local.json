@@ -12,7 +12,8 @@
       "Bash(cat:*)",
       "Bash(export JAVA_HOME=\"C:\\Dev\\Java\\jdk-21\")",
       "Bash(echo:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(git checkout:*)"
     ],
     "deny": [],
     "ask": []
