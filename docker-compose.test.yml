@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  postgres-test:
+    image: postgres:16
+    container_name: postgres-object-test-db
+    environment:
+      POSTGRES_DB: projects
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: testpassword
+      POSTGRES_INITDB_ARGS: "-E UTF8"
+    ports:
+      - "5439:5432"  # Map to port 5439 (PostgreSQL 16: 5432 - 9 + 16 = 5439)
+    volumes:
+      - ./docker/init-scripts:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - postgres-object-test
+
+  mysql-test:
+    image: mysql:8.0
+    container_name: postgres-object-mysql-test-db
+    environment:
+      MYSQL_ROOT_PASSWORD: testpassword
+      MYSQL_DATABASE: projects
+      MYSQL_USER: testuser
+      MYSQL_PASSWORD: testpassword
+    ports:
+      - "3306:3306"
+    command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-ptestpassword"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - postgres-object-test
+
+networks:
+  postgres-object-test:
+    driver: bridge

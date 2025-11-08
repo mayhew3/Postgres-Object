@@ -118,17 +118,23 @@ jacocoTestCoverageVerification {
 test {
     finalizedBy jacocoTestReport
 
-    // Exclude tests that require local database environment setup
-    exclude '**/MySQLTestTest.class'
-    exclude '**/DataObjectCommitTest.class'
-    exclude '**/DatabaseRecreatorTest.class'
-    exclude '**/PostgresConnectionTest.class'
-    exclude '**/GenericDatabaseSchemaTest.class'
-    exclude '**/DataObjectTableValidatorTest.class'
-    exclude '**/PostgreSQLCRUDIntegrationTest.class'
-    exclude '**/MySQLCRUDIntegrationTest.class'
-    exclude '**/SchemaValidationIntegrationTest.class'
-    exclude '**/ForeignKeyIntegrationTest.class'
+    // Exclude tests that require local database environment setup ONLY when not in CI
+    // In CI, databases are provided via GitHub Actions services
+    def isCI = System.getenv('CI') == 'true'
+
+    if (!isCI) {
+        // Exclude integration tests when running locally without database setup
+        exclude '**/MySQLTestTest.class'
+        exclude '**/DataObjectCommitTest.class'
+        exclude '**/DatabaseRecreatorTest.class'
+        exclude '**/PostgresConnectionTest.class'
+        exclude '**/GenericDatabaseSchemaTest.class'
+        exclude '**/DataObjectTableValidatorTest.class'
+        exclude '**/PostgreSQLCRUDIntegrationTest.class'
+        exclude '**/MySQLCRUDIntegrationTest.class'
+        exclude '**/SchemaValidationIntegrationTest.class'
+        exclude '**/ForeignKeyIntegrationTest.class'
+    }
 
     testLogging {
         events "passed", "skipped", "failed"
