@@ -5,11 +5,12 @@ plugins {
     id 'java-library'
     id 'maven-publish'
     id 'idea'
+    id 'jacoco'
 }
 
 group = 'com.mayhew3.postgresobject'
 
-version = '0.20.1'
+version = '0.21.0'
 
 java {
     sourceCompatibility = JavaVersion.VERSION_21
@@ -69,6 +70,61 @@ jar {
             'Implementation-Title': project.name,
             'Implementation-Version': project.version
         )
+    }
+}
+
+// JaCoCo test coverage configuration
+jacoco {
+    toolVersion = "0.8.12"
+}
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        xml.required = true
+        html.required = true
+        csv.required = false
+    }
+
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: [
+                // Exclude test utilities and mock objects
+                '**/*Test.class',
+                '**/*Mock*.class',
+                '**/Mock*.class'
+            ])
+        }))
+    }
+}
+
+jacocoTestCoverageVerification {
+    dependsOn jacocoTestReport
+    violationRules {
+        rule {
+            limit {
+                minimum = 0.85  // 85% line coverage target
+            }
+        }
+        rule {
+            limit {
+                counter = 'BRANCH'
+                minimum = 0.75  // 75% branch coverage target
+            }
+        }
+    }
+}
+
+test {
+    finalizedBy jacocoTestReport
+
+    // Exclude tests that require environment setup
+    exclude '**/MySQLTestTest.class'
+
+    testLogging {
+        events "passed", "skipped", "failed"
+        exceptionFormat "full"
+        showStandardStreams = false
     }
 }
 
