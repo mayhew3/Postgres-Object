@@ -1,2 +1,12 @@
+# JitPack build configuration
+# This ensures JitPack uses Java 21 when building this library
+
 jdk:
-   - openjdk11
+  - openjdk21
+
+before_install:
+  - sdk install java 21.0.5-tem
+  - sdk use java 21.0.5-tem
+
+install:
+  - ./gradlew clean build publishToMavenLocal -x test
