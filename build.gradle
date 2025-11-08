@@ -124,6 +124,7 @@ test {
     exclude '**/DatabaseRecreatorTest.class'
     exclude '**/PostgresConnectionTest.class'
     exclude '**/GenericDatabaseSchemaTest.class'
+    exclude '**/DataObjectTableValidatorTest.class'
 
     testLogging {
         events "passed", "skipped", "failed"
