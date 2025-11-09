@@ -15,16 +15,11 @@ public class DatabaseRecreator {
   }
 
   /**
-   * Get the fully qualified table name (schema.table) for use in SQL statements.
-   * For databases without schema support or when using default schema, returns just the table name.
-   * Uses quoted identifiers to ensure proper parsing by PostgreSQL.
+   * Get the table name for use in SQL statements.
+   * Does NOT include schema qualification - relies on search_path.
    */
   private String getQualifiedTableName(String tableName) {
-    String schemaName = connection.getSchemaName();
-    if (schemaName != null && !schemaName.isEmpty() && !schemaName.equals("public")) {
-      return "\"" + schemaName + "\".\"" + tableName + "\"";
-    }
-    return "\"" + tableName + "\"";
+    return tableName;
   }
 
   public void recreateDatabase(DataSchema dataSchema) throws SQLException {
@@ -83,15 +78,7 @@ public class DatabaseRecreator {
   private void createAllTables(DataSchema dataSchema) throws SQLException {
     for (DataObject dataObject : dataSchema.getAllTables()) {
       String createStatement = dataObject.generateTableCreateStatement(connection.getDatabaseType());
-
-      // Schema-qualify CREATE TABLE statements for non-public schemas
-      String schemaName = connection.getSchemaName();
-      if (schemaName != null && !schemaName.isEmpty() && !schemaName.equals("public")) {
-        String tableName = dataObject.getTableName();
-        createStatement = createStatement.replace("CREATE TABLE " + tableName,
-                                                   "CREATE TABLE " + getQualifiedTableName(tableName));
-      }
-
+      // No schema qualification - rely on search_path
       connection.prepareAndExecuteStatementUpdate(createStatement);
     }
   }
@@ -100,9 +87,8 @@ public class DatabaseRecreator {
     for (DataObject dataObject : dataSchema.getAllTables()) {
       List<String> fkStatements = dataObject.generateAddForeignKeyStatements();
       for (String fkStatement : fkStatements) {
-        // Schema-qualify table names in ALTER TABLE and REFERENCES clauses
-        String qualifiedStatement = qualifyTableNamesInStatement(fkStatement, dataObject.getTableName());
-        connection.prepareAndExecuteStatementUpdate(qualifiedStatement);
+        // No schema qualification - rely on search_path
+        connection.prepareAndExecuteStatementUpdate(fkStatement);
       }
     }
   }
@@ -111,28 +97,9 @@ public class DatabaseRecreator {
     for (DataObject dataObject : dataSchema.getAllTables()) {
       List<String> ixStatements = dataObject.generateAddIndexStatements();
       for (String ixStatement : ixStatements) {
-        // Schema-qualify table name in ON clause
-        String qualifiedStatement = qualifyTableNamesInStatement(ixStatement, dataObject.getTableName());
-        connection.prepareAndExecuteStatementUpdate(qualifiedStatement);
+        // No schema qualification - rely on search_path
+        connection.prepareAndExecuteStatementUpdate(ixStatement);
       }
     }
-  }
-
-  /**
-   * Replace unqualified table names in SQL statements with schema-qualified names.
-   * Handles ALTER TABLE, REFERENCES, and ON clauses.
-   */
-  private String qualifyTableNamesInStatement(String statement, String tableName) {
-    String schemaName = connection.getSchemaName();
-    if (schemaName == null || schemaName.isEmpty() || schemaName.equals("public")) {
-      return statement;
-    }
-
-    String qualifiedName = getQualifiedTableName(tableName);
-    // Replace in ALTER TABLE, REFERENCES, and ON clauses
-    statement = statement.replace("ALTER TABLE " + tableName, "ALTER TABLE " + qualifiedName);
-    statement = statement.replace("REFERENCES " + tableName, "REFERENCES " + qualifiedName);
-    statement = statement.replace("ON " + tableName, "ON " + qualifiedName);
-    return statement;
   }
 }

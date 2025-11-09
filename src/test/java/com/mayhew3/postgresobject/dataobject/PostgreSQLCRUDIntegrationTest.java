@@ -23,12 +23,8 @@ public class PostgreSQLCRUDIntegrationTest extends DatabaseTest {
   }
 
   private ResultSet getRow(Integer id) throws SQLException {
-    String schemaName = connection.getSchemaName();
-    String tableName = (schemaName != null && !schemaName.isEmpty() && !schemaName.equals("public"))
-        ? "\"" + schemaName + "\".\"data_object_mock\""
-        : "\"data_object_mock\"";
     return connection.prepareAndExecuteStatementFetch(
-        "SELECT * FROM " + tableName + " WHERE id = ?",
+        "SELECT * FROM data_object_mock WHERE id = ?",
         id
     );
   }
@@ -67,12 +63,8 @@ public class PostgreSQLCRUDIntegrationTest extends DatabaseTest {
     assertThat(rsUpdated.getInt("kernels")).isEqualTo(99);
 
     // DELETE
-    String schemaName = connection.getSchemaName();
-    String tableName = (schemaName != null && !schemaName.isEmpty() && !schemaName.equals("public"))
-        ? "\"" + schemaName + "\".\"data_object_mock\""
-        : "\"data_object_mock\"";
     connection.prepareAndExecuteStatementUpdate(
-        "DELETE FROM " + tableName + " WHERE id = ?",
+        "DELETE FROM data_object_mock WHERE id = ?",
         id
     );
 
