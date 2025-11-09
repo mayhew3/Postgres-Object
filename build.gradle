@@ -122,16 +122,18 @@ test {
     // In CI, databases are provided via GitHub Actions services
     def isCI = System.getenv('CI') == 'true'
 
+    // MySQL is no longer maintained - exclude MySQL tests always
+    exclude '**/MySQLTestTest.class'
+    exclude '**/MySQLCRUDIntegrationTest.class'
+
     if (!isCI) {
         // Exclude integration tests when running locally without database setup
-        exclude '**/MySQLTestTest.class'
         exclude '**/DataObjectCommitTest.class'
         exclude '**/DatabaseRecreatorTest.class'
         exclude '**/PostgresConnectionTest.class'
         exclude '**/GenericDatabaseSchemaTest.class'
         exclude '**/DataObjectTableValidatorTest.class'
         exclude '**/PostgreSQLCRUDIntegrationTest.class'
-        exclude '**/MySQLCRUDIntegrationTest.class'
         exclude '**/SchemaValidationIntegrationTest.class'
         exclude '**/ForeignKeyIntegrationTest.class'
     }
