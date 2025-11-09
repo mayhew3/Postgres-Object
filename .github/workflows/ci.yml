@@ -63,6 +63,7 @@ jobs:
         run: |
           PGPASSWORD=testpassword psql -h localhost -p 5439 -U postgres -d projects -c "CREATE SCHEMA IF NOT EXISTS test;"
           PGPASSWORD=testpassword psql -h localhost -p 5439 -U postgres -d projects -c "GRANT ALL PRIVILEGES ON SCHEMA test TO postgres;"
+          PGPASSWORD=testpassword psql -h localhost -p 5439 -U postgres -d projects -c "ALTER DATABASE projects SET search_path TO test, public;"
 
       - name: Run tests with Gradle
         run: ./gradlew clean test jacocoTestReport

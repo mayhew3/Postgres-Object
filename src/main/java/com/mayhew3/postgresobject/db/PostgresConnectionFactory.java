@@ -54,8 +54,8 @@ public class PostgresConnectionFactory {
       // Set search_path if schema is specified to ensure tables are created in the correct schema
       if (PostgresConnectionFactory.schemaName != null) {
         try (var stmt = connection.createStatement()) {
-          stmt.execute("SET search_path TO " + PostgresConnectionFactory.schemaName);
-          logger.debug("Set search_path to: {}", PostgresConnectionFactory.schemaName);
+          stmt.execute("SET search_path TO " + PostgresConnectionFactory.schemaName + ", public");
+          logger.debug("Set search_path to: {}, public", PostgresConnectionFactory.schemaName);
         } catch (SQLException e) {
           logger.warn("Failed to set search_path to {}: {}", PostgresConnectionFactory.schemaName, e.getMessage());
         }
