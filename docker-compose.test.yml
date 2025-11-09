@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   postgres-test:
-    image: postgres:16
+    image: postgres:17
     container_name: postgres-object-test-db
     environment:
       POSTGRES_DB: projects
@@ -10,7 +10,7 @@ services:
       POSTGRES_PASSWORD: testpassword
       POSTGRES_INITDB_ARGS: "-E UTF8"
     ports:
-      - "5439:5432"  # Map to port 5439 (PostgreSQL 16: 5432 - 9 + 16 = 5439)
+      - "5440:5432"  # Map to port 5440 (PostgreSQL 17: 5432 - 9 + 17 = 5440)
     volumes:
       - ./docker/init-scripts:/docker-entrypoint-initdb.d
     healthcheck:

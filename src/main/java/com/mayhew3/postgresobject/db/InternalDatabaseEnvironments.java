@@ -8,9 +8,9 @@ import java.util.Map;
 public class InternalDatabaseEnvironments {
   public static Map<String, DatabaseEnvironment> environments = new HashMap<>();
 
-  // Default to port 5439 for PostgreSQL 16, but allow override via POSTGRES_PORT environment variable
-  private static final Integer DEFAULT_POSTGRES_PORT = 5439;
-  private static final Integer DEFAULT_POSTGRES_VERSION = 16;
+  // Default to port 5440 for PostgreSQL 17, but allow override via POSTGRES_PORT environment variable
+  private static final Integer DEFAULT_POSTGRES_PORT = 5440;
+  private static final Integer DEFAULT_POSTGRES_VERSION = 17;
 
   public static LocalDatabaseEnvironment test = addLocal("test", "projects", GlobalConstants.schemaName, getPostgresPort(), getPostgresVersion());
   public static HerokuDatabaseEnvironment testStaging = addHeroku("test-staging", "postgresURL_staging", GlobalConstants.schemaName, getPostgresVersion(), "test-schema");

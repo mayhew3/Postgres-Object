@@ -17,7 +17,7 @@ jobs:
 
     services:
       postgres:
-        image: postgres:16
+        image: postgres:17
         env:
           POSTGRES_DB: projects
           POSTGRES_USER: postgres
@@ -28,7 +28,7 @@ jobs:
           --health-timeout 5s
           --health-retries 5
         ports:
-          - 5439:5432  # Map to port 5439 for PostgreSQL 16
+          - 5440:5432  # Map to port 5440 for PostgreSQL 17
 
       mysql:
         image: mysql:8.0
@@ -61,16 +61,17 @@ jobs:
 
       - name: Initialize PostgreSQL test schema
         run: |
-          PGPASSWORD=testpassword psql -h localhost -p 5439 -U postgres -d projects -c "CREATE SCHEMA IF NOT EXISTS test;"
-          PGPASSWORD=testpassword psql -h localhost -p 5439 -U postgres -d projects -c "GRANT ALL PRIVILEGES ON SCHEMA test TO postgres;"
-          PGPASSWORD=testpassword psql -h localhost -p 5439 -U postgres -d projects -c "ALTER DATABASE projects SET search_path TO test, public;"
+          PGPASSWORD=testpassword psql -h localhost -p 5440 -U postgres -d projects -c "CREATE SCHEMA IF NOT EXISTS test;"
+          PGPASSWORD=testpassword psql -h localhost -p 5440 -U postgres -d projects -c "GRANT ALL PRIVILEGES ON SCHEMA test TO postgres;"
+          PGPASSWORD=testpassword psql -h localhost -p 5440 -U postgres -d projects -c "ALTER DATABASE projects SET search_path TO test, public;"
 
       - name: Run tests with Gradle
         run: ./gradlew clean test jacocoTestReport
         env:
           postgres_local_password: testpassword
-          POSTGRES_PORT: 5439
-          POSTGRES_VERSION: 16
+          POSTGRES_PORT: 5440
+          POSTGRES_VERSION: 17
+          POSTGRES_SCHEMA: test
           POSTGRES_HOST: localhost
           POSTGRES_USER: postgres
           MYSQL_HOST: localhost

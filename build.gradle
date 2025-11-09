@@ -118,6 +118,12 @@ jacocoTestCoverageVerification {
 test {
     finalizedBy jacocoTestReport
 
+    // Pass environment variables to test JVM
+    environment 'POSTGRES_PORT', System.getenv('POSTGRES_PORT') ?: '5440'
+    environment 'POSTGRES_VERSION', System.getenv('POSTGRES_VERSION') ?: '17'
+    environment 'POSTGRES_SCHEMA', System.getenv('POSTGRES_SCHEMA') ?: 'test'
+    environment 'postgres_local_password', System.getenv('postgres_local_password')
+
     // Exclude tests that require local database environment setup ONLY when not in CI
     // In CI, databases are provided via GitHub Actions services
     def isCI = System.getenv('CI') == 'true'
@@ -127,15 +133,8 @@ test {
     exclude '**/MySQLCRUDIntegrationTest.class'
 
     if (!isCI) {
-        // Exclude integration tests when running locally without database setup
-        exclude '**/DataObjectCommitTest.class'
-        exclude '**/DatabaseRecreatorTest.class'
-        exclude '**/PostgresConnectionTest.class'
-        exclude '**/GenericDatabaseSchemaTest.class'
-        exclude '**/DataObjectTableValidatorTest.class'
-        exclude '**/PostgreSQLCRUDIntegrationTest.class'
-        exclude '**/SchemaValidationIntegrationTest.class'
-        exclude '**/ForeignKeyIntegrationTest.class'
+        // Integration tests can now run locally with proper environment variables set
+        // No exclusions needed - all tests should work
     }
 
     testLogging {

@@ -14,7 +14,33 @@ Unit tests run without database connections and are always enabled. They test bu
 
 ### All Tests (Including Integration Tests)
 
-Integration tests require database connections. There are two ways to run them:
+Integration tests require database connections. There are several ways to run them:
+
+#### Recommended: Using the Local Test Script
+
+The easiest way to run all tests locally is using the provided script:
+
+```bash
+# Windows
+test-local.bat
+
+# Linux/Mac
+./test-local.sh
+```
+
+This script automatically sets `POSTGRES_SCHEMA=postgres_object_test` and runs the full test suite against your local PostgreSQL database.
+
+You can also pass additional Gradle arguments:
+
+```bash
+# Run specific test class
+./test-local.sh --tests PostgreSQLCRUDIntegrationTest
+
+# Run with verbose output
+./test-local.sh --info
+```
+
+#### Alternative Methods:
 
 #### Option 1: Using Docker Compose (Recommended)
 
@@ -74,7 +100,7 @@ export postgres_local_password=your_postgres_password
 
 Integration tests run automatically in CI using GitHub Actions services:
 
-- **PostgreSQL 16** on port 5439
+- **PostgreSQL 17** on port 5440
 - **MySQL 8.0** on port 3306
 
 The workflow:
@@ -109,8 +135,8 @@ docker-compose -f docker-compose.test.yml down
 
 ### PostgreSQL Test Database
 
-- **Image:** postgres:16
-- **Port:** 5439 (mapped from container port 5432)
+- **Image:** postgres:17
+- **Port:** 5440 (mapped from container port 5432)
 - **Database:** projects
 - **Schema:** test
 - **User:** postgres
@@ -133,7 +159,9 @@ Required for integration tests:
 Optional (automatically set in CI):
 - `CI=true` - Enables integration tests in build.gradle
 - `POSTGRES_HOST` - Default: localhost
-- `POSTGRES_PORT` - Default: 5439 (CI), 5432 (local)
+- `POSTGRES_PORT` - Default: 5440 (configurable via environment variable)
+- `POSTGRES_VERSION` - Default: 17 (configurable via environment variable)
+- `POSTGRES_SCHEMA` - Default: test (configurable via environment variable)
 - `MYSQL_HOST` - Default: localhost
 - `MYSQL_PORT` - Default: 3306
 
@@ -163,7 +191,7 @@ Open the HTML report in a browser to see detailed coverage metrics.
 
 **Solution:**
 1. Verify databases are running: `docker-compose -f docker-compose.test.yml ps`
-2. Check ports are not already in use: `lsof -i :5439` and `lsof -i :3306`
+2. Check ports are not already in use: `lsof -i :5440` and `lsof -i :3306`
 3. Wait for healthchecks to pass before running tests
 
 ### Schema Not Found Errors
@@ -181,9 +209,10 @@ GRANT ALL PRIVILEGES ON SCHEMA test TO postgres;
 
 **Problem:** Tests try to connect to wrong port
 
-**Solution:** The library calculates the port as `5432 - 9 + pgVersion`. For PostgreSQL 16:
-- Calculated port: 5432 - 9 + 16 = 5439
-- Ensure Docker/CI maps port 5439
+**Solution:** The library uses port 5440 by default (for PostgreSQL 17), but this is configurable:
+- Set `POSTGRES_PORT` environment variable to use a different port
+- The default can be changed in `InternalDatabaseEnvironments.java`
+- Ensure Docker/CI maps to the same port your configuration expects
 
 ## Development Workflow
 
