@@ -152,7 +152,7 @@ Based on Testing Plan recommendations.
 ### 2.3 Integration Tests (Week 4)
 
 #### Database Integration Tests
-- [ ] Full CRUD operations against real PostgreSQL
+- [x] Full CRUD operations against real PostgreSQL (PostgreSQLCRUDIntegrationTest - 6 tests)
 - [ ] Full CRUD operations against real MySQL
 - [ ] Schema validation against live databases
 - [ ] Foreign key relationships
@@ -168,10 +168,20 @@ Based on Testing Plan recommendations.
 - [ ] Detect missing foreign keys
 - [ ] Generate correct DDL for fixes
 
+#### CI/CD Integration (Critical for Phase 2.3)
+- [ ] Create Docker Compose configuration for PostgreSQL test database
+- [ ] Create Docker Compose configuration for MySQL test database
+- [ ] Update GitHub Actions workflow to spin up databases before tests
+- [ ] Configure test environment variables for CI
+- [ ] Re-enable integration tests in build.gradle for CI
+- [ ] Verify all integration tests pass in CI environment
+- [ ] Document CI database setup in README
+
 **Deliverables:**
 - 30+ integration tests
 - Test database Docker configurations
 - PostgreSQL and MySQL test schemas
+- CI pipeline running integration tests automatically
 
 ### 2.4 Error Scenario & Edge Case Tests (Week 5)
 

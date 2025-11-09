@@ -8,7 +8,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Build System & Commands
 
-This project uses Gradle with Java 11 as the build system.
+This project uses Gradle with Java 21 as the build system.
 
 ### Common Commands
 
@@ -16,14 +16,17 @@ This project uses Gradle with Java 11 as the build system.
 # Build the project
 ./gradlew build
 
-# Run all tests
-./gradlew test
+# Run all tests locally (including integration tests)
+# IMPORTANT: Use the test script instead of direct gradlew commands
+# to avoid having to manually set environment variables
+test-local.bat        # Windows
+./test-local.sh       # Linux/Mac
 
-# Run a specific test class
-./gradlew test --tests com.mayhew3.postgresobject.dataobject.DataObjectTest
+# Run a specific test class (with local schema)
+./test-local.sh --tests com.mayhew3.postgresobject.dataobject.PostgreSQLCRUDIntegrationTest
 
 # Run a single test method
-./gradlew test --tests com.mayhew3.postgresobject.dataobject.DataObjectTest.testSimpleInsert
+./test-local.sh --tests com.mayhew3.postgresobject.dataobject.DataObjectTest.testSimpleInsert
 
 # Check for dependency updates
 ./gradlew dependencyUpdates
@@ -31,6 +34,8 @@ This project uses Gradle with Java 11 as the build system.
 # Install to local Maven repository
 ./gradlew install
 ```
+
+**Note**: The `test-local` scripts automatically set `POSTGRES_SCHEMA=postgres_object_test` to use the local test schema. This prevents requiring permission for environment variable commands.
 
 ## Architecture
 

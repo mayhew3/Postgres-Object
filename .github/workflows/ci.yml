@@ -17,18 +17,33 @@ jobs:
 
     services:
       postgres:
-        image: postgres:16
+        image: postgres:17
         env:
-          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: projects
           POSTGRES_USER: postgres
-          POSTGRES_DB: postgres_object_test
+          POSTGRES_PASSWORD: testpassword
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
         ports:
-          - 5432:5432
+          - 5440:5432  # Map to port 5440 for PostgreSQL 17
+
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: testpassword
+          MYSQL_DATABASE: projects
+          MYSQL_USER: testuser
+          MYSQL_PASSWORD: testpassword
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost -u root -ptestpassword"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+        ports:
+          - 3306:3306
 
     steps:
       - name: Checkout code
@@ -44,14 +59,25 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
+      - name: Initialize PostgreSQL test schema
+        run: |
+          PGPASSWORD=testpassword psql -h localhost -p 5440 -U postgres -d projects -c "CREATE SCHEMA IF NOT EXISTS test;"
+          PGPASSWORD=testpassword psql -h localhost -p 5440 -U postgres -d projects -c "GRANT ALL PRIVILEGES ON SCHEMA test TO postgres;"
+          PGPASSWORD=testpassword psql -h localhost -p 5440 -U postgres -d projects -c "ALTER DATABASE projects SET search_path TO test, public;"
+
       - name: Run tests with Gradle
         run: ./gradlew clean test jacocoTestReport
         env:
+          postgres_local_password: testpassword
+          POSTGRES_PORT: 5440
+          POSTGRES_VERSION: 17
+          POSTGRES_SCHEMA: test
           POSTGRES_HOST: localhost
-          POSTGRES_PORT: 5432
           POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: postgres_object_test
+          MYSQL_HOST: localhost
+          MYSQL_PORT: 3306
+          MYSQL_USER: testuser
+          MYSQL_PASSWORD: testpassword
 
       - name: Upload coverage to Codecov (Java 21 only)
         if: matrix.java == '21'

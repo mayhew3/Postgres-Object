@@ -217,7 +217,7 @@ public abstract class DataObject {
     Joiner joiner = Joiner.on(", ");
     String commaSeparatedNames = joiner.join(fieldNames);
 
-    String sql = "UPDATE " + getTableName() + " SET " + commaSeparatedNames + " WHERE ID = ?";
+    String sql = "UPDATE " + getQualifiedTableName(connection) + " SET " + commaSeparatedNames + " WHERE ID = ?";
 
     connection.prepareAndExecuteStatementUpdateWithFields(sql, fieldValues);
   }
@@ -235,7 +235,7 @@ public abstract class DataObject {
     String commaSeparatedNames = joiner.join(fieldNames);
     String commaSeparatedQuestionMarks = joiner.join(questionMarks);
 
-    String sql = "INSERT INTO " + getTableName() + " (" + commaSeparatedNames + ") VALUES (" + commaSeparatedQuestionMarks + ")";
+    String sql = "INSERT INTO " + getQualifiedTableName(connection) + " (" + commaSeparatedNames + ") VALUES (" + commaSeparatedQuestionMarks + ")";
 
     return connection.prepareAndExecuteStatementInsertReturnId(sql, fieldValues);
   }
@@ -354,6 +354,14 @@ public abstract class DataObject {
   }
 
   public abstract String getTableName();
+
+  /**
+   * Get the table name for use in SQL statements.
+   * Does NOT include schema qualification - relies on search_path.
+   */
+  protected String getQualifiedTableName(SQLConnection connection) {
+    return getTableName();
+  }
 
   // todo: make abstract, and force all subtypes to implement.
   protected String createDDLStatement() {
