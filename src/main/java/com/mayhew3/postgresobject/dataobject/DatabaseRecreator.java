@@ -14,18 +14,6 @@ public class DatabaseRecreator {
     this.connection = connection;
   }
 
-  /**
-   * Get the fully qualified table name (schema.table) for use in SQL statements.
-   * For databases without schema support or when using default schema, returns just the table name.
-   */
-  private String getQualifiedTableName(String tableName) {
-    String schemaName = connection.getSchemaName();
-    if (schemaName != null && !schemaName.isEmpty() && !schemaName.equals("public")) {
-      return schemaName + "." + tableName;
-    }
-    return tableName;
-  }
-
   public void recreateDatabase(DataSchema dataSchema) throws SQLException {
     List<String> tableNames = dataSchema.getAllTables().stream().map(DataObject::getTableName).collect(Collectors.toList());
 
@@ -54,7 +42,7 @@ public class DatabaseRecreator {
       if (tableNames.contains(table_name)) {
         String constraint_name = resultSet.getString("constraint_name");
         connection.prepareAndExecuteStatementUpdate(
-            "ALTER TABLE " + getQualifiedTableName(table_name) + " DROP CONSTRAINT IF EXISTS " + constraint_name
+            "ALTER TABLE " + table_name + " DROP CONSTRAINT IF EXISTS " + constraint_name
         );
       }
     }
@@ -63,7 +51,7 @@ public class DatabaseRecreator {
   private void dropAllTables(DataSchema dataSchema) throws SQLException {
     for (DataObject dataObject : dataSchema.getAllTables()) {
       connection.prepareAndExecuteStatementUpdate(
-          "DROP TABLE IF EXISTS " + getQualifiedTableName(dataObject.getTableName())
+          "DROP TABLE IF EXISTS " + dataObject.getTableName()
       );
     }
   }
@@ -71,7 +59,7 @@ public class DatabaseRecreator {
   private void dropAllSequences(DataSchema dataSchema) throws SQLException {
     for (DataObject dataObject : dataSchema.getAllTables()) {
       for (String sequenceName : dataObject.getSequenceNames()) {
-        connection.prepareAndExecuteStatementUpdate("DROP SEQUENCE IF EXISTS " + getQualifiedTableName(sequenceName));
+        connection.prepareAndExecuteStatementUpdate("DROP SEQUENCE IF EXISTS " + sequenceName);
       }
     }
   }
@@ -83,13 +71,8 @@ public class DatabaseRecreator {
     for (DataObject dataObject : dataSchema.getAllTables()) {
       String createStatement = dataObject.generateTableCreateStatement(connection.getDatabaseType());
 
-      // If using a non-default schema, replace "CREATE TABLE tablename" with "CREATE TABLE schema.tablename"
-      String schemaName = connection.getSchemaName();
-      if (schemaName != null && !schemaName.isEmpty() && !schemaName.equals("public")) {
-        String tableName = dataObject.getTableName();
-        createStatement = createStatement.replace("CREATE TABLE " + tableName,
-                                                   "CREATE TABLE " + getQualifiedTableName(tableName));
-      }
+      // Don't schema-qualify CREATE TABLE statements - let currentSchema/search_path handle it
+      // This ensures that both table creation and subsequent queries use the same resolution path
 
       connection.prepareAndExecuteStatementUpdate(createStatement);
     }
@@ -99,9 +82,8 @@ public class DatabaseRecreator {
     for (DataObject dataObject : dataSchema.getAllTables()) {
       List<String> fkStatements = dataObject.generateAddForeignKeyStatements();
       for (String fkStatement : fkStatements) {
-        // Schema-qualify table names in ALTER TABLE and REFERENCES clauses
-        String qualifiedStatement = qualifyTableNamesInStatement(fkStatement, dataObject.getTableName());
-        connection.prepareAndExecuteStatementUpdate(qualifiedStatement);
+        // No schema qualification needed - currentSchema/search_path will handle it
+        connection.prepareAndExecuteStatementUpdate(fkStatement);
       }
     }
   }
@@ -110,28 +92,10 @@ public class DatabaseRecreator {
     for (DataObject dataObject : dataSchema.getAllTables()) {
       List<String> ixStatements = dataObject.generateAddIndexStatements();
       for (String ixStatement : ixStatements) {
-        // Schema-qualify table name in ON clause
-        String qualifiedStatement = qualifyTableNamesInStatement(ixStatement, dataObject.getTableName());
-        connection.prepareAndExecuteStatementUpdate(qualifiedStatement);
+        // No schema qualification needed - currentSchema/search_path will handle it
+        connection.prepareAndExecuteStatementUpdate(ixStatement);
       }
     }
   }
 
-  /**
-   * Replace unqualified table names in SQL statements with schema-qualified names.
-   * Handles ALTER TABLE, REFERENCES, and ON clauses.
-   */
-  private String qualifyTableNamesInStatement(String statement, String tableName) {
-    String schemaName = connection.getSchemaName();
-    if (schemaName == null || schemaName.isEmpty() || schemaName.equals("public")) {
-      return statement;
-    }
-
-    String qualifiedName = getQualifiedTableName(tableName);
-    // Replace in ALTER TABLE, REFERENCES, and ON clauses
-    statement = statement.replace("ALTER TABLE " + tableName, "ALTER TABLE " + qualifiedName);
-    statement = statement.replace("REFERENCES " + tableName, "REFERENCES " + qualifiedName);
-    statement = statement.replace("ON " + tableName, "ON " + qualifiedName);
-    return statement;
-  }
 }
