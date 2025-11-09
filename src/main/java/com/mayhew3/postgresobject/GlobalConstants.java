@@ -2,7 +2,7 @@ package com.mayhew3.postgresobject;
 
 public class GlobalConstants {
   public static String appLabel = "Test";
-  public static String schemaName = "test";
+  public static String schemaName = "public";  // Changed from "test" to "public" to avoid schema issues in CI
 
   public static String schemaNameSoftball = "softball";
 
