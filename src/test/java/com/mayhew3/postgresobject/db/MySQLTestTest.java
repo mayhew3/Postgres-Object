@@ -16,6 +16,11 @@ public class MySQLTestTest extends MySQLSchemaTest {
   @Override
   public String getDBHost() {
     try {
+      // Check CI environment variable first, fall back to local environment variable
+      String host = System.getenv("MYSQL_HOST");
+      if (host != null && !host.isEmpty()) {
+        return host;
+      }
       return EnvironmentChecker.getOrThrow("dbhost");
     } catch (MissingEnvException e) {
       throw new IllegalStateException(e);
@@ -25,6 +30,11 @@ public class MySQLTestTest extends MySQLSchemaTest {
   @Override
   public String getDBUser() {
     try {
+      // Check CI environment variable first, fall back to local environment variable
+      String user = System.getenv("MYSQL_USER");
+      if (user != null && !user.isEmpty()) {
+        return user;
+      }
       return EnvironmentChecker.getOrThrow("dbuser");
     } catch (MissingEnvException e) {
       throw new IllegalStateException(e);
@@ -34,6 +44,11 @@ public class MySQLTestTest extends MySQLSchemaTest {
   @Override
   public String getDBPassword() {
     try {
+      // Check CI environment variable first, fall back to local environment variable
+      String password = System.getenv("MYSQL_PASSWORD");
+      if (password != null && !password.isEmpty()) {
+        return password;
+      }
       return EnvironmentChecker.getOrThrow("dbpassword");
     } catch (MissingEnvException e) {
       throw new IllegalStateException(e);

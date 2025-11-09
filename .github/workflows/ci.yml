@@ -68,8 +68,9 @@ jobs:
         run: ./gradlew clean test jacocoTestReport
         env:
           postgres_local_password: testpassword
-          POSTGRES_HOST: localhost
           POSTGRES_PORT: 5439
+          POSTGRES_VERSION: 16
+          POSTGRES_HOST: localhost
           POSTGRES_USER: postgres
           MYSQL_HOST: localhost
           MYSQL_PORT: 3306
