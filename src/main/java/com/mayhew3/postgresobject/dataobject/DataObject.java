@@ -358,13 +358,14 @@ public abstract class DataObject {
   /**
    * Get the fully qualified table name (schema.table) for use in SQL statements.
    * For databases without schema support or when using default schema, returns just the table name.
+   * Uses quoted identifiers to ensure proper parsing by PostgreSQL.
    */
   protected String getQualifiedTableName(SQLConnection connection) {
     String schemaName = connection.getSchemaName();
     if (schemaName != null && !schemaName.isEmpty() && !schemaName.equals("public")) {
-      return schemaName + "." + getTableName();
+      return "\"" + schemaName + "\".\"" + getTableName() + "\"";
     }
-    return getTableName();
+    return "\"" + getTableName() + "\"";
   }
 
   // todo: make abstract, and force all subtypes to implement.

@@ -25,8 +25,8 @@ public class PostgreSQLCRUDIntegrationTest extends DatabaseTest {
   private ResultSet getRow(Integer id) throws SQLException {
     String schemaName = connection.getSchemaName();
     String tableName = (schemaName != null && !schemaName.isEmpty() && !schemaName.equals("public"))
-        ? schemaName + ".data_object_mock"
-        : "data_object_mock";
+        ? "\"" + schemaName + "\".\"data_object_mock\""
+        : "\"data_object_mock\"";
     return connection.prepareAndExecuteStatementFetch(
         "SELECT * FROM " + tableName + " WHERE id = ?",
         id
@@ -69,8 +69,8 @@ public class PostgreSQLCRUDIntegrationTest extends DatabaseTest {
     // DELETE
     String schemaName = connection.getSchemaName();
     String tableName = (schemaName != null && !schemaName.isEmpty() && !schemaName.equals("public"))
-        ? schemaName + ".data_object_mock"
-        : "data_object_mock";
+        ? "\"" + schemaName + "\".\"data_object_mock\""
+        : "\"data_object_mock\"";
     connection.prepareAndExecuteStatementUpdate(
         "DELETE FROM " + tableName + " WHERE id = ?",
         id

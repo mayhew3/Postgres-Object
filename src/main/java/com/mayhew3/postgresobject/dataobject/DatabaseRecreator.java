@@ -17,13 +17,14 @@ public class DatabaseRecreator {
   /**
    * Get the fully qualified table name (schema.table) for use in SQL statements.
    * For databases without schema support or when using default schema, returns just the table name.
+   * Uses quoted identifiers to ensure proper parsing by PostgreSQL.
    */
   private String getQualifiedTableName(String tableName) {
     String schemaName = connection.getSchemaName();
     if (schemaName != null && !schemaName.isEmpty() && !schemaName.equals("public")) {
-      return schemaName + "." + tableName;
+      return "\"" + schemaName + "\".\"" + tableName + "\"";
     }
-    return tableName;
+    return "\"" + tableName + "\"";
   }
 
   public void recreateDatabase(DataSchema dataSchema) throws SQLException {
