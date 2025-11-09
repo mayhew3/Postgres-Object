@@ -1,6 +1,8 @@
 package com.mayhew3.postgresobject.dataobject;
 
 import com.mayhew3.postgresobject.db.SQLConnection;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,6 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class DatabaseRecreator {
+  private static final Logger logger = LogManager.getLogger(DatabaseRecreator.class);
   private SQLConnection connection;
 
   public DatabaseRecreator(SQLConnection connection) {
@@ -23,6 +26,16 @@ public class DatabaseRecreator {
   }
 
   public void recreateDatabase(DataSchema dataSchema) throws SQLException {
+    String schemaName = connection.getSchemaName();
+    logger.info("Recreating database with schema: {}", schemaName);
+
+    // Verify search_path is set correctly
+    ResultSet searchPathResult = connection.prepareAndExecuteStatementFetch("SHOW search_path");
+    if (searchPathResult.next()) {
+      String searchPath = searchPathResult.getString(1);
+      logger.info("Current search_path: {}", searchPath);
+    }
+
     List<String> tableNames = dataSchema.getAllTables().stream().map(DataObject::getTableName).collect(Collectors.toList());
 
     dropAllForeignKeys(tableNames);
@@ -32,6 +45,8 @@ public class DatabaseRecreator {
     createAllTables(dataSchema);
     createAllForeignKeys(dataSchema);
     createAllIndices(dataSchema);
+
+    logger.info("Database recreation complete");
   }
 
 
@@ -79,7 +94,21 @@ public class DatabaseRecreator {
     for (DataObject dataObject : dataSchema.getAllTables()) {
       String createStatement = dataObject.generateTableCreateStatement(connection.getDatabaseType());
       // No schema qualification - rely on search_path
+      logger.debug("Creating table: {}", createStatement.substring(0, Math.min(100, createStatement.length())));
       connection.prepareAndExecuteStatementUpdate(createStatement);
+
+      // Verify which schema the table was created in
+      String tableName = dataObject.getTableName();
+      ResultSet schemaCheck = connection.prepareAndExecuteStatementFetch(
+          "SELECT table_schema FROM information_schema.tables WHERE table_name = ?",
+          tableName
+      );
+      if (schemaCheck.next()) {
+        String actualSchema = schemaCheck.getString("table_schema");
+        logger.info("Table {} created in schema: {}", tableName, actualSchema);
+      } else {
+        logger.warn("Table {} not found in information_schema after creation!", tableName);
+      }
     }
   }
 
