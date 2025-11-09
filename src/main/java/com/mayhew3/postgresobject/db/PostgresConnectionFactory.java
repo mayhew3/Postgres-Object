@@ -50,6 +50,17 @@ public class PostgresConnectionFactory {
     debug("Connecting to: " + postgresURL);
     try {
       Connection connection = DriverManager.getConnection(postgresURL);
+
+      // Set search_path if schema is specified to ensure tables are created in the correct schema
+      if (PostgresConnectionFactory.schemaName != null) {
+        try {
+          connection.createStatement().execute("SET search_path TO " + PostgresConnectionFactory.schemaName);
+          logger.debug("Set search_path to: {}", PostgresConnectionFactory.schemaName);
+        } catch (SQLException e) {
+          logger.warn("Failed to set search_path to {}: {}", PostgresConnectionFactory.schemaName, e.getMessage());
+        }
+      }
+
       return new PostgresConnection(connection, postgresURL, PostgresConnectionFactory.schemaName);
     } catch (SQLException e) {
       // Only retry with URI parsing if the URL is in URI format (postgres://...) not JDBC format (jdbc:postgresql://...)
