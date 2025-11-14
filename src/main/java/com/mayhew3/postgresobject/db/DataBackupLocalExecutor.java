@@ -41,6 +41,12 @@ public class DataBackupLocalExecutor extends DataBackupExecutor {
     logger.info("Starting db backup process...");
 
     Process process = processBuilder.start();
-    process.waitFor();
+    int exitCode = process.waitFor();
+
+    if (exitCode != 0) {
+      throw new IOException("pg_dump process failed with exit code: " + exitCode);
+    }
+
+    logger.debug("pg_dump completed successfully with exit code 0");
   }
 }

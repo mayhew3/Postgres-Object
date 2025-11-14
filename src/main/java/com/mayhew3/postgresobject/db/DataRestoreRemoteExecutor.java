@@ -79,8 +79,13 @@ public class DataRestoreRemoteExecutor extends DataRestoreExecutor {
     logger.info("Starting db restore process...");
 
     Process process = processBuilder.start();
-    process.waitFor();
+    int exitCode = process.waitFor();
 
+    if (exitCode != 0) {
+      throw new IOException("Heroku pg:backups:restore process failed with exit code: " + exitCode);
+    }
+
+    logger.debug("Heroku restore completed successfully with exit code 0");
     logger.info("Finished db restore process!");
   }
 

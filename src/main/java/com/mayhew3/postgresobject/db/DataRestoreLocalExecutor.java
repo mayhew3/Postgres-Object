@@ -60,8 +60,13 @@ public class DataRestoreLocalExecutor extends DataRestoreExecutor {
     logger.info("Starting db restore process...");
 
     Process process = processBuilder.start();
-    process.waitFor();
+    int exitCode = process.waitFor();
 
+    if (exitCode != 0) {
+      throw new IOException("pg_restore process failed with exit code: " + exitCode);
+    }
+
+    logger.debug("pg_restore completed successfully with exit code 0");
     logger.info("Finished db restore process!");
 
     if (restoreSchemaName != null && !restoreSchemaName.equals(backupSchemaName)) {

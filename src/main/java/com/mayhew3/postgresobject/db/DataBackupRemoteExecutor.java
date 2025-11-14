@@ -35,7 +35,13 @@ public class DataBackupRemoteExecutor extends DataBackupExecutor {
 
     Process process = processBuilder.start();
     monitorOutput(process);
-    process.waitFor();
+    int exitCode = process.waitFor();
+
+    if (exitCode != 0) {
+      throw new IOException("pg_dump process failed with exit code: " + exitCode);
+    }
+
+    logger.debug("pg_dump completed successfully with exit code 0");
   }
 
   private void monitorOutput(Process process) throws IOException, SQLException {
