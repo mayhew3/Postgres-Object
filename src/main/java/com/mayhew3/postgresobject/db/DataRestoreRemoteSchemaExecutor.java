@@ -5,6 +5,7 @@ import com.mayhew3.postgresobject.exception.MissingEnvException;
 import org.joda.time.DateTime;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URISyntaxException;
@@ -39,7 +40,7 @@ public class DataRestoreRemoteSchemaExecutor extends DataRestoreExecutor {
     logger.info("Restoring to Heroku app '" + appName + "'");
 
     List<String> args = Lists.newArrayList(
-        postgres_program_dir + "\\pg_restore.exe",
+        postgres_program_dir + File.separator + getPgRestoreExecutable(),
         "--dbname=" + databaseUrl,
         "--no-privileges",
         "--no-owner",

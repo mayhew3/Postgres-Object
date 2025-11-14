@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.mayhew3.postgresobject.exception.MissingEnvException;
 import org.joda.time.DateTime;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
@@ -33,7 +34,7 @@ public class DataRestoreLocalExecutor extends DataRestoreExecutor {
     String restoreSchemaName = localRestoreEnvironment.getSchemaName();
 
     List<String> args = Lists.newArrayList(
-        postgres_program_dir + "\\pg_restore.exe",
+        postgres_program_dir + File.separator + getPgRestoreExecutable(),
         "--host=localhost",
         "--dbname=" + localRestoreEnvironment.getDatabaseName(),
         "--username=postgres",

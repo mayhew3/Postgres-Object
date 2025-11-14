@@ -2,6 +2,7 @@ package com.mayhew3.postgresobject.db;
 
 import com.google.common.collect.Lists;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class DataBackupLocalExecutor extends DataBackupExecutor {
     int port = localDatabaseEnvironment.port;
 
     String schemaName = localDatabaseEnvironment.getSchemaName();
-    List<String> args = Lists.newArrayList(postgres_program_dir + "\\pg_dump.exe",
+    List<String> args = Lists.newArrayList(postgres_program_dir + File.separator + getPgDumpExecutable(),
         "--host=localhost",
         "--port=" + port,
         "--dbname=" + localDatabaseEnvironment.getDatabaseName(),

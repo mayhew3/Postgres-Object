@@ -58,10 +58,13 @@ abstract public class DataRestoreExecutor {
   public void runUpdate() throws MissingEnvException, IOException, InterruptedException, SQLException {
     logger.info("Beginning execution of executor: restoring '" + restoreEnvironment.getEnvironmentName() + "' from '" + backupEnvironment.getEnvironmentName() + "' backup");
 
-    String postgres_pgpass = EnvironmentChecker.getOrThrow("PGPASSFILE");
-
-    File pgpass_file = new File(postgres_pgpass);
-    assert pgpass_file.exists() && pgpass_file.isFile();
+    // PGPASSFILE is only required for local environments
+    // Remote environments use DATABASE_URL which includes credentials
+    if (restoreEnvironment.isLocal()) {
+      String postgres_pgpass = EnvironmentChecker.getOrThrow("PGPASSFILE");
+      File pgpass_file = new File(postgres_pgpass);
+      assert pgpass_file.exists() && pgpass_file.isFile();
+    }
 
     String programEnvLabel = "POSTGRES" + restoreEnvironment.getPgVersion() + "_PROGRAM_DIR";
     postgres_program_dir = EnvironmentChecker.getOrThrow(programEnvLabel);
@@ -76,10 +79,10 @@ abstract public class DataRestoreExecutor {
     File base_backup_dir = new File(backup_dir_location);
     assert base_backup_dir.exists() && base_backup_dir.isDirectory();
 
-    File app_backup_dir = new File(backup_dir_location + "\\" + folderName);
-    File env_backup_dir = new File(app_backup_dir.getPath() + "\\" + backupEnvironment.getEnvironmentName());
+    File app_backup_dir = new File(backup_dir_location + File.separator + folderName);
+    File env_backup_dir = new File(app_backup_dir.getPath() + File.separator + backupEnvironment.getEnvironmentName());
     File schema_backup_dir = backupEnvironment.getSchemaName() == null ? env_backup_dir :
-        new File(env_backup_dir.getPath() + "\\" + backupEnvironment.getSchemaName());
+        new File(env_backup_dir.getPath() + File.separator + backupEnvironment.getSchemaName());
 
     Path latestBackup = getBackup(schema_backup_dir.getPath());
     logger.info("File to restore: " + latestBackup.toString());
@@ -136,6 +139,46 @@ abstract public class DataRestoreExecutor {
     }
     files.sort(created);
     return files.get(0);
+  }
+
+  /**
+   * Returns the appropriate pg_dump executable name for the current OS.
+   * @return "pg_dump.exe" on Windows, "pg_dump" on Linux/Mac
+   */
+  protected String getPgDumpExecutable() {
+    return isWindows() ? "pg_dump.exe" : "pg_dump";
+  }
+
+  /**
+   * Returns the appropriate pg_restore executable name for the current OS.
+   * @return "pg_restore.exe" on Windows, "pg_restore" on Linux/Mac
+   */
+  protected String getPgRestoreExecutable() {
+    return isWindows() ? "pg_restore.exe" : "pg_restore";
+  }
+
+  /**
+   * Returns the appropriate AWS CLI executable name for the current OS.
+   * @return "aws.exe" on Windows, "aws" on Linux/Mac
+   */
+  protected String getAwsExecutable() {
+    return isWindows() ? "aws.exe" : "aws";
+  }
+
+  /**
+   * Returns the appropriate Heroku CLI executable name for the current OS.
+   * @return "heroku.cmd" on Windows, "heroku" on Linux/Mac
+   */
+  protected String getHerokuExecutable() {
+    return isWindows() ? "heroku.cmd" : "heroku";
+  }
+
+  /**
+   * Detects if the current operating system is Windows.
+   * @return true if running on Windows, false otherwise
+   */
+  protected boolean isWindows() {
+    return System.getProperty("os.name").toLowerCase().contains("win");
   }
 
 }
