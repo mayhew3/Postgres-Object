@@ -10,7 +10,7 @@ plugins {
 
 group = 'com.mayhew3.postgresobject'
 
-version = '0.22.2'
+version = '0.22.3'
 
 java {
     sourceCompatibility = JavaVersion.VERSION_21
