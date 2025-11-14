@@ -23,8 +23,14 @@ public class DataBackupRemoteSchemaExecutor extends DataBackupExecutor {
     String databaseUrl = remoteDatabaseEnvironment.getDatabaseUrl();
     String schemaName = remoteDatabaseEnvironment.getSchemaName();
 
+    String pgDumpPath = postgres_program_dir + File.separator + getPgDumpExecutable();
+    logger.debug("pg_dump executable path: " + pgDumpPath);
+    logger.debug("pg_dump executable exists: " + new java.io.File(pgDumpPath).exists());
+    logger.debug("Backup file path: " + fullBackupPath);
+    logger.debug("Schema name: " + schemaName);
+
     ProcessBuilder processBuilder = new ProcessBuilder(
-        postgres_program_dir + File.separator + getPgDumpExecutable(),
+        pgDumpPath,
         "--format=custom",
         "--verbose",
         "--no-privileges",
