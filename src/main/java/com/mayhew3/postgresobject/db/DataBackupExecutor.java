@@ -62,20 +62,20 @@ abstract public class DataBackupExecutor {
     File app_backup_dir = new File(backup_dir_location + File.separator + folderName);
     if (!app_backup_dir.exists()) {
       //noinspection ResultOfMethodCallIgnored
-      app_backup_dir.mkdir();
+      app_backup_dir.mkdirs();
     }
 
     File env_backup_dir = new File(app_backup_dir.getPath() + File.separator + backupEnvironment.getEnvironmentName());
     if (!env_backup_dir.exists()) {
       //noinspection ResultOfMethodCallIgnored
-      env_backup_dir.mkdir();
+      env_backup_dir.mkdirs();
     }
 
     File schema_backup_dir = backupEnvironment.getSchemaName() == null ? env_backup_dir :
         new File(env_backup_dir.getPath() + File.separator + backupEnvironment.getSchemaName());
     if (!schema_backup_dir.exists()) {
       //noinspection ResultOfMethodCallIgnored
-      schema_backup_dir.mkdir();
+      schema_backup_dir.mkdirs();
     }
 
 
