@@ -52,16 +52,25 @@ public class GenericDataRestoreExecutor {
   }
 
   public void runUpdate() throws InterruptedException, IOException, com.mayhew3.postgresobject.exception.MissingEnvException, SQLException {
-    LocalDatabaseEnvironment localRestoreEnvironment = (LocalDatabaseEnvironment) restoreEnvironment;
-
     DataRestoreExecutor dataRestoreExecutor;
-    if (oldBackup) {
-      dataRestoreExecutor = new DataRestoreLocalExecutor(localRestoreEnvironment, backupEnvironment, appLabel, backupDate);
-    } else {
-      dataRestoreExecutor = new DataRestoreLocalExecutor(localRestoreEnvironment, backupEnvironment, appLabel);
-    }
-    dataRestoreExecutor.runUpdate();
 
+    if (restoreEnvironment.isLocal()) {
+      LocalDatabaseEnvironment localRestoreEnvironment = (LocalDatabaseEnvironment) restoreEnvironment;
+      if (oldBackup) {
+        dataRestoreExecutor = new DataRestoreLocalExecutor(localRestoreEnvironment, backupEnvironment, appLabel, backupDate);
+      } else {
+        dataRestoreExecutor = new DataRestoreLocalExecutor(localRestoreEnvironment, backupEnvironment, appLabel);
+      }
+    } else {
+      RemoteDatabaseEnvironment remoteRestoreEnvironment = (RemoteDatabaseEnvironment) restoreEnvironment;
+      if (oldBackup) {
+        dataRestoreExecutor = new DataRestoreRemoteExecutor(remoteRestoreEnvironment, backupEnvironment, appLabel, backupDate);
+      } else {
+        dataRestoreExecutor = new DataRestoreRemoteExecutor(remoteRestoreEnvironment, backupEnvironment, appLabel);
+      }
+    }
+
+    dataRestoreExecutor.runUpdate();
   }
 
 }

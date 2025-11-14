@@ -3,6 +3,7 @@ package com.mayhew3.postgresobject.db;
 import com.mayhew3.postgresobject.exception.MissingEnvException;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.SQLException;
@@ -23,7 +24,7 @@ public class DataBackupRemoteSchemaExecutor extends DataBackupExecutor {
     String schemaName = remoteDatabaseEnvironment.getSchemaName();
 
     ProcessBuilder processBuilder = new ProcessBuilder(
-        postgres_program_dir + "\\pg_dump.exe",
+        postgres_program_dir + File.separator + getPgDumpExecutable(),
         "--format=custom",
         "--verbose",
         "--no-privileges",
