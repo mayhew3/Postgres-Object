@@ -29,7 +29,7 @@ public class DataBackupRemoteExecutor extends DataBackupExecutor {
         "--no-privileges",
         "--no-owner",
         "--file=" + fullBackupPath,
-        "\"" + databaseUrl + "\"");
+        databaseUrl);
 
     logger.info("Starting db backup process...");
 

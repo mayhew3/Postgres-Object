@@ -37,7 +37,7 @@ public class DataBackupRemoteSchemaExecutor extends DataBackupExecutor {
         "--no-owner",
         "--schema=" + schemaName,
         "--file=" + fullBackupPath,
-        "\"" + databaseUrl + "\"");
+        databaseUrl);
 
     logger.info("Starting db backup process...");
 
