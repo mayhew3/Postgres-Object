@@ -56,7 +56,7 @@ public class DataRestoreRemoteExecutor extends DataRestoreExecutor {
     copyDBtoAWS(latestBackup, outputPath);
     String result = getSignedUrl(outputPath);
 
-    List<String> args = Lists.newArrayList(heroku_program_dir + "\\heroku.cmd",
+    List<String> args = Lists.newArrayList(heroku_program_dir + File.separator + getHerokuExecutable(),
         "pg:backups:restore",
         "--app=" + appName,
         "\"" + result + "\"",
@@ -79,14 +79,19 @@ public class DataRestoreRemoteExecutor extends DataRestoreExecutor {
     logger.info("Starting db restore process...");
 
     Process process = processBuilder.start();
-    process.waitFor();
+    int exitCode = process.waitFor();
 
+    if (exitCode != 0) {
+      throw new IOException("Heroku pg:backups:restore process failed with exit code: " + exitCode);
+    }
+
+    logger.debug("Heroku restore completed successfully with exit code 0");
     logger.info("Finished db restore process!");
   }
 
   private void copyDBtoAWS(Path latestBackup, String outputPath) throws IOException, InterruptedException {
     ProcessBuilder processBuilder = new ProcessBuilder(
-        aws_program_dir + "\\aws.exe",
+        aws_program_dir + File.separator + getAwsExecutable(),
         "s3",
         "cp",
         latestBackup.toString(),
@@ -104,7 +109,7 @@ public class DataRestoreRemoteExecutor extends DataRestoreExecutor {
 
   @NotNull
   private String getAWSPath(Path latestBackup) {
-    File aws_credentials = new File(aws_user_dir + "/credentials");
+    File aws_credentials = new File(aws_user_dir + File.separator + "credentials");
     assert aws_credentials.exists() && aws_credentials.isFile() :
         "Need to configure aws. See aws_info.txt";
 
@@ -116,7 +121,7 @@ public class DataRestoreRemoteExecutor extends DataRestoreExecutor {
   private String getSignedUrl(String outputPath) throws IOException {
 
     ProcessBuilder processBuilder = new ProcessBuilder(
-        aws_program_dir + "\\aws.exe",
+        aws_program_dir + File.separator + getAwsExecutable(),
         "s3",
         "presign",
         outputPath

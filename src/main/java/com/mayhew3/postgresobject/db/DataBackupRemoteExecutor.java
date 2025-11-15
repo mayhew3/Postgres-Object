@@ -3,6 +3,7 @@ package com.mayhew3.postgresobject.db;
 import com.mayhew3.postgresobject.exception.MissingEnvException;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.SQLException;
@@ -22,19 +23,25 @@ public class DataBackupRemoteExecutor extends DataBackupExecutor {
     String databaseUrl = remoteDatabaseEnvironment.getDatabaseUrl();
 
     ProcessBuilder processBuilder = new ProcessBuilder(
-        postgres_program_dir + "\\pg_dump.exe",
+        postgres_program_dir + File.separator + getPgDumpExecutable(),
         "--format=custom",
         "--verbose",
         "--no-privileges",
         "--no-owner",
         "--file=" + fullBackupPath,
-        "\"" + databaseUrl + "\"");
+        databaseUrl);
 
     logger.info("Starting db backup process...");
 
     Process process = processBuilder.start();
     monitorOutput(process);
-    process.waitFor();
+    int exitCode = process.waitFor();
+
+    if (exitCode != 0) {
+      throw new IOException("pg_dump process failed with exit code: " + exitCode);
+    }
+
+    logger.debug("pg_dump completed successfully with exit code 0");
   }
 
   private void monitorOutput(Process process) throws IOException, SQLException {

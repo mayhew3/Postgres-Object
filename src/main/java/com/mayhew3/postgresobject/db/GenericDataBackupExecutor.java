@@ -28,9 +28,16 @@ public class GenericDataBackupExecutor {
   }
 
   public void runUpdate() throws MissingEnvException, InterruptedException, IOException, SQLException {
-    LocalDatabaseEnvironment localDatabaseEnvironment = (LocalDatabaseEnvironment) databaseEnvironment;
+    DataBackupExecutor executor;
 
-    DataBackupExecutor executor = new DataBackupLocalExecutor(localDatabaseEnvironment, "PostgresObject");
+    if (databaseEnvironment.isLocal()) {
+      LocalDatabaseEnvironment localDatabaseEnvironment = (LocalDatabaseEnvironment) databaseEnvironment;
+      executor = new DataBackupLocalExecutor(localDatabaseEnvironment, "PostgresObject");
+    } else {
+      RemoteDatabaseEnvironment remoteDatabaseEnvironment = (RemoteDatabaseEnvironment) databaseEnvironment;
+      executor = new DataBackupRemoteExecutor(remoteDatabaseEnvironment, "PostgresObject");
+    }
+
     executor.runUpdate();
   }
 
