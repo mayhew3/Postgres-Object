@@ -194,13 +194,17 @@ public class DataArchiver {
   }
 
   private File getColumnBasedFile(String tableName, Object fileBase) {
-    File directory = new File(logDirectory + "\\" + dbIdentifier);
+    File directory = new File(logDirectory, dbIdentifier);
     if (!directory.exists()) {
-      //noinspection ResultOfMethodCallIgnored
-      directory.mkdir();
+      boolean created = directory.mkdirs();
+      if (created) {
+        logger.info("Created database-specific archive directory: {}", directory.getAbsolutePath());
+      } else {
+        logger.warn("Failed to create database-specific archive directory: {}", directory.getAbsolutePath());
+      }
     }
 
-    return new File(logDirectory + "\\" + dbIdentifier + "\\Archive_" + tableName + "_" + fileBase + ".csv");
+    return new File(logDirectory + File.separator + dbIdentifier + File.separator + "Archive_" + tableName + "_" + fileBase + ".csv");
   }
 
   @NotNull
@@ -208,13 +212,17 @@ public class DataArchiver {
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
     String dateFormatted = simpleDateFormat.format(rowDate);
 
-    File directory = new File(logDirectory + "\\" + dbIdentifier);
+    File directory = new File(logDirectory, dbIdentifier);
     if (!directory.exists()) {
-      //noinspection ResultOfMethodCallIgnored
-      directory.mkdir();
+      boolean created = directory.mkdirs();
+      if (created) {
+        logger.info("Created database-specific archive directory: {}", directory.getAbsolutePath());
+      } else {
+        logger.warn("Failed to create database-specific archive directory: {}", directory.getAbsolutePath());
+      }
     }
 
-    return new File(logDirectory + "\\" + dbIdentifier + "\\Archive_" + tableName + "_" + dateFormatted + ".csv");
+    return new File(logDirectory + File.separator + dbIdentifier + File.separator + "Archive_" + tableName + "_" + dateFormatted + ".csv");
   }
 
 }
