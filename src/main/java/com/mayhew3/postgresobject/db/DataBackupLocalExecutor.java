@@ -36,6 +36,19 @@ public class DataBackupLocalExecutor extends DataBackupExecutor {
 
     ProcessBuilder processBuilder = new ProcessBuilder(args);
 
+    // Explicitly set PostgreSQL environment variables for authentication
+    String pgpassfile = System.getenv("PGPASSFILE");
+    if (pgpassfile != null) {
+      processBuilder.environment().put("PGPASSFILE", pgpassfile);
+      logger.debug("Set PGPASSFILE environment variable for pg_dump: " + pgpassfile);
+    }
+
+    String pgpassword = System.getenv("PGPASSWORD");
+    if (pgpassword != null) {
+      processBuilder.environment().put("PGPASSWORD", pgpassword);
+      logger.debug("Set PGPASSWORD environment variable for pg_dump");
+    }
+
     processBuilder.inheritIO();
 
     logger.info("Starting db backup process...");
