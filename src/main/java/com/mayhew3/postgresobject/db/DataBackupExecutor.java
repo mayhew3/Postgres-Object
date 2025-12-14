@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.AbstractMap;
 import java.util.Date;
 import java.util.Map;
+import java.util.TimeZone;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 abstract public class DataBackupExecutor {
@@ -105,10 +106,14 @@ abstract public class DataBackupExecutor {
       logger.debug("Schema backup directory verified to exist");
     }
 
-    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
+    // Use UTC timezone with ISO 8601 format (matching Node.js backup executor)
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH-mm-ss-SSS'Z'");
+    dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
     String formattedDate = dateFormat.format(new Date());
 
-    String fullBackupPath = schema_backup_dir.getPath() + File.separator + formattedDate + ".dump";
+    // Prepend schema name to filename (e.g., mediamogul-2025-01-15T10-30-00-000Z.dump)
+    String schemaPrefix = backupEnvironment.getSchemaName() != null ? backupEnvironment.getSchemaName() + "-" : "";
+    String fullBackupPath = schema_backup_dir.getPath() + File.separator + schemaPrefix + formattedDate + ".dump";
 
     logger.info("Saving backup to file: " + fullBackupPath);
     logger.debug("Backup file parent directory exists: " + schema_backup_dir.exists());
