@@ -1,7 +1,7 @@
 package com.mayhew3.postgresobject.dataobject;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
@@ -13,7 +13,7 @@ public class FieldValueBehaviorTest {
 
   private DataObjectMock dataObject;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     dataObject = new DataObjectMock();
     dataObject.initializeForInsert();

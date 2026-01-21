@@ -1,14 +1,14 @@
 package com.mayhew3.postgresobject.dataobject;
 
 import com.mayhew3.postgresobject.db.DatabaseType;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Comprehensive tests for FieldValueTimestamp behavior.
@@ -32,7 +32,7 @@ public class FieldValueTimestampTest {
     }
   }
 
-  @Before
+  @BeforeEach
   public void setUp() {
     testObject = new TestDataObject();
     testObject.initializeForInsert();

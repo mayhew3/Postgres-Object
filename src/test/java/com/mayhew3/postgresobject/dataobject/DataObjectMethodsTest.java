@@ -1,11 +1,11 @@
 package com.mayhew3.postgresobject.dataobject;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Comprehensive tests for uncovered DataObject methods.
@@ -25,7 +25,7 @@ public class DataObjectMethodsTest {
     }
   }
 
-  @Before
+  @BeforeEach
   public void setUp() {
     testObject = new TestDataObject();
   }
@@ -34,7 +34,7 @@ public class DataObjectMethodsTest {
   @Test
   public void testHasChangedReturnsFalseForNewObject() {
     testObject.initializeForInsert();
-    assertFalse("New insert object should not have changes", testObject.hasChanged());
+    assertFalse(testObject.hasChanged(), "New insert object should not have changes");
   }
 
   @Test
@@ -44,7 +44,7 @@ public class DataObjectMethodsTest {
 
     // hasChanged() returns !isForInsert() && !getChangedFields().isEmpty()
     // So in insert mode, it returns false even with changed fields
-    assertFalse("Insert mode object should return false for hasChanged()", testObject.hasChanged());
+    assertFalse(testObject.hasChanged(), "Insert mode object should return false for hasChanged()");
   }
 
   @Test
@@ -53,7 +53,7 @@ public class DataObjectMethodsTest {
     testObject.nameField.changeValue("John");
 
     // In insert mode, hasChanged() returns false even with changed fields
-    assertFalse("Insert mode object should return false for hasChanged()", testObject.hasChanged());
+    assertFalse(testObject.hasChanged(), "Insert mode object should return false for hasChanged()");
   }
 
   @Test
@@ -62,7 +62,7 @@ public class DataObjectMethodsTest {
     testObject.changeToUpdateObject();
     testObject.nameField.changeValue("John");
 
-    assertTrue("Update mode object with changes should return true", testObject.hasChanged());
+    assertTrue(testObject.hasChanged(), "Update mode object with changes should return true");
   }
 
   @Test
@@ -70,7 +70,7 @@ public class DataObjectMethodsTest {
     testObject.initializeForInsert();
     testObject.changeToUpdateObject();
 
-    assertFalse("Update mode object without changes should return false", testObject.hasChanged());
+    assertFalse(testObject.hasChanged(), "Update mode object without changes should return false");
   }
 
   // Tests for getChangedFields()
@@ -79,8 +79,8 @@ public class DataObjectMethodsTest {
     testObject.initializeForInsert();
     List<FieldValue> changedFields = testObject.getChangedFields();
 
-    assertNotNull("Changed fields list should not be null", changedFields);
-    assertEquals("New object should have no changed fields", 0, changedFields.size());
+    assertNotNull(changedFields, "Changed fields list should not be null");
+    assertEquals(0, changedFields.size(), "New object should have no changed fields");
   }
 
   @Test
@@ -90,8 +90,8 @@ public class DataObjectMethodsTest {
 
     List<FieldValue> changedFields = testObject.getChangedFields();
 
-    assertEquals("Should have one changed field", 1, changedFields.size());
-    assertTrue("Changed fields should contain nameField", changedFields.contains(testObject.nameField));
+    assertEquals(1, changedFields.size(), "Should have one changed field");
+    assertTrue(changedFields.contains(testObject.nameField), "Changed fields should contain nameField");
   }
 
   @Test
@@ -103,10 +103,10 @@ public class DataObjectMethodsTest {
 
     List<FieldValue> changedFields = testObject.getChangedFields();
 
-    assertEquals("Should have three changed fields", 3, changedFields.size());
-    assertTrue("Changed fields should contain nameField", changedFields.contains(testObject.nameField));
-    assertTrue("Changed fields should contain ageField", changedFields.contains(testObject.ageField));
-    assertTrue("Changed fields should contain activeField", changedFields.contains(testObject.activeField));
+    assertEquals(3, changedFields.size(), "Should have three changed fields");
+    assertTrue(changedFields.contains(testObject.nameField), "Changed fields should contain nameField");
+    assertTrue(changedFields.contains(testObject.ageField), "Changed fields should contain ageField");
+    assertTrue(changedFields.contains(testObject.activeField), "Changed fields should contain activeField");
   }
 
   // Tests for getAllFieldValues()
@@ -115,10 +115,10 @@ public class DataObjectMethodsTest {
     testObject.initializeForInsert();
     List<FieldValue> allFields = testObject.getAllFieldValues();
 
-    assertNotNull("Field list should not be null", allFields);
+    assertNotNull(allFields, "Field list should not be null");
     // DataObject automatically adds dateAdded field, so we have 4 fields: name, age, active, dateAdded
-    assertEquals("Should have 4 fields (excluding id)", 4, allFields.size());
-    assertFalse("Should not contain id field", allFields.contains(testObject.id));
+    assertEquals(4, allFields.size(), "Should have 4 fields (excluding id)");
+    assertFalse(allFields.contains(testObject.id), "Should not contain id field");
   }
 
   @Test
@@ -126,9 +126,9 @@ public class DataObjectMethodsTest {
     testObject.initializeForInsert();
     List<FieldValue> allFields = testObject.getAllFieldValues();
 
-    assertTrue("Should contain nameField", allFields.contains(testObject.nameField));
-    assertTrue("Should contain ageField", allFields.contains(testObject.ageField));
-    assertTrue("Should contain activeField", allFields.contains(testObject.activeField));
+    assertTrue(allFields.contains(testObject.nameField), "Should contain nameField");
+    assertTrue(allFields.contains(testObject.ageField), "Should contain ageField");
+    assertTrue(allFields.contains(testObject.activeField), "Should contain activeField");
   }
 
   // Tests for getAllFieldValuesIncludingId()
@@ -137,10 +137,10 @@ public class DataObjectMethodsTest {
     testObject.initializeForInsert();
     List<FieldValue> allFieldsWithId = testObject.getAllFieldValuesIncludingId();
 
-    assertNotNull("Field list should not be null", allFieldsWithId);
+    assertNotNull(allFieldsWithId, "Field list should not be null");
     // 4 fields (name, age, active, dateAdded) + id = 5 fields
-    assertEquals("Should have 5 fields (including id)", 5, allFieldsWithId.size());
-    assertTrue("Should contain id field", allFieldsWithId.contains(testObject.id));
+    assertEquals(5, allFieldsWithId.size(), "Should have 5 fields (including id)");
+    assertTrue(allFieldsWithId.contains(testObject.id), "Should contain id field");
   }
 
   @Test
@@ -148,10 +148,10 @@ public class DataObjectMethodsTest {
     testObject.initializeForInsert();
     List<FieldValue> allFieldsWithId = testObject.getAllFieldValuesIncludingId();
 
-    assertTrue("Should contain id field", allFieldsWithId.contains(testObject.id));
-    assertTrue("Should contain nameField", allFieldsWithId.contains(testObject.nameField));
-    assertTrue("Should contain ageField", allFieldsWithId.contains(testObject.ageField));
-    assertTrue("Should contain activeField", allFieldsWithId.contains(testObject.activeField));
+    assertTrue(allFieldsWithId.contains(testObject.id), "Should contain id field");
+    assertTrue(allFieldsWithId.contains(testObject.nameField), "Should contain nameField");
+    assertTrue(allFieldsWithId.contains(testObject.ageField), "Should contain ageField");
+    assertTrue(allFieldsWithId.contains(testObject.activeField), "Should contain activeField");
   }
 
   // Tests for getForeignKeys()
@@ -159,8 +159,8 @@ public class DataObjectMethodsTest {
   public void testGetForeignKeysReturnsEmptyListWhenNoForeignKeys() {
     List<FieldValueForeignKey> foreignKeys = testObject.getForeignKeys();
 
-    assertNotNull("Foreign keys list should not be null", foreignKeys);
-    assertEquals("Should have no foreign keys", 0, foreignKeys.size());
+    assertNotNull(foreignKeys, "Foreign keys list should not be null");
+    assertEquals(0, foreignKeys.size(), "Should have no foreign keys");
   }
 
   // Tests for getIndices()
@@ -168,8 +168,8 @@ public class DataObjectMethodsTest {
   public void testGetIndicesReturnsEmptyListWhenNoIndices() {
     List<ColumnsIndex> indices = testObject.getIndices();
 
-    assertNotNull("Indices list should not be null", indices);
-    assertEquals("Should have no indices", 0, indices.size());
+    assertNotNull(indices, "Indices list should not be null");
+    assertEquals(0, indices.size(), "Should have no indices");
   }
 
   @Test
@@ -177,7 +177,7 @@ public class DataObjectMethodsTest {
     testObject.addColumnsIndex(testObject.nameField);
     List<ColumnsIndex> indices = testObject.getIndices();
 
-    assertEquals("Should have one index", 1, indices.size());
+    assertEquals(1, indices.size(), "Should have one index");
   }
 
   // Tests for getUniqueIndices()
@@ -185,9 +185,9 @@ public class DataObjectMethodsTest {
   public void testGetUniqueIndicesIncludesAutomaticIdConstraint() {
     List<UniqueConstraint> uniqueIndices = testObject.getUniqueIndices();
 
-    assertNotNull("Unique indices list should not be null", uniqueIndices);
+    assertNotNull(uniqueIndices, "Unique indices list should not be null");
     // DataObject constructor automatically adds a unique constraint on id
-    assertEquals("Should have one unique index (id)", 1, uniqueIndices.size());
+    assertEquals(1, uniqueIndices.size(), "Should have one unique index (id)");
   }
 
   @Test
@@ -196,7 +196,7 @@ public class DataObjectMethodsTest {
     List<UniqueConstraint> uniqueIndices = testObject.getUniqueIndices();
 
     // 1 automatic (id) + 1 added (nameField) = 2
-    assertEquals("Should have two unique constraints", 2, uniqueIndices.size());
+    assertEquals(2, uniqueIndices.size(), "Should have two unique constraints");
   }
 
   // Tests for getSequenceNames()
@@ -204,10 +204,10 @@ public class DataObjectMethodsTest {
   public void testGetSequenceNamesReturnsTableNameWithSuffix() {
     List<String> sequenceNames = testObject.getSequenceNames();
 
-    assertNotNull("Sequence names list should not be null", sequenceNames);
-    assertEquals("Should have one sequence name", 1, sequenceNames.size());
+    assertNotNull(sequenceNames, "Sequence names list should not be null");
+    assertEquals(1, sequenceNames.size(), "Should have one sequence name");
     // Sequence name format is: tablename_id_seq
-    assertEquals("Sequence name should follow pattern", "test_table_id_seq", sequenceNames.get(0));
+    assertEquals("test_table_id_seq", sequenceNames.get(0), "Sequence name should follow pattern");
   }
 
   // Tests for field registration methods that aren't covered
@@ -216,8 +216,8 @@ public class DataObjectMethodsTest {
     testObject.initializeForInsert();
 
     // The id field is already registered as a serial field in the constructor
-    assertNotNull("ID field should be registered", testObject.id);
-    assertTrue("ID field should be FieldValueSerial", testObject.id instanceof FieldValueSerial);
+    assertNotNull(testObject.id, "ID field should be registered");
+    assertTrue(testObject.id instanceof FieldValueSerial, "ID field should be FieldValueSerial");
   }
 
   // Test for various field types being properly registered
@@ -231,16 +231,16 @@ public class DataObjectMethodsTest {
     boolean hasIntegerField = allFields.stream().anyMatch(f -> f instanceof FieldValueInteger);
     boolean hasBooleanField = allFields.stream().anyMatch(f -> f instanceof FieldValueBoolean);
 
-    assertTrue("Should have a String field", hasStringField);
-    assertTrue("Should have an Integer field", hasIntegerField);
-    assertTrue("Should have a Boolean field", hasBooleanField);
+    assertTrue(hasStringField, "Should have a String field");
+    assertTrue(hasIntegerField, "Should have an Integer field");
+    assertTrue(hasBooleanField, "Should have a Boolean field");
   }
 
   // Test createDDLStatement throws UnsupportedOperationException (since it's not implemented)
-  @Test(expected = UnsupportedOperationException.class)
+  @Test
   public void testCreateDDLStatementThrowsUnsupportedOperation() {
     // createDDLStatement() is designed to be overridden by subtypes
     // The base implementation throws UnsupportedOperationException
-    testObject.createDDLStatement();
+    assertThrows(UnsupportedOperationException.class, () -> testObject.createDDLStatement());
   }
 }

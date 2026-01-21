@@ -3,8 +3,8 @@ package com.mayhew3.postgresobject.dataobject;
 import com.mayhew3.postgresobject.db.DatabaseType;
 import com.mayhew3.postgresobject.db.MySQLConnection;
 import com.mayhew3.postgresobject.db.PostgresConnection;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.MockitoAnnotations;
@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.List;
 
 import static org.fest.assertions.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
@@ -30,7 +31,7 @@ public class DataObjectTest {
   private static final String initial_title = "Taco Night!";
   private static final Integer initial_kernels = 42;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     dataObject = new DataObjectMock();
     MockitoAnnotations.initMocks(this);
@@ -84,9 +85,9 @@ public class DataObjectTest {
         .isTrue();
   }
 
-  @Test(expected = IllegalStateException.class)
+  @Test
   public void testChangeToUpdateObjectThrowsExceptionIfNotInitialized() {
-    dataObject.changeToUpdateObject();
+    assertThrows(IllegalStateException.class, () -> dataObject.changeToUpdateObject());
   }
 
   @Test

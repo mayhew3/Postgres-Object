@@ -2,8 +2,8 @@ package com.mayhew3.postgresobject.db;
 
 import com.google.common.collect.Lists;
 import com.mayhew3.postgresobject.dataobject.FieldValue;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.sql.*;
@@ -17,7 +17,7 @@ public class PostgresConnectionTest {
   private Connection connection;
   private PostgresConnection postgresConnection;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     connection = mock(Connection.class);
     postgresConnection = new PostgresConnection(connection, "test", null);

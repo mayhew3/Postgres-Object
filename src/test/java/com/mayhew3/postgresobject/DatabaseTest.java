@@ -8,7 +8,7 @@ import com.mayhew3.postgresobject.db.SQLConnection;
 import com.mayhew3.postgresobject.exception.MissingEnvException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
 import java.net.URISyntaxException;
 import java.sql.SQLException;
@@ -21,7 +21,7 @@ public abstract class DatabaseTest {
 
   public abstract DatabaseEnvironment getTestEnvironment();
 
-  @Before
+  @BeforeEach
   public void setUp() throws URISyntaxException, SQLException, MissingEnvException {
     debug("Setting up test DB...");
     connection = PostgresConnectionFactory.createConnection(getTestEnvironment());

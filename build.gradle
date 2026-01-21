@@ -10,7 +10,7 @@ plugins {
 
 group = 'com.mayhew3.postgresobject'
 
-version = '0.22.8'
+version = '0.22.9'
 
 java {
     sourceCompatibility = JavaVersion.VERSION_21
@@ -46,7 +46,7 @@ dependencies {
     implementation 'com.github.jitpack:gradle-simple:1.0'
 
     // Test dependencies
-    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.11.0'
     testImplementation 'org.easytesting:fest-assert-core:2.0M10'
     testImplementation 'org.assertj:assertj-joda-time:2.2.0'
     testImplementation 'org.mockito:mockito-core:5.14.2'
@@ -116,6 +116,7 @@ jacocoTestCoverageVerification {
 }
 
 test {
+    useJUnitPlatform()
     finalizedBy jacocoTestReport
 
     // Pass environment variables to test JVM

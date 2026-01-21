@@ -1,7 +1,7 @@
 package com.mayhew3.postgresobject.dataobject;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
@@ -15,7 +15,7 @@ public class FieldValueBigDecimalTest {
   private final BigDecimal INITIAL_VALUE = BigDecimal.valueOf(8.37);
   private FieldValueBigDecimal fieldValueBigDecimal;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     fieldValueBigDecimal = new FieldValueBigDecimal("testName", mock(FieldConversionBigDecimal.class), Nullability.NOT_NULL);
     fieldValueBigDecimal.initializeValue(INITIAL_VALUE);
