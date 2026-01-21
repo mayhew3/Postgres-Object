@@ -4,7 +4,7 @@ Create a new release for postgres-object.
 
 ## Arguments
 
-- `$ARGUMENTS` - Optional: version number (e.g., "0.22.10") and/or flags like "--prerelease"
+- `$ARGUMENTS` - Optional: version number (e.g., "0.22.10") and/or `--stable` flag
 
 ## Version Format
 
@@ -23,19 +23,18 @@ Create a new release for postgres-object.
    - Tag: version number (no "v" prefix)
    - Title: version number
    - Notes: summary of changes since last release
-   - Add `--prerelease` flag if specified in arguments or if this is a pre-release
+   - **Default: pre-release** - always add `--prerelease` flag unless `--stable` is specified
 
-## Pre-release
+## Release Types
 
-Add `--prerelease` to arguments to mark the release as a pre-release. This is useful for:
-- Testing releases before making them official
-- Beta versions
-- Release candidates
+- **Pre-release (default)**: All releases are pre-releases by default for testing before making official
+- **Stable release**: Add `--stable` to arguments to create a full/official release
 
 ## Example Usage
 
 ```
-/release 0.23.0
-/release 0.23.0 --prerelease
-/release --prerelease  (auto-bump patch version)
+/release 0.23.0              (pre-release)
+/release 0.23.0 --stable     (stable release)
+/release                     (auto-bump patch, pre-release)
+/release --stable            (auto-bump patch, stable release)
 ```
